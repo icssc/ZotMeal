@@ -1,0 +1,45 @@
+.menu{
+    margin: 3px;
+    min-width: 203px;
+    max-width: 203px;
+
+    border: 2px solid white;
+    border-radius: 10px;
+    background-color: #303030;
+}
+
+.item-category{
+    display: flex;
+    padding: 1%;
+    justify-content: center;
+    background-color: #535bf2;
+    border-radius: 10px 10px 0 0;
+}
+
+.item-list{
+    padding: 3%;
+    border-radius: 0 0 10px 10px;
+    display: grid;
+}
+
+.item-labels{
+    display: grid;
+    justify-content: space-between;
+    font-size: 0.8em;
+    grid-template-columns: [line1] 60% [line2] auto [end];
+}
+
+.label{
+    margin: 0;
+    font-family: "SF Pro Light", sans-serif;
+}
+
+.hidden{
+    display: none;
+}
+
+.expand{
+    color: #535bf2;
+    background-color: #303030;
+    padding: 0;
+}

@@ -1,0 +1,19 @@
+.location {
+    color: white;
+}
+
+.locationHeader {
+    margin: 2% 1%;
+    padding: 5%;
+    display: flex;
+    justify-content: center;
+    background-color: #242424;
+    font-family: "SF Pro Bold", sans-serif;
+    font-size: 2em;
+}
+
+.stationList {
+    margin: 2% 1%;
+    padding: 5%;
+    background-color: #242424;
+}

@@ -1,0 +1,19 @@
+{
+  "name": "zotmeal-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts" : {
+    "web" : "npm --prefix ./zotmeal-vite run dev",
+    "android" : "npm --prefix ./app run android",
+    "ios" : "npm --prefix ./app run ios"
+  },
+  "workspaces": {
+    "packages": [
+      "zotmeal-vite",
+      "app",
+      "shared"
+    ]
+  }
+}
