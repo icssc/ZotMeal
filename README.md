@@ -23,5 +23,4 @@ Here is a map of the important files in the project directory
         └── ...
 ```
 
-The ```shared/components``` folder contains all the tsx files that modify the app's format.\
-Both the mobile app and vite website refer to the shared components, so modifying the tsx files will affect both.
+The ```shared/components``` folder contains all the tsx files that modify the app's format. Both the mobile app and vite website refer to the shared components, so modifying the tsx files will affect both (specifically the App.tsx file refers to the components).
