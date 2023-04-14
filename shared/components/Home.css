@@ -8,3 +8,9 @@
 * {
     font-family: "SF Pro", sans-serif;
 }
+
+@media all and (max-width:850px){
+    .home{
+        display: block;
+    }
+}
