@@ -1,4 +1,5 @@
 import React from "react";
+import {View, Text, StyleSheet} from "react-native";
 import "./Item.css"
 
 function Item(props: any) {
