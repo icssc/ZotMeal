@@ -6,8 +6,7 @@
   "private": true,
   "scripts" : {
     "web" : "npm --prefix ./zotmeal-vite run dev",
-    "android" : "npm --prefix ./app run android",
-    "ios" : "npm --prefix ./app run ios"
+    "mobile" : "npm --prefix ./app run start",
   },
   "workspaces": {
     "packages": [

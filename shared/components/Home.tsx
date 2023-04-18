@@ -1,5 +1,6 @@
 import Location from "./Location";
 import React from "react";
+import {View} from "react-native"
 import "./Home.css"
 function Home(){
     return (

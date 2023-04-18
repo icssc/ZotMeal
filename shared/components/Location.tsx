@@ -1,5 +1,6 @@
-import './Location.css'
+//import './Location.css'
 import React, {useEffect, useState} from "react";
+import {View, Text, StyleSheet} from "react-native";
 import Station from "./meal-info/Station"
 
 /**
@@ -47,15 +48,55 @@ function Location(props: any){
 
     //Display HTML
     return (
-        <div className = "location">
-            <div className="locationHeader">
-                <p> {locationInfo.restaurant} </p>
-            </div>
-            <div className="stationList">
+        <View style={styles.location}>
+            <Text style={styles.locationHeader}>
+                {locationInfo.restaurant}
+            </Text>
+            <Text style={styles.stationList}>
                 {loadingMessage}
                 {stationInfo}
-            </div>
-        </div>
+            </Text>
+        </View>
     )
 }
+
+const styles = StyleSheet.create({
+    location: {
+        color: "white"
+    },
+
+    locationHeader: {
+        marginTop: "2%",
+        marginRight: "1%",
+        marginBottom: "2%",
+        marginLeft: "1%",
+        paddingTop: "5%",
+        paddingRight: "5%",
+        paddingBottom: "5%",
+        paddingLeft: "5%",
+
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        backgroundColor: "#242424",
+        fontSize: "2em",
+        color: "white",
+    },
+
+    stationList: {
+        display: "flex",
+        flexDirection: "column",
+        marginTop: "2%",
+        marginRight: "1%",
+        marginBottom: "2%",
+        marginLeft: "1%",
+        paddingTop: "5%",
+        paddingRight: "5%",
+        paddingBottom: "5%",
+        paddingLeft: "5%",
+        backgroundColor: "#242424",
+        color: "white",
+    }
+})
+
 export default Location
