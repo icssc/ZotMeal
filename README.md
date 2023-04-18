@@ -17,7 +17,7 @@ Here is a map of the important files in the project directory
 │   └── src
 │       └── App.tsx
 └── shared
-    └── components
+    └── components   <= make changes here
         ├── Home.tsx
         └── ...
 ```
