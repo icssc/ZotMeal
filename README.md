@@ -4,8 +4,7 @@
 
 To run the app on different platforms use the corresponding command
 - Web App : `npm run web`
-- Android : `npm run android`
-- iOS : `npm run ios`
+- Mobile : `npm run mobile`
 
 ## Organization
 
