@@ -1,12 +1,15 @@
 import Location from "./Location";
 import React from "react";
-import "./Home.css"
+import "./Home.css";
+import SwipeableViews from "react-swipeable-views";
+
+
 function Home(){
     return (
-        <div className="home">
+        <SwipeableViews enableMouseEvents className="home">
             <Location location = "brandywine"/>
             <Location location = "anteatery"/>
-        </div>
+        </SwipeableViews>
     )
 }
 export default Home
