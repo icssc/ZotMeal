@@ -1,15 +1,12 @@
 //import './Location.css'
 import React, {useEffect, useState} from "react";
 import {View, Text, StyleSheet} from "react-native";
-import Station from "./meal-info/Station"
+import Station from "./meal-info/Station";
 
-/**
+/*
  * Displays the API results for a given location
  * Takes 1 parameter: location (string)
  */
-
-let mealData : any = {}
-
 function hasKeys(object: Object){
     return Object.keys(object).length > 0
 }

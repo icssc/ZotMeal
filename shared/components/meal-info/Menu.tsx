@@ -1,7 +1,12 @@
+// Displays a list of food items in a table
+// Looks like this:
+// Dish          Calories
+// Item 1        #
+// Item 2        #
+/// ....
+
 import React, {ReactElement, useEffect, useState} from "react";
 import Item from "./Item";
-import "./Menu.css"
-import item from "./Item";
 import {Pressable, StyleSheet, Text, View} from "react-native";
 
 

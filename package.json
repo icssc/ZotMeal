@@ -6,7 +6,7 @@
   "private": true,
   "scripts" : {
     "web" : "npm --prefix ./zotmeal-vite run dev",
-    "mobile" : "npm --prefix ./app run start",
+    "mobile" : "npm --prefix ./app run start --tunnel"
   },
   "workspaces": {
     "packages": [

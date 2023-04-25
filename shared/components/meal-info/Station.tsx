@@ -1,8 +1,11 @@
+// List all the items at a station in a row
+// Looks like
+// Station Name
+// Menu 1    Menu 2    Menu 3   ...
+
 import React, {useEffect, useState} from "react";
 import {View, Text, Pressable, StyleSheet} from "react-native";
-import "./Station.css"
 import Menu from "./Menu";
-import './StationDetails.css'
 
 function Station(props: any){
 
