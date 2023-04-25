@@ -4,10 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "private": true,
-  "scripts" : {
-    "web" : "npm --prefix ./zotmeal-vite run dev",
-    "android" : "npm --prefix ./app run android",
-    "ios" : "npm --prefix ./app run ios"
+  "scripts": {
+    "web": "npm --prefix ./zotmeal-vite run dev",
+    "android": "npm --prefix ./app run android",
+    "ios": "npm --prefix ./app run ios"
   },
   "workspaces": {
     "packages": [
@@ -15,5 +15,13 @@
       "app",
       "shared"
     ]
+  },
+  "dependencies": {
+    "react-swipeable-views": "^0.14.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.38",
+    "@types/react-swipeable-views": "^0.13.1",
+    "netlify-cli": "^14.3.0"
   }
 }
