@@ -4,9 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "private": true,
-  "scripts" : {
-    "web" : "npm --prefix ./zotmeal-vite run dev",
-    "mobile" : "npm --prefix ./app run start --tunnel"
+  "scripts": {
+    "web": "npm --prefix ./zotmeal-vite run dev",
+    "mobile": "npm --prefix ./app run start --tunnel"
   },
   "workspaces": {
     "packages": [
@@ -14,5 +14,8 @@
       "app",
       "shared"
     ]
+  },
+  "dependencies": {
+    "react-swipeable-views": "^0.14.0"
   }
 }

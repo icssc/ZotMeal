@@ -4,8 +4,7 @@
 
 To run the app on different platforms use the corresponding command
 - Web App : `npm run web`
-- Android : `npm run android`
-- iOS : `npm run ios`
+- Mobile : `npm run mobile`
 
 ## Organization
 
@@ -18,7 +17,7 @@ Here is a map of the important files in the project directory
 │   └── src
 │       └── App.tsx
 └── shared
-    └── components
+    └── components   <= make changes here
         ├── Home.tsx
         └── ...
 ```
