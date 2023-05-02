@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "web": "npm --prefix ./zotmeal-vite run dev",
-    "mobile": "npm --prefix ./app run start --tunnel"
+    "mobile": "npm --prefix ./app run tunnel"
   },
   "workspaces": {
     "packages": [
@@ -16,6 +16,10 @@
     ]
   },
   "dependencies": {
-    "react-swipeable-views": "^0.14.0"
+    "memoize-one": "^6.0.0",
+    "react": "18.2.0",
+    "react-native": "0.71.7",
+    "react-swipeable-views": "^0.14.0",
+    "use-sync-external-store": "^1.2.0"
   }
 }
