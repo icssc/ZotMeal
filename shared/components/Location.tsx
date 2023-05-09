@@ -49,10 +49,10 @@ function Location(props: any){
             <Text style={styles.locationHeader}>
                 {locationInfo.restaurant}
             </Text>
-            <Text style={styles.stationList}>
-                {loadingMessage}
+            <View style={styles.stationList}>
+                <Text>{loadingMessage}</Text>
                 {stationInfo}
-            </Text>
+            </View>
         </View>
     )
 }
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         backgroundColor: "#242424",
-        fontSize: "12",
+        fontSize: "24",
         color: "white",
     },
 
@@ -88,10 +88,7 @@ const styles = StyleSheet.create({
         marginRight: "1%",
         marginBottom: "2%",
         marginLeft: "1%",
-        paddingTop: "5%",
-        paddingRight: "5%",
-        paddingBottom: "5%",
-        paddingLeft: "5%",
+        padding: "5%",
         backgroundColor: "#242424",
         color: "white",
     }

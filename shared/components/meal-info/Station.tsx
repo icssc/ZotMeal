@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
 
     stationName: {
         fontSize: 20,
+        color: "white"
     },
 
     menuList: {

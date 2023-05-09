@@ -109,7 +109,8 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         borderBottomRightRadius: 0,
-        borderBottomLeftRadius: 0
+        borderBottomLeftRadius: 0,
+        color: "white"
     },
 
     itemList: {
@@ -136,6 +137,7 @@ const styles = StyleSheet.create({
         marginRight: 0,
         marginBottom: 0,
         marginLeft: 2,
+        color: "white"
         //fontFamily: "SF Pro Light"
     },
 

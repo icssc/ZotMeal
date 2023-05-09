@@ -1,10 +1,17 @@
-import { View } from 'react-native';
+import { View, StyleSheet} from 'react-native';
 import Location from "../shared/components/Location";
 
 export function App() {
   return (
-      <View>
+      <View style={styles.home}>
         <Location location="brandywine"/>
       </View>
   );
 }
+
+const styles = StyleSheet.create({
+    home: {
+        backgroundColor: "#121212",
+        padding: "2%"
+    }
+})
