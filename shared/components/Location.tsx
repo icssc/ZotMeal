@@ -1,14 +1,12 @@
-import './Location.css'
+//import './Location.css'
 import React, {useEffect, useState} from "react";
-import Station from "./meal-info/Station"
+import {View, Text, StyleSheet} from "react-native";
+import Station from "./meal-info/Station";
 
-/**
+/*
  * Displays the API results for a given location
  * Takes 1 parameter: location (string)
  */
-
-let mealData : any = {}
-
 function hasKeys(object: Object){
     return Object.keys(object).length > 0
 }
@@ -47,15 +45,56 @@ function Location(props: any){
 
     //Display HTML
     return (
-        <div className = "location">
-            <div className="locationHeader">
-                <p> {locationInfo.restaurant} </p>
-            </div>
-            <div className="stationList">
+        <View style={styles.location}>
+            <Text style={styles.locationHeader}>
+                {locationInfo.restaurant}
+            </Text>
+            <Text style={styles.stationList}>
                 {loadingMessage}
                 {stationInfo}
-            </div>
-        </div>
+            </Text>
+        </View>
     )
 }
+
+// "CSS" Styling
+const styles = StyleSheet.create({
+    location: {
+        color: "white"
+    },
+
+    locationHeader: {
+        marginTop: "2%",
+        marginRight: "1%",
+        marginBottom: "2%",
+        marginLeft: "1%",
+        paddingTop: "5%",
+        paddingRight: "5%",
+        paddingBottom: "5%",
+        paddingLeft: "5%",
+
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        backgroundColor: "#242424",
+        fontSize: "12",
+        color: "white",
+    },
+
+    stationList: {
+        display: "flex",
+        flexDirection: "column",
+        marginTop: "2%",
+        marginRight: "1%",
+        marginBottom: "2%",
+        marginLeft: "1%",
+        paddingTop: "5%",
+        paddingRight: "5%",
+        paddingBottom: "5%",
+        paddingLeft: "5%",
+        backgroundColor: "#242424",
+        color: "white",
+    }
+})
+
 export default Location
