@@ -34,14 +34,16 @@ const styles = StyleSheet.create({
         marginTop: 0,
         marginRight: 0,
         marginBottom: 0,
-        marginLeft: 0
+        marginLeft: 0,
+        color: "white"
     },
 
     itemCalories: {
         marginTop: 0,
         marginRight: 0,
         marginBottom: 0,
-        marginLeft: 0
+        marginLeft: 0,
+        color: "white"
     },
 
     rowDivider: {
