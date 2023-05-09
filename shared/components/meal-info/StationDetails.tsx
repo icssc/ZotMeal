@@ -1,13 +1,15 @@
+// Shows more details for a given station
+// in the modal
+
 import React from "react";
-import './StationDetails.css'
-import Menu from './Menu'
+import {View} from "react-native";
 
 function StationDetails(props: any){
 
     const menuItems = props.menus
 
     return(
-        <div></div>
+        <View></View>
     )
 }
 
