@@ -3,15 +3,18 @@ import React, {useEffect, useState} from "react";
 import {View, Text, StyleSheet} from "react-native";
 import Station from "./meal-info/Station";
 
+//import json from './brandywine.json'
+
 /*
  * Displays the API results for a given location
  * Takes 1 parameter: location (string)
  */
+
 function hasKeys(object: Object){
     return Object.keys(object).length > 0
 }
 
-function Location(props: any){
+function Location(props: {location : string}){
 
     const [locationInfo, setLocationInfo] = useState({})
 
@@ -20,7 +23,6 @@ function Location(props: any){
     //Fetch data from API
     useEffect(() => {
         const fetchData = async (location: string) => {
-            //const response = await fetch('src/components/' + location + '.json')
             const response = await fetch(baseURL + location)
             const json = await response.json()
             setLocationInfo(json)

@@ -10,10 +10,10 @@ import Item from "./Item";
 import {Pressable, StyleSheet, Text, View} from "react-native";
 
 
-function Menu(props: any){
+function Menu({info}){
 
-    const itemCategory = props.info.category
-    const itemList = props.info.items
+    const itemCategory = info.category
+    const itemList = info.items
 
     let truncatedList: ReactElement[] = []
     let expandableSection: Object[] = []
@@ -58,11 +58,11 @@ function Menu(props: any){
                 {truncatedList.map((item: Object) =>
                     <Item key={item.name} info={item}/>
                 )}
-                {expandableSection.map((item: Object) =>
-                    <View style={hidden(expanded)}>
-                        <Item key={item.name} info={item}/>
-                    </View>
-                )}
+                {expanded ?
+                    expandableSection.map((item: Object) =>
+                    <Item key={item.name} info={item}/>)
+                    : null
+                }
                 {expandButton}
             </View>
         </View>
@@ -129,7 +129,8 @@ const styles = StyleSheet.create({
         display: "grid",
         justifyContent: "space-between",
         fontSize: 11,
-        gridTemplateColumns: "[line1] 60% [line2] auto [end]"
+        gridTemplateColumns: "[line1] 60% [line2] auto [end]",
+        paddingBottom: 3
     },
 
     label: {
