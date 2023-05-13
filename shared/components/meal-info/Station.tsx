@@ -6,8 +6,9 @@
 import React, {useEffect, useState} from "react";
 import {View, Text, Pressable, StyleSheet} from "react-native";
 import Menu from "./Menu";
+import {StationInfo, MenuInfo} from "../typedef";
 
-function Station(props: any){
+function Station(props: {info: StationInfo}){
 
     const stationName = props.info.station
     const menuItems = props.info.menu
@@ -25,7 +26,7 @@ function Station(props: any){
                 </Pressable>
             </View>
             <View style={styles.menuList}>
-                {menuItems.map((menu: Object) =>
+                {menuItems.map((menu: MenuInfo) =>
                     <Menu key={menu.category} info={menu}/>
                 )}
             </View>

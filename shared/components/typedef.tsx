@@ -22,24 +22,24 @@ export type Nutrition = {
     vitaminC: number
 }
 
-export type Item = {
+export type ItemInfo = {
     description: string
     name: string
     nutrition: Nutrition
 }
 
-export type Menu = {
+export type MenuInfo = {
     category: string
-    items: Item[]
+    items: ItemInfo[]
 }
 
-export type Station = {
-    menu: Menu[]
+export type StationInfo = {
+    menu: MenuInfo[]
     station: string
 }
 
 export type LocationInfo = {
-    all: Station[]
+    all: StationInfo[]
     currentMeal: string
     date: string
     restaurant: string
