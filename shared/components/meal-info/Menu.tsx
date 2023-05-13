@@ -8,17 +8,18 @@
 import React, {ReactElement, useEffect, useState} from "react";
 import Item from "./Item";
 import {Pressable, StyleSheet, Text, View} from "react-native";
+import {ItemInfo, MenuInfo} from "../typedef";
 
 
-function Menu({info}){
+function Menu(props: {info: MenuInfo}){
 
-    const itemCategory = info.category
-    const itemList = info.items
+    const itemCategory = props.info.category
+    const itemList = props.info.items
 
-    let truncatedList: ReactElement[] = []
-    let expandableSection: Object[] = []
+    let truncatedList: ItemInfo[] = []
+    let expandableSection: ItemInfo[] = []
     let expandButton = null
-    let hiddenList: ReactElement[] = []
+    let hiddenList: ItemInfo[] = []
 
     const [expanded, setExpanded] = useState(false)
 
@@ -34,7 +35,7 @@ function Menu({info}){
             <Text style={styles.expand}>{expanded? 'Show Less ^' : 'Show More ˅'}</Text>
         </Pressable>
 
-        hiddenList.forEach((item: Object) => {
+        hiddenList.forEach((item: ItemInfo) => {
             expandableSection.push(item)
         })
     }
@@ -55,11 +56,11 @@ function Menu({info}){
                     <Text style={styles.label}>Calories</Text>
                 </View>
 
-                {truncatedList.map((item: Object) =>
+                {truncatedList.map((item: ItemInfo) =>
                     <Item key={item.name} info={item}/>
                 )}
                 {expanded ?
-                    expandableSection.map((item: Object) =>
+                    expandableSection.map((item: ItemInfo) =>
                     <Item key={item.name} info={item}/>)
                     : null
                 }
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
     },
 
     expand: {
-        color: "#535bf2",
+        color: "#4a92ff",
         backgroundColor: "#303030",
         padding: 0,
         display: "flex",
