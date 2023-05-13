@@ -1,5 +1,5 @@
 import { View, StyleSheet} from 'react-native';
-import Location from "../shared/components/Location";
+import Location from "components/Location";
 
 export function App() {
   return (
