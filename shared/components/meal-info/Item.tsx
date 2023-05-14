@@ -5,6 +5,7 @@ import React, {useState} from "react";
 import {View, Text, StyleSheet, Pressable, Modal} from "react-native";
 import ItemNutrition from "./ItemNutrition";
 import {ItemInfo} from "../typedef";
+import ColorPalette from "../ColorPalette";
 
 // Takes "info" prop that is the item json for one item on a Menu
 // Sets up the display for the modal that shows
@@ -64,8 +65,8 @@ function ItemDetails(props: {itemInfo: ItemInfo}) {
         <View>
             <View style={detailStyles.title}>
                 <View>
-                    <Text style={{color: "white", fontSize: 24}}>{itemInfo.name}</Text>
-                    <Text style={{color: "white"}}>{itemInfo.nutrition.calories} calories</Text>
+                    <Text style={{color: ColorPalette.textColor, fontSize: 24}}>{itemInfo.name}</Text>
+                    <Text style={{color: ColorPalette.textColor}}>{itemInfo.nutrition.calories} calories</Text>
                 </View>
                 <Text>iframe</Text>
             </View>
@@ -73,15 +74,15 @@ function ItemDetails(props: {itemInfo: ItemInfo}) {
             <View style={displayStyles.rowDivider}></View>
 
             <View style={detailStyles.description}>
-                <Text style={{color: "white", fontSize: 16}}>Description</Text>
-                <Text style={{color: "white"}}>{itemInfo.description}</Text>
+                <Text style={{color: ColorPalette.textColor, fontSize: 16}}>Description</Text>
+                <Text style={{color: ColorPalette.textColor}}>{itemInfo.description}</Text>
             </View>
 
             <View style={displayStyles.rowDivider}></View>
 
             <View style={detailStyles.nutritionTitle}>
                 <View>
-                    <Text style={{color: "white", fontSize: 16}}>Nutrition Info</Text>
+                    <Text style={{color: ColorPalette.textColor, fontSize: 16}}>Nutrition Info</Text>
                 </View>
                 <Pressable onPress={() => setShowNutrition(!showNutrition)}>
                     <Text style={detailStyles.expandButton}>{showNutrition ? "Retract ^" : "Expand V"}</Text>
@@ -106,31 +107,26 @@ const displayStyles = StyleSheet.create({
     },
 
     itemName: {
-        marginTop: 0,
-        marginRight: 0,
-        marginBottom: 0,
-        marginLeft: 0,
-        color: "white"
+        margin: 0,
+        color: ColorPalette.textColor,
+        fontWeight: "500",
     },
 
     itemCalories: {
-        marginTop: 0,
-        marginRight: 0,
-        marginBottom: 0,
-        marginLeft: 0,
-        color: "white"
+        margin: 0,
+        color: ColorPalette.textColor,
     },
 
     rowDivider: {
         height: 1,
-        backgroundColor: "#777777"
+        backgroundColor: ColorPalette.rowDivider
     }
 })
 
 const modalStyles = StyleSheet.create({
     modalView: {
         margin: 20,
-        backgroundColor: "#454545",
+        backgroundColor: ColorPalette.bgColor,
         borderRadius: 20,
         padding: 35,
         shadowColor: '#000',
@@ -142,6 +138,7 @@ const modalStyles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5,
         minHeight: "100%",
+        maxWidth: "75%",
     },
 
     backgroundFilter: {
@@ -154,7 +151,7 @@ const modalStyles = StyleSheet.create({
     },
 
     white: {
-        color: "white"
+        color: ColorPalette.bgColor
     },
 })
 
@@ -180,7 +177,7 @@ const detailStyles = StyleSheet.create({
     },
 
     expandButton: {
-        color: "#4a92ff",
+        color: ColorPalette.bgColorBlue,
         fontSize: 15,
     },
 })
