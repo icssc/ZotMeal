@@ -1,7 +1,7 @@
 import { View, StyleSheet} from 'react-native';
 import Location from "components/Location";
 
-export function App() {
+export default function App() {
   return (
       <View style={styles.home}>
         <Location location="brandywine"/>
