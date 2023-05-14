@@ -2,6 +2,8 @@
 import React, {useEffect, useState} from "react";
 import {View, Text, StyleSheet} from "react-native";
 import Station from "./meal-info/Station";
+import {StationInfo} from "./typedef";
+import ColorPalette from "./ColorPalette";
 
 //import json from './brandywine.json'
 
@@ -40,7 +42,7 @@ function Location(props: {location : string}){
     if (hasKeys(locationInfo))
     {
         loadingMessage = ""
-        locationInfo.all.forEach((station: Object) => {
+        locationInfo.all.forEach((station: StationInfo) => {
             stationInfo.push(<Station key={station.station} info={station}/>)
         })
     }
@@ -66,10 +68,6 @@ const styles = StyleSheet.create({
     },
 
     locationHeader: {
-        marginTop: "2%",
-        marginRight: "1%",
-        marginBottom: "2%",
-        marginLeft: "1%",
         paddingTop: "5%",
         paddingRight: "5%",
         paddingBottom: "5%",
@@ -79,19 +77,16 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         backgroundColor: "#242424",
-        fontSize: "24",
+        fontSize: 30,
+        fontWeight: "bold",
         color: "white",
     },
 
     stationList: {
         display: "flex",
         flexDirection: "column",
-        marginTop: "2%",
-        marginRight: "1%",
-        marginBottom: "2%",
-        marginLeft: "1%",
         padding: "5%",
-        backgroundColor: "#232323",
+        backgroundColor: ColorPalette.bgColor,
         color: "white",
     }
 })

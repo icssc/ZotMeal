@@ -7,6 +7,7 @@ import React, {useEffect, useState} from "react";
 import {View, Text, Pressable, StyleSheet} from "react-native";
 import Menu from "./Menu";
 import {StationInfo, MenuInfo} from "../typedef";
+import ColorPalette from "../ColorPalette";
 
 function Station(props: {info: StationInfo}){
 
@@ -66,7 +67,8 @@ const styles = StyleSheet.create({
 
     stationName: {
         fontSize: 20,
-        color: "white"
+        color: ColorPalette.textColor,
+        fontWeight: "bold"
     },
 
     menuList: {
@@ -77,7 +79,7 @@ const styles = StyleSheet.create({
     },
 
     detailsButton: {
-        backgroundColor: "gold",
+        backgroundColor: ColorPalette.bgColorYellow,
         paddingTop: "1%",
         paddingRight: "2%",
         paddingBottom: "1%",
@@ -86,7 +88,8 @@ const styles = StyleSheet.create({
     },
 
     detailsText: {
-        color: "black",
+        color: ColorPalette.textColor,
+        fontWeight: "500",
     }
 })
 
