@@ -13039,5 +13039,6 @@ zip-stream@^4.1.0:
   version "0.0.0"
   resolved "file:zotmeal-vite"
   dependencies:
-    react-dom "^18.2.0"
+    react-dom "^17.0.0"
     react-native-web "^0.18.12"
+    vite "^4.3.5"
