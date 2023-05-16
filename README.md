@@ -11,20 +11,37 @@ Here is a map of the important files in the project directory
 
 ```
 ├── app
-│   ├── App.tsx
-│   └── package.json
+│   └── App.tsx
+│
 ├── zotmeal-vite
-│   ├── src
-│   │   └── App.tsx
-│   └── package.json
+│   └── src
+│       └── App.tsx
+│
 ├── shared
-│   ├── components   <= make changes here
+│   ├── components   <= front end changes here
 │   │   ├── Home.tsx
 │   │   └── ...
-│   └── package.json
+│   └── imageAssets   <= images
 |
 ├── node_modules
 └── package.json
 ```
 
 The ```shared/components``` folder contains all the tsx files that modify the app's format. Both the mobile app and vite website refer to the shared components, so modifying the tsx files will affect both (specifically the App.tsx file refers to the components).
+
+### App Structure
+
+Here is the current structural breakdown of the App by component
+
+```
+Home
+└── Location
+    ├── LocationHeader
+    └── Station
+        ├── StationDetails
+        └── Menu
+            └── Item
+                ├── ItemDisplay
+                └── ItemDetails
+                    └── ItemNutrtion
+```
