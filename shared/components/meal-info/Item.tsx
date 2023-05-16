@@ -10,12 +10,6 @@ import ItemNutrition from "./ItemNutrition";
 import {ItemInfo} from "../typedef";
 import ColorPalette from "../ColorPalette";
 
-// Nutrition Badge Images
-
-
-const nutritionBadgeImages = [require("@assets/Vegan.png"), require("@assets/Vegetarian.png"),
-    require("@assets/EatWell.png"), require("@assets/PlantForward.png"), require("@assets/WholeGrains.png")]
-
 // Takes "info" prop that is the item json for one item on a Menu
 // Sets up the display for the modal that shows
 // more details about the item
@@ -122,10 +116,6 @@ export function ItemDetails(props: {itemInfo: ItemInfo, nutritionOpen: boolean})
                 <Text style={detailStyles.subtitleText}>0</Text>
             </View>
             <View style={displayStyles.rowDivider}></View>
-
-            <Image
-                source={require('../imageAssets/Vegan.png').default}
-              />
 
             {/*<View style={detailStyles.nutritionBadges}>
                 {nutritionBadges.map((badge : boolean, index : number) => {
