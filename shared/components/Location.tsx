@@ -2,16 +2,21 @@
 import React, {useEffect, useState} from "react";
 import {View, Text, StyleSheet} from "react-native";
 import Station from "./meal-info/Station";
+import {StationInfo} from "./typedef";
+import ColorPalette from "./ColorPalette";
+
+//import json from './brandywine.json'
 
 /*
  * Displays the API results for a given location
  * Takes 1 parameter: location (string)
  */
+
 function hasKeys(object: Object){
     return Object.keys(object).length > 0
 }
 
-function Location(props: any){
+function Location(props: {location : string}){
 
     const [locationInfo, setLocationInfo] = useState({})
 
@@ -20,7 +25,6 @@ function Location(props: any){
     //Fetch data from API
     useEffect(() => {
         const fetchData = async (location: string) => {
-            //const response = await fetch('src/components/' + location + '.json')
             const response = await fetch(baseURL + location)
             const json = await response.json()
             setLocationInfo(json)
@@ -38,7 +42,7 @@ function Location(props: any){
     if (hasKeys(locationInfo))
     {
         loadingMessage = ""
-        locationInfo.all.forEach((station: Object) => {
+        locationInfo.all.forEach((station: StationInfo) => {
             stationInfo.push(<Station key={station.station} info={station}/>)
         })
     }
@@ -64,10 +68,6 @@ const styles = StyleSheet.create({
     },
 
     locationHeader: {
-        marginTop: "2%",
-        marginRight: "1%",
-        marginBottom: "2%",
-        marginLeft: "1%",
         paddingTop: "5%",
         paddingRight: "5%",
         paddingBottom: "5%",
@@ -77,19 +77,16 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         backgroundColor: "#242424",
-        fontSize: "24",
+        fontSize: 30,
+        fontWeight: "bold",
         color: "white",
     },
 
     stationList: {
         display: "flex",
         flexDirection: "column",
-        marginTop: "2%",
-        marginRight: "1%",
-        marginBottom: "2%",
-        marginLeft: "1%",
         padding: "5%",
-        backgroundColor: "#242424",
+        backgroundColor: ColorPalette.bgColor,
         color: "white",
     }
 })

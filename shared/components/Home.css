@@ -1,8 +1,7 @@
 .home{
     display: grid;
     grid-template-columns: [line1] 50% [line2] 50% [line3];
-    background-color: #454545;
-    padding: 1% 1.5%;
+    background-color: #fbfbfb;
 }
 
 * {

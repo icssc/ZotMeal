@@ -5,5 +5,8 @@
   "scripts": {
     "dev": "tsc -p tsconfig.json --watch",
     "build": "tsc -p tsconfig.json"
+  },
+  "_moduleAliases": {
+    "@assets" : "imageAssets"
   }
 }

@@ -8,17 +8,19 @@
 import React, {ReactElement, useEffect, useState} from "react";
 import Item from "./Item";
 import {Pressable, StyleSheet, Text, View} from "react-native";
+import {ItemInfo, MenuInfo} from "../typedef";
+import ColorPalette from "../ColorPalette";
 
 
-function Menu(props: any){
+function Menu(props: {info: MenuInfo}){
 
     const itemCategory = props.info.category
     const itemList = props.info.items
 
-    let truncatedList: ReactElement[] = []
-    let expandableSection: Object[] = []
+    let truncatedList: ItemInfo[] = []
+    let expandableSection: ItemInfo[] = []
     let expandButton = null
-    let hiddenList: ReactElement[] = []
+    let hiddenList: ItemInfo[] = []
 
     const [expanded, setExpanded] = useState(false)
 
@@ -34,7 +36,7 @@ function Menu(props: any){
             <Text style={styles.expand}>{expanded? 'Show Less ^' : 'Show More ˅'}</Text>
         </Pressable>
 
-        hiddenList.forEach((item: Object) => {
+        hiddenList.forEach((item: ItemInfo) => {
             expandableSection.push(item)
         })
     }
@@ -55,29 +57,18 @@ function Menu(props: any){
                     <Text style={styles.label}>Calories</Text>
                 </View>
 
-                {truncatedList.map((item: Object) =>
+                {truncatedList.map((item: ItemInfo) =>
                     <Item key={item.name} info={item}/>
                 )}
-                {expandableSection.map((item: Object) =>
-                    <View style={hidden(expanded)}>
-                        <Item key={item.name} info={item}/>
-                    </View>
-                )}
+                {expanded ?
+                    expandableSection.map((item: ItemInfo) =>
+                    <Item key={item.name} info={item}/>)
+                    : null
+                }
                 {expandButton}
             </View>
         </View>
     )
-}
-
-const hidden = function(expanded: boolean) {
-    if (expanded)
-        return
-    else
-    {
-        return {
-            display: "none",
-        }
-    }
 }
 
 const styles = StyleSheet.create({
@@ -89,13 +80,13 @@ const styles = StyleSheet.create({
         minWidth: 203,
         maxWidth: 203,
         borderWidth: 2,
-        borderColor: "white",
+        borderColor: ColorPalette.rowDivider,
         borderStyle: "solid",
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         borderBottomRightRadius: 10,
         borderBottomLeftRadius: 10,
-        backgroundColor: "#303030"
+        backgroundColor: ColorPalette.bgColor
     },
 
     itemCategory: {
@@ -103,14 +94,16 @@ const styles = StyleSheet.create({
         paddingTop: "1%",
         paddingRight: "1%",
         paddingBottom: "1%",
-        paddingLeft: "1%",
-        justifyContent: "center",
-        backgroundColor: "#535bf2",
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
+        paddingLeft: "4%",
+        justifyContent: "flex-start",
+        backgroundColor: ColorPalette.bgColorBlue,
+        borderTopLeftRadius: 8,
+        borderTopRightRadius: 8,
         borderBottomRightRadius: 0,
         borderBottomLeftRadius: 0,
-        color: "white"
+        color: ColorPalette.textColor,
+        fontWeight: "500",
+        fontSize: 16,
     },
 
     itemList: {
@@ -128,8 +121,8 @@ const styles = StyleSheet.create({
     itemLabels: {
         display: "grid",
         justifyContent: "space-between",
-        fontSize: 11,
-        gridTemplateColumns: "[line1] 60% [line2] auto [end]"
+        gridTemplateColumns: "[line1] 60% [line2] auto [end]",
+        paddingBottom: 3
     },
 
     label: {
@@ -137,13 +130,14 @@ const styles = StyleSheet.create({
         marginRight: 0,
         marginBottom: 0,
         marginLeft: 2,
-        color: "white"
+        fontSize: 12,
+        color: ColorPalette.textColor,
         //fontFamily: "SF Pro Light"
     },
 
     expand: {
-        color: "#535bf2",
-        backgroundColor: "#303030",
+        color: ColorPalette.bgColorBlue,
+        backgroundColor: ColorPalette.bgColor,
         padding: 0,
         display: "flex",
         justifyContent: "center",
