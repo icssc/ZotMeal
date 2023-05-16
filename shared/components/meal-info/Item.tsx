@@ -2,10 +2,12 @@
 // Only displays item name and calorie count
 
 import React, {useState} from "react";
-import {View, Text, StyleSheet, Pressable, Modal} from "react-native";
+import {View, Text, StyleSheet, Pressable, Modal,
+    ScrollView, TouchableWithoutFeedback} from "react-native";
 import ItemNutrition from "./ItemNutrition";
 import {ItemInfo} from "../typedef";
 import ColorPalette from "../ColorPalette";
+import item from "zotmeal-vite/components/meal-info/Item";
 
 // Takes "info" prop that is the item json for one item on a Menu
 // Sets up the display for the modal that shows
@@ -21,14 +23,23 @@ function Item(props: {info: ItemInfo}) {
         <Pressable onPress={() => setDetailsOpen(true)}>
             <ItemDisplay itemName={itemName} calories={nutrition.calories}/>
             <Modal visible={detailsOpen} transparent={true} animationType={"fade"}>
-                <View style={modalStyles.backgroundFilter}>
+                <Pressable style={modalStyles.backgroundFilter} onPress={() => setDetailsOpen(false)}>
                     <View style={modalStyles.modalView}>
-                        <Pressable onPress={() => setDetailsOpen(false)} style={{alignItems: "right"}}>
-                            <Text style={modalStyles.white}>X</Text>
-                        </Pressable>
-                        <ItemDetails itemInfo={props.info}/>
+
+                        {/* Inside the modal */}
+                        <View style={{alignItems: "right"}}>
+                            <Pressable onPress={() => setDetailsOpen(false)} style={{width: "5%"}}>
+                                <Text style={modalStyles.exitButton}>X</Text>
+                            </Pressable>
+                        </View>
+                        <TouchableWithoutFeedback>
+                            <ScrollView style={{padding: "3%"}}>
+                                <ItemDetails itemInfo={props.info} nutritionOpen={true}/>
+                            </ScrollView>
+                        </TouchableWithoutFeedback>
+
                     </View>
-                </View>
+                </Pressable>
             </Modal>
         </Pressable>
     )
@@ -56,42 +67,62 @@ function ItemDisplay(props: {itemName: string, calories: number}) {
 // "itemInfo" that is all info about the menu item
 // Displays more information about the item when
 // it is clicked on the menu
-function ItemDetails(props: {itemInfo: ItemInfo}) {
+export function ItemDetails(props: {itemInfo: ItemInfo, nutritionOpen: boolean}) {
     const itemInfo = props.itemInfo
 
-    const [showNutrition, setShowNutrition] = useState(true)
+    const [showNutrition, setShowNutrition] = useState(props.nutritionOpen)
+
+    const nutritionInfo = itemInfo.nutrition
+    const nutritionBadges = [nutritionInfo.isVegan, nutritionInfo.isVegetarian,
+        nutritionInfo.isEatWell, nutritionInfo.isPlantForward, nutritionInfo.isWholeGrain]
 
     return (
         <View>
+            {/* Displays the name of the item*/}
             <View style={detailStyles.title}>
                 <View>
-                    <Text style={{color: ColorPalette.textColor, fontSize: 24}}>{itemInfo.name}</Text>
+                    <Text style={detailStyles.titleText}>{itemInfo.name}</Text>
                     <Text style={{color: ColorPalette.textColor}}>{itemInfo.nutrition.calories} calories</Text>
                 </View>
                 <Text>iframe</Text>
             </View>
-
             <View style={displayStyles.rowDivider}></View>
 
+            {/* Displays the description of the item*/}
             <View style={detailStyles.description}>
-                <Text style={{color: ColorPalette.textColor, fontSize: 16}}>Description</Text>
+                <Text style={detailStyles.subtitleText}>Description</Text>
                 <Text style={{color: ColorPalette.textColor}}>{itemInfo.description}</Text>
             </View>
-
             <View style={displayStyles.rowDivider}></View>
 
             <View style={detailStyles.nutritionTitle}>
                 <View>
-                    <Text style={{color: ColorPalette.textColor, fontSize: 16}}>Nutrition Info</Text>
+                    <Text style={detailStyles.subtitleText}>Nutrition Info</Text>
                 </View>
                 <Pressable onPress={() => setShowNutrition(!showNutrition)}>
                     <Text style={detailStyles.expandButton}>{showNutrition ? "Retract ^" : "Expand V"}</Text>
                 </Pressable>
             </View>
-
             <View style={displayStyles.rowDivider}></View>
 
-            {showNutrition ? <ItemNutrition nutrition={itemInfo.nutrition}/> : null}
+            {/* Displays the nutrition information about the item*/}
+            {showNutrition ? <ItemNutrition nutrition={nutritionInfo}/> : null}
+            <View style={displayStyles.rowDivider}></View>
+
+            {/* Displays the nutrition badges of the item*/}
+            <View style={detailStyles.nutritionTitle}>
+                <Text style={detailStyles.subtitleText}>Nutrition Badges(s)</Text>
+                <Text style={detailStyles.subtitleText}>0</Text>
+            </View>
+            <View style={displayStyles.rowDivider}></View>
+
+            <View style={detailStyles.nutritionBadges}>
+                {nutritionBadges.map((badge : boolean, index : number) => {
+                    return (
+                        <View></View>
+                    )
+                })}
+            </View>
 
         </View>
     )
@@ -137,17 +168,23 @@ const modalStyles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        minHeight: "100%",
-        maxWidth: "75%",
+        height: "90%",
+        minWidth: "50%",
     },
 
     backgroundFilter: {
         flex: 1,
         backgroundColor: 'rgba(0,0,0,0.5)',
+        alignItems: "center",
     },
 
     centerView: {
         alignItems: 'center',
+    },
+
+    exitButton: {
+        color: ColorPalette.textColor,
+        fontWeight: "bold",
     },
 
     white: {
@@ -156,30 +193,46 @@ const modalStyles = StyleSheet.create({
 })
 
 const detailStyles = StyleSheet.create({
+    titleText :{
+        color: ColorPalette.textColor,
+        fontWeight: "bold",
+        fontSize: 24,
+    },
+
     title: {
-        flex: 2,
         flexDirection: "row",
         justifyContent: "space-between",
-        margin: 10,
-        marginBottom: 20,
+        alignItems: "center",
+        marginBottom: 10,
     },
 
     description: {
-        margin: 10,
+        marginTop: 10,
+        marginBottom: 10,
+    },
+
+    subtitleText: {
+        color: ColorPalette.textColor,
+        fontWeight: "bold",
+        fontSize: 16,
     },
 
     nutritionTitle: {
-        flex: 2,
         flexDirection: "row",
         justifyContent: "space-between",
-        margin: 10,
-        marginBottom: 0
+        marginTop: 10,
+        marginBottom: 10,
     },
 
     expandButton: {
         color: ColorPalette.bgColorBlue,
         fontSize: 15,
     },
+
+    nutritionBadges: {
+        flexDirection: "row",
+        margin: "3%",
+    }
 })
 
 export default Item
