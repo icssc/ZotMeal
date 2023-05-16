@@ -2,12 +2,19 @@
 // Only displays item name and calorie count
 
 import React, {useState} from "react";
-import {View, Text, StyleSheet, Pressable, Modal,
-    ScrollView, TouchableWithoutFeedback} from "react-native";
+import {
+    View, Text, StyleSheet, Pressable, Modal,
+    ScrollView, TouchableWithoutFeedback, Image
+} from "react-native";
 import ItemNutrition from "./ItemNutrition";
 import {ItemInfo} from "../typedef";
 import ColorPalette from "../ColorPalette";
-import item from "zotmeal-vite/components/meal-info/Item";
+
+// Nutrition Badge Images
+
+
+const nutritionBadgeImages = [require("@assets/Vegan.png"), require("@assets/Vegetarian.png"),
+    require("@assets/EatWell.png"), require("@assets/PlantForward.png"), require("@assets/WholeGrains.png")]
 
 // Takes "info" prop that is the item json for one item on a Menu
 // Sets up the display for the modal that shows
@@ -116,13 +123,17 @@ export function ItemDetails(props: {itemInfo: ItemInfo, nutritionOpen: boolean})
             </View>
             <View style={displayStyles.rowDivider}></View>
 
-            <View style={detailStyles.nutritionBadges}>
+            <Image
+                source={require('../imageAssets/Vegan.png').default}
+              />
+
+            {/*<View style={detailStyles.nutritionBadges}>
                 {nutritionBadges.map((badge : boolean, index : number) => {
                     return (
-                        <View></View>
+                        badge ? <Image source={require(nutritionBadgeImages[index])}/> : null
                     )
                 })}
-            </View>
+            </View>*/}
 
         </View>
     )
