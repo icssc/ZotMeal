@@ -4,10 +4,17 @@
 // Menu 1    Menu 2    Menu 3   ...
 
 import React, {useEffect, useState} from "react";
-import {View, Text, Pressable, StyleSheet} from "react-native";
+import {View, Text, Pressable, StyleSheet, Modal,
+    ScrollView, TouchableWithoutFeedback} from "react-native";
 import Menu from "./Menu";
+import {StationInfo, MenuInfo, ItemInfo} from "../typedef";
+import ColorPalette from "../ColorPalette";
+import {ItemDetails} from "./Item";
 
-function Station(props: any){
+// Takes in one parameter "info" that is all the information
+// about a given Station
+// Displays the Station name each Menu in a Station in a row
+function Station(props: {info: StationInfo}){
 
     const stationName = props.info.station
     const menuItems = props.info.menu
@@ -18,6 +25,7 @@ function Station(props: any){
 
     return (
         <View style={styles.station}>
+            {/* Displays Menus */}
             <View style={styles.stationHeader}>
                 <Text style={styles.stationName}>{stationName}</Text>
                 <Pressable style={styles.detailsButton} onPress={() => setDetailsOpen(true)}>
@@ -25,27 +33,64 @@ function Station(props: any){
                 </Pressable>
             </View>
             <View style={styles.menuList}>
-                {menuItems.map((menu: Object) =>
+                {menuItems.map((menu: MenuInfo) =>
                     <Menu key={menu.category} info={menu}/>
                 )}
             </View>
 
-            {/*
-            <View className={detailsOpen? undefined : 'hidden'}>
-                <View className='modal'>
-                    <View className='modal-content'>
-                        <span onClick={() => setDetailsOpen(false)} className='close'>
-                            X
-                        </span>
-                        <View className='menu-list-modal'>
-                            {menuItems.map((menu: Object) =>
-                                <Menu key={menu.category} info={menu}/>
-                            )}
+            {/* Details button and Modal */}
+            <Modal visible={detailsOpen} transparent={true} animationType={"fade"}>
+                <Pressable style={modalStyles.backgroundFilter} onPress={() => setDetailsOpen(false)}>
+                    <View style={modalStyles.modalView}>
+
+                        {/* Inside the modal */}
+                        <View style={modalStyles.modalHeader}>
+                            <Pressable onPress={() => setDetailsOpen(false)} style={{width: "5%"}}>
+                                <Text style={modalStyles.exitButton}>X</Text>
+                            </Pressable>
+                            <Text style={modalStyles.stationTitle}>{props.info.station}</Text>
+                            <View style={{width: "10%"}}></View>
                         </View>
+                        <TouchableWithoutFeedback>
+                            <ScrollView>
+                                <StationDetails info={props.info}/>
+                            </ScrollView>
+                        </TouchableWithoutFeedback>
                     </View>
-                </View>
-            </View>
-            */}
+                </Pressable>
+            </Modal>
+
+        </View>
+    )
+}
+
+// Displays all the nutrition information about all the Items in a
+// given Station in a modal
+function StationDetails(props: {info: StationInfo}) {
+    const menus = props.info.menu
+    return (
+        <View style={{alignItems: "center"}}>
+            {menus.map((menu : MenuInfo) => {
+                const itemList = menu.items
+                return (
+                    <View style={detailsStyles.menu}>
+                        <Text style={detailsStyles.itemCategory}>
+                            {menu.category} ({itemList.length})
+                        </Text>
+                        {itemList.map((item: ItemInfo, index: number) => {
+                            return (
+                                <View>
+                                    <View style={detailsStyles.itemList}>
+                                        <ItemDetails itemInfo={item} nutritionOpen={false}/>
+                                    </View>
+                                    {index < itemList.length - 1 && itemList.length > 1 ?
+                                        <View style={detailsStyles.itemRowDivider}></View> : null}
+                                </View>
+                            )
+                        })}
+                    </View>
+                )
+            })}
         </View>
     )
 }
@@ -65,7 +110,8 @@ const styles = StyleSheet.create({
 
     stationName: {
         fontSize: 20,
-        color: "white"
+        color: ColorPalette.textColor,
+        fontWeight: "bold"
     },
 
     menuList: {
@@ -76,7 +122,7 @@ const styles = StyleSheet.create({
     },
 
     detailsButton: {
-        backgroundColor: "gold",
+        backgroundColor: ColorPalette.bgColorYellow,
         paddingTop: "1%",
         paddingRight: "2%",
         paddingBottom: "1%",
@@ -85,8 +131,96 @@ const styles = StyleSheet.create({
     },
 
     detailsText: {
-        color: "black",
+        color: ColorPalette.textColor,
+        fontWeight: "500",
     }
+})
+
+const modalStyles = StyleSheet.create({
+    modalHeader: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
+
+    modalView: {
+        margin: 20,
+        backgroundColor: ColorPalette.bgColor,
+        borderRadius: 20,
+        padding: 35,
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        height: "90%",
+        minWidth: "50%",
+    },
+
+    backgroundFilter: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        alignItems: "center",
+    },
+
+    exitButton: {
+        color: ColorPalette.textColor,
+        fontWeight: "bold",
+    },
+
+    centerView: {
+        alignItems: 'center',
+    },
+
+    stationTitle: {
+        fontSize: 24,
+        fontWeight: "bold",
+    },
+})
+
+const detailsStyles = StyleSheet.create({
+    menu: {
+        margin: "2%",
+        borderWidth: 2,
+        borderColor: ColorPalette.rowDivider,
+        borderStyle: "solid",
+        borderRadius: 10,
+        backgroundColor: ColorPalette.bgColor,
+        width: "95%",
+    },
+
+    itemCategory: {
+        display: "flex",
+        paddingTop: "1%",
+        paddingRight: "1%",
+        paddingBottom: "1%",
+        paddingLeft: "3%",
+        justifyContent: "flex-start",
+        backgroundColor: ColorPalette.bgColorBlue,
+        borderTopLeftRadius: 8,
+        borderTopRightRadius: 8,
+        borderBottomRightRadius: 0,
+        borderBottomLeftRadius: 0,
+        color: ColorPalette.textColor,
+        fontWeight: "bold",
+        fontSize: 16,
+    },
+
+    itemList: {
+        padding: "3%",
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 10,
+        borderBottomLeftRadius: 10,
+    },
+
+    itemRowDivider: {
+        height: 3,
+        backgroundColor: ColorPalette.rowDivider,
+    },
 })
 
 export default Station

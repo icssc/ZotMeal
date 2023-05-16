@@ -1,11 +1,11 @@
-import { View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import Location from "../shared/components/Location";
 
 export default function App() {
   return (
-      <View style={styles.home}>
+      <ScrollView style={styles.home}>
         <Location location="brandywine"/>
-      </View>
+      </ScrollView>
   );
 }
 
