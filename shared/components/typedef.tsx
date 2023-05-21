@@ -43,4 +43,5 @@ export type LocationInfo = {
     currentMeal: string
     date: string
     restaurant: string
+    price: {[key: string]: number}
 }

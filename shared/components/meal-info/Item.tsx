@@ -155,44 +155,6 @@ const displayStyles = StyleSheet.create({
     }
 })
 
-const modalStyles = StyleSheet.create({
-    modalView: {
-        margin: 20,
-        backgroundColor: ColorPalette.bgColor,
-        borderRadius: 20,
-        padding: 35,
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-        height: "90%",
-        minWidth: "50%",
-    },
-
-    backgroundFilter: {
-        flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        alignItems: "center",
-    },
-
-    centerView: {
-        alignItems: 'center',
-    },
-
-    exitButton: {
-        color: ColorPalette.textColor,
-        fontWeight: "bold",
-    },
-
-    white: {
-        color: ColorPalette.bgColor
-    },
-})
-
 const detailStyles = StyleSheet.create({
     titleText :{
         color: ColorPalette.textColor,
@@ -234,6 +196,44 @@ const detailStyles = StyleSheet.create({
         flexDirection: "row",
         margin: "3%",
     }
+})
+
+const modalStyles = StyleSheet.create({
+    modalView: {
+        margin: 20,
+        backgroundColor: ColorPalette.bgColor,
+        borderRadius: 20,
+        padding: 35,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        height: "90%",
+        minWidth: "50%",
+    },
+
+    backgroundFilter: {
+        flex: 1,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        alignItems: "center",
+    },
+
+    centerView: {
+        alignItems: 'center',
+    },
+
+    exitButton: {
+        color: ColorPalette.textColor,
+        fontWeight: "bold",
+    },
+
+    white: {
+        color: ColorPalette.bgColor
+    },
 })
 
 export default Item

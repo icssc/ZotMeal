@@ -1,9 +1,10 @@
 //import './Location.css'
 import React, {useEffect, useState} from "react";
-import {View, Text, StyleSheet} from "react-native";
+import {View, Text, StyleSheet, Button} from "react-native";
 import Station from "./meal-info/Station";
-import {StationInfo} from "./typedef";
+import {LocationInfo, StationInfo} from "./typedef";
 import ColorPalette from "./ColorPalette";
+import PricingButton from "./location-info/Pricing";
 
 //import json from './brandywine.json'
 
@@ -50,13 +51,47 @@ function Location(props: {location : string}){
     //Display HTML
     return (
         <View style={styles.location}>
-            <Text style={styles.locationHeader}>
-                {locationInfo.restaurant}
-            </Text>
+            <LocationHeader locationInfo={locationInfo}/>
             <View style={styles.stationList}>
                 <Text>{loadingMessage}</Text>
                 {stationInfo}
             </View>
+        </View>
+    )
+}
+
+function LocationHeader(props: {locationInfo: LocationInfo}){
+    const info = props.locationInfo
+    let currMeal = info.currentMeal
+    if (currMeal)
+        {currMeal = currMeal.charAt(0).toUpperCase() + currMeal.slice(1)}
+
+    return(
+        <View style={headerStyles.locationHeader}>
+
+            <View style={headerStyles.locationNav}>
+                {currMeal ?
+                    <View style={headerStyles.navSide}>
+                        <View style={headerStyles.statusCircle}></View>
+                        <Text style={headerStyles.navText}>Open</Text>
+                        <Text style={headerStyles.navText}>|</Text>
+                        <Text style={headerStyles.navText}>{currMeal}</Text>
+                        <Text style={headerStyles.navText}>|</Text>
+                        <Text style={headerStyles.navText}>${info.price[info.currentMeal]}</Text>
+                    </View>
+                    : null}
+
+                <View style={headerStyles.navSide}>
+                    <Button>lol</Button>
+                    <PricingButton locationInfo={info}/>
+                    <Button>lol</Button>
+                </View>
+            </View>
+
+            <Text style={headerStyles.locationTitle}>
+                {info.restaurant}
+            </Text>
+
         </View>
     )
 }
@@ -67,21 +102,6 @@ const styles = StyleSheet.create({
         color: "white"
     },
 
-    locationHeader: {
-        paddingTop: "5%",
-        paddingRight: "5%",
-        paddingBottom: "5%",
-        paddingLeft: "5%",
-
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        backgroundColor: "#242424",
-        fontSize: 30,
-        fontWeight: "bold",
-        color: "white",
-    },
-
     stationList: {
         display: "flex",
         flexDirection: "column",
@@ -89,6 +109,45 @@ const styles = StyleSheet.create({
         backgroundColor: ColorPalette.bgColor,
         color: "white",
     }
+})
+
+const headerStyles = StyleSheet.create({
+    locationHeader: {
+        backgroundColor: "#242424",
+    },
+
+    locationTitle: {
+        padding: "3%",
+        paddingTop: "6%",
+        fontSize: 30,
+        fontWeight: "bold",
+        color: "white",
+    },
+
+    locationNav: {
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        padding: "2%",
+    },
+
+    navSide: {
+        flexDirection: "row",
+        gap: 5,
+        alignItems: "center",
+    },
+
+    navText: {
+        fontWeight: "bold",
+        color: "white",
+    },
+
+    statusCircle: {
+        borderRadius: 6,
+        backgroundColor: "#00FF00",
+        width: 12,
+        height: 12,
+    },
 })
 
 export default Location
