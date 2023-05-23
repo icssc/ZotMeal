@@ -1,5 +1,7 @@
 # ZotMeal
 
+https://main--precious-pithivier-2c29d7.netlify.app/ 
+
 ## Running Locally
 
 - Web App : To run the app on web, simply type `npm run web` in the terminal while in the root directory
