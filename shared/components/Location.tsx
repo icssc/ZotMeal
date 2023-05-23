@@ -1,10 +1,11 @@
 //import './Location.css'
 import React, {useEffect, useState} from "react";
-import {View, Text, StyleSheet, Button} from "react-native";
+import {View, Text, StyleSheet, Button, Linking} from "react-native";
 import Station from "./meal-info/Station";
 import {LocationInfo, StationInfo} from "./typedef";
 import ColorPalette from "./ColorPalette";
 import PricingButton from "./location-info/Pricing";
+import ScheduleButton from "./location-info/Schedule";
 
 //import json from './brandywine.json'
 
@@ -66,25 +67,30 @@ function LocationHeader(props: {locationInfo: LocationInfo}){
     if (currMeal)
         {currMeal = currMeal.charAt(0).toUpperCase() + currMeal.slice(1)}
 
+    let locationUrl = "https://www.google.com/maps/search/uci+"
+
     return(
         <View style={headerStyles.locationHeader}>
 
             <View style={headerStyles.locationNav}>
                 {currMeal ?
                     <View style={headerStyles.navSide}>
-                        <View style={headerStyles.statusCircle}></View>
+                        <View style={headerStyles.statusCircleGreen}/>
                         <Text style={headerStyles.navText}>Open</Text>
                         <Text style={headerStyles.navText}>|</Text>
                         <Text style={headerStyles.navText}>{currMeal}</Text>
                         <Text style={headerStyles.navText}>|</Text>
                         <Text style={headerStyles.navText}>${info.price[info.currentMeal]}</Text>
                     </View>
-                    : null}
+                    : <View style={headerStyles.navSide}>
+                        <View style={headerStyles.statusCircleRed}/>
+                        <Text style={headerStyles.navText}>Closed</Text>
+                    </View>}
 
                 <View style={headerStyles.navSide}>
-                    <Button>lol</Button>
+                    <ScheduleButton locationInfo={info}/>
                     <PricingButton locationInfo={info}/>
-                    <Button>lol</Button>
+                    <Button onPress={() => Linking.openURL(locationUrl + info.restaurant)}></Button>
                 </View>
             </View>
 
@@ -140,11 +146,19 @@ const headerStyles = StyleSheet.create({
     navText: {
         fontWeight: "bold",
         color: "white",
+        fontSize: 16,
     },
 
-    statusCircle: {
+    statusCircleGreen: {
         borderRadius: 6,
         backgroundColor: "#00FF00",
+        width: 12,
+        height: 12,
+    },
+
+    statusCircleRed: {
+        borderRadius: 6,
+        backgroundColor: "#FF0000",
         width: 12,
         height: 12,
     },
