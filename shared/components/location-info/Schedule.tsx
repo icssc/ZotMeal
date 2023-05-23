@@ -62,26 +62,25 @@ function ScheduleModal(props: {locationInfo: LocationInfo}) {
                     const mealName = meal.charAt(0).toUpperCase() + meal.slice(1)
                     const start = schedule[meal].start
                     const end = schedule[meal].end
+                    let startDisplay = ""
+                    let endDisplay = ""
 
-                    // Split hours and mins
-                    let startMin = start % 100
-                    let startHr = ((start - startMin) / 100)
-                    let endMin = end % 100
-                    let endHr = ((end - endMin) / 100)
+                    // Get hours and minutes
+                    const startHr = Math.floor(start / 100)
+                    const endHr = Math.floor(end / 100)
+                    const startMin = start.toString().slice(-2)
+                    const endMin = end.toString().slice(-2)
 
                     // Use 12 hr time
-                    const startModifier = (startHr > 12) ? " pm" : " am"
-                    const endModifier = (endHr > 12) ? " pm" : " am"
+                    startDisplay += (startHr > 12) ? (startHr - 12) : startHr
+                    endDisplay += (endHr > 12) ? (endHr - 12) : endHr
 
-                    startHr = (startHr > 12) ? startHr - 12 : startHr
-                    endHr = (endHr > 12) ? endHr - 12 : endHr
+                    startDisplay += ":" + startMin
+                    endDisplay += ":" + endMin
 
-                    let startDisplay = startHr + ":"
-                    let endDisplay = endHr + ":"
+                    startDisplay += (startHr > 12) ? " pm" : " am"
+                    endDisplay += (endHr > 12) ? " pm" : " am"
 
-                    // Add zero to start of single digit minutes
-                    startDisplay += (startMin < 10) ? "0" + startMin : startMin
-                    endDisplay += (endMin < 10) ? "0" + endMin : endMin
 
                 {/* One meal */}
                     return (
@@ -92,12 +91,12 @@ function ScheduleModal(props: {locationInfo: LocationInfo}) {
                         <View style={modalStyles.rowDivider}/>
                         <View style={modalStyles.twoColumn}>
                             <Text style={modalStyles.mealTime}>Start</Text>
-                            <Text style={modalStyles.mealTime}>{startDisplay + startModifier}</Text>
+                            <Text style={modalStyles.mealTime}>{startDisplay}</Text>
                         </View>
                         <View style={modalStyles.rowDivider}/>
                         <View style={modalStyles.twoColumn}>
                             <Text style={modalStyles.mealTime}>End</Text>
-                            <Text style={modalStyles.mealTime}>{endDisplay + endModifier}</Text>
+                            <Text style={modalStyles.mealTime}>{endDisplay}</Text>
                         </View>
                     </View>)
                 })}
