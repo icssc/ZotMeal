@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from "react";
 import {View, Text, StyleSheet, Button, Linking} from "react-native";
 import Station from "./meal-info/Station";
-import {LocationInfo, StationInfo} from "./typedef";
+import {LocationInfo, StationInfo} from "../../shared/lib/zotmeal.types";
 import ColorPalette from "./ColorPalette";
 import PricingButton from "./location-info/Pricing";
 import ScheduleButton from "./location-info/Schedule";

@@ -8,7 +8,7 @@
 import React, {ReactElement, useEffect, useState} from "react";
 import Item from "./Item";
 import {Pressable, StyleSheet, Text, View} from "react-native";
-import {ItemInfo, MenuInfo} from "../typedef";
+import {ItemInfo, MenuInfo} from "../../lib/zotmeal.types";
 import ColorPalette from "../ColorPalette";
 
 
