@@ -7,7 +7,7 @@ import {
     ScrollView, TouchableWithoutFeedback, Image
 } from "react-native";
 import ItemNutrition from "./ItemNutrition";
-import {ItemInfo} from "../typedef";
+import {ItemInfo} from "../../../shared/lib/zotmeal.types";
 import ColorPalette from "../ColorPalette";
 
 // Takes "info" prop that is the item json for one item on a Menu

@@ -1,7 +1,7 @@
 import {Button, View, StyleSheet, TouchableWithoutFeedback,
     Pressable, Modal, Text} from "react-native";
 import React, {useState} from "react";
-import {LocationInfo} from "../typedef";
+import {LocationInfo} from "../../lib/zotmeal.types";
 import ColorPalette from "../ColorPalette";
 
 
