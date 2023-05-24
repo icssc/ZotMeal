@@ -2,7 +2,7 @@
 
 import React from "react";
 import {View, Text, StyleSheet} from "react-native";
-import {Nutrition} from "../typedef";
+import {Nutrition} from "../../../shared/lib/zotmeal.types";
 import ColorPalette from "../ColorPalette";
 
 function ItemNutrition(props: {nutrition: Nutrition}) {
