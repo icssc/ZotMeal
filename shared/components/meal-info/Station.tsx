@@ -7,7 +7,7 @@ import React, {useEffect, useState} from "react";
 import {View, Text, Pressable, StyleSheet, Modal,
     ScrollView, TouchableWithoutFeedback} from "react-native";
 import Menu from "./Menu";
-import {StationInfo, MenuInfo, ItemInfo} from "../typedef";
+import {StationInfo, MenuInfo, ItemInfo} from "../../lib/zotmeal.types";
 import ColorPalette from "../ColorPalette";
 import {ItemDetails} from "./Item";
 
