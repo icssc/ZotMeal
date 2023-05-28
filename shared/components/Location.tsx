@@ -1,11 +1,12 @@
 //import './Location.css'
 import React, {useEffect, useState} from "react";
-import {View, Text, StyleSheet, Button, Linking} from "react-native";
+import {View, Text, StyleSheet, Button, Linking, ImageBackground, Image} from "react-native";
 import Station from "./meal-info/Station";
 import {LocationInfo, StationInfo} from "../../shared/lib/zotmeal.types";
 import ColorPalette from "./ColorPalette";
 import PricingButton from "./location-info/Pricing";
 import ScheduleButton from "./location-info/Schedule";
+import location from "zotmeal-vite/components/Location";
 
 //import json from './brandywine.json'
 
@@ -49,14 +50,18 @@ function Location(props: {location : string}){
         })
     }
 
+    const hasColDiv = (props.location == "brandywine")
     //Display HTML
     return (
         <View style={styles.location}>
-            <LocationHeader locationInfo={locationInfo}/>
-            <View style={styles.stationList}>
-                <Text>{loadingMessage}</Text>
-                {stationInfo}
+            <View style={{width: hasColDiv ? "calc(100% - 4px)" : "100%"}}>
+                <LocationHeader locationInfo={locationInfo}/>
+                <View style={styles.stationList}>
+                    <Text>{loadingMessage}</Text>
+                    {stationInfo}
+                </View>
             </View>
+            <View style={[styles.columnDivider, {width: hasColDiv ? "4px" : "0px"}]}></View>
         </View>
     )
 }
@@ -64,23 +69,25 @@ function Location(props: {location : string}){
 function LocationHeader(props: {locationInfo: LocationInfo}){
     const info = props.locationInfo
     let currMeal = info.currentMeal
+    let location = info.restaurant
+
+    if(location)
+        location = location.charAt(0).toUpperCase() + location.slice(1)
+
     if (currMeal)
         {currMeal = currMeal.charAt(0).toUpperCase() + currMeal.slice(1)}
 
     let locationUrl = "https://www.google.com/maps/search/uci+"
 
     return(
-        <View style={headerStyles.locationHeader}>
+        <ImageBackground source={"components/imageAssets/" + location + ".imageset/" + location + ".jpg"}
+                             style={headerStyles.locationImage}>
 
             <View style={headerStyles.locationNav}>
                 {currMeal ?
                     <View style={headerStyles.navSide}>
                         <View style={headerStyles.statusCircleGreen}/>
-                        <Text style={headerStyles.navText}>Open</Text>
-                        <Text style={headerStyles.navText}>|</Text>
-                        <Text style={headerStyles.navText}>{currMeal}</Text>
-                        <Text style={headerStyles.navText}>|</Text>
-                        <Text style={headerStyles.navText}>${info.price[info.currentMeal]}</Text>
+                        <Text style={headerStyles.navText}>Open | {currMeal} | ${info.price[info.currentMeal]}</Text>
                     </View>
                     : <View style={headerStyles.navSide}>
                         <View style={headerStyles.statusCircleRed}/>
@@ -94,38 +101,46 @@ function LocationHeader(props: {locationInfo: LocationInfo}){
                 </View>
             </View>
 
+
             <Text style={headerStyles.locationTitle}>
                 {info.restaurant}
             </Text>
-
-        </View>
+        </ImageBackground>
     )
 }
 
 // "CSS" Styling
 const styles = StyleSheet.create({
     location: {
-        color: "white"
+        flexDirection: "row",
+        height: "100%"
     },
 
     stationList: {
         display: "flex",
         flexDirection: "column",
         padding: "5%",
+        paddingTop: 0,
         backgroundColor: ColorPalette.bgColor,
         color: "white",
+    },
+
+    columnDivider: {
+        backgroundColor: ColorPalette.textColor
     }
 })
 
 const headerStyles = StyleSheet.create({
-    locationHeader: {
-        backgroundColor: "#242424",
+    locationImage: {
+        width: "100%",
+        height: "150px",
+        justifyContent: "space-batween"
     },
 
     locationTitle: {
         padding: "3%",
         paddingTop: "6%",
-        fontSize: 30,
+        fontSize: 35,
         fontWeight: "bold",
         color: "white",
     },
