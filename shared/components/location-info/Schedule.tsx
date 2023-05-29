@@ -1,5 +1,5 @@
 import {Button, View, StyleSheet, TouchableWithoutFeedback,
-    Pressable, Modal, Text} from "react-native";
+    Pressable, Modal, Text, Image} from "react-native";
 import React, {useState} from "react";
 import {LocationInfo} from "../../../shared/lib/zotmeal.types";
 import ColorPalette from "../ColorPalette";
@@ -9,7 +9,9 @@ function ScheduleButton(props: {locationInfo: LocationInfo}) {
     const [scheduleOpen, openSchedule] = useState(false)
     return (
         <View>
-            <Button onPress={() => {openSchedule(true)}}></Button>
+            <Pressable onPress={() => {openSchedule(true)}}>
+                <Image source="components/imageAssets/Icons/calendar.png" style={{height: "40px", width: "40px"}}/>
+            </Pressable>
 
             <Modal visible={scheduleOpen} transparent={true} animationType={"fade"}>
                 <Pressable style={modalStyles.backgroundFilter} onPress={() => openSchedule(false)}>
