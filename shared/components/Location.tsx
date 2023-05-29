@@ -1,6 +1,6 @@
 //import './Location.css'
 import React, {useEffect, useState} from "react";
-import {View, Text, StyleSheet, Button, Linking, ImageBackground, Image} from "react-native";
+import {View, Text, StyleSheet, Pressable, Linking, ImageBackground, Image} from "react-native";
 import Station from "./meal-info/Station";
 import {LocationInfo, StationInfo} from "../../shared/lib/zotmeal.types";
 import ColorPalette from "./ColorPalette";
@@ -97,14 +97,16 @@ function LocationHeader(props: {locationInfo: LocationInfo}){
                 <View style={headerStyles.navSide}>
                     <ScheduleButton locationInfo={info}/>
                     <PricingButton locationInfo={info}/>
-                    <Button onPress={() => Linking.openURL(locationUrl + info.restaurant)}></Button>
+                    <Pressable onPress={() => Linking.openURL(locationUrl + info.restaurant)}>
+                        <Image source="components/imageAssets/Icons/address.png" style={{height: "33px", width: "33px"}}/>
+                    </Pressable>
                 </View>
             </View>
 
-
-            <Text style={headerStyles.locationTitle}>
-                {info.restaurant}
-            </Text>
+            <View style={headerStyles.locationTitleDiv}>
+                <Text style={headerStyles.locationTitle}>{info.restaurant}</Text>
+                <Text style={headerStyles.locationMenuUpdated}>Menu Updated: {info.date}</Text>
+            </View>
         </ImageBackground>
     )
 }
@@ -132,17 +134,29 @@ const styles = StyleSheet.create({
 
 const headerStyles = StyleSheet.create({
     locationImage: {
-        width: "100%",
-        height: "150px",
-        justifyContent: "space-batween"
+        maxWidth: "100%",
+        aspectRatio: "9/2",
+        minHeight: "150px",
+        justifyContent: "space-between",
+    },
+
+    locationTitleDiv: {
+        padding: "15px",
+        paddingLeft: "5%",
     },
 
     locationTitle: {
-        padding: "3%",
-        paddingTop: "6%",
         fontSize: 35,
         fontWeight: "bold",
         color: "white",
+        textShadow: "2px 2px 5px #000000",
+    },
+
+    locationMenuUpdated: {
+        fontSize: 16,
+        fontWeight: "bold",
+        color: "white",
+        textShadow: "2px 2px 5px #000000",
     },
 
     locationNav: {
@@ -150,6 +164,8 @@ const headerStyles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         padding: "2%",
+        paddingTop: "0.5%",
+        paddingBottom: "0.5%",
     },
 
     navSide: {

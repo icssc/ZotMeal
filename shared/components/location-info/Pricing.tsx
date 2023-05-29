@@ -1,5 +1,5 @@
 import {Button, View, StyleSheet, TouchableWithoutFeedback,
-    Pressable, Modal, Text} from "react-native";
+    Pressable, Modal, Text,Image} from "react-native";
 import React, {useState} from "react";
 import {LocationInfo} from "../../lib/zotmeal.types";
 import ColorPalette from "../ColorPalette";
@@ -9,7 +9,9 @@ function PricingButton(props: {locationInfo: LocationInfo}) {
     const [pricingOpen, openPricing] = useState(false)
     return (
         <View>
-            <Button onPress={() => {openPricing(true)}}></Button>
+            <Pressable onPress={() => {openPricing(true)}}>
+                <Image source="components/imageAssets/Icons/price.png" style={{height: "40px", width: "40px"}}/>
+            </Pressable>
 
             <Modal visible={pricingOpen} transparent={true} animationType={"fade"}>
                 <Pressable style={modalStyles.backgroundFilter} onPress={() => openPricing(false)}>
