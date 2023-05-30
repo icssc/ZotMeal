@@ -4,10 +4,12 @@
 // Menu 1    Menu 2    Menu 3   ...
 
 import React, {useEffect, useState} from "react";
-import {View, Text, Pressable, StyleSheet, Modal,
-    ScrollView, TouchableWithoutFeedback} from "react-native";
+import {
+    View, Text, Pressable, StyleSheet, Modal,
+    ScrollView, TouchableWithoutFeedback, Image
+} from "react-native";
 import Menu from "./Menu";
-import {StationInfo, MenuInfo, ItemInfo} from "../../lib/zotmeal.types";
+import {StationInfo, MenuInfo, ItemInfo} from "../../../lib/zotmeal.types";
 import ColorPalette from "../ColorPalette";
 import {ItemDetails} from "./Item";
 
@@ -28,9 +30,13 @@ function Station(props: {info: StationInfo}){
             {/* Displays Menus */}
             <View style={styles.stationHeader}>
                 <Text style={styles.stationName}>{stationName}</Text>
-                <Pressable style={styles.detailsButton} onPress={() => setDetailsOpen(true)}>
-                    <Text style={styles.detailsText}>More Details</Text>
-                </Pressable>
+
+                <View style={{flexDirection: "row", gap: "30px"}}>
+                    <VoteButtons/>
+                    <Pressable style={styles.detailsButton} onPress={() => setDetailsOpen(true)}>
+                        <Text style={styles.detailsText}>More Details</Text>
+                    </Pressable>
+                </View>
             </View>
             <View style={styles.menuList}>
                 {menuItems.map((menu: MenuInfo) =>
@@ -95,6 +101,39 @@ function StationDetails(props: {info: StationInfo}) {
     )
 }
 
+function VoteButtons(props: any) {
+    const [currVote, setCurrVote] = useState(0)
+
+    function Upvote() {
+        setCurrVote(currVote == 1 ? 0 : 1)
+    }
+
+    function Downvote() {
+        setCurrVote(currVote == -1 ? 0 : -1)
+    }
+
+    let upVotedArrow = currVote > 0 ? "filled" : "gray"
+    let downVotedArrow = currVote < 0 ? "filled" : "gray"
+
+    return (
+        <View style={{flexDirection: "row", gap: "15px", alignItems: "center"}}>
+            <Pressable style={voteStyles.voteButton} onPress={Upvote}>
+                <Image source={"imageAssets/Icons/arrow_up_" + upVotedArrow + ".png"}
+                       style={voteStyles.voteArrow}/>
+            </Pressable>
+
+            <View style={{minWidth: "15px", alignItems: "center"}}>
+                <Text style={voteStyles.voteCount}>{currVote}</Text>
+            </View>
+
+            <Pressable style={voteStyles.voteButton} onPress={Downvote}>
+                <Image source={"imageAssets/Icons/arrow_down_" + downVotedArrow + ".png"}
+                       style={voteStyles.voteArrow}/>
+            </Pressable>
+        </View>
+    )
+}
+
 const styles = StyleSheet.create({
     station: {
         paddingTop: "5%",
@@ -115,7 +154,7 @@ const styles = StyleSheet.create({
     },
 
     menuList: {
-        paddingTop: "3%",
+        paddingTop: "1%",
         display: "flex",
         flexDirection: "row",
         flexWrap: "wrap",
@@ -124,16 +163,17 @@ const styles = StyleSheet.create({
     detailsButton: {
         backgroundColor: ColorPalette.bgColorYellow,
         paddingTop: "1%",
-        paddingRight: "2%",
+        paddingRight: "5%",
         paddingBottom: "1%",
-        paddingLeft: "2%",
+        paddingLeft: "5%",
         borderRadius: 5,
+        justifyContent: "center"
     },
 
     detailsText: {
         color: ColorPalette.textColor,
         fontWeight: "500",
-    }
+    },
 })
 
 const modalStyles = StyleSheet.create({
@@ -221,6 +261,30 @@ const detailsStyles = StyleSheet.create({
         height: 3,
         backgroundColor: ColorPalette.rowDivider,
     },
+})
+
+const voteStyles = StyleSheet.create({
+    voteButton: {
+        width: "25px",
+        height: "25px",
+    },
+
+    voteArrow: {
+        width: "100%",
+        height: "100%",
+    },
+
+    voteArrowPressed: {
+        width: "100%",
+        height: "100%",
+        backgroundColor: ColorPalette.bgColorYellow
+    },
+
+    voteCount: {
+        color: ColorPalette.textColor,
+        fontWeight: "bold",
+        fontSize: "16",
+    }
 })
 
 export default Station

@@ -7,8 +7,11 @@ import {
     ScrollView, TouchableWithoutFeedback, Image
 } from "react-native";
 import ItemNutrition from "./ItemNutrition";
-import {ItemInfo} from "../../../shared/lib/zotmeal.types";
+import {ItemInfo} from "../../../lib/zotmeal.types";
 import ColorPalette from "../ColorPalette";
+
+// Image array for nutrition badges
+const nutritionBadgeImages = ["Vegan.png", "Vegetarian.png", "WholeGrains.png", "EatWell.png", "PlantForward.png"]
 
 // Takes "info" prop that is the item json for one item on a Menu
 // Sets up the display for the modal that shows
@@ -74,8 +77,8 @@ export function ItemDetails(props: {itemInfo: ItemInfo, nutritionOpen: boolean})
     const [showNutrition, setShowNutrition] = useState(props.nutritionOpen)
 
     const nutritionInfo = itemInfo.nutrition
-    const nutritionBadges = [nutritionInfo.isVegan, nutritionInfo.isVegetarian,
-        nutritionInfo.isEatWell, nutritionInfo.isPlantForward, nutritionInfo.isWholeGrain]
+    const nutritionBadges = [nutritionInfo.isVegan, nutritionInfo.isVegetarian, nutritionInfo.isWholeGrain,
+        nutritionInfo.isEatWell, nutritionInfo.isPlantForward]
 
     return (
         <View>
@@ -110,20 +113,30 @@ export function ItemDetails(props: {itemInfo: ItemInfo, nutritionOpen: boolean})
             {showNutrition ? <ItemNutrition nutrition={nutritionInfo}/> : null}
             <View style={displayStyles.rowDivider}></View>
 
-            {/* Displays the nutrition badges of the item*/}
-            <View style={detailStyles.nutritionTitle}>
-                <Text style={detailStyles.subtitleText}>Nutrition Badges(s)</Text>
-                <Text style={detailStyles.subtitleText}>0</Text>
-            </View>
-            <View style={displayStyles.rowDivider}></View>
+            {/* Displays the nutrition badges of the item if at least one badge is true*/}
+            {nutritionBadges.some((element) => {return element}) ?
+            <View>
+                <View style={detailStyles.nutritionTitle}>
+                    <Text style={detailStyles.subtitleText}>Nutrition Badges(s)</Text>
+                    <Text style={detailStyles.subtitleText}>
+                        {nutritionBadges.filter((element) => {return element}).length}
+                    </Text>
+                </View>
 
-            {/*<View style={detailStyles.nutritionBadges}>
-                {nutritionBadges.map((badge : boolean, index : number) => {
-                    return (
-                        badge ? <Image source={require(nutritionBadgeImages[index])}/> : null
-                    )
-                })}
-            </View>*/}
+
+                <View style={detailStyles.nutritionBadges}>
+                    {nutritionBadges.map((badge : boolean, index : number) => {
+                        if (badge)
+                            return <Image source={"imageAssets/NutritionBadges/" + nutritionBadgeImages[index]}
+                            style = {{height: "60px", aspectRatio: "1/1"}}/>
+                        else
+                            return null
+                    })}
+                </View>
+
+                <View style={displayStyles.rowDivider}></View>
+            </View>
+            : null}
 
         </View>
     )
@@ -194,7 +207,8 @@ const detailStyles = StyleSheet.create({
 
     nutritionBadges: {
         flexDirection: "row",
-        margin: "3%",
+        gap: "2%",
+        marginBottom: "2%",
     }
 })
 
