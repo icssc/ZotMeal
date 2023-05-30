@@ -7,7 +7,7 @@ import {
     ScrollView, TouchableWithoutFeedback, Image
 } from "react-native";
 import ItemNutrition from "./ItemNutrition";
-import {ItemInfo} from "../../../shared/lib/zotmeal.types";
+import {ItemInfo} from "../../../lib/zotmeal.types";
 import ColorPalette from "../ColorPalette";
 
 // Image array for nutrition badges
@@ -127,7 +127,7 @@ export function ItemDetails(props: {itemInfo: ItemInfo, nutritionOpen: boolean})
                 <View style={detailStyles.nutritionBadges}>
                     {nutritionBadges.map((badge : boolean, index : number) => {
                         if (badge)
-                            return <Image source={"components/imageAssets/NutritionBadges/" + nutritionBadgeImages[index]}
+                            return <Image source={"imageAssets/NutritionBadges/" + nutritionBadgeImages[index]}
                             style = {{height: "60px", aspectRatio: "1/1"}}/>
                         else
                             return null

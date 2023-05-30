@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from "react";
 import {View, Text, StyleSheet, Pressable, Linking, ImageBackground, Image} from "react-native";
 import Station from "./meal-info/Station";
-import {LocationInfo, StationInfo} from "../../shared/lib/zotmeal.types";
+import {LocationInfo, StationInfo} from "../../lib/zotmeal.types";
 import ColorPalette from "./ColorPalette";
 import PricingButton from "./location-info/Pricing";
 import ScheduleButton from "./location-info/Schedule";
@@ -80,7 +80,7 @@ function LocationHeader(props: {locationInfo: LocationInfo}){
     let locationUrl = "https://www.google.com/maps/search/uci+"
 
     return(
-        <ImageBackground source={"components/imageAssets/" + location + ".imageset/" + location + ".jpg"}
+        <ImageBackground source={"imageAssets/" + location + ".imageset/" + location + ".jpg"}
                              style={headerStyles.locationImage}>
 
             <View style={headerStyles.locationNav}>
@@ -98,7 +98,7 @@ function LocationHeader(props: {locationInfo: LocationInfo}){
                     <ScheduleButton locationInfo={info}/>
                     <PricingButton locationInfo={info}/>
                     <Pressable onPress={() => Linking.openURL(locationUrl + info.restaurant)}>
-                        <Image source="components/imageAssets/Icons/address.png" style={{height: "33px", width: "33px"}}/>
+                        <Image source="imageAssets/Icons/address.png" style={{height: "33px", width: "33px"}}/>
                     </Pressable>
                 </View>
             </View>
