@@ -1,11 +1,12 @@
 //import './Location.css'
 import React, {useEffect, useState} from "react";
-import {View, Text, StyleSheet, Button, Linking} from "react-native";
+import {View, Text, StyleSheet, Pressable, Linking, ImageBackground, Image} from "react-native";
 import Station from "./meal-info/Station";
-import {LocationInfo, StationInfo} from "../../shared/lib/zotmeal.types";
+import {LocationInfo, StationInfo} from "../../lib/zotmeal.types";
 import ColorPalette from "./ColorPalette";
 import PricingButton from "./location-info/Pricing";
 import ScheduleButton from "./location-info/Schedule";
+import location from "zotmeal-vite/components/Location";
 
 //import json from './brandywine.json'
 
@@ -49,14 +50,18 @@ function Location(props: {location : string}){
         })
     }
 
+    const hasColDiv = (props.location == "brandywine")
     //Display HTML
     return (
         <View style={styles.location}>
-            <LocationHeader locationInfo={locationInfo}/>
-            <View style={styles.stationList}>
-                <Text>{loadingMessage}</Text>
-                {stationInfo}
+            <View style={{width: hasColDiv ? "calc(100% - 4px)" : "100%"}}>
+                <LocationHeader locationInfo={locationInfo}/>
+                <View style={styles.stationList}>
+                    <Text>{loadingMessage}</Text>
+                    {stationInfo}
+                </View>
             </View>
+            <View style={[styles.columnDivider, {width: hasColDiv ? "4px" : "0px"}]}></View>
         </View>
     )
 }
@@ -64,23 +69,25 @@ function Location(props: {location : string}){
 function LocationHeader(props: {locationInfo: LocationInfo}){
     const info = props.locationInfo
     let currMeal = info.currentMeal
+    let location = info.restaurant
+
+    if(location)
+        location = location.charAt(0).toUpperCase() + location.slice(1)
+
     if (currMeal)
         {currMeal = currMeal.charAt(0).toUpperCase() + currMeal.slice(1)}
 
     let locationUrl = "https://www.google.com/maps/search/uci+"
 
     return(
-        <View style={headerStyles.locationHeader}>
+        <ImageBackground source={"imageAssets/" + location + ".imageset/" + location + ".jpg"}
+                             style={headerStyles.locationImage}>
 
             <View style={headerStyles.locationNav}>
                 {currMeal ?
                     <View style={headerStyles.navSide}>
                         <View style={headerStyles.statusCircleGreen}/>
-                        <Text style={headerStyles.navText}>Open</Text>
-                        <Text style={headerStyles.navText}>|</Text>
-                        <Text style={headerStyles.navText}>{currMeal}</Text>
-                        <Text style={headerStyles.navText}>|</Text>
-                        <Text style={headerStyles.navText}>${info.price[info.currentMeal]}</Text>
+                        <Text style={headerStyles.navText}>Open | {currMeal} | ${info.price[info.currentMeal]}</Text>
                     </View>
                     : <View style={headerStyles.navSide}>
                         <View style={headerStyles.statusCircleRed}/>
@@ -90,44 +97,66 @@ function LocationHeader(props: {locationInfo: LocationInfo}){
                 <View style={headerStyles.navSide}>
                     <ScheduleButton locationInfo={info}/>
                     <PricingButton locationInfo={info}/>
-                    <Button onPress={() => Linking.openURL(locationUrl + info.restaurant)}></Button>
+                    <Pressable onPress={() => Linking.openURL(locationUrl + info.restaurant)}>
+                        <Image source="imageAssets/Icons/address.png" style={{height: "33px", width: "33px"}}/>
+                    </Pressable>
                 </View>
             </View>
 
-            <Text style={headerStyles.locationTitle}>
-                {info.restaurant}
-            </Text>
-
-        </View>
+            <View style={headerStyles.locationTitleDiv}>
+                <Text style={headerStyles.locationTitle}>{info.restaurant}</Text>
+                <Text style={headerStyles.locationMenuUpdated}>Menu Updated: {info.date}</Text>
+            </View>
+        </ImageBackground>
     )
 }
 
 // "CSS" Styling
 const styles = StyleSheet.create({
     location: {
-        color: "white"
+        flexDirection: "row",
+        height: "100%"
     },
 
     stationList: {
         display: "flex",
         flexDirection: "column",
         padding: "5%",
+        paddingTop: 0,
         backgroundColor: ColorPalette.bgColor,
         color: "white",
+    },
+
+    columnDivider: {
+        backgroundColor: ColorPalette.textColor
     }
 })
 
 const headerStyles = StyleSheet.create({
-    locationHeader: {
-        backgroundColor: "#242424",
+    locationImage: {
+        maxWidth: "100%",
+        aspectRatio: "9/2",
+        minHeight: "150px",
+        justifyContent: "space-between",
+    },
+
+    locationTitleDiv: {
+        padding: "15px",
+        paddingLeft: "5%",
     },
 
     locationTitle: {
-        padding: "3%",
-        paddingTop: "6%",
-        fontSize: 30,
+        fontSize: 35,
         fontWeight: "bold",
         color: "white",
+        textShadow: "2px 2px 5px #000000",
+    },
+
+    locationMenuUpdated: {
+        fontSize: 16,
+        fontWeight: "bold",
+        color: "white",
+        textShadow: "2px 2px 5px #000000",
     },
 
     locationNav: {
@@ -135,6 +164,8 @@ const headerStyles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         padding: "2%",
+        paddingTop: "0.5%",
+        paddingBottom: "0.5%",
     },
 
     navSide: {
