@@ -118,7 +118,7 @@ function VoteButtons(props: any) {
     return (
         <View style={{flexDirection: "row", gap: "15px", alignItems: "center"}}>
             <Pressable style={voteStyles.voteButton} onPress={Upvote}>
-                <Image source={"assets/imageAssets/Icons/arrow_up_" + upVotedArrow + ".png"}
+                <Image source={"imageAssets/Icons/arrow_up_" + upVotedArrow + ".png"}
                        style={voteStyles.voteArrow}/>
             </Pressable>
 
@@ -127,7 +127,7 @@ function VoteButtons(props: any) {
             </View>
 
             <Pressable style={voteStyles.voteButton} onPress={Downvote}>
-                <Image source={"assets/imageAssets/Icons/arrow_down_" + downVotedArrow + ".png"}
+                <Image source={"imageAssets/Icons/arrow_down_" + downVotedArrow + ".png"}
                        style={voteStyles.voteArrow}/>
             </Pressable>
         </View>
