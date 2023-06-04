@@ -1,5 +1,5 @@
 import {View, StyleSheet, ScrollView} from 'react-native';
-import Location from "../shared/components/Location";
+import Location from "../shared/assets/components/Location";
 
 export default function App() {
   return (
