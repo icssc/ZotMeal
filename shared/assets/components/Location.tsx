@@ -7,6 +7,7 @@ import ColorPalette from "./ColorPalette";
 import PricingButton from "./location-info/Pricing";
 import ScheduleButton from "./location-info/Schedule";
 import location from "zotmeal-vite/components/Location";
+import FeedbackButton from "./location-info/FeedbackButton";
 
 //import json from './brandywine.json'
 
@@ -95,6 +96,7 @@ function LocationHeader(props: {locationInfo: LocationInfo}){
                     </View>}
 
                 <View style={headerStyles.navSide}>
+                    <FeedbackButton />
                     <ScheduleButton locationInfo={info}/>
                     <PricingButton locationInfo={info}/>
                     <Pressable onPress={() => Linking.openURL(locationUrl + info.restaurant)}>
