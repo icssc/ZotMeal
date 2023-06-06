@@ -1,2 +1,7 @@
 [build]
   ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF . ../shared/"
+
+[[headers]]
+  for = "/manifest.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json"
