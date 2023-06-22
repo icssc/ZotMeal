@@ -8,6 +8,7 @@ import PricingButton from "./location-info/Pricing";
 import ScheduleButton from "./location-info/Schedule";
 import location from "zotmeal-vite/components/Location";
 import FeedbackButton from "./location-info/FeedbackButton";
+import DirectionsButton from "./location-info/Directions"
 
 //import json from './brandywine.json'
 
@@ -78,8 +79,6 @@ function LocationHeader(props: {locationInfo: LocationInfo}){
     if (currMeal)
         {currMeal = currMeal.charAt(0).toUpperCase() + currMeal.slice(1)}
 
-    let locationUrl = "https://www.google.com/maps/search/uci+"
-
     return(
         <ImageBackground source={"imageAssets/" + location + ".imageset/" + location + ".jpg"}
                              style={headerStyles.locationImage}>
@@ -99,9 +98,7 @@ function LocationHeader(props: {locationInfo: LocationInfo}){
                     <FeedbackButton />
                     <ScheduleButton locationInfo={info}/>
                     <PricingButton locationInfo={info}/>
-                    <Pressable onPress={() => Linking.openURL(locationUrl + info.restaurant)}>
-                        <Image source="imageAssets/Icons/address.png" style={{height: "33px", width: "33px"}}/>
-                    </Pressable>
+                    <DirectionsButton location={info.restaurant}/>
                 </View>
             </View>
 
