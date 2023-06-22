@@ -72,11 +72,17 @@ function LocationHeader(props: {locationInfo: LocationInfo}){
     const info = props.locationInfo
     let currMeal = info.currentMeal
     let location = info.restaurant
+    let hadSuccessLoading = false
 
-    if(location)
+    // Check if there is an error loading
+    if (location) {
+        const firstStation = info.all[0].station
+        hadSuccessLoading = !firstStation.includes("Error")
         location = location.charAt(0).toUpperCase() + location.slice(1)
+    }
 
-    if (currMeal)
+    // Capitalizes current meal name
+    if (hadSuccessLoading && currMeal)
         {currMeal = currMeal.charAt(0).toUpperCase() + currMeal.slice(1)}
 
     return(
@@ -84,7 +90,9 @@ function LocationHeader(props: {locationInfo: LocationInfo}){
                              style={headerStyles.locationImage}>
 
             <View style={headerStyles.locationNav}>
-                {currMeal ?
+                {/* If it successfully loaded and has a current meal, display it
+                    Otherwise, display it as closed */}
+                {hadSuccessLoading && currMeal ?
                     <View style={headerStyles.navSide}>
                         <View style={headerStyles.statusCircleGreen}/>
                         <Text style={headerStyles.navText}>Open | {currMeal} | ${info.price[info.currentMeal]}</Text>
