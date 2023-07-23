@@ -10,7 +10,7 @@ import location from "zotmeal-vite/components/Location";
 import FeedbackButton from "./location-info/FeedbackButton";
 import DirectionsButton from "./location-info/Directions"
 
-import json from './brandywine.json'
+//import json from './brandywine.json'
 
 /*
  * Displays the API results for a given location
@@ -30,8 +30,8 @@ function Location(props: {location : string}){
     //Fetch data from API
     useEffect(() => {
         const fetchData = async (location: string) => {
-            //const response = await fetch(baseURL + location)
-            //const json = await response.json()
+            const response = await fetch(baseURL + location)
+            const json = await response.json()
             setLocationInfo(json)
         }
 
