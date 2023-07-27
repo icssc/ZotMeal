@@ -19,7 +19,7 @@ export default defineConfig({
           manifest: {
               name: 'Zotmeal',
               description: 'zotmeal',
-              theme_color: '#62B2FF',
+              theme_color: '#FBFBFB',
               icons: [
                   {
                       src: 'imageAssets/FaviconSet/android-chrome-192x192.png',
