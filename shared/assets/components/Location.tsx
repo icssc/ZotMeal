@@ -9,8 +9,12 @@ import ScheduleButton from "./location-info/Schedule";
 import location from "zotmeal-vite/components/Location";
 import FeedbackButton from "./location-info/FeedbackButton";
 import DirectionsButton from "./location-info/Directions"
+import ErrorMessage from "./location-info/ErrorMessage"
 
-//import json from './brandywine.json'
+import jsonFile from './brandywine.json'
+
+// Control whether to use json file or API data
+const useBackupJsonData = false;
 
 /*
  * Displays the API results for a given location
@@ -27,11 +31,21 @@ function Location(props: {location : string}){
 
     const baseURL = "https://zotmeal-backend.vercel.app/api?location="
 
+    let hadSuccessLoading = false
+
     //Fetch data from API
     useEffect(() => {
         const fetchData = async (location: string) => {
-            const response = await fetch(baseURL + location)
-            const json = await response.json()
+            // Fetch data or use local json file
+            let json = null
+            if (useBackupJsonData) {
+                json = jsonFile
+            }
+            else {
+                const response = await fetch(baseURL + location)
+                json = await response.json()
+            }
+
             setLocationInfo(json)
         }
 
@@ -50,20 +64,30 @@ function Location(props: {location : string}){
         locationInfo.all.forEach((station: StationInfo) => {
             stationInfo.push(<Station key={station.station} info={station}/>)
         })
+
+        // Check if there is an error loading
+        let location = locationInfo.restaurant
+        if (location) {
+            const firstStation = locationInfo.all[0].station
+            hadSuccessLoading = !firstStation.includes("Error")
+            location = location.charAt(0).toUpperCase() + location.slice(1)
+        }
     }
 
-    const hasColDiv = (props.location == "brandywine")
     //Display HTML
     return (
         <View style={styles.location}>
-            <View style={{width: hasColDiv ? "calc(100% - 4px)" : "100%"}}>
+            <View style={{width: "100%"}}>
                 <LocationHeader locationInfo={locationInfo}/>
-                <View style={styles.stationList}>
-                    <Text>{loadingMessage}</Text>
-                    {stationInfo}
-                </View>
+                { hadSuccessLoading ?
+                    <View style={styles.stationList}>
+                        <Text>{loadingMessage}</Text>
+                        {stationInfo}
+                    </View>
+                    :
+                    <ErrorMessage/>
+                }
             </View>
-            <View style={[styles.columnDivider, {width: hasColDiv ? "4px" : "0px"}]}></View>
         </View>
     )
 }
@@ -121,7 +145,7 @@ function LocationHeader(props: {locationInfo: LocationInfo}){
 // "CSS" Styling
 const styles = StyleSheet.create({
     location: {
-        flexDirection: "row",
+        display: "block",
         height: "100%"
     },
 
@@ -132,6 +156,7 @@ const styles = StyleSheet.create({
         paddingTop: 0,
         backgroundColor: ColorPalette.bgColor,
         color: "white",
+        minHeight: "100%",
     },
 
     columnDivider: {
