@@ -216,6 +216,8 @@ const modalStyles = StyleSheet.create({
         borderStyle: "solid",
         borderColor: ColorPalette.rowDivider,
         marginTop: "2%",
+        maxHeight: "65vh",
+        overflowY: "scroll",
     },
 })
 
