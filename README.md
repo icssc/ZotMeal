@@ -1,6 +1,6 @@
 # ZotMeal
 
-https://main--precious-pithivier-2c29d7.netlify.app/ 
+zotmeal.com 
 
 ## Running Locally
 
