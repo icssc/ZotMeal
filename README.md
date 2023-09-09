@@ -1,6 +1,6 @@
 # ZotMeal
 
-zotmeal.com 
+[zotmeal.com ](https://zotmeal.com/)
 
 ## Running Locally
 
