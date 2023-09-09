@@ -1,42 +1,47 @@
 import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
-import fetch from 'node-fetch';
-const fetch = require('node-fetch')
 
-const handler: Handler = async (event: HandlerEvent, context: HandlerContext) => {
-  let location_id = event.queryStringParameters.location
-  if (location_id == 'brandywine'){
-    location_id = '3314'
+const axios = require("axios");
+const handler: Handler = async (
+  event: HandlerEvent,
+  context: HandlerContext
+) => {
+  const location = event.queryStringParameters?.location;
+  let location_id: string;
+  if (location == "brandywine") {
+    location_id = "3314";
+  } else if (location == "anteatery") {
+    location_id = "3056";
   }
-  else{
-    location_id = '3056'
-  }
-  const meal = event.queryStringParameters.meal_id
-  let meal_to_period = { 'breakfast': 49, 'lunch': 106, 'dinner': 107, 'brunch': 2651 };
-  let meal_id = meal_to_period[meal]
-  const date = event.queryStringParameters.date
 
-  let apicallurl = 'https://uci.campusdish.com/api/menu/GetMenus?locationId=${location_id}&periodId=${meal_id}&date=${date}'
+  const meal = event.queryStringParameters?.meal;
+  const meal_to_period = {
+    breakfast: 49,
+    lunch: 106,
+    dinner: 107,
+    brunch: 2651,
+  };
+  const meal_id = meal_to_period[meal];
 
-  const response = await fetch(apicallurl)
+  const date = event.queryStringParameters?.date;
 
-  const {data, errors} = await response.json()
+  //  anteatery 01/14/2022 breakfast
+  //  https://uci.campusdish.com/api/menu/GetMenus?locationId=3056&date=01/14/2022&periodId=49
+  let apicallurl = `https://uci.campusdish.com/api/menu/GetMenus?locationId=${location_id}&date=${date}&periodId=${meal_id}`;
 
-  if (response.ok){
-    if ('Menu' in data){
-      return data['Menu']
-    }
-    else{
-      return {
-        statusCode: 200,
-        body: JSON.stringify({ message: "Error no menu in data" }),
-      };
+  try {
+    const response = await axios.get(apicallurl);
+    return {
+      statusCode: 200,
+      body: JSON.stringify(response),
+    };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        message: "There is no menu today",
+      }),
     };
   }
-  else{
-    const error = new Error(errors?.map(e => e.message).join('\n') ?? 'unknown')
-    return Promise.reject(error)
-  }
-}
-
+};
 
 export { handler };
