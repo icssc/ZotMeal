@@ -32,7 +32,7 @@ const handler: Handler = async (
     const response = await axios.get(apicallurl);
     return {
       statusCode: 200,
-      body: JSON.stringify(response),
+      body: JSON.stringify(response.data),
     };
   } catch (error) {
     return {
