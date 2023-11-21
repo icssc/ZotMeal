@@ -1,28 +1,18 @@
 import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
+import { DEFAULT_PRICES, NUTRITION_PROPERTIES, MEAL_TO_PERIOD, LOCATION_ID, getMealPeriods } from "../util";
 
 const axios = require("axios");
 const handler: Handler = async (
   event: HandlerEvent,
   context: HandlerContext
 ) => {
+
   const location = event.queryStringParameters?.location;
-  let location_id: string;
-  if (location == "brandywine") {
-    location_id = "3314";
-  } else if (location == "anteatery") {
-    location_id = "3056";
-  }
-
   const meal = event.queryStringParameters?.meal;
-  const meal_to_period = {
-    breakfast: 49,
-    lunch: 106,
-    dinner: 107,
-    brunch: 2651,
-  };
-  const meal_id = meal_to_period[meal];
-
   const date = event.queryStringParameters?.date;
+
+  const location_id = LOCATION_ID[location];
+  const meal_id = MEAL_TO_PERIOD[meal];
 
   //  anteatery 01/14/2022 breakfast
   //  https://uci.campusdish.com/api/menu/GetMenus?locationId=3056&date=01/14/2022&periodId=49
@@ -30,9 +20,94 @@ const handler: Handler = async (
 
   try {
     const response = await axios.get(apicallurl);
+
+    // Turn schedule data into the format of {period: {start: time, end: time}
+    const schedule = {}
+    for (const period of response.data.Menu.MenuPeriods) {
+      schedule[period.Name] = {
+        "start": getMealPeriods(period.UtcMealPeriodStartTime),
+        "end": getMealPeriods(period.UtcMealPeriodEndTime)
+      };
+    }
+    
+    
+    // stations = {stationId: stationName}
+    const stations = {}
+    // stationMenu = {station:stationName, menu:[menuItems]]}
+    const stationMenu = {}
+    for (const station of response.data.Menu.MenuStations) { 
+      stations[station.StationId] = station.Name
+      stationMenu[station.Name] = {}
+    }
+
+
+    for (const product of response.data.Menu.MenuProducts) {
+      const detail = product.Product 
+
+      const stationName = stations[product.StationId]
+      const productName = detail.MarketingName
+      const categoryName = detail.Categories[0].DisplayName
+      const description = detail.ShortDescription
+
+      // nutrition = {nutritionProperty: value}
+      const nutrition = {
+        "isEatWell": false,
+        "isPlantForward": false,
+        "isWholeGrain": false
+      }
+      for (const property of NUTRITION_PROPERTIES) {
+        nutrition[property] = detail[property]
+      }
+
+      for (const icon of detail.DietaryInformation) {
+        if (icon.Name == "Plant Forward"){
+          nutrition["isPlantForward"] = true
+        }
+        else if (icon.Name == "Eat Well"){
+          nutrition["isEatWell"] = true
+        }
+        else if (icon.Name == "Made With Whole Grains"){
+          nutrition["isWholeGrain"] = true
+        }
+      }
+
+      const menuItem = {
+        "name": productName,
+        "description": description,
+        "nutrition": nutrition 
+       
+      }
+      if (!(categoryName in stationMenu[stationName])) {
+        stationMenu[stationName][categoryName] = []
+      }
+      stationMenu[stationName][categoryName].push(menuItem)
+     }
+
+    //Turn all data into the format of [stationMenu]
+    const all = []
+
+    for (const stationName in stationMenu) {
+      const category_item_list = []
+      for (const category in stationMenu[stationName]) {
+        category_item_list.push({'category':category,'items':stationMenu[stationName][category]})
+    }
+      all.push({
+        "station": stationName,
+        "menu": category_item_list
+      })
+    }
+    
+
+    // build the data we want to return to the client
+    const data = {
+      "schedule": schedule,
+      "price": DEFAULT_PRICES,
+      "all": all
+    };
+
     return {
       statusCode: 200,
-      body: JSON.stringify(response.data),
+      body: JSON.stringify(data,null,4),
     };
   } catch (error) {
     return {
