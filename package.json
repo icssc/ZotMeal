@@ -17,14 +17,12 @@
   },
   "dependencies": {
     "module-alias": "^2.2.2",
-    "react": "^17.0.2",
-    "react-native": "~0.68.0",
-    "react-swipeable-views": "^0.14.0"
+    "react": "^18.0.27",
+    "react-native": "^0.72.0"
   },
   "devDependencies": {
-    "@types/react": "^17.0.0",
+    "@types/react": "^18.0.27",
     "@types/react-native": "^0.72.2",
-    "@types/react-swipeable-views": "^0.13.1",
     "netlify-cli": "^14.3.0"
   }
 }
