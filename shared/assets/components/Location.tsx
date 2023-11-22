@@ -112,7 +112,7 @@ function LocationHeader(props: {locationInfo: LocationInfo}){
 
 
     // Checks if the title needs to be shifted (Anteatery with arrows)
-    anteateryShift = (location == "anteatery" && window.matchMedia("all and (max-width:850px)").matches)
+    anteateryShift = (location == "Anteatery" && window.matchMedia("all and (max-width:850px)").matches)
 
     return(
         <ImageBackground source={"imageAssets/" + location + ".imageset/" + location + ".jpg"}
@@ -139,7 +139,7 @@ function LocationHeader(props: {locationInfo: LocationInfo}){
                 </View>
             </View>
 
-            <View style={[headerStyles.locationTitleDiv, {paddingLeft: (anteateryShift ? "5%" : "10%")}]}>
+            <View style={[headerStyles.locationTitleDiv, {paddingLeft: (anteateryShift ? "10%" : "5%")}]}>
                 <Text style={headerStyles.locationTitle}>{info.restaurant}</Text>
                 <Text style={headerStyles.locationMenuUpdated}>Menu Updated: {info.date}</Text>
             </View>
