@@ -1,8 +1,5 @@
 import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
 import {
-  DEFAULT_PRICES,
-  NUTRITION_PROPERTIES,
-  MEAL_TO_PERIOD,
   LOCATION_ID,
   getMealPeriods,
 } from "../util";
