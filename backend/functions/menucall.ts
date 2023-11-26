@@ -1,5 +1,5 @@
 import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
-import { DEFAULT_PRICES, NUTRITION_PROPERTIES, MEAL_TO_PERIOD, LOCATION_ID } from "../util";
+import { NUTRITION_PROPERTIES, MEAL_TO_PERIOD, LOCATION_ID } from "../util";
 
 const axios = require("axios");
 const handler: Handler = async (
@@ -92,7 +92,6 @@ const handler: Handler = async (
 
     // build the data we want to return to the client
     const data = {
-      "price": DEFAULT_PRICES,
       "all": all
     };
 
