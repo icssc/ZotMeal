@@ -19,7 +19,7 @@ const handler: Handler = async (
     return {
       statusCode: 500,
       body: JSON.stringify({
-        message: "There is no menu today",
+        message: "There is no pricing today",
       }),
     };
   }
