@@ -21,14 +21,6 @@ const handler: Handler = async (
   try {
     const response = await axios.get(apicallurl);
 
-    // Turn schedule data into the format of {period: {start: time, end: time}
-    const schedule = {}
-    for (const period of response.data.Menu.MenuPeriods) {
-      schedule[period.Name] = {
-        "start": getMealPeriods(period.UtcMealPeriodStartTime),
-        "end": getMealPeriods(period.UtcMealPeriodEndTime)
-      };
-    }
     
     
     // stations = {stationId: stationName}
@@ -100,7 +92,6 @@ const handler: Handler = async (
 
     // build the data we want to return to the client
     const data = {
-      "schedule": schedule,
       "price": DEFAULT_PRICES,
       "all": all
     };
