@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "web": "npm --prefix ./zotmeal-vite run dev",
-    "mobile": "npm --prefix ./app run tunnel"
+    "mobile": "npm --prefix ./app run tunnel",
+    "netlify": "npm --prefix ./zotmeal-vite run netlify"
   },
   "workspaces": {
     "packages": [

@@ -55,7 +55,7 @@ function MainSwipeView(props: {children: Element[], disabled: boolean, mobileVie
      });
 
     return (
-        <>
+        <View style={{overflow: "hidden"}}>
             {props.disabled ? null : 
                 <View style={styles.swipeButtonCard}>
                     <Pressable style={[styles.swipeButton, {opacity: (slideIndex == 1 ? "100%" : "0")}]} onPress={swipeLeft}>
@@ -74,7 +74,7 @@ function MainSwipeView(props: {children: Element[], disabled: boolean, mobileVie
                     </View>)
                 })}
             </View>
-        </>
+        </View>
     )
 }
 
@@ -95,8 +95,8 @@ const styles = StyleSheet.create({
     },
 
     swipeButton: {
-        width: "100px",
-        height: "100px",
+        width: "70px",
+        height: "70px",
         transition: "all 0.3s"
     },
 
