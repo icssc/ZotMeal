@@ -8,7 +8,7 @@ function config(api) {
 
   return {
     presets: ["babel-preset-expo"],
-    plugins: ["nativewind/babel"],
+    plugins: ["nativewind/babel", 'expo-router/babel'],
   };
 }
 
