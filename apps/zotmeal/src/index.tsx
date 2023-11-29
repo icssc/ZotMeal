@@ -1,12 +1,4 @@
-import { registerRootComponent } from "expo";
+import "expo-router/entry";
 import { NativeWindStyleSheet } from "nativewind";
-import { App } from "./App";
 
-NativeWindStyleSheet.setOutput({
-  default: "native",
-});
-
-// registerRootComponent calls AppRegistry.registerComponent('main', () => App);
-// It also ensures that whether you load the app in Expo Go or in a native build,
-// the environment is set up appropriately
-registerRootComponent(App);
+NativeWindStyleSheet.setOutput({ default: "native" });
