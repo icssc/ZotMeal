@@ -25,8 +25,6 @@ importers:
         specifier: ^7.20.0
         version: 7.23.5
 
-  apps/shared: {}
-
   apps/zotmeal:
     dependencies:
       '@babel/runtime':
