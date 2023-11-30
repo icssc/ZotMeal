@@ -1,15 +1,18 @@
-import { Stack } from "expo-router";
+import { View } from "react-native";
+import { Slot } from "expo-router";
+import { Header } from "../components/header";
+import { Footer } from "../components/footer";
 
-const RootLayout = () => {
+export default function RootLayout() {
   return (
-    <Stack
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: "#f472b6",
-        },
-      }}
-    />
-  );
-};
+    <View className="h-full flex">
+      <Header />
 
-export default RootLayout;
+      <View className="flex-1">
+        <Slot />
+      </View>
+
+      <Footer />
+    </View>
+  );
+}
