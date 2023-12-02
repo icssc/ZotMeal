@@ -4,7 +4,8 @@
   "private": true,
   "main": "src/index.tsx",
   "scripts": {
-    "dev": "expo start --web"
+    "dev": "expo start --web",
+    "netlify": "netlify dev"
   },
   "dependencies": {
     "@babel/runtime": "^7.23.2",
