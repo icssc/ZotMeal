@@ -33,6 +33,7 @@ export default function Home() {
                               {menu.category} ({menu.items.length})
                             </Text>
 
+                            {/* TODO: create separate components for menu items. Then add a max height and `expand` button */}
                             <View className="flex gap-2 p-2">
                               <View className="flex-row justify-between gap-3">
                                 <Text className={`${textColor} text-lg font-semibold`}>Dish</Text>
