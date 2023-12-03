@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import {
   Button,
   Image,
@@ -16,6 +16,7 @@ import type { CarouselRenderItemInfo } from "react-native-reanimated-carousel/li
 import { useRestaurantStore } from "../../stores/restaurant";
 import { useThemeStore } from "../../stores/theme";
 import { AntDesign, Feather, FontAwesome } from '@expo/vector-icons';
+import { data } from "../../lib/data";
 
 interface BannerInfo {
   name: Restaurant;
@@ -33,10 +34,14 @@ const banners: BannerInfo[] = [
   },
 ];
 
+const dateFormatter = new Intl.DateTimeFormat("en-US")
+
 export function Banner() {
   const [restaurant, setRestaurant] = useRestaurantStore((store) => [store.restaurant, store.setRestaurant]);
 
   const width = useThemeStore((store) => store.width);
+
+  const textColor = useThemeStore(store => store.textColor)
 
   const ref = useRef<ICarouselInstance | null>(null);
 
@@ -78,6 +83,10 @@ export function Banner() {
     [],
   );
 
+  const currentData = useMemo(() => {
+    return data[restaurant]
+  }, [restaurant])
+
   return (
     <View className="relative">
       <View className="w-full h-12 p-2 bg-black/70 absolute z-10 flex-row justify-between items-center">
@@ -107,7 +116,16 @@ export function Banner() {
           ref={ref}
           renderItem={renderItem}
         />
+        <View className="absolute left-0 bottom-0 p-2" pointerEvents="none">
+          <Text className={`text-4xl font-bold ${textColor}`}>{restaurant}</Text>
+
+          <Text className={`${textColor} text-lg font-semibold`}>
+            <Text>Menu Updated: </Text>
+            <Text>{dateFormatter.format(new Date(currentData.refreshTime))}</Text>
+          </Text>
+        </View>
       </View>
+
 
       {IS_WEB && (
         <View className="p-2 my-2 flex-row self-end gap-2">
