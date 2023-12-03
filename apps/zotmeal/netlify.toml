@@ -1,5 +1,7 @@
 [build]
   functions = "../backend/functions"
+  command = "npx expo export -p web"
+  publish = "apps/zotmeal/dist"
 
 [[redirects]]
   from = "/api/*"
