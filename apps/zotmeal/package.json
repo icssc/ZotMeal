@@ -5,7 +5,8 @@
   "main": "src/index.tsx",
   "scripts": {
     "dev": "expo start --web",
-    "netlify": "netlify dev"
+    "netlify": "netlify dev",
+    "build": "expo build:web"
   },
   "dependencies": {
     "@babel/runtime": "^7.23.2",
