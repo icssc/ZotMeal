@@ -1,11 +1,24 @@
 import { useCallback, useMemo, useRef } from "react";
-import { Button, Dimensions, Image, Platform, View } from "react-native";
-import { useSharedValue } from "react-native-reanimated";
-import Carousel, { ICarouselInstance } from "react-native-reanimated-carousel";
-import { isWeb } from "../lib/constants";
-import { CarouselRenderItemInfo } from "react-native-reanimated-carousel/lib/typescript/types";
+import {
+  Button,
+  Dimensions,
+  Image,
+  type ImageSourcePropType,
+  View,
+} from "react-native";
+import Carousel, {
+  type ICarouselInstance,
+} from "react-native-reanimated-carousel";
+import { IS_WEB, type Restaurant } from "../lib/constants";
+import type { CarouselRenderItemInfo } from "react-native-reanimated-carousel/lib/typescript/types";
+import { useRestaurantStore } from "../stores/restaurant";
 
-const banners = [
+interface Banner {
+  name: Restaurant;
+  source: ImageSourcePropType;
+}
+
+const banners: Banner[] = [
   {
     name: "Anteatery",
     source: require("../assets/Anteatery.jpg"),
@@ -17,19 +30,22 @@ const banners = [
 ];
 
 export function Header() {
-  const ref = useRef<ICarouselInstance>();
-  const progressValue = useSharedValue(0);
+  const setRestaurant = useRestaurantStore((store) => store.setRestaurant);
+
+  const ref = useRef<ICarouselInstance | null>(null);
 
   const baseOptions = useMemo(() => {
     return {
       vertical: false,
-      width: Platform.OS === "web" ? 700 : Dimensions.get("window").width,
+      width: Dimensions.get("window").width,
       height: 200,
     } as const;
   }, []);
 
   const createGoto = useCallback((index: number) => {
-    return () => ref.current.scrollTo({ index, animated: true });
+    return () => {
+      ref.current?.scrollTo({ index, animated: true });
+    };
   }, []);
 
   const renderItem = useCallback(
@@ -44,14 +60,19 @@ export function Header() {
   );
 
   const onProgressChange = useCallback(
-    (_: number, absoluteProgress: number) => {
-      progressValue.value = absoluteProgress;
+    (_animationProgress: number, absoluteProgress: number) => {
+      const index = Math.round(absoluteProgress);
+      const currentBanner = banners[index];
+
+      if (currentBanner != null) {
+        setRestaurant(currentBanner.name);
+      }
     },
     [],
   );
 
   return (
-    <View className="mx-auto justify-center items-center max-w-4xl">
+    <View className="justify-center items-center">
       <Carousel
         {...baseOptions}
         onProgressChange={onProgressChange}
@@ -59,11 +80,11 @@ export function Header() {
         ref={ref}
         renderItem={renderItem}
       />
-      {isWeb && (
+      {IS_WEB && (
         <View className="flex-row self-end gap-2 my-1">
           {banners.map((banner, index) => {
             return (
-              <View key={banner.source}>
+              <View key={banner.source.toString()}>
                 <Button title={banner.name} onPress={createGoto(index)} />
               </View>
             );
