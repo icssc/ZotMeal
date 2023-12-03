@@ -44,3 +44,6 @@ A summary of the libraries we use are listed below.
 4. View the local website at http://localhost:19006 and/or with the [Expo Go mobile app](https://expo.dev/client).
    As you make changes to the Expo application, those changes will be automatically 
    reflected on the local website as well as the mobile app.
+
+5. Start the development server for the backend.
+   `cd apps/zotmeal && pnpm run netlify`
