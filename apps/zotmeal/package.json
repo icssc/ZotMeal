@@ -4,7 +4,6 @@
   "private": true,
   "main": "src/index.tsx",
   "scripts": {
-    "build": "npx expo export -p web",
     "dev": "expo start --web",
     "netlify": "netlify dev"
   },
@@ -42,7 +41,6 @@
     "@types/babel__core": "^7.20.0",
     "@types/react": "~18.2.14",
     "@types/react-native-vector-icons": "^6.4.17",
-    "netlify-cli": "^15.1.0",
     "tailwindcss": "3.3.2",
     "typescript": "^5.1.3"
   }
