@@ -10,7 +10,6 @@ export default function RootLayout() {
     <View className={`h-full flex ${bgColor}`}>
       <SafeAreaView className="h-full flex">
         <Header />
-
         <View className="flex-1">
           <Slot />
         </View>
