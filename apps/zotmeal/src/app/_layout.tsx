@@ -1,24 +1,14 @@
-import { Appearance, SafeAreaView, View } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import { Slot } from "expo-router";
 import { Header } from "../components/header";
 import { Footer } from "../components/footer";
-import { useEffect, useState } from "react";
+import { useThemeStore } from "../stores/theme";
 
 export default function RootLayout() {
-  const [bg, setBg] = useState(
-    Appearance.getColorScheme() === "light" ? "bg-white" : "bg-black",
-  );
-
-  useEffect(() => {
-    const appearanceListener: Appearance.AppearanceListener = (preferences) => {
-      setBg(preferences.colorScheme === "light" ? "bg-white" : "bg-black");
-    };
-
-    Appearance.addChangeListener(appearanceListener);
-  }, []);
+  const bgColor = useThemeStore(store => store.bgColor)
 
   return (
-    <View className={`h-full flex ${bg}`}>
+    <View className={`h-full flex ${bgColor}`}>
       <SafeAreaView className="h-full flex">
         <Header />
 

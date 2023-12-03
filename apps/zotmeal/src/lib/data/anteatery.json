@@ -25,166 +25,57 @@
   },
   "all": [
     {
-      "station": "Honeycakes/Bakery",
-      "menu": [
-        {
-          "category": "Breads",
-          "items": [
-            {
-              "name": "Donut Bites",
-              "description": "A variety of fresh baked donuts coated with cocoa, cinnamon sugar or powdered sugar",
-              "nutrition": {
-                "isVegan": false,
-                "isVegetarian": true,
-                "servingSize": "4",
-                "servingUnit": "each",
-                "calories": "210",
-                "caloriesFromFat": "110",
-                "totalFat": "12",
-                "transFat": "0",
-                "cholesterol": "10",
-                "sodium": "300",
-                "totalCarbohydrates": "24",
-                "dietaryFiber": "less than 1",
-                "sugars": "10",
-                "protein": "2",
-                "vitaminA": null,
-                "vitaminC": "0.01",
-                "calcium": "7.92",
-                "iron": "1.20",
-                "saturatedFat": "6",
-                "isEatWell": false,
-                "isPlantForward": false,
-                "isWholeGrain": false
-              }
-            },
-            {
-              "name": "Whole Grain Blueberry Mini Muffin",
-              "description": "Freshly baked miniature whole grain muffin with blueberries",
-              "nutrition": {
-                "isVegan": false,
-                "isVegetarian": true,
-                "servingSize": "1",
-                "servingUnit": "muffin",
-                "calories": "80",
-                "caloriesFromFat": "20",
-                "totalFat": "2",
-                "transFat": "0",
-                "cholesterol": "0",
-                "sodium": "115",
-                "totalCarbohydrates": "14",
-                "dietaryFiber": "less than 1",
-                "sugars": "7",
-                "protein": "1",
-                "vitaminA": null,
-                "vitaminC": "0.09",
-                "calcium": "0.60",
-                "iron": "0.18",
-                "saturatedFat": "1",
-                "isEatWell": false,
-                "isPlantForward": false,
-                "isWholeGrain": true
-              }
-            }
-          ]
-        },
-        {
-          "category": "Desserts",
-          "items": [
-            {
-              "name": "Cherry Crumb Cupcake",
-              "description": "Freshly baked individual cherry coffee cake with streusel crumb topping and powdered sugar",
-              "nutrition": {
-                "isVegan": false,
-                "isVegetarian": true,
-                "servingSize": "1",
-                "servingUnit": "each",
-                "calories": "150",
-                "caloriesFromFat": "40",
-                "totalFat": "4",
-                "transFat": "0",
-                "cholesterol": "5",
-                "sodium": "160",
-                "totalCarbohydrates": "27",
-                "dietaryFiber": "less than 1",
-                "sugars": "16",
-                "protein": "1",
-                "vitaminA": null,
-                "vitaminC": "2.30",
-                "calcium": "1.03",
-                "iron": "0.66",
-                "saturatedFat": "2",
-                "isEatWell": false,
-                "isPlantForward": false,
-                "isWholeGrain": false
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "station": "Soups",
-      "menu": [
-        {
-          "category": "Cereals",
-          "items": [
-            {
-              "name": "Old Fashioned Oatmeal",
-              "description": "Homestyle oatmeal cereal",
-              "nutrition": {
-                "isVegan": true,
-                "isVegetarian": true,
-                "servingSize": "6",
-                "servingUnit": "fl oz",
-                "calories": "110",
-                "caloriesFromFat": "20",
-                "totalFat": "2",
-                "transFat": "0",
-                "cholesterol": "0",
-                "sodium": "5",
-                "totalCarbohydrates": "20",
-                "dietaryFiber": "3",
-                "sugars": "0",
-                "protein": "4",
-                "vitaminA": null,
-                "vitaminC": "0.00",
-                "calcium": "11.01",
-                "iron": "1.77",
-                "saturatedFat": "0",
-                "isEatWell": false,
-                "isPlantForward": false,
-                "isWholeGrain": true
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
       "station": "The Farm Stand / Salad Bar",
       "menu": [
         {
           "category": "Condiments",
           "items": [
             {
-              "name": "Strawberry Cream Cheese",
-              "description": "Light cream cheese blended with strawberry preserves",
+              "name": "Balsamic Vinaigrette",
+              "description": "Tangy balsamic vinaigrette dressing",
               "nutrition": {
-                "isVegan": false,
+                "isVegan": true,
                 "isVegetarian": true,
                 "servingSize": "2",
                 "servingUnit": "tablespoons",
                 "calories": "60",
-                "caloriesFromFat": "30",
-                "totalFat": "3.5",
+                "caloriesFromFat": "45",
+                "totalFat": "5",
                 "transFat": "0",
-                "cholesterol": "15",
-                "sodium": "80",
-                "totalCarbohydrates": "6",
+                "cholesterol": "0",
+                "sodium": "200",
+                "totalCarbohydrates": "4",
                 "dietaryFiber": "0",
-                "sugars": "5",
-                "protein": "2",
+                "sugars": "4",
+                "protein": "0",
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": "0.5",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrains": false
+              }
+            },
+            {
+              "name": "Creamy Caesar Dressing",
+              "description": "Creamy Caesar dressing",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": false,
+                "servingSize": "2",
+                "servingUnit": "tablespoons",
+                "calories": "140",
+                "caloriesFromFat": "140",
+                "totalFat": "15",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "260",
+                "totalCarbohydrates": "1",
+                "dietaryFiber": "0",
+                "sugars": "less than 1",
+                "protein": "1",
                 "vitaminA": null,
                 "vitaminC": null,
                 "calcium": null,
@@ -192,35 +83,63 @@
                 "saturatedFat": "2.5",
                 "isEatWell": false,
                 "isPlantForward": false,
-                "isWholeGrain": false
+                "isWholeGrains": false
               }
             },
             {
-              "name": "Whipped Light Cream Cheese",
-              "description": "Whipped Light Cream Cheese",
+              "name": "Lite Italian Dressing",
+              "description": "Lite Italian salad dressing",
+              "nutrition": {
+                "isVegan": true,
+                "isVegetarian": true,
+                "servingSize": "2",
+                "servingUnit": "tablespoons",
+                "calories": "40",
+                "caloriesFromFat": "30",
+                "totalFat": "3.5",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "260",
+                "totalCarbohydrates": "2",
+                "dietaryFiber": "0",
+                "sugars": "2",
+                "protein": "0",
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": "0.5",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrains": false
+              }
+            },
+            {
+              "name": "Ranch Dressing",
+              "description": "Homestyle creamy ranch salad dressing",
               "nutrition": {
                 "isVegan": false,
                 "isVegetarian": true,
                 "servingSize": "2",
                 "servingUnit": "tablespoons",
-                "calories": "50",
-                "caloriesFromFat": "35",
-                "totalFat": "4",
+                "calories": "100",
+                "caloriesFromFat": "90",
+                "totalFat": "10",
                 "transFat": "0",
-                "cholesterol": "15",
-                "sodium": "95",
-                "totalCarbohydrates": "2",
+                "cholesterol": "10",
+                "sodium": "260",
+                "totalCarbohydrates": "1",
                 "dietaryFiber": "0",
-                "sugars": "1",
-                "protein": "2",
+                "sugars": "less than 1",
+                "protein": "1",
                 "vitaminA": null,
                 "vitaminC": null,
                 "calcium": null,
                 "iron": null,
-                "saturatedFat": "2.5",
+                "saturatedFat": "1.5",
                 "isEatWell": false,
                 "isPlantForward": false,
-                "isWholeGrain": false
+                "isWholeGrains": false
               }
             }
           ]
@@ -229,31 +148,31 @@
           "category": "Grains",
           "items": [
             {
-              "name": "Honey Granola",
-              "description": "Crunchy cinnamon-spiced, honey-coated oats",
+              "name": "Croutons",
+              "description": "Homestyle seasoned croutons",
               "nutrition": {
                 "isVegan": false,
-                "isVegetarian": true,
+                "isVegetarian": false,
                 "servingSize": "1",
                 "servingUnit": "/4 cup",
-                "calories": "110",
-                "caloriesFromFat": "25",
-                "totalFat": "2.5",
+                "calories": "60",
+                "caloriesFromFat": "20",
+                "totalFat": "2",
                 "transFat": "0",
                 "cholesterol": "0",
-                "sodium": "15",
-                "totalCarbohydrates": "22",
-                "dietaryFiber": "2",
-                "sugars": "9",
-                "protein": "3",
+                "sodium": "170",
+                "totalCarbohydrates": "9",
+                "dietaryFiber": "0",
+                "sugars": "less than 1",
+                "protein": "1",
                 "vitaminA": null,
                 "vitaminC": null,
                 "calcium": null,
                 "iron": null,
-                "saturatedFat": "1",
+                "saturatedFat": "0",
                 "isEatWell": false,
                 "isPlantForward": false,
-                "isWholeGrain": false
+                "isWholeGrains": false
               }
             }
           ]
@@ -262,87 +181,59 @@
           "category": "Protein",
           "items": [
             {
-              "name": "Cottage Cheese",
-              "description": "Creamy cottage cheese",
+              "name": "Shredded Cheddar Cheese",
+              "description": "Shredded Cheddar cheese",
               "nutrition": {
                 "isVegan": false,
                 "isVegetarian": true,
                 "servingSize": "1",
                 "servingUnit": "/4 cup",
-                "calories": "45",
-                "caloriesFromFat": "5",
-                "totalFat": "0.5",
+                "calories": "110",
+                "caloriesFromFat": "80",
+                "totalFat": "9",
                 "transFat": "0",
-                "cholesterol": "less than 5",
-                "sodium": "240",
-                "totalCarbohydrates": "3",
+                "cholesterol": "30",
+                "sodium": "180",
+                "totalCarbohydrates": "0",
                 "dietaryFiber": "0",
-                "sugars": "2",
+                "sugars": "0",
                 "protein": "7",
                 "vitaminA": null,
                 "vitaminC": null,
                 "calcium": null,
                 "iron": null,
-                "saturatedFat": "0",
+                "saturatedFat": "6",
                 "isEatWell": false,
                 "isPlantForward": false,
-                "isWholeGrain": false
+                "isWholeGrains": false
               }
             },
             {
-              "name": "Hard-Cooked Egg",
-              "description": "Peeled hard-cooked egg",
+              "name": "Sunflower Seeds",
+              "description": "Sunflower seeds",
               "nutrition": {
-                "isVegan": false,
+                "isVegan": true,
                 "isVegetarian": true,
-                "servingSize": "1",
-                "servingUnit": "each",
-                "calories": "80",
-                "caloriesFromFat": "50",
-                "totalFat": "5",
+                "servingSize": "2",
+                "servingUnit": "tablespoons",
+                "calories": "100",
+                "caloriesFromFat": "80",
+                "totalFat": "9",
                 "transFat": "0",
-                "cholesterol": "185",
-                "sodium": "70",
-                "totalCarbohydrates": "less than 1",
-                "dietaryFiber": "0",
-                "sugars": "less than 1",
-                "protein": "6",
-                "vitaminA": null,
-                "vitaminC": "0.00",
-                "calcium": "25.10",
-                "iron": "0.60",
-                "saturatedFat": "1.5",
-                "isEatWell": false,
-                "isPlantForward": false,
-                "isWholeGrain": false
-              }
-            },
-            {
-              "name": "Nonfat Strawberry Yogurt",
-              "description": "Creamy nonfat strawberry yogurt",
-              "nutrition": {
-                "isVegan": false,
-                "isVegetarian": false,
-                "servingSize": "1",
-                "servingUnit": "/4 cup",
-                "calories": "60",
-                "caloriesFromFat": "0",
-                "totalFat": "0",
-                "transFat": "0",
-                "cholesterol": "less than 5",
-                "sodium": "30",
-                "totalCarbohydrates": "12",
-                "dietaryFiber": "0",
-                "sugars": "9",
-                "protein": "2",
+                "cholesterol": "0",
+                "sodium": "0",
+                "totalCarbohydrates": "4",
+                "dietaryFiber": "2",
+                "sugars": "0",
+                "protein": "3",
                 "vitaminA": null,
                 "vitaminC": null,
                 "calcium": null,
                 "iron": null,
-                "saturatedFat": "0",
+                "saturatedFat": "1",
                 "isEatWell": false,
                 "isPlantForward": false,
-                "isWholeGrain": false
+                "isWholeGrains": false
               }
             }
           ]
@@ -351,8 +242,204 @@
           "category": "Salads",
           "items": [
             {
-              "name": "Orange Segments",
-              "description": "Orange segments",
+              "name": "Black Olives",
+              "description": "Sliced pitted black olives",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "/4 cup",
+                "calories": "60",
+                "caloriesFromFat": "50",
+                "totalFat": "5",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "250",
+                "totalCarbohydrates": "2",
+                "dietaryFiber": "1",
+                "sugars": "0",
+                "protein": "1",
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": "0.5",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrains": false
+              }
+            },
+            {
+              "name": "Broccoli Florets",
+              "description": "Fresh broccoli florets",
+              "nutrition": {
+                "isVegan": true,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "/2 cup",
+                "calories": "15",
+                "caloriesFromFat": "0",
+                "totalFat": "0",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "15",
+                "totalCarbohydrates": "3",
+                "dietaryFiber": "1",
+                "sugars": "less than 1",
+                "protein": "1",
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": "0",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrains": false
+              }
+            },
+            {
+              "name": "Cantaloupe",
+              "description": "Cubed fresh cantaloupe",
+              "nutrition": {
+                "isVegan": true,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "/2 cup",
+                "calories": "25",
+                "caloriesFromFat": "0",
+                "totalFat": "0",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "10",
+                "totalCarbohydrates": "6",
+                "dietaryFiber": "less than 1",
+                "sugars": "6",
+                "protein": "1",
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": "0",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrains": false
+              }
+            },
+            {
+              "name": "Cucumbers",
+              "description": "Sliced fresh cucumbers",
+              "nutrition": {
+                "isVegan": true,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "/2 cup",
+                "calories": "10",
+                "caloriesFromFat": "0",
+                "totalFat": "0",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "0",
+                "totalCarbohydrates": "3",
+                "dietaryFiber": "0",
+                "sugars": "1",
+                "protein": "0",
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": "0",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrains": false
+              }
+            },
+            {
+              "name": "Garbanzo Beans",
+              "description": "Garbanzo beans",
+              "nutrition": {
+                "isVegan": true,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "/4 cup",
+                "calories": "60",
+                "caloriesFromFat": "10",
+                "totalFat": "1",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "45",
+                "totalCarbohydrates": "8",
+                "dietaryFiber": "3",
+                "sugars": "0",
+                "protein": "3",
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": "0",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrains": false
+              }
+            },
+            {
+              "name": "Grape Tomatoes",
+              "description": "Fresh grape tomatoes",
+              "nutrition": {
+                "isVegan": true,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "/2 cup",
+                "calories": "15",
+                "caloriesFromFat": "0",
+                "totalFat": "0",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "0",
+                "totalCarbohydrates": "3",
+                "dietaryFiber": "1",
+                "sugars": "2",
+                "protein": "1",
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": "0",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrains": false
+              }
+            },
+            {
+              "name": "Honeydew Melon",
+              "description": "Cubed honeydew melon",
+              "nutrition": {
+                "isVegan": true,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "/2 cup",
+                "calories": "25",
+                "caloriesFromFat": "0",
+                "totalFat": "0",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "15",
+                "totalCarbohydrates": "6",
+                "dietaryFiber": "less than 1",
+                "sugars": "6",
+                "protein": "0",
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": "0",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrains": false
+              }
+            },
+            {
+              "name": "Pineapple Slices",
+              "description": "Sliced fresh pineapple",
               "nutrition": {
                 "isVegan": true,
                 "isVegetarian": true,
@@ -375,7 +462,462 @@
                 "saturatedFat": null,
                 "isEatWell": false,
                 "isPlantForward": false,
-                "isWholeGrain": false
+                "isWholeGrains": false
+              }
+            },
+            {
+              "name": "Red Grapes",
+              "description": "Fresh red seedless grapes",
+              "nutrition": {
+                "isVegan": true,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "/4 cup",
+                "calories": "30",
+                "caloriesFromFat": "0",
+                "totalFat": "0",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "0",
+                "totalCarbohydrates": "8",
+                "dietaryFiber": "0",
+                "sugars": "7",
+                "protein": "0",
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": "0",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrains": false
+              }
+            },
+            {
+              "name": "Romaine Lettuce",
+              "description": "Chopped romaine lettuce",
+              "nutrition": {
+                "isVegan": true,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "cup",
+                "calories": "5",
+                "caloriesFromFat": "0",
+                "totalFat": "0",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "0",
+                "totalCarbohydrates": "1",
+                "dietaryFiber": "less than 1",
+                "sugars": "less than 1",
+                "protein": "1",
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": "0",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrains": false
+              }
+            },
+            {
+              "name": "Shredded Carrots",
+              "description": "Shredded fresh carrots",
+              "nutrition": {
+                "isVegan": true,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "/4 cup",
+                "calories": "15",
+                "caloriesFromFat": "0",
+                "totalFat": "0",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "25",
+                "totalCarbohydrates": "3",
+                "dietaryFiber": "less than 1",
+                "sugars": "2",
+                "protein": "0",
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": "0",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrains": false
+              }
+            },
+            {
+              "name": "Sliced Mixed Bell Peppers",
+              "description": "Sliced green and red bell peppers",
+              "nutrition": {
+                "isVegan": true,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "/2 cup",
+                "calories": "15",
+                "caloriesFromFat": "0",
+                "totalFat": "0",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "0",
+                "totalCarbohydrates": "3",
+                "dietaryFiber": "1",
+                "sugars": "2",
+                "protein": "1",
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": "0",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrains": false
+              }
+            },
+            {
+              "name": "Sliced Red Onions",
+              "description": "Thinly sliced red onions",
+              "nutrition": {
+                "isVegan": true,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "/4 cup",
+                "calories": "10",
+                "caloriesFromFat": "0",
+                "totalFat": "0",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "0",
+                "totalCarbohydrates": "2",
+                "dietaryFiber": "0",
+                "sugars": "less than 1",
+                "protein": "0",
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": "0",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrains": false
+              }
+            },
+            {
+              "name": "Spring Salad Mix",
+              "description": "Fresh spring lettuce mix",
+              "nutrition": {
+                "isVegan": true,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "cup",
+                "calories": "0",
+                "caloriesFromFat": "0",
+                "totalFat": "0",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "10",
+                "totalCarbohydrates": "less than 1",
+                "dietaryFiber": "0",
+                "sugars": "0",
+                "protein": "0",
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": "0",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrains": false
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "station": "Grubb / Mainline",
+      "menu": [
+        {
+          "category": "Entrées",
+          "items": [
+            {
+              "name": "Salisbury Steak & Mushroom Sauce",
+              "description": "Seasoned ground beef patty served with a savory mushroom-herb gravy",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": false,
+                "servingSize": "1",
+                "servingUnit": "serving",
+                "calories": "300",
+                "caloriesFromFat": "150",
+                "totalFat": "17",
+                "transFat": "0.5",
+                "cholesterol": "65",
+                "sodium": "400",
+                "totalCarbohydrates": "14",
+                "dietaryFiber": "1",
+                "sugars": "2",
+                "protein": "22",
+                "vitaminA": null,
+                "vitaminC": "3.09",
+                "calcium": "64.64",
+                "iron": "2.94",
+                "saturatedFat": "6",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrains": false
+              }
+            },
+            {
+              "name": "Vegetable Lasagna",
+              "description": "Lasagna layered with spinach, broccoli, shoestring carrots, a 5 cheese blend and golden breadcrumbs",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "serving",
+                "calories": "280",
+                "caloriesFromFat": "100",
+                "totalFat": "11",
+                "transFat": "0",
+                "cholesterol": "20",
+                "sodium": "940",
+                "totalCarbohydrates": "39",
+                "dietaryFiber": "3",
+                "sugars": "7",
+                "protein": "14",
+                "vitaminA": null,
+                "vitaminC": "0.00",
+                "calcium": "291.34",
+                "iron": "1.74",
+                "saturatedFat": "4.5",
+                "isEatWell": false,
+                "isPlantForward": true,
+                "isWholeGrains": false
+              }
+            }
+          ]
+        },
+        {
+          "category": "Sides",
+          "items": [
+            {
+              "name": "Cauliflower Mash",
+              "description": "Smooth and creamy spiced cauliflower puree with soy milk",
+              "nutrition": {
+                "isVegan": true,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "/2 cup",
+                "calories": "90",
+                "caloriesFromFat": "70",
+                "totalFat": "8",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "160",
+                "totalCarbohydrates": "5",
+                "dietaryFiber": "3",
+                "sugars": "3",
+                "protein": "3",
+                "vitaminA": null,
+                "vitaminC": "52.32",
+                "calcium": "45.08",
+                "iron": "0.47",
+                "saturatedFat": "1",
+                "isEatWell": true,
+                "isPlantForward": true,
+                "isWholeGrains": false
+              }
+            },
+            {
+              "name": "UCI rice pilaf",
+              "description": "",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": false,
+                "servingSize": "14",
+                "servingUnit": "fl oz",
+                "calories": "390",
+                "caloriesFromFat": "45",
+                "totalFat": "5",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "520",
+                "totalCarbohydrates": "78",
+                "dietaryFiber": "2",
+                "sugars": "3",
+                "protein": "9",
+                "vitaminA": null,
+                "vitaminC": "21.44",
+                "calcium": "",
+                "iron": "4.58",
+                "saturatedFat": "1",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrains": false
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "station": "The Farm Stand / Deli",
+      "menu": [
+        {
+          "category": "Hot Sandwiches ",
+          "items": [
+            {
+              "name": "Grilled Vegetable Panini",
+              "description": "Panini-style grilled veggies, spinach, mushrooms and American cheese",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "each",
+                "calories": "400",
+                "caloriesFromFat": "110",
+                "totalFat": "19",
+                "transFat": "0",
+                "cholesterol": "25",
+                "sodium": "860",
+                "totalCarbohydrates": "49",
+                "dietaryFiber": "2",
+                "sugars": "9",
+                "protein": "10",
+                "vitaminA": null,
+                "vitaminC": "29.84",
+                "calcium": "269.67",
+                "iron": "0.95",
+                "saturatedFat": "6",
+                "isEatWell": true,
+                "isPlantForward": true,
+                "isWholeGrains": false
+              }
+            },
+            {
+              "name": "Rosemary Chicken Panini",
+              "description": "Grilled chicken, arugula, provolone cheese, balsamic glaze & sun-dried tomato mayonnaise on Italian bread",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": false,
+                "servingSize": "1",
+                "servingUnit": "/2 sandwich",
+                "calories": "330",
+                "caloriesFromFat": "150",
+                "totalFat": "17",
+                "transFat": "0",
+                "cholesterol": "40",
+                "sodium": "470",
+                "totalCarbohydrates": "25",
+                "dietaryFiber": "1",
+                "sugars": "3",
+                "protein": "18",
+                "vitaminA": null,
+                "vitaminC": "6.59",
+                "calcium": "135.12",
+                "iron": "2.45",
+                "saturatedFat": "5",
+                "isEatWell": true,
+                "isPlantForward": false,
+                "isWholeGrains": false
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "station": "Hearth/Pizza",
+      "menu": [
+        {
+          "category": "Pizza",
+          "items": [
+            {
+              "name": "Classic Cheese Pizza",
+              "description": "Mozzarella cheese and pizza sauce on a golden brown crust",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "/8 cut",
+                "calories": "250",
+                "caloriesFromFat": "60",
+                "totalFat": "7",
+                "transFat": "0",
+                "cholesterol": "15",
+                "sodium": "580",
+                "totalCarbohydrates": "33",
+                "dietaryFiber": "2",
+                "sugars": "3",
+                "protein": "13",
+                "vitaminA": null,
+                "vitaminC": "1.09",
+                "calcium": "219.36",
+                "iron": "2.04",
+                "saturatedFat": "3.5",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrains": false
+              }
+            },
+            {
+              "name": "Not Your Regular Cheese Pizza",
+              "description": "Vegan shredded mozzarella, almond-based parmesan, pizza sauce",
+              "nutrition": {
+                "isVegan": true,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "/8 cut",
+                "calories": "300",
+                "caloriesFromFat": "110",
+                "totalFat": "12",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "670",
+                "totalCarbohydrates": "40",
+                "dietaryFiber": "3",
+                "sugars": "2",
+                "protein": "8",
+                "vitaminA": null,
+                "vitaminC": "1.09",
+                "calcium": "26.04",
+                "iron": "2.38",
+                "saturatedFat": "3",
+                "isEatWell": false,
+                "isPlantForward": true,
+                "isWholeGrains": false
+              }
+            },
+            {
+              "name": "Pepperoni Pizza",
+              "description": "Pepperoni, mozzarella and pizza sauce on a golden brown crust",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": false,
+                "servingSize": "1",
+                "servingUnit": "/8 cut",
+                "calories": "280",
+                "caloriesFromFat": "90",
+                "totalFat": "10",
+                "transFat": "0",
+                "cholesterol": "20",
+                "sodium": "680",
+                "totalCarbohydrates": "33",
+                "dietaryFiber": "2",
+                "sugars": "3",
+                "protein": "14",
+                "vitaminA": null,
+                "vitaminC": "1.11",
+                "calcium": "220.67",
+                "iron": "2.13",
+                "saturatedFat": "4.5",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrains": false
               }
             }
           ]
@@ -385,100 +927,6 @@
     {
       "station": "Vegan",
       "menu": [
-        {
-          "category": "Desserts",
-          "items": [
-            {
-              "name": "Vegan Blueberry Banana Bread",
-              "description": "Freshly-baked vegan banana bread with blueberries",
-              "nutrition": {
-                "isVegan": true,
-                "isVegetarian": true,
-                "servingSize": "1",
-                "servingUnit": "piece",
-                "calories": "250",
-                "caloriesFromFat": "90",
-                "totalFat": "10",
-                "transFat": "0",
-                "cholesterol": "0",
-                "sodium": "130",
-                "totalCarbohydrates": "39",
-                "dietaryFiber": "2",
-                "sugars": "21",
-                "protein": "3",
-                "vitaminA": null,
-                "vitaminC": "2.64",
-                "calcium": "59.78",
-                "iron": "0.79",
-                "saturatedFat": "1",
-                "isEatWell": false,
-                "isPlantForward": true,
-                "isWholeGrain": false
-              }
-            }
-          ]
-        },
-        {
-          "category": "Entrées",
-          "items": [
-            {
-              "name": "Soy Milk French Toast",
-              "description": "Texas toast dipped in cinnamon soy milk mixture topped with apple compote",
-              "nutrition": {
-                "isVegan": false,
-                "isVegetarian": false,
-                "servingSize": "1",
-                "servingUnit": "slice",
-                "calories": "200",
-                "caloriesFromFat": "35",
-                "totalFat": "4",
-                "transFat": "0",
-                "cholesterol": "0",
-                "sodium": "270",
-                "totalCarbohydrates": "35",
-                "dietaryFiber": "1",
-                "sugars": "12",
-                "protein": "5",
-                "vitaminA": null,
-                "vitaminC": "0.42",
-                "calcium": "",
-                "iron": "2.14",
-                "saturatedFat": "0.5",
-                "isEatWell": false,
-                "isPlantForward": false,
-                "isWholeGrain": false
-              }
-            },
-            {
-              "name": "Turmeric Tofu Scramble",
-              "description": "Crumbled tofu sauteed with turmeric, salt and pepper",
-              "nutrition": {
-                "isVegan": true,
-                "isVegetarian": true,
-                "servingSize": "1",
-                "servingUnit": "/2 cup",
-                "calories": "220",
-                "caloriesFromFat": "110",
-                "totalFat": "12",
-                "transFat": "0",
-                "cholesterol": "0",
-                "sodium": "160",
-                "totalCarbohydrates": "4",
-                "dietaryFiber": "3",
-                "sugars": "less than 1",
-                "protein": "22",
-                "vitaminA": null,
-                "vitaminC": "0.00",
-                "calcium": "117.26",
-                "iron": "3.01",
-                "saturatedFat": "2.5",
-                "isEatWell": false,
-                "isPlantForward": false,
-                "isWholeGrain": false
-              }
-            }
-          ]
-        },
         {
           "category": "Protein",
           "items": [
@@ -507,7 +955,7 @@
                 "saturatedFat": "0.5",
                 "isEatWell": false,
                 "isPlantForward": false,
-                "isWholeGrain": false
+                "isWholeGrains": false
               }
             }
           ]
@@ -515,126 +963,65 @@
       ]
     },
     {
-      "station": "Grubb / Mainline",
+      "station": "Soups",
       "menu": [
         {
-          "category": "Entrées",
+          "category": "Soups",
           "items": [
             {
-              "name": "Apple Cinnamon Whole Wheat Pancake",
-              "description": "Golden apple and cinnamon whole wheat pancake",
+              "name": "Curried Cauliflower Soup",
+              "description": "Curry-spiced velvety smooth cauliflower soup",
               "nutrition": {
-                "isVegan": false,
+                "isVegan": true,
                 "isVegetarian": true,
-                "servingSize": "2",
-                "servingUnit": "each",
-                "calories": "180",
-                "caloriesFromFat": "40",
-                "totalFat": "4.5",
-                "transFat": "0",
-                "cholesterol": "less than 5",
-                "sodium": "220",
-                "totalCarbohydrates": "32",
-                "dietaryFiber": "3",
-                "sugars": "13",
-                "protein": "6",
-                "vitaminA": null,
-                "vitaminC": "1.31",
-                "calcium": "119.12",
-                "iron": "0.78",
-                "saturatedFat": "2",
-                "isEatWell": false,
-                "isPlantForward": false,
-                "isWholeGrain": true
-              }
-            },
-            {
-              "name": "Scrambled Eggs",
-              "description": "Freshly scrambled eggs",
-              "nutrition": {
-                "isVegan": false,
-                "isVegetarian": true,
-                "servingSize": "1",
-                "servingUnit": "/2 cup",
-                "calories": "140",
-                "caloriesFromFat": "80",
-                "totalFat": "9",
-                "transFat": "0",
-                "cholesterol": "365",
-                "sodium": "320",
-                "totalCarbohydrates": "less than 1",
-                "dietaryFiber": "0",
-                "sugars": "0",
-                "protein": "12",
-                "vitaminA": null,
-                "vitaminC": "0.00",
-                "calcium": "60.44",
-                "iron": "1.73",
-                "saturatedFat": "3",
-                "isEatWell": false,
-                "isPlantForward": false,
-                "isWholeGrain": false
-              }
-            }
-          ]
-        },
-        {
-          "category": "Sides",
-          "items": [
-            {
-              "name": "Crispy Tater Tots",
-              "description": "Deep-fried seasoned shredded potato bites",
-              "nutrition": {
-                "isVegan": false,
-                "isVegetarian": false,
-                "servingSize": "1",
-                "servingUnit": "/2 cup",
-                "calories": "120",
-                "caloriesFromFat": "90",
-                "totalFat": "10",
+                "servingSize": "6",
+                "servingUnit": "fl oz",
+                "calories": "110",
+                "caloriesFromFat": "70",
+                "totalFat": "7",
                 "transFat": "0",
                 "cholesterol": "0",
-                "sodium": "260",
-                "totalCarbohydrates": "12",
-                "dietaryFiber": "less than 1",
-                "sugars": "less than 1",
-                "protein": "1",
+                "sodium": "290",
+                "totalCarbohydrates": "10",
+                "dietaryFiber": "2",
+                "sugars": "2",
+                "protein": "2",
                 "vitaminA": null,
-                "vitaminC": "0.00",
-                "calcium": "6.81",
-                "iron": "0.18",
-                "saturatedFat": "1.5",
+                "vitaminC": "28.62",
+                "calcium": "19.69",
+                "iron": "0.60",
+                "saturatedFat": "1",
                 "isEatWell": false,
                 "isPlantForward": false,
-                "isWholeGrain": false
+                "isWholeGrains": false
               }
             },
             {
-              "name": "Pork Sausage Links",
-              "description": "Golden brown savory pork sausage link",
+              "name": "New England Clam Chowder",
+              "description": "A thick creamy soup of clams, potatoes, bacon, onions, celery and herbs",
               "nutrition": {
                 "isVegan": false,
                 "isVegetarian": false,
-                "servingSize": "2",
-                "servingUnit": "link",
-                "calories": "240",
-                "caloriesFromFat": "200",
-                "totalFat": "23",
+                "servingSize": "6",
+                "servingUnit": "fl oz",
+                "calories": "210",
+                "caloriesFromFat": "60",
+                "totalFat": "9",
                 "transFat": "0",
-                "cholesterol": "40",
-                "sodium": "370",
-                "totalCarbohydrates": "less than 1",
-                "dietaryFiber": "0",
-                "sugars": "0",
-                "protein": "7",
+                "cholesterol": "35",
+                "sodium": "640",
+                "totalCarbohydrates": "18",
+                "dietaryFiber": "less than 1",
+                "sugars": "4",
+                "protein": "16",
                 "vitaminA": null,
-                "vitaminC": "0.05",
-                "calcium": "17.94",
-                "iron": "0.43",
-                "saturatedFat": "8",
+                "vitaminC": "3.62",
+                "calcium": "106.29",
+                "iron": "1.85",
+                "saturatedFat": "3.5",
                 "isEatWell": false,
                 "isPlantForward": false,
-                "isWholeGrain": false
+                "isWholeGrains": false
               }
             }
           ]
