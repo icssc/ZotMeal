@@ -6,6 +6,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     web: {
       bundler: 'metro',
     },
+    scheme: ['demo'],
     slug: "zotmeal",
     name: "ZotMeal",
   };
