@@ -4,7 +4,7 @@
   "private": true,
   "main": "src/index.tsx",
   "scripts": {
-    "build": "expo build:web",
+    "build": "npx expo export -p web",
     "dev": "expo start --web",
     "netlify": "netlify dev"
   },
