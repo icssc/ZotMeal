@@ -1,7 +1,6 @@
 import { SafeAreaView, View } from "react-native";
 import { Slot } from "expo-router";
 import { Header } from "../components/header";
-import { Footer } from "../components/footer";
 import { useThemeStore } from "../stores/theme";
 
 export default function RootLayout() {
@@ -15,8 +14,6 @@ export default function RootLayout() {
         <View className="flex-1">
           <Slot />
         </View>
-
-        <Footer />
       </SafeAreaView>
     </View>
   );
