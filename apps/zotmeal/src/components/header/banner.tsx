@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import {
   Button,
   Dimensions,
@@ -9,38 +9,33 @@ import {
 import Carousel, {
   type ICarouselInstance,
 } from "react-native-reanimated-carousel";
-import { IS_WEB, type Restaurant } from "../lib/constants";
+import { IS_WEB, type Restaurant } from "../../lib/constants";
 import type { CarouselRenderItemInfo } from "react-native-reanimated-carousel/lib/typescript/types";
-import { useRestaurantStore } from "../stores/restaurant";
+import { useRestaurantStore } from "../../stores/restaurant";
+import { useThemeStore } from "../../stores/theme";
 
-interface Banner {
+interface BannerInfo {
   name: Restaurant;
   source: ImageSourcePropType;
 }
 
-const banners: Banner[] = [
+const banners: BannerInfo[] = [
   {
     name: "Anteatery",
-    source: require("../assets/Anteatery.jpg"),
+    source: require("../../assets/Anteatery.jpg"),
   },
   {
     name: "Brandywine",
-    source: require("../assets/Brandywine.jpg"),
+    source: require("../../assets/Brandywine.jpg"),
   },
 ];
 
-export function Header() {
+export function Banner() {
   const setRestaurant = useRestaurantStore((store) => store.setRestaurant);
 
-  const ref = useRef<ICarouselInstance | null>(null);
+  const width = useThemeStore(store => store.width)
 
-  const baseOptions = useMemo(() => {
-    return {
-      vertical: false,
-      width: Dimensions.get("window").width,
-      height: 200,
-    } as const;
-  }, []);
+  const ref = useRef<ICarouselInstance | null>(null);
 
   const createGoto = useCallback((index: number) => {
     return () => {
@@ -72,9 +67,10 @@ export function Header() {
   );
 
   return (
-    <View className="justify-center items-center">
+    <View className="p-2 justify-center items-center" style={{ width }}>
       <Carousel
-        {...baseOptions}
+        width={width}
+        height={200}
         onProgressChange={onProgressChange}
         data={banners}
         ref={ref}

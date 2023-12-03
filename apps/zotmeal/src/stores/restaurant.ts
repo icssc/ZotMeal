@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Restaurant } from "../lib/constants";
+import type { Restaurant } from "../lib/constants";
 
 /**
  * The restaurant store keeps track of the current dining hall being viewed.
