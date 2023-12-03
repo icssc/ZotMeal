@@ -1,11 +1,13 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import {
   Button,
   Image,
+  Pressable,
   Text,
   View,
   type ImageSourcePropType,
 } from "react-native";
+import { Link } from 'expo-router';
 import Carousel, {
   type ICarouselInstance,
 } from "react-native-reanimated-carousel";
@@ -32,7 +34,7 @@ const banners: BannerInfo[] = [
 ];
 
 export function Banner() {
-  const setRestaurant = useRestaurantStore((store) => store.setRestaurant);
+  const [restaurant, setRestaurant] = useRestaurantStore((store) => [store.restaurant, store.setRestaurant]);
 
   const width = useThemeStore((store) => store.width);
 
@@ -55,8 +57,17 @@ export function Banner() {
     [],
   );
 
+  const defaultIndex = useMemo(() => {
+    const index = banners.findIndex((banner) => banner.name === restaurant);
+    return index === -1 ? 0 : index;
+  }, [restaurant]);
+
   const onProgressChange = useCallback(
     (_animationProgress: number, absoluteProgress: number) => {
+      if (!Number.isInteger(absoluteProgress)) {
+        return;
+      }
+
       const index = Math.round(absoluteProgress);
       const currentBanner = banners[index];
 
@@ -76,7 +87,11 @@ export function Banner() {
         </View>
 
         <View className="flex-row gap-4">
-          <AntDesign name="calendar" size={24} color="white" />
+          <Link href={`/schedule/${restaurant}`}>
+            <Pressable>
+              <AntDesign name="calendar" size={24} color="white" />
+            </Pressable>
+          </Link>
           <FontAwesome name="dollar" size={24} color="white" />
           <Feather name="map-pin" size={24} color="white" />
         </View>
@@ -87,6 +102,7 @@ export function Banner() {
           width={width}
           height={200}
           onProgressChange={onProgressChange}
+          defaultIndex={defaultIndex}
           data={banners}
           ref={ref}
           renderItem={renderItem}
