@@ -31,7 +31,8 @@
     "react-native-web": "^0.19.9",
     "react-native-webview": "^13.2.2",
     "ui": "workspace:^",
-    "uuid": "3.4.0"
+    "uuid": "3.4.0",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
