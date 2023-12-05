@@ -11,7 +11,9 @@ interface NotificationTokens {
 }
 
 interface TokenRegistrationParams {
+  uid: string;
   platform: string | "android" | "apple";
+  notificationToken: string;
 }
 
 export class NotificationService {
@@ -19,25 +21,28 @@ export class NotificationService {
 
 
 
-  public async scheduleNotificationBatch(messages: ExpoPushMessage[]) {
-  }
+  // Schedules a batch of notifications to be sent at a later time
 
-
-  public async updateNotificationTokens(userId: string, notificationTokens: NotificationTokens) {
-    // this.db.ref("users").child("notificationTokens").child(userId).set(notificationTokens);
-  }
-  public async getUserNotificationTokens() {
-    // get the user's registered notification token in the lookup table
-    this.db.ref("users").child("notificationTokens").once("value");
-
-    return [];
-  }
-
+  // we need to schedule these ourselves
+  // only expo client sdk has the ability to schedule notifications natively
+  public async scheduleNotificationBatch(messages: ExpoPushMessage[]) {}
+  
+  // Retreives the notification tokens for all users for all devices, quite expensive. Use only for scheduled events. Should batch the weeks worth of notifications and send them all at once. Consider batching every sunday instead of sliding window.
+  public async getAllUsersNotificationTokens() {}
 
   // Associates the notification token with firebase user
-  public async registerNotificationToken({platform, notificationToken}: TokenRegistrationParams) {}
+  public async registerNotificationToken({uid, platform, notificationToken}: TokenRegistrationParams) {
+    this.db.ref(`users/${uid}/notificationTokens/${platform}`).set(notificationToken, (e) => {
+      if (e) {
+        throw e;
+      } else {
+        console.log("successfully registered notification token");
+      }
+    });
+  }
 
-  public async sendNotificationBatch(messages: ExpoPushMessage[]) {
+  // Sends list of messages right now
+  public async sendNotifications(messages: ExpoPushMessage[]) {
     const chunks = expo.chunkPushNotifications(messages);
     const tickets = [];
     for (const chunk of chunks) {
@@ -50,7 +55,8 @@ export class NotificationService {
     }
   }
 
-  public async sendNotification() {
+  // Sends a single notification to a user right now
+  public async sendNotification(message: ExpoPushMessage) {
     console.log("sending notification");
   }
 }

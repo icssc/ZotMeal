@@ -2,7 +2,7 @@ import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
 import {
   LOCATION_ID,
   getMealPeriods,
-} from "../utils";
+} from "../../utils";
 import axios from "axios";
 const handler: Handler = async (
   event: HandlerEvent,

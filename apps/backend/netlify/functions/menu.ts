@@ -1,6 +1,7 @@
 import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
 
-import MenuService from "../services/MenuService";
+// should be get only
+import MenuService from "../../services/MenuService";
 const handler: Handler = async (
   event: HandlerEvent,
   context: HandlerContext,

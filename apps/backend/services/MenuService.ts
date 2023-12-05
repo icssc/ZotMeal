@@ -20,6 +20,14 @@ interface MenuQuery {
   mealPeriod: string;
 }
 
+
+interface Menu {
+  timestamp: Date;
+  stationItems: StationInfo[];
+}
+
+
+
 const STALENESS_THRESHOLD_SECONDS = 600; // 1 week
 
 class MenuService {
@@ -29,7 +37,7 @@ class MenuService {
     location,
     date,
     mealPeriod,
-  }: MenuQuery): Promise<StationInfo[]> {
+  }: MenuQuery): Promise<Menu> {
     if (!this.isValidMealPeriod(mealPeriod)) {
       throw new InvalidMealError("invalid meal period");
     }
@@ -37,6 +45,14 @@ class MenuService {
     if (!this.isValidMealPeriod(mealPeriod)) {
       throw new InvalidMealError("invalid meal location");
     }
+
+    const cachedMenu = await this.getMenuFromDB({location, date, mealPeriod});
+
+    if (cachedMenu && !this.isStale(date, new Date())) {
+    } else {
+
+    }
+
 
     // const menuFromDB = await this.getMenuFromDB({
     //   location,
@@ -50,16 +66,22 @@ class MenuService {
       mealPeriod,
     });
 
-    return stationItems;
+    return {timestamp: new Date(), stationItems};
   }
+
+
 
   private async updateDBMenu({
     location,
     date,
     mealPeriod,
-  }: MenuQuery): Promise<StationInfo[]> {
-    const a = {location, date, mealPeriod};
-    return [];
+
+    
+  }: MenuQuery): Promise<void> {
+    const menuPath = `menus/${location}/${date}/${mealPeriod}`;
+
+    await this.db.ref(menuPath).push();
+
   }
 
   private async getMenuFromDB({
@@ -91,26 +113,12 @@ class MenuService {
     const menuUrl = this.getCampusDishMenuUrl({ location, date, mealPeriod });
     console.log(menuUrl.toString());
 
-    // @TODO add retry, exponential backoff, timeout
+    // @TODO add retry, exponential backoff + jitter, timeout
     let response;
     try {
-      response = await promiseRetry((retry, number) => {
-        console.log("attempt number", number);
-        return axios.get(menuUrl.toString()).catch((e) => {
-          // retry on 500
-          if (e instanceof AxiosError) {
-            switch (e.response?.status) {
-              case 500:
-                console.log("got 500, retrying");
-                retry(e);
-            }
-          }
-
-          throw e;
-        });
-      });
+      response = await axios.get(menuUrl.toString());
     } catch (e) {
-      console.log("error fetching menu from campus dish");
+      console.error("error fetching menu from campus dish");
       throw e;
     }
 
