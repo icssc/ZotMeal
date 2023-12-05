@@ -1,5 +1,5 @@
 import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
-import { DEFAULT_PRICES } from "../util";
+import { DEFAULT_PRICES } from "../utils";
 
 const handler: Handler = async (
   event: HandlerEvent,

@@ -2,15 +2,17 @@ import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
 import {
   LOCATION_ID,
   getMealPeriods,
-} from "../util";
-
-const axios = require("axios");
+} from "../utils";
+import axios from "axios";
 const handler: Handler = async (
   event: HandlerEvent,
   context: HandlerContext
 ) => {
-  const location = event.queryStringParameters?.location;
-  const date = event.queryStringParameters?.date;
+  
+
+
+  const location = event.queryStringParameters?.['location'] ?? "";
+  const date = event.queryStringParameters?.['date'] ?? "";
 
   const location_id = LOCATION_ID[location];
 

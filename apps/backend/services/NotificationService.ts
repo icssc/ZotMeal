@@ -1,8 +1,9 @@
-import { Database } from "firebase-admin/lib/database/database";
-import { Expo, ExpoPushMessage } from "expo-server-sdk";
-import db from "../firebase";
+import type { Database } from "firebase-admin/database";
+import {Expo } from "expo-server-sdk";
+import type { ExpoPushMessage } from 'expo-server-sdk';
+import {db} from "../firebase.js";
 
-const expo = new Expo({ accessToken: process.env.EXPO_ACCESS_TOKEN });
+const expo = new Expo({ accessToken: process.env['EXPO_ACCESS_TOKEN'] });
 
 interface NotificationTokens {
   android: string;

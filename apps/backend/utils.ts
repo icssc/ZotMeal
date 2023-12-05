@@ -28,14 +28,14 @@ export const DEFAULT_PRICES = {
   dinner: 14.95,
 };
 
-export const MEAL_PERIOD_TO_ID = {
+export const MEAL_PERIOD_TO_ID: Record<string, number> = {
   breakfast: 49,
   lunch: 106,
   dinner: 107,
   brunch: 2651,
 };
 
-export const LOCATION_ID = {
+export const LOCATION_ID: Record<string, string> = {
   brandywine: "3314",
   anteatery: "3056",
 };

@@ -1,15 +1,14 @@
 import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
 
-// const menuService = require("../services/MenuService.ts");
 import MenuService from "../services/MenuService";
-const axios = require("axios");
 const handler: Handler = async (
   event: HandlerEvent,
   context: HandlerContext,
 ) => {
-  const location = event.queryStringParameters?.location;
-  const mealPeriod = event.queryStringParameters?.meal;
-  const dateString = event.queryStringParameters?.date;
+  const location = event.queryStringParameters?.['location'];
+  const mealPeriod = event.queryStringParameters?.['mealPeriod'];
+  const dateString = event.queryStringParameters?.['date'];
+
 
   if (!location || !mealPeriod || !dateString) {
     return {

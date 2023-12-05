@@ -1,9 +1,9 @@
-import { MEAL_PERIOD_TO_ID, LOCATION_ID, NUTRITION_PROPERTIES } from "../util";
-import { StationInfo } from "../../shared/lib/zotmeal.types";
+import { MEAL_PERIOD_TO_ID, LOCATION_ID, NUTRITION_PROPERTIES } from "../utils";
+import type { ItemInfo, MenuInfo, Nutrition, StationInfo } from "../../../packages/shared/lib/zotmeal.types";
+import type {DataSnapshot, Database} from "firebase-admin/database";
 
 import axios, { AxiosError } from "axios";
-import db from "../firebase";
-const promiseRetry = require("promise-retry");
+import { db } from "../firebase.js";
 import promiseRetry from "promise-retry";
 
 // Contains services for fetching and retrieving menu data
@@ -23,7 +23,7 @@ interface MenuQuery {
 const STALENESS_THRESHOLD_SECONDS = 600; // 1 week
 
 class MenuService {
-  constructor(private menuUrl: string, private db) {}
+  constructor(private menuUrl: string, private db: Database) {}
 
   public async getMenu({
     location,
@@ -58,6 +58,7 @@ class MenuService {
     date,
     mealPeriod,
   }: MenuQuery): Promise<StationInfo[]> {
+    const a = {location, date, mealPeriod};
     return [];
   }
 
@@ -71,7 +72,7 @@ class MenuService {
     const menuPath = `menus/${location}/${dateKey}/${mealPeriod}`;
 
     const ref = db.ref(menuPath);
-    const data = await ref.once("value", (snapshot) => snapshot.val());
+    const data = await ref.once("value", (snapshot: DataSnapshot) => snapshot.val());
 
     const stationInfos: any = data.toJSON();
 
@@ -98,7 +99,7 @@ class MenuService {
         return axios.get(menuUrl.toString()).catch((e) => {
           // retry on 500
           if (e instanceof AxiosError) {
-            switch (e.response.status) {
+            switch (e.response?.status) {
               case 500:
                 console.log("got 500, retrying");
                 retry(e);
@@ -117,62 +118,65 @@ class MenuService {
 
     // transform the data
     // stations = {stationId: stationName}
-    const stations = {};
-    // stationMenu = {station:stationName, menu:[menuItems]]}
-    const stationMenu = {};
-    for (const station of response.data.Menu.MenuStations) {
-      stations[station.StationId] = station.Name;
-      stationMenu[station.Name] = {};
+    const stationMenu: any = {};
+    const stations: Record<string, string> = {};
+    for (let station of response.data.Menu.MenuStations) {
+      const {StationId, Name} = station;
+      stations[StationId] = StationId;
+
+      stationMenu[Name] = {};
     }
 
     for (const product of response.data.Menu.MenuProducts) {
       const detail = product.Product;
 
-      const stationName = stations[product.StationId];
+      const stationName = stations[product.StationId] ?? "";
       const productName = detail.MarketingName;
       const categoryName = detail.Categories[0].DisplayName;
       const description = detail.ShortDescription;
 
       // nutrition = {nutritionProperty: value}
-      const nutrition = {
+      const nutrition: any = {
         isEatWell: false,
         isPlantForward: false,
         isWholeGrain: false,
       };
+
       for (const property of NUTRITION_PROPERTIES) {
         nutrition[property] = detail[property];
       }
 
       for (const icon of detail.DietaryInformation) {
-        if (icon.Name == "Plant Forward") {
-          nutrition["isPlantForward"] = true;
-        } else if (icon.Name == "Eat Well") {
-          nutrition["isEatWell"] = true;
-        } else if (icon.Name == "Made With Whole Grains") {
-          nutrition["isWholeGrain"] = true;
+        if (icon.Name === "Plant Forward") {
+          nutrition.isPlantForward = true;
+        } else if (icon.Name === "Eat Well") {
+          nutrition.isEatWell = true;
+        } else if (icon.Name === "Made With Whole Grains") {
+          nutrition.isWholeGrain = true;
         }
       }
 
-      const menuItem = {
-        name: productName,
-        description: description,
-        nutrition: nutrition,
-      };
-      if (!(categoryName in stationMenu[stationName])) {
+      if (!(categoryName in stationMenu[stationName][categoryName])) {
         stationMenu[stationName][categoryName] = [];
       }
+
+      const menuItem: ItemInfo = {
+        name: productName,
+        description: description,
+        nutrition: nutrition as Nutrition,
+      };
       stationMenu[stationName][categoryName].push(menuItem);
     }
 
     //Turn all data into the format of [stationMenu]
-    const stationMenus = [];
+    const stationMenus: StationInfo[] = [];
 
     for (const stationName in stationMenu) {
-      const category_item_list = [];
+      const category_item_list: MenuInfo[] = [];
       for (const category in stationMenu[stationName]) {
         category_item_list.push({
           category: category,
-          items: stationMenu[stationName][category],
+          items: stationMenu[stationName]?.[category] ?? [],
         });
       }
       stationMenus.push({
@@ -200,11 +204,12 @@ class MenuService {
       throw new InvalidMealError("invalid meal period");
     }
 
-    if (!this.isValidMealPeriod(mealPeriod)) {
+    if (!this.isValidLocation(mealPeriod)) {
+      throw new InvalidMealError("invalid meal location");
     }
 
-    const locationId = LOCATION_ID[location];
-    const mealPeriodId = MEAL_PERIOD_TO_ID[mealPeriod];
+    const locationId = LOCATION_ID[location] ?? "";
+    const mealPeriodId = MEAL_PERIOD_TO_ID[mealPeriod] ?? 0;
 
     const menuUrl = new URL(this.menuUrl);
     menuUrl.searchParams.append("locationId", locationId);
@@ -217,7 +222,7 @@ class MenuService {
 
     // Format the date string
     menuUrl.searchParams.append("date", dateString);
-    menuUrl.searchParams.append("periodId", mealPeriodId);
+    menuUrl.searchParams.append("periodId", mealPeriodId.toString());
 
     return menuUrl.toString();
   }

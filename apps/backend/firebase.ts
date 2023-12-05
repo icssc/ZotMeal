@@ -1,4 +1,6 @@
-import firebase from "firebase-admin";
+// import firebase from "firebase-admin";
+const firebase = require("firebase-admin")
+
 
 const serviceAccount = require("./firebase-service-account.json");
 firebase.initializeApp({
@@ -6,7 +8,5 @@ firebase.initializeApp({
   databaseURL: "https://zotpass-backend-default-rtdb.firebaseio.com/",
 });
 
-const db = firebase.database();
-const auth = firebase.auth();
-
-export default {db, auth };
+export const db = firebase.database();
+export const auth = firebase.auth();

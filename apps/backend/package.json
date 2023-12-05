@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "scripts": {
+    "test": "npx jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/promise-retry": "^1.1.6",
+    "expo-server-sdk": "^3.7.0",
+    "firebase-admin": "^11.11.1",
+    "firebase-sdk": "^0.0.0",
+    "promise-retry": "^2.0.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.10",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1"
+  }
+}
