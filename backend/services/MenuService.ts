@@ -28,7 +28,7 @@ class MenuService {
     location,
     date,
     mealPeriod,
-  }: MenuQuery): Promise<(typeof StationInfo)[]> {
+  }: MenuQuery): Promise<StationInfo[]> {
     if (!this.isValidMealPeriod(mealPeriod)) {
       throw new InvalidMealError("invalid meal period");
     }
@@ -52,7 +52,7 @@ class MenuService {
     location,
     date,
     mealPeriod,
-  }: MenuQuery): Promise<(typeof StationInfo)[]> {
+  }: MenuQuery): Promise<StationInfo[]> {
     return [];
   }
 
@@ -60,7 +60,7 @@ class MenuService {
     location,
     date,
     mealPeriod,
-  }: MenuQuery): Promise<(typeof StationInfo)[]> {
+  }: MenuQuery): Promise<StationInfo[]> {
     const dateKey = `${date.getMonth()}|${date.getDay()}|${date.getFullYear()}`;
 
     const menuPath = `menus/${location}/${dateKey}/${mealPeriod}`;
@@ -78,12 +78,12 @@ class MenuService {
     location,
     date,
     mealPeriod,
-  }: MenuQuery): Promise<(typeof StationInfo)[]> {
+  }: MenuQuery): Promise<StationInfo[]> {
     console.log(location, date, mealPeriod);
     const menuUrl = this.getCampusDishMenuUrl({ location, date, mealPeriod });
     console.log(menuUrl.toString());
 
-    // @TODO add retry, exponential backoff
+    // @TODO add retry, exponential backoff, timeout
 
     let response; // should be typed
 
