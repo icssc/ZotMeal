@@ -1,11 +1,12 @@
-import { StationInfo } from "../../shared/lib/zotmeal.types";
 import { MEAL_PERIOD_TO_ID, LOCATION_ID, NUTRITION_PROPERTIES } from "../util";
-const { StationInfo } = require("../../shared/lib/zotmeal.types");
-const axios = require("axios");
-const db = require("../db.ts");
+import { StationInfo } from "../../shared/lib/zotmeal.types";
+
+import axios, { AxiosError } from "axios";
+import db from "../firebase";
+const promiseRetry = require("promise-retry");
+import promiseRetry from "promise-retry";
 
 // Contains services for fetching and retrieving menu data
-
 class InvalidMealError extends Error {
   constructor(message: string) {
     super();
@@ -31,6 +32,10 @@ class MenuService {
   }: MenuQuery): Promise<StationInfo[]> {
     if (!this.isValidMealPeriod(mealPeriod)) {
       throw new InvalidMealError("invalid meal period");
+    }
+
+    if (!this.isValidMealPeriod(mealPeriod)) {
+      throw new InvalidMealError("invalid meal location");
     }
 
     // const menuFromDB = await this.getMenuFromDB({
@@ -66,12 +71,14 @@ class MenuService {
     const menuPath = `menus/${location}/${dateKey}/${mealPeriod}`;
 
     const ref = db.ref(menuPath);
-    const data = await ref.once("value", (snapshot) => snapshot.value());
+    const data = await ref.once("value", (snapshot) => snapshot.val());
+
+    const stationInfos: any = data.toJSON();
 
     console.log(
       `got menu data for ${location} on ${date.toString()} for ${mealPeriod}`,
     );
-    return data;
+    return stationInfos;
   }
 
   public async getMenuFromCampusDish({
@@ -84,11 +91,23 @@ class MenuService {
     console.log(menuUrl.toString());
 
     // @TODO add retry, exponential backoff, timeout
-
-    let response; // should be typed
-
+    let response;
     try {
-      response = await axios.get(menuUrl.toString());
+      response = await promiseRetry((retry, number) => {
+        console.log("attempt number", number);
+        return axios.get(menuUrl.toString()).catch((e) => {
+          // retry on 500
+          if (e instanceof AxiosError) {
+            switch (e.response.status) {
+              case 500:
+                console.log("got 500, retrying");
+                retry(e);
+            }
+          }
+
+          throw e;
+        });
+      });
     } catch (e) {
       console.log("error fetching menu from campus dish");
       throw e;
@@ -181,6 +200,9 @@ class MenuService {
       throw new InvalidMealError("invalid meal period");
     }
 
+    if (!this.isValidMealPeriod(mealPeriod)) {
+    }
+
     const locationId = LOCATION_ID[location];
     const mealPeriodId = MEAL_PERIOD_TO_ID[mealPeriod];
 
@@ -203,16 +225,15 @@ class MenuService {
   private isValidMealPeriod(mealPeriod: string) {
     return MEAL_PERIOD_TO_ID[mealPeriod] !== undefined;
   }
+
+  private isValidLocation(location: string) {
+    return LOCATION_ID[location] !== undefined;
+  }
 }
-
-// daily fetch cron service
-
-// service
-// get a menu for a date
 
 // Singleton
 
-module.exports = new MenuService(
+export default new MenuService(
   "https://uci.campusdish.com/api/menu/GetMenus",
   db,
 );

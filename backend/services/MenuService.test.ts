@@ -1,5 +1,7 @@
 const menuService = require("../services/MenuService.ts");
 
+// Can be flaky, maybe use jest.mock
+
 test("getMenuUrl", () => {
   const queries = [
     {

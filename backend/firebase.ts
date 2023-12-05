@@ -1,4 +1,4 @@
-const firebase = require("firebase-admin");
+import firebase from "firebase-admin";
 
 const serviceAccount = require("./firebase-service-account.json");
 firebase.initializeApp({
@@ -7,5 +7,6 @@ firebase.initializeApp({
 });
 
 const db = firebase.database();
+const auth = firebase.auth();
 
-module.exports = db;
+export default {db, auth };

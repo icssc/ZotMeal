@@ -17,6 +17,7 @@
     ]
   },
   "dependencies": {
+    "expo-server-sdk": "^3.7.0",
     "firebase-admin": "^11.11.1",
     "module-alias": "^2.2.2",
     "react": "^17.0.2",
