@@ -5,8 +5,11 @@ import { auth } from "../firebase";
 class AuthService {
   constructor(private auth: typeof Auth) {}
 
-  // Guard for checking if a user is authenticated
-  public async authenticateUser() {}
+  
+
+  // Guard for checking if a user is authenticated anonymously
+  public async authenticateUser() {
+  }
 }
 
 export default new AuthService(auth);
