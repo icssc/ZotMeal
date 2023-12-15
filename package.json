@@ -1,31 +1,12 @@
 {
   "name": "zotmeal-app",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "ZotMeal monorepo",
   "license": "MIT",
   "private": true,
-  "scripts": {
-    "web": "npm --prefix ./zotmeal-vite run dev",
-    "mobile": "npm --prefix ./app run tunnel",
-    "netlify": "npm --prefix ./zotmeal-vite run netlify"
-  },
-  "workspaces": {
-    "packages": [
-      "zotmeal-vite",
-      "app",
-      "shared"
-    ]
-  },
-  "dependencies": {
-    "module-alias": "^2.2.2",
-    "nativewind": "^2.0.11",
-    "react": "^18.0.27",
-    "react-native": "^0.72.0"
-  },
   "devDependencies": {
-    "@types/react": "^18.0.27",
-    "@types/react-native": "^0.72.2",
-    "netlify-cli": "^14.3.0",
-    "tailwindcss": "^3.3.5"
+    "prettier": "^3.1.0",
+    "prettier-plugin-tailwindcss": "^0.5.7",
+    "typescript": "^5.3.2"
   }
 }

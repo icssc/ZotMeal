@@ -1,5 +1,40 @@
-.idea/
-node_modules
+#####################################################################################
+# Generated
+#####################################################################################
+
+## Packages installed by NPM. https://docs.npmjs.com/about-packages-and-modules
+node_modules/
+
+# Logs.
+*.log
+.pnpm-debug.log*
+
+
+#####################################################################################
+# Operating System
+#####################################################################################
+
+## MacOS folder settings. https://en.wikipedia.org/wiki/.DS_Store
 .DS_Store
-# Local Netlify folder
-.netlify
+
+## Windows folder icon settings. https://learn.microsoft.com/en-us/windows/win32/shell/how-to-customize-folders-with-desktop-ini#use-a-desktopini-file
+Desktop.ini
+
+
+#####################################################################################
+# Development Environment
+#####################################################################################
+
+## Private environment variables.
+.env
+.env.*
+!.env.example
+
+## JetBrains IDE settings. https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+.idea/
+
+## VSCode settings.
+.vscode/
+
+## Local Netlify folder
+.netlify/
