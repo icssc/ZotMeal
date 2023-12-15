@@ -16,11 +16,10 @@ const handler: Handler = async (
 
   //  anteatery 01/14/2022 breakfast
   //  https://uci.campusdish.com/api/menu/GetMenus?locationId=3056&date=01/14/2022&periodId=49
-  let apicallurl = `https://uci.campusdish.com/api/menu/GetMenus?locationId=${location_id}&date=${date}&periodId=${meal_id}`;
+  let apicallurl = `https://uci-campusdish-com.translate.goog/api/menu/GetMenus?locationId=${location_id}&date=${date}&mode=Daily`;
 
   try {
     const response = await axios.get(apicallurl);
-
     
     
     // stations = {stationId: stationName}
