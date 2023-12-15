@@ -1,0 +1,659 @@
+{
+  "restaurant": "Brandywine",
+  "refreshTime": 1648278470,
+  "date": "03/26/2022",
+  "schedule": {
+    "breakfast": {
+      "start": 715,
+      "end": 1100
+    },
+    "lunch": {
+      "start": 1100,
+      "end": 1630
+    },
+    "dinner": {
+      "start": 1630,
+      "end": 2200
+    }
+  },
+  "currentMeal": "lunch",
+  "price": {
+    "breakfast": 9.75,
+    "lunch": 13.75,
+    "brunch": 13.75,
+    "dinner": 14.95
+  },
+  "all": [
+    {
+      "station": "Honeycakes/Bakery",
+      "menu": [
+        {
+          "category": "Breads",
+          "items": [
+            {
+              "name": "Donut Bites",
+              "description": "A variety of fresh baked donuts coated with cocoa, cinnamon sugar or powdered sugar",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": true,
+                "servingSize": "4",
+                "servingUnit": "each",
+                "calories": "210",
+                "caloriesFromFat": "110",
+                "totalFat": "12",
+                "transFat": "0",
+                "cholesterol": "10",
+                "sodium": "300",
+                "totalCarbohydrates": "24",
+                "dietaryFiber": "less than 1",
+                "sugars": "10",
+                "protein": "2",
+                "vitaminA": null,
+                "vitaminC": "0.01",
+                "calcium": "7.92",
+                "iron": "1.20",
+                "saturatedFat": "6",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrain": false
+              }
+            },
+            {
+              "name": "Whole Grain Blueberry Mini Muffin",
+              "description": "Freshly baked miniature whole grain muffin with blueberries",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "muffin",
+                "calories": "80",
+                "caloriesFromFat": "20",
+                "totalFat": "2",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "115",
+                "totalCarbohydrates": "14",
+                "dietaryFiber": "less than 1",
+                "sugars": "7",
+                "protein": "1",
+                "vitaminA": null,
+                "vitaminC": "0.09",
+                "calcium": "0.60",
+                "iron": "0.18",
+                "saturatedFat": "1",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrain": true
+              }
+            }
+          ]
+        },
+        {
+          "category": "Desserts",
+          "items": [
+            {
+              "name": "Cherry Crumb Cupcake",
+              "description": "Freshly baked individual cherry coffee cake with streusel crumb topping and powdered sugar",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "each",
+                "calories": "150",
+                "caloriesFromFat": "40",
+                "totalFat": "4",
+                "transFat": "0",
+                "cholesterol": "5",
+                "sodium": "160",
+                "totalCarbohydrates": "27",
+                "dietaryFiber": "less than 1",
+                "sugars": "16",
+                "protein": "1",
+                "vitaminA": null,
+                "vitaminC": "2.30",
+                "calcium": "1.03",
+                "iron": "0.66",
+                "saturatedFat": "2",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrain": false
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "station": "Soups",
+      "menu": [
+        {
+          "category": "Cereals",
+          "items": [
+            {
+              "name": "Old Fashioned Oatmeal",
+              "description": "Homestyle oatmeal cereal",
+              "nutrition": {
+                "isVegan": true,
+                "isVegetarian": true,
+                "servingSize": "6",
+                "servingUnit": "fl oz",
+                "calories": "110",
+                "caloriesFromFat": "20",
+                "totalFat": "2",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "5",
+                "totalCarbohydrates": "20",
+                "dietaryFiber": "3",
+                "sugars": "0",
+                "protein": "4",
+                "vitaminA": null,
+                "vitaminC": "0.00",
+                "calcium": "11.01",
+                "iron": "1.77",
+                "saturatedFat": "0",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrain": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "station": "The Farm Stand / Salad Bar",
+      "menu": [
+        {
+          "category": "Condiments",
+          "items": [
+            {
+              "name": "Strawberry Cream Cheese",
+              "description": "Light cream cheese blended with strawberry preserves",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": true,
+                "servingSize": "2",
+                "servingUnit": "tablespoons",
+                "calories": "60",
+                "caloriesFromFat": "30",
+                "totalFat": "3.5",
+                "transFat": "0",
+                "cholesterol": "15",
+                "sodium": "80",
+                "totalCarbohydrates": "6",
+                "dietaryFiber": "0",
+                "sugars": "5",
+                "protein": "2",
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": "2.5",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrain": false
+              }
+            },
+            {
+              "name": "Whipped Light Cream Cheese",
+              "description": "Whipped Light Cream Cheese",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": true,
+                "servingSize": "2",
+                "servingUnit": "tablespoons",
+                "calories": "50",
+                "caloriesFromFat": "35",
+                "totalFat": "4",
+                "transFat": "0",
+                "cholesterol": "15",
+                "sodium": "95",
+                "totalCarbohydrates": "2",
+                "dietaryFiber": "0",
+                "sugars": "1",
+                "protein": "2",
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": "2.5",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrain": false
+              }
+            }
+          ]
+        },
+        {
+          "category": "Grains",
+          "items": [
+            {
+              "name": "Honey Granola",
+              "description": "Crunchy cinnamon-spiced, honey-coated oats",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "/4 cup",
+                "calories": "110",
+                "caloriesFromFat": "25",
+                "totalFat": "2.5",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "15",
+                "totalCarbohydrates": "22",
+                "dietaryFiber": "2",
+                "sugars": "9",
+                "protein": "3",
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": "1",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrain": false
+              }
+            }
+          ]
+        },
+        {
+          "category": "Protein",
+          "items": [
+            {
+              "name": "Cottage Cheese",
+              "description": "Creamy cottage cheese",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "/4 cup",
+                "calories": "45",
+                "caloriesFromFat": "5",
+                "totalFat": "0.5",
+                "transFat": "0",
+                "cholesterol": "less than 5",
+                "sodium": "240",
+                "totalCarbohydrates": "3",
+                "dietaryFiber": "0",
+                "sugars": "2",
+                "protein": "7",
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": "0",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrain": false
+              }
+            },
+            {
+              "name": "Hard-Cooked Egg",
+              "description": "Peeled hard-cooked egg",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "each",
+                "calories": "80",
+                "caloriesFromFat": "50",
+                "totalFat": "5",
+                "transFat": "0",
+                "cholesterol": "185",
+                "sodium": "70",
+                "totalCarbohydrates": "less than 1",
+                "dietaryFiber": "0",
+                "sugars": "less than 1",
+                "protein": "6",
+                "vitaminA": null,
+                "vitaminC": "0.00",
+                "calcium": "25.10",
+                "iron": "0.60",
+                "saturatedFat": "1.5",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrain": false
+              }
+            },
+            {
+              "name": "Nonfat Strawberry Yogurt",
+              "description": "Creamy nonfat strawberry yogurt",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": false,
+                "servingSize": "1",
+                "servingUnit": "/4 cup",
+                "calories": "60",
+                "caloriesFromFat": "0",
+                "totalFat": "0",
+                "transFat": "0",
+                "cholesterol": "less than 5",
+                "sodium": "30",
+                "totalCarbohydrates": "12",
+                "dietaryFiber": "0",
+                "sugars": "9",
+                "protein": "2",
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": "0",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrain": false
+              }
+            }
+          ]
+        },
+        {
+          "category": "Salads",
+          "items": [
+            {
+              "name": "Orange Segments",
+              "description": "Orange segments",
+              "nutrition": {
+                "isVegan": true,
+                "isVegetarian": true,
+                "servingSize": null,
+                "servingUnit": null,
+                "calories": null,
+                "caloriesFromFat": null,
+                "totalFat": null,
+                "transFat": null,
+                "cholesterol": null,
+                "sodium": null,
+                "totalCarbohydrates": null,
+                "dietaryFiber": null,
+                "sugars": null,
+                "protein": null,
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": null,
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrain": false
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "station": "Vegan",
+      "menu": [
+        {
+          "category": "Desserts",
+          "items": [
+            {
+              "name": "Vegan Blueberry Banana Bread",
+              "description": "Freshly-baked vegan banana bread with blueberries",
+              "nutrition": {
+                "isVegan": true,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "piece",
+                "calories": "250",
+                "caloriesFromFat": "90",
+                "totalFat": "10",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "130",
+                "totalCarbohydrates": "39",
+                "dietaryFiber": "2",
+                "sugars": "21",
+                "protein": "3",
+                "vitaminA": null,
+                "vitaminC": "2.64",
+                "calcium": "59.78",
+                "iron": "0.79",
+                "saturatedFat": "1",
+                "isEatWell": false,
+                "isPlantForward": true,
+                "isWholeGrain": false
+              }
+            }
+          ]
+        },
+        {
+          "category": "Entrées",
+          "items": [
+            {
+              "name": "Soy Milk French Toast",
+              "description": "Texas toast dipped in cinnamon soy milk mixture topped with apple compote",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": false,
+                "servingSize": "1",
+                "servingUnit": "slice",
+                "calories": "200",
+                "caloriesFromFat": "35",
+                "totalFat": "4",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "270",
+                "totalCarbohydrates": "35",
+                "dietaryFiber": "1",
+                "sugars": "12",
+                "protein": "5",
+                "vitaminA": null,
+                "vitaminC": "0.42",
+                "calcium": "",
+                "iron": "2.14",
+                "saturatedFat": "0.5",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrain": false
+              }
+            },
+            {
+              "name": "Turmeric Tofu Scramble",
+              "description": "Crumbled tofu sauteed with turmeric, salt and pepper",
+              "nutrition": {
+                "isVegan": true,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "/2 cup",
+                "calories": "220",
+                "caloriesFromFat": "110",
+                "totalFat": "12",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "160",
+                "totalCarbohydrates": "4",
+                "dietaryFiber": "3",
+                "sugars": "less than 1",
+                "protein": "22",
+                "vitaminA": null,
+                "vitaminC": "0.00",
+                "calcium": "117.26",
+                "iron": "3.01",
+                "saturatedFat": "2.5",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrain": false
+              }
+            }
+          ]
+        },
+        {
+          "category": "Protein",
+          "items": [
+            {
+              "name": "Vegan Chorizo",
+              "description": "Plant-based sausage seasoned with garlic, ancho pepper, smoked paprika, red wine vinegar, oregano and allspice",
+              "nutrition": {
+                "isVegan": true,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "/4 cup",
+                "calories": "120",
+                "caloriesFromFat": "50",
+                "totalFat": "5",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "360",
+                "totalCarbohydrates": "7",
+                "dietaryFiber": "3",
+                "sugars": "2",
+                "protein": "11",
+                "vitaminA": null,
+                "vitaminC": null,
+                "calcium": null,
+                "iron": null,
+                "saturatedFat": "0.5",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrain": false
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "station": "Grubb / Mainline",
+      "menu": [
+        {
+          "category": "Entrées",
+          "items": [
+            {
+              "name": "Apple Cinnamon Whole Wheat Pancake",
+              "description": "Golden apple and cinnamon whole wheat pancake",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": true,
+                "servingSize": "2",
+                "servingUnit": "each",
+                "calories": "180",
+                "caloriesFromFat": "40",
+                "totalFat": "4.5",
+                "transFat": "0",
+                "cholesterol": "less than 5",
+                "sodium": "220",
+                "totalCarbohydrates": "32",
+                "dietaryFiber": "3",
+                "sugars": "13",
+                "protein": "6",
+                "vitaminA": null,
+                "vitaminC": "1.31",
+                "calcium": "119.12",
+                "iron": "0.78",
+                "saturatedFat": "2",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrain": true
+              }
+            },
+            {
+              "name": "Scrambled Eggs",
+              "description": "Freshly scrambled eggs",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": true,
+                "servingSize": "1",
+                "servingUnit": "/2 cup",
+                "calories": "140",
+                "caloriesFromFat": "80",
+                "totalFat": "9",
+                "transFat": "0",
+                "cholesterol": "365",
+                "sodium": "320",
+                "totalCarbohydrates": "less than 1",
+                "dietaryFiber": "0",
+                "sugars": "0",
+                "protein": "12",
+                "vitaminA": null,
+                "vitaminC": "0.00",
+                "calcium": "60.44",
+                "iron": "1.73",
+                "saturatedFat": "3",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrain": false
+              }
+            }
+          ]
+        },
+        {
+          "category": "Sides",
+          "items": [
+            {
+              "name": "Crispy Tater Tots",
+              "description": "Deep-fried seasoned shredded potato bites",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": false,
+                "servingSize": "1",
+                "servingUnit": "/2 cup",
+                "calories": "120",
+                "caloriesFromFat": "90",
+                "totalFat": "10",
+                "transFat": "0",
+                "cholesterol": "0",
+                "sodium": "260",
+                "totalCarbohydrates": "12",
+                "dietaryFiber": "less than 1",
+                "sugars": "less than 1",
+                "protein": "1",
+                "vitaminA": null,
+                "vitaminC": "0.00",
+                "calcium": "6.81",
+                "iron": "0.18",
+                "saturatedFat": "1.5",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrain": false
+              }
+            },
+            {
+              "name": "Pork Sausage Links",
+              "description": "Golden brown savory pork sausage link",
+              "nutrition": {
+                "isVegan": false,
+                "isVegetarian": false,
+                "servingSize": "2",
+                "servingUnit": "link",
+                "calories": "240",
+                "caloriesFromFat": "200",
+                "totalFat": "23",
+                "transFat": "0",
+                "cholesterol": "40",
+                "sodium": "370",
+                "totalCarbohydrates": "less than 1",
+                "dietaryFiber": "0",
+                "sugars": "0",
+                "protein": "7",
+                "vitaminA": null,
+                "vitaminC": "0.05",
+                "calcium": "17.94",
+                "iron": "0.43",
+                "saturatedFat": "8",
+                "isEatWell": false,
+                "isPlantForward": false,
+                "isWholeGrain": false
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "themed": [
+    {
+      "date": "03/30/2022",
+      "name": "Beijing Duck Day",
+      "service_start": 1100,
+      "service_end": 1500
+    },
+    {
+      "date": "03/26/2022",
+      "name": "Crab Leg Day",
+      "service_start": 1600,
+      "service_end": 1900
+    }
+  ]
+}
