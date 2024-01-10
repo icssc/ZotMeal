@@ -1,8 +1,9 @@
 import { useMemo } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
 import { useRestaurantStore } from "../stores/restaurant";
-import { data } from '../lib/data'
+import { data } from '../lib/data';
 import { useThemeStore } from "../stores/theme";
+import { Item } from "./Item";
 
 export default function Home() {
   const restaurant = useRestaurantStore(store => store.restaurant)
@@ -17,7 +18,7 @@ export default function Home() {
       <View className="w-full h-full max-w-2xl mx-auto">
         {currentData.all.map((category) => {
           return (
-            <View key={category.station} className="rounded p-2">
+            <View key={category.station} className="p-2 rounded">
               <View className="flex-row items-center justify-between gap-4">
                 <Text className={`text-2xl font-semibold ${textColor} shrink`}>
                   {category.station}
@@ -37,24 +38,7 @@ export default function Home() {
                           {menu.category} ({menu.items.length})
                         </Text>
 
-                        {/* TODO: create separate components for menu items. Then add an `expand` button */}
-                        <View className="flex gap-2 p-2 max-h-[250px]">
-                          <View className="flex-row justify-between">
-                            <Text className={`${textColor} text-lg font-semibold`}>Dish</Text>
-                            <Text className={`${textColor} text-lg font-semibold ml-3`}>Calories</Text>
-                          </View>
-
-                          <View className="w-full h-0 border border-white"></View>
-
-                          {menu.items.map((item) => {
-                            return (
-                              <View key={item.name} className="flex-row justify-between">
-                                <Text className={`${textColor}`}>{item.name}</Text>
-                                <Text className={`${textColor} ml-3`}>{item.nutrition.calories}</Text>
-                              </View>
-                            )
-                          })}
-                        </View>
+                        <Item menu={menu} textColor={textColor} />
                       </View>
 
                       <View className="hidden text-white">
