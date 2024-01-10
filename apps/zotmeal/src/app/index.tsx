@@ -3,7 +3,7 @@ import { Pressable, ScrollView, Text, View } from "react-native";
 import { useRestaurantStore } from "../stores/restaurant";
 import { data } from '../lib/data';
 import { useThemeStore } from "../stores/theme";
-import { Item } from "./Item";
+import { Menu } from "./Menu";
 
 export default function Home() {
   const restaurant = useRestaurantStore(store => store.restaurant)
@@ -32,19 +32,7 @@ export default function Home() {
               <ScrollView horizontal className="my-2">
                 {category.menu.map((menu, index) => {
                   return (
-                    <View key={menu.category}>
-                      <View className={`rounded-xl overflow-hidden ${index > 0 && 'ml-3'} border border-white`}>
-                        <Text className={`text-xl font-semibold ${textColor} bg-blue-500 p-2`}>
-                          {menu.category} ({menu.items.length})
-                        </Text>
-
-                        <Item menu={menu} textColor={textColor} />
-                      </View>
-
-                      <View className="hidden text-white">
-                        <Text>This takes up the remaining flex height.</Text>
-                      </View>
-                    </View>
+                    <Menu menu={menu} key={menu.category} index={index} textColor={textColor} />
                   )
                 })}
               </ScrollView>
