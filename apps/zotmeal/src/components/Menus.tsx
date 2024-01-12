@@ -12,6 +12,7 @@ function Item({ item, viewAll }: {
   const [expand, setExpand] = useState(false);
   const textColor = useThemeStore(store => store.textColor);
   const bgColor = useThemeStore(store => store.bgColor);
+  const borderColor = useThemeStore(store => store.borderColor);
 
   return (
     <>
@@ -54,7 +55,7 @@ function Item({ item, viewAll }: {
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
           >
-            <View className={`${bgColor} border border-white w-5/6 h-4/6 lg:w-1/2 lg:h-4/6 p-2 inset-x-0 top-10`}>
+            <View className={`${bgColor} border ${borderColor} w-5/6 h-4/6 lg:w-1/2 lg:h-4/6 p-2 inset-x-0 top-10`}>
               <Pressable
                 onPress={() => setModalVisible(false)}
                 className={`${textColor} absolute z-10 top-5 right-10`}
@@ -95,11 +96,12 @@ function Menu({ menu, index, viewAll }: {
 }) {
   const textColor = useThemeStore(store => store.textColor);
   const bgColor = useThemeStore(store => store.bgColor);
+  const borderColor = useThemeStore(store => store.borderColor);
 
   return (
     <View key={menu.category}>
-      <View className={`rounded-xl overflow-hidden ${bgColor} ${index > 0 && !viewAll && "ml-3"} border-2 border-white`}>
-        <Text className={`text-xl font-semibold ${textColor} bg-blue-500 p-2`}>
+      <View className={`rounded-xl overflow-hidden ${bgColor} ${index > 0 && !viewAll && "ml-3"} border-2 ${borderColor}`}>
+        <Text className={`text-xl font-semibold text-white bg-blue-500 p-2`}>
           {menu.category} ({menu.items.length})
         </Text>
 
@@ -109,7 +111,7 @@ function Menu({ menu, index, viewAll }: {
             <Text className={`${textColor} text-lg font-semibold ml-3`}>Calories</Text>
           </View>
 
-          <View className="w-full h-0 border border-white" />
+          <View className={`w-full h-0 border ${borderColor}`} />
           {menu.items.map((item, index) => {
             return (
               <View key={item.name} className="flex-col">
@@ -153,13 +155,14 @@ export default function Menus({ station }: {
   const [modalVisible, setModalVisible] = useState(false);
   const textColor = useThemeStore(store => store.textColor);
   const bgColor = useThemeStore(store => store.bgColor);
+  const borderColor = useThemeStore(store => store.borderColor);
 
   return <>
     <ModalWithClickOut
       modalVisible={modalVisible}
       setModalVisible={setModalVisible}
     >
-      <View className={`${bgColor} border border-white w-5/6 h-4/6 lg:w-1/2 lg:h-4/6 p-2 inset-x-0 top-10`}>
+      <View className={`${bgColor} border ${borderColor} w-5/6 h-4/6 lg:w-1/2 lg:h-4/6 p-2 inset-x-0 top-10`}>
         <MenusScrollable
           category={station}
           viewAll
