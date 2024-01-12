@@ -3,27 +3,27 @@
 // Station Name
 // Menu 1    Menu 2    Menu 3   ...
 
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import {
     View, Text, Pressable, StyleSheet, Modal,
     ScrollView, TouchableWithoutFeedback, Image
 } from "react-native";
 import Menu from "./Menu";
-import {StationInfo, MenuInfo, ItemInfo} from "../../../lib/zotmeal.types";
+import { StationInfo, MenuInfo, ItemInfo } from "../../../lib/zotmeal";
 import ColorPalette from "../ColorPalette";
-import {ItemDetails} from "./Item";
+import { ItemDetails } from "./Item";
 
 // Takes in one parameter "info" that is all the information
 // about a given Station
 // Displays the Station name each Menu in a Station in a row
-function Station(props: {info: StationInfo}){
+function Station(props: { info: StationInfo }) {
 
     const stationName = props.info.station
     const menuItems = props.info.menu
 
     const [detailsOpen, setDetailsOpen] = useState(false)
 
-    useEffect(() => {})
+    useEffect(() => { })
 
     return (
         <View style={styles.station}>
@@ -31,8 +31,8 @@ function Station(props: {info: StationInfo}){
             <View style={styles.stationHeader}>
                 <Text style={styles.stationName}>{stationName}</Text>
 
-                <View style={{flexDirection: "row", gap: "30px"}}>
-                    <VoteButtons/>
+                <View style={{ flexDirection: "row", gap: "30px" }}>
+                    <VoteButtons />
                     <Pressable style={styles.detailsButton} onPress={() => setDetailsOpen(true)}>
                         <Text style={styles.detailsText}>More Details</Text>
                     </Pressable>
@@ -40,7 +40,7 @@ function Station(props: {info: StationInfo}){
             </View>
             <View style={styles.menuList}>
                 {menuItems.map((menu: MenuInfo) =>
-                    <Menu key={menu.category} info={menu}/>
+                    <Menu key={menu.category} info={menu} />
                 )}
             </View>
 
@@ -51,15 +51,15 @@ function Station(props: {info: StationInfo}){
 
                         {/* Inside the modal */}
                         <View style={modalStyles.modalHeader}>
-                            <Pressable onPress={() => setDetailsOpen(false)} style={{width: "5%"}}>
+                            <Pressable onPress={() => setDetailsOpen(false)} style={{ width: "5%" }}>
                                 <Text style={modalStyles.exitButton}>X</Text>
                             </Pressable>
                             <Text style={modalStyles.stationTitle}>{props.info.station}</Text>
-                            <View style={{width: "10%"}}></View>
+                            <View style={{ width: "10%" }}></View>
                         </View>
                         <TouchableWithoutFeedback>
                             <ScrollView>
-                                <StationDetails info={props.info}/>
+                                <StationDetails info={props.info} />
                             </ScrollView>
                         </TouchableWithoutFeedback>
                     </View>
@@ -72,11 +72,11 @@ function Station(props: {info: StationInfo}){
 
 // Displays all the nutrition information about all the Items in a
 // given Station in a modal
-function StationDetails(props: {info: StationInfo}) {
+function StationDetails(props: { info: StationInfo }) {
     const menus = props.info.menu
     return (
-        <View style={{alignItems: "center"}}>
-            {menus.map((menu : MenuInfo) => {
+        <View style={{ alignItems: "center" }}>
+            {menus.map((menu: MenuInfo) => {
                 const itemList = menu.items
                 return (
                     <View style={detailsStyles.menu}>
@@ -87,7 +87,7 @@ function StationDetails(props: {info: StationInfo}) {
                             return (
                                 <View>
                                     <View style={detailsStyles.itemList}>
-                                        <ItemDetails itemInfo={item} nutritionOpen={false}/>
+                                        <ItemDetails itemInfo={item} nutritionOpen={false} />
                                     </View>
                                     {index < itemList.length - 1 && itemList.length > 1 ?
                                         <View style={detailsStyles.itemRowDivider}></View> : null}
@@ -116,19 +116,19 @@ function VoteButtons(props: any) {
     let downVotedArrow = currVote < 0 ? "filled" : "gray"
 
     return (
-        <View style={{flexDirection: "row", gap: "15px", alignItems: "center"}}>
+        <View style={{ flexDirection: "row", gap: "15px", alignItems: "center" }}>
             <Pressable style={voteStyles.voteButton} onPress={Upvote}>
                 <Image source={"imageAssets/Icons/arrow_up_" + upVotedArrow + ".png"}
-                       style={voteStyles.voteArrow}/>
+                    style={voteStyles.voteArrow} />
             </Pressable>
 
-            <View style={{minWidth: "15px", alignItems: "center"}}>
+            <View style={{ minWidth: "15px", alignItems: "center" }}>
                 <Text style={voteStyles.voteCount}>{currVote}</Text>
             </View>
 
             <Pressable style={voteStyles.voteButton} onPress={Downvote}>
                 <Image source={"imageAssets/Icons/arrow_down_" + downVotedArrow + ".png"}
-                       style={voteStyles.voteArrow}/>
+                    style={voteStyles.voteArrow} />
             </Pressable>
         </View>
     )
@@ -190,8 +190,8 @@ const modalStyles = StyleSheet.create({
         padding: 35,
         shadowColor: '#000',
         shadowOffset: {
-          width: 0,
-          height: 2,
+            width: 0,
+            height: 2,
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
