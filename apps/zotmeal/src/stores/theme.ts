@@ -10,6 +10,7 @@ export interface ThemeStore {
   setColorScheme: typeof Appearance.setColorScheme
   bgColor: string;
   textColor: string;
+  borderColor: string;
 }
 
 export const useThemeStore = create<ThemeStore>((set) => {
@@ -17,6 +18,7 @@ export const useThemeStore = create<ThemeStore>((set) => {
     set({ colorScheme: preferences.colorScheme });
     set({ bgColor: preferences.colorScheme === "dark" ? 'bg-black' : 'bg-white' });
     set({ textColor: preferences.colorScheme === "dark" ? 'text-white' : 'text-black' });
+    set({ borderColor: preferences.colorScheme === "dark" ? 'border-white' : 'border-black' });
   });
 
   Dimensions.addEventListener("change", ({ window }) => {
@@ -27,6 +29,7 @@ export const useThemeStore = create<ThemeStore>((set) => {
 
   const bgColor = colorScheme === 'dark' ? 'bg-black' : 'bg-white';
   const textColor = colorScheme === 'dark' ? 'text-white' : 'text-black';
+  const borderColor = colorScheme === 'dark' ? 'border-white' : 'border-black';
 
   return {
     colorScheme,
@@ -34,5 +37,6 @@ export const useThemeStore = create<ThemeStore>((set) => {
     width: Dimensions.get("window").width,
     bgColor,
     textColor,
+    borderColor,
   };
 });
