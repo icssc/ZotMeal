@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { ScrollView, View } from "react-native";
-import type { LocationInfo } from '../../../../packages/shared/lib/zotmeal.types';
+import type { LocationInfo } from '../../../../packages/shared/lib/zotmeal';
 import Menus from "../components/Menus";
 import { data } from '../lib/data';
 import { useRestaurantStore } from "../stores/restaurant";
