@@ -7,8 +7,8 @@ import { useRestaurantStore } from "../stores/restaurant";
 
 export default function Home() {
   const restaurant = useRestaurantStore(store => store.restaurant);
-  const currentData: LocationInfo = useMemo(() => {
-    return data[restaurant]
+  const currentData = useMemo(() => {
+    return data[restaurant] as LocationInfo;
   }, [restaurant])
 
   return (
