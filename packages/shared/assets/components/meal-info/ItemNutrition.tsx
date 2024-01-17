@@ -1,18 +1,18 @@
 // Displays all the nutritional information about the
 
 import React from "react";
-import {View, Text, StyleSheet} from "react-native";
-import {Nutrition} from "../../../lib/zotmeal.types";
+import { View, Text, StyleSheet } from "react-native";
+import { Nutrition } from "../../../lib/zotmeal";
 import ColorPalette from "../ColorPalette";
 
-function ItemNutrition(props: {nutrition: Nutrition}) {
-    return(
-        <View style={{flexDirection: "row"}}>
+function ItemNutrition(props: { nutrition: Nutrition }) {
+    return (
+        <View style={{ flexDirection: "row" }}>
             {/* Left Column*/}
             <View style={styles.leftColumn}>
                 <View style={styles.twoColumn}>
-                    <Text style={{fontWeight: "bold"}}>Calories</Text>
-                    <Text style={{fontWeight: "bold"}}>{props.nutrition.calories} kCal</Text>
+                    <Text style={{ fontWeight: "bold" }}>Calories</Text>
+                    <Text style={{ fontWeight: "bold" }}>{props.nutrition.calories} kCal</Text>
                 </View>
                 {/*-----------------*/}
                 <View style={styles.rowDivider}></View>
@@ -32,8 +32,8 @@ function ItemNutrition(props: {nutrition: Nutrition}) {
                 <View style={styles.rowDivider}></View>
 
                 <View style={styles.twoColumn}>
-                    <Text style={{fontWeight: "bold"}}>Total Fat</Text>
-                    <Text style={{fontWeight: "bold"}}>{props.nutrition.totalFat} g</Text>
+                    <Text style={{ fontWeight: "bold" }}>Total Fat</Text>
+                    <Text style={{ fontWeight: "bold" }}>{props.nutrition.totalFat} g</Text>
                 </View>
                 {/*-----------------*/}
                 <View style={styles.rowDivider}></View>
@@ -53,23 +53,23 @@ function ItemNutrition(props: {nutrition: Nutrition}) {
                 <View style={styles.rowDivider}></View>
 
                 <View style={styles.twoColumn}>
-                    <Text style={{fontWeight: "bold"}}>Cholesterol</Text>
-                    <Text style={{fontWeight: "bold"}}>{props.nutrition.cholesterol} mg</Text>
+                    <Text style={{ fontWeight: "bold" }}>Cholesterol</Text>
+                    <Text style={{ fontWeight: "bold" }}>{props.nutrition.cholesterol} mg</Text>
                 </View>
                 {/*-----------------*/}
                 <View style={styles.rowDivider}></View>
 
                 <View style={styles.twoColumn}>
-                    <Text style={{fontWeight: "bold"}}>Sodium</Text>
-                    <Text style={{fontWeight: "bold"}}>{props.nutrition.sodium} mg</Text>
+                    <Text style={{ fontWeight: "bold" }}>Sodium</Text>
+                    <Text style={{ fontWeight: "bold" }}>{props.nutrition.sodium} mg</Text>
                 </View>
             </View>
 
             {/* Right Column*/}
             <View style={styles.rightColumn}>
                 <View style={styles.twoColumn}>
-                    <Text style={{fontWeight: "bold"}}>Total Carbohydrates</Text>
-                    <Text style={{fontWeight: "bold"}}>{props.nutrition.totalCarbohydrates} g</Text>
+                    <Text style={{ fontWeight: "bold" }}>Total Carbohydrates</Text>
+                    <Text style={{ fontWeight: "bold" }}>{props.nutrition.totalCarbohydrates} g</Text>
                 </View>
                 {/*-----------------*/}
                 <View style={styles.rowDivider}></View>
@@ -89,8 +89,8 @@ function ItemNutrition(props: {nutrition: Nutrition}) {
                 <View style={styles.rowDivider}></View>
 
                 <View style={styles.twoColumn}>
-                    <Text style={{fontWeight: "bold"}}>Protein</Text>
-                    <Text style={{fontWeight: "bold"}}>{props.nutrition.protein} g</Text>
+                    <Text style={{ fontWeight: "bold" }}>Protein</Text>
+                    <Text style={{ fontWeight: "bold" }}>{props.nutrition.protein} g</Text>
                 </View>
                 {/*-----------------*/}
                 <View style={styles.rowDivider}></View>

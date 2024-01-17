@@ -1,25 +1,25 @@
 export type Nutrition = {
-    calcium: number
-    calories: number
-    caloriesFromFat: number
-    cholesterol: number
-    dietaryFiber: number
-    iron: number
+    calcium: string
+    calories: string
+    caloriesFromFat: string
+    cholesterol: string
+    dietaryFiber: string
+    iron: string
     isEatWell: boolean
     isPlantForward: boolean
     isVegan: boolean
     isVegetarian: boolean
     isWholeGrain: boolean
-    protein: number
-    saturatedFat: number
-    servingSize: number
+    protein: string
+    saturatedFat: string
+    servingSize: string
     servingUnit: string
-    sodium: number
-    sugars: number
-    totalCarbohydrates: number
-    totalFat: number
-    transFat: number
-    vitaminC: number
+    sodium: string
+    sugars: string
+    totalCarbohydrates: string
+    totalFat: string
+    transFat: string
+    vitaminC: string
 }
 
 export type ItemInfo = {
@@ -43,6 +43,6 @@ export type LocationInfo = {
     currentMeal: string
     date: string
     restaurant: string
-    price: {[key: string]: number}
-    schedule: {[key: string]: {start: number, end: number}}
+    price: { [key: string]: number }
+    schedule: { [key: string]: { start: number, end: number } }
 }
