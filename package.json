@@ -2,6 +2,9 @@
   "name": "zotmeal-app",
   "version": "1.0.0",
   "description": "ZotMeal monorepo",
+  "scripts": {
+    "dev": "pnpm --prefix ./apps/zotmeal dev"
+  },
   "license": "MIT",
   "private": true,
   "devDependencies": {

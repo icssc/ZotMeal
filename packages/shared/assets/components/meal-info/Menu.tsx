@@ -5,14 +5,14 @@
 // Item 2        #
 /// ....
 
-import React, {ReactElement, useEffect, useState} from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import Item from "./Item";
-import {Pressable, StyleSheet, Text, View} from "react-native";
-import {ItemInfo, MenuInfo} from "../../../lib/zotmeal.types";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { ItemInfo, MenuInfo } from "../../../lib/zotmeal";
 import ColorPalette from "../ColorPalette";
 
 
-function Menu(props: {info: MenuInfo}){
+function Menu(props: { info: MenuInfo }) {
 
     const itemCategory = props.info.category
     const itemList = props.info.items
@@ -24,16 +24,16 @@ function Menu(props: {info: MenuInfo}){
 
     const [expanded, setExpanded] = useState(false)
 
-    useEffect(() => {})
+    useEffect(() => { })
 
 
     //If the list is larger than 4 make rows expandable
-    if (itemList.length > 4){
+    if (itemList.length > 4) {
         truncatedList = itemList.slice(0, 4)
-        hiddenList = itemList.slice(4, )
+        hiddenList = itemList.slice(4,)
 
         expandButton = <Pressable onPress={() => setExpanded(!expanded)}>
-            <Text style={styles.expand}>{expanded? 'Show Less ^' : 'Show More ˅'}</Text>
+            <Text style={styles.expand}>{expanded ? 'Show Less ^' : 'Show More ˅'}</Text>
         </Pressable>
 
         hiddenList.forEach((item: ItemInfo) => {
@@ -41,7 +41,7 @@ function Menu(props: {info: MenuInfo}){
         })
     }
     //Otherwise make the rows normal
-    else{
+    else {
         truncatedList = itemList
     }
 
@@ -58,11 +58,11 @@ function Menu(props: {info: MenuInfo}){
                 </View>
 
                 {truncatedList.map((item: ItemInfo) =>
-                    <Item key={item.name} info={item}/>
+                    <Item key={item.name} info={item} />
                 )}
                 {expanded ?
                     expandableSection.map((item: ItemInfo) =>
-                    <Item key={item.name} info={item}/>)
+                        <Item key={item.name} info={item} />)
                     : null
                 }
                 {expandButton}

@@ -1,16 +1,18 @@
-import {Button, View, StyleSheet, TouchableWithoutFeedback,
-    Pressable, Modal, Text, Image} from "react-native";
-import React, {useState} from "react";
-import {LocationInfo} from "../../../lib/zotmeal.types";
+import {
+    Button, View, StyleSheet, TouchableWithoutFeedback,
+    Pressable, Modal, Text, Image
+} from "react-native";
+import React, { useState } from "react";
+import { LocationInfo } from "../../../lib/zotmeal";
 import ColorPalette from "../ColorPalette";
 
 
-function ScheduleButton(props: {locationInfo: LocationInfo}) {
+function ScheduleButton(props: { locationInfo: LocationInfo }) {
     const [scheduleOpen, openSchedule] = useState(false)
     return (
         <View>
-            <Pressable onPress={() => {openSchedule(true)}}>
-                <Image source="imageAssets/Icons/calendar.png" style={{height: "40px", width: "40px"}}/>
+            <Pressable onPress={() => { openSchedule(true) }}>
+                <Image source="imageAssets/Icons/calendar.png" style={{ height: "40px", width: "40px" }} />
             </Pressable>
 
             <Modal visible={scheduleOpen} transparent={true} animationType={"fade"}>
@@ -19,14 +21,14 @@ function ScheduleButton(props: {locationInfo: LocationInfo}) {
 
                         {/* Inside the modal */}
                         <View style={modalStyles.modalHeader}>
-                            <Pressable onPress={() => openSchedule(false)} style={{width: "5%"}}>
+                            <Pressable onPress={() => openSchedule(false)} style={{ width: "5%" }}>
                                 <Text style={modalStyles.exitButton}>X</Text>
                             </Pressable>
                             <Text style={modalStyles.pricingTitle}>Calendar</Text>
-                            <View style={{width: "10%"}}></View>
+                            <View style={{ width: "10%" }}></View>
                         </View>
                         <TouchableWithoutFeedback>
-                            <ScheduleModal locationInfo={props.locationInfo}/>
+                            <ScheduleModal locationInfo={props.locationInfo} />
                         </TouchableWithoutFeedback>
 
                     </View>
@@ -36,7 +38,7 @@ function ScheduleButton(props: {locationInfo: LocationInfo}) {
     )
 }
 
-function ScheduleModal(props: {locationInfo: LocationInfo}) {
+function ScheduleModal(props: { locationInfo: LocationInfo }) {
     const info = props.locationInfo
     const schedule = info.schedule
     // Sort the meals in order of start time
@@ -47,11 +49,11 @@ function ScheduleModal(props: {locationInfo: LocationInfo}) {
     let mealCount = 0
 
     return (
-        <View style={{margin: "3%"}}>
+        <View style={{ margin: "3%" }}>
             <View style={modalStyles.tempImage}>
                 <View style={modalStyles.overlayTitle}>
                     <Text style={modalStyles.locationTitle}>{info.restaurant}</Text>
-                    <View style={modalStyles.rowDivider}/>
+                    <View style={modalStyles.rowDivider} />
                     <Text style={modalStyles.smallText}>Calendar Updated: {info.date}</Text>
                 </View>
             </View>
@@ -84,23 +86,23 @@ function ScheduleModal(props: {locationInfo: LocationInfo}) {
                     endDisplay += (endHr > 12) ? " pm" : " am"
 
 
-                {/* One meal */}
+                    {/* One meal */ }
                     return (
-                    <View>
-                        <View style={[modalStyles.mealNameSection, mealCount++ ? {borderRadius: 0} : null]}>
-                            <Text style={modalStyles.mealName}>{mealName}</Text>
-                        </View>
-                        <View style={modalStyles.rowDivider}/>
-                        <View style={modalStyles.twoColumn}>
-                            <Text style={modalStyles.mealTime}>Start</Text>
-                            <Text style={modalStyles.mealTime}>{startDisplay}</Text>
-                        </View>
-                        <View style={modalStyles.rowDivider}/>
-                        <View style={modalStyles.twoColumn}>
-                            <Text style={modalStyles.mealTime}>End</Text>
-                            <Text style={modalStyles.mealTime}>{endDisplay}</Text>
-                        </View>
-                    </View>)
+                        <View>
+                            <View style={[modalStyles.mealNameSection, mealCount++ ? { borderRadius: 0 } : null]}>
+                                <Text style={modalStyles.mealName}>{mealName}</Text>
+                            </View>
+                            <View style={modalStyles.rowDivider} />
+                            <View style={modalStyles.twoColumn}>
+                                <Text style={modalStyles.mealTime}>Start</Text>
+                                <Text style={modalStyles.mealTime}>{startDisplay}</Text>
+                            </View>
+                            <View style={modalStyles.rowDivider} />
+                            <View style={modalStyles.twoColumn}>
+                                <Text style={modalStyles.mealTime}>End</Text>
+                                <Text style={modalStyles.mealTime}>{endDisplay}</Text>
+                            </View>
+                        </View>)
                 })}
             </View>
         </View>
@@ -189,7 +191,7 @@ const modalStyles = StyleSheet.create({
 
     mealName: {
         color: ColorPalette.textColor,
-            fontSize: 20,
+        fontSize: 20,
         fontWeight: "bold",
     },
 
