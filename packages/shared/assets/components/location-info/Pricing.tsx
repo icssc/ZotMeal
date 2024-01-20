@@ -1,16 +1,18 @@
-import {Button, View, StyleSheet, TouchableWithoutFeedback,
-    Pressable, Modal, Text,Image} from "react-native";
-import React, {useState} from "react";
-import {LocationInfo} from "../../../lib/zotmeal.types";
+import {
+    Button, View, StyleSheet, TouchableWithoutFeedback,
+    Pressable, Modal, Text, Image
+} from "react-native";
+import React, { useState } from "react";
+import { LocationInfo } from "../../../lib/zotmeal";
 import ColorPalette from "../ColorPalette";
 
 
-function PricingButton(props: {locationInfo: LocationInfo}) {
+function PricingButton(props: { locationInfo: LocationInfo }) {
     const [pricingOpen, openPricing] = useState(false)
     return (
         <View>
-            <Pressable onPress={() => {openPricing(true)}}>
-                <Image source="imageAssets/Icons/price.png" style={{height: "40px", width: "40px"}}/>
+            <Pressable onPress={() => { openPricing(true) }}>
+                <Image source="imageAssets/Icons/price.png" style={{ height: "40px", width: "40px" }} />
             </Pressable>
 
             <Modal visible={pricingOpen} transparent={true} animationType={"fade"}>
@@ -19,14 +21,14 @@ function PricingButton(props: {locationInfo: LocationInfo}) {
 
                         {/* Inside the modal */}
                         <View style={modalStyles.modalHeader}>
-                            <Pressable onPress={() => openPricing(false)} style={{width: "5%"}}>
+                            <Pressable onPress={() => openPricing(false)} style={{ width: "5%" }}>
                                 <Text style={modalStyles.exitButton}>X</Text>
                             </Pressable>
                             <Text style={modalStyles.pricingTitle}>Pricing</Text>
-                            <View style={{width: "10%"}}></View>
+                            <View style={{ width: "10%" }}></View>
                         </View>
                         <TouchableWithoutFeedback>
-                            <PricingModal locationInfo={props.locationInfo}/>
+                            <PricingModal locationInfo={props.locationInfo} />
                         </TouchableWithoutFeedback>
 
                     </View>
@@ -36,16 +38,16 @@ function PricingButton(props: {locationInfo: LocationInfo}) {
     )
 }
 
-function PricingModal(props: {locationInfo: LocationInfo}) {
+function PricingModal(props: { locationInfo: LocationInfo }) {
     const info = props.locationInfo
 
     return (
-        <View style={{margin: "3%"}}>
+        <View style={{ margin: "3%" }}>
             <View style={modalStyles.tempImage}>
                 <View style={modalStyles.overlayTitle}>
                     <Text style={modalStyles.locationTitle}>{info.restaurant}</Text>
-                    <View style={modalStyles.rowDivider}/>
-                    <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+                    <View style={modalStyles.rowDivider} />
+                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                         <Text style={modalStyles.smallText}>Meal Type</Text>
                         <Text style={modalStyles.smallText}>Price</Text>
                     </View>
@@ -56,23 +58,23 @@ function PricingModal(props: {locationInfo: LocationInfo}) {
                 <Text style={modalStyles.mealName}>Breakfast</Text>
                 <Text style={modalStyles.mealPrice}>${info.price["breakfast"]}</Text>
             </View>
-            <View style={modalStyles.rowDivider}/>
+            <View style={modalStyles.rowDivider} />
             <View style={modalStyles.priceTable}>
                 <Text style={modalStyles.mealName}>Lunch (Mon. - Fri. only)</Text>
                 <Text style={modalStyles.mealPrice}>${info.price["lunch"]}</Text>
             </View>
-            <View style={modalStyles.rowDivider}/>
+            <View style={modalStyles.rowDivider} />
             <View style={modalStyles.priceTable}>
                 <Text style={modalStyles.mealName}>Brunch (Sat. - Sun. only)</Text>
                 <Text style={modalStyles.mealPrice}>${info.price["brunch"]}</Text>
             </View>
-            <View style={modalStyles.rowDivider}/>
+            <View style={modalStyles.rowDivider} />
             <View style={modalStyles.priceTable}>
                 <Text style={modalStyles.mealName}>Dinner</Text>
                 <Text style={modalStyles.mealPrice}>${info.price["dinner"]}</Text>
             </View>
-            <View style={modalStyles.rowDivider}/>
-            <Text style={{margin: "2%"}}>Meal plan holders: Please refer to terms and conditions of your specific meal plan.</Text>
+            <View style={modalStyles.rowDivider} />
+            <Text style={{ margin: "2%" }}>Meal plan holders: Please refer to terms and conditions of your specific meal plan.</Text>
         </View>
     )
 }

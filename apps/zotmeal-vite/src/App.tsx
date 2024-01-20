@@ -1,9 +1,9 @@
-import Home from "../components/Home"
+import Home from '../../../packages/shared/assets/components/Home'
 function App() {
 
   return (
     <div>
-      <Home/>
+      <Home />
     </div>
   )
 }
