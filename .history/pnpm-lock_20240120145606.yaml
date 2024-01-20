@@ -222,9 +222,6 @@ importers:
       axios:
         specifier: ^1.5.0
         version: 1.6.2(debug@4.3.4)
-      expo-server-sdk:
-        specifier: ^3.7.0
-        version: 3.7.0
       react-dom:
         specifier: ^17.0.0
         version: 17.0.2(react@17.0.2)
