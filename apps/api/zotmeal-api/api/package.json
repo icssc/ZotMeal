@@ -13,7 +13,9 @@
     "test": "npm run compile && npm run unit"
   },
   "dependencies": {
-    "esbuild": "^0.14.14"
+    "axios": "^1.5.0",
+    "esbuild": "^0.14.14",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.92",

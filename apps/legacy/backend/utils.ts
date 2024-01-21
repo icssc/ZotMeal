@@ -40,10 +40,10 @@ export const LOCATION_ID: Record<string, string> = {
   anteatery: "3056",
 };
 
-export function getMealPeriods(time) {
-  return new Date(time).toLocaleTimeString("en-US", {
-    timeZone: "America/Los_Angeles",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
+// export function getMealPeriods(time) {
+//   return new Date(time).toLocaleTimeString("en-US", {
+//     timeZone: "America/Los_Angeles",
+//     hour: "2-digit",
+//     minute: "2-digit",
+//   });
+// }

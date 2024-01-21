@@ -8,7 +8,7 @@ Description: >
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 10
 
     # You can add LoggingConfig parameters such as the Logformat, Log Group, and SystemLogLevel or ApplicationLogLevel. Learn more here https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html#sam-function-loggingconfig.
     LoggingConfig:
@@ -36,21 +36,22 @@ Resources:
         Sourcemap: true
         EntryPoints:
         - handlers/app.ts
-
-  PrefetchMenuCron:
-    Type: AWS::Serverless::Function
+        External:
+        - 'axios'
+  GetMenuFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: api/
-      Handler: app.prefetchMenu
+      Handler: menus/handlers.getMenuHandler
       Runtime: nodejs20.x
       Architectures:
       - x86_64
       Events:
-        Schedule:
-          Type: Schedule
+        HelloWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Schedule: rate(1 day)
-            Enabled: true
+            Path: /menus
+            Method: get
     Metadata: # Manage esbuild properties
       BuildMethod: esbuild
       BuildProperties:
@@ -58,7 +59,35 @@ Resources:
         Target: es2020
         Sourcemap: true
         EntryPoints:
-        - app.ts
+        - menus/handlers.ts
+        External:
+        - 'axios'
+
+    
+    
+
+  # PrefetchMenuCron:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     CodeUri: api/
+  #     Handler: app.prefetchMenu
+  #     Runtime: nodejs20.x
+  #     Architectures:
+  #     - x86_64
+  #     Events:
+  #       Schedule:
+  #         Type: Schedule
+  #         Properties:
+  #           Schedule: rate(1 day)
+  #           Enabled: true
+  #   Metadata: # Manage esbuild properties
+  #     BuildMethod: esbuild
+  #     BuildProperties:
+  #       Minify: true
+  #       Target: es2020
+  #       Sourcemap: true
+  #       EntryPoints:
+  #       - handlers/hello.ts
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
