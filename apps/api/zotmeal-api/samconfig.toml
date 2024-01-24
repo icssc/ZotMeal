@@ -21,6 +21,7 @@ s3_prefix = "zotmeal-api"
 region = "us-west-1"
 image_repositories = []
 profile = "icssc"
+disable_rollback = true
 
 [default.package.parameters]
 resolve_s3 = true
