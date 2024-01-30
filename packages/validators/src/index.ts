@@ -7,3 +7,6 @@ export const CreatePostSchema = z.object({
 
 
 
+export const GetMenuSchema = z.object({
+  
+})
