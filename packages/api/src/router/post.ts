@@ -28,7 +28,10 @@ export const postRouter = createTRPCRouter({
     .mutation(({ ctx, input }) => {
       // return ctx.db.insert(schema.post).values(input);
       return ctx.db.post.create({
-        data: input,
+        data: {
+          title: input.title,
+          content: input.content,
+        },
       });
     }),
 
