@@ -14,7 +14,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@acme/db": "workspace:^",
     "@acme/validators": "workspace:^0.1.0",
     "@trpc/server": "11.0.0-next-beta.236",
     "axios": "^1.6.7",
