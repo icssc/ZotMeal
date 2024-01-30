@@ -6,16 +6,20 @@
   "author": "SAM CLI",
   "license": "MIT",
   "scripts": {
-    "dev": "DOCKER_HOST=unix://$HOME/.docker/run/docker.sock sam local start-api",
+    "dev": "pnpm build && DOCKER_HOST=unix://$HOME/.docker/run/docker.sock sam local start-api",
+    "build": "sam build",
     "deploy": "sam deploy --guided",
+    "clean": "rm -rf .turbo node_modules",
     "unit": "jest",
     "lint": "eslint '*.ts' --quiet --fix",
     "compile": "tsc",
     "test": "npm run compile && npm run unit"
   },
   "dependencies": {
+    "@acme/api": "workspace:^",
     "@acme/tsconfig": "workspace:^",
     "@jest/globals": "^29.7.0",
+    "@trpc/server": "11.0.0-next-beta.236",
     "@types/aws-lambda": "^8.10.133",
     "aws-lambda": "^1.0.7",
     "axios": "^1.6.7"
