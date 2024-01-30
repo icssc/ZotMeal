@@ -1,9 +1,0 @@
-{
-  "extends": "../base.tsconfig.json",
-  "include": [
-    "assets"
-  ],
-  "compilerOptions": {
-    "outDir": "dist"
-  }
-}
