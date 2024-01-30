@@ -1,5 +1,5 @@
 {
-  "name": "@acme/expo",
+  "name": "@acme/expo_",
   "version": "0.1.0",
   "private": true,
   "main": "expo-router/entry",
@@ -47,8 +47,6 @@
     "@babel/core": "^7.23.9",
     "@babel/preset-env": "^7.23.9",
     "@babel/runtime": "^7.23.9",
-    "@types/babel__core": "^7.20.5",
-    "@types/react": "^18.2.48",
     "eslint": "^8.56.0",
     "prettier": "^3.1.1",
     "tailwindcss": "^3.4.0",
