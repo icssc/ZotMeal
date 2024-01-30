@@ -1,27 +1,25 @@
 {
-  "name": "@zotmeal/server",
+  "name": "server",
   "version": "1.0.0",
-  "description": "hello world sample for NodeJS",
-  "repository": "https://github.com/awslabs/aws-sam-cli/tree/develop/samcli/local/init/templates/cookiecutter-aws-sam-hello-nodejs",
-  "author": "SAM CLI",
-  "license": "MIT",
+  "description": "Serverless aws-nodejs-typescript template",
+  "main": "serverless.ts",
   "scripts": {
-    "dev": "pnpm build && DOCKER_HOST=unix://$HOME/.docker/run/docker.sock sam local start-api",
-    "build": "sam build",
-    "deploy": "sam deploy --guided",
-    "clean": "rm -rf .turbo node_modules",
-    "unit": "jest",
-    "lint": "eslint '*.ts' --quiet --fix",
-    "compile": "tsc",
-    "test": "npm run compile && npm run unit"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+    "node": ">=14.15.0"
+  },
+  "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
+  "license": "MIT",
   "dependencies": {
     "@acme/api": "workspace:^",
-    "@acme/tsconfig": "workspace:^",
-    "@jest/globals": "^29.7.0",
-    "@trpc/server": "11.0.0-next-beta.236",
+    "@acme/db": "workspace:^",
+    "@serverless/typescript": "^3.38.0",
     "@types/aws-lambda": "^8.10.133",
-    "aws-lambda": "^1.0.7",
-    "axios": "^1.6.7"
+    "@types/node": "^20.11.11",
+    "@zotmeal/test": "workspace:^",
+    "axios": "^1.6.7",
+    "serverless-esbuild": "^1.50.2",
+    "serverless-offline": "^13.3.3"
   }
 }
