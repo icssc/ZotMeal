@@ -229,12 +229,18 @@ importers:
 
   apps/server:
     dependencies:
+      '@acme/api':
+        specifier: workspace:^
+        version: link:../../packages/api
       '@acme/tsconfig':
         specifier: workspace:^
         version: link:../../tooling/typescript
       '@jest/globals':
         specifier: ^29.7.0
         version: 29.7.0
+      '@trpc/server':
+        specifier: 11.0.0-next-beta.236
+        version: 11.0.0-next-beta.236
       '@types/aws-lambda':
         specifier: ^8.10.133
         version: 8.10.133
@@ -256,6 +262,9 @@ importers:
       '@trpc/server':
         specifier: 11.0.0-next-beta.236
         version: 11.0.0-next-beta.236
+      axios:
+        specifier: ^1.6.7
+        version: 1.6.7
       superjson:
         specifier: 2.2.1
         version: 2.2.1

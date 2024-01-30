@@ -30,8 +30,9 @@ import { PrismaClient } from "@acme/db";
  */
 
 const db: PrismaClient = new PrismaClient(); // Singleton
+
 export const createTRPCContext = (opts: {
-  headers: Headers;
+  // headers: Headers;
   // session: Session | null;
 }) => {
   const _ = opts;
