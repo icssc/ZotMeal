@@ -5,6 +5,8 @@
 ## Packages installed by NPM. https://docs.npmjs.com/about-packages-and-modules
 node_modules/
 
+.history/
+
 # Logs.
 *.log
 .pnpm-debug.log*
