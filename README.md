@@ -41,12 +41,13 @@ A summary of the libraries we use are listed below.
 2. Navigate to the root directory and install the dependencies.
    `cd ZotMeal && pnpm install`
 
-3. Start the development server for the frontend.
-   `cd apps/zotmeal && pnpm dev`
+3. Start the local development servers for expo and server.
+   `pnpm dev`
+   The tRPC procedures are available on http://localhost:3000/\<router.procedure\>?input={YOUR_INPUT_HERE}
 
-4. View the local website at http://localhost:19006 and/or with the [Expo Go mobile app](https://expo.dev/client).
+4. Change your node version to the one specified in .nvmrc
+   `nvm use`
+
+5. View the local website at http://localhost:19006 and/or with the [Expo Go mobile app](https://expo.dev/client).
    As you make changes to the Expo application, those changes will be automatically
    reflected on the local website as well as the mobile app.
-
-5. Start the development server for the backend.
-   `cd apps/zotmeal && pnpm run netlify`
