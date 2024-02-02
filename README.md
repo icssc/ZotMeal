@@ -45,7 +45,7 @@ A summary of the libraries we use are listed below.
 
 3. Start the local development servers for expo and server.
    `pnpm dev`
-   The tRPC procedures are available on http://localhost:3000/\<router.procedure\>?input={YOUR_INPUT_HERE}
+   The tRPC procedures are available on http://localhost:3000/<router.procedure\>?input={field: value}
 
 4. Change your node version to the one specified in .nvmrc
    `nvm use`
