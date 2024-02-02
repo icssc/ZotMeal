@@ -11,6 +11,8 @@ A summary of the libraries we use are listed below.
 
 - [Expo](https://expo.dev) - Universal framework for React Native.
 - [NativeWind](https://www.nativewind.dev) - TailwindCSS for React Native.
+- [Serverless Framework](https://www.serverless.com/) - Framework for cloud resources such as AWS Lambda.
+- [tRPC](https://trpc.io/) - Typesafe RPCs.
 
 # Getting Started
 
