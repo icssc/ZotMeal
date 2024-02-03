@@ -1,8 +1,8 @@
 import axios from "axios";
 
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { parse } from "@acme/api";
-import { CampusDishResponseSchema, ParsedResponseSchema } from "@acme/validators";
+import { parse } from "@zotmeal/api";
+import { CampusDishResponseSchema, ParsedResponseSchema } from "@zotmeal/validators";
 import { z } from "zod";
 
 export const menuRouter = createTRPCRouter({

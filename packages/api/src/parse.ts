@@ -1,6 +1,6 @@
-import { LocationNames } from "@acme/utils";
-import type { CampusDishResponse, ParsedResponse } from "@acme/validators";
-import { StationSchema } from "@acme/validators";
+import { LocationNames } from "@zotmeal/utils";
+import type { CampusDishResponse, ParsedResponse } from "@zotmeal/validators";
+import { StationSchema } from "@zotmeal/validators";
 import { z } from "zod";
 
 export function parse(data: CampusDishResponse) {

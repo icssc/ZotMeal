@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { CreatePostSchema } from "@acme/validators";
+import { CreatePostSchema } from "@zotmeal/validators";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 

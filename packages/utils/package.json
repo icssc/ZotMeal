@@ -1,5 +1,5 @@
 {
-  "name": "@acme/utils",
+  "name": "@zotmeal/utils",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -14,9 +14,9 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@acme/eslint-config": "workspace:^0.2.0",
-    "@acme/prettier-config": "workspace:^0.1.0",
-    "@acme/tsconfig": "workspace:^0.1.0",
+    "@zotmeal/eslint-config": "workspace:^0.2.0",
+    "@zotmeal/prettier-config": "workspace:^0.1.0",
+    "@zotmeal/tsconfig": "workspace:^0.1.0",
     "eslint": "^8.56.0",
     "prettier": "^3.1.1",
     "typescript": "^5.3.3"
@@ -24,8 +24,8 @@
   "eslintConfig": {
     "root": true,
     "extends": [
-      "@acme/eslint-config/base"
+      "@zotmeal/eslint-config/base"
     ]
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@zotmeal/prettier-config"
 }

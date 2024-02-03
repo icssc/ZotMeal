@@ -2,7 +2,7 @@ import {
   awsLambdaRequestHandler,
   CreateAWSLambdaContextOptions,
 } from "@trpc/server/adapters/aws-lambda";
-import { appRouter, createTRPCContext } from "@acme/api";
+import { appRouter, createTRPCContext } from "@zotmeal/api";
 import { APIGatewayProxyEventV2 } from "aws-lambda";
 
 const createContext = ({
