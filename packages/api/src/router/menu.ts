@@ -38,6 +38,8 @@ const getMenuProcedure = publicProcedure
 
 
 
+import { parse } from "../../../utils/parse";
+import { CampusDishResponseSchema, ParsedResponseSchema } from "@acme/validators";
 
 export const menuRouter = createTRPCRouter({
   get: ,
@@ -47,5 +49,12 @@ export const menuRouter = createTRPCRouter({
     console.log("hello");
     const _ = ctx;
     return "hello";
+  }),
+  parse: publicProcedure.query(async ({ ctx }) => {
+    const res = await axios.get("https://uci.campusdish.com/api/menu/GetMenus?locationId=3314&periodId=49&date=1/19/2024");
+    const validated = CampusDishResponseSchema.parse(res.data);
+    const parsed = ParsedResponseSchema.parse(parse(validated));
+    const _ = ctx;
+    return parsed;
   }),
 });
