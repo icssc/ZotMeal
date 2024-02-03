@@ -1,5 +1,7 @@
 import { LocationNames } from "@acme/utils";
 import type { CampusDishResponse, ParsedResponse } from "@acme/validators";
+import { StationSchema } from "@acme/validators";
+import { z } from "zod";
 
 export function parse(data: CampusDishResponse) {
   const restaurant = {
@@ -18,14 +20,23 @@ export function parse(data: CampusDishResponse) {
 
   const stations = Array
     .from(uniqueStations)
-    .map(station => JSON.parse(station) as ParsedResponse["stations"][0]);
+    .map(station => {
+      try {
+        return StationSchema.parse(JSON.parse(station));
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          console.log(error.issues);
+        }
+        throw error;
+      }
+    });
 
   const dishes = data.Menu.MenuProducts.map(MenuProduct => ({
     id: MenuProduct.MenuProductId,
     stationId: MenuProduct.StationId,
     name: MenuProduct.Product.MarketingName,
     description: MenuProduct.Product.ShortDescription,
-    dietaryRestrictionInfo: {
+    dietRestriction: {
       id: MenuProduct.MenuProductId,
       containsEggs: MenuProduct.Product.ContainsEggs,
       containsFish: MenuProduct.Product.ContainsFish,

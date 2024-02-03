@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const DietaryRestrictionInfoSchema = z.object({
+export const DietRestrictionSchema = z.object({
   id: z.string(),
   containsEggs: z.boolean().nullable(),
   containsFish: z.boolean().nullable(),
@@ -46,7 +46,7 @@ export const DishSchema = z.object({
   stationId: z.string(),
   name: z.string(),
   description: z.string(),
-  dietaryRestrictionInfo: DietaryRestrictionInfoSchema,
+  dietRestriction: DietRestrictionSchema,
   nutritionInfo: NutritionInfoSchema,
 });
 
