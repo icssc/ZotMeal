@@ -10,26 +10,114 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model DietaryRestrictionInfo {
+  id                String   @id
+  containsFish      Boolean?
+  containsMilk      Boolean?
+  containsPeanuts   Boolean?
+  containsSesame    Boolean?
+  containsShellfish Boolean?
+  containSoy        Boolean?
+  containsTreeNuts  Boolean?
+  containsWheat     Boolean?
+  isGlutenFree      Boolean?
+  isHalal           Boolean?
+  isKosher          Boolean?
+  isLocallyGrown    Boolean?
+  isOrganic         Boolean?
+  isVegan           Boolean?
+  isVegetarian      Boolean?
+  dish              Dish     @relation(fields: [dishId], references: [id])
+  dishId            String   @unique
+}
+
+model NutritionInfo {
+  id                 String  @id
+  servingSize        String?
+  servingUnit        String?
+  calories           String?
+  caloriesFromFat    String?
+  totalFat           String?
+  transFat           String?
+  cholesterol        String?
+  sodum              String?
+  totalCarbohydrates String?
+  dietaryFiber       String?
+  sugars             String?
+  protein            String?
+  vitaminA           String?
+  vitaminC           String?
+  calcium            String?
+  iron               String?
+  saturatedFat       String?
+  dish               Dish    @relation(fields: [dishId], references: [id])
+  dishId             String  @unique
+}
+
+model Restaurant {
+  id        String  @id
+  name      String
+  station   Station @relation(fields: [stationId], references: [id])
+  stationId String  @unique
+
+  menu   Menu   @relation(fields: [menuId], references: [id])
+  menuId String @unique
+}
+
+model MenuPeriod {
+  id     String   @id
+  name   String
+  start  DateTime
+  end    DateTime
+  menu   Menu     @relation(fields: [menuId], references: [id])
+  menuId String   @unique
+}
+
+model Dish {
+  id                     String                  @id
+  description            String
+  dietaryRestrictionInfo DietaryRestrictionInfo?
+  nutritionInfo          NutritionInfo?
+  station                Station                 @relation(fields: [stationId], references: [id])
+  stationId              String
+}
+
+model Station {
+  id         String      @id
+  name       String
+  restaurant Restaurant?
+  dishes     Dish[]
+  menu       Menu        @relation(fields: [menuId], references: [id])
+  menuId     String
+}
+
+model Menu {
+  id         String      @id
+  date       DateTime
+  restaurant Restaurant?
+  menuPeriod MenuPeriod?
+  stations   Station[]
+}
 
 // model DietaryRestrictionInfo {
-    // does not have its own id, just the dish id is the primarykey for this table
-    // id primary key referenecs Dish(id)
-    // ContainsEggs: null,
-    // ContainsFish: null,
-    // ContainsMilk: null,
-    // ContainsPeanuts: null,
-    // ContainsShellfish: null,
-    // ContainsSoy: null,
-    // ContainsTreeNuts: null,
-    // ContainsWheat: null,
-    // ContainsSesame: null,
-    // IsGlutenFree: false,
-    // IsHalal: false,
-    // IsKosher: true,
-    // IsLocallyGrown: false,
-    // IsOrganic: false,
-    // IsVegan: false,
-    // IsVegetarian: false,
+// does not have its own id, just the dish id is the primarykey for this table
+// id primary key referenecs Dish(id)
+// ContainsEggs: null,
+// ContainsFish: null,
+// ContainsMilk: null,
+// ContainsPeanuts: null,
+// ContainsShellfish: null,
+// ContainsSoy: null,
+// ContainsTreeNuts: null,
+// ContainsWheat: null,
+// ContainsSesame: null,
+// IsGlutenFree: false,
+// IsHalal: false,
+// IsKosher: true,
+// IsLocallyGrown: false,
+// IsOrganic: false,
+// IsVegan: false,
+// IsVegetarian: false,
 // }
 
 // model NutritionInfo {
@@ -59,15 +147,13 @@ datasource db {
 //     // menuperiod id
 // }
 
-
-
 // model Dish {
 //     // dietary info
 //     // nutrition info
 //     // id
 //     // name
 //     // description
-//     // 
+//     //
 
 // }
 
@@ -78,7 +164,7 @@ datasource db {
 
 // // breakfast, brunch, lunch, dinner, latenight
 // model MenuPeriod {
-//     // id String @id 
+//     // id String @id
 //     // restaurant Restaurant @relation()
 //     // restaurantId String @id
 //     // date
@@ -90,20 +176,3 @@ datasource db {
 //     // id
 //     // name
 // }
-
-
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-//   posts Post[]
-}
-
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-//   published Boolean @default(false)
-//   author    User    @relation(fields: [authorId], references: [id])
-//   authorId  Int
-}
