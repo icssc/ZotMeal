@@ -1,8 +1,8 @@
 import axios from "axios";
 
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { parse } from "../utils/parse";
-import type { CampusDishResponse } from "../../../types/campusdish";
+import { parse } from "../../../utils/parse";
+import { CampusDishResponseSchema, ParsedResponseSchema } from "@acme/validators";
 
 export const menuRouter = createTRPCRouter({
   hello: publicProcedure.query(async ({ ctx }) => {
@@ -13,8 +13,9 @@ export const menuRouter = createTRPCRouter({
     return "hello";
   }),
   parse: publicProcedure.query(async ({ ctx }) => {
-    const res = await axios.get<CampusDishResponse>("https://uci.campusdish.com/api/menu/GetMenus?locationId=3314&periodId=49&date=1/19/2024");
-    const parsed = parse(res.data);
+    const res = await axios.get("https://uci.campusdish.com/api/menu/GetMenus?locationId=3314&periodId=49&date=1/19/2024");
+    const validated = CampusDishResponseSchema.parse(res.data);
+    const parsed = ParsedResponseSchema.parse(parse(validated));
     const _ = ctx;
     return parsed;
   }),

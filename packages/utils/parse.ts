@@ -1,8 +1,7 @@
-import { LocationNames } from "../utils/constants";
-import type { CampusDishResponse } from "../../../types/campusdish";
-import type { ParsedResponse, Station } from "../../../types/zotmeal";
+import { LocationNames } from "./constants";
+import { CampusDishResponse } from "../validators/src";
 
-export function parse(data: CampusDishResponse): ParsedResponse {
+export function parse(data: CampusDishResponse) {
   const uniqueStations = new Set<string>();
   data.Menu.MenuStations.forEach(menuStation => {
     uniqueStations.add(JSON.stringify({
@@ -11,8 +10,8 @@ export function parse(data: CampusDishResponse): ParsedResponse {
       name: menuStation.Name,
     }))
   });
-  const stations = Array.from(uniqueStations).map(station => JSON.parse(station) as Station);
-  const parsed: ParsedResponse = {
+  const stations = Array.from(uniqueStations).map(station => JSON.parse(station));
+  const parsed = {
     restaurant: {
       restaurant_id: data.LocationId,
       restaurant_name: LocationNames[data.LocationId as keyof typeof LocationNames],
