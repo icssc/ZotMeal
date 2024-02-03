@@ -1,23 +1,29 @@
+import { CampusDishResponse } from "@acme/validators";
+
 import { LocationNames } from "./constants";
-import { CampusDishResponse } from "../validators/src";
 
 export function parse(data: CampusDishResponse) {
   const uniqueStations = new Set<string>();
-  data.Menu.MenuStations.forEach(menuStation => {
-    uniqueStations.add(JSON.stringify({
-      station_id: menuStation.StationId,
-      restaurant_id: data.LocationId,
-      name: menuStation.Name,
-    }))
+  data.Menu.MenuStations.forEach((menuStation) => {
+    uniqueStations.add(
+      JSON.stringify({
+        station_id: menuStation.StationId,
+        restaurant_id: data.LocationId,
+        name: menuStation.Name,
+      }),
+    );
   });
-  const stations = Array.from(uniqueStations).map(station => JSON.parse(station));
+  const stations = Array.from(uniqueStations).map((station) =>
+    JSON.parse(station),
+  );
   const parsed = {
     restaurant: {
       restaurant_id: data.LocationId,
-      restaurant_name: LocationNames[data.LocationId as keyof typeof LocationNames],
+      restaurant_name:
+        LocationNames[data.LocationId as keyof typeof LocationNames],
     },
     stations,
-    dishes: data.Menu.MenuProducts.map(menuProduct => ({
+    dishes: data.Menu.MenuProducts.map((menuProduct) => ({
       id: menuProduct.Product.ProductId,
       station_id: menuProduct.StationId,
       name: menuProduct.Product.MarketingName,
@@ -40,8 +46,8 @@ export function parse(data: CampusDishResponse) {
         is_organic: menuProduct.Product.IsOrganic,
         is_vegan: menuProduct.Product.IsVegan,
         is_vegetarian: menuProduct.Product.IsVegetarian,
-      }
+      },
     })),
-  }
+  };
   return parsed;
 }

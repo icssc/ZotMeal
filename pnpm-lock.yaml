@@ -177,6 +177,9 @@ importers:
       '@trpc/server':
         specifier: 11.0.0-next-beta.236
         version: 11.0.0-next-beta.236
+      '@zotmeal/utils':
+        specifier: workspace:^
+        version: link:../utils
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@20.11.11)
@@ -290,6 +293,15 @@ importers:
       zod:
         specifier: ^3.22.4
         version: 3.22.4
+
+  packages/utils:
+    dependencies:
+      '@acme/tsconfig':
+        specifier: workspace:^
+        version: link:../../tooling/typescript
+      '@acme/validators':
+        specifier: workspace:^
+        version: link:../validators
 
   packages/validators:
     dependencies:
