@@ -5,4 +5,3 @@ export const CreatePostSchema = z.object({
   content: z.string().min(1),
 });
 
-export const GetMenuSchema = z.object({});
