@@ -165,9 +165,6 @@ importers:
       '@trpc/server':
         specifier: 11.0.0-next-beta.236
         version: 11.0.0-next-beta.236
-      '@zotmeal/api':
-        specifier: workspace:^
-        version: 'link:'
       '@zotmeal/db':
         specifier: workspace:^
         version: link:../db

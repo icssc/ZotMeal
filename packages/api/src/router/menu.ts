@@ -1,9 +1,13 @@
 import axios from "axios";
-
-import { createTRPCRouter, publicProcedure } from "../trpc";
-import { parse } from "@zotmeal/api";
-import { CampusDishResponseSchema, ParsedResponseSchema } from "@zotmeal/validators";
 import { z } from "zod";
+
+import {
+  CampusDishResponseSchema,
+  ParsedResponseSchema,
+} from "@zotmeal/validators";
+
+import { parse } from "../parse";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 
 export const menuRouter = createTRPCRouter({
   hello: publicProcedure.query(async ({ ctx }) => {
@@ -14,7 +18,9 @@ export const menuRouter = createTRPCRouter({
     return "hello";
   }),
   parse: publicProcedure.query(async ({ ctx }) => {
-    const res = await axios.get("https://uci.campusdish.com/api/menu/GetMenus?locationId=3314&periodId=49&date=1/19/2024");
+    const res = await axios.get(
+      "https://uci-campusdish-com.translate.goog/api/menu/GetMenus?locationId=3314&periodId=49&date=1/19/2024",
+    );
     try {
       const validated = CampusDishResponseSchema.parse(res.data);
       const parsed = ParsedResponseSchema.parse(parse(validated));
