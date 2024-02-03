@@ -50,7 +50,10 @@ export const MenuProductSchema = (z.object({
 }));
 
 export const CampusDishResponseSchema = z.object({
-  LocationId: z.string(),
+  LocationId: z.union([
+    z.literal("3314"),
+    z.literal("3056"),
+  ]),
   Menu: z.object({
     MenuId: z.string(),
     MenuPeriods: z.array(z.object({

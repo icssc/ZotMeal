@@ -12,6 +12,7 @@
     "@acme/db": "workspace:^",
     "@acme/eslint-config": "workspace:^",
     "@acme/tsconfig": "workspace:^",
+    "@acme/utils": "workspace:^",
     "@acme/validators": "workspace:^",
     "@trpc/server": "11.0.0-next-beta.236",
     "superjson": "2.2.1",
