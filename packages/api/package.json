@@ -1,5 +1,5 @@
 {
-  "name": "@acme/api",
+  "name": "@zotmeal/api",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -9,23 +9,22 @@
     "lint": "echo 'Add lint script here'"
   },
   "dependencies": {
-    "@acme/db": "workspace:^",
-    "@acme/eslint-config": "workspace:^",
-    "@acme/prettier-config": "workspace:^",
-    "@acme/tsconfig": "workspace:^",
-    "@acme/validators": "workspace:^",
     "@trpc/server": "11.0.0-next-beta.236",
-    "@zotmeal/utils": "workspace:^",
     "date-fns": "^3.3.1",
     "jest": "^29.7.0",
+    "@zotmeal/db": "workspace:^",
+    "@zotmeal/eslint-config": "workspace:^",
+    "@zotmeal/tsconfig": "workspace:^",
+    "@zotmeal/utils": "workspace:^",
+    "@zotmeal/validators": "workspace:^",
     "superjson": "2.2.1",
     "zod": "^3.22.4"
   },
   "eslintConfig": {
     "root": true,
     "extends": [
-      "@acme/eslint-config/base"
+      "@zotmeal/eslint-config/base"
     ]
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@zotmeal/prettier-config"
 }

@@ -1,6 +1,5 @@
-import { CampusDishResponse } from "@acme/validators";
-
-import { LocationNames } from "../../../utils/constants";
+import { LocationNames } from "@zotmeal/utils/constants";
+import { CampusDishResponse } from "@zotmeal/validators";
 
 export function parse(data: CampusDishResponse) {
   const uniqueStations = new Set<string>();
