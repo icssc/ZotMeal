@@ -168,6 +168,9 @@ importers:
       '@acme/eslint-config':
         specifier: workspace:^
         version: link:../../tooling/eslint
+      '@acme/prettier-config':
+        specifier: workspace:^
+        version: link:../../tooling/prettier
       '@acme/tsconfig':
         specifier: workspace:^
         version: link:../../tooling/typescript
@@ -180,6 +183,9 @@ importers:
       '@zotmeal/utils':
         specifier: workspace:^
         version: link:../utils
+      date-fns:
+        specifier: ^3.3.1
+        version: 3.3.1
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@20.11.11)
@@ -7306,6 +7312,10 @@ packages:
     resolution: {integrity: sha512-a9l6T1qqDogvvnw0nKlfZzqsyikEBZBClF39V3TFoKhDtGBqHu2HkuomJc02j5zft8zrUaXEuoicLeW54RkzPg==}
     engines: {node: '>= 14'}
     dev: true
+
+  /date-fns@3.3.1:
+    resolution: {integrity: sha512-y8e109LYGgoQDveiEBD3DYXKba1jWf5BA8YU1FL5Tvm0BTdEfy54WLCwnuYWZNnzzvALy/QQ4Hov+Q9RVRv+Zw==}
+    dev: false
 
   /dayjs@1.11.10:
     resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}

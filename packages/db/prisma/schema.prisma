@@ -23,7 +23,7 @@ model Restaurant {
   id       String    @id
   name     String
   stations Station[]
-  Menu     Menu[]
+  menu     Menu[]
 }
 
 model Station {
