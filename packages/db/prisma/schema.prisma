@@ -21,7 +21,7 @@ model Dish {
 
 model Restaurant {
   id       String    @id
-  name     String
+  name     RestaurantName
   stations Station[]
   menu     Menu[]
 }
@@ -42,6 +42,11 @@ enum MenuPeriod {
   lunch
   dinner
   latenight
+}
+
+enum RestaurantName {
+    brandywine
+    anteatery
 }
 
 model Menu {

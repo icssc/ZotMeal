@@ -61,6 +61,7 @@ export const StationSchema = z.object({
   name: z.string(),
 });
 
+
 export const MenuPeriodSchema = z.object({
   id: z.string(),
   name: z.string(),

@@ -27,5 +27,8 @@
       "@zotmeal/eslint-config/base"
     ]
   },
-  "prettier": "@zotmeal/prettier-config"
+  "prettier": "@zotmeal/prettier-config",
+  "dependencies": {
+    "@zotmeal/db": "workspace:^"
+  }
 }
