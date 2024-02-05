@@ -21,16 +21,13 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Setup
         uses: ./tooling/github/setup
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 20
 
       - name: Run tests
         run: turbo db:generate && turbo test
