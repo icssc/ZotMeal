@@ -10,100 +10,96 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-// model DietaryRestrictionInfo {
-    // does not have its own id, just the dish id is the primarykey for this table
-    // id primary key referenecs Dish(id)
-    // ContainsEggs: null,
-    // ContainsFish: null,
-    // ContainsMilk: null,
-    // ContainsPeanuts: null,
-    // ContainsShellfish: null,
-    // ContainsSoy: null,
-    // ContainsTreeNuts: null,
-    // ContainsWheat: null,
-    // ContainsSesame: null,
-    // IsGlutenFree: false,
-    // IsHalal: false,
-    // IsKosher: true,
-    // IsLocallyGrown: false,
-    // IsOrganic: false,
-    // IsVegan: false,
-    // IsVegetarian: false,
-// }
-
-// model NutritionInfo {
-//     // ServingSize: "1",
-//     // ServingUnit: "each",
-//     // Calories: "150",
-//     // CaloriesFromFat: "5",
-//     // TotalFat: "6",
-//     // TransFat: "0",
-//     // Cholesterol: "0",
-//     // Sodium: "290",
-//     // TotalCarbohydrates: "23",
-//     // DietaryFiber: "less than 1",
-//     // Sugars: "6",
-//     // Protein: "2",
-//     // VitaminA: null,
-//     // VitaminC: "0.14",
-//     // Calcium: "41.84",
-//     // Iron: "1.12",
-//     // SaturatedFat: "3.5"
-// }
-
-// model Menu {
-//     // id
-//     // date
-//     // restaurant id
-//     // menuperiod id
-// }
-
-
-
-// model Dish {
-//     // dietary info
-//     // nutrition info
-//     // id
-//     // name
-//     // description
-//     // 
-
-// }
-
-// model Station {
-//     // restaurantId unique (not autogen)
-//     // name unique
-// }
-
-// // breakfast, brunch, lunch, dinner, latenight
-// model MenuPeriod {
-//     // id String @id 
-//     // restaurant Restaurant @relation()
-//     // restaurantId String @id
-//     // date
-//     // start
-//     // end
-// }
-
-// model Restaurant {
-//     // id
-//     // name
-// }
-
-
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-//   posts Post[]
+model Dish {
+  id              String           @id
+  description     String
+  dietRestriction DietRestriction?
+  nutritionInfo   NutritionInfo?
+  station         Station          @relation(fields: [stationId], references: [id])
+  stationId       String
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-//   published Boolean @default(false)
-//   author    User    @relation(fields: [authorId], references: [id])
-//   authorId  Int
+model Restaurant {
+  id       String    @id
+  name     RestaurantName
+  stations Station[]
+  menu     Menu[]
+}
+
+model Station {
+  id           String     @id
+  name         String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurantId String
+  dishes       Dish[]
+  menu         Menu       @relation(fields: [menuId], references: [id])
+  menuId       String
+}
+
+enum MenuPeriod {
+  breakfast
+  brunch
+  lunch
+  dinner
+  latenight
+}
+
+enum RestaurantName {
+    brandywine
+    anteatery
+}
+
+model Menu {
+  id           String     @id
+  period       MenuPeriod
+  date         DateTime
+  start        DateTime
+  end          DateTime
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurantId String
+  stations     Station[]
+}
+
+model DietRestriction {
+  id                String   @id
+  containsFish      Boolean?
+  containsMilk      Boolean?
+  containsPeanuts   Boolean?
+  containsSesame    Boolean?
+  containsShellfish Boolean?
+  containSoy        Boolean?
+  containsTreeNuts  Boolean?
+  containsWheat     Boolean?
+  isGlutenFree      Boolean?
+  isHalal           Boolean?
+  isKosher          Boolean?
+  isLocallyGrown    Boolean?
+  isOrganic         Boolean?
+  isVegan           Boolean?
+  isVegetarian      Boolean?
+  dish              Dish     @relation(fields: [dishId], references: [id])
+  dishId            String   @unique
+}
+
+model NutritionInfo {
+  id                 String  @id
+  servingSize        String?
+  servingUnit        String?
+  calories           String?
+  caloriesFromFat    String?
+  totalFat           String?
+  transFat           String?
+  cholesterol        String?
+  sodum              String?
+  totalCarbohydrates String?
+  dietaryFiber       String?
+  sugars             String?
+  protein            String?
+  vitaminA           String?
+  vitaminC           String?
+  calcium            String?
+  iron               String?
+  saturatedFat       String?
+  dish               Dish    @relation(fields: [dishId], references: [id])
+  dishId             String  @unique
 }

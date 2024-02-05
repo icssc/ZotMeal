@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const DietRestrictionSchema = z.object({
-  id: z.string(),
   containsEggs: z.boolean().nullable(),
   containsFish: z.boolean().nullable(),
   containsMilk: z.boolean().nullable(),

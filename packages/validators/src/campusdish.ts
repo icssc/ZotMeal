@@ -5,7 +5,9 @@ export const MenuStationSchema = z.object({
   Name: z.string().min(1),
 });
 
-export const MenuProductSchema = (z.object({
+export type CampusDishMenuStation = z.infer<typeof MenuStationSchema>;
+
+export const MenuProductSchema = z.object({
   MenuProductId: z.string().min(1),
   StationId: z.string().min(1),
   Product: z.object({
@@ -47,21 +49,22 @@ export const MenuProductSchema = (z.object({
     Iron: z.string().nullable(),
     SaturatedFat: z.string().nullable(),
   }),
-}));
+});
+
+export type CampusDishMenuProduct = z.infer<typeof MenuProductSchema>;
 
 export const CampusDishResponseSchema = z.object({
-  LocationId: z.union([
-    z.literal("3314"),
-    z.literal("3056"),
-  ]),
+  LocationId: z.union([z.literal("3314"), z.literal("3056")]),
   Menu: z.object({
     MenuId: z.string(),
-    MenuPeriods: z.array(z.object({
-      PeriodId: z.string().min(1),
-      Name: z.string().min(1),
-      UtcMealPeriodStartTime: z.string().min(1),
-      UtcMealPeriodEndTime: z.string().min(1),
-    })),
+    MenuPeriods: z.array(
+      z.object({
+        PeriodId: z.string().min(1),
+        Name: z.string().min(1),
+        UtcMealPeriodStartTime: z.string().min(1),
+        UtcMealPeriodEndTime: z.string().min(1),
+      }),
+    ),
     MenuProducts: z.array(MenuProductSchema),
     MenuStations: z.array(MenuStationSchema),
   }),

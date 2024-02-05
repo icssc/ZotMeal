@@ -2,7 +2,7 @@ import type { AWS } from "@serverless/typescript";
 
 export const functions: AWS["functions"] = {
   hello: {
-    handler: "src/functions/hello/handler.main",
+    handler: "src/functions/trpc/handler.main",
     description: "Lambda function to say hello",
     memorySize: 256,
     events: [
