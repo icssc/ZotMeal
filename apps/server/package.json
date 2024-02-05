@@ -20,7 +20,7 @@
     "@types/aws-lambda": "^8.10.133",
     "@types/node": "^20.11.11",
     "axios": "^1.6.7",
-    "serverless-esbuild": "^1.50.2",
+    "serverless-esbuild": "^1.51.0",
     "serverless-offline": "^13.3.3"
   }
 }
