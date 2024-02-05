@@ -5,6 +5,7 @@ import { ZodError } from "zod";
 import type {
   CampusDishResponse,
   DietRestrictionSchema,
+  NutritionInfoSchema,
   ParsedDish,
   ParsedResponse,
   ParsedStation,
@@ -14,10 +15,7 @@ import {
   getRestaurantById,
   getRestaurantId,
 } from "@zotmeal/utils";
-import {
-  CampusDishResponseSchema,
-  NutritionInfoSchema,
-} from "@zotmeal/validators";
+import { CampusDishResponseSchema } from "@zotmeal/validators";
 
 import { publicProcedure } from "../../trpc";
 import { GetMenuSchema } from "./get";
