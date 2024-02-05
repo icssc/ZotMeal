@@ -12,6 +12,7 @@
     "@trpc/server": "11.0.0-next-beta.236",
     "@zotmeal/db": "workspace:^",
     "@zotmeal/eslint-config": "workspace:^",
+    "@zotmeal/prettier-config": "workspace:^",
     "@zotmeal/tsconfig": "workspace:^",
     "@zotmeal/utils": "workspace:^",
     "@zotmeal/validators": "workspace:^",

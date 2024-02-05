@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const DietRestrictionSchema = z.object({
-  id: z.string(),
   containsEggs: z.boolean().nullable(),
   containsFish: z.boolean().nullable(),
   containsMilk: z.boolean().nullable(),
@@ -60,7 +59,6 @@ export const StationSchema = z.object({
   restaurantId: z.string(),
   name: z.string(),
 });
-
 
 export const MenuPeriodSchema = z.object({
   id: z.string(),
