@@ -7,14 +7,14 @@
  * The pieces you will need to use are documented accordingly near the end
  */
 
-// import type { Session } from "@acme/auth";
-// import { auth } from "@acme/auth";
+// import type { Session } from "@zotmeal/auth";
+// import { auth } from "@zotmeal/auth";
 
 import { initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-import { PrismaClient } from "@acme/db";
+import { PrismaClient } from "@zotmeal/db";
 
 /**
  * 1. CONTEXT

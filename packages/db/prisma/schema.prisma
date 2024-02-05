@@ -21,40 +21,45 @@ model Dish {
 
 model Restaurant {
   id       String    @id
-  name     String
+  name     RestaurantName
   stations Station[]
-  Menu     Menu[]
+  menu     Menu[]
 }
-
 
 model Station {
   id           String     @id
   name         String
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   restaurantId String
-  dishes       Dish[] 
+  dishes       Dish[]
   menu         Menu       @relation(fields: [menuId], references: [id])
   menuId       String
 }
 
 enum MenuPeriod {
-    BREAKFAST
-    BRUNCH
-    LUNCH
-    DINNER
-    LATENIGHT
+  breakfast
+  brunch
+  lunch
+  dinner
+  latenight
+}
+
+enum RestaurantName {
+    brandywine
+    anteatery
 }
 
 model Menu {
-  id           String      @id
-  period MenuPeriod
+  id           String     @id
+  period       MenuPeriod
   date         DateTime
-  start DateTime
-  end DateTime
-  restaurant   Restaurant  @relation(fields: [restaurantId], references: [id])
+  start        DateTime
+  end          DateTime
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   restaurantId String
   stations     Station[]
 }
+
 model DietRestriction {
   id                String   @id
   containsFish      Boolean?
