@@ -1,5 +1,6 @@
+import type { z } from "zod";
 import axios from "axios";
-import { z, ZodError } from "zod";
+import { ZodError } from "zod";
 
 import type {
   CampusDishResponse,
