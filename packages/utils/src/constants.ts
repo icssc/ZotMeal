@@ -3,19 +3,19 @@ import type { MenuPeriod, RestaurantName } from "@zotmeal/db";
 // id mappings (period, restaurant)
 // restaurant names
 
-const restaurantIds = {
+const restaurantToId = {
   brandywine: "3314",
   anteatery: "3056",
 } as const;
 export const getRestaurantId = (restaurant: RestaurantName): string | null => {
-  if (!(restaurant in restaurantIds)) {
+  if (!(restaurant in restaurantToId)) {
     return null;
   }
 
-  return restaurantIds[restaurant];
+  return restaurantToId[restaurant];
 };
 
-const periodIds = {
+const periodToId = {
   breakfast: "49",
   lunch: "106",
   dinner: "107",
@@ -24,7 +24,7 @@ const periodIds = {
 } as const;
 
 export const getPeriodId = (period: MenuPeriod): string | null => {
-  if (!(period in periodIds)) return null;
+  if (!(period in periodToId)) return null;
 
-  return periodIds[period];
+  return periodToId[period];
 };

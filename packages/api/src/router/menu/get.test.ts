@@ -1,5 +1,7 @@
-import { it } from "@jest/globals";
+import { describe, it } from "vitest";
 
-it("fail on invalid menu params", () => {
-  console.log("testing");
+describe("", () => {
+  it("", () => {
+    console.log("");
+  });
 });
