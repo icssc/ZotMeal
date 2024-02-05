@@ -49,6 +49,10 @@ export const getMenuProcedure = publicProcedure
         date: date,
         period: period,
       },
+      include: {
+        restaurant: true,
+        stations: true,
+      },
     });
     if (!menu) {
       throw new TRPCError({

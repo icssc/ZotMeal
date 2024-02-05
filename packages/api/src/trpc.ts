@@ -36,12 +36,9 @@ export const createTRPCContext = (opts: {
   // session: Session | null;
 }) => {
   const _ = opts;
-  // const session = opts.session ?? (await auth());
-  // const source = opts.headers.get("x-trpc-source") ?? "unknown";
 
   console.log(">>> tRPC Request from", "something", "by", "someone");
   return {
-    // session,
     db,
   };
 };
