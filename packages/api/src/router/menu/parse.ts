@@ -1,4 +1,5 @@
 import type { z } from "zod";
+import axios from "axios";
 
 // import axios from "axios";
 // import { ZodError } from "zod";
@@ -19,7 +20,7 @@ import { GetMenuSchema } from "./get";
 
 export const parseMenuProcedure = publicProcedure
   .input(GetMenuSchema)
-  .query(({ ctx, input }) => {
+  .query(async ({ ctx, input }) => {
     const { db } = ctx;
     const _ = db;
     const { date, restaurant, period } = input;
@@ -31,15 +32,12 @@ export const parseMenuProcedure = publicProcedure
     //   "https://uci-campusdish-com.translate.goog/api/menu/GetMenus?locationId=3314&periodId=49&date=1/19/2024",
     // );
 
-    return {
-      date,
-      periodId,
-      restaurantId,
-    };
+    const res = await axios.get(
+      `https://uci-campusdish-com.translate.goog/api/menu/GetMenus?locationId=${restaurantId}&periodId=${periodId}&date=${date}`,
+    );
 
-    // const res = await axios.get(
-    //   `https://uci-campusdish-com.translate.goog/api/menu/GetMenus?locationId=${restaurantId}&periodId=${periodId}&date=${date}`,
-    // );
+    return res;
+
     // try {
     //   const validated = CampusDishResponseSchema.parse(res);
     //   const menu = parseCampusDish(validated);

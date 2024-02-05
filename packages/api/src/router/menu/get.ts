@@ -7,10 +7,18 @@ import { MenuPeriod, RestaurantName } from "@zotmeal/db";
 import { publicProcedure } from "../../trpc";
 
 export const GetMenuSchema = z.object({
-  date: z.string().regex(RegExp("/^d{2}/d{2}/d{4}$/")),
+  date: z
+    .string()
+    .regex(
+      RegExp(
+        "^((0?[1-9]|1[012])[/](0?[1-9]|[12][0-9]|3[01])[/](19|20)?[0-9]{2})*$",
+      ),
+    ),
   period: z.nativeEnum(MenuPeriod),
   restaurant: z.nativeEnum(RestaurantName),
 });
+
+export type GetMenuParams = z.infer<typeof GetMenuSchema>;
 
 export const getMenuProcedure = publicProcedure
   .input(GetMenuSchema)
