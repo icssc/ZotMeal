@@ -32,7 +32,5 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install Dependencies
-        run: pnpm install
       - name: Run tests
-        run: turbo test
+        run: turbo db:generate && turbo test
