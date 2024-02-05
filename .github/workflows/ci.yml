@@ -21,8 +21,7 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -30,4 +29,6 @@ jobs:
         uses: ./tooling/github/setup
 
       - name: Run tests
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: turbo db:generate && turbo test
