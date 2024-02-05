@@ -4,8 +4,7 @@
   "description": "Serverless aws-nodejs-typescript template",
   "main": "serverless.ts",
   "scripts": {
-    "dev": "sls offline --noPrependStageInUrl",
-    "test": "npx jest"
+    "dev": "sls offline --noPrependStageInUrl"
   },
   "engines": {
     "node": ">=14.15.0"

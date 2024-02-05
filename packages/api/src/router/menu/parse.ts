@@ -1,5 +1,5 @@
 import axios from "axios";
-import { z } from "zod";
+import { ZodError } from "zod";
 
 import type {
   CampusDishResponse,
@@ -17,31 +17,32 @@ import { publicProcedure } from "../../trpc";
 import { GetMenuSchema } from "./get";
 
 export const parseMenuProcedure = publicProcedure
-  // .input(GetMenuSchema)
+  .input(GetMenuSchema)
   .query(async ({ ctx, input }) => {
     const { db } = ctx;
     const _ = db;
-    // const { date, restaurant, period } = input;
+    const { date, restaurant, period } = input;
 
-    // const periodId = getPeriodId(period);
-    // const restaurantId = getRestaurantId(restaurant);
+    const periodId = getPeriodId(period);
+    const restaurantId = getRestaurantId(restaurant);
 
-    const res = await axios.get(
-      "https://uci-campusdish-com.translate.goog/api/menu/GetMenus?locationId=3314&periodId=49&date=1/19/2024",
-    );
     // const res = await axios.get(
-    //   `https://uci-campusdish-com.translate.goog/api/menu/GetMenus?locationId=${restaurantId}&periodId=${periodId}&date=${date}`,
+    //   "https://uci-campusdish-com.translate.goog/api/menu/GetMenus?locationId=3314&periodId=49&date=1/19/2024",
     // );
+    const res = await axios.get(
+      `https://uci-campusdish-com.translate.goog/api/menu/GetMenus?locationId=${restaurantId}&periodId=${periodId}&date=${date}`,
+    );
     try {
       const validated = CampusDishResponseSchema.parse(res);
+      const menu = parseCampusDish(validated);
+      return menu;
     } catch (e) {
+      if (e instanceof ZodError) {
+        console.log(e.issues);
+      }
       console.log(e);
       throw e;
     }
-
-    const menu = parseCampusDish(validated);
-
-    return menu;
   });
 
 export function parseCampusDish(response: CampusDishResponse) {
