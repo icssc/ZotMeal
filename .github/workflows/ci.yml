@@ -37,6 +37,4 @@ jobs:
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
 
       - name: Run tests
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: turbo db:generate && turbo test
