@@ -1,19 +1,23 @@
 import type { z } from "zod";
 import axios from "axios";
-
-// import axios from "axios";
-// import { ZodError } from "zod";
+import { ZodError } from "zod";
 
 import type {
   CampusDishResponse,
   DietRestrictionSchema,
-  DishSchema,
+  ParsedDish,
+  ParsedResponse,
+  ParsedStation,
 } from "@zotmeal/validators";
 import {
   getPeriodId,
   getRestaurantById,
   getRestaurantId,
 } from "@zotmeal/utils";
+import {
+  CampusDishResponseSchema,
+  NutritionInfoSchema,
+} from "@zotmeal/validators";
 
 import { publicProcedure } from "../../trpc";
 import { GetMenuSchema } from "./get";
@@ -36,45 +40,38 @@ export const parseMenuProcedure = publicProcedure
       `https://uci-campusdish-com.translate.goog/api/menu/GetMenus?locationId=${restaurantId}&periodId=${periodId}&date=${date}`,
     );
 
-    return res;
-
-    // try {
-    //   const validated = CampusDishResponseSchema.parse(res);
-    //   const menu = parseCampusDish(validated);
-    //   return menu;
-    // } catch (e) {
-    //   if (e instanceof ZodError) {
-    //     console.log(e.issues);
-    //   }
-    //   console.log(e);
-    //   throw e;
-    // }
+    try {
+      const validated = CampusDishResponseSchema.parse(res);
+      const menu = parseCampusDish(validated);
+      return menu;
+    } catch (e) {
+      if (e instanceof ZodError) {
+        console.log(e.issues);
+      }
+      console.log(e);
+      throw e;
+    }
   });
 
-export function parseCampusDish(response: CampusDishResponse) {
+export function parseCampusDish(response: CampusDishResponse): ParsedResponse {
   const uniqueStations = new Set<string>();
   response.Menu.MenuStations.forEach((menuStation) => {
     uniqueStations.add(
       JSON.stringify({
-        station_id: menuStation.StationId,
-        restaurant_id: response.LocationId,
+        id: menuStation.StationId,
+        restaurantId: response.LocationId,
         name: menuStation.Name,
       }),
     );
   });
 
   const stations = Array.from(uniqueStations).map(
-    (station) =>
-      JSON.parse(station) as {
-        station_id: string;
-        restaurant_id: string;
-        name: string;
-      },
+    (station) => JSON.parse(station) as ParsedStation,
   );
 
-  const dishes = response.Menu.MenuProducts.map((menuProduct) => {
+  const dishes = response.Menu.MenuProducts.map((menuProduct): ParsedDish => {
     type DietRestriction = z.infer<typeof DietRestrictionSchema>;
-    const dietRestriction = {
+    const dietRestriction: DietRestriction = {
       containsEggs: menuProduct.Product.ContainsEggs,
       containsFish: menuProduct.Product.ContainsFish,
       containsMilk: menuProduct.Product.ContainsMilk,
@@ -91,24 +88,49 @@ export function parseCampusDish(response: CampusDishResponse) {
       isOrganic: menuProduct.Product.IsOrganic,
       isVegan: menuProduct.Product.IsVegan,
       isVegetarian: menuProduct.Product.IsVegetarian,
-    } as DietRestriction;
+    };
 
-    type Dish = z.infer<typeof DishSchema>;
+    type NutritionInfo = z.infer<typeof NutritionInfoSchema>;
+    const nutritionInfo: NutritionInfo = {
+      servingSize: menuProduct.Product.ServingSize,
+      servingUnit: menuProduct.Product.ServingUnit,
+      calories: menuProduct.Product.Calories,
+      caloriesFromFat: menuProduct.Product.CaloriesFromFat,
+      totalFat: menuProduct.Product.TotalFat,
+      transFat: menuProduct.Product.TransFat,
+      cholesterol: menuProduct.Product.Cholesterol,
+      sodium: menuProduct.Product.Sodium,
+      totalCarbohydrates: menuProduct.Product.TotalCarbohydrates,
+      dietaryFiber: menuProduct.Product.DietaryFiber,
+      sugars: menuProduct.Product.Sugars,
+      protein: menuProduct.Product.Protein,
+      vitaminA: menuProduct.Product.VitaminA,
+      vitaminC: menuProduct.Product.VitaminC,
+      calcium: menuProduct.Product.Calcium,
+      iron: menuProduct.Product.Iron,
+      saturatedFat: menuProduct.Product.SaturatedFat,
+    };
 
     return {
       id: menuProduct.MenuProductId,
       stationId: menuProduct.StationId,
       name: menuProduct.Product.MarketingName,
       description: menuProduct.Product.ShortDescription,
-      dietRestriction: dietRestriction,
-    } as Dish;
+      dietRestriction,
+      nutritionInfo,
+    };
   });
-  const parsed = {
-    restaurant: {
-      restaurant_id: response.LocationId,
-      restaurant_name: getRestaurantById(response.LocationId),
-    },
+
+  if (!getRestaurantById(response.LocationId)) {
+    throw Error("location id not found");
+  }
+
+  const parsed: ParsedResponse = {
     stations,
+    restaurant: {
+      id: response.LocationId,
+      name: getRestaurantById(response.LocationId) as string,
+    },
     dishes: dishes,
   };
   return parsed;

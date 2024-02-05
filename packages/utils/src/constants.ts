@@ -15,11 +15,11 @@ function invertMapping(
   return inverted;
 }
 
-const RESTAURANT_TO_ID = {
+export const RESTAURANT_TO_ID = {
   brandywine: "3314",
   anteatery: "3056",
 } as const;
-const ID_TO_RESTAURANT = invertMapping(RESTAURANT_TO_ID);
+export const ID_TO_RESTAURANT = invertMapping(RESTAURANT_TO_ID);
 
 export const getRestaurantId = (restaurant: RestaurantName): string | null => {
   if (!(restaurant in RESTAURANT_TO_ID)) {
@@ -39,14 +39,14 @@ export const getRestaurantById = (
   return ID_TO_RESTAURANT[id] as RestaurantName;
 };
 
-const PERIOD_TO_ID = {
+export const PERIOD_TO_ID = {
   breakfast: "49",
   lunch: "106",
   dinner: "107",
   brunch: "2651",
   latenight: "108",
 } as const;
-const ID_TO_PERIOD = invertMapping(PERIOD_TO_ID);
+export const ID_TO_PERIOD = invertMapping(PERIOD_TO_ID);
 
 export const getPeriodId = (
   period: MenuPeriod,
@@ -63,5 +63,5 @@ export const getPeriodById = (
     return null;
   }
 
-  return ID_TO_PERIOD[id];
+  return ID_TO_PERIOD[id] as MenuPeriod;
 };
