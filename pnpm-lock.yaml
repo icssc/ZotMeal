@@ -11,12 +11,12 @@ importers:
 
   .:
     devDependencies:
-      '@acme/prettier-config':
-        specifier: workspace:^0.1.0
-        version: link:tooling/prettier
       '@turbo/gen':
         specifier: ^1.11.3
         version: 1.11.3(@types/node@20.11.11)(typescript@5.3.3)
+      '@zotmeal/prettier-config':
+        specifier: workspace:^0.1.0
+        version: link:tooling/prettier
       prettier:
         specifier: ^3.1.1
         version: 3.1.1
@@ -96,18 +96,6 @@ importers:
         specifier: 2.2.1
         version: 2.2.1
     devDependencies:
-      '@acme/eslint-config':
-        specifier: workspace:^0.2.0
-        version: link:../../tooling/eslint
-      '@acme/prettier-config':
-        specifier: workspace:^0.1.0
-        version: link:../../tooling/prettier
-      '@acme/tailwind-config':
-        specifier: workspace:^0.1.0
-        version: link:../../tooling/tailwind
-      '@acme/tsconfig':
-        specifier: workspace:^0.1.0
-        version: link:../../tooling/typescript
       '@babel/core':
         specifier: ^7.23.9
         version: 7.23.9
@@ -117,6 +105,18 @@ importers:
       '@babel/runtime':
         specifier: ^7.23.9
         version: 7.23.9
+      '@zotmeal/eslint-config':
+        specifier: workspace:^0.2.0
+        version: link:../../tooling/eslint
+      '@zotmeal/prettier-config':
+        specifier: workspace:^0.1.0
+        version: link:../../tooling/prettier
+      '@zotmeal/tailwind-config':
+        specifier: workspace:^0.1.0
+        version: link:../../tooling/tailwind
+      '@zotmeal/tsconfig':
+        specifier: workspace:^0.1.0
+        version: link:../../tooling/typescript
       eslint:
         specifier: ^8.56.0
         version: 8.56.0
@@ -132,15 +132,6 @@ importers:
 
   apps/server:
     dependencies:
-      '@acme/api':
-        specifier: workspace:^
-        version: link:../../packages/api
-      '@acme/db':
-        specifier: workspace:^
-        version: link:../../packages/db
-      '@acme/eslint-config':
-        specifier: workspace:^
-        version: link:../../tooling/eslint
       '@serverless/typescript':
         specifier: ^3.38.0
         version: 3.38.0
@@ -150,33 +141,45 @@ importers:
       '@types/node':
         specifier: ^20.11.11
         version: 20.11.11
+      '@zotmeal/api':
+        specifier: workspace:^
+        version: link:../../packages/api
+      '@zotmeal/db':
+        specifier: workspace:^
+        version: link:../../packages/db
+      '@zotmeal/eslint-config':
+        specifier: workspace:^
+        version: link:../../tooling/eslint
       axios:
         specifier: ^1.6.7
         version: 1.6.7
       serverless-esbuild:
-        specifier: ^1.50.2
-        version: 1.50.2(esbuild@0.14.11)
+        specifier: ^1.51.0
+        version: 1.51.0(esbuild@0.14.11)
       serverless-offline:
         specifier: ^13.3.3
         version: 13.3.3(serverless@3.38.0)
 
   packages/api:
     dependencies:
-      '@acme/db':
-        specifier: workspace:^
-        version: link:../db
-      '@acme/eslint-config':
-        specifier: workspace:^
-        version: link:../../tooling/eslint
-      '@acme/tsconfig':
-        specifier: workspace:^
-        version: link:../../tooling/typescript
-      '@acme/validators':
-        specifier: workspace:^
-        version: link:../validators
       '@trpc/server':
         specifier: 11.0.0-next-beta.236
         version: 11.0.0-next-beta.236
+      '@zotmeal/db':
+        specifier: workspace:^
+        version: link:../db
+      '@zotmeal/eslint-config':
+        specifier: workspace:^
+        version: link:../../tooling/eslint
+      '@zotmeal/tsconfig':
+        specifier: workspace:^
+        version: link:../../tooling/typescript
+      '@zotmeal/utils':
+        specifier: workspace:^
+        version: link:../utils
+      '@zotmeal/validators':
+        specifier: workspace:^
+        version: link:../validators
       superjson:
         specifier: 2.2.1
         version: 2.2.1
@@ -193,13 +196,13 @@ importers:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@20.11.11)(typescript@5.3.3)
     devDependencies:
-      '@acme/eslint-config':
+      '@zotmeal/eslint-config':
         specifier: workspace:^0.2.0
         version: link:../../tooling/eslint
-      '@acme/prettier-config':
+      '@zotmeal/prettier-config':
         specifier: workspace:^0.1.0
         version: link:../../tooling/prettier
-      '@acme/tsconfig':
+      '@zotmeal/tsconfig':
         specifier: workspace:^0.1.0
         version: link:../../tooling/typescript
       dotenv-cli:
@@ -254,21 +257,21 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.0)
     devDependencies:
-      '@acme/eslint-config':
-        specifier: workspace:^0.2.0
-        version: link:../../tooling/eslint
-      '@acme/prettier-config':
-        specifier: workspace:^0.1.0
-        version: link:../../tooling/prettier
-      '@acme/tailwind-config':
-        specifier: workspace:^0.1.0
-        version: link:../../tooling/tailwind
-      '@acme/tsconfig':
-        specifier: workspace:^0.1.0
-        version: link:../../tooling/typescript
       '@types/react':
         specifier: ^18.2.48
         version: 18.2.48
+      '@zotmeal/eslint-config':
+        specifier: workspace:^0.2.0
+        version: link:../../tooling/eslint
+      '@zotmeal/prettier-config':
+        specifier: workspace:^0.1.0
+        version: link:../../tooling/prettier
+      '@zotmeal/tailwind-config':
+        specifier: workspace:^0.1.0
+        version: link:../../tooling/tailwind
+      '@zotmeal/tsconfig':
+        specifier: workspace:^0.1.0
+        version: link:../../tooling/typescript
       eslint:
         specifier: ^8.56.0
         version: 8.56.0
@@ -288,19 +291,40 @@ importers:
         specifier: ^3.22.4
         version: 3.22.4
 
+  packages/utils:
+    devDependencies:
+      '@zotmeal/eslint-config':
+        specifier: workspace:^0.2.0
+        version: link:../../tooling/eslint
+      '@zotmeal/prettier-config':
+        specifier: workspace:^0.1.0
+        version: link:../../tooling/prettier
+      '@zotmeal/tsconfig':
+        specifier: workspace:^0.1.0
+        version: link:../../tooling/typescript
+      eslint:
+        specifier: ^8.56.0
+        version: 8.56.0
+      prettier:
+        specifier: ^3.1.1
+        version: 3.1.1
+      typescript:
+        specifier: ^5.3.3
+        version: 5.3.3
+
   packages/validators:
     dependencies:
       zod:
         specifier: ^3.22.4
         version: 3.22.4
     devDependencies:
-      '@acme/eslint-config':
+      '@zotmeal/eslint-config':
         specifier: workspace:^
         version: link:../../tooling/eslint
-      '@acme/prettier-config':
+      '@zotmeal/prettier-config':
         specifier: workspace:^0.1.0
         version: link:../../tooling/prettier
-      '@acme/tsconfig':
+      '@zotmeal/tsconfig':
         specifier: workspace:^0.1.0
         version: link:../../tooling/typescript
       eslint:
@@ -343,15 +367,15 @@ importers:
         specifier: ^4.6.0
         version: 4.6.0(eslint@8.56.0)
     devDependencies:
-      '@acme/prettier-config':
-        specifier: workspace:^0.1.0
-        version: link:../prettier
-      '@acme/tsconfig':
-        specifier: workspace:^0.1.0
-        version: link:../typescript
       '@types/eslint':
         specifier: ^8.56.2
         version: 8.56.2
+      '@zotmeal/prettier-config':
+        specifier: workspace:^0.1.0
+        version: link:../prettier
+      '@zotmeal/tsconfig':
+        specifier: workspace:^0.1.0
+        version: link:../typescript
       eslint:
         specifier: ^8.56.0
         version: 8.56.0
@@ -376,7 +400,7 @@ importers:
         specifier: ^0.5.10
         version: 0.5.10(@ianvs/prettier-plugin-sort-imports@4.1.1)(prettier@3.1.1)
     devDependencies:
-      '@acme/tsconfig':
+      '@zotmeal/tsconfig':
         specifier: workspace:^0.1.0
         version: link:../typescript
       typescript:
@@ -398,13 +422,13 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.0)
     devDependencies:
-      '@acme/eslint-config':
+      '@zotmeal/eslint-config':
         specifier: workspace:^0.2.0
         version: link:../eslint
-      '@acme/prettier-config':
+      '@zotmeal/prettier-config':
         specifier: workspace:^0.1.0
         version: link:../prettier
-      '@acme/tsconfig':
+      '@zotmeal/tsconfig':
         specifier: workspace:^0.1.0
         version: link:../typescript
       eslint:
@@ -8745,6 +8769,7 @@ packages:
 
   /glob@6.0.4:
     resolution: {integrity: sha512-MKZeRNyYZAVVVG1oZeLaWie1uweH40m9AZwIwxyPbTSX4hHrVYSzLg0Ro5Z5R7XKkIX+Cc6oD1rqeDJnwsB8/A==}
+    requiresBuild: true
     dependencies:
       inflight: 1.0.6
       inherits: 2.0.4
@@ -10833,6 +10858,7 @@ packages:
 
   /ncp@2.0.0:
     resolution: {integrity: sha512-zIdGUrPRFTUELUvr3Gmc7KZ2Sw/h1PiVM0Af/oHB6zgnV1ikqSfRk+TOufi79aHYCW3NiOXmr1BP5nWbzojLaA==}
+    requiresBuild: true
     dev: false
     optional: true
 
@@ -12469,6 +12495,7 @@ packages:
   /rimraf@2.4.5:
     resolution: {integrity: sha512-J5xnxTyqaiw06JjMftq7L9ouA448dw/E7dKghkP9WpKNuwmARNNg+Gk8/u5ryb9N/Yo2+z3MCwuqFK/+qPOPfQ==}
     hasBin: true
+    requiresBuild: true
     dependencies:
       glob: 6.0.4
     dev: false
@@ -12676,11 +12703,11 @@ packages:
       - supports-color
     dev: false
 
-  /serverless-esbuild@1.50.2(esbuild@0.14.11):
-    resolution: {integrity: sha512-6qpDKtJZ32rrRdDQToDdBIejrISNeArXOmZpdlNuTSfCSda0qqYzHz8pUZwdsrKLEB7ZhgNbLFOlgfwsN7G1PA==}
+  /serverless-esbuild@1.51.0(esbuild@0.14.11):
+    resolution: {integrity: sha512-/Jh+RARciyoSJulU96XasT4X+wT8qQjFmbSY0rtOtkyhKCP46KUKEKEFDFjLZKxLmnGF03QK+T51XbblZKgNJA==}
     engines: {node: '>=14.18.0'}
     peerDependencies:
-      esbuild: '>=0.8 <0.20'
+      esbuild: '>=0.8 <0.21'
       esbuild-node-externals: ^1.0.0
     peerDependenciesMeta:
       esbuild-node-externals:
