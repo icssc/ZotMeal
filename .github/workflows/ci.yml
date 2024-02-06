@@ -24,13 +24,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup
-        uses: ./tooling/github/setup
-
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: 20
+
+      - name: Setup
+        uses: ./tooling/github/setup
 
       - name: Create .env file
         run: |
