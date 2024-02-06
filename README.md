@@ -54,4 +54,6 @@ A summary of the libraries we use are listed below.
    As you make changes to the Expo application, those changes will be automatically
    reflected on the local website as well as the mobile app.
 6. To add a new package run `turbo gen workspace` and follow the prompts
-   
+
+## Testing
+Run `turbo test` at the root of the project.
