@@ -20,7 +20,7 @@ export const DietRestrictionSchema = z.object({
 });
 
 export const NutritionInfoSchema = z.object({
-  id: z.string(),
+  // id: z.string(),
   servingSize: z.string().nullable(),
   servingUnit: z.string().nullable(),
   calories: z.string().nullable(),
@@ -49,6 +49,8 @@ export const DishSchema = z.object({
   nutritionInfo: NutritionInfoSchema,
 });
 
+export type ParsedDish = z.infer<typeof DishSchema>;
+
 export const RestaurantSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -60,6 +62,8 @@ export const StationSchema = z.object({
   name: z.string(),
 });
 
+export type ParsedStation = z.infer<typeof StationSchema>;
+
 export const MenuPeriodSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -68,11 +72,9 @@ export const MenuPeriodSchema = z.object({
 });
 
 export const ParsedResponseSchema = z.object({
-  id: z.string(),
   restaurant: RestaurantSchema,
   stations: z.array(StationSchema),
   dishes: z.array(DishSchema),
-  menuPeriods: z.array(MenuPeriodSchema),
 });
 
 export type ParsedResponse = z.infer<typeof ParsedResponseSchema>;

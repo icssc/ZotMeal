@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { ID_TO_RESTAURANT } from "@zotmeal/utils";
+
 export const MenuStationSchema = z.object({
   StationId: z.string().min(1),
   Name: z.string().min(1),
@@ -53,8 +55,13 @@ export const MenuProductSchema = z.object({
 
 export type CampusDishMenuProduct = z.infer<typeof MenuProductSchema>;
 
+// get the restaurantIds
+const [restaurantId, ...restaurantIds] = Object.keys(
+  ID_TO_RESTAURANT as Record<string, string>,
+);
+
 export const CampusDishResponseSchema = z.object({
-  LocationId: z.union([z.literal("3314"), z.literal("3056")]),
+  LocationId: z.enum([restaurantId!, ...restaurantIds]),
   Menu: z.object({
     MenuId: z.string(),
     MenuPeriods: z.array(

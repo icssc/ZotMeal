@@ -155,7 +155,7 @@ importers:
         version: 1.6.7
       serverless-esbuild:
         specifier: ^1.51.0
-        version: 1.51.0(esbuild@0.14.11)
+        version: 1.51.0(esbuild@0.19.12)
       serverless-offline:
         specifier: ^13.3.3
         version: 13.3.3(serverless@3.38.0)
@@ -327,6 +327,9 @@ importers:
 
   packages/validators:
     dependencies:
+      '@zotmeal/utils':
+        specifier: workspace:^
+        version: link:../utils
       zod:
         specifier: ^3.22.4
         version: 3.22.4
@@ -13075,37 +13078,11 @@ packages:
       - supports-color
     dev: false
 
-  /serverless-esbuild@1.51.0(esbuild@0.14.11):
+  /serverless-esbuild@1.51.0(esbuild@0.19.12):
     resolution: {integrity: sha512-/Jh+RARciyoSJulU96XasT4X+wT8qQjFmbSY0rtOtkyhKCP46KUKEKEFDFjLZKxLmnGF03QK+T51XbblZKgNJA==}
     engines: {node: '>=14.18.0'}
     peerDependencies:
       esbuild: '>=0.8 <0.21'
-      esbuild-node-externals: ^1.0.0
-    peerDependenciesMeta:
-      esbuild-node-externals:
-        optional: true
-    dependencies:
-      acorn: 8.11.2
-      acorn-walk: 8.2.0
-      anymatch: 3.1.3
-      archiver: 5.3.2
-      bestzip: 2.2.1
-      chokidar: 3.5.3
-      esbuild: 0.14.11
-      execa: 5.1.1
-      fp-ts: 2.16.2
-      fs-extra: 11.2.0
-      globby: 11.1.0
-      p-map: 4.0.0
-      ramda: 0.28.0
-      semver: 7.5.4
-    dev: false
-
-  /serverless-esbuild@1.50.2(esbuild@0.19.12):
-    resolution: {integrity: sha512-6qpDKtJZ32rrRdDQToDdBIejrISNeArXOmZpdlNuTSfCSda0qqYzHz8pUZwdsrKLEB7ZhgNbLFOlgfwsN7G1PA==}
-    engines: {node: '>=14.18.0'}
-    peerDependencies:
-      esbuild: '>=0.8 <0.20'
       esbuild-node-externals: ^1.0.0
     peerDependenciesMeta:
       esbuild-node-externals:
