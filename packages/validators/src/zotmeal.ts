@@ -78,3 +78,7 @@ export const ParsedResponseSchema = z.object({
 });
 
 export type ParsedResponse = z.infer<typeof ParsedResponseSchema>;
+
+export const PeriodSchedulesSchema = z.object({
+    schedules: z.array(MenuPeriodSchema)
+});
