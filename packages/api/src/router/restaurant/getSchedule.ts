@@ -52,12 +52,6 @@ export const getScheduleProcedure = publicProcedure
                     end: true,
                 },
             });
-            if (!periodSchedule) {
-                throw new TRPCError({
-                    message: "menu not found",
-                    code: "NOT_FOUND",
-                });
-            }
 
             periodSchedules.push({
                 id: PERIOD_TO_ID[period as keyof typeof PERIOD_TO_ID],
