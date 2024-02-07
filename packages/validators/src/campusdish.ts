@@ -57,7 +57,7 @@ export type CampusDishMenuProduct = z.infer<typeof MenuProductSchema>;
 
 // get the restaurantIds
 const [restaurantId, ...restaurantIds] = Object.keys(
-  ID_TO_RESTAURANT as Record<string, string>,
+  ID_TO_RESTAURANT,
 );
 
 export const CampusDishResponseSchema = z.object({

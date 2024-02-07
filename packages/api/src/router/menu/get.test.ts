@@ -36,8 +36,7 @@ describe("GetMenuSchema validates properly", () => {
   });
 });
 
-
-describe("", () => {
+describe("menu.get", () => {
   // this test will not pass because the database is empty
   const ctx = createTRPCContext({});
   const caller = createCaller(ctx);
