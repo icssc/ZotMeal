@@ -26,6 +26,7 @@ export const getMenuProcedure = publicProcedure
     // get a menu
     const { date: dateString, period, restaurant: restaurantName } = input;
     const { db } = ctx;
+
     const restaurant = await db.restaurant.findFirst({
       where: {
         name: restaurantName,
@@ -33,6 +34,19 @@ export const getMenuProcedure = publicProcedure
       include: {
         stations: false,
         menu: false,
+      },
+    });
+
+    await db.menu.findMany({
+      include: {
+        stations: {
+          include: {
+            dishes: true,
+          },
+        },
+        restaurant: {
+          include: {},
+        },
       },
     });
 
@@ -51,6 +65,7 @@ export const getMenuProcedure = publicProcedure
         code: "BAD_REQUEST",
       });
     }
+
     const menu = await db.menu.findFirst({
       where: {
         restaurantId: restaurant.id,

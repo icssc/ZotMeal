@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import { CampusDishResponseSchema } from "@zotmeal/validators";
 
-import campus_dish_response from "./campus_dish_response.json";
-import { parseCampusDish } from "./parse";
+import campus_dish_response from "../router/menu/campus_dish_response.json";
+import { parseCampusDish } from "./menu";
 
 describe("parse campus dish", () => {
   it("parses campus dish response", () => {

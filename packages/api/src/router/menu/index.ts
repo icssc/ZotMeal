@@ -18,7 +18,6 @@ const helloProcedure = publicProcedure.query(async (opts) => {
 export const menuRouter = createTRPCRouter({
   get: getMenuProcedure,
   hello: helloProcedure,
-  parse: parseMenuProcedure,
   // parse: publicProcedure.query(async ({ ctx }) => {
   //   const res = await axios.get(
   //     "https://uci-campusdish-com.translate.goog/api/menu/GetMenus?locationId=3314&periodId=49&date=1/19/2024",
