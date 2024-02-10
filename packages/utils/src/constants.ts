@@ -6,7 +6,7 @@ import type { MenuPeriod, RestaurantName } from "@zotmeal/db";
 function invertMapping(
   mapping: Record<string, string>,
 ): Record<string, string> {
-  const inverted = {} as Record<string, string>;
+  const inverted: Record<string, string> = {};
   for (const key in mapping) {
     const value = mapping[key]!;
     inverted[value] = key;
@@ -20,6 +20,11 @@ export const RESTAURANT_TO_ID = {
   anteatery: "3056",
 } as const;
 export const ID_TO_RESTAURANT = invertMapping(RESTAURANT_TO_ID);
+
+// get the restaurantIds
+export const [restaurantId, ...restaurantIds] = Object.keys(
+  ID_TO_RESTAURANT,
+);
 
 export const getRestaurantId = (restaurant: RestaurantName): string | null => {
   if (!(restaurant in RESTAURANT_TO_ID)) {
@@ -45,7 +50,8 @@ export const PERIOD_TO_ID = {
   dinner: "107",
   brunch: "2651",
   latenight: "108",
-} as const;
+};
+
 export const ID_TO_PERIOD = invertMapping(PERIOD_TO_ID);
 
 export const getPeriodId = (
