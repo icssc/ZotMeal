@@ -1,7 +1,8 @@
 import { PrismaClient } from "@zotmeal/db";
-import { describe, expect, it } from "vitest";
+import { afterAll, describe, expect, it } from "vitest";
 import { insertMenu } from "./insert";
 import type { GetMenuParams } from "../router/menu/get";
+import type { MenuModel } from "../models/menu";
 
 describe("insert menu into db", () => {
   const db = new PrismaClient();
@@ -15,8 +16,10 @@ describe("insert menu into db", () => {
       restaurant: "brandywine"
     };
 
+    let insertedMenu: MenuModel | null = null;
+
     try {
-      const insertedMenu = await insertMenu(db, params);
+      insertedMenu = await insertMenu(db, params);
 
       if (!insertedMenu) {
         throw new Error("insertedMenu is null");
@@ -24,20 +27,30 @@ describe("insert menu into db", () => {
 
       console.log("insertedMenu:", insertedMenu);
 
-      // clean up
-      await db.station.deleteMany({
-        where: {
-          menuId: insertedMenu.id,
-        },
-      });
-      await db.menu.delete({
-        where: {
-          id: insertedMenu.id,
-        },
-      });
     } catch (e) {
       console.error(e);
       errorOccurred = true;
+    } finally {
+      // clean up
+      try {
+        await db.$transaction(async (trx) => {
+          if (!insertedMenu) {
+            return;
+          }
+          await trx.station.deleteMany({
+            where: {
+              menuId: insertedMenu.id,
+            },
+          });
+          await trx.menu.delete({
+            where: {
+              id: insertedMenu.id,
+            },
+          });
+        });
+      } catch (cleanupError) {
+        console.error('Failed to clean up test data:', cleanupError);
+      }
     }
 
     expect(errorOccurred).toBe(false);
@@ -46,4 +59,9 @@ describe("insert menu into db", () => {
   // it("", () => {
   //   // add an integration test, ideally using testcontainers
   // });
+
+
+  afterAll(async () => {
+    await db.$disconnect();
+  });
 });
