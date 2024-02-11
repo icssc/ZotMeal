@@ -1,4 +1,4 @@
-import type { PrismaClient, RestaurantName } from "@zotmeal/db";
+import type { Prisma, PrismaClient, RestaurantName } from "@zotmeal/db";
 
 export function updateRestaurant(db: PrismaClient) {
   // validate with zod
@@ -14,7 +14,7 @@ export function createRestaurant(db: PrismaClient) {
 }
 
 export async function getRestaurant(
-  db: PrismaClient,
+  db: PrismaClient | Prisma.TransactionClient,
   name: RestaurantName,
 ) {
   try {

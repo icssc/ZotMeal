@@ -19,37 +19,22 @@ describe("insert menu into db", () => {
     let insertedMenu: MenuModel | null = null;
 
     try {
-      insertedMenu = await insertMenu(db, params);
+      await db.$transaction(async (trx) => {
+        insertedMenu = await insertMenu(trx, params);
 
-      if (!insertedMenu) {
-        throw new Error("insertedMenu is null");
-      }
+        if (!insertedMenu) {
+          throw new Error("insertedMenu is null");
+        }
 
-      console.log("insertedMenu:", insertedMenu);
+        console.log("insertedMenu:", insertedMenu);
 
+        // Rollback the transaction to undo the insert
+        throw new Error("rollback");
+      });
     } catch (e) {
-      console.error(e);
-      errorOccurred = true;
-    } finally {
-      // clean up
-      try {
-        await db.$transaction(async (trx) => {
-          if (!insertedMenu) {
-            return;
-          }
-          await trx.station.deleteMany({
-            where: {
-              menuId: insertedMenu.id,
-            },
-          });
-          await trx.menu.delete({
-            where: {
-              id: insertedMenu.id,
-            },
-          });
-        });
-      } catch (e) {
-        console.error('Failed to clean up test data:', e);
+      if (e instanceof Error && e.message !== 'rollback') {
+        console.error(e);
+        errorOccurred = true;
       }
     }
 

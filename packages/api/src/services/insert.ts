@@ -1,4 +1,4 @@
-import type { PrismaClient } from "@zotmeal/db";
+import type { Prisma, PrismaClient } from "@zotmeal/db";
 import type { GetMenuParams } from "../router/menu/get";
 import type { MenuModel } from "../models/menu";
 import { getMenu, parseMenu } from "./menu";
@@ -6,7 +6,7 @@ import { parseDate } from "./helpers";
 import { getRestaurant } from "./restaurant";
 
 export async function insertMenu(
-  db: PrismaClient,
+  db: PrismaClient | Prisma.TransactionClient,
   params: GetMenuParams,
 ): Promise<MenuModel | null> {
   const {

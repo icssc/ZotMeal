@@ -2,7 +2,7 @@ import axios from "axios";
 import type { z } from "zod";
 import { ZodError } from "zod";
 
-import type { PrismaClient } from "@zotmeal/db";
+import type { Prisma, PrismaClient } from "@zotmeal/db";
 import {
   getPeriodId,
   getRestaurantId,
@@ -24,7 +24,7 @@ import { parseDate } from "./helpers";
 import { getRestaurant } from "./restaurant";
 
 export async function getMenu(
-  db: PrismaClient,
+  db: PrismaClient | Prisma.TransactionClient,
   params: GetMenuParams,
 ): Promise<MenuModel | null> {
   const { date: dateString, period, restaurant: restaurantName } = params;
@@ -61,7 +61,7 @@ export async function getMenu(
 }
 
 export async function parseMenu(
-  db: PrismaClient,
+  db: PrismaClient | Prisma.TransactionClient,
   params: GetMenuParams,
 ) /* : Promise<MenuModel | null> */ {
   const { date, restaurant, period } = params;
