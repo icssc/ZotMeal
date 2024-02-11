@@ -1,8 +1,8 @@
 import { PrismaClient } from "@zotmeal/db";
 import { afterAll, describe, expect, it } from "vitest";
-import { insertMenu } from "./insert";
 import type { GetMenuParams } from "../router/menu/get";
 import type { MenuModel } from "../models/menu";
+import { insertMenu } from "./insert";
 
 describe("insert menu into db", () => {
   const db = new PrismaClient();
@@ -48,8 +48,8 @@ describe("insert menu into db", () => {
             },
           });
         });
-      } catch (cleanupError) {
-        console.error('Failed to clean up test data:', cleanupError);
+      } catch (e) {
+        console.error('Failed to clean up test data:', e);
       }
     }
 
@@ -59,7 +59,6 @@ describe("insert menu into db", () => {
   // it("", () => {
   //   // add an integration test, ideally using testcontainers
   // });
-
 
   afterAll(async () => {
     await db.$disconnect();

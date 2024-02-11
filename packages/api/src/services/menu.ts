@@ -1,9 +1,13 @@
-import type { z } from "zod";
 import axios from "axios";
-import { parse } from "date-fns";
+import type { z } from "zod";
 import { ZodError } from "zod";
 
 import type { PrismaClient } from "@zotmeal/db";
+import {
+  getPeriodId,
+  getRestaurantId,
+  getRestaurantById as getRestaurantNameById,
+} from "@zotmeal/utils";
 import type {
   CampusDishResponse,
   DietRestrictionSchema,
@@ -12,15 +16,12 @@ import type {
   ParsedResponse,
   ParsedStation,
 } from "@zotmeal/validators";
-import {
-  getPeriodId,
-  getRestaurantId,
-  getRestaurantById as getRestaurantNameById,
-} from "@zotmeal/utils";
 import { CampusDishResponseSchema } from "@zotmeal/validators";
 
 import type { MenuModel } from "../models/menu";
 import type { GetMenuParams } from "../router/menu/get";
+import { parseDate } from "./helpers";
+import { getRestaurant } from "./restaurant";
 
 export async function getMenu(
   db: PrismaClient,
@@ -28,23 +29,13 @@ export async function getMenu(
 ): Promise<MenuModel | null> {
   const { date: dateString, period, restaurant: restaurantName } = params;
 
-  const restaurant = await db.restaurant.findFirst({
-    where: {
-      name: restaurantName,
-    },
-    include: {
-      stations: false,
-      menu: false,
-    },
-  });
-
+  const restaurant = await getRestaurant(db, restaurantName);
   if (restaurant === null) {
     console.error("restaurant not found: ", restaurantName);
     return null;
   }
 
-  const date = parse(dateString, "MM/dd/yyyy", new Date());
-
+  const date = parseDate(dateString);
   if (!date) {
     console.error("invalid date", dateString);
     return null;

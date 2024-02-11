@@ -1,8 +1,9 @@
 import type { PrismaClient } from "@zotmeal/db";
 import type { GetMenuParams } from "../router/menu/get";
 import type { MenuModel } from "../models/menu";
-import { parse } from "date-fns";
-import { parseMenu } from "./menu";
+import { getMenu, parseMenu } from "./menu";
+import { parseDate } from "./helpers";
+import { getRestaurant } from "./restaurant";
 
 export async function insertMenu(
   db: PrismaClient,
@@ -14,35 +15,25 @@ export async function insertMenu(
     restaurant: restaurantName
   } = params;
 
-  const restaurant = await db.restaurant.findFirst({
-    where: {
-      name: restaurantName,
-    },
-    include: {
-      stations: false,
-      menu: false,
-    },
-  });
-
-  if (restaurant === null) {
-    console.error("restaurant not found: ", restaurantName);
-    return null;
-  }
-
-  const date = parse(dateString, "MM/dd/yyyy", new Date());
-
+  const date = parseDate(dateString);
   if (!date) {
     console.error("invalid date", dateString);
     return null;
   }
 
-  const parsedMenu = await parseMenu(db, params);
+  const restaurant = await getRestaurant(db, restaurantName);
+  if (!restaurant) {
+    console.error("restaurant not found: ", restaurantName);
+    return null;
+  }
 
+  const parsedMenu = await parseMenu(db, params);
   if (!parsedMenu) {
     console.error("failed to parse menu");
     return null;
   }
 
+  // format data for db insertion
   const data = {
     id: parsedMenu.id,
     period,
@@ -85,13 +76,8 @@ export async function insertMenu(
     },
   }
 
-  const existingMenu = await db.menu.findFirst({
-    where: {
-      restaurantId: restaurant.id,
-      date,
-      period,
-    },
-  });
+  // check if menu already exists
+  const existingMenu = await getMenu(db, params);
 
   if (existingMenu) {
     console.error("menu already exists");
@@ -99,7 +85,7 @@ export async function insertMenu(
   }
 
   try {
-    return await db.menu.create({
+    const insertedMenu = await db.menu.create({
       data,
       include: {
         restaurant: true,
@@ -110,6 +96,8 @@ export async function insertMenu(
         },
       },
     });
+
+    return insertedMenu;
   } catch (e) {
     console.error("failed to insert menu", e);
     throw new Error("DBResponseError");
