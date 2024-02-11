@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "echo 'Add dev script here'",
     "build": "echo 'Add build script here'",
-    "test": "vitest",
+    "test": "vitest run --config vitest.config.ts",
     "lint": "echo 'Add lint script here'"
   },
   "dependencies": {
