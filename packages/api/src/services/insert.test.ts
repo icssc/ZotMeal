@@ -1,7 +1,6 @@
 import { PrismaClient } from "@zotmeal/db";
 import { afterAll, describe, expect, it } from "vitest";
 import type { GetMenuParams } from "../router/menu/get";
-import type { MenuModel } from "../models/menu";
 import { insertMenu } from "./insert";
 
 describe("insert menu into db", () => {
@@ -16,11 +15,9 @@ describe("insert menu into db", () => {
       restaurant: "brandywine"
     };
 
-    let insertedMenu: MenuModel | null = null;
-
     try {
       await db.$transaction(async (trx) => {
-        insertedMenu = await insertMenu(trx, params);
+        const insertedMenu = await insertMenu(trx, params);
 
         if (!insertedMenu) {
           throw new Error("insertedMenu is null");
