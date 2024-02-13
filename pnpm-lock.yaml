@@ -153,6 +153,9 @@ importers:
       axios:
         specifier: ^1.6.7
         version: 1.6.7
+      date-fns:
+        specifier: ^3.3.1
+        version: 3.3.1
       serverless-esbuild:
         specifier: ^1.51.0
         version: 1.51.0(esbuild@0.19.12)
