@@ -69,8 +69,8 @@ export const getMenuProcedure = publicProcedure
     const menu = await db.menu.findFirst({
       where: {
         restaurantId: restaurant.id,
-        date: date,
-        period: period,
+        date,
+        period,
       },
       include: {
         restaurant: true,

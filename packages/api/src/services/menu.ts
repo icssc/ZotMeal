@@ -1,9 +1,13 @@
-import type { z } from "zod";
 import axios from "axios";
-import { parse } from "date-fns";
+import type { z } from "zod";
 import { ZodError } from "zod";
 
-import type { PrismaClient } from "@zotmeal/db";
+import type { Prisma, PrismaClient } from "@zotmeal/db";
+import {
+  getPeriodId,
+  getRestaurantId,
+  getRestaurantById as getRestaurantNameById,
+} from "@zotmeal/utils";
 import type {
   CampusDishResponse,
   DietRestrictionSchema,
@@ -12,39 +16,26 @@ import type {
   ParsedResponse,
   ParsedStation,
 } from "@zotmeal/validators";
-import {
-  getPeriodId,
-  getRestaurantId,
-  getRestaurantById as getRestaurantNameById,
-} from "@zotmeal/utils";
 import { CampusDishResponseSchema } from "@zotmeal/validators";
 
 import type { MenuModel } from "../models/menu";
 import type { GetMenuParams } from "../router/menu/get";
+import { parseDate } from "./helpers";
+import { getRestaurant } from "./restaurant";
 
 export async function getMenu(
-  db: PrismaClient,
+  db: PrismaClient | Prisma.TransactionClient,
   params: GetMenuParams,
 ): Promise<MenuModel | null> {
   const { date: dateString, period, restaurant: restaurantName } = params;
 
-  const restaurant = await db.restaurant.findFirst({
-    where: {
-      name: restaurantName,
-    },
-    include: {
-      stations: false,
-      menu: false,
-    },
-  });
-
+  const restaurant = await getRestaurant(db, restaurantName);
   if (restaurant === null) {
     console.error("restaurant not found: ", restaurantName);
     return null;
   }
 
-  const date = parse(dateString, "MM/dd/yyyy", new Date());
-
+  const date = parseDate(dateString);
   if (!date) {
     console.error("invalid date", dateString);
     return null;
@@ -53,8 +44,8 @@ export async function getMenu(
   const menu: MenuModel | null = await db.menu.findFirst({
     where: {
       restaurantId: restaurant.id,
-      date: date,
-      period: period,
+      date,
+      period,
     },
     include: {
       restaurant: true,
@@ -70,12 +61,17 @@ export async function getMenu(
 }
 
 export async function parseMenu(
-  db: PrismaClient,
+  db: PrismaClient | Prisma.TransactionClient,
   params: GetMenuParams,
 ) /* : Promise<MenuModel | null> */ {
   const { date, restaurant, period } = params;
 
   const periodId = getPeriodId(period);
+
+  if (!periodId) {
+    console.error("invalid period", period);
+    return null;
+  }
 
   const restaurantId = getRestaurantId(restaurant);
 
@@ -88,10 +84,8 @@ export async function parseMenu(
   );
 
   try {
-    const validated = CampusDishResponseSchema.parse(res);
-    const menu = parseCampusDish(validated);
-
-    return menu;
+    const validated = CampusDishResponseSchema.parse(res.data);
+    return parseCampusDish(validated);
   } catch (e) {
     if (e instanceof ZodError) {
       console.log(e.issues);
@@ -101,7 +95,22 @@ export async function parseMenu(
   }
 }
 
-export function parseCampusDish(response: CampusDishResponse): ParsedResponse {
+export function parseCampusDish(
+  response: CampusDishResponse,
+): ParsedResponse {
+  if (!getRestaurantNameById(response.LocationId)) {
+    throw Error("location id not found");
+  }
+
+  const menuPeriod = response
+    .Menu
+    .MenuPeriods
+    .find((menuPeriod) => menuPeriod.PeriodId === response.SelectedPeriodId);
+
+  if (!menuPeriod) {
+    throw Error("period not found");
+  }
+
   const uniqueStations = new Set<string>();
   response.Menu.MenuStations.forEach((menuStation) => {
     uniqueStations.add(
@@ -119,67 +128,76 @@ export function parseCampusDish(response: CampusDishResponse): ParsedResponse {
 
   const dishes = response.Menu.MenuProducts.map((menuProduct): ParsedDish => {
     type DietRestriction = z.infer<typeof DietRestrictionSchema>;
+
+    const { Product, MenuProductId, StationId } = menuProduct;
+
     const dietRestriction: DietRestriction = {
-      containsEggs: menuProduct.Product.ContainsEggs,
-      containsFish: menuProduct.Product.ContainsFish,
-      containsMilk: menuProduct.Product.ContainsMilk,
-      containsPeanuts: menuProduct.Product.ContainsPeanuts,
-      containsShellfish: menuProduct.Product.ContainsShellfish,
-      containsSoy: menuProduct.Product.ContainsSoy,
-      containsTreeNuts: menuProduct.Product.ContainsTreeNuts,
-      containsWheat: menuProduct.Product.ContainsWheat,
-      containsSesame: menuProduct.Product.ContainsSesame,
-      isGlutenFree: menuProduct.Product.IsGlutenFree,
-      isHalal: menuProduct.Product.IsHalal,
-      isKosher: menuProduct.Product.IsKosher,
-      isLocallyGrown: menuProduct.Product.IsLocallyGrown,
-      isOrganic: menuProduct.Product.IsOrganic,
-      isVegan: menuProduct.Product.IsVegan,
-      isVegetarian: menuProduct.Product.IsVegetarian,
+      containsEggs: Product.ContainsEggs,
+      containsFish: Product.ContainsFish,
+      containsMilk: Product.ContainsMilk,
+      containsPeanuts: Product.ContainsPeanuts,
+      containsShellfish: Product.ContainsShellfish,
+      containsSoy: Product.ContainsSoy,
+      containsTreeNuts: Product.ContainsTreeNuts,
+      containsWheat: Product.ContainsWheat,
+      containsSesame: Product.ContainsSesame,
+      isGlutenFree: Product.IsGlutenFree,
+      isHalal: Product.IsHalal,
+      isKosher: Product.IsKosher,
+      isLocallyGrown: Product.IsLocallyGrown,
+      isOrganic: Product.IsOrganic,
+      isVegan: Product.IsVegan,
+      isVegetarian: Product.IsVegetarian,
     };
 
     type NutritionInfo = z.infer<typeof NutritionInfoSchema>;
     const nutritionInfo: NutritionInfo = {
-      servingSize: menuProduct.Product.ServingSize,
-      servingUnit: menuProduct.Product.ServingUnit,
-      calories: menuProduct.Product.Calories,
-      caloriesFromFat: menuProduct.Product.CaloriesFromFat,
-      totalFat: menuProduct.Product.TotalFat,
-      transFat: menuProduct.Product.TransFat,
-      cholesterol: menuProduct.Product.Cholesterol,
-      sodium: menuProduct.Product.Sodium,
-      totalCarbohydrates: menuProduct.Product.TotalCarbohydrates,
-      dietaryFiber: menuProduct.Product.DietaryFiber,
-      sugars: menuProduct.Product.Sugars,
-      protein: menuProduct.Product.Protein,
-      vitaminA: menuProduct.Product.VitaminA,
-      vitaminC: menuProduct.Product.VitaminC,
-      calcium: menuProduct.Product.Calcium,
-      iron: menuProduct.Product.Iron,
-      saturatedFat: menuProduct.Product.SaturatedFat,
+      servingSize: Product.ServingSize,
+      servingUnit: Product.ServingUnit,
+      calories: Product.Calories,
+      caloriesFromFat: Product.CaloriesFromFat,
+      totalFat: Product.TotalFat,
+      transFat: Product.TransFat,
+      cholesterol: Product.Cholesterol,
+      sodium: Product.Sodium,
+      totalCarbohydrates: Product.TotalCarbohydrates,
+      dietaryFiber: Product.DietaryFiber,
+      sugars: Product.Sugars,
+      protein: Product.Protein,
+      vitaminA: Product.VitaminA,
+      vitaminC: Product.VitaminC,
+      calcium: Product.Calcium,
+      iron: Product.Iron,
+      saturatedFat: Product.SaturatedFat,
     };
 
     return {
-      id: menuProduct.MenuProductId,
-      stationId: menuProduct.StationId,
-      name: menuProduct.Product.MarketingName,
-      description: menuProduct.Product.ShortDescription,
+      id: MenuProductId,
+      stationId: StationId,
+      name: Product.MarketingName,
+      description: Product.ShortDescription,
       dietRestriction,
       nutritionInfo,
     };
   });
 
-  if (!getRestaurantNameById(response.LocationId)) {
-    throw Error("location id not found");
+  const name = getRestaurantNameById(response.LocationId);
+
+  if (!name) {
+    throw Error("restaurant name not found");
   }
 
   const parsed: ParsedResponse = {
+    id: response.Menu.MenuId,
     stations,
     restaurant: {
       id: response.LocationId,
-      name: getRestaurantNameById(response.LocationId) as string,
+      name,
     },
-    dishes: dishes,
+    dishes,
+    start: menuPeriod.UtcMealPeriodStartTime,
+    end: menuPeriod.UtcMealPeriodEndTime,
   };
+
   return parsed;
 }

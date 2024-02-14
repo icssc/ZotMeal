@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { restaurantId, restaurantIds } from "@zotmeal/utils";
 
 export const DietRestrictionSchema = z.object({
   containsEggs: z.boolean().nullable(),
@@ -52,7 +53,7 @@ export const DishSchema = z.object({
 export type ParsedDish = z.infer<typeof DishSchema>;
 
 export const RestaurantSchema = z.object({
-  id: z.string(),
+  id: z.enum([restaurantId!, ...restaurantIds]),
   name: z.string(),
 });
 
@@ -72,9 +73,12 @@ export const MenuPeriodSchema = z.object({
 });
 
 export const ParsedResponseSchema = z.object({
+  id: z.string(),
   restaurant: RestaurantSchema,
   stations: z.array(StationSchema),
   dishes: z.array(DishSchema),
+  start: z.string(),
+  end: z.string(),
 });
 
 export type ParsedResponse = z.infer<typeof ParsedResponseSchema>;
