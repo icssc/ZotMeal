@@ -66,8 +66,8 @@ importers:
         specifier: ~1.11.1
         version: 1.11.1
       nativewind:
-        specifier: ~4.0.32
-        version: 4.0.32(@babel/core@7.23.9)(react-native-reanimated@3.7.0)(react-native-safe-area-context@4.9.0)(react-native@0.73.4)(react@18.2.0)(tailwindcss@3.4.0)
+        specifier: ~4.0.33
+        version: 4.0.33(@babel/core@7.23.9)(react-native-reanimated@3.7.0)(react-native-safe-area-context@4.9.0)(react-native@0.73.4)(react@18.2.0)(tailwindcss@3.4.0)
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -11182,13 +11182,13 @@ packages:
     resolution: {integrity: sha512-zkVhZUA3y8mbz652WrL5x0fB0ehrBkulWT3TomAQ9iDtyXZvzKeEA6GPxAItBYeNYl5yngKRX612qHOhvMkDeg==}
     dev: false
 
-  /nativewind@4.0.32(@babel/core@7.23.9)(react-native-reanimated@3.7.0)(react-native-safe-area-context@4.9.0)(react-native@0.73.4)(react@18.2.0)(tailwindcss@3.4.0):
-    resolution: {integrity: sha512-p/CJTMFlfgBF+MpD/Hr4x0TdShgJeQ6op+u1zoO3NZ0cxyHT7GW0ZT4QC4SLNsIxD3J4HvVshYNpDUuJLC/BIA==}
+  /nativewind@4.0.33(@babel/core@7.23.9)(react-native-reanimated@3.7.0)(react-native-safe-area-context@4.9.0)(react-native@0.73.4)(react@18.2.0)(tailwindcss@3.4.0):
+    resolution: {integrity: sha512-jPAxWpw8F2XIV88/2MnG5LQ5OtJVqC7JRlrYoZBCOrwLnHRkY1FUtRGE07n2WQ0dnsmhbJkQ/NsZG7eK+RDc3g==}
     engines: {node: '>=16'}
     peerDependencies:
       tailwindcss: '>3.3.0'
     dependencies:
-      react-native-css-interop: 0.0.32(@babel/core@7.23.9)(react-native-reanimated@3.7.0)(react-native-safe-area-context@4.9.0)(react-native@0.73.4)(react@18.2.0)(tailwindcss@3.4.0)
+      react-native-css-interop: 0.0.33(@babel/core@7.23.9)(react-native-reanimated@3.7.0)(react-native-safe-area-context@4.9.0)(react-native@0.73.4)(react@18.2.0)(tailwindcss@3.4.0)
       tailwindcss: 3.4.0
     transitivePeerDependencies:
       - '@babel/core'
@@ -12450,8 +12450,8 @@ packages:
       - supports-color
     dev: false
 
-  /react-native-css-interop@0.0.32(@babel/core@7.23.9)(react-native-reanimated@3.7.0)(react-native-safe-area-context@4.9.0)(react-native@0.73.4)(react@18.2.0)(tailwindcss@3.4.0):
-    resolution: {integrity: sha512-QtLac1vilnMzFBcDvPGF3+qQPCeZcvFvv4JbGXXBM+1aedzy95nrjy0f4Ji+JSyq/c28kq3F27hzLezmvayt4Q==}
+  /react-native-css-interop@0.0.33(@babel/core@7.23.9)(react-native-reanimated@3.7.0)(react-native-safe-area-context@4.9.0)(react-native@0.73.4)(react@18.2.0)(tailwindcss@3.4.0):
+    resolution: {integrity: sha512-5icH0VoV3fhI7fiS11LTEg6VsIG+aTqSo+0vVkJ8tvevAO5PNVbW4lMSYQr+rQX/ovSX4V60LbIRxFbt0qrtAg==}
     engines: {node: '>=16'}
     peerDependencies:
       react: '>=18'
