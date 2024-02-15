@@ -91,6 +91,16 @@ CREATE TABLE "NutritionInfo" (
     CONSTRAINT "NutritionInfo_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Event" (
+    "title" TEXT NOT NULL,
+    "link" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Event_pkey" PRIMARY KEY ("title","link","date")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "DietRestriction_dishId_key" ON "DietRestriction"("dishId");
 

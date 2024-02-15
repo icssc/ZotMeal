@@ -16,6 +16,7 @@
     "@zotmeal/tsconfig": "workspace:^",
     "@zotmeal/utils": "workspace:^",
     "@zotmeal/validators": "workspace:^",
+    "cheerio": "1.0.0-rc.12",
     "date-fns": "^3.3.1",
     "superjson": "2.2.1",
     "vitest": "^1.2.2",
