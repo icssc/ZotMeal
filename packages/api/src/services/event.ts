@@ -18,60 +18,66 @@ async function getHTML(url: string) {
 }
 
 export async function scrapeEvents() {
-  const html = await getHTML("https://uci.campusdish.com/api/events");
-  if (!html) {
-    return null;
+  try {
+    const html = await getHTML("https://uci.campusdish.com/api/events");
+    if (!html) {
+      return null;
+    }
+
+    const $ = cheerio.load(html);
+
+    const events: Event[] = [];
+
+    // iterate through each event item and extract data
+    $("li").each((i, el) => {
+      const eventItem = $(el);
+
+      const title = eventItem
+        .find(".gridItem_title_text")
+        .text();
+      const href = eventItem
+        .find("a")
+        .attr("href");
+      const link = `https://uci.campusdish.com${href}`;
+      const description = eventItem
+        .find(".gridItem__body")
+        .children()
+        .first()
+        .text();
+
+      // format into Date object
+      const dayString = eventItem
+        .find(".disclaimers")
+        .children()
+        .first()
+        .text();
+      const timeString = eventItem
+        .find(".disclaimers")
+        .children()
+        .last()
+        .text();
+      const currentYear = new Date().getFullYear();
+      const dateString = `${dayString}, ${currentYear}, ${timeString}`;
+      const date = new Date(dateString);
+
+      const event = {
+        title,
+        link,
+        description,
+        date,
+      };
+
+      const validated = EventSchema.parse(event);
+
+      events.push(validated);
+    });
+
+    return events;
+  } catch (e) {
+    if (e instanceof Error) {
+      console.error(e);
+    }
   }
-
-  const $ = cheerio.load(html);
-
-  const events: Event[] = [];
-
-  // iterate through each event item and extract data
-  $("li").each((i, el) => {
-    const eventItem = $(el);
-
-    const title = eventItem
-      .find(".gridItem_title_text")
-      .text();
-    const href = eventItem
-      .find("a")
-      .attr("href");
-    const link = `https://uci.campusdish.com${href}`;
-    const description = eventItem
-      .find(".gridItem__body")
-      .children()
-      .first()
-      .text();
-
-    // format into Date object
-    const dayString = eventItem
-      .find(".disclaimers")
-      .children()
-      .first()
-      .text();
-    const timeString = eventItem
-      .find(".disclaimers")
-      .children()
-      .last()
-      .text();
-    const currentYear = new Date().getFullYear();
-    const dateString = `${dayString}, ${currentYear}, ${timeString}`;
-    const date = new Date(dateString);
-
-    const event = {
-      title,
-      link,
-      description,
-      date,
-    };
-
-    const validated = EventSchema.parse(event);
-
-    events.push(validated);
-  })
-
-  return events;
 }
 
 export async function insertEvents(
@@ -79,7 +85,7 @@ export async function insertEvents(
   events: Event[],
 ) {
   try {
-    // fetch existing events
+    // fetch any existing events that match any events passed in
     const existingEvents = await db.event.findMany({
       where: {
         OR: events.map((event) => ({
