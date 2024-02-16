@@ -5,10 +5,8 @@ import { insertEvents, scrapeEvents } from "./event";
 describe("insert menu into db", () => {
   const db = new PrismaClient();
 
-  it("scrapes events data and returns it in the form of EventSchema", async () => {
-    let errorOccurred = false;
-
-    try {
+  it("scrapes events data and returns it in the form of EventSchema", () => {
+    expect(async () => {
       const events = await scrapeEvents();
 
       if (!events) {
@@ -16,44 +14,35 @@ describe("insert menu into db", () => {
       }
 
       console.log("events:", events);
-    } catch (e) {
-      if (e instanceof Error) {
-        console.error(e);
-        errorOccurred = true;
-      }
-    }
-
-    expect(errorOccurred).toBe(false);
+    }).not.toThrow();
   });
 
-  it("scrapes events data and inserts it into the db", async () => {
-    let errorOccurred = false;
+  it("scrapes events data and inserts it into the db", () => {
 
-    try {
-      const events = await scrapeEvents();
-      if (!events) {
-        throw new Error("events is null");
-      }
-
-      await db.$transaction(async (trx) => {
-        const insertedEvents = await insertEvents(trx, events);
-        if (!insertedEvents) {
-          throw new Error("insertedEvents is null");
+    expect(async () => {
+      try {
+        const events = await scrapeEvents();
+        if (!events) {
+          throw new Error("events is null");
         }
 
-        console.log("insertedEvents:", insertedEvents);
+        await db.$transaction(async (trx) => {
+          const insertedEvents = await insertEvents(trx, events);
+          if (!insertedEvents) {
+            throw new Error("insertedEvents is null");
+          }
 
-        // Rollback the transaction to undo the insert
-        throw new Error("rollback");
-      });
-    } catch (e) {
-      if (e instanceof Error && e.message !== 'rollback') {
-        console.error(e);
-        errorOccurred = true;
+          console.log("insertedEvents:", insertedEvents);
+
+          // Rollback the transaction to undo the insert
+          throw new Error("rollback");
+        });
+      } catch (e) {
+        if (e instanceof Error && e.message !== 'rollback') {
+          console.error(e);
+        }
       }
-    }
-
-    expect(errorOccurred).toBe(false);
+    }).not.toThrow();
   });
 
   // it("", () => {
