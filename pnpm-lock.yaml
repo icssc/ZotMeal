@@ -156,6 +156,9 @@ importers:
       '@zotmeal/eslint-config':
         specifier: workspace:^
         version: link:../../tooling/eslint
+      '@zotmeal/validators':
+        specifier: workspace:^
+        version: link:../../packages/validators
       axios:
         specifier: ^1.6.7
         version: 1.6.7
