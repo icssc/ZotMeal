@@ -20,7 +20,7 @@ model Dish {
 }
 
 model Restaurant {
-  id       String    @id
+  id       String         @id
   name     RestaurantName
   stations Station[]
   menu     Menu[]
@@ -45,8 +45,8 @@ enum MenuPeriod {
 }
 
 enum RestaurantName {
-    brandywine
-    anteatery
+  brandywine
+  anteatery
 }
 
 model Menu {
@@ -102,4 +102,13 @@ model NutritionInfo {
   saturatedFat       String?
   dish               Dish    @relation(fields: [dishId], references: [id])
   dishId             String  @unique
+}
+
+model Event {
+  title       String
+  link        String
+  description String
+  date        DateTime
+
+  @@id([title, link, date])
 }

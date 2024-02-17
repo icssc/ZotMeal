@@ -5,5 +5,5 @@ import { broadcastNotification } from "@zotmeal/api";
 
 export const main: APIGatewayProxyHandlerV2 = (event, context) => {
   event.body;
-  broadcastNotification();
+  // broadcastNotification();
 };
