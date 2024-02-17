@@ -1,7 +1,29 @@
+import { describe, expect, it, afterAll } from "vitest";
+
 import { PrismaClient } from "@zotmeal/db";
-import { afterAll, describe, expect, it } from "vitest";
-import type { GetMenuParams } from "../router/menu/get";
+import { CampusDishResponseSchema } from "@zotmeal/validators";
+
+import type { GetMenuParams } from "../../router/menu/get";
+import campus_dish_response from "../../router/menu/campus_dish_response.json";
+import { parseCampusDish } from "../menus/menu";
 import { insertMenu } from "./insert";
+
+describe("parse campus dish", () => {
+  it("parses campus dish response", () => {
+    expect(() => {
+      const validated = CampusDishResponseSchema.parse(campus_dish_response);
+      // open a db instance
+      const menu = parseCampusDish(validated);
+      console.log(menu);
+
+      expect(menu).not.toBeNull();
+    }).not.toThrow();
+  });
+
+  it("", () => {
+    // add an integration test, ideally using testcontainers
+  });
+});
 
 describe("insert menu into db", () => {
   const db = new PrismaClient();
@@ -12,7 +34,7 @@ describe("insert menu into db", () => {
     const params: GetMenuParams = {
       date: "02/09/2024",
       period: "lunch",
-      restaurant: "brandywine"
+      restaurant: "brandywine",
     };
 
     try {
@@ -29,7 +51,7 @@ describe("insert menu into db", () => {
         throw new Error("rollback");
       });
     } catch (e) {
-      if (e instanceof Error && e.message !== 'rollback') {
+      if (e instanceof Error && e.message !== "rollback") {
         console.error(e);
         errorOccurred = true;
       }

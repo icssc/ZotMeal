@@ -1,19 +1,16 @@
 import type { Prisma, PrismaClient } from "@zotmeal/db";
-import type { GetMenuParams } from "../router/menu/get";
-import type { MenuModel } from "../models/menu";
+
+import type { MenuModel } from "../../models/menu";
+import type { GetMenuParams } from "../../router/menu/get";
+import { getRestaurant } from "../restaurants/restaurant";
+import { parseDate } from "../utils/date";
 import { getMenu, parseMenu } from "./menu";
-import { parseDate } from "./helpers";
-import { getRestaurant } from "./restaurant";
 
 export async function insertMenu(
   db: PrismaClient | Prisma.TransactionClient,
   params: GetMenuParams,
 ): Promise<MenuModel | null> {
-  const {
-    date: dateString,
-    period,
-    restaurant: restaurantName
-  } = params;
+  const { date: dateString, period, restaurant: restaurantName } = params;
 
   const date = parseDate(dateString);
   if (!date) {
@@ -57,7 +54,9 @@ export async function insertMenu(
           },
           dishes: {
             create: parsedMenu.dishes
-              .filter((dish) => { dish.stationId === station.id })
+              .filter((dish) => {
+                dish.stationId === station.id;
+              })
               .map((dish) => {
                 return {
                   id: dish.id,
@@ -68,13 +67,13 @@ export async function insertMenu(
                       id: station.id,
                     },
                   },
-                }
+                };
               }),
           },
         };
       }),
     },
-  }
+  };
 
   // check if menu already exists
   const existingMenu = await getMenu(db, params);

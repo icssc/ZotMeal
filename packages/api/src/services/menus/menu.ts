@@ -18,10 +18,10 @@ import type {
 } from "@zotmeal/validators";
 import { CampusDishResponseSchema } from "@zotmeal/validators";
 
-import type { MenuModel } from "../models/menu";
-import type { GetMenuParams } from "../router/menu/get";
-import { parseDate } from "./helpers";
-import { getRestaurant } from "./restaurant";
+import type { MenuModel } from "../../models/menu";
+import type { GetMenuParams } from "../../router/menu/get";
+import { parseDate } from "../utils/date";
+import { getRestaurant } from "../restaurants/restaurant";
 
 export async function getMenu(
   db: PrismaClient | Prisma.TransactionClient,
