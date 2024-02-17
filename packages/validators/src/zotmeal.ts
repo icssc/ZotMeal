@@ -82,3 +82,12 @@ export const ParsedResponseSchema = z.object({
 });
 
 export type ParsedResponse = z.infer<typeof ParsedResponseSchema>;
+
+export const EventSchema = z.object({
+  title: z.string(),
+  link: z.string(),
+  description: z.string(),
+  date: z.date(),
+});
+
+export type Event = z.infer<typeof EventSchema>;
