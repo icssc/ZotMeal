@@ -1,10 +1,10 @@
 import type { Prisma, PrismaClient } from "@zotmeal/db";
 
-import type { MenuModel } from "../../models/menu";
-import type { GetMenuParams } from "../../router/menu/get";
-import { getRestaurant } from "../restaurants/restaurant";
-import { parseDate } from "../utils/date";
-import { getMenu, parseMenu } from "./menu";
+import type { MenuModel } from "../models/model";
+import type { GetMenuParams } from "../procedures/get";
+import { getRestaurant } from "../../restaurants/services/restaurant";
+import { parseDate } from "../../utils/date";
+import { getMenu, parseMenu } from "./parse";
 
 export async function insertMenu(
   db: PrismaClient | Prisma.TransactionClient,

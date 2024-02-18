@@ -1,20 +1,25 @@
 import type { Prisma, PrismaClient, RestaurantName } from "@zotmeal/db";
 
-export function updateRestaurant(db: PrismaClient) {
+export function updateRestaurant(
+  db: PrismaClient,
+  // params: UpdateRestaurantParams
+) {
   // validate with zod
   const _ = db.restaurant.findFirst();
 }
 
-export function createRestaurant(db: PrismaClient) {
-
+export function createRestaurant(
+  db: PrismaClient,
+  // params: CreateRestaurantParams
+) {
   // validate with zod
 
   const _ = db.restaurant.findFirst();
-
 }
 
 export async function getRestaurant(
   db: PrismaClient | Prisma.TransactionClient,
+  // params: GetRestaurantParams,
   name: RestaurantName,
 ) {
   try {
@@ -31,7 +36,7 @@ export async function getRestaurant(
     return restaurant;
   } catch (e) {
     if (e instanceof Error) {
-      console.error('Error occurred while fetching restaurant:', e.message);
+      console.error("Error occurred while fetching restaurant:", e.message);
     }
     return null;
   }

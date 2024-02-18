@@ -1,12 +1,12 @@
-import { describe, expect, it, afterAll } from "vitest";
+import { afterAll, describe, expect, it } from "vitest";
 
 import { PrismaClient } from "@zotmeal/db";
 import { CampusDishResponseSchema } from "@zotmeal/validators";
 
-import type { GetMenuParams } from "../../router/menu/get";
-import campus_dish_response from "../../router/menu/campus_dish_response.json";
-import { parseCampusDish } from "../menus/menu";
+import type { GetMenuParams } from "../procedures/get";
+import campus_dish_response from "./campus_dish_response.json";
 import { insertMenu } from "./insert";
+import { parseCampusDish } from "./parse";
 
 describe("parse campus dish", () => {
   it("parses campus dish response", () => {

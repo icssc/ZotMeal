@@ -1,6 +1,8 @@
-import { PrismaClient } from "@zotmeal/db";
 import { afterAll, describe, expect, it } from "vitest";
-import { insertEvents, scrapeEvents } from "./event";
+
+import { PrismaClient } from "@zotmeal/db";
+
+import { insertEvents, scrapeEvents } from "../services";
 
 describe("insert menu into db", () => {
   const db = new PrismaClient();
@@ -18,7 +20,6 @@ describe("insert menu into db", () => {
   });
 
   it("scrapes events data and inserts it into the db", () => {
-
     expect(async () => {
       try {
         const events = await scrapeEvents();
@@ -38,7 +39,7 @@ describe("insert menu into db", () => {
           throw new Error("rollback");
         });
       } catch (e) {
-        if (e instanceof Error && e.message !== 'rollback') {
+        if (e instanceof Error && e.message !== "rollback") {
           console.error(e);
         }
       }

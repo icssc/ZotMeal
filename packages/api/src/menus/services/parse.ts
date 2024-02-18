@@ -1,13 +1,8 @@
-import axios from "axios";
 import type { z } from "zod";
+import axios from "axios";
 import { ZodError } from "zod";
 
 import type { Prisma, PrismaClient } from "@zotmeal/db";
-import {
-  getPeriodId,
-  getRestaurantId,
-  getRestaurantById as getRestaurantNameById,
-} from "@zotmeal/utils";
 import type {
   CampusDishResponse,
   DietRestrictionSchema,
@@ -16,12 +11,17 @@ import type {
   ParsedResponse,
   ParsedStation,
 } from "@zotmeal/validators";
+import {
+  getPeriodId,
+  getRestaurantId,
+  getRestaurantById as getRestaurantNameById,
+} from "@zotmeal/utils";
 import { CampusDishResponseSchema } from "@zotmeal/validators";
 
-import type { MenuModel } from "../../models/menu";
-import type { GetMenuParams } from "../../router/menu/get";
-import { parseDate } from "../utils/date";
-import { getRestaurant } from "../restaurants/restaurant";
+import type { MenuModel } from "../models/model";
+import type { GetMenuParams } from "../procedures/get";
+import { getRestaurant } from "../../restaurants/services/restaurant";
+import { parseDate } from "../../utils/date";
 
 export async function getMenu(
   db: PrismaClient | Prisma.TransactionClient,
@@ -95,17 +95,14 @@ export async function parseMenu(
   }
 }
 
-export function parseCampusDish(
-  response: CampusDishResponse,
-): ParsedResponse {
+export function parseCampusDish(response: CampusDishResponse): ParsedResponse {
   if (!getRestaurantNameById(response.LocationId)) {
     throw Error("location id not found");
   }
 
-  const menuPeriod = response
-    .Menu
-    .MenuPeriods
-    .find((menuPeriod) => menuPeriod.PeriodId === response.SelectedPeriodId);
+  const menuPeriod = response.Menu.MenuPeriods.find(
+    (menuPeriod) => menuPeriod.PeriodId === response.SelectedPeriodId,
+  );
 
   if (!menuPeriod) {
     throw Error("period not found");

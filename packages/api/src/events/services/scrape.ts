@@ -1,7 +1,6 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
 
-import type { Prisma, PrismaClient } from "@zotmeal/db";
 import type { Event } from "@zotmeal/validators";
 import { EventSchema } from "@zotmeal/validators";
 
@@ -19,7 +18,7 @@ async function getHTML(url: string) {
   }
 }
 
-export async function scrapeEvents() {
+export async function scrapeEvents(): Promise<Event[] | null> {
   try {
     const html = await getHTML("https://uci.campusdish.com/api/events");
     if (!html) {
@@ -58,7 +57,7 @@ export async function scrapeEvents() {
       const dateString = `${dayString}, ${currentYear}, ${timeString}`;
       const date = new Date(dateString);
 
-      const event = {
+      const event: Event = {
         title,
         link,
         description,
@@ -76,47 +75,5 @@ export async function scrapeEvents() {
       console.error(e);
     }
   }
-}
-
-export async function insertEvents(
-  db: PrismaClient | Prisma.TransactionClient,
-  events: Event[],
-) {
-  try {
-    // fetch any existing events that match any events passed in
-    const existingEvents = await db.event.findMany({
-      where: {
-        OR: events.map((event) => ({
-          title: event.title,
-          date: event.date,
-          link: event.link,
-        })),
-      },
-    });
-
-    // filter out existing events
-    const newEvents = events.filter(
-      (event) =>
-        !existingEvents.some(
-          (existingEvent) =>
-            existingEvent.title === event.title &&
-            existingEvent.link === event.link &&
-            new Date(existingEvent.date).getTime() ===
-              new Date(event.date).getTime(),
-        ),
-    );
-
-    // insert new events
-    if (newEvents.length > 0) {
-      await db.event.createMany({
-        data: newEvents,
-      });
-    }
-
-    return newEvents;
-  } catch (e) {
-    if (e instanceof Error) {
-      console.error(e);
-    }
-  }
+  return null;
 }

@@ -1,10 +1,10 @@
 import { TRPCError } from "@trpc/server";
-import { parse } from "date-fns";
 import { z } from "zod";
 
 import { MenuPeriod, RestaurantName } from "@zotmeal/db";
 
 import { publicProcedure } from "../../trpc";
+import { parseDate } from "../../utils";
 
 export const GetMenuSchema = z.object({
   date: z
@@ -58,7 +58,7 @@ export const getMenuProcedure = publicProcedure
       });
     }
 
-    const date = parse(dateString, "MM/dd/yyyy", new Date());
+    const date = parseDate(dateString);
     if (!date) {
       throw new TRPCError({
         message: `invalid date string ${dateString}`,

@@ -14,6 +14,7 @@ describe("GetMenuSchema validates properly", () => {
       },
     ];
 
+
     for (const test of tests) {
       const result = GetMenuSchema.safeParse(test);
       expect(result.success).toBe(true);

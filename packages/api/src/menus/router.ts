@@ -1,7 +1,7 @@
 import axios from "axios";
 
-import { createTRPCRouter, publicProcedure } from "../../trpc";
-import { getMenuProcedure } from "./get";
+import { createTRPCRouter, publicProcedure } from "../trpc";
+import { getMenuProcedure } from "./procedures/get";
 
 // import { createTRPCRouter, publicProcedure } from "../trpc";
 // import { parseCampusDish } from "./parse";

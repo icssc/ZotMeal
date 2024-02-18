@@ -1,4 +1,4 @@
-import { menuRouter } from "./router/menu";
+import { menuRouter } from "./menus";
 import { createTRPCRouter } from "./trpc";
 
 export const appRouter = createTRPCRouter({
