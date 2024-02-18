@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 import { restaurantId, restaurantIds } from "@zotmeal/utils";
 
 export const DietRestrictionSchema = z.object({

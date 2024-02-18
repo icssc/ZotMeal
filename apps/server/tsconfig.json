@@ -2,10 +2,10 @@
   "extends": "./tsconfig.paths.json",
   "compilerOptions": {
     "lib": ["ESNext"],
-    "moduleResolution": "node",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "removeComments": true,
+    "moduleResolution": "Bundler",
     "sourceMap": true,
     "target": "ES2020",
     "outDir": "lib"

@@ -1,7 +1,9 @@
-import type { Prisma, PrismaClient } from "@zotmeal/db";
-import { Event, EventSchema } from "@zotmeal/validators";
 import axios from "axios";
 import * as cheerio from "cheerio";
+
+import type { Prisma, PrismaClient } from "@zotmeal/db";
+import type { Event } from "@zotmeal/validators";
+import { EventSchema } from "@zotmeal/validators";
 
 async function getHTML(url: string) {
   try {
@@ -32,12 +34,8 @@ export async function scrapeEvents() {
     $("li").each((i, el) => {
       const eventItem = $(el);
 
-      const title = eventItem
-        .find(".gridItem_title_text")
-        .text();
-      const href = eventItem
-        .find("a")
-        .attr("href");
+      const title = eventItem.find(".gridItem_title_text").text();
+      const href = eventItem.find("a").attr("href");
       const link = `https://uci.campusdish.com${href}`;
       const description = eventItem
         .find(".gridItem__body")
@@ -103,8 +101,9 @@ export async function insertEvents(
           (existingEvent) =>
             existingEvent.title === event.title &&
             existingEvent.link === event.link &&
-            new Date(existingEvent.date).getTime() === new Date(event.date).getTime()
-        )
+            new Date(existingEvent.date).getTime() ===
+              new Date(event.date).getTime(),
+        ),
     );
 
     // insert new events

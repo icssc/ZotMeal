@@ -112,3 +112,7 @@ model Event {
 
   @@id([title, link, date])
 }
+
+model PushToken {
+    token String @id
+}

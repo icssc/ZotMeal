@@ -9,18 +9,36 @@ import { Expo } from "expo-server-sdk";
 
 import type { PrismaClient } from "@zotmeal/db";
 
-const expo = new Expo({
-  accessToken: process.env.EXPO_ACCESS_TOKEN,
-});
-
 // Send Notification to all users which set up a notification id
+export interface Notification {
+  title?: string;
+  subtitle?: string;
+  body?: string;
+  data?: object;
+}
+
+export async function getPushTokens(
+  db: PrismaClient,
+): Promise<ExpoPushToken[] | null> {
+  const pushTokens = await db.pushToken.findMany();
+  if (!pushTokens) {
+    return null;
+  }
+
+  const tokens = pushTokens.map((pushToken) => pushToken.token);
+  return tokens;
+}
+
 export async function broadcastNotification(
   db: PrismaClient,
   expo: Expo,
-  pushTokens: ExpoPushToken[],
-  notification: ExpoPushMessage,
+  notification: Notification,
 ) {
-  const messages = [];
+  const pushTokens = await getPushTokens(db);
+  if (pushTokens === null) {
+    return;
+  }
+  const messages: ExpoPushMessage[] = [];
   for (const pushToken of pushTokens) {
     // Each push token looks like ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]
 
@@ -33,7 +51,13 @@ export async function broadcastNotification(
     }
 
     // Construct a message (see https://docs.expo.io/push-notifications/sending-notifications/)
-    messages.push(notification);
+
+    const message: ExpoPushMessage = {
+      ...notification,
+      to: pushToken,
+      sound: "default",
+    };
+    messages.push(message);
   }
 
   const chunks = expo.chunkPushNotifications(messages);
@@ -69,6 +93,7 @@ export async function broadcastNotification(
 }
 
 export async function handleNotificationReceipts(
+  expo: Expo,
   tickets: ExpoPushSuccessTicket[],
 ) {
   const receiptIds: string[] = [];
