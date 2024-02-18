@@ -1,6 +1,6 @@
 import type { Prisma, PrismaClient } from "@zotmeal/db";
 
-import type { MenuModel } from "../models/model";
+import type { MenuModel } from "../models/menu";
 import type { GetMenuParams } from "../procedures/get";
 import { getRestaurant } from "../../restaurants/services/restaurant";
 import { parseDate } from "../../utils/date";

@@ -18,7 +18,8 @@ describe("insert menu into db", () => {
       console.log("events:", events);
     }).not.toThrow();
   });
-
+  // refactor this to only test the insertion
+  // test the scrape separately from the insertion
   it("scrapes events data and inserts it into the db", () => {
     expect(async () => {
       try {
