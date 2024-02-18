@@ -16,7 +16,7 @@
     "@zotmeal/db": "workspace:^",
     "@zotmeal/eslint-config": "workspace:^",
     "@serverless/typescript": "^3.38.0",
-    "@types/aws-lambda": "^8.10.133",
+    "@types/aws-lambda": "^8.10.134",
     "@types/node": "^20.11.19",
     "axios": "^1.6.7",
     "date-fns": "^3.3.1",
