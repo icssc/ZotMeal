@@ -136,8 +136,8 @@ importers:
         specifier: ^3.38.0
         version: 3.38.0
       '@types/aws-lambda':
-        specifier: ^8.10.133
-        version: 8.10.133
+        specifier: ^8.10.134
+        version: 8.10.134
       '@types/node':
         specifier: ^20.11.19
         version: 20.11.19
@@ -5544,8 +5544,8 @@ packages:
       update-check: 1.5.4
     dev: true
 
-  /@types/aws-lambda@8.10.133:
-    resolution: {integrity: sha512-sr852MAL/79rjDelXP6ZuJ6GwOvXIRrFAoC8a+w91mZ5XR71CuzSgo1d0+pG1qgfPhjFgaibu7SWaoC5BA7pyQ==}
+  /@types/aws-lambda@8.10.134:
+    resolution: {integrity: sha512-cfv422ivDMO+EeA3N4YcshbTHBL+5lLXe+Uz+4HXvIcsCuWvqNFpOs28ZprL8NA3qRCzt95ETiNAJDn4IcC/PA==}
     dev: false
 
   /@types/cacheable-request@6.0.3:
