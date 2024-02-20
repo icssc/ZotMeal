@@ -1,8 +1,10 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
 
-import type { Event } from "@zotmeal/validators";
-import { EventSchema } from "@zotmeal/validators";
+import { parseDate } from "@zotmeal/utils";
+
+import type { Event } from "../models";
+import { EventSchema } from "../models";
 
 async function getHTML(url: string) {
   try {
@@ -57,7 +59,9 @@ export async function scrapeEvents(): Promise<Event[] | null> {
       const dateString = `${dayString}, ${currentYear}, ${timeString}`;
       const date = new Date(dateString);
 
-      const event: Event = {
+      parseDate;
+
+      const event = {
         title,
         link,
         description,

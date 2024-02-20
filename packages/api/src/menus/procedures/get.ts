@@ -1,24 +1,9 @@
 import { TRPCError } from "@trpc/server";
-import { z } from "zod";
 
-import { MenuPeriod, RestaurantName } from "@zotmeal/db";
+import { parseDate } from "@zotmeal/utils";
 
 import { publicProcedure } from "../../trpc";
-import { parseDate } from "../../utils";
-
-export const GetMenuSchema = z.object({
-  date: z
-    .string()
-    .regex(
-      RegExp(
-        "^((0?[1-9]|1[012])[/](0?[1-9]|[12][0-9]|3[01])[/](19|20)?[0-9]{2})*$",
-      ),
-    ),
-  period: z.nativeEnum(MenuPeriod),
-  restaurant: z.nativeEnum(RestaurantName),
-});
-
-export type GetMenuParams = z.infer<typeof GetMenuSchema>;
+import { GetMenuSchema } from "../models/menu";
 
 export const getMenuProcedure = publicProcedure
   .input(GetMenuSchema)

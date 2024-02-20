@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-import { restaurantId, restaurantIds } from "@zotmeal/utils";
-
 export const DietRestrictionSchema = z.object({
   containsEggs: z.boolean().nullable(),
   containsFish: z.boolean().nullable(),
@@ -20,6 +18,8 @@ export const DietRestrictionSchema = z.object({
   isVegan: z.boolean().nullable(),
   isVegetarian: z.boolean().nullable(),
 });
+
+export type DietRestrictionParams = z.infer<typeof DietRestrictionSchema>;
 
 export const NutritionInfoSchema = z.object({
   // id: z.string(),
@@ -42,6 +42,8 @@ export const NutritionInfoSchema = z.object({
   saturatedFat: z.string().nullable(),
 });
 
+export type NutritionInfoParams = z.infer<typeof NutritionInfoSchema>;
+
 export const DishSchema = z.object({
   id: z.string(),
   stationId: z.string(),
@@ -51,44 +53,4 @@ export const DishSchema = z.object({
   nutritionInfo: NutritionInfoSchema,
 });
 
-export type ParsedDish = z.infer<typeof DishSchema>;
-
-export const RestaurantSchema = z.object({
-  id: z.enum([restaurantId!, ...restaurantIds]),
-  name: z.string(),
-});
-
-export const StationSchema = z.object({
-  id: z.string(),
-  restaurantId: z.string(),
-  name: z.string(),
-});
-
-export type ParsedStation = z.infer<typeof StationSchema>;
-
-export const MenuPeriodSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  start: z.string(),
-  end: z.string(),
-});
-
-export const ParsedResponseSchema = z.object({
-  id: z.string(),
-  restaurant: RestaurantSchema,
-  stations: z.array(StationSchema),
-  dishes: z.array(DishSchema),
-  start: z.string(),
-  end: z.string(),
-});
-
-export type ParsedResponse = z.infer<typeof ParsedResponseSchema>;
-
-export const EventSchema = z.object({
-  title: z.string(),
-  link: z.string(),
-  description: z.string(),
-  date: z.date(),
-});
-
-export type Event = z.infer<typeof EventSchema>;
+export type DishParams = z.infer<typeof DishSchema>;

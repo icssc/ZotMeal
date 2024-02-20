@@ -12,6 +12,7 @@ datasource db {
 
 model Dish {
   id              String           @id
+  name String
   description     String
   dietRestriction DietRestriction?
   nutritionInfo   NutritionInfo?
@@ -61,7 +62,8 @@ model Menu {
 }
 
 model DietRestriction {
-  id                String   @id
+  dish              Dish     @relation(fields: [dishId], references: [id])
+  dishId            String   @id
   containsFish      Boolean?
   containsMilk      Boolean?
   containsPeanuts   Boolean?
@@ -77,12 +79,11 @@ model DietRestriction {
   isOrganic         Boolean?
   isVegan           Boolean?
   isVegetarian      Boolean?
-  dish              Dish     @relation(fields: [dishId], references: [id])
-  dishId            String   @unique
 }
 
 model NutritionInfo {
-  id                 String  @id
+  dish              Dish     @relation(fields: [dishId], references: [id])
+  dishId            String   @id
   servingSize        String?
   servingUnit        String?
   calories           String?
@@ -100,8 +101,6 @@ model NutritionInfo {
   calcium            String?
   iron               String?
   saturatedFat       String?
-  dish               Dish    @relation(fields: [dishId], references: [id])
-  dishId             String  @unique
 }
 
 model Event {

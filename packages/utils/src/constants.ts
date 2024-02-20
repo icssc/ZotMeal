@@ -21,11 +21,6 @@ export const RESTAURANT_TO_ID = {
 } as const;
 export const ID_TO_RESTAURANT = invertMapping(RESTAURANT_TO_ID);
 
-// get the restaurantIds
-export const [restaurantId, ...restaurantIds] = Object.keys(
-  ID_TO_RESTAURANT,
-);
-
 export const getRestaurantId = (restaurant: RestaurantName): string | null => {
   if (!(restaurant in RESTAURANT_TO_ID)) {
     return null;
@@ -34,7 +29,7 @@ export const getRestaurantId = (restaurant: RestaurantName): string | null => {
   return RESTAURANT_TO_ID[restaurant];
 };
 
-export const getRestaurantById = (
+export const getRestaurantNameById = (
   id: keyof typeof ID_TO_RESTAURANT,
 ): RestaurantName | null => {
   if (!(id in ID_TO_RESTAURANT)) {

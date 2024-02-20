@@ -2,7 +2,7 @@ import { afterAll, describe, expect, it } from "vitest";
 
 import { PrismaClient } from "@zotmeal/db";
 
-import { insertEvents, scrapeEvents } from "../services";
+import { createEvents, scrapeEvents } from "../services";
 
 describe("insert menu into db", () => {
   const db = new PrismaClient();
@@ -29,7 +29,7 @@ describe("insert menu into db", () => {
         }
 
         await db.$transaction(async (trx) => {
-          const insertedEvents = await insertEvents(trx, events);
+          const insertedEvents = await createEvents(trx, events);
           if (!insertedEvents) {
             throw new Error("insertedEvents is null");
           }

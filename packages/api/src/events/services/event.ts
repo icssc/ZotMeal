@@ -1,7 +1,8 @@
 import type { Prisma, PrismaClient } from "@zotmeal/db";
-import type { Event } from "@zotmeal/validators";
 
-export async function insertEvents(
+import type { Event } from "../models";
+
+export async function createEvents(
   db: PrismaClient | Prisma.TransactionClient,
   events: Event[],
 ) {
