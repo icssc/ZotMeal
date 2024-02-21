@@ -38,10 +38,9 @@ export const createTRPCContext = (opts: {
   // headers: Headers;
   // session: Session | null;
 }) => {
-  const _ = opts;
-
   console.log(">>> tRPC Request from", "something", "by", "someone");
   return {
+    ...opts,
     db,
     expo,
   };

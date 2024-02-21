@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+// mm/dd/yyyy
 export const DateRegex = z
   .string()
   .regex(

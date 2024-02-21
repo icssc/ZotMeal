@@ -33,7 +33,6 @@ export * from "./events";
 export * from "./menus";
 export * from "./notifications";
 export * from "./restaurants";
-export * from "./utils";
 
 export { createTRPCContext, appRouter, createCaller };
 export type { AppRouter, RouterInputs, RouterOutputs };
