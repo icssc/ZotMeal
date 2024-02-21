@@ -1,31 +1,72 @@
+import { TRPCError } from "@trpc/server";
+
 import type { Prisma, PrismaClient } from "@zotmeal/db";
 import { parseDate } from "@zotmeal/utils";
 
-import type { MenuParams } from "../models/menu";
+import type { GetMenuParams, MenuParams } from "../models/menu";
 
-// export async function getMenu(
-//   db: PrismaClient | Prisma.TransactionClient,
-//   params: GetMenuParams,
-// ) {
-//   const { date: dateString, period, restaurant: restaurantName } = params;
-//   const date = parseDate(params.date);
+export async function getMenu(
+  db: PrismaClient | Prisma.TransactionClient,
+  params: GetMenuParams,
+) {
+  const {
+    date: dateString,
+    period: periodName,
+    restaurant: restaurantName,
+  } = params;
 
-//   const restaurant = await db.restaurant.findFirst({
-//     where: {
-//       name: restaurantName,
-//     },
-//     include: {
-//       stations: false,
-//       menu: false,
-//     },
-//   });
+  const date = parseDate(dateString);
+  if (date === null) {
+    throw new TRPCError({
+      code: "BAD_REQUEST",
+      message: "invalid date format",
+    });
+  }
 
-//   const menu = db.menu.findUnique({
-//     where: {
-//       date,
-//     },
-//   });
-// }
+  const restaurant = await db.restaurant.findFirst({
+    where: {
+      name: restaurantName,
+    },
+    include: {
+      stations: false,
+      menu: false,
+    },
+  });
+
+  if (restaurant === null) {
+    throw new TRPCError({ message: "restaurant not found", code: "NOT_FOUND" });
+  }
+
+  const period = await db.menuPeriod.findUnique({
+    where: { name: periodName },
+  });
+  if (period === null) {
+    throw new TRPCError({ message: "period not found", code: "NOT_FOUND" });
+  }
+
+  const menu = db.menu.findFirst({
+    where: {
+      restaurantId: restaurant.id,
+      date,
+      periodId: period.id,
+    },
+    include: {
+      period: true,
+      stations: {
+        include: {
+          dishes: {
+            include: {
+              dietRestriction: true,
+              nutritionInfo: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return menu;
+}
 
 export async function saveMenu(
   db: PrismaClient | Prisma.TransactionClient,
