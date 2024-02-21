@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import type { GetMenuParams } from "./get";
+import type { GetMenuParams } from "../models/menu";
 import { createCaller, createTRPCContext } from "../..";
-import { GetMenuSchema } from "./get";
+import { GetMenuSchema } from "../models/menu";
 
 describe("GetMenuSchema validates properly", () => {
   it("parses valid params", () => {
@@ -13,7 +13,6 @@ describe("GetMenuSchema validates properly", () => {
         restaurant: "brandywine",
       },
     ];
-
 
     for (const test of tests) {
       const result = GetMenuSchema.safeParse(test);
