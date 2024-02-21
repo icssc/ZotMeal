@@ -1,15 +1,11 @@
 import { Expo } from "expo-server-sdk";
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 
-// import { z } from "zod";
-
-import { broadcastNotification, Notification } from "@zotmeal/api";
+import { broadcastNotification, EventSchema, Notification } from "@zotmeal/api";
 import { PrismaClient } from "@zotmeal/db";
-import { EventSchema } from "@zotmeal/validators";
 
 export const main: APIGatewayProxyHandlerV2 = (evt, context) => {
   // private handler
-  // special event
   const event = EventSchema.parse(evt.body);
   console.log("Broadcasting event notification");
 
@@ -28,5 +24,5 @@ export const main: APIGatewayProxyHandlerV2 = (evt, context) => {
     body: event.description,
   };
 
-  broadcastNotification(db, expo, notification);
+  const tickets = broadcastNotification(db, expo, notification);
 };

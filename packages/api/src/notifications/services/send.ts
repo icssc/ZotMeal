@@ -33,10 +33,10 @@ export async function broadcastNotification(
   db: PrismaClient,
   expo: Expo,
   notification: Notification,
-) {
+): Promise<ExpoPushTicket[] | null> {
   const pushTokens = await getPushTokens(db);
   if (pushTokens === null) {
-    return;
+    return null;
   }
   const messages: ExpoPushMessage[] = [];
   for (const pushToken of pushTokens) {
@@ -82,12 +82,16 @@ export async function broadcastNotification(
     }
   })();
 
+  return tickets;
+}
+
+export function handlePushTickets(tickets: ExpoPushTicket[]) {
   // handle ticket errors
   for (const ticket of tickets) {
     if (ticket.status === "error" && ticket.details?.error) {
       console.error(ticket.details);
     } else {
-      // save the ticket ids in some temporary location
+      // save the ticket ids in some temporary location or in the database
     }
   }
 }
