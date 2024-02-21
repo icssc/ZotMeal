@@ -26,7 +26,7 @@ model Restaurant {
   id       String         @id
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  name     RestaurantName
+  name     RestaurantName @unique
   stations Station[]
   menu     Menu[]
 }
@@ -57,7 +57,7 @@ enum RestaurantName {
 
 model MenuPeriod {
     id String @id
-    name MenuPeriodName
+    name MenuPeriodName @unique
     menus Menu[]
     start        DateTime
     end          DateTime

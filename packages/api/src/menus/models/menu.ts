@@ -1,22 +1,22 @@
 import { z } from "zod";
 
-import type { Prisma } from "@zotmeal/db";
+// import type { Prisma } from "@zotmeal/db";
 import { MenuPeriodName, RestaurantName } from "@zotmeal/db";
 import { DateRegex } from "@zotmeal/validators";
 
 import { RestaurantSchema } from "../../restaurants/models";
 import { StationSchema } from "../../stations/models";
 
-export type MenuResponse = Prisma.MenuGetPayload<{
-  include: {
-    stations: {
-      include: {
-        dishes: true;
-      };
-    };
-    restaurant: true;
-  };
-}>;
+// export type MenuResponse = Prisma.MenuGetPayload<{
+//   include: {
+//     stations: {
+//       include: {
+//         dishes: true;
+//       };
+//     };
+//     restaurant: true;
+//   };
+// }>;
 
 export const MenuSchema = z.object({
   id: z.string(),
