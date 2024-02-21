@@ -29,10 +29,9 @@ import { MenuPeriodSchema, MenuSchema } from "../models/menu";
 import { saveMenu } from "./menu";
 import { savePeriod } from "./menu-period";
 
-export async function parseMenu(
-  db: PrismaClient | Prisma.TransactionClient,
+export async function getCampusDish(
   params: GetMenuParams,
-) {
+): Promise<CampusDishResponse | null> {
   const { date, restaurant, period } = params;
 
   const periodId = getPeriodId(period);
@@ -54,7 +53,7 @@ export async function parseMenu(
 
   try {
     const validated = CampusDishResponseSchema.parse(res.data);
-    await parseCampusDish(db, validated);
+    return validated;
   } catch (e) {
     if (e instanceof ZodError) {
       console.log(e.issues);
@@ -169,7 +168,7 @@ export async function parseCampusDish(
   });
 
   for (const dish of dishes) {
-    await saveDish(db, dish);
+    await saveDish(db, dish); // should nullcheck and throw for rollbacks
   }
 
   const stations: StationParams[] = response.Menu.MenuStations.map(
