@@ -1,15 +1,15 @@
 import { z } from "zod";
 
-import { DateRegex } from "@zotmeal/validators";
+// import { DateRegex } from "@zotmeal/validators";
 
 export const EventSchema = z.object({
   title: z.string(),
   link: z.string(),
   description: z.string(),
-  date: DateRegex,
+  date: z.date(),
 });
 
-export type Event = z.infer<typeof EventSchema>;
+export type EventParams = z.infer<typeof EventSchema>;
 
 export const GetEventSchema = z.object({});
 

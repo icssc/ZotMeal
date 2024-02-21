@@ -32,6 +32,7 @@ import { savePeriod } from "./menu-period";
 export async function getCampusDish(
   params: GetMenuParams,
 ): Promise<CampusDishResponse | null> {
+
   const { date, restaurant, period } = params;
 
   const periodId = getPeriodId(period);

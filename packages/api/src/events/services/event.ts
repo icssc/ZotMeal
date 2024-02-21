@@ -1,10 +1,10 @@
 import type { Prisma, PrismaClient } from "@zotmeal/db";
 
-import type { Event } from "../models";
+import type { EventParams } from "../models";
 
 export async function createEvents(
   db: PrismaClient | Prisma.TransactionClient,
-  events: Event[],
+  events: EventParams[],
 ) {
   try {
     // fetch any existing events that match any events passed in

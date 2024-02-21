@@ -1,12 +1,10 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
 
-import { parseDate } from "@zotmeal/utils";
-
-import type { Event } from "../models";
+import type { EventParams } from "../models";
 import { EventSchema } from "../models";
 
-async function getHTML(url: string) {
+export async function getHTML(url: string): Promise<string | undefined> {
   try {
     const res = await axios.get(url);
     if (typeof res.data === "string") {
@@ -20,16 +18,16 @@ async function getHTML(url: string) {
   }
 }
 
-export async function scrapeEvents(): Promise<Event[] | null> {
+export function scrapeEvents(html: string): EventParams[] | null {
   try {
-    const html = await getHTML("https://uci.campusdish.com/api/events");
-    if (!html) {
-      return null;
-    }
+    // const html = await getHTML("https://uci.campusdish.com/api/events");
+    // if (!html) {
+    //   return null;
+    // }
 
     const $ = cheerio.load(html);
 
-    const events: Event[] = [];
+    const events: EventParams[] = [];
 
     // iterate through each event item and extract data
     $("li").each((i, el) => {
@@ -58,8 +56,6 @@ export async function scrapeEvents(): Promise<Event[] | null> {
       const currentYear = new Date().getFullYear();
       const dateString = `${dayString}, ${currentYear}, ${timeString}`;
       const date = new Date(dateString);
-
-      parseDate;
 
       const event = {
         title,
