@@ -24,5 +24,3 @@ export const CampusDishResponseSchema = z.object({
 });
 
 export type CampusDishResponse = z.infer<typeof CampusDishResponseSchema>;
-
-

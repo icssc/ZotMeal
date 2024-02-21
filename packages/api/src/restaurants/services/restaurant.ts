@@ -2,25 +2,24 @@ import type { Prisma, PrismaClient, Restaurant } from "@zotmeal/db";
 
 import type { RestaurantParams } from "../models";
 
-export function updateRestaurant(
-  db: PrismaClient,
-  // params: UpdateRestaurantParams
+export async function saveRestaurant(
+  db: PrismaClient | Prisma.TransactionClient,
+  params: RestaurantParams,
 ) {
-  // validate with zod
-  const _ = db.restaurant.findFirst();
-}
-
-export function createRestaurant(db: PrismaClient, params: RestaurantParams) {
-  // validate with zod
-
   const { id, name } = params;
 
-  const _ = db.restaurant.findFirst({
-    where: {
+  const restaurant = await db.restaurant.upsert({
+    where: { id },
+    create: {
+      id,
+      name,
+    },
+    update: {
       id,
       name,
     },
   });
+  return restaurant;
 }
 
 export async function getRestaurantById(

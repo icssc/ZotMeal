@@ -9,8 +9,8 @@ export const getMenuProcedure = publicProcedure
   .input(GetMenuSchema)
   .query(async ({ ctx, input }) => {
     // get a menu
-    const { date: dateString, period, restaurant: restaurantName } = input;
     const { db } = ctx;
+    const { date: dateString, period, restaurant: restaurantName } = input;
 
     const restaurant = await db.restaurant.findFirst({
       where: {

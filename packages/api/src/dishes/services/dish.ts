@@ -1,39 +1,53 @@
-import type { PrismaClient } from "@zotmeal/db";
+import type { Prisma, PrismaClient } from "@zotmeal/db";
 
 import type { DishParams } from "../models";
 
-export async function createDish(db: PrismaClient, dish: DishParams) {
-  const { id, description, dietRestriction, nutritionInfo, name } = dish;
+export async function saveDish(
+  db: PrismaClient | Prisma.TransactionClient,
+  params: DishParams,
+) {
+  const { id, stationId, name, description, dietRestriction, nutritionInfo } =
+    params;
 
-  await db.dish.create({
-    data: {
+  await db.dish.upsert({
+    where: {
+      id,
+    },
+    create: {
       id,
       name,
       description,
       dietRestriction: {
-        create: dietRestriction,
+        connectOrCreate: {
+          where: { dishId: id },
+          create: dietRestriction,
+        },
       },
       nutritionInfo: {
-        create: nutritionInfo,
+        connectOrCreate: {
+          where: { dishId: id },
+          create: nutritionInfo,
+        },
       },
-      stationId: dish.stationId,
+      stationId,
     },
-  });
-}
-
-export async function updateDish(db: PrismaClient, dish: DishParams) {
-  const { id, description, name, dietRestriction, nutritionInfo } = dish;
-  await db.dish.update({
-    where: { id },
-    data: {
-      description,
+    update: {
+      id,
       name,
+      description,
       dietRestriction: {
-        update: dietRestriction,
+        connectOrCreate: {
+          where: { dishId: id },
+          create: dietRestriction,
+        },
       },
       nutritionInfo: {
-        update: nutritionInfo,
+        connectOrCreate: {
+          where: { dishId: id },
+          create: nutritionInfo,
+        },
       },
+      stationId,
     },
   });
 }

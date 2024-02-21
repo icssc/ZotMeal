@@ -1,11 +1,13 @@
 import { afterAll, describe, expect, it } from "vitest";
 
 import { PrismaClient } from "@zotmeal/db";
+
 // import { CampusDishResponseSchema } from "@zotmeal/validators";
 
 // import type { GetMenuParams } from "../procedures/get";
 // import campus_dish_response from "./campus_dish_response.json";
-import { createMenu } from "./menu";
+import { saveMenu } from "./menu";
+
 // import { parseCampusDish } from './parse';
 
 describe("parse campus dish", () => {
@@ -13,10 +15,8 @@ describe("parse campus dish", () => {
     expect(() => {
       // const validated = CampusDishResponseSchema.parse(campus_dish_response);
       // open a db instance
-
       // const menu = parseCampusDish(validated);
       // console.log(menu);
-
       // expect(menu).not.toBeNull();
     }).not.toThrow();
   });
@@ -40,7 +40,7 @@ describe("insert menu into db", () => {
 
     try {
       await db.$transaction(async (trx) => {
-        const insertedMenu = await createMenu(trx, params);
+        const insertedMenu = await saveMenu(trx, params);
 
         if (!insertedMenu) {
           throw new Error("insertedMenu is null");

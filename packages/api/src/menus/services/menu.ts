@@ -3,7 +3,31 @@ import { parseDate } from "@zotmeal/utils";
 
 import type { MenuParams } from "../models/menu";
 
-export async function createMenu(
+// export async function getMenu(
+//   db: PrismaClient | Prisma.TransactionClient,
+//   params: GetMenuParams,
+// ) {
+//   const { date: dateString, period, restaurant: restaurantName } = params;
+//   const date = parseDate(params.date);
+
+//   const restaurant = await db.restaurant.findFirst({
+//     where: {
+//       name: restaurantName,
+//     },
+//     include: {
+//       stations: false,
+//       menu: false,
+//     },
+//   });
+
+//   const menu = db.menu.findUnique({
+//     where: {
+//       date,
+//     },
+//   });
+// }
+
+export async function saveMenu(
   db: PrismaClient | Prisma.TransactionClient,
   params: MenuParams,
 ) {
@@ -12,21 +36,23 @@ export async function createMenu(
     throw Error("invalid date");
   }
 
-  const { id, period, start, end, restaurant, stations } = params;
+  const { id, periodId, restaurant, stations } = params;
 
-  await db.menu.create({
-    data: {
-      id,
-      period,
-      start,
-      restaurantId: restaurant.id,
-      date,
-      end,
-      stations: {
-        connect: stations.map((station) => {
-          return { id: station.id };
-        }),
-      },
+  const upsertParams = {
+    id,
+    periodId,
+    restaurantId: restaurant.id,
+    date,
+    stations: {
+      connect: stations.map((station) => {
+        return { id: station.id };
+      }),
     },
+  };
+
+  await db.menu.upsert({
+    where: { id },
+    create: upsertParams,
+    update: upsertParams,
   });
 }

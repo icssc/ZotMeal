@@ -12,6 +12,8 @@ datasource db {
 
 model Dish {
   id              String           @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   name String
   description     String
   dietRestriction DietRestriction?
@@ -22,6 +24,8 @@ model Dish {
 
 model Restaurant {
   id       String         @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   name     RestaurantName
   stations Station[]
   menu     Menu[]
@@ -29,15 +33,16 @@ model Restaurant {
 
 model Station {
   id           String     @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   name         String
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   restaurantId String
   dishes       Dish[]
-  menu         Menu       @relation(fields: [menuId], references: [id])
-  menuId       String
+  menu         Menu[] // A station can be a part of multiple menus (multiple days)
 }
 
-enum MenuPeriod {
+enum MenuPeriodName {
   breakfast
   brunch
   lunch
@@ -50,12 +55,21 @@ enum RestaurantName {
   anteatery
 }
 
+model MenuPeriod {
+    id String @id
+    name MenuPeriodName
+    menus Menu[]
+    start        DateTime
+    end          DateTime
+}
+
 model Menu {
   id           String     @id
-  period       MenuPeriod
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  period       MenuPeriod @relation(fields: [periodId], references:[id])
+  periodId String
   date         DateTime
-  start        DateTime
-  end          DateTime
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   restaurantId String
   stations     Station[]
@@ -64,6 +78,8 @@ model Menu {
 model DietRestriction {
   dish              Dish     @relation(fields: [dishId], references: [id])
   dishId            String   @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   containsFish      Boolean?
   containsMilk      Boolean?
   containsPeanuts   Boolean?
@@ -84,6 +100,8 @@ model DietRestriction {
 model NutritionInfo {
   dish              Dish     @relation(fields: [dishId], references: [id])
   dishId            String   @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   servingSize        String?
   servingUnit        String?
   calories           String?
@@ -108,7 +126,9 @@ model Event {
   link        String
   description String
   date        DateTime
-
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   @@id([title, link, date])
 }
 
