@@ -14,4 +14,7 @@ runs:
       run: pnpm add -g turbo
 
     - shell: bash
+      run: nvm use
+
+    - shell: bash
       run: pnpm install
