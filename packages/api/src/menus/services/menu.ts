@@ -91,7 +91,7 @@ export async function saveMenu(
     },
   };
 
-  await db.menu.upsert({
+  return await db.menu.upsert({
     where: { id },
     create: upsertParams,
     update: upsertParams,
