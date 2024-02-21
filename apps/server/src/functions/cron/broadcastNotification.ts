@@ -1,12 +1,7 @@
 import { Expo } from "expo-server-sdk";
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 
-import {
-  broadcastNotification,
-  EventSchema,
-  getCampusDish,
-  Notification,
-} from "@zotmeal/api";
+import { broadcastNotification, EventSchema, Notification } from "@zotmeal/api";
 import { PrismaClient } from "@zotmeal/db";
 
 export const main: APIGatewayProxyHandlerV2 = (evt, context) => {
