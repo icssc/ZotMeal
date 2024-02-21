@@ -10,6 +10,7 @@
 // import type { Session } from "@zotmeal/auth";
 // import { auth } from "@zotmeal/auth";
 
+import { Expo } from "expo-server-sdk";
 import { initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
@@ -30,16 +31,18 @@ import { PrismaClient } from "@zotmeal/db";
  */
 
 const db: PrismaClient = new PrismaClient(); // Singleton
-
+const expo: Expo = new Expo({
+  accessToken: process.env.EXPO_ACCESS_TOKEN,
+});
 export const createTRPCContext = (opts: {
   // headers: Headers;
   // session: Session | null;
 }) => {
-  const _ = opts;
-
   console.log(">>> tRPC Request from", "something", "by", "someone");
   return {
+    ...opts,
     db,
+    expo,
   };
 };
 

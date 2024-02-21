@@ -1,4 +1,4 @@
-import type { MenuPeriod, RestaurantName } from "@zotmeal/db";
+import type { MenuPeriodName, RestaurantName } from "@zotmeal/db";
 
 // id mappings (period, restaurant)
 // restaurant names
@@ -21,11 +21,6 @@ export const RESTAURANT_TO_ID = {
 } as const;
 export const ID_TO_RESTAURANT = invertMapping(RESTAURANT_TO_ID);
 
-// get the restaurantIds
-export const [restaurantId, ...restaurantIds] = Object.keys(
-  ID_TO_RESTAURANT,
-);
-
 export const getRestaurantId = (restaurant: RestaurantName): string | null => {
   if (!(restaurant in RESTAURANT_TO_ID)) {
     return null;
@@ -34,7 +29,7 @@ export const getRestaurantId = (restaurant: RestaurantName): string | null => {
   return RESTAURANT_TO_ID[restaurant];
 };
 
-export const getRestaurantById = (
+export const getRestaurantNameById = (
   id: keyof typeof ID_TO_RESTAURANT,
 ): RestaurantName | null => {
   if (!(id in ID_TO_RESTAURANT)) {
@@ -55,7 +50,7 @@ export const PERIOD_TO_ID = {
 export const ID_TO_PERIOD = invertMapping(PERIOD_TO_ID);
 
 export const getPeriodId = (
-  period: MenuPeriod,
+  period: MenuPeriodName,
 ): keyof typeof ID_TO_PERIOD | null => {
   if (!(period in PERIOD_TO_ID)) return null;
 
@@ -64,10 +59,10 @@ export const getPeriodId = (
 
 export const getPeriodById = (
   id: keyof typeof ID_TO_PERIOD,
-): MenuPeriod | null => {
+): MenuPeriodName | null => {
   if (!(id in ID_TO_PERIOD)) {
     return null;
   }
 
-  return ID_TO_PERIOD[id] as MenuPeriod;
+  return ID_TO_PERIOD[id] as MenuPeriodName;
 };

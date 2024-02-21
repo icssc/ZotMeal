@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitest/config'
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
@@ -6,5 +6,5 @@ export default defineConfig({
     maxWorkers: 1,
     // maxConcurrency: 5, // default is 5
     // fileParallelism: false, // default is true
-  }
-})
+  },
+});

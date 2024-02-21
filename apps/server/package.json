@@ -4,6 +4,7 @@
   "description": "Serverless aws-nodejs-typescript template",
   "main": "serverless.ts",
   "scripts": {
+    "clean": "rm -rf .turbo node_modules",
     "dev": "sls offline --noPrependStageInUrl"
   },
   "engines": {
@@ -12,14 +13,17 @@
   "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
   "license": "MIT",
   "dependencies": {
-    "@zotmeal/api": "workspace:^",
-    "@zotmeal/db": "workspace:^",
-    "@zotmeal/eslint-config": "workspace:^",
+    "@aws-sdk/client-scheduler": "^3.515.0",
     "@serverless/typescript": "^3.38.0",
     "@types/aws-lambda": "^8.10.134",
     "@types/node": "^20.11.19",
+    "@zotmeal/api": "workspace:^",
+    "@zotmeal/db": "workspace:^",
+    "@zotmeal/eslint-config": "workspace:^",
+    "@zotmeal/validators": "workspace:^",
     "axios": "^1.6.7",
     "date-fns": "^3.3.1",
+    "expo-server-sdk": "^3.7.0",
     "serverless-esbuild": "^1.51.0",
     "serverless-offline": "^13.3.3"
   }
