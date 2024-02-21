@@ -7,14 +7,11 @@ runs:
     - uses: pnpm/action-setup@v2
     - uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: 20
         cache: "pnpm"
 
     - shell: bash
       run: pnpm add -g turbo
-
-    - shell: bash
-      run: nvm use
 
     - shell: bash
       run: pnpm install
