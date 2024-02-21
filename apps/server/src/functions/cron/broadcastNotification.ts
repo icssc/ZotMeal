@@ -5,7 +5,6 @@ import { broadcastNotification, EventSchema, Notification } from "@zotmeal/api";
 import { PrismaClient } from "@zotmeal/db";
 
 export const main: APIGatewayProxyHandlerV2 = (evt, context) => {
-  // private handler
   const event = EventSchema.parse(evt.body);
   console.log("Broadcasting event notification");
 
