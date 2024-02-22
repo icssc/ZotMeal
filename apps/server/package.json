@@ -16,7 +16,7 @@
     "@aws-sdk/client-scheduler": "^3.515.0",
     "@serverless/typescript": "^3.38.0",
     "@types/aws-lambda": "^8.10.134",
-    "@types/node": "^20.11.19",
+    "@types/node": "^20.11.20",
     "@zotmeal/api": "workspace:^",
     "@zotmeal/db": "workspace:^",
     "@zotmeal/eslint-config": "workspace:^",
