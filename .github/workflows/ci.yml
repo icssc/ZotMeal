@@ -32,12 +32,11 @@ jobs:
       - name: Setup
         uses: ./tooling/github/setup
 
-      - name: Load environment variables from .env file
-        uses: actions/setup-dotenv@v1
-
       - name: Create .env file
         run: |
-          printenv > .env
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+          echo "DIRECT_DATABASE_URL=${{ secrets.DIRECT_DATABASE_URL }}" >> .env
+          echo "EXPO_ACCESS_TOKEN=${{ secrets.EXPO_ACCESS_TOKEN }}" >> .env
 
       - name: Run tests
         run: turbo db:generate && turbo test
