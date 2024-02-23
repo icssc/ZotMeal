@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
     "deploy": "sls deploy --aws-profile icssc",
-    "dev": "sls offline --noPrependStageInUrl"
+    "dev": "sls offline"
   },
   "engines": {
     "node": ">=20.11.1"
