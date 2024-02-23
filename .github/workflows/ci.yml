@@ -32,6 +32,9 @@ jobs:
       - name: Setup
         uses: ./tooling/github/setup
 
+      - name: Load environment variables from .env file
+        uses: actions/setup-dotenv@v1
+
       - name: Create .env file
         run: |
           printenv > .env
