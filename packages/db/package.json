@@ -23,8 +23,13 @@
     "dotenv-cli": "^7.3.0",
     "eslint": "^8.56.0",
     "prettier": "^3.2.5",
+<<<<<<< HEAD
     "prisma": "^5.10.1",
     "typescript": "^5.3.3"
+=======
+    "typescript": "^5.3.3",
+    "prisma": "^5.10.2"
+>>>>>>> df7469896d27f8a97256d3346f14352aed9b4f27
   },
   "eslintConfig": {
     "root": true,
@@ -34,8 +39,12 @@
   },
   "prettier": "@zotmeal/prettier-config",
   "dependencies": {
+<<<<<<< HEAD
     "@prisma/client": "^5.10.1",
     "@prisma/extension-accelerate": "^0.6.3",
+=======
+    "@prisma/client": "^5.10.2",
+>>>>>>> df7469896d27f8a97256d3346f14352aed9b4f27
     "ts-node": "^10.9.2"
   }
 }
