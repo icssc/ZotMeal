@@ -1,9 +1,12 @@
-import type { Prisma, PrismaClient } from "@zotmeal/db";
+import type {
+  PrismaClientWithAccelerate,
+  TransactionClientWithAccelerate,
+} from "@zotmeal/db";
 
 import type { EventParams } from "../models";
 
 export async function createEvents(
-  db: PrismaClient | Prisma.TransactionClient,
+  db: PrismaClientWithAccelerate | TransactionClientWithAccelerate,
   events: EventParams[],
 ) {
   try {

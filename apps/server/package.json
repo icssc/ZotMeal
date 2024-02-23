@@ -5,6 +5,7 @@
   "main": "serverless.ts",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
+    "deploy": "sls deploy --aws-profile icssc",
     "dev": "sls offline --noPrependStageInUrl"
   },
   "engines": {
@@ -24,6 +25,7 @@
     "axios": "^1.6.7",
     "date-fns": "^3.3.1",
     "expo-server-sdk": "^3.7.0",
+    "serverless-dotenv-plugin": "^6.0.0",
     "serverless-esbuild": "^1.51.0",
     "serverless-offline": "^13.3.3"
   }

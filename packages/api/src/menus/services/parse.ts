@@ -159,7 +159,7 @@ export async function parseCampusDish(
     };
 
     return {
-      id: MenuProductId,
+      id: Product.ProductId,
       stationId: StationId,
       name: Product.MarketingName,
       description: Product.ShortDescription,

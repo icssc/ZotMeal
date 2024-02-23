@@ -1,9 +1,12 @@
-import type { Prisma, PrismaClient } from "@zotmeal/db";
+import type {
+  PrismaClientWithAccelerate,
+  TransactionClientWithAccelerate,
+} from "@zotmeal/db";
 
 import type { StationParams } from "./models";
 
 export async function saveStation(
-  db: PrismaClient | Prisma.TransactionClient,
+  db: PrismaClientWithAccelerate | TransactionClientWithAccelerate,
   params: StationParams,
 ) {
   const { id, name, restaurantId } = params;

@@ -1,9 +1,13 @@
-import type { Prisma, PrismaClient, Restaurant } from "@zotmeal/db";
+import type {
+  PrismaClientWithAccelerate,
+  Restaurant,
+  TransactionClientWithAccelerate,
+} from "@zotmeal/db";
 
 import type { RestaurantParams } from "../models";
 
 export async function saveRestaurant(
-  db: PrismaClient | Prisma.TransactionClient,
+  db: PrismaClientWithAccelerate | TransactionClientWithAccelerate,
   params: RestaurantParams,
 ) {
   const { id, name } = params;
@@ -23,7 +27,7 @@ export async function saveRestaurant(
 }
 
 export async function getRestaurantById(
-  db: PrismaClient | Prisma.TransactionClient,
+  db: PrismaClientWithAccelerate | TransactionClientWithAccelerate,
   id: string,
 ): Promise<Restaurant | null> {
   return await db.restaurant.findUnique({

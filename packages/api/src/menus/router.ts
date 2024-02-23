@@ -3,9 +3,6 @@ import axios from "axios";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { getMenuProcedure } from "./procedures/getMenu";
 
-// import { createTRPCRouter, publicProcedure } from "../trpc";
-// import { parseCampusDish } from "./parse";
-
 const helloProcedure = publicProcedure.query(async (opts) => {
   const res = await axios.get("https://jsonplaceholder.typicode.com/todos/1");
   const _ = opts;

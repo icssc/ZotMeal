@@ -1,12 +1,15 @@
 import { TRPCError } from "@trpc/server";
 
-import type { Prisma, PrismaClient } from "@zotmeal/db";
+import type {
+  PrismaClientWithAccelerate,
+  TransactionClientWithAccelerate,
+} from "@zotmeal/db";
 import { parseDate } from "@zotmeal/utils";
 
 import type { GetMenuParams, MenuParams } from "../models/menu";
 
 export async function getMenu(
-  db: PrismaClient | Prisma.TransactionClient,
+  db: PrismaClientWithAccelerate | TransactionClientWithAccelerate,
   params: GetMenuParams,
 ) {
   const {
@@ -69,7 +72,7 @@ export async function getMenu(
 }
 
 export async function saveMenu(
-  db: PrismaClient | Prisma.TransactionClient,
+  db: PrismaClientWithAccelerate | TransactionClientWithAccelerate,
   params: MenuParams,
 ) {
   const date = parseDate(params.date);

@@ -14,6 +14,7 @@ export const MenuProductSchema = z.object({
   MenuProductId: z.string().min(1),
   StationId: z.string().min(1),
   Product: z.object({
+    ProductId: z.string().min(1),
     MarketingName: z.string().min(1),
     ShortDescription: z.string(),
     // Diet Restrictions

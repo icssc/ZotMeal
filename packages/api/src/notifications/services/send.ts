@@ -7,7 +7,10 @@ import type {
 } from "expo-server-sdk";
 import { Expo } from "expo-server-sdk";
 
-import type { PrismaClient } from "@zotmeal/db";
+import type {
+  PrismaClientWithAccelerate,
+  TransactionClientWithAccelerate,
+} from "@zotmeal/db";
 
 // Send Notification to all users which set up a notification id
 export interface Notification {
@@ -18,7 +21,7 @@ export interface Notification {
 }
 
 export async function getPushTokens(
-  db: PrismaClient,
+  db: PrismaClientWithAccelerate | TransactionClientWithAccelerate,
 ): Promise<ExpoPushToken[] | null> {
   const pushTokens = await db.pushToken.findMany();
   if (!pushTokens) {
@@ -30,7 +33,7 @@ export async function getPushTokens(
 }
 
 export async function broadcastNotification(
-  db: PrismaClient,
+  db: PrismaClientWithAccelerate | TransactionClientWithAccelerate,
   expo: Expo,
   notification: Notification,
 ): Promise<ExpoPushTicket[] | null> {

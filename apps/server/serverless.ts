@@ -3,9 +3,14 @@ import type { AWS } from "@serverless/typescript";
 import { functions } from "./src/functions";
 
 const serverlessConfiguration: AWS = {
-  service: "server",
+  service: "zotmeal-api",
+  useDotenv: true,
   frameworkVersion: "3",
-  plugins: ["serverless-esbuild", "serverless-offline"],
+  plugins: [
+    "serverless-esbuild",
+    "serverless-offline",
+    "serverless-dotenv-plugin",
+  ],
   provider: {
     name: "aws",
     stage: "dev",
@@ -22,8 +27,17 @@ const serverlessConfiguration: AWS = {
   },
   // import the function via paths
   functions: functions,
-  package: { individually: true },
+  package: {
+    individually: true,
+    // patterns: ["../../node_modules/.prisma/client/libquery_engine-rhel-*"],
+  },
   custom: {
+    dotenv: {
+      path: "../../.env",
+      required: {
+        env: ["DATABASE_URL"],
+      },
+    },
     esbuild: {
       bundle: true,
       minify: false,
