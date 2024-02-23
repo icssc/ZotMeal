@@ -13,9 +13,9 @@ datasource db {
 
 model Dish {
   id              String           @id
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name String
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  name            String
   description     String
   dietRestriction DietRestriction?
   nutritionInfo   NutritionInfo?
@@ -24,18 +24,18 @@ model Dish {
 }
 
 model Restaurant {
-  id       String         @id
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name     RestaurantName @unique
-  stations Station[]
-  menu     Menu[]
+  id        String         @id
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  name      RestaurantName @unique
+  stations  Station[]
+  menu      Menu[]
 }
 
 model Station {
   id           String     @id
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
   name         String
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   restaurantId String
@@ -57,19 +57,19 @@ enum RestaurantName {
 }
 
 model MenuPeriod {
-    id String @id
-    name MenuPeriodName @unique
-    menus Menu[]
-    start        DateTime
-    end          DateTime
+  id    String         @id
+  name  MenuPeriodName @unique
+  menus Menu[]
+  start DateTime
+  end   DateTime
 }
 
 model Menu {
   id           String     @id
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  period       MenuPeriod @relation(fields: [periodId], references:[id])
-  periodId String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  period       MenuPeriod @relation(fields: [periodId], references: [id])
+  periodId     String
   date         DateTime
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   restaurantId String
@@ -79,8 +79,8 @@ model Menu {
 model DietRestriction {
   dish              Dish     @relation(fields: [dishId], references: [id])
   dishId            String   @id
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
   containsFish      Boolean?
   containsMilk      Boolean?
   containsPeanuts   Boolean?
@@ -99,10 +99,10 @@ model DietRestriction {
 }
 
 model NutritionInfo {
-  dish              Dish     @relation(fields: [dishId], references: [id])
-  dishId            String   @id
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  dish               Dish     @relation(fields: [dishId], references: [id])
+  dishId             String   @id
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
   servingSize        String?
   servingUnit        String?
   calories           String?
@@ -127,12 +127,13 @@ model Event {
   link        String
   description String
   date        DateTime
-  
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
   @@id([title, link, date])
 }
 
 model PushToken {
-    token String @id
+  token String @id
 }

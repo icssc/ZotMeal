@@ -1,4 +1,4 @@
-import type { MenuPeriod, MenuPeriodName, RestaurantName } from "@zotmeal/db";
+import type { MenuPeriodName, RestaurantName } from "@zotmeal/db";
 
 // id mappings (period, restaurant)
 // restaurant names
@@ -59,10 +59,10 @@ export const getPeriodId = (
 
 export const getPeriodById = (
   id: keyof typeof ID_TO_PERIOD,
-): MenuPeriod | null => {
+): MenuPeriodName | null => {
   if (!(id in ID_TO_PERIOD)) {
     return null;
   }
 
-  return ID_TO_PERIOD[id] as MenuPeriod;
+  return ID_TO_PERIOD[id] as MenuPeriodName;
 };
