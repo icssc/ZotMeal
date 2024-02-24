@@ -1,6 +1,6 @@
 import { Text } from "tamagui";
 
-export default function Index() {
+export default function About() {
   return (
     <Text>About</Text>
   );

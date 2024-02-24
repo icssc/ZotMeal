@@ -1,6 +1,6 @@
 import { Text } from "tamagui";
 
-export default function Index() {
+export default function PrivacyPolicy() {
   return (
     <Text>Privacy Policy</Text>
   );

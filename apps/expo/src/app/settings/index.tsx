@@ -1,6 +1,6 @@
 import { Text } from "tamagui";
 
-export default function Index() {
+export default function Settings() {
   return (
     <Text>Settings</Text>
   );
