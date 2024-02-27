@@ -5,10 +5,9 @@ import { config } from "dotenv";
 
 config({ path: resolve(__dirname, "../../.env") });
 
-
 export default {
   driver: "pg",
-  out: "./src/drizzle",
+  out: "./migrations",
   schema: [resolve(__dirname, "./src/drizzle/schema.ts")],
   dbCredentials: {
     connectionString: process.env.DATABASE_URL ?? "",

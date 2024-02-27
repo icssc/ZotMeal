@@ -11,19 +11,19 @@
     "build": "echo 'Add build script here'",
     "test": "echo 'Add test script here'",
     "lint": "echo 'Add lint script here'",
-    "db:generate": "drizzle-kit generate:pg --schema=./src/drizzle/schema.ts",
+    "db:generate": "drizzle-kit generate:pg --schema=./src/drizzle/schema.ts --out=./migrations",
     "db:migrate": "tsx ./src/drizzle/migrate.ts"
   },
   "devDependencies": {
+    "@types/pg": "^8.11.2",
     "@zotmeal/eslint-config": "workspace:^0.2.0",
     "@zotmeal/prettier-config": "workspace:^0.1.0",
     "@zotmeal/tsconfig": "workspace:^0.1.0",
     "dotenv-cli": "^7.3.0",
+    "drizzle-kit": "^0.20.14",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
-    "typescript": "^5.3.3",
-    "@types/pg": "^8.11.2",
-    "drizzle-kit": "^0.20.14"
+    "typescript": "^5.3.3"
   },
   "eslintConfig": {
     "root": true,
@@ -35,6 +35,7 @@
   "dependencies": {
     "@neondatabase/serverless": "^0.9.0",
     "drizzle-orm": "^0.29.4",
-    "pg": "^8.11.3"
+    "pg": "^8.11.3",
+    "tsx": "^4.7.1"
   }
 }
