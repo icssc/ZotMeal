@@ -1,4 +1,3 @@
-import { resolve } from "path";
 import { neon } from "@neondatabase/serverless";
 import { config } from "dotenv";
 import { drizzle } from "drizzle-orm/neon-http"; //import the drizzle that work for neon serverless driver
