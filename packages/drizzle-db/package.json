@@ -12,7 +12,8 @@
     "test": "echo 'Add test script here'",
     "lint": "echo 'Add lint script here'",
     "db:generate": "drizzle-kit generate:pg --schema=./src/drizzle/schema.ts --out=./migrations",
-    "db:migrate": "tsx ./src/drizzle/migrate.ts"
+    "db:migrate": "tsx ./src/drizzle/migrate.ts",
+    "db:studio": "pnpm drizzle-kit studio --port 3000 --verbose"
   },
   "devDependencies": {
     "@types/pg": "^8.11.2",
