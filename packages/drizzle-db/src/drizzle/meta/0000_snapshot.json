@@ -1,0 +1,731 @@
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "prevId": "",
+  "version": "5",
+  "dialect": "pg",
+  "tables": {
+    "Restaurant": {
+      "name": "Restaurant",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "RestaurantName",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "Restaurant_name_key": {
+          "name": "Restaurant_name_key",
+          "columns": [
+            "name"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "MenuPeriod": {
+      "name": "MenuPeriod",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "MenuPeriodName",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "start": {
+          "name": "start",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "end": {
+          "name": "end",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "MenuPeriod_name_key": {
+          "name": "MenuPeriod_name_key",
+          "columns": [
+            "name"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "Menu": {
+      "name": "Menu",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "periodId": {
+          "name": "periodId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "restaurantId": {
+          "name": "restaurantId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "Menu_periodId_fkey": {
+          "name": "Menu_periodId_fkey",
+          "tableFrom": "Menu",
+          "tableTo": "MenuPeriod",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "periodId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "Menu_restaurantId_fkey": {
+          "name": "Menu_restaurantId_fkey",
+          "tableFrom": "Menu",
+          "tableTo": "Restaurant",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "restaurantId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "DietRestriction": {
+      "name": "DietRestriction",
+      "schema": "",
+      "columns": {
+        "dishId": {
+          "name": "dishId",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "containsFish": {
+          "name": "containsFish",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "containsMilk": {
+          "name": "containsMilk",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "containsPeanuts": {
+          "name": "containsPeanuts",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "containsSesame": {
+          "name": "containsSesame",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "containsShellfish": {
+          "name": "containsShellfish",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "containSoy": {
+          "name": "containSoy",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "containsTreeNuts": {
+          "name": "containsTreeNuts",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "containsWheat": {
+          "name": "containsWheat",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isGlutenFree": {
+          "name": "isGlutenFree",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isHalal": {
+          "name": "isHalal",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isKosher": {
+          "name": "isKosher",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isLocallyGrown": {
+          "name": "isLocallyGrown",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isOrganic": {
+          "name": "isOrganic",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isVegan": {
+          "name": "isVegan",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isVegetarian": {
+          "name": "isVegetarian",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "DietRestriction_dishId_fkey": {
+          "name": "DietRestriction_dishId_fkey",
+          "tableFrom": "DietRestriction",
+          "tableTo": "Dish",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "dishId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "NutritionInfo": {
+      "name": "NutritionInfo",
+      "schema": "",
+      "columns": {
+        "dishId": {
+          "name": "dishId",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "servingSize": {
+          "name": "servingSize",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "servingUnit": {
+          "name": "servingUnit",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "calories": {
+          "name": "calories",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "caloriesFromFat": {
+          "name": "caloriesFromFat",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "totalFat": {
+          "name": "totalFat",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "transFat": {
+          "name": "transFat",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cholesterol": {
+          "name": "cholesterol",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sodum": {
+          "name": "sodum",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "totalCarbohydrates": {
+          "name": "totalCarbohydrates",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dietaryFiber": {
+          "name": "dietaryFiber",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sugars": {
+          "name": "sugars",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "protein": {
+          "name": "protein",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vitaminA": {
+          "name": "vitaminA",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vitaminC": {
+          "name": "vitaminC",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "calcium": {
+          "name": "calcium",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "iron": {
+          "name": "iron",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "saturatedFat": {
+          "name": "saturatedFat",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "NutritionInfo_dishId_fkey": {
+          "name": "NutritionInfo_dishId_fkey",
+          "tableFrom": "NutritionInfo",
+          "tableTo": "Dish",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "dishId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "_MenuToStation": {
+      "name": "_MenuToStation",
+      "schema": "",
+      "columns": {
+        "A": {
+          "name": "A",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "B": {
+          "name": "B",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "_MenuToStation_AB_unique": {
+          "name": "_MenuToStation_AB_unique",
+          "columns": [
+            "A",
+            "B"
+          ],
+          "isUnique": true
+        },
+        "_MenuToStation_B_index": {
+          "name": "_MenuToStation_B_index",
+          "columns": [
+            "B"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "_MenuToStation_A_fkey": {
+          "name": "_MenuToStation_A_fkey",
+          "tableFrom": "_MenuToStation",
+          "tableTo": "Menu",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "A"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "_MenuToStation_B_fkey": {
+          "name": "_MenuToStation_B_fkey",
+          "tableFrom": "_MenuToStation",
+          "tableTo": "Station",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "B"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "PushToken": {
+      "name": "PushToken",
+      "schema": "",
+      "columns": {
+        "token": {
+          "name": "token",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "Station": {
+      "name": "Station",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "restaurantId": {
+          "name": "restaurantId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "Station_restaurantId_fkey": {
+          "name": "Station_restaurantId_fkey",
+          "tableFrom": "Station",
+          "tableTo": "Restaurant",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "restaurantId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "Dish": {
+      "name": "Dish",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "stationId": {
+          "name": "stationId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "Dish_stationId_fkey": {
+          "name": "Dish_stationId_fkey",
+          "tableFrom": "Dish",
+          "tableTo": "Station",
+          "schemaTo": "public",
+          "columnsFrom": [
+            "stationId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "Event": {
+      "name": "Event",
+      "schema": "",
+      "columns": {
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "link": {
+          "name": "link",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "Event_pkey": {
+          "name": "Event_pkey",
+          "columns": [
+            "title",
+            "link",
+            "date"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {
+    "MenuPeriodName": {
+      "name": "MenuPeriodName",
+      "values": {
+        "latenight": "latenight",
+        "dinner": "dinner",
+        "lunch": "lunch",
+        "brunch": "brunch",
+        "breakfast": "breakfast"
+      }
+    },
+    "RestaurantName": {
+      "name": "RestaurantName",
+      "values": {
+        "anteatery": "anteatery",
+        "brandywine": "brandywine"
+      }
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
+}
