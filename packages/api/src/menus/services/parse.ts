@@ -28,6 +28,7 @@ import { saveStation } from "../../stations/station";
 import { MenuPeriodSchema, MenuSchema } from "../models/menu";
 import { saveMenu } from "./menu";
 import { savePeriod } from "./menu-period";
+import { format } from "date-fns/format";
 
 export async function getCampusDish(
   params: GetMenuParams,
@@ -57,9 +58,9 @@ export async function getCampusDish(
     return validated;
   } catch (e) {
     if (e instanceof ZodError) {
-      console.log(e.issues);
+      console.error(e.issues);
     }
-    console.log(e);
+    console.error(e);
     throw e;
   }
 }
@@ -100,18 +101,18 @@ export async function parseCampusDish(
     await savePeriod(db, period);
   }
 
-  const menus: MenuParams[] = response.Menu.MenuPeriods.map((menuPeriod) => {
-    const menu = MenuSchema.parse({
-      id: menuPeriod.PeriodId,
-      period: menuPeriod.Name.toLowerCase(),
-      start: menuPeriod.UtcMealPeriodStartTime,
-      end: menuPeriod.UtcMealPeriodEndTime,
-    });
-    return menu;
-  });
+  const stations: StationParams[] = response.Menu.MenuStations.map(
+    (menuStation) => {
+      return {
+        id: menuStation.StationId,
+        restaurantId: restaurant.id,
+        name: menuStation.Name,
+      };
+    },
+  );
 
-  for (const menu of menus) {
-    await saveMenu(db, menu);
+  for (const station of stations) {
+    await saveStation(db, station);
   }
 
   // collect by stations
@@ -172,17 +173,18 @@ export async function parseCampusDish(
     await saveDish(db, dish); // should nullcheck and throw for rollbacks
   }
 
-  const stations: StationParams[] = response.Menu.MenuStations.map(
-    (menuStation) => {
-      return {
-        id: menuStation.StationId,
-        restaurantId: restaurant.id,
-        name: menuStation.Name,
-      };
-    },
-  );
-
-  for (const station of stations) {
-    await saveStation(db, station);
+  if (!response.Menu.MenuPeriods) {
+    return null;
   }
+  const menu: MenuParams = MenuSchema.parse({
+      id: response.Menu.MenuId,
+      periodId: response.SelectedPeriodId,
+      date: format(response.Menu.MenuPeriods[0]!.UtcMealPeriodStartTime, "MM/dd/yyyy"),
+      stations: response.Menu.MenuStations.map((station) => {
+        return { id: station.StationId }
+      }),
+      restaurant: { id: response.LocationId }
+    });
+
+  await saveMenu(db, menu);
 }

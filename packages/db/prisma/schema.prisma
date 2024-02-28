@@ -80,12 +80,13 @@ model DietRestriction {
   dishId            String   @id
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
+  containsEggs      Boolean?
   containsFish      Boolean?
   containsMilk      Boolean?
   containsPeanuts   Boolean?
   containsSesame    Boolean?
   containsShellfish Boolean?
-  containSoy        Boolean?
+  containsSoy       Boolean?
   containsTreeNuts  Boolean?
   containsWheat     Boolean?
   isGlutenFree      Boolean?
@@ -109,7 +110,7 @@ model NutritionInfo {
   totalFat           String?
   transFat           String?
   cholesterol        String?
-  sodum              String?
+  sodium             String?
   totalCarbohydrates String?
   dietaryFiber       String?
   sugars             String?
