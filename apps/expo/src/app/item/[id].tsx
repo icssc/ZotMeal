@@ -1,6 +1,6 @@
 import { Stack, useGlobalSearchParams } from "expo-router";
 import { H3, Image, Text, View } from "tamagui";
-import RateItem from "../RateItem";
+import RateItem from "../../../../../packages/ui/src/home_view/RateItem";
 
 // import { api } from "~/utils/api";
 
