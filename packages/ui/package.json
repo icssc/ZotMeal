@@ -23,7 +23,7 @@
     "class-variance-authority": "^0.7.0",
     "next-themes": "^0.2.1",
     "react-hook-form": "^7.50.1",
-    "sonner": "^1.4.1",
+    "sonner": "^1.4.2",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7"
   },
@@ -33,7 +33,7 @@
     "@zotmeal/prettier-config": "workspace:^0.1.0",
     "@zotmeal/tailwind-config": "workspace:^0.1.0",
     "@zotmeal/tsconfig": "workspace:^0.1.0",
-    "@types/react": "^18.2.58",
+    "@types/react": "^18.2.60",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
     "react": "18.2.0",
