@@ -17,7 +17,7 @@
     "*.js",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-  ],
+, "../../packages/ui/src/home_view/Home.tsx", "../../packages/ui/src/home_view/RateItem.tsx"  ],
   "exclude": [
     "node_modules"
   ]

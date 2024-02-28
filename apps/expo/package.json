@@ -46,6 +46,7 @@
     "tamagui": "^1.90.6"
   },
   "devDependencies": {
+    "@zotmeal/ui": "workspace:^",
     "@babel/core": "^7.23.9",
     "@babel/preset-env": "^7.23.9",
     "@babel/runtime": "^7.23.9",

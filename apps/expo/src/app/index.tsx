@@ -1,4 +1,4 @@
-import { Home } from "./Home";
+import { Home } from "@zotmeal/ui";
 
 export default function Index() {
   return (

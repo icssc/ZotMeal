@@ -4,13 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./button": "./src/button.tsx",
-    "./form": "./src/form.tsx",
-    "./input": "./src/input.tsx",
-    "./label": "./src/label.tsx",
-    "./theme": "./src/theme.tsx",
-    "./toast": "./src/toast.tsx"
+    ".": "./index.ts"
   },
   "license": "MIT",
   "scripts": {
@@ -34,6 +28,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@zotmeal/db": "workspace:^0.1.0",
     "@zotmeal/eslint-config": "workspace:^0.2.0",
     "@zotmeal/prettier-config": "workspace:^0.1.0",
     "@zotmeal/tailwind-config": "workspace:^0.1.0",
