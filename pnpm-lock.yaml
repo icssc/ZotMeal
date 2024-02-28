@@ -138,6 +138,9 @@ importers:
       '@zotmeal/tsconfig':
         specifier: workspace:^0.1.0
         version: link:../../tooling/typescript
+      '@zotmeal/ui':
+        specifier: workspace:^
+        version: link:../../packages/ui
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
@@ -311,6 +314,9 @@ importers:
       '@types/react':
         specifier: ^18.2.58
         version: 18.2.58
+      '@zotmeal/db':
+        specifier: workspace:^0.1.0
+        version: link:../db
       '@zotmeal/eslint-config':
         specifier: workspace:^0.2.0
         version: link:../../tooling/eslint
