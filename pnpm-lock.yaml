@@ -39,8 +39,8 @@ importers:
         specifier: 1.6.3
         version: 1.6.3(@babel/runtime@7.23.9)(react-native@0.73.5)(react@18.2.0)
       '@tamagui/babel-plugin':
-        specifier: ^1.90.6
-        version: 1.90.6(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)
+        specifier: ^1.90.13
+        version: 1.90.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)
       '@tamagui/config':
         specifier: ^1.90.6
         version: 1.90.6(react-dom@18.2.0)(react-native-reanimated@3.7.1)(react-native@0.73.5)(react@18.2.0)
@@ -6810,14 +6810,14 @@ packages:
       react-native: 0.73.5(@babel/core@7.23.9)(@babel/preset-env@7.23.9)(react@18.2.0)
     dev: false
 
-  /@tamagui/babel-plugin@1.90.6(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3):
-    resolution: {integrity: sha512-ZS5PXeuomXLiJlBcInO1YVIMZZgmQ5k1wGrDKq12dGhDH+Y+LC3q4hmHjL3iwdheOTB6jECx7ltDUNVH+O5l5A==}
+  /@tamagui/babel-plugin@1.90.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3):
+    resolution: {integrity: sha512-5FX27HAmTHsot0MDgS34XA41hFa0s24d++theS+QBvP3FwJqxwi2llm1DatmRGjwH18zLUybKU9yA+7l/UpaeQ==}
     dependencies:
       '@babel/generator': 7.23.6
       '@babel/helper-plugin-utils': 7.22.5
       '@babel/template': 7.23.9
       '@babel/traverse': 7.23.9
-      '@tamagui/static': 1.90.6(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)
+      '@tamagui/static': 1.90.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)
     transitivePeerDependencies:
       - encoding
       - react
@@ -6826,8 +6826,8 @@ packages:
       - typescript
     dev: false
 
-  /@tamagui/build@1.90.6(typescript@5.3.3):
-    resolution: {integrity: sha512-xRM88xkvzosrQnc5AwkyWMqx5TraQS1MuqNnTjg6SEsGC+2W1QpXAtmH/MCyDsGWSysHxdxIlbnWhv+kl4REYA==}
+  /@tamagui/build@1.90.13(typescript@5.3.3):
+    resolution: {integrity: sha512-grIUztnPRYMK9wSlbO6Nohng00Vlczhxcbwdod9SU/2BwxaAkoBo5kHhrxH92/u40vuO+ri0hhuyTwiUKTLvrQ==}
     hasBin: true
     peerDependencies:
       typescript: '*'
@@ -6921,8 +6921,8 @@ packages:
       - react-native
     dev: false
 
-  /@tamagui/cli-color@1.90.6:
-    resolution: {integrity: sha512-OGGlhcqrReQ5SxLNP9KwyzxkwIt+PmbitHz3KApLNehPOj4ittzUYVndCT1m7nBsx4okfeAFN3bQ+y5MRrcjqQ==}
+  /@tamagui/cli-color@1.90.13:
+    resolution: {integrity: sha512-pyGU8Szp6itruYBByVB4IPMhXUe1ITVjNxHYNfXCUSryXa8HTe/IX3FP91tCNzfe6yqBoa2raHIoxK78BUqQ8g==}
     dev: false
 
   /@tamagui/collapsible@1.90.6(react@18.2.0):
@@ -6960,6 +6960,14 @@ packages:
     resolution: {integrity: sha512-ZVd5ma2fU2lUNXSYA5gWyA0vy2PBHtZdqofRQyyPnjYR5fhtet7rG+H2jOBeY7dX6fCkJWM+OBTbD6rPXdMORA==}
     dev: false
 
+  /@tamagui/compose-refs@1.90.13(react@18.2.0):
+    resolution: {integrity: sha512-JqUMVj+j75A9DcQhqEsYqsWz/wbVJDlXRZDib2PCa3YleM5PXRYRKcGIAz7xOWxtmqWK4wyiklHkhIBm7gE/hQ==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /@tamagui/compose-refs@1.90.6(react@18.2.0):
     resolution: {integrity: sha512-sGQZ+InrY8QSZGhaGMRQBhJsrG9Tc417jaKuJK8UJqOt3EtdslSS2SV/GeTgT6n4qwmXW9UPguqAKHLPwB17sQ==}
     peerDependencies:
@@ -6968,11 +6976,11 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@tamagui/config-default@1.90.6(react@18.2.0):
-    resolution: {integrity: sha512-BTDh4NJDPVUtyrhN1MS+Xw20CrSf1nm4K4+/JnKVgL7Uf4+EDL2yqJBGr3NGcMLVXkXKxRXIGGTBOJVUysnc5g==}
+  /@tamagui/config-default@1.90.13(react@18.2.0):
+    resolution: {integrity: sha512-GaK9hNr8Jy5y95oCp+b+W8pKAe/vfxYdYihT/Z7uA2/FO+weGfqD/nakkV4sLKfk0qR2eBOZQOIBNigqZKU/Gg==}
     dependencies:
-      '@tamagui/core': 1.90.6(react@18.2.0)
-      '@tamagui/shorthands': 1.90.6
+      '@tamagui/core': 1.90.13(react@18.2.0)
+      '@tamagui/shorthands': 1.90.13
     transitivePeerDependencies:
       - react
     dev: false
@@ -6997,11 +7005,31 @@ packages:
       - react-native-reanimated
     dev: false
 
+  /@tamagui/constants@1.90.13(react@18.2.0):
+    resolution: {integrity: sha512-fVb8rakIKKxRFg52qK4Nj2e+2TrRfGuE022oek5rRWR2y1BZMYbn05qsUjdwvL2ZFJsnd0yu51Ronv16sIwaqg==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /@tamagui/constants@1.90.6(react@18.2.0):
     resolution: {integrity: sha512-B9CcOAgZw7MX+TaIMgr4MKoSSA1dL9MeMyUJH2Nlu7HROcF8+c09DWjoAuQGdgmRPIKaahpG/oTWdo1snXsUXA==}
     peerDependencies:
       react: '*'
     dependencies:
+      react: 18.2.0
+    dev: false
+
+  /@tamagui/core@1.90.13(react@18.2.0):
+    resolution: {integrity: sha512-hUvHzqaDNeHZQu8fglDWLX8a7FTr2rOBArvOhMe5fhyhCQ6SX02joPFEL3pfWwZjwYCn3VD1qIOf70ZBheuelg==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      '@tamagui/react-native-use-pressable': 1.90.13(react@18.2.0)
+      '@tamagui/react-native-use-responder-events': 1.90.13(react@18.2.0)
+      '@tamagui/use-event': 1.90.13(react@18.2.0)
+      '@tamagui/web': 1.90.13
       react: 18.2.0
     dev: false
 
@@ -7023,6 +7051,12 @@ packages:
       react: '*'
     dependencies:
       react: 18.2.0
+    dev: false
+
+  /@tamagui/create-theme@1.90.13:
+    resolution: {integrity: sha512-WmEE11Jdme6HaaLrKJtYBgu8e0by0qZAHNdccK9kGH5o9WyOK58qWontkxpSUCTg6OVUs+BkrT8RYSHXNKdElA==}
+    dependencies:
+      '@tamagui/web': 1.90.13
     dev: false
 
   /@tamagui/create-theme@1.90.6:
@@ -7087,6 +7121,10 @@ packages:
       '@tamagui/core': 1.90.6(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@tamagui/fake-react-native@1.90.13:
+    resolution: {integrity: sha512-U8xsg9x2Mcp/5NvrBgPZhzzswTlC22Zt22FZZSJMvoSMUoMaVhTwZcFsDbeCEShAiF/Jko/BFYaWyjPf8QbpvQ==}
     dev: false
 
   /@tamagui/fake-react-native@1.90.6:
@@ -7169,11 +7207,11 @@ packages:
       - react-native
     dev: false
 
-  /@tamagui/generate-themes@1.90.6(esbuild@0.19.12):
-    resolution: {integrity: sha512-b2xtPcMsvr6iWrDcsvrWGkfwMb96jPZ1IaQtohETAJ4tFIn3F2vdL836nSaxlFun06JUuthwCFMZKnMTF677cQ==}
+  /@tamagui/generate-themes@1.90.13(esbuild@0.19.12):
+    resolution: {integrity: sha512-7PuDSnVk+qbhFDev3itqias2X+wUMaZucY3XuL0B04CFaxD3GvQFzw1LkGglVVs9Z99O2/pKD03ykL4coxjuiQ==}
     dependencies:
-      '@tamagui/create-theme': 1.90.6
-      '@tamagui/types': 1.90.6
+      '@tamagui/create-theme': 1.90.13
+      '@tamagui/types': 1.90.13
       esbuild-register: 3.5.0(esbuild@0.19.12)
       fs-extra: 11.2.0
     transitivePeerDependencies:
@@ -7241,10 +7279,10 @@ packages:
       react-native-svg: 14.1.0(react-native@0.73.5)(react@18.2.0)
     dev: false
 
-  /@tamagui/helpers-node@1.90.6:
-    resolution: {integrity: sha512-GMNyGVFseKztiMqdvTb2fwo8WqWxPeUBWY1XylA7NyTwa1D6vRm1fm2z3OIMsUkzJz8inm4mDBaVJE///NN2cA==}
+  /@tamagui/helpers-node@1.90.13:
+    resolution: {integrity: sha512-sarmQXaI9erqVXaKfgpQUu5YjPj+s9swuVAkpoUUeOXmBYSRNUhdg4n7peXaaBOV8xbWBWhkjMOkU7Ry1SDjSA==}
     dependencies:
-      '@tamagui/types': 1.90.6
+      '@tamagui/types': 1.90.13
     dev: false
 
   /@tamagui/helpers-tamagui@1.90.6(react-native@0.73.5)(react@18.2.0):
@@ -7257,6 +7295,15 @@ packages:
       '@tamagui/web': 1.90.6
       react: 18.2.0
       react-native: 0.73.5(@babel/core@7.23.9)(@babel/preset-env@7.23.9)(react@18.2.0)
+    dev: false
+
+  /@tamagui/helpers@1.90.13(react@18.2.0):
+    resolution: {integrity: sha512-1eZhhXneDpmTpooah1IJ7aASMZDebjQ8jAVVgshUNMVDDayfYxSt6LkSmgO1LYW4zEoVFn/k8ZmQCdpAk0bU1g==}
+    dependencies:
+      '@tamagui/constants': 1.90.13(react@18.2.0)
+      '@tamagui/simple-hash': 1.90.13
+    transitivePeerDependencies:
+      - react
     dev: false
 
   /@tamagui/helpers@1.90.6(react@18.2.0):
@@ -7336,6 +7383,12 @@ packages:
       '@tamagui/helpers-icon': 1.90.6(react-native-svg@14.1.0)(react@18.2.0)
       react: 18.2.0
       react-native-svg: 14.1.0(react-native@0.73.5)(react@18.2.0)
+    dev: false
+
+  /@tamagui/normalize-css-color@1.90.13:
+    resolution: {integrity: sha512-a+SHj8sVvb19h+DkS/h4obIDbRPqh+01BUel5TZgOWK4N3XuxOamSHfWiQ3So2O1SOI6GGe8HXdFwxARMQCJBA==}
+    dependencies:
+      '@react-native/normalize-color': 2.1.0
     dev: false
 
   /@tamagui/normalize-css-color@1.90.6:
@@ -7428,8 +7481,8 @@ packages:
       react-native: 0.73.5(@babel/core@7.23.9)(@babel/preset-env@7.23.9)(react@18.2.0)
     dev: false
 
-  /@tamagui/proxy-worm@1.90.6:
-    resolution: {integrity: sha512-C1lvE/DeMsa2hpN16Gg3eZQXR4hLxPMUdJ7y0fZjFFYX+wiRld7HGtxNSq8qnXiI++k0HXE/ZUzr4cIiZBZOnA==}
+  /@tamagui/proxy-worm@1.90.13:
+    resolution: {integrity: sha512-g5AcwQDehUZf9eWBfogTk9hhEeraSj/sS2ybRfvLjeWsj5w58AeWQLQGlVuxPUs5pdJ6eQ5VBfR6DsY+/LTU6w==}
     dev: false
 
   /@tamagui/radio-group@1.90.6(react-native@0.73.5)(react@18.2.0):
@@ -7463,8 +7516,24 @@ packages:
       react-native: 0.73.5(@babel/core@7.23.9)(@babel/preset-env@7.23.9)(react@18.2.0)
     dev: false
 
+  /@tamagui/react-native-use-pressable@1.90.13(react@18.2.0):
+    resolution: {integrity: sha512-CfsYH4npxntzgWhLGq/HGBu/3PtCa8WNzcc2+4C6+WM26KxmpW4kldAG8ODlbIHdw7EjNroeAuvnjRGd9QMiRA==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /@tamagui/react-native-use-pressable@1.90.6(react@18.2.0):
     resolution: {integrity: sha512-MUhLqdpsCpYSOqn0Iwvw0dPxBvNpl8tGCnI6leLS4QPWzZiJzS0omSODzyvh8qvaGGBMMKY+aSgD4g38p9a0IA==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      react: 18.2.0
+    dev: false
+
+  /@tamagui/react-native-use-responder-events@1.90.13(react@18.2.0):
+    resolution: {integrity: sha512-3RALaN3cffJM4NNLDPDdAHBNun9bAvrfZSkt35GqWOsakkkTx17AU+DJ5+XlPNDCvLI3tpsPL94fSDTzMCfNmg==}
     peerDependencies:
       react: '*'
     dependencies:
@@ -7600,8 +7669,16 @@ packages:
       - '@types/react'
     dev: false
 
+  /@tamagui/shorthands@1.90.13:
+    resolution: {integrity: sha512-76tHrPOZeNmCT5DYeJA6hjK0Zgxu2UrIBrJG8l20xTkrYG1JabWupbBbNRdQYltza+5zE+OzA6aVOdY8HuYASw==}
+    dev: false
+
   /@tamagui/shorthands@1.90.6:
     resolution: {integrity: sha512-i3aO3NhzCHYhUMdxyQPkmtXFRv6saXgZTqRWEzf4jl3CgchG24KFNIAHTzbIVjBLRi+YwlS+pPyuHlUG1vhzSA==}
+    dev: false
+
+  /@tamagui/simple-hash@1.90.13:
+    resolution: {integrity: sha512-vn1kh8rArqvbQeREY7C7mvW6XegqgwidLFGAmSGiBm3PM4iHVFUBXq7dTp7XFEs0ltkdxGE5nulEveUkgh6xOA==}
     dev: false
 
   /@tamagui/simple-hash@1.90.6:
@@ -7636,8 +7713,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@tamagui/static@1.90.6(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3):
-    resolution: {integrity: sha512-k5eHJpvX1cuq2dfY97am0/SgSaRMVT/rVhsfMbjT6GCMSo5n+MuLWI4i/WLfYdTrj6W/sv4dDwClGYwJNMX3tw==}
+  /@tamagui/static@1.90.13(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3):
+    resolution: {integrity: sha512-Zi+f4xGhJAqLneme7Z/eHgxQh7IYl7fBPBRh6Km+CbTk4SyOpg454bKvLs9PeSHMe0YMYjGVJilXBM4iNIDN7g==}
     dependencies:
       '@babel/core': 7.23.9
       '@babel/generator': 7.23.6
@@ -7647,17 +7724,17 @@ packages:
       '@babel/runtime': 7.23.9
       '@babel/traverse': 7.23.9
       '@babel/types': 7.23.9
-      '@tamagui/build': 1.90.6(typescript@5.3.3)
-      '@tamagui/cli-color': 1.90.6
-      '@tamagui/config-default': 1.90.6(react@18.2.0)
-      '@tamagui/core': 1.90.6(react@18.2.0)
-      '@tamagui/fake-react-native': 1.90.6
-      '@tamagui/generate-themes': 1.90.6(esbuild@0.19.12)
-      '@tamagui/helpers': 1.90.6(react@18.2.0)
-      '@tamagui/helpers-node': 1.90.6
-      '@tamagui/proxy-worm': 1.90.6
-      '@tamagui/shorthands': 1.90.6
-      '@tamagui/types': 1.90.6
+      '@tamagui/build': 1.90.13(typescript@5.3.3)
+      '@tamagui/cli-color': 1.90.13
+      '@tamagui/config-default': 1.90.13(react@18.2.0)
+      '@tamagui/core': 1.90.13(react@18.2.0)
+      '@tamagui/fake-react-native': 1.90.13
+      '@tamagui/generate-themes': 1.90.13(esbuild@0.19.12)
+      '@tamagui/helpers': 1.90.13(react@18.2.0)
+      '@tamagui/helpers-node': 1.90.13
+      '@tamagui/proxy-worm': 1.90.13
+      '@tamagui/shorthands': 1.90.13
+      '@tamagui/types': 1.90.13
       babel-literal-to-ast: 2.1.0(@babel/core@7.23.9)
       browserslist: 4.23.0
       check-dependency-version-consistency: 4.1.0
@@ -7669,8 +7746,8 @@ packages:
       invariant: 2.2.4
       lodash: 4.17.21
       react-native-web: 0.19.10(react-dom@18.2.0)(react@18.2.0)
-      react-native-web-internals: 1.90.6
-      react-native-web-lite: 1.90.6(react-dom@18.2.0)(react@18.2.0)
+      react-native-web-internals: 1.90.13
+      react-native-web-lite: 1.90.13(react-dom@18.2.0)(react@18.2.0)
     optionalDependencies:
       lightningcss: 1.22.0
     transitivePeerDependencies:
@@ -7781,6 +7858,10 @@ packages:
       '@tamagui/web': 1.90.6
     dev: false
 
+  /@tamagui/timer@1.90.13:
+    resolution: {integrity: sha512-YEcC21Yplyv6LBa08TCPfXHc3ufSDv016QFP4lFsSernGoMThrxEFg3J7aZ+kPQJTqWkax6tj8oeIdhrpYM8BA==}
+    dev: false
+
   /@tamagui/timer@1.90.6:
     resolution: {integrity: sha512-Pmm2PcsgjPq+C6ODMECMKxfhQ/cNWl2tYEBCDHoLryK+12qPVUi9JwjoyjBgg6gHqC4v4GzIkmduVN5kZ5bDrw==}
     dev: false
@@ -7836,6 +7917,10 @@ packages:
       - react-dom
     dev: false
 
+  /@tamagui/types@1.90.13:
+    resolution: {integrity: sha512-AUFrUYXeOuiTeMW6QFKIDzSU03JmmnHN0yY/EU24jkPhDlqvTg+htnOxYYCpfS3SnmnHqGPt0fWEwTaYSkKyCQ==}
+    dev: false
+
   /@tamagui/types@1.90.6:
     resolution: {integrity: sha512-DrDug3l/Dct3R5bSL7D8AU6+UZqp4tAxqOX1nZ0wYtKHepTY9j0SD4GiBb2I7xO9CMVLgVWh4wlxylywxXHS+A==}
     dev: false
@@ -7869,6 +7954,15 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@tamagui/use-did-finish-ssr@1.90.13(react@18.2.0):
+    resolution: {integrity: sha512-9iZCmc8PSdcmPO8HrXrc4FFeF2GNQXPnnwDaktgYMzKhxFp88wmEu0IhsTIqHbeKxEUQnO8Gtl0JfT8B4fp3Pw==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      '@tamagui/constants': 1.90.13(react@18.2.0)
+      react: 18.2.0
+    dev: false
+
   /@tamagui/use-did-finish-ssr@1.90.6(react@18.2.0):
     resolution: {integrity: sha512-nWccTP4AL8q3Ti5kcknGb7CUFEDvK/d4Cp1hTTwgPmGRgrmt7FNOURlWc3ywL5ySC7rTdCX0ULocj/1Aqge4Zg==}
     peerDependencies:
@@ -7892,12 +7986,29 @@ packages:
       '@tamagui/use-callback-ref': 1.90.6
     dev: false
 
+  /@tamagui/use-event@1.90.13(react@18.2.0):
+    resolution: {integrity: sha512-BFwvbnNrQF/6SBWpMUuYn/49nYRGul0oW0VWeoEG4IidvT2O8tuGpMXmTnwkpnBpub81hKZSR8hAfaw8SBThLA==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      '@tamagui/constants': 1.90.13(react@18.2.0)
+      react: 18.2.0
+    dev: false
+
   /@tamagui/use-event@1.90.6(react@18.2.0):
     resolution: {integrity: sha512-HbFOfuRsj5KkrbByLpp64Ot2ZPdpICPcM0I2Cf2q84PEKCsnl1M758v/cLJ3rw2/Dg33+cYq7bNUvyc6KRuFMg==}
     peerDependencies:
       react: '*'
     dependencies:
       '@tamagui/constants': 1.90.6(react@18.2.0)
+      react: 18.2.0
+    dev: false
+
+  /@tamagui/use-force-update@1.90.13(react@18.2.0):
+    resolution: {integrity: sha512-d8FHEgfLQtbtwMUsbFLcQT6wbbSTfnmBoHW1jGGr77VlbpiYAfjnABYg1TirTynYL0Y1GdiyqBf8Y0an7NNKuw==}
+    peerDependencies:
+      react: '*'
+    dependencies:
       react: 18.2.0
     dev: false
 
@@ -7950,6 +8061,22 @@ packages:
     dependencies:
       '@tamagui/web': 1.90.6
       react: 18.2.0
+    dev: false
+
+  /@tamagui/web@1.90.13:
+    resolution: {integrity: sha512-58Tws0lWXLkVk3BqYISCVQfb0qQxVilQUcOp1eLwVt5nkjCFkizYeEnq5L5oeTdv3YhEKaLpk24GZMKIwx9P0g==}
+    dependencies:
+      '@tamagui/compose-refs': 1.90.13(react@18.2.0)
+      '@tamagui/constants': 1.90.13(react@18.2.0)
+      '@tamagui/helpers': 1.90.13(react@18.2.0)
+      '@tamagui/normalize-css-color': 1.90.13
+      '@tamagui/timer': 1.90.13
+      '@tamagui/types': 1.90.13
+      '@tamagui/use-did-finish-ssr': 1.90.13(react@18.2.0)
+      '@tamagui/use-event': 1.90.13(react@18.2.0)
+      '@tamagui/use-force-update': 1.90.13(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /@tamagui/web@1.90.6:
@@ -15356,28 +15483,28 @@ packages:
       react-native: 0.73.5(@babel/core@7.23.9)(@babel/preset-env@7.23.9)(react@18.2.0)
     dev: false
 
-  /react-native-web-internals@1.90.6:
-    resolution: {integrity: sha512-hPf7KvoEf4JqK/yCe56l9oDQ5sND7Hb4vo1VgGNdLECJde4Mi//MXnNh3QGiLHVqfONWe4m/5n/BEVGHQ9Vmtg==}
+  /react-native-web-internals@1.90.13:
+    resolution: {integrity: sha512-jCGg+Evdx0fe5O7dmX8URfQIJCcClJ9ox7Ut1K5ESoTcJHHBFDt7Spkdx/V1x/kyA9E4fvKDK3rm4vSk1fR2qg==}
     dependencies:
-      '@tamagui/normalize-css-color': 1.90.6
-      '@tamagui/react-native-use-pressable': 1.90.6(react@18.2.0)
-      '@tamagui/react-native-use-responder-events': 1.90.6(react@18.2.0)
-      '@tamagui/simple-hash': 1.90.6
+      '@tamagui/normalize-css-color': 1.90.13
+      '@tamagui/react-native-use-pressable': 1.90.13(react@18.2.0)
+      '@tamagui/react-native-use-responder-events': 1.90.13(react@18.2.0)
+      '@tamagui/simple-hash': 1.90.13
       react: 18.2.0
       styleq: 0.1.3
     dev: false
 
-  /react-native-web-lite@1.90.6(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-5r+GAgzE1PjhDsOv040TTOdm/X1PM6pN9dTcdpDcA2ctArZy1+iDHdii7ithPRuaQ9+tmLSirrgfENBJRLs2FA==}
+  /react-native-web-lite@1.90.13(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-ZxwBm/qAnTZi8TXgYd9ukmiPqsHW/XL3w2GHgDmJ/QVNcQIXoA7o0vi9sUfLQ1S9zCvf5PqiUBULQPTu6kXlrA==}
     peerDependencies:
       react: '*'
       react-dom: '*'
     dependencies:
-      '@tamagui/normalize-css-color': 1.90.6
+      '@tamagui/normalize-css-color': 1.90.13
       invariant: 2.2.4
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-      react-native-web-internals: 1.90.6
+      react-native-web-internals: 1.90.13
       styleq: 0.1.3
     dev: false
 

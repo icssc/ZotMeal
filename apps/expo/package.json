@@ -18,7 +18,7 @@
     "@expo/metro-config": "^0.17.4",
     "@react-navigation/drawer": "^6.6.9",
     "@shopify/flash-list": "1.6.3",
-    "@tamagui/babel-plugin": "^1.90.6",
+    "@tamagui/babel-plugin": "^1.90.13",
     "@tamagui/config": "^1.90.6",
     "@tamagui/lucide-icons": "^1.90.6",
     "@tanstack/react-query": "^5.22.2",
