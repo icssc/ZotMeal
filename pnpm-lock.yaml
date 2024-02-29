@@ -45,8 +45,8 @@ importers:
         specifier: ^1.90.15
         version: 1.90.15(react-dom@18.2.0)(react-native-reanimated@3.7.1)(react-native@0.73.5)(react@18.2.0)
       '@tamagui/lucide-icons':
-        specifier: ^1.90.13
-        version: 1.90.14(react-native-svg@14.1.0)(react@18.2.0)
+        specifier: ^1.90.15
+        version: 1.90.15(react-native-svg@14.1.0)(react@18.2.0)
       '@tanstack/react-query':
         specifier: ^5.22.2
         version: 5.24.1(react@18.2.0)
@@ -6785,13 +6785,13 @@ packages:
       - immer
     dev: false
 
-  /@tamagui/helpers-icon@1.90.14(react-native-svg@14.1.0)(react@18.2.0):
-    resolution: {integrity: sha512-JKYbATPKV3/gCMte/j0W9yLLdSd4AagdXbwHyJZ2emhDdyoV2l0dtnO/k1og1cCP1azKq7UJGWOhxrJvYjppYQ==}
+  /@tamagui/helpers-icon@1.90.15(react-native-svg@14.1.0)(react@18.2.0):
+    resolution: {integrity: sha512-OssJFIp+mDcqhK6d4KmYIZ+qn1lkmYwxjGdljWa6rLPN/gZlJtt8l+uXCPGPdbi3cxBMgkvoytjTvDsymHTWbQ==}
     peerDependencies:
       react: '*'
       react-native-svg: '>=12'
     dependencies:
-      '@tamagui/core': 1.90.14(react@18.2.0)
+      '@tamagui/core': 1.90.15(react@18.2.0)
       react: 18.2.0
       react-native-svg: 14.1.0(react-native@0.73.5)(react@18.2.0)
     dev: false
@@ -6890,14 +6890,14 @@ packages:
       - react-native
     dev: false
 
-  /@tamagui/lucide-icons@1.90.14(react-native-svg@14.1.0)(react@18.2.0):
-    resolution: {integrity: sha512-83uxS7pnGKsYtDr82mSoiVrtH8gXPjWjHxoq514ragvwJk6bZ2E0EQ/8MzMD8+VmUlA1B86w/HGPBrNJweBMig==}
+  /@tamagui/lucide-icons@1.90.15(react-native-svg@14.1.0)(react@18.2.0):
+    resolution: {integrity: sha512-oRWpPq7rXHdcGKsyANboj+Zkv4WSrJyorTR530cZMGlgwsQ3Oo/mGJRFkv90WvbxxEzuN96zNyhwNHXVH4y73Q==}
     peerDependencies:
       react: '*'
       react-native-svg: '>=12'
     dependencies:
-      '@tamagui/core': 1.90.14(react@18.2.0)
-      '@tamagui/helpers-icon': 1.90.14(react-native-svg@14.1.0)(react@18.2.0)
+      '@tamagui/core': 1.90.15(react@18.2.0)
+      '@tamagui/helpers-icon': 1.90.15(react-native-svg@14.1.0)(react@18.2.0)
       react: 18.2.0
       react-native-svg: 14.1.0(react-native@0.73.5)(react@18.2.0)
     dev: false
