@@ -20,7 +20,7 @@
     "@shopify/flash-list": "1.6.3",
     "@tamagui/babel-plugin": "^1.91.3",
     "@tamagui/config": "^1.91.3",
-    "@tamagui/lucide-icons": "^1.91.1",
+    "@tamagui/lucide-icons": "^1.91.3",
     "@tanstack/react-query": "^5.25.0",
     "@trpc/client": "11.0.0-next-beta.308",
     "@trpc/react-query": "11.0.0-next-beta.308",
