@@ -133,27 +133,6 @@ export const nutritionInfo = pgTable("NutritionInfo", {
   saturatedFat: text("saturatedFat"),
 });
 
-export const menuToStation = pgTable(
-  "_MenuToStation",
-  {
-    a: text("A")
-      .notNull()
-      .references(() => menu.id, { onDelete: "cascade", onUpdate: "cascade" }),
-    b: text("B")
-      .notNull()
-      .references(() => station.id, {
-        onDelete: "cascade",
-        onUpdate: "cascade",
-      }),
-  },
-  (table) => {
-    return {
-      abUnique: uniqueIndex("_MenuToStation_AB_unique").on(table.a, table.b),
-      bIdx: index().on(table.b),
-    };
-  },
-);
-
 export const pushToken = pgTable("PushToken", {
   token: text("token").primaryKey().notNull(),
 });
@@ -168,6 +147,12 @@ export const station = pgTable("Station", {
   restaurantId: text("restaurantId")
     .notNull()
     .references(() => restaurant.id, {
+      onDelete: "restrict",
+      onUpdate: "cascade",
+    }),
+  menuId: text("menuId")
+    .notNull()
+    .references(() => menu.id, {
       onDelete: "restrict",
       onUpdate: "cascade",
     }),
@@ -213,3 +198,68 @@ export const event = pgTable(
     };
   },
 );
+
+// * Relations Summary:
+// * Restaurant ↔ Station: One-to-Many (One restaurant has many stations).
+// * Restaurant ↔ Menu: One-to-Many (One restaurant has many menus).
+// * MenuPeriod ↔ Menu: One-to-Many (One menu period can be associated with many menus).
+// * Menu <- Station <- Dish: one menu have many station and one station have many dish
+// * Dish ↔ DietRestriction: One-to-One (Each dish has a set of diet restrictions).
+// * Dish ↔ NutritionInfo: One-to-One (Each dish has nutritional information).
+
+export const dishRelations = relations(dish, ({ one }) => ({
+  // * Dish ↔ DietRestriction: One-to-One (Each dish has a set of diet restrictions).
+  dietRestriction: one(dietRestriction, {
+    fields: [dish.id],
+    references: [dietRestriction.dishId],
+  }),
+  // * Dish ↔ NutritionInfo: One-to-One (Each dish has nutritional information).
+  nutritionInfo: one(nutritionInfo, {
+    fields: [dish.id],
+    references: [nutritionInfo.dishId],
+  }),
+  // * Station <- Dish: One-to-Many (Each station has a set of dishes).
+  station: one(station, { fields: [dish.stationId], references: [station.id] }),
+}));
+
+export const stationRelations = relations(station, ({ one, many }) => ({
+  // * Station <- Dish: One-to-Many (Each station has a set of dishes).
+  dish: many(dish),
+  // * Menu <- Station: One-to-Many (Each menu has many stations).
+  menu: one(menu, {
+    fields: [station.menuId],
+    references: [menu.id],
+  }),
+  // * Restaurant ↔ Station: One-to-Many (One restaurant has many stations).
+  restaurant: one(restaurant, {
+    fields: [station.restaurantId],
+    references: [restaurant.id],
+  }),
+}));
+
+export const menuRelations = relations(menu, ({ one, many }) => ({
+  // * Menu <- Station: One-to-Many (Each menu has many stations).
+  station: many(station),
+  // * MenuPeriod ↔ Menu: One-to-Many (One menu period can be associated with many menus).
+  menuPeriod: one(menuPeriod, {
+    fields: [menu.periodId],
+    references: [menuPeriod.id],
+  }),
+  // * Restaurant ↔ Menu: One-to-Many (One restaurant has many menus).
+  restaurant: one(restaurant, {
+    fields: [menu.restaurantId],
+    references: [restaurant.id],
+  }),
+}));
+
+export const menuPeriodRelations = relations(menuPeriod, ({ many }) => ({
+  // * MenuPeriod ↔ Menu: One-to-Many (One menu period can be associated with many menus).
+  menu: many(menu),
+}));
+
+export const restaurantRelations = relations(restaurant, ({ many }) => ({
+  // * Restaurant ↔ Station: One-to-Many (One restaurant has many stations).
+  station: many(station),
+  // * Restaurant ↔ Menu: One-to-Many (One restaurant has many menus).
+  menu: many(menu),
+}));
