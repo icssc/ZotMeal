@@ -36,7 +36,7 @@ export async function getWeekInfo(
     throw new Error("InvalidDateError");
   }
 
-  const restaurant = await getRestaurantId(restaurantName);
+  const restaurant = getRestaurantId(restaurantName);
   if (!restaurant) {
     console.error(`restaurant not found: ${restaurantName}`);
     throw new Error("RestaurantNotFoundError");
