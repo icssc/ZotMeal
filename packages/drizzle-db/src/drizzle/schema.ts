@@ -1,8 +1,6 @@
-import { relations, sql } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import {
   boolean,
-  foreignKey,
-  index,
   pgEnum,
   pgTable,
   primaryKey,
