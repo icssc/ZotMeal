@@ -1,9 +1,9 @@
+import { relations } from "drizzle-orm";
 import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
+import { dish } from "./dish";
+import { menu } from "./menu";
 import { restaurant } from "./restaurant";
-import { relations } from 'drizzle-orm';
-import { dishes } from './dish';
-import { menu } from './menu';
 
 export const station = pgTable("Station", {
   id: text("id").primaryKey().notNull(),
@@ -18,11 +18,17 @@ export const station = pgTable("Station", {
       onDelete: "restrict",
       onUpdate: "cascade",
     }),
+  menuId: text("menuId")
+    .notNull()
+    .references(() => menu.id, {
+      onDelete: "restrict",
+      onUpdate: "cascade",
+    }),
 });
 
 export const stationRelations = relations(station, ({ one, many }) => ({
   // * Station <- Dish: One-to-Many (Each station has a set of dishes).
-  dish: many(dishes),
+  dish: many(dish),
   // * Menu <- Station: One-to-Many (Each menu has many stations).
   menu: one(menu, {
     fields: [station.menuId],

@@ -1,5 +1,14 @@
-import { pgEnum, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
-import { pgTable } from "drizzle-orm/pg-core/table";
+import { relations } from "drizzle-orm";
+import {
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+  uniqueIndex,
+} from "drizzle-orm/pg-core";
+
+import { menu } from "./menu";
+import { station } from "./station";
 
 export const restaurantName = pgEnum("RestaurantName", [
   "anteatery",
@@ -25,3 +34,10 @@ export const restaurant = pgTable(
     };
   },
 );
+
+export const restaurantRelations = relations(restaurant, ({ many }) => ({
+  // * Restaurant <- Station: One-to-Many (One restaurant has many stations).
+  station: many(station),
+  // * Restaurant <- Menu: One-to-Many (One restaurant has many menus).
+  menu: many(menu),
+}));

@@ -18,7 +18,7 @@ export const nutritionInfo = pgTable("NutritionInfo", {
   totalFat: text("totalFat"),
   transFat: text("transFat"),
   cholesterol: text("cholesterol"),
-  sodum: text("sodum"),
+  sodium: text("sodium"),
   totalCarbohydrates: text("totalCarbohydrates"),
   dietaryFiber: text("dietaryFiber"),
   sugars: text("sugars"),

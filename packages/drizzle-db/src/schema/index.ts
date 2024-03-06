@@ -1,22 +1,26 @@
-import { dishes } from "./dish";
+import { dietRestriction } from "./dietRestriction";
+import { dish } from "./dish";
 import { event } from "./event";
 import { menu } from "./menu";
+import { nutritionInfo } from "./nutritionInfo";
+import { pushToken } from "./pushToken";
 import { restaurant } from "./restaurant";
 import { station } from "./station";
-import { pushToken } from "./users";
-
-export * from "./dish";
-export * from "./event";
-export * from "./menu";
-export * from "./restaurant";
-export * from "./station";
-export * from "./users";
 
 export const schema = {
-  ...dishes,
+  ...dietRestriction,
+  ...nutritionInfo,
+  ...dish,
   ...event,
   ...menu,
   ...restaurant,
   ...station,
   ...pushToken,
 };
+
+export * from "./dish";
+export * from "./event";
+export * from "./menu";
+export * from "./restaurant";
+export * from "./station";
+export * from "./pushToken";

@@ -3,7 +3,9 @@ import { Client } from "pg";
 
 import { schema } from "./schema";
 
-const client = new Client({ connectionString: process.env.DATABASE_URL! });
+export const client = new Client({
+  connectionString: process.env.DATABASE_URL!,
+});
 
 await client.connect();
 

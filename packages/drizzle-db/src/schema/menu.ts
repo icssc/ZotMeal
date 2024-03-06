@@ -1,30 +1,9 @@
-import { pgEnum, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
-import { pgTable } from "drizzle-orm/pg-core/table";
+import { relations } from "drizzle-orm";
+import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
+import { menuPeriod } from "./menuPeriod";
 import { restaurant } from "./restaurant";
-
-export const menuPeriodName = pgEnum("MenuPeriodName", [
-  "latenight",
-  "dinner",
-  "lunch",
-  "brunch",
-  "breakfast",
-]);
-
-export const menuPeriod = pgTable(
-  "MenuPeriod",
-  {
-    id: text("id").primaryKey().notNull(),
-    name: menuPeriodName("name").notNull(),
-    start: timestamp("start", { precision: 3, mode: "string" }).notNull(),
-    end: timestamp("end", { precision: 3, mode: "string" }).notNull(),
-  },
-  (table) => {
-    return {
-      nameKey: uniqueIndex("MenuPeriod_name_key").on(table.name),
-    };
-  },
-);
+import { station } from "./station";
 
 export const menu = pgTable("Menu", {
   id: text("id").primaryKey().notNull(),
@@ -46,3 +25,18 @@ export const menu = pgTable("Menu", {
       onUpdate: "cascade",
     }),
 });
+
+export const menuRelations = relations(menu, ({ one, many }) => ({
+  // * Menu <- Station: One-to-Many (Each menu has many stations).
+  station: many(station),
+  // * MenuPeriod <- Menu: One-to-Many (One menu period can be associated with many menus).
+  menuPeriod: one(menuPeriod, {
+    fields: [menu.periodId],
+    references: [menuPeriod.id],
+  }),
+  // * Restaurant <- Menu: One-to-Many (One restaurant has many menus).
+  restaurant: one(restaurant, {
+    fields: [menu.restaurantId],
+    references: [restaurant.id],
+  }),
+}));

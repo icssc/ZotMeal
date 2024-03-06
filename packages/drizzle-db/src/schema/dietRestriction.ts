@@ -16,7 +16,7 @@ export const dietRestriction = pgTable("DietRestriction", {
   containsPeanuts: boolean("containsPeanuts"),
   containsSesame: boolean("containsSesame"),
   containsShellfish: boolean("containsShellfish"),
-  containSoy: boolean("containSoy"),
+  containsSoy: boolean("containsSoy"),
   containsTreeNuts: boolean("containsTreeNuts"),
   containsWheat: boolean("containsWheat"),
   isGlutenFree: boolean("isGlutenFree"),
