@@ -10,7 +10,7 @@ A summary of the libraries we use are listed below.
 ### Web/Mobile Application
 
 - [Expo](https://expo.dev) - Universal framework for React Native.
-- [NativeWind](https://www.nativewind.dev) - TailwindCSS for React Native.
+- [Tamagui](https://tamagui.dev/) - UI component library for React Native.
 - [Serverless Framework](https://www.serverless.com/) - Framework for cloud resources such as AWS Lambda.
 - [tRPC](https://trpc.io/) - Typesafe RPCs.
 
@@ -50,12 +50,13 @@ A summary of the libraries we use are listed below.
 
 7. Start the local development servers for expo and server.
    `pnpm dev`
-   The tRPC procedures are available on http://localhost:3000/<router.procedure\>?input={field: value}
+   The tRPC procedures are available on <http://localhost:3000/><router.procedure\>?input={field: value}
 
-8. View the local website at http://localhost:19006 and/or with the [Expo Go mobile app](https://expo.dev/client).
+8. View the local website at <http://localhost:19006> and/or with the [Expo Go mobile app](https://expo.dev/client).
    As you make changes to the Expo application, those changes will be automatically
    reflected on the local website as well as the mobile app.
 9. To add a new package run `turbo gen workspace` and follow the prompts
 
 ## Testing
+
 Run `turbo test` at the root of the project.

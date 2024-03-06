@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "id": "4d4fc78d-0751-4f90-a7e7-9c47f52dedde",
+=======
+  "id": "35294df0-92b7-4d31-b0fe-c8792e7d4ed6",
+>>>>>>> 4428b9884ab94b9ae20a028b605b54732365b550
   "prevId": "1f49a3f5-30e1-480e-8567-e39571a1b83d",
   "version": "5",
   "dialect": "pg",
@@ -198,6 +202,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
+<<<<<<< HEAD
     "NutritionInfo": {
       "name": "NutritionInfo",
       "schema": "",
@@ -343,6 +348,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
+=======
+>>>>>>> 4428b9884ab94b9ae20a028b605b54732365b550
     "Event": {
       "name": "Event",
       "schema": "",
@@ -515,6 +522,170 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
+<<<<<<< HEAD
+=======
+    "NutritionInfo": {
+      "name": "NutritionInfo",
+      "schema": "",
+      "columns": {
+        "dishId": {
+          "name": "dishId",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "servingSize": {
+          "name": "servingSize",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "servingUnit": {
+          "name": "servingUnit",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "calories": {
+          "name": "calories",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "caloriesFromFat": {
+          "name": "caloriesFromFat",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "totalFat": {
+          "name": "totalFat",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "transFat": {
+          "name": "transFat",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cholesterol": {
+          "name": "cholesterol",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sodum": {
+          "name": "sodum",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "totalCarbohydrates": {
+          "name": "totalCarbohydrates",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dietaryFiber": {
+          "name": "dietaryFiber",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sugars": {
+          "name": "sugars",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "protein": {
+          "name": "protein",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vitaminA": {
+          "name": "vitaminA",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vitaminC": {
+          "name": "vitaminC",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "calcium": {
+          "name": "calcium",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "iron": {
+          "name": "iron",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "saturatedFat": {
+          "name": "saturatedFat",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "NutritionInfo_dishId_Dish_id_fk": {
+          "name": "NutritionInfo_dishId_Dish_id_fk",
+          "tableFrom": "NutritionInfo",
+          "tableTo": "Dish",
+          "columnsFrom": [
+            "dishId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "PushToken": {
+      "name": "PushToken",
+      "schema": "",
+      "columns": {
+        "token": {
+          "name": "token",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+>>>>>>> 4428b9884ab94b9ae20a028b605b54732365b550
     "Restaurant": {
       "name": "Restaurant",
       "schema": "",
@@ -592,6 +763,15 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
+<<<<<<< HEAD
+=======
+        },
+        "menuId": {
+          "name": "menuId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+>>>>>>> 4428b9884ab94b9ae20a028b605b54732365b550
         }
       },
       "indexes": {},
@@ -608,10 +788,27 @@
           ],
           "onDelete": "restrict",
           "onUpdate": "cascade"
+<<<<<<< HEAD
+=======
+        },
+        "Station_menuId_Menu_id_fk": {
+          "name": "Station_menuId_Menu_id_fk",
+          "tableFrom": "Station",
+          "tableTo": "Menu",
+          "columnsFrom": [
+            "menuId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+>>>>>>> 4428b9884ab94b9ae20a028b605b54732365b550
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
+<<<<<<< HEAD
     },
     "PushToken": {
       "name": "PushToken",
@@ -628,6 +825,8 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
+=======
+>>>>>>> 4428b9884ab94b9ae20a028b605b54732365b550
     }
   },
   "enums": {

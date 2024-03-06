@@ -1,9 +1,10 @@
-import type {InferSelectModel} from "drizzle-orm";
+import type { InferSelectModel } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import { boolean, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
 import { station } from "./station";
 
-export const dishes = pgTable("Dish", {
+export const dishes = pgTable("dishes", {
   id: text("id").primaryKey().notNull(),
   createdAt: timestamp("createdAt", { precision: 3, mode: "string" })
     .defaultNow()
@@ -47,7 +48,7 @@ export const dietRestrictions = pgTable("diet_restrictions", {
   isVegetarian: boolean("isVegetarian"),
 });
 
-export const nutrition_info = pgTable("nutrition_info", {
+export const nutritionInfo = pgTable("nutrition_info", {
   dishId: text("dishId")
     .primaryKey()
     .notNull()
@@ -75,4 +76,20 @@ export const nutrition_info = pgTable("nutrition_info", {
   saturatedFat: text("saturatedFat"),
 });
 
-// const dishRelations = relations(dish);
+export const dishRelations = relations(dishes, ({ one }) => ({
+  // * Dish ↔ DietRestriction: One-to-One (Each dish has a set of diet restrictions).
+  dietRestriction: one(dietRestrictions, {
+    fields: [dishes.id],
+    references: [dietRestrictions.dishId],
+  }),
+  // * Dish ↔ NutritionInfo: One-to-One (Each dish has nutritional information).
+  nutritionInfo: one(nutritionInfo, {
+    fields: [dishes.id],
+    references: [nutritionInfo.dishId],
+  }),
+  // * Station <- Dish: One-to-Many (Each station has a set of dishes).
+  station: one(station, {
+    fields: [dishes.stationId],
+    references: [station.id],
+  }),
+}));
