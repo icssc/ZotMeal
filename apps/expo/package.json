@@ -15,7 +15,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@expo/metro-config": "^0.17.5",
+    "@expo/metro-config": "^0.17.6",
     "@react-navigation/drawer": "^6.6.11",
     "@shopify/flash-list": "1.6.3",
     "@tamagui/babel-plugin": "^1.91.3",
@@ -27,7 +27,7 @@
     "@trpc/server": "11.0.0-next-beta.308",
     "@zotmeal/api": "workspace:^",
     "@zotmeal/db": "workspace:^",
-    "expo": "~50.0.8",
+    "expo": "~50.0.11",
     "expo-constants": "~15.4.5",
     "expo-linking": "~6.2.2",
     "expo-router": "~3.4.8",
