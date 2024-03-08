@@ -190,8 +190,8 @@ importers:
         specifier: ^3.7.0
         version: 3.7.0
       serverless-esbuild:
-        specifier: ^1.51.0
-        version: 1.51.0(esbuild@0.20.1)
+        specifier: ^1.52.1
+        version: 1.52.1(esbuild@0.20.1)
       serverless-offline:
         specifier: ^13.3.3
         version: 13.3.3(serverless@3.38.0)
@@ -16354,8 +16354,8 @@ packages:
       - supports-color
     dev: false
 
-  /serverless-esbuild@1.51.0(esbuild@0.20.1):
-    resolution: {integrity: sha512-/Jh+RARciyoSJulU96XasT4X+wT8qQjFmbSY0rtOtkyhKCP46KUKEKEFDFjLZKxLmnGF03QK+T51XbblZKgNJA==}
+  /serverless-esbuild@1.52.1(esbuild@0.20.1):
+    resolution: {integrity: sha512-sTEVoJMFO213SJyEEvW4yf3FbxRkn3jZgp/bA2zOguVXv2veNptVzo3Cmn7pZVIrjv8HKH6uEq/E65bJhOO5yA==}
     engines: {node: '>=14.18.0'}
     peerDependencies:
       esbuild: '>=0.8 <0.21'
