@@ -1,21 +1,21 @@
-import { dietRestriction } from "./dietRestriction";
-import { dish } from "./dish";
-import { event } from "./event";
-import { menu } from "./menu";
-import { nutritionInfo } from "./nutritionInfo";
-import { pushToken } from "./pushToken";
-import { restaurant } from "./restaurant";
-import { station } from "./station";
+import * as dietRestrictionSchema from "./dietRestriction";
+import * as dishSchema from "./dish";
+import * as eventSchema from "./event";
+import * as menuSchema from "./menu";
+import * as nutritionInfoSchema from "./nutritionInfo";
+import * as pushTokenSchema from "./pushToken";
+import * as restaurantSchema from "./restaurant";
+import * as stationSchema from "./station";
 
 export const schema = {
-  ...dietRestriction,
-  ...nutritionInfo,
-  ...dish,
-  ...event,
-  ...menu,
-  ...restaurant,
-  ...station,
-  ...pushToken,
+  ...dietRestrictionSchema,
+  ...nutritionInfoSchema,
+  ...dishSchema,
+  ...eventSchema,
+  ...menuSchema,
+  ...restaurantSchema,
+  ...stationSchema,
+  ...pushTokenSchema,
 };
 
 export * from "./dish";

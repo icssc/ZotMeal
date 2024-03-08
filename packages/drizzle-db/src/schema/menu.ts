@@ -28,7 +28,7 @@ export const menu = pgTable("Menu", {
 
 export const menuRelations = relations(menu, ({ one, many }) => ({
   // * Menu <- Station: One-to-Many (Each menu has many stations).
-  station: many(station),
+  stations: many(station),
   // * MenuPeriod <- Menu: One-to-Many (One menu period can be associated with many menus).
   menuPeriod: one(menuPeriod, {
     fields: [menu.periodId],

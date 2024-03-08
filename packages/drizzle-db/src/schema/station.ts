@@ -28,7 +28,7 @@ export const station = pgTable("Station", {
 
 export const stationRelations = relations(station, ({ one, many }) => ({
   // * Station <- Dish: One-to-Many (Each station has a set of dishes).
-  dish: many(dish),
+  dishes: many(dish),
   // * Menu <- Station: One-to-Many (Each menu has many stations).
   menu: one(menu, {
     fields: [station.menuId],

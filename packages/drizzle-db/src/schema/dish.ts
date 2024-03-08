@@ -13,6 +13,7 @@ export const dish = pgTable("Dish", {
   updatedAt: timestamp("updatedAt", { precision: 3, mode: "string" }).notNull(),
   name: text("name").notNull(),
   description: text("description").notNull(),
+  category: text("category").notNull(),
   stationId: text("stationId")
     .notNull()
     .references(() => station.id, {

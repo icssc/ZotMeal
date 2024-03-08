@@ -15,6 +15,7 @@ export const MenuProductSchema = z.object({
   StationId: z.string().min(1),
   Product: z.object({
     MarketingName: z.string().min(1),
+    Categories: z.array(z.object({ DisplayName: z.string().min(1) })).min(1),
     ShortDescription: z.string(),
     // Diet Restrictions
     ContainsEggs: z.boolean().nullable(),
