@@ -1,8 +1,8 @@
+import type { Menu } from "./query";
+
 // TODO: Replace with real data
 export const brandywineData = {
   date: "1/22/2022",
-  period: "breakfast",
-  restaurant: "brandywine",
   id: "123",
   createdAt: "2022-01-22T00:00:00.000Z",
   updatedAt: "2022-01-22T00:00:00.000Z",
@@ -278,14 +278,12 @@ export const brandywineData = {
       ],
     },
   ]
-};
+} satisfies Menu;
 
 // TODO: Replace with real data
 export const anteateryData = {
   date: "1/22/2022",
-  period: "breakfast",
-  restaurant: "anteatery",
-  id: "123",
+  id: "5555",
   createdAt: "2022-01-22T00:00:00.000Z",
   updatedAt: "2022-01-22T00:00:00.000Z",
   periodId: "49",
@@ -296,6 +294,7 @@ export const anteateryData = {
       name: "Honeycakes/Bakery",
       createdAt: "2022-01-22T00:00:00.000Z",
       updatedAt: "2022-01-22T00:00:00.000Z",
+      menuId: "123",
       restaurantId: "3056",
       dishes: [
         {
@@ -429,6 +428,7 @@ export const anteateryData = {
       name: "Hearth/Pizza",
       createdAt: "2022-01-22T00:00:00.000Z",
       updatedAt: "2022-01-22T00:00:00.000Z",
+      menuId: "123",
       restaurantId: "3056",
       dishes: [
         {
@@ -558,4 +558,4 @@ export const anteateryData = {
       ],
     },
   ]
-};
+} satisfies Menu;

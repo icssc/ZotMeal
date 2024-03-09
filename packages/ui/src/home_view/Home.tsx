@@ -26,7 +26,7 @@ const dummyUserPins = ["312"];
 export const Home = () => (
   <RestaurantTabs
     brandywineData={brandywineData}
-    anteateryData={brandywineData}
+    anteateryData={anteateryData}
   />
 );
 
