@@ -1,6 +1,5 @@
 
 import { Pin, PinOff, StarFull } from '@tamagui/lucide-icons';
-import type { Dish, Station } from '@zotmeal/db';
 import { Link } from 'expo-router';
 import {
   Button,
@@ -18,6 +17,8 @@ import {
 } from 'tamagui';
 
 import { brandywineData, anteateryData } from './example_data';
+import { getPeriodById, getRestaurantNameById } from '@zotmeal/utils';
+import type { Dish, Menu, Station } from './query';
 
 // TODO: Replace with real user data
 const dummyUserPins = ["312"];
@@ -25,13 +26,13 @@ const dummyUserPins = ["312"];
 export const Home = () => (
   <RestaurantTabs
     brandywineData={brandywineData}
-    anteateryData={anteateryData}
+    anteateryData={brandywineData}
   />
 );
 
 function RestaurantTabs({ brandywineData, anteateryData }: {
-  brandywineData: any[],
-  anteateryData: any[],
+  brandywineData: Menu,
+  anteateryData: Menu,
 }) {
   return (
     <Tabs
@@ -61,15 +62,15 @@ function RestaurantTabs({ brandywineData, anteateryData }: {
 
       {[brandywineData, anteateryData].map((data) => (
         <Tabs.Content
-          key={data.restaurant}
-          value={data.restaurant}
+          key={data.restaurantId}
+          value={getRestaurantNameById(data.restaurantId)!}
           alignItems="center"
           flex={1}
         >
           {/* TODO: Format the image similar to Figma design */}
           <Image
             source={{
-              uri: data.restaurant === "brandywine" ?
+              uri: getRestaurantNameById(data.restaurantId) === "brandywine" ?
                 "https://s3-media0.fl.yelpcdn.com/bphoto/P0DIhR8cO-JxYygc3V3aaQ/348s.jpg" :
                 "https://images.rsmdesign.com/7321bb55-579f-47fd-9f27-a6abf3e9826e.jpg"
             }}
@@ -80,7 +81,7 @@ function RestaurantTabs({ brandywineData, anteateryData }: {
           <View height={100}></View>
           <YStack gap="$5" width={"100%"} padding="$2">
             <XStack gap="$5" width={"100%"} justifyContent='center'>
-              <H5>{data.period}</H5>
+              <H5>{getPeriodById(data.periodId)}</H5>
               <H5>{data.date}</H5>
             </XStack>
             <StationTabs stations={data.stations} />
@@ -91,9 +92,11 @@ function RestaurantTabs({ brandywineData, anteateryData }: {
   )
 }
 
-const StationTabs = ({ stations }: { stations: Station[] }) => (
+const StationTabs = ({ stations }: {
+  stations: Station[],
+}) => (
   <Tabs
-    defaultValue={stations[0].name}
+    defaultValue={stations?.[0]?.name}
     orientation="horizontal"
     flexDirection="column"
     width={"100%"}
@@ -124,23 +127,26 @@ const StationTabs = ({ stations }: { stations: Station[] }) => (
         alignItems="center"
         flex={1}
       >
-        {station.categories.map((category) => (
-          <Category category={category} key={category.name} />
+        {Object.entries(groupBy(station.dishes, dish => dish.category as keyof Dish)).map(([category, dishes]) => (
+          <Category key={category} category={category} dishes={dishes} />
         ))}
       </Tabs.Content>
     ))}
   </Tabs>
 );
 
-// TODO: Refactor menu schema to have a 'categories' field and update below accordingly
-const Category = ({ category: { name, dishes } }: {
-  category: {
-    name: string,
-    dishes: Dish[],
-  }
+const groupBy = <T, K extends keyof T>(arr: T[], key: (i: T) => K) =>
+  arr.reduce((groups, item) => {
+    (groups[key(item)] ||= []).push(item);
+    return groups;
+  }, {} as Record<K, T[]>);
+
+const Category = ({ category, dishes }: {
+  category: string,
+  dishes: Dish[],
 }) => (
-  <YStack key={name} width={"100%"}>
-    <H3 fontWeight={'bold'}>{name}</H3>
+  <YStack key={category} width={"100%"}>
+    <H3 fontWeight={'bold'}>{category}</H3>
     <YGroup bordered separator={<Separator borderWidth={1} />}>
       {dishes.map((dish) => (
         <DishCard key={dish.id} dish={dish} />
@@ -149,7 +155,9 @@ const Category = ({ category: { name, dishes } }: {
   </YStack>
 )
 
-const DishCard = ({ dish }: { dish: Dish }) => (
+const DishCard = ({ dish }: {
+  dish: Dish,
+}) => (
   <YGroup.Item>
     <Link
       asChild
