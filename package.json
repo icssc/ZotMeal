@@ -23,10 +23,10 @@
   },
   "devDependencies": {
     "@zotmeal/prettier-config": "workspace:^0.1.0",
-    "@turbo/gen": "^1.12.4",
+    "@turbo/gen": "^1.12.5",
     "prettier": "^3.2.5",
-    "turbo": "^1.12.4",
-    "typescript": "^5.3.3"
+    "turbo": "^1.12.5",
+    "typescript": "^5.4.2"
   },
   "prettier": "@zotmeal/prettier-config",
   "pnpm": {
