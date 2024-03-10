@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@expo/metro-config": "^0.17.6",
-    "@react-navigation/drawer": "^6.6.11",
+    "@react-navigation/drawer": "^6.6.12",
     "@shopify/flash-list": "1.6.3",
     "@tamagui/babel-plugin": "^1.91.3",
     "@tamagui/config": "^1.91.3",
