@@ -49,6 +49,7 @@ export const DishSchema = z.object({
   stationId: z.string(),
   name: z.string(),
   description: z.string(),
+  category: z.string(),
   dietRestriction: DietRestrictionSchema,
   nutritionInfo: NutritionInfoSchema,
 });

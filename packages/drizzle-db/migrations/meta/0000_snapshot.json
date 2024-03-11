@@ -1,11 +1,11 @@
 {
-  "id": "1f49a3f5-30e1-480e-8567-e39571a1b83d",
+  "id": "0692d858-1ca8-4443-a84f-f540ec76d4b4",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
   "tables": {
-    "DietRestriction": {
-      "name": "DietRestriction",
+    "diet_restrictions": {
+      "name": "diet_restrictions",
       "schema": "",
       "columns": {
         "dishId": {
@@ -120,10 +120,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "DietRestriction_dishId_Dish_id_fk": {
-          "name": "DietRestriction_dishId_Dish_id_fk",
-          "tableFrom": "DietRestriction",
-          "tableTo": "Dish",
+        "diet_restrictions_dishId_dishes_id_fk": {
+          "name": "diet_restrictions_dishId_dishes_id_fk",
+          "tableFrom": "diet_restrictions",
+          "tableTo": "dishes",
           "columnsFrom": [
             "dishId"
           ],
@@ -137,8 +137,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "Dish": {
-      "name": "Dish",
+    "dishes": {
+      "name": "dishes",
       "schema": "",
       "columns": {
         "id": {
@@ -181,12 +181,157 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "Dish_stationId_Station_id_fk": {
-          "name": "Dish_stationId_Station_id_fk",
-          "tableFrom": "Dish",
+        "dishes_stationId_Station_id_fk": {
+          "name": "dishes_stationId_Station_id_fk",
+          "tableFrom": "dishes",
           "tableTo": "Station",
           "columnsFrom": [
             "stationId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "nutrition_info": {
+      "name": "nutrition_info",
+      "schema": "",
+      "columns": {
+        "dishId": {
+          "name": "dishId",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "servingSize": {
+          "name": "servingSize",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "servingUnit": {
+          "name": "servingUnit",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "calories": {
+          "name": "calories",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "caloriesFromFat": {
+          "name": "caloriesFromFat",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "totalFat": {
+          "name": "totalFat",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "transFat": {
+          "name": "transFat",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cholesterol": {
+          "name": "cholesterol",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sodum": {
+          "name": "sodum",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "totalCarbohydrates": {
+          "name": "totalCarbohydrates",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dietaryFiber": {
+          "name": "dietaryFiber",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sugars": {
+          "name": "sugars",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "protein": {
+          "name": "protein",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vitaminA": {
+          "name": "vitaminA",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vitaminC": {
+          "name": "vitaminC",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "calcium": {
+          "name": "calcium",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "iron": {
+          "name": "iron",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "saturatedFat": {
+          "name": "saturatedFat",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "nutrition_info_dishId_dishes_id_fk": {
+          "name": "nutrition_info_dishId_dishes_id_fk",
+          "tableFrom": "nutrition_info",
+          "tableTo": "dishes",
+          "columnsFrom": [
+            "dishId"
           ],
           "columnsTo": [
             "id"
@@ -370,232 +515,6 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "_MenuToStation": {
-      "name": "_MenuToStation",
-      "schema": "",
-      "columns": {
-        "A": {
-          "name": "A",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "B": {
-          "name": "B",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {
-        "_MenuToStation_AB_unique": {
-          "name": "_MenuToStation_AB_unique",
-          "columns": [
-            "A",
-            "B"
-          ],
-          "isUnique": true
-        },
-        "_MenuToStation_B_index": {
-          "name": "_MenuToStation_B_index",
-          "columns": [
-            "B"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "_MenuToStation_A_Menu_id_fk": {
-          "name": "_MenuToStation_A_Menu_id_fk",
-          "tableFrom": "_MenuToStation",
-          "tableTo": "Menu",
-          "columnsFrom": [
-            "A"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        },
-        "_MenuToStation_B_Station_id_fk": {
-          "name": "_MenuToStation_B_Station_id_fk",
-          "tableFrom": "_MenuToStation",
-          "tableTo": "Station",
-          "columnsFrom": [
-            "B"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "NutritionInfo": {
-      "name": "NutritionInfo",
-      "schema": "",
-      "columns": {
-        "dishId": {
-          "name": "dishId",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp(3)",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updatedAt": {
-          "name": "updatedAt",
-          "type": "timestamp(3)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "servingSize": {
-          "name": "servingSize",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "servingUnit": {
-          "name": "servingUnit",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "calories": {
-          "name": "calories",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "caloriesFromFat": {
-          "name": "caloriesFromFat",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "totalFat": {
-          "name": "totalFat",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "transFat": {
-          "name": "transFat",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "cholesterol": {
-          "name": "cholesterol",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "sodum": {
-          "name": "sodum",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "totalCarbohydrates": {
-          "name": "totalCarbohydrates",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "dietaryFiber": {
-          "name": "dietaryFiber",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "sugars": {
-          "name": "sugars",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "protein": {
-          "name": "protein",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "vitaminA": {
-          "name": "vitaminA",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "vitaminC": {
-          "name": "vitaminC",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "calcium": {
-          "name": "calcium",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "iron": {
-          "name": "iron",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "saturatedFat": {
-          "name": "saturatedFat",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "NutritionInfo_dishId_Dish_id_fk": {
-          "name": "NutritionInfo_dishId_Dish_id_fk",
-          "tableFrom": "NutritionInfo",
-          "tableTo": "Dish",
-          "columnsFrom": [
-            "dishId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "restrict",
-          "onUpdate": "cascade"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "PushToken": {
-      "name": "PushToken",
-      "schema": "",
-      "columns": {
-        "token": {
-          "name": "token",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
     "Restaurant": {
       "name": "Restaurant",
       "schema": "",
@@ -691,6 +610,22 @@
           "onUpdate": "cascade"
         }
       },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "PushToken": {
+      "name": "PushToken",
+      "schema": "",
+      "columns": {
+        "token": {
+          "name": "token",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     }
