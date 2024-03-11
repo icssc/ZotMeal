@@ -1,24 +1,26 @@
-import { pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
+import { date, pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
+import { restaurantName } from "../drizzle/schema";
 
 export const event = pgTable(
   "Event",
   {
     title: text("title").notNull(),
-    link: text("link").notNull(),
+    image: text("image").notNull(),
+    restaurant: restaurantName("restaurant").notNull(),
     description: text("description").notNull(),
-    date: timestamp("date", { precision: 3, mode: "string" }).notNull(),
+    date: date("date", { mode: "date" }).notNull(),
     createdAt: timestamp("createdAt", { precision: 3, mode: "string" })
       .defaultNow()
       .notNull(),
     updatedAt: timestamp("updatedAt", {
       precision: 3,
       mode: "string",
-    }).notNull(),
+    }).defaultNow().notNull(),
   },
   (table) => {
     return {
       eventPkey: primaryKey({
-        columns: [table.title, table.link, table.date],
+        columns: [table.title, table.date, table.restaurant],
         name: "Event_pkey",
       }),
     };
