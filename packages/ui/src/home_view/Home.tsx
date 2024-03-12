@@ -1,5 +1,6 @@
 
-import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import type { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import { Pin, PinOff, StarFull } from '@tamagui/lucide-icons';
 import { PERIOD_TO_ID, getRestaurantNameById } from '@zotmeal/utils';
@@ -8,7 +9,6 @@ import { useState } from 'react';
 import {
   Button,
   H3,
-  H5,
   Image,
   ListItem,
   Separator,
@@ -21,6 +21,7 @@ import {
 } from 'tamagui';
 import { anteateryData, brandywineData } from './example_data';
 import type { Dish, Menu, Station } from './query';
+import { useTheme } from 'tamagui';
 
 // TODO: Replace with real user data
 const dummyUserPins = ["312"];
@@ -36,6 +37,7 @@ function RestaurantTabs({ brandywineData, anteateryData }: {
   brandywineData: Menu,
   anteateryData: Menu,
 }) {
+  const theme = useTheme();
   const [period, setPeriod] = useState();
   const [date, setDate] = useState(new Date());
 
@@ -92,9 +94,9 @@ function RestaurantTabs({ brandywineData, anteateryData }: {
                 }}
                 itemStyle={{
                   height: 50,
-                  color: "white",
                   paddingVertical: 50,
                   fontSize: 18,
+                  color: theme.color?.val as string,
                 }}
                 selectedValue={period}
                 onValueChange={(itemValue, itemIndex) =>

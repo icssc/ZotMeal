@@ -5,7 +5,9 @@ import { StatusBar } from "expo-status-bar";
 import { useColorScheme } from "react-native";
 import { H3, Image, TamaguiProvider, Theme, View, createTamagui } from "tamagui";
 import { TRPCProvider } from "~/utils/api";
-import { useFonts } from "expo-font";
+import { FontSource, useFonts } from "expo-font";
+import Inter from "@tamagui/font-inter/otf/Inter-Medium.otf";
+import InterBold from "@tamagui/font-inter/otf/Inter-Bold.otf";
 // import { GestureHandlerRootView } from "react-native-gesture-handler";
 // import { Drawer } from "expo-router/drawer";
 
@@ -38,8 +40,8 @@ const Logo = () => (
 
 export default function RootLayout() {
   const [loaded] = useFonts({
-    Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
-    InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
+    Inter: Inter as FontSource,
+    InterBold: InterBold as FontSource,
   });
 
   const colorScheme = useColorScheme();
