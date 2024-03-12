@@ -10,7 +10,7 @@
     "lint": "echo 'Add lint script here'"
   },
   "dependencies": {
-    "@trpc/server": "11.0.0-next-beta.316",
+    "@trpc/server": "11.0.0-next-beta.318",
     "@zotmeal/db": "workspace:^",
     "@zotmeal/eslint-config": "workspace:^",
     "@zotmeal/prettier-config": "workspace:^",
