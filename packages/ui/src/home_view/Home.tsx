@@ -41,6 +41,32 @@ function RestaurantTabs({ brandywineData, anteateryData }: {
   const [period, setPeriod] = useState();
   const [date, setDate] = useState(new Date());
 
+  const StyledPicker = ({ color }: { color: string }) => (
+    <Picker
+      style={{
+        width: 150,
+      }}
+      itemStyle={{
+        height: 50,
+        paddingVertical: 50,
+        fontSize: 18,
+        color,
+      }}
+      selectedValue={period}
+      onValueChange={(itemValue, _) =>
+        setPeriod(itemValue)
+      }
+    >
+      {Object.entries(PERIOD_TO_ID).map(([period, id]) => (
+        <Picker.Item
+          key={id}
+          label={period}
+          value={id}
+        />
+      ))}
+    </Picker>
+  );
+
   return (
     <Tabs
       defaultValue="brandywine"
@@ -88,29 +114,7 @@ function RestaurantTabs({ brandywineData, anteateryData }: {
           <View height={100} />
           <YStack gap="$5" width={"100%"} padding="$2">
             <XStack width={"100%"} justifyContent='space-between'>
-              <Picker
-                style={{
-                  width: 150,
-                }}
-                itemStyle={{
-                  height: 50,
-                  paddingVertical: 50,
-                  fontSize: 18,
-                  color: theme.color?.val as string,
-                }}
-                selectedValue={period}
-                onValueChange={(itemValue, itemIndex) =>
-                  setPeriod(itemValue)
-                }
-              >
-                {Object.entries(PERIOD_TO_ID).map(([period, id]) => (
-                  <Picker.Item
-                    key={id}
-                    label={period}
-                    value={id}
-                  />
-                ))}
-              </Picker>
+              <StyledPicker color={theme.color?.val as string} />
               {/* TODO: Write a unit test for rendering and checking if onChange is triggered on event */}
               <DateTimePicker
                 value={date}
