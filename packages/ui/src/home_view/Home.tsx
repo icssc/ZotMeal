@@ -1,6 +1,10 @@
 
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import { Picker } from '@react-native-picker/picker';
 import { Pin, PinOff, StarFull } from '@tamagui/lucide-icons';
+import { PERIOD_TO_ID, getRestaurantNameById } from '@zotmeal/utils';
 import { Link } from 'expo-router';
+import { useState } from 'react';
 import {
   Button,
   H3,
@@ -15,9 +19,7 @@ import {
   YGroup,
   YStack
 } from 'tamagui';
-
-import { brandywineData, anteateryData } from './example_data';
-import { getPeriodById, getRestaurantNameById } from '@zotmeal/utils';
+import { anteateryData, brandywineData } from './example_data';
 import type { Dish, Menu, Station } from './query';
 
 // TODO: Replace with real user data
@@ -34,6 +36,9 @@ function RestaurantTabs({ brandywineData, anteateryData }: {
   brandywineData: Menu,
   anteateryData: Menu,
 }) {
+  const [period, setPeriod] = useState();
+  const [date, setDate] = useState(new Date());
+
   return (
     <Tabs
       defaultValue="brandywine"
@@ -78,11 +83,42 @@ function RestaurantTabs({ brandywineData, anteateryData }: {
             width={"100%"}
             height={100}
           />
-          <View height={100}></View>
+          <View height={100} />
           <YStack gap="$5" width={"100%"} padding="$2">
-            <XStack gap="$5" width={"100%"} justifyContent='center'>
-              <H5>{getPeriodById(data.periodId)}</H5>
-              <H5>{data.date}</H5>
+            <XStack width={"100%"} justifyContent='space-between'>
+              <Picker
+                style={{
+                  width: 150,
+                }}
+                itemStyle={{
+                  height: 50,
+                  color: "white",
+                  paddingVertical: 50,
+                  fontSize: 18,
+                }}
+                selectedValue={period}
+                onValueChange={(itemValue, itemIndex) =>
+                  setPeriod(itemValue)
+                }
+              >
+                {Object.entries(PERIOD_TO_ID).map(([period, id]) => (
+                  <Picker.Item
+                    key={id}
+                    label={period}
+                    value={id}
+                  />
+                ))}
+              </Picker>
+              {/* TODO: Write a unit test for rendering and checking if onChange is triggered on event */}
+              <DateTimePicker
+                value={date}
+                mode="date"
+                onChange={(event: DateTimePickerEvent, selectedDate) => {
+                  if (selectedDate) {
+                    setDate(selectedDate);
+                  }
+                }}
+              />
             </XStack>
             <StationTabs stations={data.stations} />
           </YStack>

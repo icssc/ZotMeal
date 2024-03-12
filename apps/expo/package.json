@@ -16,6 +16,8 @@
   },
   "dependencies": {
     "@expo/metro-config": "^0.17.6",
+    "@react-native-community/datetimepicker": "7.6.1",
+    "@react-native-picker/picker": "2.6.1",
     "@react-navigation/drawer": "^6.6.11",
     "@shopify/flash-list": "1.6.3",
     "@tamagui/babel-plugin": "1.90.6",
@@ -31,6 +33,7 @@
     "@zotmeal/utils": "workspace:^",
     "expo": "~50.0.11",
     "expo-constants": "~15.4.5",
+    "expo-font": "^11.10.3",
     "expo-linking": "~6.2.2",
     "expo-router": "~3.4.8",
     "expo-splash-screen": "~0.26.4",
