@@ -41,7 +41,7 @@ function RestaurantTabs({ brandywineData, anteateryData }: {
   const [period, setPeriod] = useState();
   const [date, setDate] = useState(new Date());
 
-  const StyledPicker = ({ color }: { color: string }) => (
+  const PeriodPicker = ({ color }: { color: string }) => (
     <Picker
       style={{
         width: 150,
@@ -57,6 +57,7 @@ function RestaurantTabs({ brandywineData, anteateryData }: {
         setPeriod(itemValue)
       }
     >
+      {/* Create a Picker.Item for each period */}
       {Object.entries(PERIOD_TO_ID).map(([period, id]) => (
         <Picker.Item
           key={id}
@@ -114,7 +115,7 @@ function RestaurantTabs({ brandywineData, anteateryData }: {
           <View height={100} />
           <YStack gap="$5" width={"100%"} padding="$2">
             <XStack width={"100%"} justifyContent='space-between'>
-              <StyledPicker color={theme.color?.val as string} />
+              <PeriodPicker color={theme.color?.val as string} />
               {/* TODO: Write a unit test for rendering and checking if onChange is triggered on event */}
               <DateTimePicker
                 value={date}
