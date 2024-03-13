@@ -1,43 +1,45 @@
-import type { Prisma, PrismaClient } from "@zotmeal/db";
 
+import { event } from "@zotmeal/drizzle-db/src/schema";
 import type { EventParams } from "../models";
+import type { Drizzle } from "@zotmeal/drizzle-db";
 
-export async function createEvents(
-  db: PrismaClient | Prisma.TransactionClient,
+interface UpsertResponse {
+  title: string;
+  updatedAt: string;
+}
+
+export async function upsertEvents(
+  db: Drizzle,
   events: EventParams[],
 ) {
   try {
-    // fetch any existing events that match any events passed in
-    const existingEvents = await db.event.findMany({
-      where: {
-        OR: events.map((event) => ({
+    // batch upsert events
+    const upsertPromises = [];
+    for (const e of events) {
+      const upsert = db
+        .insert(event)
+        .values(e)
+        .onConflictDoUpdate({
+          target: [event.title, event.date, event.restaurant],
+          set: {
+            title: e.title,
+            date: e.date,
+            restaurant: e.restaurant,
+            image: e.image,
+            description: e.description,
+          },
+        })
+        .returning({
           title: event.title,
-          date: event.date,
-          link: event.link,
-        })),
-      },
-    });
-
-    // filter out existing events
-    const newEvents = events.filter(
-      (event) =>
-        !existingEvents.some(
-          (existingEvent) =>
-            existingEvent.title === event.title &&
-            existingEvent.link === event.link &&
-            new Date(existingEvent.date).getTime() ===
-              new Date(event.date).getTime(),
-        ),
-    );
-
-    // insert new events
-    if (newEvents.length > 0) {
-      await db.event.createMany({
-        data: newEvents,
-      });
+          updatedAt: event.updatedAt
+        })
+      upsertPromises.push(upsert);
     }
+    const upsertedEvents: UpsertResponse[][] = await Promise.all(upsertPromises);
 
-    return newEvents;
+    console.log("upsertedEvents:", upsertedEvents);
+
+    return upsertedEvents;
   } catch (e) {
     if (e instanceof Error) {
       console.error(e);
