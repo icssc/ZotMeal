@@ -1,17 +1,17 @@
-import { afterAll, describe, expect, it } from "vitest";
+// import { afterAll, describe, expect, it } from "vitest";
 
-import { PrismaClient } from "@zotmeal/db";
+// import { PrismaClient } from "@zotmeal/db";
 
-// import { createEvents, scrapeEvents } from "../services";
+// // import { createEvents, scrapeEvents } from "../services";
 
-describe("createEvents", () => {
-  const db = new PrismaClient();
+// describe("createEvents", () => {
+//   const db = new PrismaClient();
 
-  it("inserts events", () => {
-    expect(true).toBe(true);
-  });
+//   it("inserts events", () => {
+//     expect(true).toBe(true);
+//   });
 
-  afterAll(async () => {
-    await db.$disconnect();
-  });
-});
+//   afterAll(async () => {
+//     await db.$disconnect();
+//   });
+// });
