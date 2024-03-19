@@ -18,8 +18,14 @@ export async function upsertEvents(
     for (const e of events) {
       const upsert = db
         .insert(event)
-        .values(e)
-        .onConflictDoUpdate({
+        .values({
+          title: e.title,
+          date: e.date,
+          restaurant: e.restaurant,
+          image: e.image,
+          description: e.description,
+        })
+        .onConflictDoUpdate({ // upsert
           target: [event.title, event.date, event.restaurant],
           set: {
             title: e.title,
@@ -29,16 +35,13 @@ export async function upsertEvents(
             description: e.description,
           },
         })
-        .returning({
+        .returning({ // return the updated event
           title: event.title,
           updatedAt: event.updatedAt
         })
       upsertPromises.push(upsert);
     }
-    const upsertedEvents: UpsertResponse[][] = await Promise.all(upsertPromises);
-
-    console.log("upsertedEvents:", upsertedEvents);
-
+    const upsertedEvents: UpsertResponse[] = (await Promise.all(upsertPromises)).flat();
     return upsertedEvents;
   } catch (e) {
     if (e instanceof Error) {

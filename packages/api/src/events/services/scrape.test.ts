@@ -23,19 +23,18 @@ describe("insert menu into db", () => {
     expect(events).not.toBe(null);
 
     // batch upsert and rollback
-    expect(async () => {
+    await expect(async () => {
       await db.transaction(async (trx) => {
-        const insertedEvents = await upsertEvents(trx, events!);
-        if (!insertedEvents) {
-          throw new Error("insertedEvents is null");
+        const upsertedEvents = await upsertEvents(trx, events!);
+        if (!upsertedEvents) {
+          throw new Error("upsertedEvents is null");
         }
 
-        console.log("insertedEvents:", insertedEvents);
+        console.log("upsertedEvents:", upsertedEvents);
 
         trx.rollback();
-        return;
       });
-    }).not.toThrow();
+    }).rejects.toThrowError('Rollback');
   });
 
   // it("", () => {
