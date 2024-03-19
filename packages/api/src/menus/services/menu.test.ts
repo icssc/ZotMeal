@@ -1,7 +1,7 @@
-// import { describe, it } from "vitest";
+import { describe, it } from "vitest";
 
-// describe("menu", () => {
-//   it("hello", () => {
-//     console.log("hello");
-//   });
-// });
+describe("menu", () => {
+  it("hello", () => {
+    console.log("hello");
+  });
+});

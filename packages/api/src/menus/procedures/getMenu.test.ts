@@ -1,8 +1,14 @@
-// import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 // import type { GetMenuParams } from "../models/menu";
 // import { createCaller, createTRPCContext } from "../..";
 // import { GetMenuSchema } from "../models/menu";
+
+describe("getMenu", () => {
+  it("hello", () => {
+    console.log("hello");
+  });
+});
 
 // describe("GetMenuSchema validates properly", () => {
 //   it("parses valid params", () => {

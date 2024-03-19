@@ -1,7 +1,12 @@
-// import { afterAll, describe, expect, it } from "vitest";
+import { afterAll, describe, expect, it } from "vitest";
 
-// import { PrismaClient } from "@zotmeal/db";
 // import { CampusDishResponseSchema } from "@zotmeal/validators";
+
+describe("parse", () => {
+  it("hello", () => {
+    console.log("hello");
+  });
+});
 
 // import type { MenuParams } from "../models/menu";
 // import campus_dish_response from "./campus_dish_response.json";
