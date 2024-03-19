@@ -36,8 +36,8 @@ importers:
         specifier: ^6.6.15
         version: 6.6.15(@react-navigation/native@6.1.14)(react-native-gesture-handler@2.15.0)(react-native-reanimated@3.8.1)(react-native-safe-area-context@4.9.0)(react-native-screens@3.29.0)(react-native@0.73.6)(react@18.2.0)
       '@shopify/flash-list':
-        specifier: 1.6.3
-        version: 1.6.3(@babel/runtime@7.24.0)(react-native@0.73.6)(react@18.2.0)
+        specifier: 1.6.4
+        version: 1.6.4(@babel/runtime@7.24.0)(react-native@0.73.6)(react@18.2.0)
       '@tamagui/babel-plugin':
         specifier: ^1.91.4
         version: 1.91.4(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.2)
@@ -5918,8 +5918,8 @@ packages:
       - encoding
     dev: false
 
-  /@shopify/flash-list@1.6.3(@babel/runtime@7.24.0)(react-native@0.73.6)(react@18.2.0):
-    resolution: {integrity: sha512-XM2iu4CeD9SOEUxaGG3UkxfUxGPWG9yacga1yQSgskAjUsRDFTsD3y4Dyon9n8MfDwgrRpEwuijd+7NeQQoWaQ==}
+  /@shopify/flash-list@1.6.4(@babel/runtime@7.24.0)(react-native@0.73.6)(react@18.2.0):
+    resolution: {integrity: sha512-M2momcnY7swsvmpHIFDVbdOaFw4aQocJXA/lFP0Gpz+alQjFylqVKvszxl4atYO2SNbjxlb2L6hEP9WEcAknGQ==}
     peerDependencies:
       '@babel/runtime': '*'
       react: '*'
