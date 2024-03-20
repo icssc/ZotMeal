@@ -16,7 +16,7 @@
     "db:studio": "pnpm drizzle-kit studio --port 3000 --verbose"
   },
   "devDependencies": {
-    "@types/pg": "^8.11.3",
+    "@types/pg": "^8.11.4",
     "@zotmeal/eslint-config": "workspace:^0.2.0",
     "@zotmeal/prettier-config": "workspace:^0.1.0",
     "@zotmeal/tsconfig": "workspace:^0.1.0",
