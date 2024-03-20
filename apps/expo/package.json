@@ -47,8 +47,8 @@
   },
   "devDependencies": {
     "@zotmeal/ui": "workspace:^",
-    "@babel/core": "^7.24.1",
-    "@babel/preset-env": "^7.24.1",
+    "@babel/core": "^7.24.3",
+    "@babel/preset-env": "^7.24.3",
     "@babel/runtime": "^7.24.1",
     "@zotmeal/eslint-config": "workspace:^0.2.0",
     "@zotmeal/prettier-config": "workspace:^0.1.0",
