@@ -42,8 +42,8 @@ importers:
         specifier: ^1.93.2
         version: 1.93.2(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.3)
       '@tamagui/config':
-        specifier: ^1.92.1
-        version: 1.92.1(react-dom@18.2.0)(react-native-reanimated@3.8.1)(react-native@0.73.6)(react@18.2.0)
+        specifier: ^1.93.2
+        version: 1.93.2(react-dom@18.2.0)(react-native-reanimated@3.8.1)(react-native@0.73.6)(react@18.2.0)
       '@tamagui/lucide-icons':
         specifier: ^1.92.1
         version: 1.92.1(react-native-svg@15.1.0)(react@18.2.0)
@@ -191,7 +191,7 @@ importers:
         version: 3.9.0
       serverless-esbuild:
         specifier: ^1.52.1
-        version: 1.52.1(esbuild@0.20.1)
+        version: 1.52.1(esbuild@0.20.2)
       serverless-offline:
         specifier: ^13.3.3
         version: 13.3.3(serverless@3.38.0)
@@ -3325,15 +3325,6 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@esbuild/aix-ppc64@0.20.1:
-    resolution: {integrity: sha512-m55cpeupQ2DbuRGQMMZDzbv9J9PgVelPjlcmM5kxHnrBdBx6REaEd7LamYV7Dm8N7rCyR/XwU6rVP8ploKtIkA==}
-    engines: {node: '>=12'}
-    cpu: [ppc64]
-    os: [aix]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@esbuild/aix-ppc64@0.20.2:
     resolution: {integrity: sha512-D+EBOJHXdNZcLJRBkhENNG8Wji2kgc9AZ9KiPr1JuZjsNtyHzrsfLRrY0tk2H2aoFu6RANO1y1iPPUCDYWkb5g==}
     engines: {node: '>=12'}
@@ -3358,15 +3349,6 @@ packages:
     cpu: [arm64]
     os: [android]
     requiresBuild: true
-    optional: true
-
-  /@esbuild/android-arm64@0.20.1:
-    resolution: {integrity: sha512-hCnXNF0HM6AjowP+Zou0ZJMWWa1VkD77BXe959zERgGJBBxB+sV+J9f/rcjeg2c5bsukD/n17RKWXGFCO5dD5A==}
-    engines: {node: '>=12'}
-    cpu: [arm64]
-    os: [android]
-    requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/android-arm64@0.20.2:
@@ -3395,15 +3377,6 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@esbuild/android-arm@0.20.1:
-    resolution: {integrity: sha512-4j0+G27/2ZXGWR5okcJi7pQYhmkVgb4D7UKwxcqrjhvp5TKWx3cUjgB1CGj1mfdmJBQ9VnUGgUhign+FPF2Zgw==}
-    engines: {node: '>=12'}
-    cpu: [arm]
-    os: [android]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@esbuild/android-arm@0.20.2:
     resolution: {integrity: sha512-t98Ra6pw2VaDhqNWO2Oph2LXbz/EJcnLmKLGBJwEwXX/JAN83Fym1rU8l0JUWK6HkIbWONCSSatf4sf2NBRx/w==}
     engines: {node: '>=12'}
@@ -3428,15 +3401,6 @@ packages:
     cpu: [x64]
     os: [android]
     requiresBuild: true
-    optional: true
-
-  /@esbuild/android-x64@0.20.1:
-    resolution: {integrity: sha512-MSfZMBoAsnhpS+2yMFYIQUPs8Z19ajwfuaSZx+tSl09xrHZCjbeXXMsUF/0oq7ojxYEpsSo4c0SfjxOYXRbpaA==}
-    engines: {node: '>=12'}
-    cpu: [x64]
-    os: [android]
-    requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/android-x64@0.20.2:
@@ -3465,15 +3429,6 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@esbuild/darwin-arm64@0.20.1:
-    resolution: {integrity: sha512-Ylk6rzgMD8klUklGPzS414UQLa5NPXZD5tf8JmQU8GQrj6BrFA/Ic9tb2zRe1kOZyCbGl+e8VMbDRazCEBqPvA==}
-    engines: {node: '>=12'}
-    cpu: [arm64]
-    os: [darwin]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@esbuild/darwin-arm64@0.20.2:
     resolution: {integrity: sha512-4J6IRT+10J3aJH3l1yzEg9y3wkTDgDk7TSDFX+wKFiWjqWp/iCfLIYzGyasx9l0SAFPT1HwSCR+0w/h1ES/MjA==}
     engines: {node: '>=12'}
@@ -3498,15 +3453,6 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
-    optional: true
-
-  /@esbuild/darwin-x64@0.20.1:
-    resolution: {integrity: sha512-pFIfj7U2w5sMp52wTY1XVOdoxw+GDwy9FsK3OFz4BpMAjvZVs0dT1VXs8aQm22nhwoIWUmIRaE+4xow8xfIDZA==}
-    engines: {node: '>=12'}
-    cpu: [x64]
-    os: [darwin]
-    requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/darwin-x64@0.20.2:
@@ -3535,15 +3481,6 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@esbuild/freebsd-arm64@0.20.1:
-    resolution: {integrity: sha512-UyW1WZvHDuM4xDz0jWun4qtQFauNdXjXOtIy7SYdf7pbxSWWVlqhnR/T2TpX6LX5NI62spt0a3ldIIEkPM6RHw==}
-    engines: {node: '>=12'}
-    cpu: [arm64]
-    os: [freebsd]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@esbuild/freebsd-arm64@0.20.2:
     resolution: {integrity: sha512-d3qI41G4SuLiCGCFGUrKsSeTXyWG6yem1KcGZVS+3FYlYhtNoNgYrWcvkOoaqMhwXSMrZRl69ArHsGJ9mYdbbw==}
     engines: {node: '>=12'}
@@ -3568,15 +3505,6 @@ packages:
     cpu: [x64]
     os: [freebsd]
     requiresBuild: true
-    optional: true
-
-  /@esbuild/freebsd-x64@0.20.1:
-    resolution: {integrity: sha512-itPwCw5C+Jh/c624vcDd9kRCCZVpzpQn8dtwoYIt2TJF3S9xJLiRohnnNrKwREvcZYx0n8sCSbvGH349XkcQeg==}
-    engines: {node: '>=12'}
-    cpu: [x64]
-    os: [freebsd]
-    requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/freebsd-x64@0.20.2:
@@ -3605,15 +3533,6 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@esbuild/linux-arm64@0.20.1:
-    resolution: {integrity: sha512-cX8WdlF6Cnvw/DO9/X7XLH2J6CkBnz7Twjpk56cshk9sjYVcuh4sXQBy5bmTwzBjNVZze2yaV1vtcJS04LbN8w==}
-    engines: {node: '>=12'}
-    cpu: [arm64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@esbuild/linux-arm64@0.20.2:
     resolution: {integrity: sha512-9pb6rBjGvTFNira2FLIWqDk/uaf42sSyLE8j1rnUpuzsODBq7FvpwHYZxQ/It/8b+QOS1RYfqgGFNLRI+qlq2A==}
     engines: {node: '>=12'}
@@ -3638,15 +3557,6 @@ packages:
     cpu: [arm]
     os: [linux]
     requiresBuild: true
-    optional: true
-
-  /@esbuild/linux-arm@0.20.1:
-    resolution: {integrity: sha512-LojC28v3+IhIbfQ+Vu4Ut5n3wKcgTu6POKIHN9Wpt0HnfgUGlBuyDDQR4jWZUZFyYLiz4RBBBmfU6sNfn6RhLw==}
-    engines: {node: '>=12'}
-    cpu: [arm]
-    os: [linux]
-    requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/linux-arm@0.20.2:
@@ -3675,15 +3585,6 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@esbuild/linux-ia32@0.20.1:
-    resolution: {integrity: sha512-4H/sQCy1mnnGkUt/xszaLlYJVTz3W9ep52xEefGtd6yXDQbz/5fZE5dFLUgsPdbUOQANcVUa5iO6g3nyy5BJiw==}
-    engines: {node: '>=12'}
-    cpu: [ia32]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@esbuild/linux-ia32@0.20.2:
     resolution: {integrity: sha512-o10utieEkNPFDZFQm9CoP7Tvb33UutoJqg3qKf1PWVeeJhJw0Q347PxMvBgVVFgouYLGIhFYG0UGdBumROyiig==}
     engines: {node: '>=12'}
@@ -3708,15 +3609,6 @@ packages:
     cpu: [loong64]
     os: [linux]
     requiresBuild: true
-    optional: true
-
-  /@esbuild/linux-loong64@0.20.1:
-    resolution: {integrity: sha512-c0jgtB+sRHCciVXlyjDcWb2FUuzlGVRwGXgI+3WqKOIuoo8AmZAddzeOHeYLtD+dmtHw3B4Xo9wAUdjlfW5yYA==}
-    engines: {node: '>=12'}
-    cpu: [loong64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/linux-loong64@0.20.2:
@@ -3745,15 +3637,6 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@esbuild/linux-mips64el@0.20.1:
-    resolution: {integrity: sha512-TgFyCfIxSujyuqdZKDZ3yTwWiGv+KnlOeXXitCQ+trDODJ+ZtGOzLkSWngynP0HZnTsDyBbPy7GWVXWaEl6lhA==}
-    engines: {node: '>=12'}
-    cpu: [mips64el]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@esbuild/linux-mips64el@0.20.2:
     resolution: {integrity: sha512-4BlTqeutE/KnOiTG5Y6Sb/Hw6hsBOZapOVF6njAESHInhlQAghVVZL1ZpIctBOoTFbQyGW+LsVYZ8lSSB3wkjA==}
     engines: {node: '>=12'}
@@ -3778,15 +3661,6 @@ packages:
     cpu: [ppc64]
     os: [linux]
     requiresBuild: true
-    optional: true
-
-  /@esbuild/linux-ppc64@0.20.1:
-    resolution: {integrity: sha512-b+yuD1IUeL+Y93PmFZDZFIElwbmFfIKLKlYI8M6tRyzE6u7oEP7onGk0vZRh8wfVGC2dZoy0EqX1V8qok4qHaw==}
-    engines: {node: '>=12'}
-    cpu: [ppc64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/linux-ppc64@0.20.2:
@@ -3815,15 +3689,6 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@esbuild/linux-riscv64@0.20.1:
-    resolution: {integrity: sha512-wpDlpE0oRKZwX+GfomcALcouqjjV8MIX8DyTrxfyCfXxoKQSDm45CZr9fanJ4F6ckD4yDEPT98SrjvLwIqUCgg==}
-    engines: {node: '>=12'}
-    cpu: [riscv64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@esbuild/linux-riscv64@0.20.2:
     resolution: {integrity: sha512-snwmBKacKmwTMmhLlz/3aH1Q9T8v45bKYGE3j26TsaOVtjIag4wLfWSiZykXzXuE1kbCE+zJRmwp+ZbIHinnVg==}
     engines: {node: '>=12'}
@@ -3848,15 +3713,6 @@ packages:
     cpu: [s390x]
     os: [linux]
     requiresBuild: true
-    optional: true
-
-  /@esbuild/linux-s390x@0.20.1:
-    resolution: {integrity: sha512-5BepC2Au80EohQ2dBpyTquqGCES7++p7G+7lXe1bAIvMdXm4YYcEfZtQrP4gaoZ96Wv1Ute61CEHFU7h4FMueQ==}
-    engines: {node: '>=12'}
-    cpu: [s390x]
-    os: [linux]
-    requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/linux-s390x@0.20.2:
@@ -3885,15 +3741,6 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@esbuild/linux-x64@0.20.1:
-    resolution: {integrity: sha512-5gRPk7pKuaIB+tmH+yKd2aQTRpqlf1E4f/mC+tawIm/CGJemZcHZpp2ic8oD83nKgUPMEd0fNanrnFljiruuyA==}
-    engines: {node: '>=12'}
-    cpu: [x64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@esbuild/linux-x64@0.20.2:
     resolution: {integrity: sha512-1MdwI6OOTsfQfek8sLwgyjOXAu+wKhLEoaOLTjbijk6E2WONYpH9ZU2mNtR+lZ2B4uwr+usqGuVfFT9tMtGvGw==}
     engines: {node: '>=12'}
@@ -3918,15 +3765,6 @@ packages:
     cpu: [x64]
     os: [netbsd]
     requiresBuild: true
-    optional: true
-
-  /@esbuild/netbsd-x64@0.20.1:
-    resolution: {integrity: sha512-4fL68JdrLV2nVW2AaWZBv3XEm3Ae3NZn/7qy2KGAt3dexAgSVT+Hc97JKSZnqezgMlv9x6KV0ZkZY7UO5cNLCg==}
-    engines: {node: '>=12'}
-    cpu: [x64]
-    os: [netbsd]
-    requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/netbsd-x64@0.20.2:
@@ -3955,15 +3793,6 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@esbuild/openbsd-x64@0.20.1:
-    resolution: {integrity: sha512-GhRuXlvRE+twf2ES+8REbeCb/zeikNqwD3+6S5y5/x+DYbAQUNl0HNBs4RQJqrechS4v4MruEr8ZtAin/hK5iw==}
-    engines: {node: '>=12'}
-    cpu: [x64]
-    os: [openbsd]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@esbuild/openbsd-x64@0.20.2:
     resolution: {integrity: sha512-eMpKlV0SThJmmJgiVyN9jTPJ2VBPquf6Kt/nAoo6DgHAoN57K15ZghiHaMvqjCye/uU4X5u3YSMgVBI1h3vKrQ==}
     engines: {node: '>=12'}
@@ -3988,15 +3817,6 @@ packages:
     cpu: [x64]
     os: [sunos]
     requiresBuild: true
-    optional: true
-
-  /@esbuild/sunos-x64@0.20.1:
-    resolution: {integrity: sha512-ZnWEyCM0G1Ex6JtsygvC3KUUrlDXqOihw8RicRuQAzw+c4f1D66YlPNNV3rkjVW90zXVsHwZYWbJh3v+oQFM9Q==}
-    engines: {node: '>=12'}
-    cpu: [x64]
-    os: [sunos]
-    requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/sunos-x64@0.20.2:
@@ -4025,15 +3845,6 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@esbuild/win32-arm64@0.20.1:
-    resolution: {integrity: sha512-QZ6gXue0vVQY2Oon9WyLFCdSuYbXSoxaZrPuJ4c20j6ICedfsDilNPYfHLlMH7vGfU5DQR0czHLmJvH4Nzis/A==}
-    engines: {node: '>=12'}
-    cpu: [arm64]
-    os: [win32]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@esbuild/win32-arm64@0.20.2:
     resolution: {integrity: sha512-GRibxoawM9ZCnDxnP3usoUDO9vUkpAxIIZ6GQI+IlVmr5kP3zUq+l17xELTHMWTWzjxa2guPNyrpq1GWmPvcGQ==}
     engines: {node: '>=12'}
@@ -4060,15 +3871,6 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@esbuild/win32-ia32@0.20.1:
-    resolution: {integrity: sha512-HzcJa1NcSWTAU0MJIxOho8JftNp9YALui3o+Ny7hCh0v5f90nprly1U3Sj1Ldj/CvKKdvvFsCRvDkpsEMp4DNw==}
-    engines: {node: '>=12'}
-    cpu: [ia32]
-    os: [win32]
-    requiresBuild: true
-    dev: false
-    optional: true
-
   /@esbuild/win32-ia32@0.20.2:
     resolution: {integrity: sha512-HfLOfn9YWmkSKRQqovpnITazdtquEW8/SoHW7pWpuEeguaZI4QnCRW6b+oZTztdBnZOS2hqJ6im/D5cPzBTTlQ==}
     engines: {node: '>=12'}
@@ -4093,15 +3895,6 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
-    optional: true
-
-  /@esbuild/win32-x64@0.20.1:
-    resolution: {integrity: sha512-0MBh53o6XtI6ctDnRMeQ+xoCN8kD2qI1rY1KgF/xdWQwoFeKou7puvDfV8/Wv4Ctx2rRpET/gGdz3YlNtNACSA==}
-    engines: {node: '>=12'}
-    cpu: [x64]
-    os: [win32]
-    requiresBuild: true
-    dev: false
     optional: true
 
   /@esbuild/win32-x64@0.20.2:
@@ -7088,21 +6881,21 @@ packages:
       - react
     dev: false
 
-  /@tamagui/animations-css@1.92.1:
-    resolution: {integrity: sha512-+7/BhHUYIA44ooUa6dEv88gsdGoLgpcCl5i7WXAgydxIhfuymmxWbd+Px2Jv4iB+G/9cK2eWz73Av5vZrW/Pfg==}
+  /@tamagui/animations-css@1.93.2:
+    resolution: {integrity: sha512-NkcB9Icwa4n9D7rkMb9/nBZZxr4GnXJC02+zClrDgvgJUU78lpeQymG9TMmh42Z+pT6qyXBxLNNwBjboFBsmwg==}
     dependencies:
-      '@tamagui/constants': 1.92.1(react@18.2.0)
-      '@tamagui/cubic-bezier-animator': 1.92.1
-      '@tamagui/use-presence': 1.92.1(react@18.2.0)
-      '@tamagui/web': 1.92.1
+      '@tamagui/constants': 1.93.2(react@18.2.0)
+      '@tamagui/cubic-bezier-animator': 1.93.2
+      '@tamagui/use-presence': 1.93.2(react@18.2.0)
+      '@tamagui/web': 1.93.2
       react: 18.2.0
     dev: false
 
-  /@tamagui/animations-moti@1.92.1(react-dom@18.2.0)(react-native-reanimated@3.8.1):
-    resolution: {integrity: sha512-+AJ9gzS+hHEA/DJbrL/RIlXKdOd1KGNV313sv+nFBCCpUkA/j98MxhBXGpP8GoyAgyo+66P5lDBW75RUlMWidQ==}
+  /@tamagui/animations-moti@1.93.2(react-dom@18.2.0)(react-native-reanimated@3.8.1):
+    resolution: {integrity: sha512-i7VvegU5IeTJdrwe96tJvWKh+IONDvcmk/tEImNdfalimRrn/0LQwMX4htM/cJ4hzk4OlnSVAS/YGay6wGWHWg==}
     dependencies:
-      '@tamagui/use-presence': 1.92.1(react@18.2.0)
-      '@tamagui/web': 1.92.1
+      '@tamagui/use-presence': 1.93.2(react@18.2.0)
+      '@tamagui/web': 1.93.2
       moti: 0.27.5(react-dom@18.2.0)(react-native-reanimated@3.8.1)(react@18.2.0)
       react: 18.2.0
     transitivePeerDependencies:
@@ -7119,6 +6912,19 @@ packages:
       '@tamagui/constants': 1.92.1(react@18.2.0)
       '@tamagui/use-presence': 1.92.1(react@18.2.0)
       '@tamagui/web': 1.92.1
+      react: 18.2.0
+      react-native: 0.73.6(@babel/core@7.24.3)(@babel/preset-env@7.24.3)(react@18.2.0)
+    dev: false
+
+  /@tamagui/animations-react-native@1.93.2(react-native@0.73.6)(react@18.2.0):
+    resolution: {integrity: sha512-dwqlas3W6B048KScB+DbsJC1SxDgEFrKt3oSaeVQd7p+dVatE9t0jomjji9JypHm26icaL13DM9l46vUhuLfQQ==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+    dependencies:
+      '@tamagui/constants': 1.93.2(react@18.2.0)
+      '@tamagui/use-presence': 1.93.2(react@18.2.0)
+      '@tamagui/web': 1.93.2
       react: 18.2.0
       react-native: 0.73.6(@babel/core@7.24.3)(@babel/preset-env@7.24.3)(react@18.2.0)
     dev: false
@@ -7294,8 +7100,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@tamagui/colors@1.92.1:
-    resolution: {integrity: sha512-ElYfihOnJ5jgWwzlx2vVQ9+0g+8tqIQbQDKIsmMieLGQUZZIBVD+dDqZAL9+qvPdxxH9I5uAIoSACGuByHQgdw==}
+  /@tamagui/colors@1.93.2:
+    resolution: {integrity: sha512-9Q8WunzVNcOIhSFXmUZc8hc84dEY1U1HFdN+C5Md521UNbapI3xfLlybjNVTHLzXWtcy8vFQ4qhWZxjQLMM6SA==}
     dev: false
 
   /@tamagui/compose-refs@1.92.1(react@18.2.0):
@@ -7323,19 +7129,19 @@ packages:
       - react
     dev: false
 
-  /@tamagui/config@1.92.1(react-dom@18.2.0)(react-native-reanimated@3.8.1)(react-native@0.73.6)(react@18.2.0):
-    resolution: {integrity: sha512-J0EvPYV44BXsXxJek66sI74WarP4f1S/3QcnEhi0uYE7V3rllZtomqomjF8GV64kw1VXLijTam79XNP9GkdNXw==}
+  /@tamagui/config@1.93.2(react-dom@18.2.0)(react-native-reanimated@3.8.1)(react-native@0.73.6)(react@18.2.0):
+    resolution: {integrity: sha512-3H9QmFRI2CtsFt6nFdCQOAHWnlmM7dI/DLaTnGry0IuKYYHl7nYR9hN+ur3nWwZWLQGeGmF/GxMdS/9CO0/ZWA==}
     dependencies:
-      '@tamagui/animations-css': 1.92.1
-      '@tamagui/animations-moti': 1.92.1(react-dom@18.2.0)(react-native-reanimated@3.8.1)
-      '@tamagui/animations-react-native': 1.92.1(react-native@0.73.6)(react@18.2.0)
-      '@tamagui/colors': 1.92.1
-      '@tamagui/font-inter': 1.92.1(react@18.2.0)
-      '@tamagui/font-silkscreen': 1.92.1(react@18.2.0)
-      '@tamagui/react-native-media-driver': 1.92.1(react-native@0.73.6)
-      '@tamagui/shorthands': 1.92.1
-      '@tamagui/themes': 1.92.1
-      '@tamagui/web': 1.92.1
+      '@tamagui/animations-css': 1.93.2
+      '@tamagui/animations-moti': 1.93.2(react-dom@18.2.0)(react-native-reanimated@3.8.1)
+      '@tamagui/animations-react-native': 1.93.2(react-native@0.73.6)(react@18.2.0)
+      '@tamagui/colors': 1.93.2
+      '@tamagui/font-inter': 1.93.2(react@18.2.0)
+      '@tamagui/font-silkscreen': 1.93.2(react@18.2.0)
+      '@tamagui/react-native-media-driver': 1.93.2(react-native@0.73.6)
+      '@tamagui/shorthands': 1.93.2
+      '@tamagui/themes': 1.93.2
+      '@tamagui/web': 1.93.2
     transitivePeerDependencies:
       - react
       - react-dom
@@ -7391,20 +7197,14 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@tamagui/create-theme@1.92.1:
-    resolution: {integrity: sha512-SC2Af5ZuI0BfQyYcjkihsvOH9+TqCUg4cny1qCvlH8BPzsAczzVQ5+JCPpVkGC958ZuGPWyO2zXbl79v12werg==}
-    dependencies:
-      '@tamagui/web': 1.92.1
-    dev: false
-
   /@tamagui/create-theme@1.93.2:
     resolution: {integrity: sha512-YvgYD+BbZTW4NYIRgn83Zb9zHHZmXPur7mlVuN+9Fcown1xwqqr/mu0lscCUwqsbuQ8834PXwDOokMrNIQ6GfA==}
     dependencies:
       '@tamagui/web': 1.93.2
     dev: false
 
-  /@tamagui/cubic-bezier-animator@1.92.1:
-    resolution: {integrity: sha512-WCmip6ub0z7+zaCi1SlFstRCOsD1EFfWV0ZFuLd6zSwcjvQY829Nr5Vsc2x9Ie2EJkmjvawTlM5psVu34YdONA==}
+  /@tamagui/cubic-bezier-animator@1.93.2:
+    resolution: {integrity: sha512-GuTKu+tFwGam9Zwk3W8T26moTXhjfZ3CQAFV/sd/QqcXTuQkiSkyeRSuxG9ggMCwddQ+lbrbm6DITNxS2hPy5Q==}
     dev: false
 
   /@tamagui/dialog@1.92.1(react-native@0.73.6)(react@18.2.0):
@@ -7502,18 +7302,18 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@tamagui/font-inter@1.92.1(react@18.2.0):
-    resolution: {integrity: sha512-jveiVvckxPe2GqNGEneBW3T+yHZNXYojYKH9BqPX/0PYjoOcNWG0r29AFmZ2rnMZ+iPZh9qzgn5JyJhd+evTWg==}
+  /@tamagui/font-inter@1.93.2(react@18.2.0):
+    resolution: {integrity: sha512-OuLwVgrI8QD6hOWObTUu0Jf6EgXM3cxjZFWUFLqzAgJ1g8fM8QZAnJsxBwQi5/35NayJkrEEeV+Mg+n1m4OhhQ==}
     dependencies:
-      '@tamagui/core': 1.92.1(react@18.2.0)
+      '@tamagui/core': 1.93.2(react@18.2.0)
     transitivePeerDependencies:
       - react
     dev: false
 
-  /@tamagui/font-silkscreen@1.92.1(react@18.2.0):
-    resolution: {integrity: sha512-VLwwN3hFxLZ6Jge+3kHsoPx1KTdnlBeVEzcPqt/nFXpPdztHzde4jFKE4CN/qcT/h8G68g2nfik0AbWDewGWjw==}
+  /@tamagui/font-silkscreen@1.93.2(react@18.2.0):
+    resolution: {integrity: sha512-IcQdcqoWhw70uAY/WGQtNgke93oj4QWwaq0V5fPQ6J74Qj5WX7vOhHXhgXi8rXrDqpJCHTCq068xag2PzDpQoQ==}
     dependencies:
-      '@tamagui/core': 1.92.1(react@18.2.0)
+      '@tamagui/core': 1.93.2(react@18.2.0)
     transitivePeerDependencies:
       - react
     dev: false
@@ -7854,6 +7654,15 @@ packages:
       react-native: 0.73.6(@babel/core@7.24.3)(@babel/preset-env@7.24.3)(react@18.2.0)
     dev: false
 
+  /@tamagui/react-native-media-driver@1.93.2(react-native@0.73.6):
+    resolution: {integrity: sha512-FD3H3/mtIF2GaYXn4e6X8HeoVX4or6ebbA7H8GT236fD6KZcxb4JQpR9iMtrlzEzozH7tpbKgNh4+CbZhxtLpA==}
+    peerDependencies:
+      react-native: '*'
+    dependencies:
+      '@tamagui/web': 1.93.2
+      react-native: 0.73.6(@babel/core@7.24.3)(@babel/preset-env@7.24.3)(react@18.2.0)
+    dev: false
+
   /@tamagui/react-native-use-pressable@1.92.1(react@18.2.0):
     resolution: {integrity: sha512-TyNa0LQDcLVsCwzni3MSA3gv2NVC7xuiksYTmMgu2MP23i73xvEFzNlM0/9BjTyc5fxsM1ai5UoqYCMMhSF2Yw==}
     peerDependencies:
@@ -8005,10 +7814,6 @@ packages:
       react-native: 0.73.6(@babel/core@7.24.3)(@babel/preset-env@7.24.3)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
-    dev: false
-
-  /@tamagui/shorthands@1.92.1:
-    resolution: {integrity: sha512-h2DvKjwsApaQtt6sihiG9dKtw5Btxdyp6ZySqv+Sz18p550jp/d0AgcBYfI/Q+3k7t715qEfjelhOYJRUjw4oA==}
     dev: false
 
   /@tamagui/shorthands@1.93.2:
@@ -8168,10 +7973,10 @@ packages:
       - react-native
     dev: false
 
-  /@tamagui/theme-builder@1.92.1:
-    resolution: {integrity: sha512-gtF+czg4NwpqvBaRYWWgGF3zMWgDZDwu3Tz/M8iWsH4YWM/TkJeCfAKiysBpkrFuCPfWRbs82/9ETC+VHN+Lvg==}
+  /@tamagui/theme-builder@1.93.2:
+    resolution: {integrity: sha512-piKfMLZyxmnVsjeZH7UswMkaOkfAnoB9jyQOTtH/F+iUxMPmKpUKbdfCcYCiScJEoKw5C4vcJbQ5kd+Jsl/iMA==}
     dependencies:
-      '@tamagui/create-theme': 1.92.1
+      '@tamagui/create-theme': 1.93.2
       color2k: 2.0.3
     dev: false
 
@@ -8185,13 +7990,13 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@tamagui/themes@1.92.1:
-    resolution: {integrity: sha512-CPOihtNuraK24wlF7BBODMdWGdXj+msMwxskhIqG70YSYXWQqTTIo5a3GksSoPlFJgT3DFOJD8SvCGR0OcWp/A==}
+  /@tamagui/themes@1.93.2:
+    resolution: {integrity: sha512-+Dewz0ZNek22+vF00ZYd7bEZ3jFPcq4xIskZlzAu2PMoCgftunDO/qZ8AoH8PWL/HZ4pmfr55NWGf7bv2B0y0A==}
     dependencies:
-      '@tamagui/colors': 1.92.1
-      '@tamagui/create-theme': 1.92.1
-      '@tamagui/theme-builder': 1.92.1
-      '@tamagui/web': 1.92.1
+      '@tamagui/colors': 1.93.2
+      '@tamagui/create-theme': 1.93.2
+      '@tamagui/theme-builder': 1.93.2
+      '@tamagui/web': 1.93.2
     dev: false
 
   /@tamagui/timer@1.92.1:
@@ -8372,6 +8177,15 @@ packages:
       react: '*'
     dependencies:
       '@tamagui/web': 1.92.1
+      react: 18.2.0
+    dev: false
+
+  /@tamagui/use-presence@1.93.2(react@18.2.0):
+    resolution: {integrity: sha512-+0juTZqTlqshzC/v2rFJX3LEsGQsdhE6C/uIfYEw6PkP0OULc+FjxjitG6Tp8ATLvc+L05nGbhkgkqfSJGZMGA==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      '@tamagui/web': 1.93.2
       react: 18.2.0
     dev: false
 
@@ -11343,37 +11157,6 @@ packages:
       '@esbuild/win32-arm64': 0.19.12
       '@esbuild/win32-ia32': 0.19.12
       '@esbuild/win32-x64': 0.19.12
-
-  /esbuild@0.20.1:
-    resolution: {integrity: sha512-OJwEgrpWm/PCMsLVWXKqvcjme3bHNpOgN7Tb6cQnR5n0TPbQx1/Xrn7rqM+wn17bYeT6MGB5sn1Bh5YiGi70nA==}
-    engines: {node: '>=12'}
-    hasBin: true
-    requiresBuild: true
-    optionalDependencies:
-      '@esbuild/aix-ppc64': 0.20.1
-      '@esbuild/android-arm': 0.20.1
-      '@esbuild/android-arm64': 0.20.1
-      '@esbuild/android-x64': 0.20.1
-      '@esbuild/darwin-arm64': 0.20.1
-      '@esbuild/darwin-x64': 0.20.1
-      '@esbuild/freebsd-arm64': 0.20.1
-      '@esbuild/freebsd-x64': 0.20.1
-      '@esbuild/linux-arm': 0.20.1
-      '@esbuild/linux-arm64': 0.20.1
-      '@esbuild/linux-ia32': 0.20.1
-      '@esbuild/linux-loong64': 0.20.1
-      '@esbuild/linux-mips64el': 0.20.1
-      '@esbuild/linux-ppc64': 0.20.1
-      '@esbuild/linux-riscv64': 0.20.1
-      '@esbuild/linux-s390x': 0.20.1
-      '@esbuild/linux-x64': 0.20.1
-      '@esbuild/netbsd-x64': 0.20.1
-      '@esbuild/openbsd-x64': 0.20.1
-      '@esbuild/sunos-x64': 0.20.1
-      '@esbuild/win32-arm64': 0.20.1
-      '@esbuild/win32-ia32': 0.20.1
-      '@esbuild/win32-x64': 0.20.1
-    dev: false
 
   /esbuild@0.20.2:
     resolution: {integrity: sha512-WdOOppmUNU+IbZ0PaDiTst80zjnrOkyJNHoKupIcVyU8Lvla3Ugx94VzkQ32Ijqd7UhHJy75gNWDMUekcrSJ6g==}
@@ -16868,7 +16651,7 @@ packages:
       - supports-color
     dev: false
 
-  /serverless-esbuild@1.52.1(esbuild@0.20.1):
+  /serverless-esbuild@1.52.1(esbuild@0.20.2):
     resolution: {integrity: sha512-sTEVoJMFO213SJyEEvW4yf3FbxRkn3jZgp/bA2zOguVXv2veNptVzo3Cmn7pZVIrjv8HKH6uEq/E65bJhOO5yA==}
     engines: {node: '>=14.18.0'}
     peerDependencies:
@@ -16884,7 +16667,7 @@ packages:
       archiver: 5.3.2
       bestzip: 2.2.1
       chokidar: 3.6.0
-      esbuild: 0.20.1
+      esbuild: 0.20.2
       execa: 5.1.1
       fp-ts: 2.16.2
       fs-extra: 11.2.0
