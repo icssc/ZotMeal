@@ -204,6 +204,9 @@ importers:
       '@zotmeal/db':
         specifier: workspace:^
         version: link:../db
+      '@zotmeal/drizzle-db':
+        specifier: workspace:^
+        version: link:../drizzle-db
       '@zotmeal/eslint-config':
         specifier: workspace:^
         version: link:../../tooling/eslint

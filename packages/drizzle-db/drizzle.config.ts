@@ -1,14 +1,11 @@
 import { resolve } from "path";
-import { URL } from "url";
+// import { URL } from "url";
 import type { Config } from "drizzle-kit";
-import { config } from "dotenv";
-
-config({ path: resolve(__dirname, "../../.env") });
 
 export default {
   driver: "pg",
   out: "./migrations",
-  schema: [resolve(__dirname, "./src/drizzle/schema.ts")],
+  schema: [resolve(__dirname, "./src/schema")],
   dbCredentials: {
     connectionString: process.env.DATABASE_URL ?? "",
   },

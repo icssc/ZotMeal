@@ -163,6 +163,7 @@ export async function parseCampusDish(
       stationId: StationId,
       name: Product.MarketingName,
       description: Product.ShortDescription,
+      category: Product.Categories?.[0]?.DisplayName ?? "Other", // category is other if not specified
       dietRestriction,
       nutritionInfo,
     };
