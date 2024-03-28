@@ -94,7 +94,7 @@ importers:
         version: 0.73.6(@babel/core@7.24.3)(@babel/preset-env@7.24.3)(react@18.2.0)
       react-native-css-interop:
         specifier: ~0.0.34
-        version: 0.0.34(@babel/core@7.24.3)(react-native-reanimated@3.8.1)(react-native-safe-area-context@4.9.0)(react-native-svg@15.1.0)(react-native@0.73.6)(react@18.2.0)(tailwindcss@3.4.2)
+        version: 0.0.34(@babel/core@7.24.3)(react-native-reanimated@3.8.1)(react-native-safe-area-context@4.9.0)(react-native-svg@15.1.0)(react-native@0.73.6)(react@18.2.0)(tailwindcss@3.4.3)
       react-native-gesture-handler:
         specifier: ~2.15.0
         version: 2.15.0(react-native@0.73.6)(react@18.2.0)
@@ -148,8 +148,8 @@ importers:
         specifier: ^3.2.5
         version: 3.2.5
       tailwindcss:
-        specifier: ^3.4.2
-        version: 3.4.2
+        specifier: ^3.4.3
+        version: 3.4.3
       typescript:
         specifier: ^5.4.3
         version: 5.4.3
@@ -352,7 +352,7 @@ importers:
         version: 2.2.2
       tailwindcss-animate:
         specifier: ^1.0.7
-        version: 1.0.7(tailwindcss@3.4.2)
+        version: 1.0.7(tailwindcss@3.4.3)
     devDependencies:
       '@types/react':
         specifier: ^18.2.73
@@ -382,8 +382,8 @@ importers:
         specifier: 18.2.0
         version: 18.2.0
       tailwindcss:
-        specifier: ^3.4.2
-        version: 3.4.2
+        specifier: ^3.4.3
+        version: 3.4.3
       typescript:
         specifier: ^5.4.3
         version: 5.4.3
@@ -529,11 +529,11 @@ importers:
         specifier: ^8.4.38
         version: 8.4.38
       tailwindcss:
-        specifier: ^3.4.2
-        version: 3.4.2
+        specifier: ^3.4.3
+        version: 3.4.3
       tailwindcss-animate:
         specifier: ^1.0.7
-        version: 1.0.7(tailwindcss@3.4.2)
+        version: 1.0.7(tailwindcss@3.4.3)
     devDependencies:
       '@zotmeal/eslint-config':
         specifier: workspace:^0.2.0
@@ -15880,7 +15880,7 @@ packages:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: false
 
-  /react-native-css-interop@0.0.34(@babel/core@7.24.3)(react-native-reanimated@3.8.1)(react-native-safe-area-context@4.9.0)(react-native-svg@15.1.0)(react-native@0.73.6)(react@18.2.0)(tailwindcss@3.4.2):
+  /react-native-css-interop@0.0.34(@babel/core@7.24.3)(react-native-reanimated@3.8.1)(react-native-safe-area-context@4.9.0)(react-native-svg@15.1.0)(react-native@0.73.6)(react@18.2.0)(tailwindcss@3.4.3):
     resolution: {integrity: sha512-gz9b0RAyqy5Q/ogPQie8zkWHI+UFhn8JOPELUAV4k2XNkuXzfPRWDMSjQww51ozh7qx7oBKSYDnaCB/D6XgJ1Q==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -15906,7 +15906,7 @@ packages:
       react-native-reanimated: 3.8.1(@babel/core@7.24.3)(react-native@0.73.6)(react@18.2.0)
       react-native-safe-area-context: 4.9.0(react-native@0.73.6)(react@18.2.0)
       react-native-svg: 15.1.0(react-native@0.73.6)(react@18.2.0)
-      tailwindcss: 3.4.2
+      tailwindcss: 3.4.3
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
@@ -17433,16 +17433,16 @@ packages:
       '@babel/runtime': 7.24.1
     dev: false
 
-  /tailwindcss-animate@1.0.7(tailwindcss@3.4.2):
+  /tailwindcss-animate@1.0.7(tailwindcss@3.4.3):
     resolution: {integrity: sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders'
     dependencies:
-      tailwindcss: 3.4.2
+      tailwindcss: 3.4.3
     dev: false
 
-  /tailwindcss@3.4.2:
-    resolution: {integrity: sha512-1kIzVecynNKMhhX8mPTOwTkkVHupUTMbEvk4n1ByxdM8sQTJ8fE41Y4TdORG6GmiVXHhfZ/++0hiIFJFwfadsA==}
+  /tailwindcss@3.4.3:
+    resolution: {integrity: sha512-U7sxQk/n397Bmx4JHbJx/iSOOv5G+II3f1kpLpY2QeUv5DcPdcTsYLlusZfq1NthHS1c1cZoyFmmkex1rzke0A==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
