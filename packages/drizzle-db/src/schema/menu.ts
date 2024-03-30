@@ -4,13 +4,16 @@ import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { menuPeriod } from "./menuPeriod";
 import { restaurant } from "./restaurant";
 import { station } from "./station";
+import { createInsertSchema } from "drizzle-zod";
 
 export const menu = pgTable("Menu", {
   id: text("id").primaryKey().notNull(),
   createdAt: timestamp("createdAt", { precision: 3, mode: "string" })
     .defaultNow()
     .notNull(),
-  updatedAt: timestamp("updatedAt", { precision: 3, mode: "string" }).notNull(),
+  updatedAt: timestamp("updatedAt", { precision: 3, mode: "string" })
+    .defaultNow()
+    .notNull(),
   periodId: text("periodId")
     .notNull()
     .references(() => menuPeriod.id, {
@@ -40,3 +43,6 @@ export const menuRelations = relations(menu, ({ one, many }) => ({
     references: [restaurant.id],
   }),
 }));
+
+export const MenuSchema = createInsertSchema(menu);
+export type Menu = typeof menu.$inferInsert;

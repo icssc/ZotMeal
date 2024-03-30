@@ -10,7 +10,9 @@ export const station = pgTable("Station", {
   createdAt: timestamp("createdAt", { precision: 3, mode: "string" })
     .defaultNow()
     .notNull(),
-  updatedAt: timestamp("updatedAt", { precision: 3, mode: "string" }).notNull(),
+  updatedAt: timestamp("updatedAt", { precision: 3, mode: "string" })
+    .defaultNow()
+    .notNull(),
   name: text("name").notNull(),
   restaurantId: text("restaurantId")
     .notNull()
@@ -40,3 +42,5 @@ export const stationRelations = relations(station, ({ one, many }) => ({
     references: [restaurant.id],
   }),
 }));
+
+export type Station = typeof station.$inferInsert;

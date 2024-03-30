@@ -1,8 +1,8 @@
+import type { Event } from "@zotmeal/drizzle-db/src/schema";
+import { EventSchema } from "@zotmeal/drizzle-db/src/schema";
 import axios from "axios";
 import * as cheerio from "cheerio";
 
-import type { EventParams } from "../models";
-import { EventSchema } from "../models";
 
 export async function getHTML(url: string): Promise<string | undefined> {
   try {
@@ -19,11 +19,11 @@ export async function getHTML(url: string): Promise<string | undefined> {
 }
 
 export async function scrapeEvents(html: string):
-  Promise<EventParams[] | null> {
+  Promise<Event[] | null> {
   try {
     const $ = cheerio.load(html);
 
-    const events: EventParams[] = [];
+    const events: Event[] = [];
 
     // iterate through each event item and extract data
     for (const el of $("li")) {
@@ -81,9 +81,9 @@ export async function scrapeEvents(html: string):
         date,
       };
 
-      const validated = EventSchema.parse(event);
+      const validEvent = EventSchema.parse(event);
 
-      events.push(validated);
+      events.push(validEvent);
     }
 
     return events;

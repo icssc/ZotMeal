@@ -1,3 +1,4 @@
+import type { Drizzle } from "@zotmeal/drizzle-db";
 import type {
   ExpoPushErrorReceipt,
   ExpoPushMessage,
@@ -6,8 +7,6 @@ import type {
   ExpoPushToken,
 } from "expo-server-sdk";
 import { Expo } from "expo-server-sdk";
-
-import type { PrismaClient } from "@zotmeal/db";
 
 // Send Notification to all users which set up a notification id
 export interface Notification {
@@ -18,9 +17,9 @@ export interface Notification {
 }
 
 export async function getPushTokens(
-  db: PrismaClient,
+  db: Drizzle,
 ): Promise<ExpoPushToken[] | null> {
-  const pushTokens = await db.pushToken.findMany();
+  const pushTokens = await db.query.pushToken.findMany();
   if (!pushTokens) {
     return null;
   }
@@ -30,7 +29,7 @@ export async function getPushTokens(
 }
 
 export async function broadcastNotification(
-  db: PrismaClient,
+  db: Drizzle,
   expo: Expo,
   notification: Notification,
 ): Promise<ExpoPushTicket[] | null> {

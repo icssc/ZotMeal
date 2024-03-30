@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@trpc/server": "11.0.0-next-beta.308",
-    "@zotmeal/db": "workspace:^",
     "@zotmeal/drizzle-db": "workspace:^",
     "@zotmeal/eslint-config": "workspace:^",
     "@zotmeal/prettier-config": "workspace:^",

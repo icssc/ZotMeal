@@ -1,5 +1,5 @@
 {
-  "id": "066d5164-2d7c-4497-a06e-524369a15047",
+  "id": "a7dceaad-ab6e-4455-a13b-ccb790ae4247",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -25,7 +25,14 @@
           "name": "updatedAt",
           "type": "timestamp(3)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
+        },
+        "containsEggs": {
+          "name": "containsEggs",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
         },
         "containsFish": {
           "name": "containsFish",
@@ -158,7 +165,8 @@
           "name": "updatedAt",
           "type": "timestamp(3)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "name": {
           "name": "name",
@@ -288,7 +296,8 @@
           "name": "updatedAt",
           "type": "timestamp(3)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "periodId": {
           "name": "periodId",
@@ -341,6 +350,48 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
+    "MenuPeriod": {
+      "name": "MenuPeriod",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "MenuPeriodName",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "start": {
+          "name": "start",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "end": {
+          "name": "end",
+          "type": "timestamp(3)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "MenuPeriod_name_key": {
+          "name": "MenuPeriod_name_key",
+          "columns": [
+            "name"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "Restaurant": {
       "name": "Restaurant",
       "schema": "",
@@ -362,7 +413,8 @@
           "name": "updatedAt",
           "type": "timestamp(3)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "name": {
           "name": "name",
@@ -382,7 +434,15 @@
       },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "Restaurant_name_unique": {
+          "name": "Restaurant_name_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "name"
+          ]
+        }
+      }
     },
     "Station": {
       "name": "Station",
@@ -405,7 +465,8 @@
           "name": "updatedAt",
           "type": "timestamp(3)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "name": {
           "name": "name",
@@ -474,48 +535,6 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "MenuPeriod": {
-      "name": "MenuPeriod",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "MenuPeriodName",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "start": {
-          "name": "start",
-          "type": "timestamp(3)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "end": {
-          "name": "end",
-          "type": "timestamp(3)",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {
-        "MenuPeriod_name_key": {
-          "name": "MenuPeriod_name_key",
-          "columns": [
-            "name"
-          ],
-          "isUnique": true
-        }
-      },
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
     "NutritionInfo": {
       "name": "NutritionInfo",
       "schema": "",
@@ -537,7 +556,8 @@
           "name": "updatedAt",
           "type": "timestamp(3)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "servingSize": {
           "name": "servingSize",
@@ -663,13 +683,6 @@
     }
   },
   "enums": {
-    "RestaurantName": {
-      "name": "RestaurantName",
-      "values": {
-        "anteatery": "anteatery",
-        "brandywine": "brandywine"
-      }
-    },
     "MenuPeriodName": {
       "name": "MenuPeriodName",
       "values": {
@@ -678,6 +691,13 @@
         "lunch": "lunch",
         "brunch": "brunch",
         "breakfast": "breakfast"
+      }
+    },
+    "RestaurantName": {
+      "name": "RestaurantName",
+      "values": {
+        "anteatery": "anteatery",
+        "brandywine": "brandywine"
       }
     }
   },

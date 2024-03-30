@@ -1,5 +1,6 @@
 import { date, pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
-import { restaurantName } from "../drizzle/schema";
+import { restaurantName } from "./restaurant";
+import { createInsertSchema } from "drizzle-zod";
 
 export const event = pgTable(
   "Event",
@@ -12,10 +13,9 @@ export const event = pgTable(
     createdAt: timestamp("createdAt", { precision: 3, mode: "string" })
       .defaultNow()
       .notNull(),
-    updatedAt: timestamp("updatedAt", {
-      precision: 3,
-      mode: "string",
-    }).defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt", { precision: 3, mode: "string", })
+      .defaultNow()
+      .notNull(),
   },
   (table) => {
     return {
@@ -26,3 +26,6 @@ export const event = pgTable(
     };
   },
 );
+
+export type Event = typeof event.$inferInsert;
+export const EventSchema = createInsertSchema(event);

@@ -10,7 +10,10 @@ export const dietRestriction = pgTable("DietRestriction", {
   createdAt: timestamp("createdAt", { precision: 3, mode: "string" })
     .defaultNow()
     .notNull(),
-  updatedAt: timestamp("updatedAt", { precision: 3, mode: "string" }).notNull(),
+  updatedAt: timestamp("updatedAt", { precision: 3, mode: "string" })
+    .defaultNow()
+    .notNull(),
+  containsEggs: boolean("containsEggs"),
   containsFish: boolean("containsFish"),
   containsMilk: boolean("containsMilk"),
   containsPeanuts: boolean("containsPeanuts"),
@@ -27,3 +30,5 @@ export const dietRestriction = pgTable("DietRestriction", {
   isVegan: boolean("isVegan"),
   isVegetarian: boolean("isVegetarian"),
 });
+
+export type DietRestriction = typeof dietRestriction.$inferInsert;
