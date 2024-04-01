@@ -7,7 +7,7 @@
     "build": "echo 'Add build script here'",
     "with-env": "dotenv -e ../../.env --",
     "test": "pnpm with-env vitest run --config vitest.config.ts",
-    "lint": "echo 'Add lint script here'"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@trpc/server": "11.0.0-next-beta.308",
