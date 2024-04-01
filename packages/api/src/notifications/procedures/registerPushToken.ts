@@ -1,5 +1,5 @@
 import { TRPCError } from "@trpc/server";
-import { PushTokenSchema, pushToken } from "@zotmeal/drizzle-db/src/schema";
+import { PushTokenSchema, pushToken } from "@zotmeal/db/src/schema";
 import { Expo } from "expo-server-sdk";
 import { publicProcedure } from "../../trpc";
 

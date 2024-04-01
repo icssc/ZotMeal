@@ -30,7 +30,6 @@
   "prettier": "@zotmeal/prettier-config",
   "dependencies": {
     "@zotmeal/db": "workspace:^",
-    "@zotmeal/drizzle-db": "workspace:^",
     "vitest": "^1.3.1"
   }
 }

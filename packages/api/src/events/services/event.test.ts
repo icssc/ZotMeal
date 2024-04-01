@@ -1,6 +1,4 @@
-import { afterAll, describe, expect, it } from "vitest";
-
-// import { PrismaClient } from "@zotmeal/db";
+import { describe, expect, it } from "vitest";
 
 // // import { createEvents, scrapeEvents } from "../services";
 

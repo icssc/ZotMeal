@@ -1,6 +1,6 @@
-import { dish, dietRestriction, nutritionInfo } from "@zotmeal/drizzle-db/src/schema";
-import type { DishWithRelations } from "@zotmeal/drizzle-db/src/schema";
-import type { Drizzle } from "@zotmeal/drizzle-db";
+import { dish, dietRestriction, nutritionInfo } from "@zotmeal/db/src/schema";
+import type { DishWithRelations } from "@zotmeal/db/src/schema";
+import type { Drizzle } from "@zotmeal/db";
 
 export async function upsertDish(
   db: Drizzle,

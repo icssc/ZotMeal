@@ -15,7 +15,7 @@ import { initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-import { db } from "@zotmeal/drizzle-db";
+import { db } from "@zotmeal/db";
 
 /**
  * 1. CONTEXT

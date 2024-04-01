@@ -2,12 +2,12 @@ import { afterAll, describe, expect, it } from "vitest";
 
 import { CampusDishResponseSchema } from "@zotmeal/validators";
 
-import type { Menu } from "@zotmeal/drizzle-db/src/schema";
+import type { Menu } from "@zotmeal/db/src/schema";
 import campus_dish_response from "./campus_dish_response.json";
 import { upsertMenu } from "./menu";
 
 // import { parseCampusDish } from './parse';
-import { db } from "@zotmeal/drizzle-db";
+import { db } from "@zotmeal/db";
 import { upsertPeriod, upsertRestaurant } from "../..";
 
 describe("parse campus dish", () => {

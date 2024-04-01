@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
-import type { Drizzle } from "@zotmeal/drizzle-db";
-import type { Menu, MenuPeriod, Restaurant } from "@zotmeal/drizzle-db/src/schema";
-import { MenuPeriodSchema, RestaurantSchema, menu } from "@zotmeal/drizzle-db/src/schema";
+import type { Drizzle } from "@zotmeal/db";
+import type { Menu, MenuPeriod, Restaurant } from "@zotmeal/db/src/schema";
+import { MenuPeriodSchema, RestaurantSchema, menu } from "@zotmeal/db/src/schema";
 import { parseDate } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
 import { z } from "zod";

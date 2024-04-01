@@ -1,6 +1,6 @@
-import type { Drizzle } from "@zotmeal/drizzle-db";
-import type { DietRestriction, DishWithRelations, Menu, MenuPeriod, NutritionInfo, Restaurant, Station } from "@zotmeal/drizzle-db/src/schema";
-import { MenuPeriodSchema, MenuSchema } from "@zotmeal/drizzle-db/src/schema";
+import type { Drizzle } from "@zotmeal/db";
+import type { DietRestriction, DishWithRelations, Menu, MenuPeriod, NutritionInfo, Restaurant, Station } from "@zotmeal/db/src/schema";
+import { MenuPeriodSchema, MenuSchema } from "@zotmeal/db/src/schema";
 import {
   getPeriodId,
   getRestaurantId,

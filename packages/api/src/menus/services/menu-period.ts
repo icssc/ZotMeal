@@ -1,6 +1,6 @@
-import type { Drizzle } from "@zotmeal/drizzle-db";
-import { menuPeriod } from "@zotmeal/drizzle-db/src/schema";
-import type { MenuPeriod } from "@zotmeal/drizzle-db/src/schema";
+import type { Drizzle } from "@zotmeal/db";
+import { menuPeriod } from "@zotmeal/db/src/schema";
+import type { MenuPeriod } from "@zotmeal/db/src/schema";
 
 export async function upsertPeriod(
   db: Drizzle,

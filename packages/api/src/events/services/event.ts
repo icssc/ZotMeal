@@ -1,6 +1,6 @@
 
-import type { Drizzle } from "@zotmeal/drizzle-db";
-import { event } from "@zotmeal/drizzle-db/src/schema";
+import type { Drizzle } from "@zotmeal/db";
+import { event } from "@zotmeal/db/src/schema";
 
 type Event = typeof event.$inferInsert;
 

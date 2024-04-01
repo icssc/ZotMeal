@@ -1,5 +1,5 @@
-import { station } from "@zotmeal/drizzle-db/src/schema";
-import type { Drizzle } from "@zotmeal/drizzle-db";
+import { station } from "@zotmeal/db/src/schema";
+import type { Drizzle } from "@zotmeal/db";
 
 type Station = typeof station.$inferInsert;
 

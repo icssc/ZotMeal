@@ -1,4 +1,4 @@
-import type { MenuPeriod, Restaurant } from "@zotmeal/drizzle-db/src/schema";
+import type { MenuPeriod, Restaurant } from "@zotmeal/db/src/schema";
 
 // id mappings (period, restaurant)
 // restaurant names

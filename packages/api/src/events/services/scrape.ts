@@ -1,5 +1,5 @@
-import type { Event } from "@zotmeal/drizzle-db/src/schema";
-import { EventSchema } from "@zotmeal/drizzle-db/src/schema";
+import type { Event } from "@zotmeal/db/src/schema";
+import { EventSchema } from "@zotmeal/db/src/schema";
 import axios from "axios";
 import * as cheerio from "cheerio";
 

@@ -2,7 +2,7 @@
 // import path from "path";
 import { afterAll, describe, expect, it } from "vitest";
 import { upsertEvents, getHTML, scrapeEvents } from "../services";
-import { db } from "@zotmeal/drizzle-db";
+import { db } from "@zotmeal/db";
 
 describe("insert menu into db", () => {
   // refactor this to only test the insertion
@@ -16,7 +16,7 @@ describe("insert menu into db", () => {
     // const filepath = path.join(__dirname, "../testdata/events.html");
     const html = await getHTML("https://uci.campusdish.com/api/events");
     expect(html).toBeTruthy();
-    const events = await scrapeEvents(html);
+    const events = await scrapeEvents(html!);
     console.log("events:", events);
     expect(events).toBeTruthy();
 

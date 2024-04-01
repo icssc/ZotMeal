@@ -28,12 +28,11 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@zotmeal/db": "workspace:^0.1.0",
+    "@types/react": "^18.2.63",
     "@zotmeal/eslint-config": "workspace:^0.2.0",
     "@zotmeal/prettier-config": "workspace:^0.1.0",
     "@zotmeal/tailwind-config": "workspace:^0.1.0",
     "@zotmeal/tsconfig": "workspace:^0.1.0",
-    "@types/react": "^18.2.63",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
     "react": "18.2.0",

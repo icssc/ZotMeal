@@ -1,4 +1,4 @@
-import type { Drizzle } from "@zotmeal/drizzle-db";
+import type { Drizzle } from "@zotmeal/db";
 import type {
   ExpoPushErrorReceipt,
   ExpoPushMessage,
