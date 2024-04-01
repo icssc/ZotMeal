@@ -13,9 +13,10 @@
     "lint": "echo 'Add lint script here'",
     "db:generate": "drizzle-kit generate:pg --schema=./src/schema --out=./migrations",
     "db:push": "pnpm with-env drizzle-kit push:pg",
-    "db:migrate": "tsx ./src/drizzle/migrate.ts",
+    "db:migrate": "pnpm with-env tsx ./src/migrate.ts",
     "db:studio": "pnpm with-env drizzle-kit studio --port 3000 --verbose",
     "db:drop": "pnpm with-env drizzle-kit drop",
+    "db:check": "pnpm with-env drizzle-kit check:pg",
     "with-env": "dotenv -e ../../.env --"
   },
   "devDependencies": {

@@ -1,11 +1,14 @@
 import { drizzle } from "drizzle-orm/node-postgres";
-import { Client } from "pg";
-
+import pg from "pg";
 import { schema } from "./schema";
 
-export const client = new Client({
-  connectionString: process.env.DATABASE_URL!,
-});
+const connectionString = process.env.DATABASE_URL;
+
+if (!connectionString) {
+  throw new Error("DATABASE_URL is not set");
+}
+
+export const client = new pg.Client({ connectionString });
 
 await client.connect();
 

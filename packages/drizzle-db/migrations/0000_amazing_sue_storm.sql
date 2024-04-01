@@ -69,27 +69,6 @@ CREATE TABLE IF NOT EXISTS "MenuPeriod" (
 	"end" timestamp(3) NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "Restaurant" (
-	"id" text PRIMARY KEY NOT NULL,
-	"createdAt" timestamp(3) DEFAULT now() NOT NULL,
-	"updatedAt" timestamp(3) DEFAULT now() NOT NULL,
-	"name" "RestaurantName" NOT NULL,
-	CONSTRAINT "Restaurant_name_unique" UNIQUE("name")
-);
---> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "Station" (
-	"id" text PRIMARY KEY NOT NULL,
-	"createdAt" timestamp(3) DEFAULT now() NOT NULL,
-	"updatedAt" timestamp(3) DEFAULT now() NOT NULL,
-	"name" text NOT NULL,
-	"restaurantId" text NOT NULL,
-	"menuId" text NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "PushToken" (
-	"token" text PRIMARY KEY NOT NULL
-);
---> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "NutritionInfo" (
 	"dishId" text PRIMARY KEY NOT NULL,
 	"createdAt" timestamp(3) DEFAULT now() NOT NULL,
@@ -111,6 +90,27 @@ CREATE TABLE IF NOT EXISTS "NutritionInfo" (
 	"calcium" text,
 	"iron" text,
 	"saturatedFat" text
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "PushToken" (
+	"token" text PRIMARY KEY NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "Restaurant" (
+	"id" text PRIMARY KEY NOT NULL,
+	"createdAt" timestamp(3) DEFAULT now() NOT NULL,
+	"updatedAt" timestamp(3) DEFAULT now() NOT NULL,
+	"name" "RestaurantName" NOT NULL,
+	CONSTRAINT "Restaurant_name_unique" UNIQUE("name")
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "Station" (
+	"id" text PRIMARY KEY NOT NULL,
+	"createdAt" timestamp(3) DEFAULT now() NOT NULL,
+	"updatedAt" timestamp(3) DEFAULT now() NOT NULL,
+	"name" text NOT NULL,
+	"restaurantId" text NOT NULL,
+	"menuId" text NOT NULL
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX IF NOT EXISTS "MenuPeriod_name_key" ON "MenuPeriod" ("name");--> statement-breakpoint
@@ -140,6 +140,12 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
+ ALTER TABLE "NutritionInfo" ADD CONSTRAINT "NutritionInfo_dishId_Dish_id_fk" FOREIGN KEY ("dishId") REFERENCES "Dish"("id") ON DELETE restrict ON UPDATE cascade;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
  ALTER TABLE "Station" ADD CONSTRAINT "Station_restaurantId_Restaurant_id_fk" FOREIGN KEY ("restaurantId") REFERENCES "Restaurant"("id") ON DELETE restrict ON UPDATE cascade;
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -147,12 +153,6 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "Station" ADD CONSTRAINT "Station_menuId_Menu_id_fk" FOREIGN KEY ("menuId") REFERENCES "Menu"("id") ON DELETE restrict ON UPDATE cascade;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "NutritionInfo" ADD CONSTRAINT "NutritionInfo_dishId_Dish_id_fk" FOREIGN KEY ("dishId") REFERENCES "Dish"("id") ON DELETE restrict ON UPDATE cascade;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
