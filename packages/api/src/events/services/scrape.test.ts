@@ -1,5 +1,5 @@
-import fs from "fs";
-import path from "path";
+// import fs from "fs";
+// import path from "path";
 import { afterAll, describe, expect, it } from "vitest";
 import { upsertEvents, getHTML, scrapeEvents } from "../services";
 import { db } from "@zotmeal/drizzle-db";
@@ -22,7 +22,7 @@ describe("insert menu into db", () => {
     console.log("events:", events);
     expect(events).not.toBe(null);
 
-    // batch upsert and rollback
+    // batch upsert and rollback. should pass if 'Rollback' is the thrown error
     await expect(async () => {
       await db.transaction(async (trx) => {
         const upsertedEvents = await upsertEvents(trx, events!);
@@ -41,7 +41,7 @@ describe("insert menu into db", () => {
   //   // add an integration test, ideally using testcontainers
   // });
 
-  // afterAll(async () => {
-  //   await db.$disconnect();
-  // });
+  afterAll(async () => {
+    // await db.$disconnect();
+  });
 });
