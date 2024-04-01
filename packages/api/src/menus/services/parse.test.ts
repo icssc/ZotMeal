@@ -60,23 +60,14 @@ describe("upsertMenu()", () => {
       end: "2024-01-17 16:15:00Z",
     });
 
-    expect(testRestaurant).not.toBe(null);
-    expect(testPeriod).not.toBe(null);
+    expect(testRestaurant).toBeTruthy();
+    expect(testPeriod).toBeTruthy();
 
     for (const testMenu of testMenus) {
       await expect(async () => {
         await db.transaction(async (trx) => {
-
-          if (!testRestaurant) {
-            throw new Error("testRestaurant is null");
-          }
-
-          if (!testPeriod) {
-            throw new Error("testPeriod is null");
-          }
-
           const menu = await upsertMenu(trx, testMenu);
-          expect(menu).not.toBe(null);
+          expect(menu).toBeTruthy();
           console.log("upsertedMenu:", menu);
 
           trx.rollback();
@@ -118,16 +109,16 @@ describe("upsertMenu()", () => {
       end: "2024-01-17 16:15:00Z",
     });
 
-    expect(testRestaurant).not.toBe(null);
-    expect(testPeriod).not.toBe(null);
-    expect(testPeriod2).not.toBe(null);
+    expect(testRestaurant).toBeTruthy();
+    expect(testPeriod).toBeTruthy();
+    expect(testPeriod2).toBeTruthy();
 
     // upsert dummy restaurant & period & menu. then rollback. should pass if 'Rollback' is the thrown error for each test
     for (const testMenu of testMenus) {
       await expect(async () => {
         await db.transaction(async (trx) => {
           const menu = await upsertMenu(trx, testMenu);
-          expect(menu).not.toBe(null);
+          expect(menu).toBeTruthy();
           console.log("upsertedMenu:", menu);
 
           trx.rollback();

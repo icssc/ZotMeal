@@ -61,7 +61,7 @@ export async function parseCampusDish(
   db: Drizzle,
   response: CampusDishResponse,
 ): Promise<void> {
-  if (getRestaurantNameById(response.LocationId) === null) {
+  if (!getRestaurantNameById(response.LocationId)) {
     throw Error("restaurant id not found");
   }
   const restaurant: Restaurant = {

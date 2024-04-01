@@ -34,7 +34,7 @@ export async function broadcastNotification(
   notification: Notification,
 ): Promise<ExpoPushTicket[] | null> {
   const pushTokens = await getPushTokens(db);
-  if (pushTokens === null) {
+  if (!pushTokens) {
     return null;
   }
   const messages: ExpoPushMessage[] = [];

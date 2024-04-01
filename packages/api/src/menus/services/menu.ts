@@ -1,8 +1,10 @@
 import { TRPCError } from "@trpc/server";
 import type { Drizzle } from "@zotmeal/drizzle-db";
 import type { Menu, MenuPeriod, Restaurant } from "@zotmeal/drizzle-db/src/schema";
-import { menu } from "@zotmeal/drizzle-db/src/schema";
+import { MenuPeriodSchema, RestaurantSchema, menu } from "@zotmeal/drizzle-db/src/schema";
 import { parseDate } from "@zotmeal/utils";
+import { DateRegex } from "@zotmeal/validators";
+import { z } from "zod";
 
 export interface GetMenuParams {
   date: string;
@@ -10,12 +12,18 @@ export interface GetMenuParams {
   restaurantName: Restaurant["name"];
 }
 
+export const GetMenuSchema = z.object({
+  date: DateRegex,
+  periodName: MenuPeriodSchema.shape.name,
+  restaurantName: RestaurantSchema.shape.name,
+}) satisfies z.ZodType<GetMenuParams>;
+
 export async function getMenu(
   db: Drizzle,
   params: GetMenuParams,
 ): Promise<Menu | undefined> {
   const date = parseDate(params.date);
-  if (date === null) {
+  if (!date) {
     throw new TRPCError({
       code: "BAD_REQUEST",
       message: "invalid date format",
@@ -34,7 +42,7 @@ export async function getMenu(
     where: (menuPeriod, { eq }) => eq(menuPeriod.name, params.periodName),
   });
 
-  if (menuPeriod === null) {
+  if (!menuPeriod) {
     throw new TRPCError({ message: "period not found", code: "NOT_FOUND" });
   }
 
