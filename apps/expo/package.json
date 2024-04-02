@@ -43,7 +43,7 @@
     "react-native-screens": "~3.30.1",
     "react-native-svg": "^15.1.0",
     "superjson": "2.2.1",
-    "tamagui": "^1.94.0"
+    "tamagui": "^1.94.1"
   },
   "devDependencies": {
     "@zotmeal/ui": "workspace:^",
