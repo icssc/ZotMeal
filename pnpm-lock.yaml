@@ -281,8 +281,8 @@ importers:
         specifier: ^0.9.0
         version: 0.9.0
       drizzle-orm:
-        specifier: ^0.30.6
-        version: 0.30.6(@neondatabase/serverless@0.9.0)(@types/pg@8.11.4)(pg@8.11.5)
+        specifier: ^0.30.7
+        version: 0.30.7(@neondatabase/serverless@0.9.0)(@types/pg@8.11.4)(pg@8.11.5)
       pg:
         specifier: ^8.11.5
         version: 8.11.5
@@ -10783,8 +10783,8 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.30.6(@neondatabase/serverless@0.9.0)(@types/pg@8.11.4)(pg@8.11.5):
-    resolution: {integrity: sha512-8RgNUmY7J03GRuRgBV5SaJNbYgLVPjdSWNS/bRkIMIHt2TFCA439lJsNpqYX8asyKMqkw8ceBiamUnCIXZIt9w==}
+  /drizzle-orm@0.30.7(@neondatabase/serverless@0.9.0)(@types/pg@8.11.4)(pg@8.11.5):
+    resolution: {integrity: sha512-9qefSZQlu2fO2qv24piHyWFWcxcOY15//0v4j8qomMqaxzipNoG+fUBrQ7Ftk7PY7APRbRdn/nkEXWxiI4a8mw==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=3'
@@ -10798,7 +10798,7 @@ packages:
       '@types/pg': '*'
       '@types/react': '>=18'
       '@types/sql.js': '*'
-      '@vercel/postgres': '*'
+      '@vercel/postgres': '>=0.8.0'
       '@xata.io/client': '*'
       better-sqlite3: '>=7'
       bun-types: '*'
