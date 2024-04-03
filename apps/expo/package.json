@@ -18,9 +18,9 @@
     "@expo/metro-config": "^0.17.5",
     "@react-navigation/drawer": "^6.6.11",
     "@shopify/flash-list": "1.6.3",
-    "@tamagui/babel-plugin": "^1.91.1",
-    "@tamagui/config": "^1.91.1",
-    "@tamagui/lucide-icons": "^1.91.1",
+    "@tamagui/babel-plugin": "^1.91.3",
+    "@tamagui/config": "^1.91.3",
+    "@tamagui/lucide-icons": "^1.91.3",
     "@tanstack/react-query": "^5.25.0",
     "@trpc/client": "11.0.0-next-beta.308",
     "@trpc/react-query": "11.0.0-next-beta.308",
@@ -42,7 +42,7 @@
     "react-native-screens": "~3.29.0",
     "react-native-svg": "^15.1.0",
     "superjson": "2.2.1",
-    "tamagui": "^1.90.16"
+    "tamagui": "^1.91.3"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
