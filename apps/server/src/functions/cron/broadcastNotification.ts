@@ -1,14 +1,14 @@
-import { Expo } from "expo-server-sdk";
+import type { Notification } from "@zotmeal/api";
+import { broadcastNotification } from "@zotmeal/api";
+import { db } from "@zotmeal/db";
+import { EventSchema } from "@zotmeal/db/src/schema";
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
-
-import { broadcastNotification, EventSchema, Notification } from "@zotmeal/api";
-import { PrismaClient } from "@zotmeal/db";
+import { Expo } from "expo-server-sdk";
 
 export const main: APIGatewayProxyHandlerV2 = (evt, context) => {
   const event = EventSchema.parse(evt.body);
   console.log("Broadcasting event notification");
 
-  const db = new PrismaClient();
   const expo = new Expo({
     accessToken: process.env.EXPO_ACCESS_TOKEN,
   });

@@ -1,8 +1,6 @@
 import { TRPCError } from "@trpc/server";
-
 import { publicProcedure } from "../../trpc";
-import { GetMenuSchema } from "../models/menu";
-import { getMenu } from "../services";
+import { GetMenuSchema, getMenu } from "../services";
 
 export const getMenuProcedure = publicProcedure
   .input(GetMenuSchema)
@@ -11,7 +9,7 @@ export const getMenuProcedure = publicProcedure
 
     const menu = await getMenu(db, input);
 
-    if (menu === null) {
+    if (!menu) {
       throw new TRPCError({
         code: "NOT_FOUND",
         message: "menu not found",

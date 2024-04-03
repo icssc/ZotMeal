@@ -1,99 +1,99 @@
 import { TRPCError } from "@trpc/server";
-
-import type { Prisma, PrismaClient } from "@zotmeal/db";
+import type { Drizzle } from "@zotmeal/db";
+import type { Menu, MenuPeriod, Restaurant } from "@zotmeal/db/src/schema";
+import { MenuPeriodSchema, RestaurantSchema, menu } from "@zotmeal/db/src/schema";
 import { parseDate } from "@zotmeal/utils";
+import { DateRegex } from "@zotmeal/validators";
+import { z } from "zod";
 
-import type { GetMenuParams, MenuParams } from "../models/menu";
+export interface GetMenuParams {
+  date: string;
+  periodName: MenuPeriod["name"];
+  restaurantName: Restaurant["name"];
+}
+
+export const GetMenuSchema = z.object({
+  date: DateRegex,
+  periodName: MenuPeriodSchema.shape.name,
+  restaurantName: RestaurantSchema.shape.name,
+}) satisfies z.ZodType<GetMenuParams>;
 
 export async function getMenu(
-  db: PrismaClient | Prisma.TransactionClient,
+  db: Drizzle,
   params: GetMenuParams,
-) {
-  const {
-    date: dateString,
-    period: periodName,
-    restaurant: restaurantName,
-  } = params;
-
-  const date = parseDate(dateString);
-  if (date === null) {
+): Promise<Menu | undefined> {
+  const date = parseDate(params.date);
+  if (!date) {
     throw new TRPCError({
       code: "BAD_REQUEST",
       message: "invalid date format",
     });
   }
 
-  const restaurant = await db.restaurant.findFirst({
-    where: {
-      name: restaurantName,
-    },
-    include: {
-      stations: false,
-      menu: false,
-    },
+  const fetchedRestaurant = await db.query.restaurant.findFirst({
+    where: (restaurant, { eq }) => eq(restaurant.name, params.restaurantName),
   });
 
-  if (restaurant === null) {
+  if (!fetchedRestaurant) {
     throw new TRPCError({ message: "restaurant not found", code: "NOT_FOUND" });
   }
 
-  const period = await db.menuPeriod.findUnique({
-    where: { name: periodName },
+  const menuPeriod = await db.query.menuPeriod.findFirst({
+    where: (menuPeriod, { eq }) => eq(menuPeriod.name, params.periodName),
   });
-  if (period === null) {
+
+  if (!menuPeriod) {
     throw new TRPCError({ message: "period not found", code: "NOT_FOUND" });
   }
 
-  const menu = db.menu.findFirst({
-    where: {
-      restaurantId: restaurant.id,
-      date,
-      periodId: period.id,
-    },
-    include: {
-      period: true,
+  const menu = await db.query.menu.findFirst({
+    where: (menu, { eq }) => eq(menu.restaurantId, fetchedRestaurant.id),
+    with: {
+      menuPeriod: true,
       stations: {
-        include: {
+        with: {
           dishes: {
-            include: {
+            with: {
               dietRestriction: true,
               nutritionInfo: true,
             },
-          },
+          }
         },
-      },
-    },
+      }
+    }
   });
 
   return menu;
 }
 
-export async function saveMenu(
-  db: PrismaClient | Prisma.TransactionClient,
-  params: MenuParams,
-) {
+export async function upsertMenu(
+  db: Drizzle,
+  params: Menu,
+): Promise<Menu | undefined> {
   const date = parseDate(params.date);
   if (!date) {
     throw Error("invalid date");
   }
 
-  const { id, periodId, restaurant, stations } = params;
+  const { id, periodId, restaurantId } = params;
 
-  const upsertParams = {
-    id,
-    periodId,
-    restaurantId: restaurant.id,
-    date,
-    stations: {
-      connect: stations.map((station) => {
-        return { id: station.id };
-      }),
-    },
-  };
+  const upsertedMenu: Menu[] = await db
+    .insert(menu)
+    .values({
+      id,
+      periodId,
+      restaurantId,
+      date: date.toISOString(),
+    })
+    .onConflictDoUpdate({
+      target: menu.id,
+      set: params,
+    })
+    .returning();
 
-  return await db.menu.upsert({
-    where: { id },
-    create: upsertParams,
-    update: upsertParams,
-  });
+  if (upsertedMenu.length !== 1) {
+    throw new Error(`expected 1 menu to be upserted, but got ${upsertedMenu.length}`);
+  }
+
+  return upsertedMenu[0];
 }

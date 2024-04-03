@@ -1,19 +1,14 @@
-import { Expo } from "expo-server-sdk";
 import { TRPCError } from "@trpc/server";
-import { z } from "zod";
-
-import { Prisma } from "@zotmeal/db";
-
+import { PushTokenSchema, pushToken } from "@zotmeal/db/src/schema";
+import { Expo } from "expo-server-sdk";
 import { publicProcedure } from "../../trpc";
 
 export const registerPushToken = publicProcedure
-  .input(z.object({ pushToken: z.string() }))
+  .input(PushTokenSchema)
   .query(async ({ ctx, input }) => {
     const { db } = ctx;
 
-    const { pushToken } = input;
-
-    if (!Expo.isExpoPushToken(pushToken)) {
+    if (!Expo.isExpoPushToken(input.token)) {
       console.error("pushToken", pushToken);
       throw new TRPCError({
         message: "invalid push token",
@@ -21,19 +16,27 @@ export const registerPushToken = publicProcedure
       });
     }
     try {
-      await db.pushToken.create({ data: { token: pushToken } });
+      await db.insert(pushToken).values(input)
     } catch (e) {
-      if (e instanceof Prisma.PrismaClientValidationError) {
-        throw new TRPCError({
-          message: "invalid data",
-          code: "BAD_REQUEST",
-        });
-      } else {
-        throw new TRPCError({
-          message: "unknown error",
-          code: "INTERNAL_SERVER_ERROR",
-        });
-      }
+      // TODO: do similar handling as below but with Drizzle
+
+      // if (e instanceof Prisma.PrismaClientValidationError) {
+      //   throw new TRPCError({
+      //     message: "invalid data",
+      //     code: "BAD_REQUEST",
+      //   });
+      // } else {
+      //   throw new TRPCError({
+      //     message: "unknown error",
+      //     code: "INTERNAL_SERVER_ERROR",
+      //   });
+      // }
+
+      throw new TRPCError({
+        message: "unknown error",
+        code: "INTERNAL_SERVER_ERROR",
+      });
+
     }
 
     // test if it is a valid expo push token

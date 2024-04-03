@@ -1,6 +1,6 @@
 
 import { Pin, PinOff, StarFull } from '@tamagui/lucide-icons';
-import type { Dish, Station } from '@zotmeal/db';
+// import type { Dish, Station } from '@zotmeal/db';
 import { Link } from 'expo-router';
 import {
   Button,
