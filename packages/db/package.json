@@ -24,11 +24,19 @@
     "@zotmeal/eslint-config": "workspace:^0.2.0",
     "@zotmeal/prettier-config": "workspace:^0.1.0",
     "@zotmeal/tsconfig": "workspace:^0.1.0",
+<<<<<<< HEAD
     "dotenv-cli": "^7.3.0",
     "drizzle-kit": "^0.20.14",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
     "typescript": "^5.3.3"
+=======
+    "dotenv-cli": "^7.4.1",
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.3",
+    "prisma": "^5.12.0"
+>>>>>>> 496e4b8069940a7572e1a4e6d96b1d636cb1283a
   },
   "eslintConfig": {
     "root": true,
@@ -38,11 +46,16 @@
   },
   "prettier": "@zotmeal/prettier-config",
   "dependencies": {
+<<<<<<< HEAD
     "@neondatabase/serverless": "^0.9.0",
     "drizzle-orm": "^0.29.4",
     "drizzle-zod": "^0.5.1",
     "pg": "^8.11.3",
     "tsx": "^4.7.1",
     "zod": "^3.22.4"
+=======
+    "@prisma/client": "^5.12.0",
+    "ts-node": "^10.9.2"
+>>>>>>> 496e4b8069940a7572e1a4e6d96b1d636cb1283a
   }
 }

@@ -21,10 +21,10 @@
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
     "class-variance-authority": "^0.7.0",
-    "next-themes": "^0.2.1",
-    "react-hook-form": "^7.51.0",
-    "sonner": "^1.4.3",
-    "tailwind-merge": "^2.2.1",
+    "next-themes": "^0.3.0",
+    "react-hook-form": "^7.51.2",
+    "sonner": "^1.4.41",
+    "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
@@ -34,14 +34,18 @@
     "@zotmeal/tailwind-config": "workspace:^0.1.0",
     "@zotmeal/tsconfig": "workspace:^0.1.0",
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     "@types/react": "^18.2.64",
 >>>>>>> main
+=======
+    "@types/react": "^18.2.74",
+>>>>>>> 496e4b8069940a7572e1a4e6d96b1d636cb1283a
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
     "react": "18.2.0",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5.3.3",
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.4.3",
     "zod": "^3.22.4"
   },
   "peerDependencies": {

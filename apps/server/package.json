@@ -8,23 +8,23 @@
     "dev": "sls offline --noPrependStageInUrl"
   },
   "engines": {
-    "node": ">=20.11.1"
+    "node": ">=20.12.1"
   },
   "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
   "license": "MIT",
   "dependencies": {
-    "@aws-sdk/client-scheduler": "^3.525.0",
+    "@aws-sdk/client-scheduler": "^3.540.0",
     "@serverless/typescript": "^3.38.0",
     "@types/aws-lambda": "^8.10.136",
-    "@types/node": "^20.11.24",
+    "@types/node": "^20.12.3",
     "@zotmeal/api": "workspace:^",
     "@zotmeal/db": "workspace:^",
     "@zotmeal/eslint-config": "workspace:^",
     "@zotmeal/validators": "workspace:^",
-    "axios": "^1.6.7",
-    "date-fns": "^3.3.1",
-    "expo-server-sdk": "^3.7.0",
-    "serverless-esbuild": "^1.51.0",
+    "axios": "^1.6.8",
+    "date-fns": "^3.6.0",
+    "expo-server-sdk": "^3.9.0",
+    "serverless-esbuild": "^1.52.1",
     "serverless-offline": "^13.3.3"
   }
 }
