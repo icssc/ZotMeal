@@ -8,6 +8,7 @@ import {
 } from "drizzle-orm/pg-core";
 
 import { menu } from "./menu";
+import { createInsertSchema } from "drizzle-zod";
 
 export const menuPeriodName = pgEnum("MenuPeriodName", [
   "latenight",
@@ -35,3 +36,6 @@ export const menuPeriodRelations = relations(menuPeriod, ({ many }) => ({
   // * MenuPeriod <- Menu: One-to-Many (One menu period can be associated with many menus).
   menu: many(menu),
 }));
+
+export type MenuPeriod = typeof menuPeriod.$inferSelect;
+export const MenuPeriodSchema = createInsertSchema(menuPeriod);

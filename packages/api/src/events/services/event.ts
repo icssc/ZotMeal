@@ -1,43 +1,29 @@
-import type { Prisma, PrismaClient } from "@zotmeal/db";
 
-import type { EventParams } from "../models";
+import type { Drizzle } from "@zotmeal/db";
+import { event } from "@zotmeal/db/src/schema";
 
-export async function createEvents(
-  db: PrismaClient | Prisma.TransactionClient,
-  events: EventParams[],
-) {
+type Event = typeof event.$inferInsert;
+
+export async function upsertEvents(
+  db: Drizzle,
+  events: Event[],
+): Promise<Event[] | undefined> {
   try {
-    // fetch any existing events that match any events passed in
-    const existingEvents = await db.event.findMany({
-      where: {
-        OR: events.map((event) => ({
-          title: event.title,
-          date: event.date,
-          link: event.link,
-        })),
-      },
-    });
-
-    // filter out existing events
-    const newEvents = events.filter(
-      (event) =>
-        !existingEvents.some(
-          (existingEvent) =>
-            existingEvent.title === event.title &&
-            existingEvent.link === event.link &&
-            new Date(existingEvent.date).getTime() ===
-              new Date(event.date).getTime(),
-        ),
-    );
-
-    // insert new events
-    if (newEvents.length > 0) {
-      await db.event.createMany({
-        data: newEvents,
-      });
+    // batch upsert events
+    const upsertPromises = [];
+    for (const e of events) {
+      const upsert = db
+        .insert(event)
+        .values(e)
+        .onConflictDoUpdate({ // upsert
+          target: [event.title, event.date, event.restaurant],
+          set: e,
+        })
+        .returning()
+      upsertPromises.push(upsert);
     }
-
-    return newEvents;
+    const upsertedEvents: Event[] = (await Promise.all(upsertPromises)).flat();
+    return upsertedEvents;
   } catch (e) {
     if (e instanceof Error) {
       console.error(e);

@@ -1,53 +1,48 @@
-import type { Prisma, PrismaClient } from "@zotmeal/db";
+import { dish, dietRestriction, nutritionInfo } from "@zotmeal/db/src/schema";
+import type { DishWithRelations } from "@zotmeal/db/src/schema";
+import type { Drizzle } from "@zotmeal/db";
 
-import type { DishParams } from "../models";
+export async function upsertDish(
+  db: Drizzle,
+  params: DishWithRelations,
+): Promise<DishWithRelations | undefined> {
+  try {
+    const upsertedDish = await db
+      .insert(dish)
+      .values(params)
+      .onConflictDoUpdate({
+        target: dish.id,
+        set: params,
+      })
+      .returning();
 
-export async function saveDish(
-  db: PrismaClient | Prisma.TransactionClient,
-  params: DishParams,
-) {
-  const { id, stationId, name, description, dietRestriction, nutritionInfo } =
-    params;
+    const upsertedDietRestriction = await db
+      .insert(dietRestriction)
+      .values(params.dietRestriction)
+      .onConflictDoUpdate({
+        target: [dietRestriction.dishId],
+        set: params.dietRestriction,
+      })
+      .returning();
 
-  await db.dish.upsert({
-    where: {
-      id,
-    },
-    create: {
-      id,
-      name,
-      description,
-      dietRestriction: {
-        connectOrCreate: {
-          where: { dishId: id },
-          create: dietRestriction,
-        },
-      },
-      nutritionInfo: {
-        connectOrCreate: {
-          where: { dishId: id },
-          create: nutritionInfo,
-        },
-      },
-      stationId,
-    },
-    update: {
-      id,
-      name,
-      description,
-      dietRestriction: {
-        connectOrCreate: {
-          where: { dishId: id },
-          create: dietRestriction,
-        },
-      },
-      nutritionInfo: {
-        connectOrCreate: {
-          where: { dishId: id },
-          create: nutritionInfo,
-        },
-      },
-      stationId,
-    },
-  });
+    const upsertedNutritionInfo = await db
+      .insert(nutritionInfo)
+      .values(params.nutritionInfo)
+      .onConflictDoUpdate({
+        target: [nutritionInfo.dishId],
+        set: params.nutritionInfo,
+      })
+      .returning();
+
+    // TODO: do it without the bangs
+    return {
+      ...upsertedDish[0]!,
+      dietRestriction: upsertedDietRestriction[0]!,
+      nutritionInfo: upsertedNutritionInfo[0]!,
+    };
+  } catch (e) {
+    if (e instanceof Error) {
+      console.error(e);
+    }
+  }
 }

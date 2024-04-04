@@ -10,7 +10,9 @@ export const nutritionInfo = pgTable("NutritionInfo", {
   createdAt: timestamp("createdAt", { precision: 3, mode: "string" })
     .defaultNow()
     .notNull(),
-  updatedAt: timestamp("updatedAt", { precision: 3, mode: "string" }).notNull(),
+  updatedAt: timestamp("updatedAt", { precision: 3, mode: "string" })
+    .defaultNow()
+    .notNull(),
   servingSize: text("servingSize"),
   servingUnit: text("servingUnit"),
   calories: text("calories"),
@@ -29,3 +31,5 @@ export const nutritionInfo = pgTable("NutritionInfo", {
   iron: text("iron"),
   saturatedFat: text("saturatedFat"),
 });
+
+export type NutritionInfo = typeof nutritionInfo.$inferInsert;

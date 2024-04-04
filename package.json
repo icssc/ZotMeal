@@ -3,15 +3,15 @@
   "type": "module",
   "private": true,
   "engines": {
-    "node": ">=20.11.1"
+    "node": ">=20.12.1"
   },
-  "packageManager": "pnpm@8.15.4",
+  "packageManager": "pnpm@8.15.6",
   "scripts": {
     "build": "turbo build",
     "clean": "git clean -xdf node_modules",
     "clean:workspaces": "turbo clean",
     "db:push": "pnpm -F db push",
-    "db:studio": "pnpm --filter drizzle-db run db:studio",
+    "db:studio": "pnpm --filter db run db:studio",
     "dev": "turbo dev --parallel --concurrency=13",
     "format": "turbo format --continue -- --cache --cache-location node_modules/.cache/.prettiercache",
     "format:fix": "turbo format --continue -- --write --cache --cache-location node_modules/.cache/.prettiercache",
@@ -23,10 +23,10 @@
   },
   "devDependencies": {
     "@zotmeal/prettier-config": "workspace:^0.1.0",
-    "@turbo/gen": "^1.12.5",
+    "@turbo/gen": "^1.13.2",
     "prettier": "^3.2.5",
-    "turbo": "^1.12.5",
-    "typescript": "^5.4.2"
+    "turbo": "^1.13.2",
+    "typescript": "^5.4.3"
   },
   "prettier": "@zotmeal/prettier-config",
   "pnpm": {

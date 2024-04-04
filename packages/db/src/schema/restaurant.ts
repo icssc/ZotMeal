@@ -9,6 +9,7 @@ import {
 
 import { menu } from "./menu";
 import { station } from "./station";
+import { createInsertSchema } from "drizzle-zod";
 
 export const restaurantName = pgEnum("RestaurantName", [
   "anteatery",
@@ -22,11 +23,10 @@ export const restaurant = pgTable(
     createdAt: timestamp("createdAt", { precision: 3, mode: "string" })
       .defaultNow()
       .notNull(),
-    updatedAt: timestamp("updatedAt", {
-      precision: 3,
-      mode: "string",
-    }).notNull(),
-    name: restaurantName("name").notNull(),
+    updatedAt: timestamp("updatedAt", { precision: 3, mode: "string", })
+      .defaultNow()
+      .notNull(),
+    name: restaurantName("name").notNull().unique(),
   },
   (table) => {
     return {
@@ -41,3 +41,6 @@ export const restaurantRelations = relations(restaurant, ({ many }) => ({
   // * Restaurant <- Menu: One-to-Many (One restaurant has many menus).
   menu: many(menu),
 }));
+
+export type Restaurant = typeof restaurant.$inferInsert;
+export const RestaurantSchema = createInsertSchema(restaurant);
