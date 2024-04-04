@@ -26,12 +26,7 @@
     "@trpc/react-query": "11.0.0-rc.330",
     "@trpc/server": "11.0.0-rc.330",
     "@zotmeal/api": "workspace:^",
-<<<<<<< HEAD
     "expo": "~50.0.8",
-=======
-    "@zotmeal/db": "workspace:^",
-    "expo": "~50.0.14",
->>>>>>> 496e4b8069940a7572e1a4e6d96b1d636cb1283a
     "expo-constants": "~15.4.5",
     "expo-linking": "~6.2.2",
     "expo-router": "~3.4.8",
@@ -50,16 +45,9 @@
     "tamagui": "^1.94.1"
   },
   "devDependencies": {
-<<<<<<< HEAD
     "@babel/core": "^7.24.0",
     "@babel/preset-env": "^7.24.0",
     "@babel/runtime": "^7.24.0",
-=======
-    "@zotmeal/ui": "workspace:^",
-    "@babel/core": "^7.24.4",
-    "@babel/preset-env": "^7.24.4",
-    "@babel/runtime": "^7.24.4",
->>>>>>> 496e4b8069940a7572e1a4e6d96b1d636cb1283a
     "@zotmeal/eslint-config": "workspace:^0.2.0",
     "@zotmeal/prettier-config": "workspace:^0.1.0",
     "@zotmeal/tailwind-config": "workspace:^0.1.0",
