@@ -3,7 +3,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import type { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import { Pin, PinOff, StarFull } from '@tamagui/lucide-icons';
-// import { PERIOD_TO_ID, getRestaurantNameById } from '@zotmeal/utils';
+import { PERIOD_TO_ID, getRestaurantNameById } from '@zotmeal/utils';
 import { Link } from 'expo-router';
 import { useState } from 'react';
 import {
