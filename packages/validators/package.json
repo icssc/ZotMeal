@@ -14,7 +14,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@zotmeal/db": "workspace:^",
     "@zotmeal/utils": "workspace:^",
     "zod": "^3.22.4"
   },

@@ -1,21 +1,29 @@
-import { parseISO } from "date-fns";
+import type { Drizzle } from "@zotmeal/db";
+import { menuPeriod } from "@zotmeal/db/src/schema";
+import type { MenuPeriod } from "@zotmeal/db/src/schema";
 
-import type { Prisma, PrismaClient } from "@zotmeal/db";
+export async function upsertPeriod(
+  db: Drizzle,
+  params: MenuPeriod,
+): Promise<MenuPeriod | undefined> {
+  try {
+    const upsertedPeriod = await db
+      .insert(menuPeriod)
+      .values(params)
+      .onConflictDoUpdate({
+        target: menuPeriod.id,
+        set: params,
+      })
+      .returning();
 
-import type { MenuPeriodParams } from "../models/menu";
+    if (upsertedPeriod.length !== 1) {
+      throw new Error(`expected 1 period to be upserted, but got ${upsertedPeriod.length}`);
+    }
 
-export async function savePeriod(
-  db: PrismaClient | Prisma.TransactionClient,
-  params: MenuPeriodParams,
-) {
-  const { id, start, end, name } = params;
-
-  const startDate = parseISO(start);
-  const endDate = parseISO(end);
-  const period = await db.menuPeriod.upsert({
-    where: { id },
-    create: { id, start: startDate, end: endDate, name },
-    update: { start: startDate, end: endDate, name },
-  });
-  return period;
+    return upsertedPeriod[0];
+  } catch (e) {
+    if (e instanceof Error) {
+      console.error(e);
+    }
+  }
 }

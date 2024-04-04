@@ -7,7 +7,5 @@ export const getEvents = publicProcedure
   .query(async ({ ctx }) => {
     const { db } = ctx;
 
-    const events = db.event.findMany();
-
-    return events;
+    return await db.query.event.findMany();
   });

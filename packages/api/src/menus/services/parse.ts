@@ -1,33 +1,26 @@
-import axios from "axios";
-import { ZodError } from "zod";
-
-import type { Prisma, PrismaClient } from "@zotmeal/db";
-import type { CampusDishResponse } from "@zotmeal/validators";
+import type { Drizzle } from "@zotmeal/db";
+import type { DietRestriction, DishWithRelations, Menu, MenuPeriod, NutritionInfo, Restaurant, Station } from "@zotmeal/db/src/schema";
+import { MenuPeriodSchema, MenuSchema } from "@zotmeal/db/src/schema";
 import {
   getPeriodId,
   getRestaurantId,
   getRestaurantNameById,
 } from "@zotmeal/utils";
+import type { CampusDishResponse } from "@zotmeal/validators";
 import { CampusDishResponseSchema } from "@zotmeal/validators";
+import axios from "axios";
+import { ZodError } from "zod";
+import { upsertDish } from "../../dishes";
+import { upsertRestaurant } from "../../restaurants/services/restaurant";
+import { upsertStation } from "../../stations/station";
+import { upsertMenu } from "./menu";
+import { upsertPeriod } from "./menu-period";
 
-import type {
-  DietRestrictionParams,
-  DishParams,
-  NutritionInfoParams,
-} from "../../dishes/models";
-import type { RestaurantParams } from "../../restaurants/models";
-import type { StationParams } from "../../stations/models";
-import type {
-  GetMenuParams,
-  MenuParams,
-  MenuPeriodParams,
-} from "../models/menu";
-import { saveDish } from "../../dishes";
-import { saveRestaurant } from "../../restaurants/services/restaurant";
-import { saveStation } from "../../stations/station";
-import { MenuPeriodSchema, MenuSchema } from "../models/menu";
-import { saveMenu } from "./menu";
-import { savePeriod } from "./menu-period";
+interface GetMenuParams {
+  date: string;
+  period: MenuPeriod["name"];
+  restaurant: Restaurant["name"];
+}
 
 export async function getCampusDish(
   params: GetMenuParams,
@@ -65,28 +58,28 @@ export async function getCampusDish(
 }
 
 export async function parseCampusDish(
-  db: PrismaClient | Prisma.TransactionClient,
+  db: Drizzle,
   response: CampusDishResponse,
-) {
-  if (getRestaurantNameById(response.LocationId) === null) {
+): Promise<void> {
+  if (!getRestaurantNameById(response.LocationId)) {
     throw Error("restaurant id not found");
   }
-  const restaurant: RestaurantParams = {
+  const restaurant: Restaurant = {
     id: response.LocationId,
     name: getRestaurantNameById(response.LocationId)!,
   };
 
-  await saveRestaurant(db, restaurant);
-  let menuPeriods: MenuPeriodParams[];
+  await upsertRestaurant(db, restaurant);
+  let menuPeriods: MenuPeriod[];
   try {
     menuPeriods = response.Menu.MenuPeriods.map((menuPeriod) => {
-      const period = MenuPeriodSchema.parse({
+      const validPeriod = MenuPeriodSchema.parse({
         id: menuPeriod.PeriodId,
         name: menuPeriod.Name.toLowerCase(),
         start: menuPeriod.UtcMealPeriodEndTime,
         end: menuPeriod.UtcMealPeriodEndTime,
       });
-      return period;
+      return validPeriod;
     });
   } catch (e) {
     if (e instanceof ZodError) {
@@ -97,12 +90,13 @@ export async function parseCampusDish(
 
   // Promise.all optimize
   for (const period of menuPeriods) {
-    await savePeriod(db, period);
+    await upsertPeriod(db, period);
   }
 
-  const menus: MenuParams[] = response.Menu.MenuPeriods.map((menuPeriod) => {
+  const menus: Menu[] = response.Menu.MenuPeriods.map((menuPeriod) => {
     const menu = MenuSchema.parse({
       id: menuPeriod.PeriodId,
+      restaurantId: restaurant.id,
       period: menuPeriod.Name.toLowerCase(),
       start: menuPeriod.UtcMealPeriodStartTime,
       end: menuPeriod.UtcMealPeriodEndTime,
@@ -111,15 +105,16 @@ export async function parseCampusDish(
   });
 
   for (const menu of menus) {
-    await saveMenu(db, menu);
+    await upsertMenu(db, menu);
   }
 
   // collect by stations
   // dishes by station id
 
-  const dishes: DishParams[] = response.Menu.MenuProducts.map((menuProduct) => {
+  const dishes: DishWithRelations[] = response.Menu.MenuProducts.map((menuProduct) => {
     const { MenuProductId, StationId, Product } = menuProduct;
-    const dietRestriction: DietRestrictionParams = {
+    const dietRestriction: DietRestriction = {
+      dishId: MenuProductId,
       containsEggs: Product.ContainsEggs,
       containsFish: Product.ContainsFish,
       containsMilk: Product.ContainsMilk,
@@ -138,7 +133,8 @@ export async function parseCampusDish(
       isVegetarian: Product.IsVegetarian,
     };
 
-    const nutritionInfo: NutritionInfoParams = {
+    const nutritionInfo: NutritionInfo = {
+      dishId: MenuProductId,
       servingSize: Product.ServingSize,
       servingUnit: Product.ServingUnit,
       calories: Product.Calories,
@@ -163,26 +159,28 @@ export async function parseCampusDish(
       stationId: StationId,
       name: Product.MarketingName,
       description: Product.ShortDescription,
+      category: Product.Categories?.[0]?.DisplayName ?? "Other", // category is other if not specified
       dietRestriction,
       nutritionInfo,
     };
   });
 
   for (const dish of dishes) {
-    await saveDish(db, dish); // should nullcheck and throw for rollbacks
+    await upsertDish(db, dish); // should nullcheck and throw for rollbacks
   }
 
-  const stations: StationParams[] = response.Menu.MenuStations.map(
+  const stations: Station[] = response.Menu.MenuStations.map(
     (menuStation) => {
       return {
         id: menuStation.StationId,
         restaurantId: restaurant.id,
+        menuId: response.Menu.MenuId,
         name: menuStation.Name,
       };
     },
   );
 
   for (const station of stations) {
-    await saveStation(db, station);
+    await upsertStation(db, station);
   }
 }

@@ -1,16 +1,22 @@
 import { describe, expect, it } from "vitest";
-
-import type { GetMenuParams } from "../models/menu";
+import type { GetMenuParams } from "..";
+import { GetMenuSchema } from "..";
 import { createCaller, createTRPCContext } from "../..";
-import { GetMenuSchema } from "../models/menu";
+import { TRPCError } from "@trpc/server";
+
+describe("getMenu", () => {
+  it("hello", () => {
+    console.log("hello");
+  });
+});
 
 describe("GetMenuSchema validates properly", () => {
   it("parses valid params", () => {
     const tests: GetMenuParams[] = [
       {
         date: "10/10/2024",
-        period: "breakfast",
-        restaurant: "brandywine",
+        periodName: "breakfast",
+        restaurantName: "brandywine",
       },
     ];
 
@@ -24,8 +30,8 @@ describe("GetMenuSchema validates properly", () => {
     const tests: GetMenuParams[] = [
       {
         date: "10-10-2024",
-        period: "breakfast",
-        restaurant: "brandywine",
+        periodName: "breakfast",
+        restaurantName: "brandywine",
       },
     ];
 
@@ -41,25 +47,41 @@ describe("menu.get", () => {
   const ctx = createTRPCContext({});
   const caller = createCaller(ctx);
 
-  it("should get today's brandywine lunch menu", () => {
-    expect(async () => {
-      const menu = await caller.menu.get({
-        date: "1/24/2024",
-        period: "breakfast",
-        restaurant: "brandywine",
-      });
-
-      console.log(menu); // should have a more robust test
-    }).not.toThrow();
+  it("should get today's brandywine lunch menu", async () => {
+    const menu = caller.menu.get({
+      date: "1/24/2024",
+      periodName: "breakfast",
+      restaurantName: "brandywine",
+    })
+    await expect(menu).resolves.toBeTruthy();
+    console.log("menu:", await menu); // should have a more robust test
   });
 
-  it("should not get an invalid menu", () => {
-    // expect a trpc code with a 404 error
-    // out of date
-    console.log("implement this test");
+  // TODO: finish implementing this once the database is populated.
+  // each error should have a different message
+  it("should not get an invalid menu", async () => {
+    // invalid date
+    const invalidDate = caller.menu.get({
+      date: "1/24/1984",
+      periodName: "breakfast",
+      restaurantName: "brandywine",
+    })
+    await expect(invalidDate).rejects.toThrowError(TRPCError);
 
     // invalid period
+    const invalidPeriod = caller.menu.get({
+      date: "1/24/2024",
+      periodName: "latelatenight" as "latenight",
+      restaurantName: "brandywine",
+    })
+    await expect(invalidPeriod).rejects.toThrowError(TRPCError);
 
     // invalid restaurant
+    const invalidRestaurant = caller.menu.get({
+      date: "1/24/2024",
+      periodName: "breakfast",
+      restaurantName: "antwine" as "anteatery",
+    })
+    await expect(invalidRestaurant).rejects.toThrowError(TRPCError);
   });
 });

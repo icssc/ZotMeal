@@ -1,34 +1,38 @@
-import type { Prisma, PrismaClient, Restaurant } from "@zotmeal/db";
+import type { Drizzle } from "@zotmeal/db";
+import { restaurant } from "@zotmeal/db/src/schema";
+import type { Restaurant } from "@zotmeal/db/src/schema";
 
-import type { RestaurantParams } from "../models";
+export async function upsertRestaurant(
+  db: Drizzle,
+  params: Restaurant,
+): Promise<Restaurant | undefined> {
+  try {
+    const upsertedRestaurant = await db
+      .insert(restaurant)
+      .values(params)
+      .onConflictDoUpdate({
+        target: restaurant.id,
+        set: params,
+      })
+      .returning();
 
-export async function saveRestaurant(
-  db: PrismaClient | Prisma.TransactionClient,
-  params: RestaurantParams,
-) {
-  const { id, name } = params;
+    if (upsertedRestaurant.length !== 1) {
+      throw new Error(`expected 1 restaurant to be upserted, but got ${upsertedRestaurant.length}`);
+    }
 
-  const restaurant = await db.restaurant.upsert({
-    where: { id },
-    create: {
-      id,
-      name,
-    },
-    update: {
-      id,
-      name,
-    },
-  });
-  return restaurant;
+    return upsertedRestaurant[0];
+  } catch (e) {
+    if (e instanceof Error) {
+      console.error(e);
+    }
+  }
 }
 
 export async function getRestaurantById(
-  db: PrismaClient | Prisma.TransactionClient,
+  db: Drizzle,
   id: string,
-): Promise<Restaurant | null> {
-  return await db.restaurant.findUnique({
-    where: {
-      id,
-    },
+): Promise<Restaurant | undefined> {
+  return await db.query.restaurant.findFirst({
+    where: (restaurant, { eq }) => eq(restaurant.id, id),
   });
 }

@@ -1,25 +1,30 @@
-import type { Prisma, PrismaClient } from "@zotmeal/db";
+import { station } from "@zotmeal/db/src/schema";
+import type { Drizzle } from "@zotmeal/db";
 
-import type { StationParams } from "./models";
+type Station = typeof station.$inferInsert;
 
-export async function saveStation(
-  db: PrismaClient | Prisma.TransactionClient,
-  params: StationParams,
-) {
-  const { id, name, restaurantId } = params;
+export async function upsertStation(
+  db: Drizzle,
+  params: Station,
+): Promise<Station | undefined> {
+  try {
+    const upsertedStation = await db
+      .insert(station)
+      .values(params)
+      .onConflictDoUpdate({
+        target: station.id,
+        set: params,
+      })
+      .returning();
 
-  const station = await db.station.upsert({
-    where: { id },
-    create: {
-      id,
-      name,
-      restaurantId,
-    },
-    update: {
-      id,
-      name,
-      restaurantId,
-    },
-  });
-  return station;
+    if (upsertedStation.length !== 1) {
+      throw new Error(`expected 1 station to be upserted, but got ${upsertedStation.length}`);
+    }
+
+    return upsertedStation[0];
+  } catch (e) {
+    if (e instanceof Error) {
+      console.error(e);
+    }
+  }
 }

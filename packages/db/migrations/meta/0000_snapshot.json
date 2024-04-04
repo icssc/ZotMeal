@@ -1,5 +1,5 @@
 {
-  "id": "1f49a3f5-30e1-480e-8567-e39571a1b83d",
+  "id": "eefd9e43-53ca-4520-b9db-ca14f39aca69",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -25,7 +25,14 @@
           "name": "updatedAt",
           "type": "timestamp(3)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
+        },
+        "containsEggs": {
+          "name": "containsEggs",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
         },
         "containsFish": {
           "name": "containsFish",
@@ -57,8 +64,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "containSoy": {
-          "name": "containSoy",
+        "containsSoy": {
+          "name": "containsSoy",
           "type": "boolean",
           "primaryKey": false,
           "notNull": false
@@ -158,7 +165,8 @@
           "name": "updatedAt",
           "type": "timestamp(3)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "name": {
           "name": "name",
@@ -168,6 +176,12 @@
         },
         "description": {
           "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "category": {
+          "name": "category",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -208,9 +222,15 @@
           "primaryKey": false,
           "notNull": true
         },
-        "link": {
-          "name": "link",
+        "image": {
+          "name": "image",
           "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "restaurant": {
+          "name": "restaurant",
+          "type": "RestaurantName",
           "primaryKey": false,
           "notNull": true
         },
@@ -222,7 +242,7 @@
         },
         "date": {
           "name": "date",
-          "type": "timestamp(3)",
+          "type": "date",
           "primaryKey": false,
           "notNull": true
         },
@@ -237,7 +257,8 @@
           "name": "updatedAt",
           "type": "timestamp(3)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},
@@ -247,8 +268,8 @@
           "name": "Event_pkey",
           "columns": [
             "title",
-            "link",
-            "date"
+            "date",
+            "restaurant"
           ]
         }
       },
@@ -275,7 +296,8 @@
           "name": "updatedAt",
           "type": "timestamp(3)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "periodId": {
           "name": "periodId",
@@ -370,71 +392,6 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "_MenuToStation": {
-      "name": "_MenuToStation",
-      "schema": "",
-      "columns": {
-        "A": {
-          "name": "A",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "B": {
-          "name": "B",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {
-        "_MenuToStation_AB_unique": {
-          "name": "_MenuToStation_AB_unique",
-          "columns": [
-            "A",
-            "B"
-          ],
-          "isUnique": true
-        },
-        "_MenuToStation_B_index": {
-          "name": "_MenuToStation_B_index",
-          "columns": [
-            "B"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "_MenuToStation_A_Menu_id_fk": {
-          "name": "_MenuToStation_A_Menu_id_fk",
-          "tableFrom": "_MenuToStation",
-          "tableTo": "Menu",
-          "columnsFrom": [
-            "A"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        },
-        "_MenuToStation_B_Station_id_fk": {
-          "name": "_MenuToStation_B_Station_id_fk",
-          "tableFrom": "_MenuToStation",
-          "tableTo": "Station",
-          "columnsFrom": [
-            "B"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
     "NutritionInfo": {
       "name": "NutritionInfo",
       "schema": "",
@@ -456,7 +413,8 @@
           "name": "updatedAt",
           "type": "timestamp(3)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "servingSize": {
           "name": "servingSize",
@@ -500,8 +458,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "sodum": {
-          "name": "sodum",
+        "sodium": {
+          "name": "sodium",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -617,7 +575,8 @@
           "name": "updatedAt",
           "type": "timestamp(3)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "name": {
           "name": "name",
@@ -637,7 +596,15 @@
       },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "Restaurant_name_unique": {
+          "name": "Restaurant_name_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "name"
+          ]
+        }
+      }
     },
     "Station": {
       "name": "Station",
@@ -660,7 +627,8 @@
           "name": "updatedAt",
           "type": "timestamp(3)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "name": {
           "name": "name",
@@ -670,6 +638,12 @@
         },
         "restaurantId": {
           "name": "restaurantId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "menuId": {
+          "name": "menuId",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -683,6 +657,19 @@
           "tableTo": "Restaurant",
           "columnsFrom": [
             "restaurantId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        },
+        "Station_menuId_Menu_id_fk": {
+          "name": "Station_menuId_Menu_id_fk",
+          "tableFrom": "Station",
+          "tableTo": "Menu",
+          "columnsFrom": [
+            "menuId"
           ],
           "columnsTo": [
             "id"
