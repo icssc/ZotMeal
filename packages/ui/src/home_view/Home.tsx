@@ -20,8 +20,11 @@ import {
   YStack
 } from 'tamagui';
 import { anteateryData, brandywineData } from './example_data';
-import type { Dish, Menu, Station } from './query';
 import { useTheme } from 'tamagui';
+import type { MenuWithRelations } from '@zotmeal/db/src/schema';
+
+type Station = MenuWithRelations["stations"][0];
+type Dish = MenuWithRelations["stations"][0]["dishes"][0];
 
 // TODO: Replace with real user data
 const dummyUserPins = ["312"];
@@ -34,8 +37,8 @@ export const Home = () => (
 );
 
 function RestaurantTabs({ brandywineData, anteateryData }: {
-  brandywineData: Menu,
-  anteateryData: Menu,
+  brandywineData: MenuWithRelations,
+  anteateryData: MenuWithRelations,
 }) {
   const theme = useTheme();
   const [period, setPeriod] = useState();
@@ -170,9 +173,12 @@ const StationTabs = ({ stations }: {
         alignItems="center"
         flex={1}
       >
-        {Object.entries(groupBy(station.dishes, dish => dish.category as keyof Dish)).map(([category, dishes]) => (
-          <Category key={category} category={category} dishes={dishes} />
-        ))}
+        {/* group dishes by category */}
+        {Object
+          .entries(groupBy(station.dishes, dish => dish.category as keyof Dish))
+          .map(([category, dishes]) => (
+            <Category key={category} category={category} dishes={dishes} />
+          ))}
       </Tabs.Content>
     ))}
   </Tabs>

@@ -1,13 +1,14 @@
 import { config } from '@tamagui/config/v3';
 import '@tamagui/core/reset.css';
+import InterBold from "@tamagui/font-inter/otf/Inter-Bold.otf";
+import Inter from "@tamagui/font-inter/otf/Inter-Medium.otf";
+import type { FontSource } from "expo-font";
+import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useColorScheme } from "react-native";
 import { H3, Image, TamaguiProvider, Theme, View, createTamagui } from "tamagui";
 import { TRPCProvider } from "~/utils/api";
-import { FontSource, useFonts } from "expo-font";
-import Inter from "@tamagui/font-inter/otf/Inter-Medium.otf";
-import InterBold from "@tamagui/font-inter/otf/Inter-Bold.otf";
 // import { GestureHandlerRootView } from "react-native-gesture-handler";
 // import { Drawer } from "expo-router/drawer";
 
