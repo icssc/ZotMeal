@@ -24,7 +24,7 @@
     "@zotmeal/eslint-config": "workspace:^0.2.0",
     "@zotmeal/prettier-config": "workspace:^0.1.0",
     "@zotmeal/tsconfig": "workspace:^0.1.0",
-    "dotenv-cli": "^7.3.0",
+    "dotenv-cli": "^7.4.1",
     "drizzle-kit": "^0.20.14",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
