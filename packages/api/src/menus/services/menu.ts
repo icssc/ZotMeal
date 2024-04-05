@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import type { Drizzle } from "@zotmeal/db";
-import type { Menu, MenuPeriod, Restaurant } from "@zotmeal/db/src/schema";
+import type { Menu, MenuPeriod, MenuWithRelations, Restaurant } from "@zotmeal/db/src/schema";
 import { MenuPeriodSchema, RestaurantSchema, menu } from "@zotmeal/db/src/schema";
 import { parseDate } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
@@ -21,7 +21,7 @@ export const GetMenuSchema = z.object({
 export async function getMenu(
   db: Drizzle,
   params: GetMenuParams,
-): Promise<Menu | undefined> {
+): Promise<MenuWithRelations | undefined> {
   const date = parseDate(params.date);
   if (!date) {
     throw new TRPCError({

@@ -37,6 +37,11 @@ export async function getCampusDish(
 
   const restaurantId = getRestaurantId(restaurant);
 
+  if (!restaurantId) {
+    console.error("invalid restaurant", restaurant);
+    return null;
+  }
+
   // const res = await axios.get(
   //   "https://uci-campusdish-com.translate.goog/api/menu/GetMenus?locationId=3314&periodId=49&date=1/19/2024",
   // );
@@ -61,12 +66,15 @@ export async function parseCampusDish(
   db: Drizzle,
   response: CampusDishResponse,
 ): Promise<void> {
-  if (!getRestaurantNameById(response.LocationId)) {
+  const restaurantName = getRestaurantNameById(response.LocationId);
+
+  if (!restaurantName) {
     throw Error("restaurant id not found");
   }
+
   const restaurant: Restaurant = {
     id: response.LocationId,
-    name: getRestaurantNameById(response.LocationId)!,
+    name: restaurantName,
   };
 
   await upsertRestaurant(db, restaurant);
