@@ -15,4 +15,6 @@ export const getMenuProcedure = publicProcedure
         message: "menu not found",
       });
     }
+
+    return menu;
   });
