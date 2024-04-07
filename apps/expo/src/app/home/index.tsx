@@ -1,8 +1,9 @@
 
-import DateTimePicker from '@react-native-community/datetimepicker';
 import type { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import { Pin, PinOff, StarFull } from '@tamagui/lucide-icons';
+import type { MenuWithRelations } from '@zotmeal/db/src/schema';
 import { ID_TO_RESTAURANT, PERIOD_TO_ID, getCurrentPeriodName, getRestaurantNameById } from '@zotmeal/utils';
 import { Link } from 'expo-router';
 import {
@@ -12,18 +13,16 @@ import {
   ListItem,
   ScrollView,
   Separator,
-  SizableText,
   Tabs,
   Text,
   View,
   XStack,
   YGroup,
-  YStack
+  YStack,
+  useTheme,
 } from 'tamagui';
-import { anteateryData, brandywineData } from './example_data';
-import { useTheme } from 'tamagui';
-import type { MenuWithRelations } from '@zotmeal/db/src/schema';
 import { create } from 'zustand';
+import { anteateryData, brandywineData } from './example_data';
 // import { api } from '~/utils/api';
 import { useEffect, useState } from 'react';
 
@@ -70,12 +69,11 @@ export function Home() {
         width={"100%"}
         height={100}
       />
-      <View height={80} />
+      <View height={50} />
       <RestaurantTabs />
     </>
   );
 };
-
 
 function RestaurantTabs() {
   const {
@@ -168,10 +166,10 @@ function RestaurantTabs() {
         flexDirection='column'
       >
         <View width={"100%"} flexDirection='row'>
-          <Tabs.Tab flex={1} value="brandywine">
+          <Tabs.Tab flex={1} height={50} value="brandywine" opacity={selectedRestaurant === "brandywine" ? 1 : 0.5}>
             <H3 fontWeight={"800"}>Brandywine</H3>
           </Tabs.Tab>
-          <Tabs.Tab flex={1} value="anteatery">
+          <Tabs.Tab flex={1} height={50} value="anteatery" opacity={selectedRestaurant === "anteatery" ? 1 : 0.5}>
             <H3 fontWeight={"800"}>The Anteatery</H3>
           </Tabs.Tab>
         </View>
@@ -221,7 +219,7 @@ const StationTabs = ({ stations }: {
     <Tabs.List>
       <ScrollView
         horizontal
-        bounces={false} // Disable bounce for the tabs
+        bounces={false} // Disable bounce for the station tabs
       >
         {stations.map((station) => (
           <Tabs.Tab
@@ -311,13 +309,13 @@ const DishCard = ({ dish }: {
           />
           <YStack gap="$1" width={"85%"} justifyContent='space-between' paddingVertical="$3" borderWidth={1} borderColor={"red"}>
             <XStack justifyContent='space-between'>
-              <SizableText fontWeight={"800"} fontSize={"$5"} borderWidth={1} borderColor={"red"}>{dish.name}</SizableText>
-              <SizableText textAlign='right' fontSize="$5" borderWidth={1} borderColor={"red"}>{dish.nutritionInfo.calories} cal</SizableText>
+              <Text fontWeight={"800"} fontSize={"$5"} borderWidth={1} borderColor={"red"}>{dish.name}</Text>
+              <Text textAlign='right' fontSize="$5" borderWidth={1} borderColor={"red"} fontWeight={"800"}>{dish.nutritionInfo.calories} cal</Text>
             </XStack>
             <XStack justifyContent='space-between' borderWidth={1} borderColor={"red"}>
               <XStack alignItems='center' gap="$1" borderWidth={1} borderColor={"red"} width={"70%"}>
                 <StarFull color="gold" scale={0.8} />
-                <Text><Text fontWeight="800" fontSize="$4">5.0</Text> <Text>(10,000 reviews)</Text></Text>
+                <Text><Text fontWeight="800" fontSize="$4">5.0</Text> <Text color={"gray"}>(10,000 reviews)</Text></Text>
               </XStack>
               {dummyUserPins.includes(dish.id) ?
                 <Button scale={0.8} fontWeight={"800"}>Unpin <PinOff /></Button> :
