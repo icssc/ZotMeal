@@ -209,9 +209,9 @@ function RestaurantTabs() {
       height={"100%"}
     >
       <Tabs.List
-        borderRadius={"$10"}
+        borderRadius={"$20"}
         // separator={<Separator vertical />}
-        disablePassBorderRadius="bottom"
+        // disablePassBorderRadius="bottom"
         flexDirection='column'
       >
         <View width={"100%"} flexDirection='row'>
@@ -226,6 +226,19 @@ function RestaurantTabs() {
         </View>
       </Tabs.List>
 
+      <XStack justifyContent='space-around'>
+        <PeriodPicker color={theme.color?.val as string} />
+        {/* TODO: Write a unit test for rendering and checking if onChange is triggered on event */}
+        <DateTimePicker
+          value={date}
+          mode="date"
+          onChange={(event: DateTimePickerEvent, selectedDate) => {
+            if (selectedDate) {
+              setDate(selectedDate);
+            }
+          }}
+        />
+      </XStack>
 
       {/* {[brandywineMenu.data, anteateryMenu.data].map((menu) => ( */}
       {[brandywineMenu, anteateryMenu].map((menu) => (
@@ -235,22 +248,7 @@ function RestaurantTabs() {
           alignItems="center"
           flex={1}
         >
-          <YStack gap="$5" width={"100%"} padding="$2">
-            <XStack width={"100%"} justifyContent='space-between'>
-              <PeriodPicker color={theme.color?.val as string} />
-              {/* TODO: Write a unit test for rendering and checking if onChange is triggered on event */}
-              <DateTimePicker
-                value={date}
-                mode="date"
-                onChange={(event: DateTimePickerEvent, selectedDate) => {
-                  if (selectedDate) {
-                    setDate(selectedDate);
-                  }
-                }}
-              />
-            </XStack>
-            <StationTabs stations={menu.stations} />
-          </YStack>
+          <StationTabs stations={menu.stations} />
         </Tabs.Content>
       ))}
     </Tabs>
