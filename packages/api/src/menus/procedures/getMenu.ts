@@ -4,9 +4,7 @@ import { GetMenuSchema, getMenu } from "../services";
 
 export const getMenuProcedure = publicProcedure
   .input(GetMenuSchema)
-  .query(async ({ ctx, input }) => {
-    const { db } = ctx;
-
+  .query(async ({ ctx: { db }, input }) => {
     const menu = await getMenu(db, input);
 
     if (!menu) {
