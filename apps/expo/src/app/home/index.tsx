@@ -18,14 +18,16 @@ import {
   View,
   XStack,
   YGroup,
-  YStack
+  YStack,
+  useWindowDimensions
 } from 'tamagui';
+import { ScrollView as ScrollViewRN } from 'react-native';
 import { anteateryData, brandywineData } from './example_data';
 import { useTheme } from 'tamagui';
 import type { MenuWithRelations } from '@zotmeal/db/src/schema';
 import { create } from 'zustand';
 // import { api } from '~/utils/api';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type Station = MenuWithRelations["stations"][0];
 type Dish = MenuWithRelations["stations"][0]["dishes"][0];
@@ -55,11 +57,50 @@ export const useMenuStore = create<MenuState>((set) => ({
 }));
 
 export function Home() {
-  const { selectedRestaurant } = useMenuStore();
+  const deviceWidth = useWindowDimensions().width;
+  const imageScrollRef = useRef<ScrollViewRN | null>(null);
 
   return (
     <>
-      <Image
+      <ScrollView
+        height={100}
+        position='absolute'
+        zIndex={1}
+        horizontal
+        onScrollEndDrag={(event) => {
+          if (!imageScrollRef.current) return;
+          if (!event.nativeEvent.velocity || event.nativeEvent.velocity.x === 0) return;
+          const direction = event.nativeEvent.velocity.x > 0 ? "right" : "left";
+          if (direction === "left") {
+            imageScrollRef.current.scrollTo({ x: 0 });
+          }
+          if (direction === "right") {
+            imageScrollRef.current.scrollTo({ x: deviceWidth });
+          }
+        }}
+        snapToInterval={deviceWidth}
+        bounces={false}
+        decelerationRate={3}
+        snapToAlignment='center'
+        showsHorizontalScrollIndicator={false}
+        ref={imageScrollRef}
+      >
+        <Image
+          source={{
+            uri: "https://s3-media0.fl.yelpcdn.com/bphoto/P0DIhR8cO-JxYygc3V3aaQ/348s.jpg"
+          }}
+          width={deviceWidth}
+          height={100}
+        />
+        <Image
+          source={{
+            uri: "https://images.rsmdesign.com/7321bb55-579f-47fd-9f27-a6abf3e9826e.jpg"
+          }}
+          width={deviceWidth}
+          height={100}
+        />
+      </ScrollView>
+      {/* <Image
         source={{
           uri: selectedRestaurant === "brandywine" ?
             "https://s3-media0.fl.yelpcdn.com/bphoto/P0DIhR8cO-JxYygc3V3aaQ/348s.jpg" :
@@ -69,8 +110,8 @@ export function Home() {
         zIndex={-1}
         width={"100%"}
         height={100}
-      />
-      <View height={80} />
+      /> */}
+      <View height={50} />
       <RestaurantTabs />
     </>
   );
@@ -168,10 +209,10 @@ function RestaurantTabs() {
         flexDirection='column'
       >
         <View width={"100%"} flexDirection='row'>
-          <Tabs.Tab flex={1} value="brandywine">
+          <Tabs.Tab flex={1} height={50} value="brandywine" opacity={selectedRestaurant === "brandywine" ? 1 : 0.5}>
             <H3 fontWeight={"800"}>Brandywine</H3>
           </Tabs.Tab>
-          <Tabs.Tab flex={1} value="anteatery">
+          <Tabs.Tab flex={1} height={50} value="anteatery" opacity={selectedRestaurant === "anteatery" ? 1 : 0.5}>
             <H3 fontWeight={"800"}>The Anteatery</H3>
           </Tabs.Tab>
         </View>
