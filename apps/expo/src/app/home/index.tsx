@@ -4,7 +4,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import { Pin, PinOff, StarFull } from '@tamagui/lucide-icons';
 import type { MenuWithRelations } from '@zotmeal/db/src/schema';
-import { ID_TO_RESTAURANT, PERIOD_TO_ID, getCurrentPeriodName, getRestaurantNameById } from '@zotmeal/utils';
+import { ID_TO_RESTAURANT, PERIOD_TO_ID, getCurrentPeriodName, getRestaurantNameById, isCurrentlyClosed } from '@zotmeal/utils';
 import { Link } from 'expo-router';
 import {
   Button,
@@ -20,11 +20,14 @@ import {
   YGroup,
   YStack,
   useTheme,
+  useWindowDimensions,
 } from 'tamagui';
 import { create } from 'zustand';
 import { anteateryData, brandywineData } from './example_data';
 // import { api } from '~/utils/api';
 import { useEffect, useState } from 'react';
+import { G, Path, Svg, Text as TextSVG } from 'react-native-svg';
+import { useColorScheme } from 'react-native';
 
 type Station = MenuWithRelations["stations"][0];
 type Dish = MenuWithRelations["stations"][0]["dishes"][0];
@@ -67,11 +70,57 @@ export function Home() {
         position='absolute'
         zIndex={-1}
         width={"100%"}
-        height={100}
+        height={125}
       />
-      <View height={50} />
+      <View height={65} />
       <RestaurantTabs />
     </>
+  );
+};
+
+const CustomTab = ({ label }: { label: string }) => {
+  const colorScheme = useColorScheme();
+  const theme = useTheme();
+  const deviceWidth = useWindowDimensions().width;
+
+  return (
+    <Svg
+      width={(deviceWidth / 2) + 135}
+      height="75"
+      viewBox="0 0 403 82"
+      fill="none"
+    >
+      <Path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M-31 82H403C370.624 82 359.956 61.6562 349.248 41.2347C338.458 20.6568 327.626 0 294.5 0H77.5C44.374 0 33.5423 20.6568 22.7519 41.2347C12.0436 61.6562 1.37595 82 -31 82Z"
+        fill={colorScheme === "dark" ? "#1A1B1D" : "#FFFFFF"}
+      />
+      <G>
+        <TextSVG
+          x='50%'
+          y='30%'
+          fill={theme.color?.val as string}
+          textAnchor='middle'
+          alignmentBaseline="central"
+          fontSize="25"
+          fontWeight="bold"
+        >
+          {label}
+        </TextSVG>
+        {isCurrentlyClosed() && <TextSVG
+          x='50%'
+          y='60%'
+          fill="firebrick"
+          textAnchor='middle'
+          alignmentBaseline="central"
+          fontSize="18"
+          fontWeight="bold"
+        >
+          CLOSED
+        </TextSVG>}
+      </G>
+    </Svg>
   );
 };
 
@@ -81,8 +130,8 @@ function RestaurantTabs() {
     anteateryMenu,
     brandywineMenu,
     setSelectedRestaurant,
-    setAnteateryMenu,
-    setBrandywineMenu,
+    // setAnteateryMenu,
+    // setBrandywineMenu,
   } = useMenuStore();
 
   // const anteateryMenu = anteateryData;
@@ -166,11 +215,13 @@ function RestaurantTabs() {
         flexDirection='column'
       >
         <View width={"100%"} flexDirection='row'>
-          <Tabs.Tab flex={1} height={50} value="brandywine" opacity={selectedRestaurant === "brandywine" ? 1 : 0.5}>
-            <H3 fontWeight={"800"}>Brandywine</H3>
+          <Tabs.Tab flex={1} height={70} value="brandywine" opacity={selectedRestaurant === "brandywine" ? 1 : 0.5}>
+            <CustomTab label={"Brandywine"} />
+            {/* <H3 fontWeight={"800"}>Brandywine</H3> */}
           </Tabs.Tab>
-          <Tabs.Tab flex={1} height={50} value="anteatery" opacity={selectedRestaurant === "anteatery" ? 1 : 0.5}>
-            <H3 fontWeight={"800"}>The Anteatery</H3>
+          <Tabs.Tab flex={1} height={70} value="anteatery" opacity={selectedRestaurant === "anteatery" ? 1 : 0.5}>
+            <CustomTab label={"The Anteatery"} />
+            {/* <H3 fontWeight={"800"}>The Anteatery</H3> */}
           </Tabs.Tab>
         </View>
       </Tabs.List>
