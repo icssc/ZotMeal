@@ -19,13 +19,13 @@ export async function updateDaily(
   for (const period in MenuPeriodSchema.shape.name.Enum) {
     const campusDishParams = {
       date: params.date,
-      periodName: period,
-      restarauntName: params.restaurantName
+      period: period,
+      restaurant: params.restaurantName
     }
 
     const campusDishResponse = await getCampusDish(campusDishParams);
     if (!campusDishResponse) {
-      throw new Error(`Null response from Campus Dish with params: ${campusDishParams}`);
+      continue;
     }
     await parseCampusDish(db, campusDishResponse);
   }

@@ -3,6 +3,8 @@ import { format } from "date-fns";
 import { getWeekInfo } from "@zotmeal/api/src/services/getWeekInfo";
 import { RestaurantSchema } from "@zotmeal/db/src/schema";
 
+import { db } from "@zotmeal/db"
+
 export const main = async (event, context) => {
   try {
     const now = new Date();
@@ -10,13 +12,15 @@ export const main = async (event, context) => {
     console.log(`Weekly task executed at: ${formattedTime}`);
 
     const formattedDate = format(now, "MM/dd/yyyy");
-    getWeekInfo(context, 
-      {date: formattedDate,
+    getWeekInfo(db, 
+      {
+        date: formattedDate,
         restaurantName: RestaurantSchema.shape.name.Enum.anteatery
       }
     );
-    getWeekInfo(context, 
-      {date: formattedDate,
+    getWeekInfo(db, 
+      {
+        date: formattedDate,
         restaurantName: RestaurantSchema.shape.name.Enum.brandywine
       }
     );
