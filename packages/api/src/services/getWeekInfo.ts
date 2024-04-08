@@ -1,71 +1,44 @@
 import { format } from "date-fns";
 import { z } from "zod";
 
-import type { Prisma, PrismaClient, } from "@zotmeal/db";
-import { getPeriodId, getRestaurantId, parseDate } from "@zotmeal/utils";
+import type { Drizzle } from "@zotmeal/db";
 import { DateRegex } from "@zotmeal/validators";
-import {RestaurantName, MenuPeriodName } from "@prisma/client";
+import { RestaurantSchema } from "@zotmeal/db/src/schema";
 
-import { getCampusDish } from "..";
-import { batchInsert } from "./batchInsert";
+import { updateDaily } from "./updateDaily";
 
 export const GetWeekInfoSchema = z.object({
   date: DateRegex,
-  numDays: z
-    .number()
-    .positive()
-    .default(7),  // one week
-  restaurant: z.nativeEnum(RestaurantName)
+  restaurantName: RestaurantSchema.shape.name
 });
-
 export type GetWeekInfoParams = z.infer<typeof GetWeekInfoSchema>;
 
+const NUM_DAYS_UPDATE = 7;
+
 export async function getWeekInfo(
-  db: PrismaClient | Prisma.TransactionClient,
-  params: GetWeekInfoParams): Promise<void> {
+  db: Drizzle,
+  params: GetWeekInfoParams
+): Promise<void> {
   const {
     date: dateString,
-    numDays,
-    restaurant: restaurantName
+    restaurantName: restaurantName
   } = params;
+  const startDate = new Date(dateString);
 
-  // verify params
-  const date = parseDate(dateString);
-  if (!date) {
-    console.error(`invalid date: ${dateString}`);
-    throw new Error("InvalidDateError");
-  }
-
-  const restaurant = getRestaurantId(restaurantName);
-  if (!restaurant) {
-    console.error(`restaurant not found: ${restaurantName}`);
-    throw new Error("RestaurantNotFoundError");
-  }
-  
-  // iter through dates
-  const menus = [];
-  for (let i = 0; i < numDays; ++i) {
+  for (let i = 0; i < NUM_DAYS_UPDATE; ++i) {
     const insertDate = new Date();
-    insertDate.setDate(date.getDate() + i);
+    insertDate.setDate(startDate.getDate() + i);
     const formattedDate = format(insertDate, "MM/dd/yyyy");
 
-    for (const period in MenuPeriodName) {
-      const campusDishParams = {
-        date: formattedDate,
-        period: period,
-        restaurant: restaurantName
-      }
-      const campusDishResponse = await getCampusDish(campusDishParams);
-      if (!campusDishResponse) {
-        console.error("failed to get campus dish response for:", campusDishParams);
-        throw new Error("CampusDishResponseError");
-      }
+    const dailyParams = {
+      date: formattedDate,
+      restaurantName: restaurantName
+    }
 
-      if (campusDishResponse.SelectedPeriodId === getPeriodId(period)) {
-        // matching periodIds indicates that the periodId does exist for that day
-        menus.push(campusDishResponse);
-      }
+    try {
+      await updateDaily(db, dailyParams)
+    } catch (e) {
+      console.error('Error for batch insert with params: %j\n', dailyParams, e)
     }
   }
-  batchInsert(db, menus);
 }
