@@ -1,7 +1,5 @@
-import { station } from "@zotmeal/db/src/schema";
 import type { Drizzle } from "@zotmeal/db";
-
-type Station = typeof station.$inferInsert;
+import { station, Station } from "@zotmeal/db/src/schema";
 
 export async function upsertStation(
   db: Drizzle,
@@ -18,7 +16,9 @@ export async function upsertStation(
       .returning();
 
     if (upsertedStation.length !== 1) {
-      throw new Error(`expected 1 station to be upserted, but got ${upsertedStation.length}`);
+      throw new Error(
+        `expected 1 station to be upserted, but got ${upsertedStation.length}`,
+      );
     }
 
     return upsertedStation[0];

@@ -12,7 +12,7 @@ import axios from "axios";
 import { ZodError } from "zod";
 import { upsertDish } from "../../dishes";
 import { upsertRestaurant } from "../../restaurants/services/restaurant";
-import { upsertStation } from "../../stations/station";
+import { upsertStation } from "../../stations";
 import { upsertMenu } from "./menu";
 import { upsertPeriod } from "./menu-period";
 
