@@ -14,3 +14,4 @@ await client.connect();
 
 export const db = drizzle(client, { schema });
 export type Drizzle = typeof db;
+export * from "drizzle-orm";
