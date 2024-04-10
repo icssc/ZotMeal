@@ -20,7 +20,7 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "devDependencies": {
-    "@types/pg": "^8.11.2",
+    "@types/pg": "^8.11.5",
     "@zotmeal/eslint-config": "workspace:^0.2.0",
     "@zotmeal/prettier-config": "workspace:^0.1.0",
     "@zotmeal/tsconfig": "workspace:^0.1.0",
@@ -41,7 +41,7 @@
     "@neondatabase/serverless": "^0.9.0",
     "drizzle-orm": "^0.29.4",
     "drizzle-zod": "^0.5.1",
-    "pg": "^8.11.3",
+    "pg": "^8.11.5",
     "tsx": "^4.7.1",
     "zod": "^3.22.4"
   }
