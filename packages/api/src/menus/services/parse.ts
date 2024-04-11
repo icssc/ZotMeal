@@ -168,9 +168,6 @@ export async function parseCampusDish(
   });
 
   for (const dish of dishes) {
-    if(!dish.name){
-      console.log(dish)
-    }
     await upsertDish(db, dish); // should nullcheck and throw for rollbacks
   }
 
