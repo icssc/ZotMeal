@@ -54,7 +54,7 @@ describe("menu.get", () => {
       restaurantName: "brandywine",
     })
     await expect(menu).resolves.toBeTruthy();
-    console.log("menu:", await menu); // should have a more robust test
+    //console.log("menu:", await menu); // should have a more robust test
   });
 
   // TODO: finish implementing this once the database is populated.
@@ -62,7 +62,7 @@ describe("menu.get", () => {
   it("should not get an invalid menu", async () => {
     // invalid date
     const invalidDate = caller.menu.get({
-      date: "1/24/1984",
+      date: "1-24-1984",
       periodName: "breakfast",
       restaurantName: "brandywine",
     })
