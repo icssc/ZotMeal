@@ -93,20 +93,14 @@ export async function parseCampusDish(
     await upsertPeriod(db, period);
   }
 
-  const menus: Menu[] = response.Menu.MenuPeriods.map((menuPeriod) => {
-    const menu = MenuSchema.parse({
-      id: menuPeriod.PeriodId,
-      restaurantId: restaurant.id,
-      period: menuPeriod.Name.toLowerCase(),
-      start: menuPeriod.UtcMealPeriodStartTime,
-      end: menuPeriod.UtcMealPeriodEndTime,
-    });
-    return menu;
+  const menu: Menu = MenuSchema.parse({
+    id: response.Menu.MenuId,
+    restaurantId: response.LocationId,
+    periodId: response.SelectedPeriodId,
+    date: response.Date
   });
 
-  for (const menu of menus) {
-    await upsertMenu(db, menu);
-  }
+  await upsertMenu(db, menu);
 
   // collect by stations
   // dishes by station id
@@ -166,6 +160,9 @@ export async function parseCampusDish(
   });
 
   for (const dish of dishes) {
+    if(!dish.name){
+      console.log(dish)
+    }
     await upsertDish(db, dish); // should nullcheck and throw for rollbacks
   }
 

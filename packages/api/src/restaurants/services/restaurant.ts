@@ -11,7 +11,7 @@ export async function upsertRestaurant(
       .insert(restaurant)
       .values(params)
       .onConflictDoUpdate({
-        target: restaurant.id,
+        target: restaurant.name,
         set: params,
       })
       .returning();

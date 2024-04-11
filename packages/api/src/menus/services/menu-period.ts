@@ -11,7 +11,7 @@ export async function upsertPeriod(
       .insert(menuPeriod)
       .values(params)
       .onConflictDoUpdate({
-        target: menuPeriod.id,
+        target: menuPeriod.name,
         set: params,
       })
       .returning();
