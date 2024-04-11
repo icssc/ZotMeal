@@ -2,7 +2,7 @@
 import type { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
-import { Pin, PinOff, StarFull } from '@tamagui/lucide-icons';
+import { ArrowRight, CalendarDays, Pin, PinOff, StarFull } from '@tamagui/lucide-icons';
 import type { MenuWithRelations } from '@zotmeal/db/src/schema';
 import { ID_TO_RESTAURANT, PERIOD_TO_ID, getCurrentPeriodName, getRestaurantNameById, isCurrentlyClosed } from '@zotmeal/utils';
 import { Link } from 'expo-router';
@@ -28,6 +28,7 @@ import { anteateryData, brandywineData } from './example_data';
 import { useEffect, useState } from 'react';
 import { G, Path, Svg, Text as TextSVG } from 'react-native-svg';
 import { useColorScheme } from 'react-native';
+import { Toast, useToastController, useToastState } from '@tamagui/toast';
 
 type Station = MenuWithRelations["stations"][0];
 type Dish = MenuWithRelations["stations"][0]["dishes"][0];
@@ -56,8 +57,58 @@ export const useMenuStore = create<MenuState>((set) => ({
   setBrandywineMenu: (brandywineMenu: MenuWithRelations) => set({ brandywineMenu }),
 }));
 
+export function EventToast() {
+  const currentToast = useToastState();
+  const toast = useToastController();
+  if (!currentToast || currentToast.isHandledNatively) return null;
+  return (
+    <Toast
+      key={currentToast.id}
+      duration={currentToast.duration}
+      enterStyle={{ opacity: 0, scale: 1, y: 50 }}
+      exitStyle={{ opacity: 0, scale: 1, y: -20 }}
+      // y={0}
+      opacity={1}
+      scale={1}
+      animation="quicker"
+      viewportName={currentToast.viewportName}
+      borderRadius="$4"
+      flexDirection='row'
+      width="90%"
+      height="$6"
+      alignItems='center'
+      justifyContent='space-between'
+      gap
+    >
+      <CalendarDays />
+      <Toast.Title fontWeight="800">{currentToast.title}</Toast.Title>
+      <Toast.Action altText='See Events' asChild>
+        <Button
+          backgroundColor="cornflowerblue"
+          pressTheme
+          size="$4"
+          onPress={() => toast.hide()}
+          circular
+          icon={ArrowRight}
+          scaleIcon={1.2}
+        />
+      </Toast.Action>
+    </Toast>
+  );
+}
+
 export function Home() {
   const { selectedRestaurant } = useMenuStore();
+  const toast = useToastController();
+
+  toast.show('There are 5 upcoming events.', {
+    // message: 'See upcoming events',
+    duration: 10_000_000,
+    burntOptions: {
+      shouldDismissByDrag: true,
+      from: 'bottom',
+    }
+  });
 
   return (
     <>
@@ -74,6 +125,7 @@ export function Home() {
       />
       <View height={65} />
       <RestaurantTabs />
+      <EventToast />
     </>
   );
 };
