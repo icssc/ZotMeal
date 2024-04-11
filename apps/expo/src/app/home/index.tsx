@@ -22,6 +22,7 @@ import {
   useTheme,
   useWindowDimensions,
 } from 'tamagui';
+import { LinearGradient } from 'tamagui/linear-gradient'
 import { create } from 'zustand';
 import { anteateryData, brandywineData } from './example_data';
 // import { api } from '~/utils/api';
@@ -82,17 +83,23 @@ export function EventToast() {
     >
       <CalendarDays />
       <Toast.Title fontWeight="800">{currentToast.title}</Toast.Title>
-      <Toast.Action altText='See Events' asChild>
-        <Button
-          backgroundColor="cornflowerblue"
-          pressTheme
-          size="$4"
-          onPress={() => toast.hide()}
-          circular
-          icon={ArrowRight}
-          scaleIcon={1.2}
-        />
-      </Toast.Action>
+      <LinearGradient
+        colors={["cornflowerblue", "blueviolet"]}
+        borderRadius="$20"
+      >
+        <Toast.Action altText='See Events' asChild>
+          <Button
+            backgroundColor={0}
+            pressTheme
+            size="$4"
+            onPress={() => toast.hide()}
+            circular
+            color="white"
+            icon={ArrowRight}
+            scaleIcon={1.5}
+          />
+        </Toast.Action>
+      </LinearGradient>
     </Toast>
   );
 }
