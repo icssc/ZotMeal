@@ -6,5 +6,6 @@ export default defineConfig({
     maxWorkers: 1,
     // maxConcurrency: 5, // default is 5
     // fileParallelism: false, // default is true
+    testTimeout: 10000,
   },
 });

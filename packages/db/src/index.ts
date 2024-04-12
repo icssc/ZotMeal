@@ -10,7 +10,12 @@ if (!connectionString) {
 
 export const client = new pg.Client({ connectionString });
 
-await client.connect();
+async function connect_db() {
+  await client.connect();
+}
+
+connect_db()
 
 export const db = drizzle(client, { schema });
 export type Drizzle = typeof db;
+export * from "drizzle-orm";
