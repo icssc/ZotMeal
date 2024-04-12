@@ -1,18 +1,27 @@
-import { dish, dietRestriction, nutritionInfo } from "@zotmeal/db/src/schema";
-import type { DishWithRelations } from "@zotmeal/db/src/schema";
 import type { Drizzle } from "@zotmeal/db";
+import type { DishWithRelations } from "@zotmeal/db/src/schema";
+import { dietRestriction, dish, nutritionInfo } from "@zotmeal/db/src/schema";
 
 export async function upsertDish(
   db: Drizzle,
   params: DishWithRelations,
 ): Promise<DishWithRelations | undefined> {
   try {
+    const dishParams = {
+      id: params.id,
+      name: params.name,
+      description: params.description,
+      category: params.category,
+      stationId: params.stationId,
+      createdAt: params.createdAt,
+      updatedAt: params.updatedAt,
+    };
     const upsertedDish = await db
       .insert(dish)
-      .values(params)
+      .values(dishParams)
       .onConflictDoUpdate({
         target: dish.id,
-        set: params,
+        set: dishParams,
       })
       .returning();
 
