@@ -37,6 +37,7 @@ Desktop.ini
 .env
 .env.*
 !.env.example
+!.env.development
 
 ## JetBrains IDE settings. https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 .idea/
