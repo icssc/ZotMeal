@@ -5,7 +5,10 @@
   "main": "serverless.ts",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
-    "dev": "sls offline --noPrependStageInUrl"
+    "dev": "sls offline --noPrependStageInUrl",
+    "with-env": "dotenv -e ../../.env --",
+    "sls:deploy": "pnpm with-env sls deploy",
+    "sls:local-invoke": "pnpm with-env sls invoke local --function updateDaily"
   },
   "engines": {
     "node": ">=20.12.1"
