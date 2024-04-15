@@ -106,7 +106,7 @@ export async function parseCampusDish(
   const menu = MenuSchema.parse({
     id: response.Menu.MenuId,
     restaurantId: response.LocationId,
-    periodId: ID_TO_PERIOD[response.SelectedPeriodId],
+    periodId: response.SelectedPeriodId,
     date: date
   })
   await upsertMenu(db, menu);
