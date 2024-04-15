@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
 import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
-
+import type { DishWithRelations } from "./dish";
 import { dish } from "./dish";
 import { menu } from "./menu";
 import { restaurant } from "./restaurant";
@@ -44,3 +44,6 @@ export const stationRelations = relations(station, ({ one, many }) => ({
 }));
 
 export type Station = typeof station.$inferInsert;
+export interface StationWithRelations extends Station {
+  dishes: DishWithRelations[];
+}

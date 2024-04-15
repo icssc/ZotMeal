@@ -1,10 +1,10 @@
 import { relations } from "drizzle-orm";
 import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
-
+import { createInsertSchema } from "drizzle-zod";
 import { menuPeriod } from "./menuPeriod";
 import { restaurant } from "./restaurant";
+import type { StationWithRelations } from "./station";
 import { station } from "./station";
-import { createInsertSchema } from "drizzle-zod";
 
 export const menu = pgTable("Menu", {
   id: text("id").primaryKey().notNull(),
@@ -46,3 +46,6 @@ export const menuRelations = relations(menu, ({ one, many }) => ({
 
 export const MenuSchema = createInsertSchema(menu);
 export type Menu = typeof menu.$inferInsert;
+export interface MenuWithRelations extends Menu {
+  stations: StationWithRelations[];
+}
