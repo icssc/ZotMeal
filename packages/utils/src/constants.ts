@@ -39,6 +39,11 @@ export const getRestaurantNameById = (
   return ID_TO_RESTAURANT[id] as Restaurant["name"];
 };
 
+export const RESTAURANT_NAMES = [
+  "brandywine",
+  "anteatery"
+]
+
 export const PERIOD_TO_ID = {
   breakfast: "49",
   lunch: "106",
@@ -66,3 +71,11 @@ export const getPeriodById = (
 
   return ID_TO_PERIOD[id] as MenuPeriod["name"];
 };
+
+export const PERIOD_NAMES = [
+  "breakfast",
+  "lunch",
+  "dinner",
+  "brunch",
+  "latenight"
+]
