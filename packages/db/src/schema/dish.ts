@@ -17,10 +17,16 @@ export const dish = pgTable(
     name: text("name").notNull(),
     description: text("description").notNull(),
     category: text("category").notNull(),
+    stationId: text("stationId")
+      .notNull()
+      .references(() => station.id, {
+        onDelete: "restrict",
+        onUpdate: "cascade",
+      }),
   }
 );
 
-export const dishRelations = relations(dish, ({ one, many }) => ({
+export const dishRelations = relations(dish, ({ one }) => ({
   // * Dish ↔ DietRestriction: One-to-One (Each dish has a set of diet restrictions).
   dietRestriction: one(dietRestriction, {
     fields: [dish.id],
@@ -32,7 +38,7 @@ export const dishRelations = relations(dish, ({ one, many }) => ({
     references: [nutritionInfo.dishId],
   }),
   // * Station <- Dish: One-to-Many (Each station has a set of dishes).
-  station: many(station, { fields: [dish.stationId], references: [station.id] }),
+  station: one(station, { fields: [dish.stationId], references: [station.id] }),
 }));
 
 export type Dish = typeof dish.$inferInsert;

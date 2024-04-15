@@ -6,7 +6,7 @@ import type { Menu } from "@zotmeal/db/src/schema";
 import campus_dish_response from "./campus_dish_response.json";
 import { upsertMenu } from "./menu";
 
-// import { parseCampusDish } from './parse';
+import { parseCampusDish, getCampusDish } from './parse';
 import { db } from "@zotmeal/db";
 import { upsertPeriod, upsertRestaurant } from "../..";
 
@@ -129,5 +129,30 @@ describe("upsertMenu()", () => {
 
   afterAll(async () => {
     // await db.$disconnect();
+  });
+});
+
+describe("parseCampusDish()", () => {
+  it("parses and upserts today's menu", async () => {
+    const testParams = {
+      date: "04/11/2024",
+      restaurant: "brandywine",
+      period: "lunch",
+    };
+
+    const campus_dish_response = await getCampusDish(testParams);
+
+    if (!campus_dish_response) {
+      console.error("Couldn't retreive campusDish menu", testParams);
+    }
+    else {
+      await expect(async () => {
+        await db.transaction(async (trx) => {
+          await parseCampusDish(db, campus_dish_response)
+          
+          trx.rollback();
+        });
+      }).rejects.toThrowError('Rollback');
+    }
   });
 });

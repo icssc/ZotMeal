@@ -1,5 +1,5 @@
 import type { Drizzle } from "@zotmeal/db";
-import type { DietRestriction, DishWithRelations, Menu, MenuPeriod, NutritionInfo, Restaurant, Station } from "@zotmeal/db/src/schema";
+import type { DietRestriction, DishWithRelations, DishesToStations, Menu, MenuPeriod, NutritionInfo, Restaurant, Station, StationWithRelations } from "@zotmeal/db/src/schema";
 import { MenuPeriodSchema, MenuSchema } from "@zotmeal/db/src/schema";
 import {
   getPeriodId,
@@ -10,7 +10,7 @@ import type { CampusDishResponse } from "@zotmeal/validators";
 import { CampusDishResponseSchema } from "@zotmeal/validators";
 import axios from "axios";
 import { ZodError } from "zod";
-import { upsertDish } from "../../dishes";
+import { upsertDish, upsertDishToStationRelation } from "../../dishes";
 import { upsertRestaurant } from "../../restaurants/services/restaurant";
 import { upsertStation } from "../../stations/station";
 import { upsertMenu } from "./menu";
@@ -93,24 +93,17 @@ export async function parseCampusDish(
     await upsertPeriod(db, period);
   }
 
-  const menus: Menu[] = response.Menu.MenuPeriods.map((menuPeriod) => {
-    const menu = MenuSchema.parse({
-      id: menuPeriod.PeriodId,
-      restaurantId: restaurant.id,
-      period: menuPeriod.Name.toLowerCase(),
-      start: menuPeriod.UtcMealPeriodStartTime,
-      end: menuPeriod.UtcMealPeriodEndTime,
-    });
-    return menu;
+  const menu: Menu = MenuSchema.parse({
+    id: restaurant.id + response.SelectedPeriodId + response.Date,
+    restaurantId: restaurant.id,
+    period: response.SelectedPeriodId,
+    date: response.Date,
   });
 
-  for (const menu of menus) {
-    await upsertMenu(db, menu);
-  }
+  await upsertMenu(db, menu);
 
   // collect by stations
   // dishes by station id
-
   const dishes: DishWithRelations[] = response.Menu.MenuProducts.map((menuProduct) => {
     const { MenuProductId, StationId, Product } = menuProduct;
     const dietRestriction: DietRestriction = {
@@ -169,6 +162,7 @@ export async function parseCampusDish(
     await upsertDish(db, dish); // should nullcheck and throw for rollbacks
   }
 
+  // insert each station
   const stations: Station[] = response.Menu.MenuStations.map(
     (menuStation) => {
       return {
@@ -183,4 +177,6 @@ export async function parseCampusDish(
   for (const station of stations) {
     await upsertStation(db, station);
   }
+
+  // insert the relations between stations and menus in the join table
 }
