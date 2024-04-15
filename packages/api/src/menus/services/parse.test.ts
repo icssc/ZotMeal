@@ -68,7 +68,7 @@ describe("upsertMenu()", () => {
         await db.transaction(async (trx) => {
           const menu = await upsertMenu(trx, testMenu);
           expect(menu).toBeTruthy();
-          console.log("upsertedMenu:", menu);
+          // console.log("upsertedMenu:", menu);
 
           trx.rollback();
         });
@@ -119,7 +119,7 @@ describe("upsertMenu()", () => {
         await db.transaction(async (trx) => {
           const menu = await upsertMenu(trx, testMenu);
           expect(menu).toBeTruthy();
-          console.log("upsertedMenu:", menu);
+          // console.log("upsertedMenu:", menu);
 
           trx.rollback();
         });
