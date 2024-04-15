@@ -5,6 +5,7 @@ import {
   getPeriodId,
   getRestaurantId,
   getRestaurantNameById,
+  ID_TO_PERIOD
 } from "@zotmeal/utils";
 import type { CampusDishResponse } from "@zotmeal/validators";
 import { CampusDishResponseSchema } from "@zotmeal/validators";
@@ -15,6 +16,7 @@ import { upsertRestaurant } from "../../restaurants/services/restaurant";
 import { upsertStation } from "../../stations/station";
 import { upsertMenu } from "./menu";
 import { upsertPeriod } from "./menu-period";
+import { format } from "date-fns";
 
 interface GetMenuParams {
   date: string;
@@ -93,20 +95,21 @@ export async function parseCampusDish(
     await upsertPeriod(db, period);
   }
 
-  const menus: Menu[] = response.Menu.MenuPeriods.map((menuPeriod) => {
-    const menu = MenuSchema.parse({
-      id: menuPeriod.PeriodId,
-      restaurantId: restaurant.id,
-      period: menuPeriod.Name.toLowerCase(),
-      start: menuPeriod.UtcMealPeriodStartTime,
-      end: menuPeriod.UtcMealPeriodEndTime,
-    });
-    return menu;
-  });
-
-  for (const menu of menus) {
-    await upsertMenu(db, menu);
+  if (!response.SelectedPeriodId) {
+    throw new Error("SelectedPeriodId is null");
   }
+  if (!response.Menu.MenuPeriods[0]?.UtcMealPeriodEndTime) {
+    throw new Error("MenuPeriods.UtcMealPeriodEndTime is null");
+  }
+
+  const date = format(response.Menu.MenuPeriods[0]?.UtcMealPeriodStartTime, "MM/dd/yyyy")
+  const menu = MenuSchema.parse({
+    id: response.Menu.MenuId,
+    restaurantId: response.LocationId,
+    periodId: ID_TO_PERIOD[response.SelectedPeriodId],
+    date: date
+  })
+  await upsertMenu(db, menu);
 
   // collect by stations
   // dishes by station id
