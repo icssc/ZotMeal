@@ -5,7 +5,8 @@
   "main": "serverless.ts",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
-    "dev": "sls offline --noPrependStageInUrl"
+    "with-env": "dotenv -e ../../.env -- ",
+    "dev": "pnpm with-env sls offline --noPrependStageInUrl"
   },
   "engines": {
     "node": ">=20.12.1"
@@ -23,6 +24,7 @@
     "@zotmeal/validators": "workspace:^",
     "axios": "^1.6.8",
     "date-fns": "^3.6.0",
+    "dotenv-cli": "^7.4.1",
     "expo-server-sdk": "^3.9.0",
     "serverless-esbuild": "^1.52.1",
     "serverless-offline": "^13.3.3"
