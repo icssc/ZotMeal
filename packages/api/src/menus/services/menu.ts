@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import type { Drizzle } from "@zotmeal/db";
 import type { Menu, MenuWithRelations } from "@zotmeal/db/src/schema";
+import { MenuTable } from "@zotmeal/db/src/schema";
 import { parseDate } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
 
@@ -66,27 +67,26 @@ export async function upsertMenu(
     throw Error("invalid date");
   }
 
-  const { id, periodId, restaurantId } = params;
+  const { id, restaurantId } = params;
 
-  const upsertedMenu: Menu[] = await db
-    .insert(menu)
+  const menuResult: Menu[] = await db
+    .insert(MenuTable)
     .values({
       id,
-      periodId,
       restaurantId,
       date: date.toISOString(),
     })
     .onConflictDoUpdate({
-      target: menu.id,
+      target: MenuTable.id,
       set: params,
     })
     .returning();
 
-  if (upsertedMenu.length !== 1) {
+  if (menuResult.length !== 1) {
     throw new Error(
-      `expected 1 menu to be upserted, but got ${upsertedMenu.length}`,
+      `expected 1 menu to be upserted, but got ${menuResult.length}`,
     );
   }
 
-  return upsertedMenu[0];
+  return menuResult[0];
 }

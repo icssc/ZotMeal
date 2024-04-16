@@ -1,15 +1,15 @@
 import { afterAll, describe, expect, it } from "vitest";
 
+import type { Menu } from "@zotmeal/db/src/schema";
+import { createDrizzle } from "@zotmeal/db";
+// import { parseCampusDish } from './parse';
 import { CampusDishResponseSchema } from "@zotmeal/validators";
 
-import type { Menu } from "@zotmeal/db/src/schema";
+import { upsertRestaurant } from "../..";
 import campus_dish_response from "./campus_dish_response.json";
 import { upsertMenu } from "./menu";
 
-// import { parseCampusDish } from './parse';
-import { db } from "@zotmeal/db";
-import { upsertPeriod, upsertRestaurant } from "../..";
-
+const db = await createDrizzle("postgres://admin:admin@localhost:5433/zotmeal");
 describe("parse campus dish", () => {
   it("parses valid campus dish response", () => {
     expect(() => {
@@ -32,20 +32,17 @@ describe("upsertMenu()", () => {
         id: "1",
         restaurantId: "9999",
         date: "01/17/2024",
-        periodId: "99",
       },
       {
         id: "2",
         restaurantId: "9999",
         date: "02/20/2024",
-        periodId: "99",
       },
       {
         id: "3",
         restaurantId: "9999",
         date: "03/29/2024",
-        periodId: "99",
-      }
+      },
     ];
 
     const testRestaurant = await upsertRestaurant(db, {
@@ -53,15 +50,7 @@ describe("upsertMenu()", () => {
       name: "brandywine",
     });
 
-    const testPeriod = await upsertPeriod(db, {
-      id: "99",
-      name: "lunch",
-      start: "2024-01-17 15:15:00Z",
-      end: "2024-01-17 16:15:00Z",
-    });
-
     expect(testRestaurant).toBeTruthy();
-    expect(testPeriod).toBeTruthy();
 
     for (const testMenu of testMenus) {
       await expect(async () => {
@@ -72,7 +61,7 @@ describe("upsertMenu()", () => {
 
           trx.rollback();
         });
-      }).rejects.toThrowError('Rollback');
+      }).rejects.toThrowError("Rollback");
     }
   });
   it("updates existing menu in db", async () => {
@@ -81,14 +70,13 @@ describe("upsertMenu()", () => {
         id: "1",
         restaurantId: "9999",
         date: "01/17/2024",
-        periodId: "99",
       },
-      { // second menu with same id but different date
+      {
+        // second menu with same id but different date
         id: "1",
         restaurantId: "9999",
         date: "04/30/2024",
-        periodId: "99",
-      }
+      },
     ];
 
     const testRestaurant = await upsertRestaurant(db, {
@@ -96,22 +84,7 @@ describe("upsertMenu()", () => {
       name: "brandywine",
     });
 
-    const testPeriod = await upsertPeriod(db, {
-      id: "99",
-      name: "lunch",
-      start: "2024-01-17 15:15:00Z",
-      end: "2024-01-17 16:15:00Z",
-    });
-    const testPeriod2 = await upsertPeriod(db, {
-      id: "99",
-      name: "lunch",
-      start: "2024-01-17 15:15:00Z",
-      end: "2024-01-17 16:15:00Z",
-    });
-
     expect(testRestaurant).toBeTruthy();
-    expect(testPeriod).toBeTruthy();
-    expect(testPeriod2).toBeTruthy();
 
     // upsert dummy restaurant & period & menu. then rollback. should pass if 'Rollback' is the thrown error for each test
     for (const testMenu of testMenus) {
@@ -123,7 +96,7 @@ describe("upsertMenu()", () => {
 
           trx.rollback();
         });
-      }).rejects.toThrowError('Rollback');
+      }).rejects.toThrowError("Rollback");
     }
   });
 

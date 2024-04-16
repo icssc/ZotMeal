@@ -1,4 +1,4 @@
-import { DishWithRelations } from "@zotmeal/db/src/schema";
+import type { DishWithRelations } from "@zotmeal/db/src/schema";
 
 const testDishId = "dish123";
 

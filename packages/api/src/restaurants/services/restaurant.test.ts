@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { db } from "@zotmeal/db";
-
 import { testData, updateData } from "../testdata/restaurantData";
 import { upsertRestaurant } from "./restaurant";
+import { createDrizzle } from '@zotmeal/db';
 
-describe("upsertRestaurant correctly", () => {
+describe("upsertRestaurant correctly", async () => {
+  const db = await createDrizzle("postgres://admin:admin@localhost:5433/zotmeal");
   it("insertRestaurant", async () => {
     await expect(async () => {
       await db.transaction(async (trx) => {

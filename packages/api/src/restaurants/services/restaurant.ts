@@ -1,6 +1,6 @@
 import type { Drizzle } from "@zotmeal/db";
-import { restaurant } from "@zotmeal/db/src/schema";
 import type { Restaurant } from "@zotmeal/db/src/schema";
+import { RestaurantTable } from "@zotmeal/db/src/schema";
 
 export async function upsertRestaurant(
   db: Drizzle,
@@ -8,16 +8,18 @@ export async function upsertRestaurant(
 ): Promise<Restaurant | undefined> {
   try {
     const upsertedRestaurant = await db
-      .insert(restaurant)
+      .insert(RestaurantTable)
       .values(params)
       .onConflictDoUpdate({
-        target: restaurant.id,
+        target: RestaurantTable.id,
         set: params,
       })
       .returning();
 
     if (upsertedRestaurant.length !== 1) {
-      throw new Error(`expected 1 restaurant to be upserted, but got ${upsertedRestaurant.length}`);
+      throw new Error(
+        `expected 1 restaurant to be upserted, but got ${upsertedRestaurant.length}`,
+      );
     }
 
     return upsertedRestaurant[0];
@@ -32,7 +34,7 @@ export async function getRestaurantById(
   db: Drizzle,
   id: string,
 ): Promise<Restaurant | undefined> {
-  return await db.query.restaurant.findFirst({
-    where: (restaurant, { eq }) => eq(restaurant.id, id),
+  return await db.query.RestaurantTable.findFirst({
+    where: (RestaurantTable, { eq }) => eq(RestaurantTable.id, id),
   });
 }
