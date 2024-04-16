@@ -1,18 +1,18 @@
-import { describe, expect, it, test } from "vitest";
+import { describe, expect, it } from "vitest";
 
-import { createDrizzle, db } from "@zotmeal/db";
+import { createDrizzle } from "@zotmeal/db";
 
 import { upsertMenu } from "../../menus";
 import { testData, updateData } from "../testdata/stationData";
 import { upsertStation } from "./station";
 
-describe("upsertStation correctly", () => {
+describe("upsertStation correctly", async () => {
+  const db = await createDrizzle(
+    "postgres://admin:admin@localhost:5433/zotmeal",
+  );
   it("insertStation", async () => {
     // crate a connection to the postgres
 
-    const db = await createDrizzle(
-      "postgres://admin:admin@localhost:5433/zotmeal",
-    );
     await expect(async () => {
       await db.transaction(async (trx) => {
         await upsertMenu(trx, {
@@ -37,7 +37,6 @@ describe("upsertStation correctly", () => {
           date: "04/07/2024",
           id: "menu123",
           restaurantId: "9999",
-          periodId: "99",
           createdAt: "04/07/2024",
           updatedAt: "04/07/2024",
         });

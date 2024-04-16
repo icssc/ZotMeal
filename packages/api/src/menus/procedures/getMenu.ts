@@ -5,7 +5,7 @@ import { GetMenuSchema, getMenu } from "../services";
 export const getMenuProcedure = publicProcedure
   .input(GetMenuSchema)
   .query(async ({ ctx: { db }, input }) => {
-    const menu = await getMenu(db, input);
+    // const menu = await getMenu(db, input);
 
     if (!menu) {
       throw new TRPCError({

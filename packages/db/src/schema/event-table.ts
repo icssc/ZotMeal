@@ -24,9 +24,8 @@ export const EventTable = pgTable(
   },
   (table) => {
     return {
-      eventPkey: primaryKey({
-        columns: [table.title, table.date, table.restaurantId],
-        name: "Event_pkey",
+      pk: primaryKey({
+        columns: [table.title, table.restaurantId, table.date],
       }),
     };
   },

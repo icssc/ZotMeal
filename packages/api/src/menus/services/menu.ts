@@ -1,21 +1,21 @@
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+
 import type { Drizzle } from "@zotmeal/db";
-import type { Menu, MenuPeriod, MenuWithRelations, Restaurant } from "@zotmeal/db/src/schema";
-import { MenuPeriodSchema, RestaurantSchema, menu } from "@zotmeal/db/src/schema";
+import type { Menu, MenuWithRelations } from "@zotmeal/db/src/schema";
 import { parseDate } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
-import { z } from "zod";
 
 export interface GetMenuParams {
   date: string;
-  periodName: MenuPeriod["name"];
-  restaurantName: Restaurant["name"];
+  periodName: string;
+  restaurantName: string;
 }
 
 export const GetMenuSchema = z.object({
   date: DateRegex,
-  periodName: MenuPeriodSchema.shape.name,
-  restaurantName: RestaurantSchema.shape.name,
+  periodName: z.string(),
+  restaurantName: z.string(),
 }) satisfies z.ZodType<GetMenuParams>;
 
 export async function getMenu(
@@ -57,10 +57,10 @@ export async function getMenu(
               dietRestriction: true,
               nutritionInfo: true,
             },
-          }
+          },
         },
-      }
-    }
+      },
+    },
   });
 
   return menu;
@@ -92,7 +92,9 @@ export async function upsertMenu(
     .returning();
 
   if (upsertedMenu.length !== 1) {
-    throw new Error(`expected 1 menu to be upserted, but got ${upsertedMenu.length}`);
+    throw new Error(
+      `expected 1 menu to be upserted, but got ${upsertedMenu.length}`,
+    );
   }
 
   return upsertedMenu[0];

@@ -15,6 +15,7 @@ export const RestaurantTable = pgTable("restaurants", {
     .defaultNow()
     .notNull(),
   updatedAt: updatedAtColumnPostgres,
+  
 });
 
 export const restaurantRelations = relations(RestaurantTable, ({ many }) => ({

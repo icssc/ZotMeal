@@ -1,16 +1,22 @@
 // import fs from "fs";
 // import path from "path";
 import { afterAll, describe, expect, it } from "vitest";
-import { upsertEvents, getHTML, scrapeEvents } from "../services";
-import { db } from "@zotmeal/db";
 
-describe("insert menu into db", () => {
+import { createDrizzle } from "@zotmeal/db";
+
+import { getHTML, scrapeEvents, upsertEvents } from "../services";
+
+describe("insert menu into db", async () => {
   // refactor this to only test the insertion
   // test the scrape separately from the insertion
 
   // beforeAll(() => {
   //   db = new PrismaClient();
   // });
+
+  const db = await createDrizzle(
+    "postgres://admin:admin@localhost:5433/zotmeal",
+  );
 
   it("scrapes events data and upserts it to db", async () => {
     // const filepath = path.join(__dirname, "../testdata/events.html");
@@ -32,7 +38,7 @@ describe("insert menu into db", () => {
 
         trx.rollback();
       });
-    }).rejects.toThrowError('Rollback');
+    }).rejects.toThrowError("Rollback");
   });
 
   // it("", () => {
