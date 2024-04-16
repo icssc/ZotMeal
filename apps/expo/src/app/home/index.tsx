@@ -358,7 +358,7 @@ const DishCard = ({ dish }: { dish: Dish }) => (
       asChild
       href={{
         pathname: "/home/item/[id]",
-        params: { id: dish.id, stationId: dish.stationId }, 
+        params: { id: dish.id },
       }}
     >
       <ListItem pressTheme>
