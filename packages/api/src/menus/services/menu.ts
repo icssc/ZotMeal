@@ -30,7 +30,7 @@ export async function getMenu(
     });
   }
 
-  const fetchedRestaurant = await db.query.restaurant.findFirst({
+  const fetchedRestaurant = await db.query.RestaurantTable.findFirst({
     where: (restaurant, { eq }) => eq(restaurant.name, params.restaurantName),
   });
 
@@ -38,18 +38,9 @@ export async function getMenu(
     throw new TRPCError({ message: "restaurant not found", code: "NOT_FOUND" });
   }
 
-  const menuPeriod = await db.query.menuPeriod.findFirst({
-    where: (menuPeriod, { eq }) => eq(menuPeriod.name, params.periodName),
-  });
-
-  if (!menuPeriod) {
-    throw new TRPCError({ message: "period not found", code: "NOT_FOUND" });
-  }
-
-  const menu = await db.query.menu.findFirst({
+  const menu = await db.query.MenuTable.findFirst({
     where: (menu, { eq }) => eq(menu.restaurantId, fetchedRestaurant.id),
     with: {
-      menuPeriod: true,
       stations: {
         with: {
           dishes: {

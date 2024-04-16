@@ -18,15 +18,13 @@ export const createClient = async (
   return client;
 };
 
-export type Drizzle = ReturnType<typeof drizzle>;
-export const createDrizzle = async (
-  connectionString: string,
-): Promise<Drizzle> => {
+export async function createDrizzle(connectionString: string) {
   const client = await createClient(connectionString);
   const db = drizzle(client, { schema });
 
   return db;
-};
+}
+export type Drizzle = Awaited<ReturnType<typeof createDrizzle>>;
 
 export * from "drizzle-orm";
 export * from "./schema";
