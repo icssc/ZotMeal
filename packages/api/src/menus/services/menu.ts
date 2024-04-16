@@ -25,6 +25,7 @@ export const GetMenuSchema = z.object({
   restaurantName: z.string(),
 }) satisfies z.ZodType<GetMenuParams>;
 
+// deliberate choice, the list view will not contain the full dish nutrition details
 interface StationResult extends Station {
   dishes: Dish[];
 }
