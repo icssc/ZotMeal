@@ -1,7 +1,10 @@
-import { migrate } from "drizzle-orm/node-postgres/migrator";
-import { client, db } from ".";
+// import { migrate } from "drizzle-orm/node-postgres/migrator";
+import { drizzle } from "drizzle-orm/postgres-js";
+import { migrate } from "drizzle-orm/postgres-js/migrator";
+import pg from "pg";
 
-// This will run migrations on the database, skipping the ones already applied
+const client = new pg.Client({ connectionString: process.env.DATABASE_URL });
+await client.connect();
+const db = drizzle(client);
 await migrate(db, { migrationsFolder: "migrations" });
-// Don't forget to close the connection, otherwise the script will hang
 await client.end();
