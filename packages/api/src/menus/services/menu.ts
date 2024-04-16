@@ -13,6 +13,7 @@ import {
   DishMenuStationJoint,
   DishTable,
   MenuTable,
+  stationRelations,
   StationTable,
 } from "@zotmeal/db/src/schema";
 import { parseDate } from "@zotmeal/utils";
@@ -80,23 +81,36 @@ export async function getMenu(db: Drizzle, params: GetMenuParams) {
     stations: StationResult[];
   }
 
-  const menu = {
-    stations: [],
-  };
-  // for (const row of rows) {
-  //   const { dishes, menu, stations } = row;
-  //   console.log(dishes, menu, stations);
+  let menuResult: MenuResult | null = null;
+  const stationsResult: Record<string, StationResult> = {};
 
-  //   // menu.stations.push()
-  // }
+  for (const row of rows) {
+    if (!menuResult) {
+      menuResult = {
+        ...row.menu,
+        stations: [],
+      };
+    }
+    const { dishes: dish, menu, stations: station } = row;
+    if (!(station.id in stationsResult)) {
+      stationsResult[station.id] = {
+        ...station,
+        dishes: [],
+      };
+    }
+    stationsResult[station.id]?.dishes.push(dish);
+    console.log(dish, menu, station);
+  }
+  if (!menuResult) {
+    return null;
+  }
+
+  for (const stationId in stationsResult) {
+    menuResult.stations.push(stationsResult[stationId]!);
+  }
 
   console.log("NUMBER OF ROWS", rows.length);
-
-  // need to group by server side
-  // unfortunate it is slow compared to a GROUP_JOIN
-
-  // return menu;
-  return null;
+  return menuResult;
 }
 
 export async function upsertMenu(db: Drizzle, params: Menu): Promise<Menu> {
