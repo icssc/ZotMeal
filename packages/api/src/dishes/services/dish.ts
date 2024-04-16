@@ -2,8 +2,8 @@ import type { Drizzle } from "@zotmeal/db";
 import type { DishWithRelations } from "@zotmeal/db/src/schema";
 import {
   DietRestrictionTable,
-  dish,
-  nutritionInfo,
+  DishTable,
+  NutritionInfoTable,
 } from "@zotmeal/db/src/schema";
 
 export async function upsertDish(
@@ -16,15 +16,14 @@ export async function upsertDish(
       name: params.name,
       description: params.description,
       category: params.category,
-      stationId: params.stationId,
       createdAt: params.createdAt,
       updatedAt: params.updatedAt,
     };
     const upsertedDish = await db
-      .insert(dish)
+      .insert(DishTable)
       .values(dishParams)
       .onConflictDoUpdate({
-        target: dish.id,
+        target: DishTable.id,
         set: dishParams,
       })
       .returning();
@@ -39,10 +38,10 @@ export async function upsertDish(
       .returning();
 
     const upsertedNutritionInfo = await db
-      .insert(nutritionInfo)
+      .insert(NutritionInfoTable)
       .values(params.nutritionInfo)
       .onConflictDoUpdate({
-        target: [nutritionInfo.dishId],
+        target: [NutritionInfoTable.dishId],
         set: params.nutritionInfo,
       })
       .returning();

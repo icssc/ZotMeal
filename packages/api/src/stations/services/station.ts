@@ -1,5 +1,6 @@
 import type { Drizzle } from "@zotmeal/db";
-import { station, Station } from "@zotmeal/db/src/schema";
+import type { Station } from "@zotmeal/db/src/schema";
+import { StationTable } from "@zotmeal/db/src/schema";
 
 export async function upsertStation(
   db: Drizzle,
@@ -7,10 +8,10 @@ export async function upsertStation(
 ): Promise<Station | undefined> {
   try {
     const upsertedStation = await db
-      .insert(station)
+      .insert(StationTable)
       .values(params)
       .onConflictDoUpdate({
-        target: station.id,
+        target: StationTable.id,
         set: params,
       })
       .returning();

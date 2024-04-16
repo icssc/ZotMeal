@@ -1,6 +1,8 @@
-import { TRPCError } from "@trpc/server";
-import { PushTokenSchema, pushToken } from "@zotmeal/db/src/schema";
 import { Expo } from "expo-server-sdk";
+import { TRPCError } from "@trpc/server";
+
+import { PushTokenSchema, PushTokenTable } from "@zotmeal/db/src/schema";
+
 import { publicProcedure } from "../../trpc";
 
 export const registerPushToken = publicProcedure
@@ -9,37 +11,14 @@ export const registerPushToken = publicProcedure
     const { db } = ctx;
 
     if (!Expo.isExpoPushToken(input.token)) {
-      console.error("pushToken", pushToken);
+      console.error("pushToken", PushTokenTable);
       throw new TRPCError({
         message: "invalid push token",
         code: "BAD_REQUEST",
       });
     }
-    try {
-      await db.insert(pushToken).values(input)
-    } catch (e) {
-      // TODO: do similar handling as below but with Drizzle
 
-      // if (e instanceof Prisma.PrismaClientValidationError) {
-      //   throw new TRPCError({
-      //     message: "invalid data",
-      //     code: "BAD_REQUEST",
-      //   });
-      // } else {
-      //   throw new TRPCError({
-      //     message: "unknown error",
-      //     code: "INTERNAL_SERVER_ERROR",
-      //   });
-      // }
+    // insert into the database
 
-      throw new TRPCError({
-        message: "unknown error",
-        code: "INTERNAL_SERVER_ERROR",
-      });
-
-    }
-
-    // test if it is a valid expo push token
-
-    //
+    await db.insert(PushTokenTable).values(input).execute();
   });
