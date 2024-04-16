@@ -46,7 +46,7 @@
     "react-native-screens": "~3.30.1",
     "react-native-svg": "^15.1.0",
     "superjson": "2.2.1",
-    "tamagui": "^1.94.3",
+    "tamagui": "^1.94.5",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
