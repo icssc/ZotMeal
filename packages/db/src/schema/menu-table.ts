@@ -4,7 +4,6 @@ import { createInsertSchema } from "drizzle-zod";
 
 import type { StationWithRelations } from "./station-table";
 import { RestaurantTable } from "./restaurant-table";
-import { StationTable } from "./station-table";
 import { updatedAtColumnPostgres } from "./utils";
 
 export const PeriodEnum = pgEnum("period", [
@@ -31,13 +30,11 @@ export const MenuTable = pgTable("menu", {
   updatedAt: updatedAtColumnPostgres,
   start: timestamp("start", { precision: 3, mode: "string" }).notNull(),
   end: timestamp("end", { precision: 3, mode: "string" }).notNull(),
-  price: text("price"),
+  price: text("price").notNull(),
   period: PeriodEnum("name").notNull(),
 });
 
-export const menuRelations = relations(MenuTable, ({ one, many }) => ({
-  // * Menu <- Station: One-to-Many (Each menu has many stations).
-  stations: many(StationTable),
+export const menuRelations = relations(MenuTable, ({ one }) => ({
   // * MenuPeriod <- Menu: One-to-Many (One menu period can be associated with many menus).
   // * Restaurant <- Menu: One-to-Many (One restaurant has many menus).
   restaurant: one(RestaurantTable, {

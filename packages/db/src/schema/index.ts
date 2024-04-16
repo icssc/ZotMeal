@@ -1,4 +1,5 @@
 import * as dietRestrictionSchema from "./diet-restriction-table";
+import * as dishMenuStationJointSchema from "./dish-menu-station-joint";
 import * as dishSchema from "./dish-table";
 import * as eventSchema from "./event-table";
 import * as menuSchema from "./menu-table";
@@ -16,6 +17,7 @@ export const schema = {
   ...pushTokenSchema,
   ...restaurantSchema,
   ...stationSchema,
+  ...dishMenuStationJointSchema,
 };
 
 export * from "./diet-restriction-table";
@@ -26,3 +28,4 @@ export * from "./nutrition-info-table";
 export * from "./push-token-table";
 export * from "./restaurant-table";
 export * from "./station-table";
+export * from "./dish-menu-station-joint";

@@ -15,7 +15,7 @@ describe("insert menu into db", async () => {
   // });
 
   const db = await createDrizzle(
-    "postgres://admin:admin@localhost:5433/zotmeal",
+    "postgres://admin:admin@localhost:5434/zotmeal",
   );
 
   it("scrapes events data and upserts it to db", async () => {

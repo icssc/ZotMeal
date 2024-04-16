@@ -5,7 +5,7 @@ import { RestaurantTable } from "@zotmeal/db/src/schema";
 export async function upsertRestaurant(
   db: Drizzle,
   params: Restaurant,
-): Promise<Restaurant | undefined> {
+): Promise<Restaurant> {
   try {
     const upsertedRestaurant = await db
       .insert(RestaurantTable)
@@ -22,11 +22,10 @@ export async function upsertRestaurant(
       );
     }
 
-    return upsertedRestaurant[0];
+    return upsertedRestaurant[0]!;
   } catch (e) {
-    if (e instanceof Error) {
-      console.error(e);
-    }
+    console.error(e);
+    throw e;
   }
 }
 

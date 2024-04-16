@@ -2,8 +2,19 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import type { Drizzle } from "@zotmeal/db";
-import type { Menu, MenuWithRelations } from "@zotmeal/db/src/schema";
-import { MenuTable } from "@zotmeal/db/src/schema";
+import type {
+  Dish,
+  Menu,
+  MenuWithRelations,
+  Station,
+} from "@zotmeal/db/src/schema";
+import { eq } from "@zotmeal/db";
+import {
+  DishMenuStationJoint,
+  DishTable,
+  MenuTable,
+  StationTable,
+} from "@zotmeal/db/src/schema";
 import { parseDate } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
 
@@ -19,10 +30,7 @@ export const GetMenuSchema = z.object({
   restaurantName: z.string(),
 }) satisfies z.ZodType<GetMenuParams>;
 
-export async function getMenu(
-  db: Drizzle,
-  params: GetMenuParams,
-): Promise<MenuWithRelations | undefined> {
+export async function getMenu(db: Drizzle, params: GetMenuParams) {
   const date = parseDate(params.date);
   if (!date) {
     throw new TRPCError({
@@ -39,23 +47,56 @@ export async function getMenu(
     throw new TRPCError({ message: "restaurant not found", code: "NOT_FOUND" });
   }
 
-  const menu = await db.query.MenuTable.findFirst({
-    where: (menu, { eq }) => eq(menu.restaurantId, fetchedRestaurant.id),
-    with: {
-      stations: {
-        with: {
-          dishes: {
-            with: {
-              dietRestriction: true,
-              nutritionInfo: true,
-            },
-          },
-        },
-      },
-    },
-  });
+  // const menu = await db.query.MenuTable.findFirst({
+  //   where: (menu, { eq }) => eq(menu.restaurantId, fetchedRestaurant.id),
+  //   with: {
+  //     stations: {
+  //       with: {
+  //         dishes: {
+  //           with: {
+  //             dietRestriction: true,
+  //             nutritionInfo: true,
+  //           },
+  //         },
+  //       },
+  //     },
+  //   },
+  // });
 
-  return menu;
+  const rows = await db
+    .select()
+    .from(DishMenuStationJoint)
+    .innerJoin(MenuTable, eq(DishMenuStationJoint.menuId, MenuTable.id))
+    .innerJoin(DishTable, eq(DishMenuStationJoint.dishId, DishTable.id))
+    .innerJoin(
+      StationTable,
+      eq(DishMenuStationJoint.stationId, StationTable.id),
+    );
+  interface StationResult extends Station {
+    dishes: Dish[];
+  }
+
+  interface MenuResult extends Menu {
+    stations: StationResult[];
+  }
+
+  const menu = {
+    stations: [],
+  };
+  // for (const row of rows) {
+  //   const { dishes, menu, stations } = row;
+  //   console.log(dishes, menu, stations);
+
+  //   // menu.stations.push()
+  // }
+
+  console.log("NUMBER OF ROWS", rows.length);
+
+  // need to group by server side
+  // unfortunate it is slow compared to a GROUP_JOIN
+
+  // return menu;
+  return null;
 }
 
 export async function upsertMenu(
@@ -75,6 +116,10 @@ export async function upsertMenu(
       id,
       restaurantId,
       date: date.toISOString(),
+      period: params.period, // Add the missing 'period' property
+      start: params.start, // Add the missing 'start' property
+      end: params.end, // Add the missing 'end' property
+      price: params.price,
     })
     .onConflictDoUpdate({
       target: MenuTable.id,

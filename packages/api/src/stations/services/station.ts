@@ -5,7 +5,7 @@ import { StationTable } from "@zotmeal/db/src/schema";
 export async function upsertStation(
   db: Drizzle,
   params: Station,
-): Promise<Station | undefined> {
+): Promise<Station> {
   try {
     const upsertedStation = await db
       .insert(StationTable)
@@ -16,16 +16,15 @@ export async function upsertStation(
       })
       .returning();
 
-    if (upsertedStation.length !== 1) {
+    if (!upsertedStation || upsertedStation.length !== 1) {
       throw new Error(
         `expected 1 station to be upserted, but got ${upsertedStation.length}`,
       );
     }
 
-    return upsertedStation[0];
+    return upsertedStation[0]!;
   } catch (e) {
-    if (e instanceof Error) {
-      console.error(e);
-    }
+    console.error(e);
+    throw e;
   }
 }

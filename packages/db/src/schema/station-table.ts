@@ -2,7 +2,6 @@ import { relations } from "drizzle-orm";
 import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
 import type { DishWithRelations } from "./dish-table";
-import { DishTable } from "./dish-table";
 import { RestaurantTable } from "./restaurant-table";
 import { updatedAtColumnPostgres } from "./utils";
 
@@ -21,9 +20,7 @@ export const StationTable = pgTable("stations", {
     }),
 });
 
-export const stationRelations = relations(StationTable, ({ one, many }) => ({
-  // * Station <- Dish: One-to-Many (Each station has a set of dishes).
-  dishes: many(DishTable),
+export const stationRelations = relations(StationTable, ({ one }) => ({
   // * Menu <- Station: One-to-Many (Each menu has many stations).
   // * Restaurant <- Station: One-to-Many (One restaurant has many stations).
   restaurant: one(RestaurantTable, {
