@@ -2,18 +2,12 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import type { Drizzle } from "@zotmeal/db";
-import type {
-  Dish,
-  Menu,
-  MenuWithRelations,
-  Station,
-} from "@zotmeal/db/src/schema";
+import type { Dish, Menu, Station } from "@zotmeal/db/src/schema";
 import { eq } from "@zotmeal/db";
 import {
   DishMenuStationJoint,
   DishTable,
   MenuTable,
-  stationRelations,
   StationTable,
 } from "@zotmeal/db/src/schema";
 import { parseDate } from "@zotmeal/utils";
@@ -31,7 +25,18 @@ export const GetMenuSchema = z.object({
   restaurantName: z.string(),
 }) satisfies z.ZodType<GetMenuParams>;
 
-export async function getMenu(db: Drizzle, params: GetMenuParams) {
+interface StationResult extends Station {
+  dishes: Dish[];
+}
+
+interface MenuResult extends Menu {
+  stations: StationResult[];
+}
+
+export async function getMenu(
+  db: Drizzle,
+  params: GetMenuParams,
+): Promise<MenuResult | null> {
   const date = parseDate(params.date);
   if (!date) {
     throw new TRPCError({
@@ -48,22 +53,6 @@ export async function getMenu(db: Drizzle, params: GetMenuParams) {
     throw new TRPCError({ message: "restaurant not found", code: "NOT_FOUND" });
   }
 
-  // const menu = await db.query.MenuTable.findFirst({
-  //   where: (menu, { eq }) => eq(menu.restaurantId, fetchedRestaurant.id),
-  //   with: {
-  //     stations: {
-  //       with: {
-  //         dishes: {
-  //           with: {
-  //             dietRestriction: true,
-  //             nutritionInfo: true,
-  //           },
-  //         },
-  //       },
-  //     },
-  //   },
-  // });
-
   const rows = await db
     .select()
     .from(DishMenuStationJoint)
@@ -73,13 +62,6 @@ export async function getMenu(db: Drizzle, params: GetMenuParams) {
       StationTable,
       eq(DishMenuStationJoint.stationId, StationTable.id),
     );
-  interface StationResult extends Station {
-    dishes: Dish[];
-  }
-
-  interface MenuResult extends Menu {
-    stations: StationResult[];
-  }
 
   let menuResult: MenuResult | null = null;
   const stationsResult: Record<string, StationResult> = {};
