@@ -30,7 +30,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@types/react": "^18.2.63",
+    "@types/react": "^18.2.79",
     "@zotmeal/eslint-config": "workspace:^0.2.0",
     "@zotmeal/prettier-config": "workspace:^0.1.0",
     "@zotmeal/tailwind-config": "workspace:^0.1.0",
