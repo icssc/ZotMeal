@@ -99,10 +99,7 @@ export async function getMenu(db: Drizzle, params: GetMenuParams) {
   return null;
 }
 
-export async function upsertMenu(
-  db: Drizzle,
-  params: Menu,
-): Promise<Menu | undefined> {
+export async function upsertMenu(db: Drizzle, params: Menu): Promise<Menu> {
   const date = parseDate(params.date);
   if (!date) {
     throw Error("invalid date");
@@ -133,5 +130,5 @@ export async function upsertMenu(
     );
   }
 
-  return menuResult[0];
+  return menuResult[0]!;
 }

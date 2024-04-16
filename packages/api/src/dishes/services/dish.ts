@@ -1,5 +1,5 @@
 import type { Drizzle } from "@zotmeal/db";
-import type { DishWithRelations } from "@zotmeal/db/src/schema";
+import type { Dish, DishWithRelations } from "@zotmeal/db/src/schema";
 import {
   DietRestrictionTable,
   DishTable,
@@ -9,9 +9,9 @@ import {
 export async function upsertDish(
   db: Drizzle,
   params: DishWithRelations,
-): Promise<DishWithRelations | undefined> {
+) {
   try {
-    const dishParams = {
+    const dishParams: Dish = {
       id: params.id,
       name: params.name,
       description: params.description,
@@ -19,7 +19,7 @@ export async function upsertDish(
       createdAt: params.createdAt,
       updatedAt: params.updatedAt,
     };
-    const upsertedDish = await db
+    const dish = await db
       .insert(DishTable)
       .values(dishParams)
       .onConflictDoUpdate({
@@ -28,7 +28,7 @@ export async function upsertDish(
       })
       .returning();
 
-    const upsertedDietRestriction = await db
+    const dietRestriction = await db
       .insert(DietRestrictionTable)
       .values(params.dietRestriction)
       .onConflictDoUpdate({
@@ -37,7 +37,7 @@ export async function upsertDish(
       })
       .returning();
 
-    const upsertedNutritionInfo = await db
+    const nutritionInfo = await db
       .insert(NutritionInfoTable)
       .values(params.nutritionInfo)
       .onConflictDoUpdate({
@@ -48,13 +48,12 @@ export async function upsertDish(
 
     // TODO: do it without the bangs
     return {
-      ...upsertedDish[0]!,
-      dietRestriction: upsertedDietRestriction[0]!,
-      nutritionInfo: upsertedNutritionInfo[0]!,
+      ...dish[0]!,
+      dietRestriction: dietRestriction[0]!,
+      nutritionInfo: nutritionInfo[0]!,
     };
   } catch (e) {
-    if (e instanceof Error) {
-      console.error(e);
-    }
+    console.error(e);
+    throw e;
   }
 }
