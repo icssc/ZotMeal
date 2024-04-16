@@ -8,7 +8,9 @@ export default {
   // schema: [resolve(__dirname, "./src/schema")],
   schema: "./src/schema",
   dbCredentials: {
-    connectionString: process.env.DATABASE_URL ?? "",
+    connectionString:
+      process.env.DATABASE_URL ??
+      "postgres://admin:admin@localhost:5434/zotmeal",
   },
   // Print all statements
   verbose: true,

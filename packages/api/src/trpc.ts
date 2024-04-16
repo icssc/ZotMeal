@@ -34,8 +34,8 @@ const expo: Expo = new Expo({
   accessToken: process.env.EXPO_ACCESS_TOKEN,
 });
 
-const db = createDrizzle(
-  process.env.DATABASE_URL ?? "postgres://admin:admin@localhost:5433/zotmeal",
+const db = await createDrizzle(
+  process.env.DATABASE_URL ?? "postgres://admin:admin@localhost:5434/zotmeal",
 );
 export const createTRPCContext = (opts: {
   // headers: Headers;

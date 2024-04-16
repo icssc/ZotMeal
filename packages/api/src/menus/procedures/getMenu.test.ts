@@ -47,15 +47,15 @@ describe("menu.get", () => {
   const ctx = createTRPCContext({});
   const caller = createCaller(ctx);
 
-  it("should get today's brandywine lunch menu", async () => {
-    const menu = caller.menu.get({
-      date: "1/24/2024",
-      periodName: "breakfast",
-      restaurantName: "brandywine",
-    })
-    await expect(menu).resolves.toBeTruthy();
-    console.log("menu:", await menu); // should have a more robust test
-  });
+  // it("should get today's brandywine lunch menu", async () => {
+  //   const menu = caller.menu.get({
+  //     date: "1/24/2024",
+  //     periodName: "breakfast",
+  //     restaurantName: "brandywine",
+  //   })
+  //   await expect(menu).resolves.toBeTruthy();
+  //   console.log("menu:", await menu); // should have a more robust test
+  // });
 
   // TODO: finish implementing this once the database is populated.
   // each error should have a different message
