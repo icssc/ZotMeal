@@ -9,7 +9,7 @@ import { createInsertSchema } from "drizzle-zod";
 
 import { updatedAtColumnPostgres } from "./utils";
 
-export const event = pgTable(
+export const EventTable = pgTable(
   "Event",
   {
     title: text("title").notNull(),
@@ -32,5 +32,5 @@ export const event = pgTable(
   },
 );
 
-export type Event = typeof event.$inferInsert;
-export const EventSchema = createInsertSchema(event);
+export type Event = typeof EventTable.$inferInsert;
+export const EventSchema = createInsertSchema(EventTable);

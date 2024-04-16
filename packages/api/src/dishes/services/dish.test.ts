@@ -1,14 +1,18 @@
 import { describe, expect, it } from "vitest";
 
-import { db } from "@zotmeal/db";
+import { createDrizzle } from "@zotmeal/db";
 
 import { upsertMenu } from "../../menus";
 import { upsertStation } from "../../stations";
 import { testData, updateData } from "../testdata";
 import { upsertDish } from "./dish";
 
-describe("upsertDish correctly", () => {
+describe("upsertDish correctly", async () => {
   // First time is insert because no conflict id
+
+  const db = await createDrizzle(
+    "postgres://admin:admin@localhost:5433/zotmeal",
+  );
   it("insertDish", async () => {
     await expect(async () => {
       await db.transaction(async (trx) => {
@@ -16,7 +20,6 @@ describe("upsertDish correctly", () => {
           date: "04/07/2024",
           id: "menu456",
           restaurantId: "9999",
-          periodId: "99",
           createdAt: "04/07/2024",
           updatedAt: "04/07/2024",
         });
@@ -24,7 +27,6 @@ describe("upsertDish correctly", () => {
           id: "station45",
           name: "test-station",
           restaurantId: "9999",
-          menuId: "menu456",
           createdAt: "04/07/2024",
           updatedAt: "04/07/2024",
         });
@@ -48,7 +50,6 @@ describe("upsertDish correctly", () => {
           date: "04/07/2024",
           id: "menu456",
           restaurantId: "9999",
-          periodId: "99",
           createdAt: "04/07/2024",
           updatedAt: "04/07/2024",
         });
@@ -56,7 +57,6 @@ describe("upsertDish correctly", () => {
           id: "station45",
           name: "test-station",
           restaurantId: "9999",
-          menuId: "menu456",
           createdAt: "04/07/2024",
           updatedAt: "04/07/2024",
         });

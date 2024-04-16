@@ -29,3 +29,4 @@ export const createDrizzle = async (
 };
 
 export * from "drizzle-orm";
+export * from "./schema";
