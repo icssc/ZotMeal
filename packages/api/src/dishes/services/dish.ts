@@ -1,6 +1,10 @@
 import type { Drizzle } from "@zotmeal/db";
 import type { DishWithRelations } from "@zotmeal/db/src/schema";
-import { dietRestriction, dish, nutritionInfo } from "@zotmeal/db/src/schema";
+import {
+  DietRestrictionTable,
+  dish,
+  nutritionInfo,
+} from "@zotmeal/db/src/schema";
 
 export async function upsertDish(
   db: Drizzle,
@@ -26,10 +30,10 @@ export async function upsertDish(
       .returning();
 
     const upsertedDietRestriction = await db
-      .insert(dietRestriction)
+      .insert(DietRestrictionTable)
       .values(params.dietRestriction)
       .onConflictDoUpdate({
-        target: [dietRestriction.dishId],
+        target: [DietRestrictionTable.dishId],
         set: params.dietRestriction,
       })
       .returning();

@@ -1,26 +1,31 @@
-import { date, pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
-import { restaurantName } from "./restaurant";
+import {
+  date,
+  pgTable,
+  primaryKey,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
+
+import { updatedAtColumnPostgres } from "./utils";
 
 export const event = pgTable(
   "Event",
   {
     title: text("title").notNull(),
     image: text("image").notNull(),
-    restaurant: restaurantName("restaurant").notNull(),
+    restaurantId: text("restaurant_id").notNull(),
     description: text("description").notNull(),
     date: date("date", { mode: "date" }).notNull(),
     createdAt: timestamp("createdAt", { precision: 3, mode: "string" })
       .defaultNow()
       .notNull(),
-    updatedAt: timestamp("updatedAt", { precision: 3, mode: "string", })
-      .defaultNow()
-      .notNull(),
+    updatedAt: updatedAtColumnPostgres,
   },
   (table) => {
     return {
       eventPkey: primaryKey({
-        columns: [table.title, table.date, table.restaurant],
+        columns: [table.title, table.date, table.restaurantId],
         name: "Event_pkey",
       }),
     };
