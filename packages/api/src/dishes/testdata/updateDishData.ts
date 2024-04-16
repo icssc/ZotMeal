@@ -1,4 +1,8 @@
-import { DishWithRelations } from "@zotmeal/db/src/schema";
+import type {
+  DietRestriction,
+  DishWithRelations,
+  NutritionInfo,
+} from "@zotmeal/db/src/schema";
 
 const testDishId = "dish123";
 
@@ -31,7 +35,7 @@ export const updateData: DishWithRelations = {
     isOrganic: true,
     isVegan: false,
     isVegetarian: false,
-  },
+  } satisfies DietRestriction,
   nutritionInfo: {
     dishId: testDishId,
     createdAt: "2024-04-07 00:00:00",
@@ -53,5 +57,5 @@ export const updateData: DishWithRelations = {
     vitaminC: "30%",
     calcium: "4%",
     iron: "15%",
-  },
+  } satisfies NutritionInfo,
 };

@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { date, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { date, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 
 import type { StationWithRelations } from "./station-table";
@@ -7,7 +7,15 @@ import { RestaurantTable } from "./restaurant-table";
 import { StationTable } from "./station-table";
 import { updatedAtColumnPostgres } from "./utils";
 
-export const MenuTable = pgTable("Menu", {
+export const PeriodEnum = pgEnum("period", [
+  "latenight",
+  "dinner",
+  "lunch",
+  "brunch",
+  "breakfast",
+]);
+
+export const MenuTable = pgTable("menu", {
   id: text("id").primaryKey().notNull(),
   date: date("date").notNull(),
   restaurantId: text("restaurantId")
@@ -21,6 +29,10 @@ export const MenuTable = pgTable("Menu", {
     .defaultNow()
     .notNull(),
   updatedAt: updatedAtColumnPostgres,
+  start: timestamp("start", { precision: 3, mode: "string" }).notNull(),
+  end: timestamp("end", { precision: 3, mode: "string" }).notNull(),
+  price: text("price"),
+  period: PeriodEnum("name").notNull(),
 });
 
 export const menuRelations = relations(MenuTable, ({ one, many }) => ({
@@ -39,3 +51,4 @@ export type Menu = typeof MenuTable.$inferInsert;
 export interface MenuWithRelations extends Menu {
   stations: StationWithRelations[];
 }
+export type Period = typeof PeriodEnum;
