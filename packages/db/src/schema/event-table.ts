@@ -10,6 +10,8 @@ import { createInsertSchema } from "drizzle-zod";
 
 import { RestaurantTable } from "./restaurant-table";
 import { updatedAtColumnPostgres } from "./utils";
+import { RestaurantTable } from "./restaurant-table";
+import { relations } from "drizzle-orm";
 
 export const EventTable = pgTable(
   "events",
@@ -32,6 +34,7 @@ export const EventTable = pgTable(
     };
   },
 );
+
 
 export const eventRelation = relations(EventTable, ({ one }) => ({
   // * Many Events to one restaurant

@@ -2,6 +2,7 @@ import { relations } from "drizzle-orm";
 import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 
+import { EventTable } from "./event-table";
 import { MenuTable } from "./menu-table";
 import { StationTable } from "./station-table";
 import { updatedAtColumnPostgres } from "./utils";
@@ -15,7 +16,6 @@ export const RestaurantTable = pgTable("restaurants", {
     .defaultNow()
     .notNull(),
   updatedAt: updatedAtColumnPostgres,
-  
 });
 
 export const restaurantRelations = relations(RestaurantTable, ({ many }) => ({
@@ -23,6 +23,8 @@ export const restaurantRelations = relations(RestaurantTable, ({ many }) => ({
   station: many(StationTable),
   // * Restaurant <- Menu: One-to-Many (One restaurant has many menus).
   menu: many(MenuTable),
+  // * Restaurant <- Event: One-to-Many (One restaurant has many events).
+  event: many(EventTable),
 }));
 
 export type Restaurant = typeof RestaurantTable.$inferInsert;

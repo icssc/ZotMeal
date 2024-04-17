@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import { pgTable, text } from "drizzle-orm/pg-core";
 
 import { DishTable } from "./dish-table";
@@ -24,3 +25,21 @@ export const DishMenuStationJoint = pgTable("dish_menu_station_joint", {
       onUpdate: "cascade",
     }),
 });
+
+export const dishMenuStationRelations = relations(
+  DishMenuStationJoint,
+  ({ one }) => ({
+    dish: one(DishTable, {
+      fields: [DishMenuStationJoint.dishId],
+      references: [DishTable.id],
+    }),
+    menu: one(MenuTable, {
+      fields: [DishMenuStationJoint.menuId],
+      references: [MenuTable.id],
+    }),
+    station: one(StationTable, {
+      fields: [DishMenuStationJoint.stationId],
+      references: [StationTable.id],
+    }),
+  }),
+);
