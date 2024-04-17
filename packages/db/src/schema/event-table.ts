@@ -10,7 +10,7 @@ import { createInsertSchema } from "drizzle-zod";
 import { updatedAtColumnPostgres } from "./utils";
 
 export const EventTable = pgTable(
-  "Event",
+  "events",
   {
     title: text("title").notNull(),
     image: text("image").notNull(),
