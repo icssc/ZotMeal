@@ -1,4 +1,5 @@
-import type { MenuPeriod, Restaurant } from "@zotmeal/db/src/schema";
+import type { Period} from "@zotmeal/db/src/schema";
+import type {Restaurant} from "@zotmeal/db/src/schema";
 
 // id mappings (period, restaurant)
 // restaurant names
@@ -15,9 +16,7 @@ function invertMapping<K extends string, V extends string>(
   return inverted;
 }
 
-export const RESTAURANT_NAMES = ["brandywine", "anteatery"];
-
-export const RESTAURANT_TO_ID = {
+export const RESTAURANT_TO_ID: Record<Restaurant["name"], string> = {
   brandywine: "3314",
   anteatery: "3056",
 } as const;
@@ -31,7 +30,8 @@ export const getRestaurantNameById = (
   id: keyof typeof ID_TO_RESTAURANT,
 ): Restaurant["name"] | null => ID_TO_RESTAURANT[id] ?? null;
 
-export const PERIOD_TO_ID: Record<MenuPeriod["name"], string> = {
+
+export const PERIOD_TO_ID: Record<Period["name"], string> = {
   breakfast: "49",
   lunch: "106",
   dinner: "107",
@@ -41,12 +41,12 @@ export const PERIOD_TO_ID: Record<MenuPeriod["name"], string> = {
 export const ID_TO_PERIOD = invertMapping(PERIOD_TO_ID);
 
 export const getPeriodId = (
-  period: MenuPeriod["name"],
+  period: Period["name"],
 ): keyof typeof ID_TO_PERIOD | null => PERIOD_TO_ID[period] ?? null;
 
 export const getPeriodById = (
   id: keyof typeof ID_TO_PERIOD,
-): MenuPeriod["name"] | null => ID_TO_PERIOD[id] ?? null;
+): Period["name"] | null => ID_TO_PERIOD[id] ?? null;
 
 /**
  * Based on UCI Campusdish website:
@@ -70,7 +70,7 @@ export const getPeriodById = (
  *
  * @returns the current period based on the current time
  */
-export const getCurrentPeriodName = (): MenuPeriod["name"] => {
+export const getCurrentPeriodName = (): Period["name"] => {
   const today = new Date();
   const hours = today.getHours();
   const minutes = today.getMinutes();
@@ -131,11 +131,3 @@ export const isCurrentlyClosed = (): boolean => {
 
   return false;
 };
-
-export const PERIOD_NAMES = [
-  "breakfast",
-  "lunch",
-  "dinner",
-  "brunch",
-  "latenight",
-];

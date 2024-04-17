@@ -1,8 +1,7 @@
-
 import type { Drizzle } from "@zotmeal/db";
-import { event } from "@zotmeal/db/src/schema";
+import { EventTable } from "@zotmeal/db/src/schema";
 
-type Event = typeof event.$inferInsert;
+type Event = typeof EventTable.$inferInsert;
 
 export async function upsertEvents(
   db: Drizzle,
@@ -13,13 +12,14 @@ export async function upsertEvents(
     const upsertPromises = [];
     for (const e of events) {
       const upsert = db
-        .insert(event)
+        .insert(EventTable)
         .values(e)
-        .onConflictDoUpdate({ // upsert
-          target: [event.title, event.date, event.restaurant],
+        .onConflictDoUpdate({
+          // upsert
+          target: [EventTable.title, EventTable.date, EventTable.restaurantId],
           set: e,
         })
-        .returning()
+        .returning();
       upsertPromises.push(upsert);
     }
     const upsertedEvents: Event[] = (await Promise.all(upsertPromises)).flat();

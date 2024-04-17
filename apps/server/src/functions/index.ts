@@ -9,7 +9,7 @@ export const functions: AWS["functions"] = {
       {
         http: {
           method: "any", // Match any HTTP method
-          path: "/{proxy+}", // Use a catch-all wildcard here
+          path: "/{proxy+}", // Using a catch-all wildcard here
           cors: true,
         },
       },
