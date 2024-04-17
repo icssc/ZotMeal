@@ -8,6 +8,8 @@ import {
 import { createInsertSchema } from "drizzle-zod";
 
 import { updatedAtColumnPostgres } from "./utils";
+import { RestaurantTable } from "./restaurant-table";
+import { relations } from "drizzle-orm";
 
 export const EventTable = pgTable(
   "Event",
@@ -31,5 +33,13 @@ export const EventTable = pgTable(
   },
 );
 
+
+export const eventRelation = relations(EventTable, ({ one }) => ({
+  // * Many Events to one restaurant
+  restaurant: one(RestaurantTable, {
+    fields: [EventTable.restaurantId],
+    references: [RestaurantTable.id],
+  }),
+}));
 export type Event = typeof EventTable.$inferInsert;
 export const EventSchema = createInsertSchema(EventTable);
