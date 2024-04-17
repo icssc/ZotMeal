@@ -17,8 +17,10 @@ describe("insert menu into db", async () => {
     // batch upsert and rollback. should pass if 'Rollback' is the thrown error
     await expect(async () => {
       // flaky test
-      const html = await getHTML("https://uci.campusdish.com/api/events");
-      console.log(html);
+      const html = await getHTML(
+        "https://uci-campusdish-com.translate.goog/api/events?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en&_x_tr_pto=wapp",
+      );
+      // console.log(html);
       const events = await scrapeEvents(html);
       console.log("events:", events);
       expect(events).toBeTruthy();
