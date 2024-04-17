@@ -64,6 +64,14 @@ export async function getMenu(
       eq(DishMenuStationJoint.stationId, StationTable.id),
     );
 
+  // const rowsRelation = await db.query.DishMenuStationJoint.findMany({
+  //   with: {
+  //     dish: true,
+  //     menu: true,
+  //     station: true,
+  //   },
+  // });
+
   let menuResult: MenuResult | null = null;
   const stationsResult: Record<string, StationResult> = {};
 
