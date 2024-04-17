@@ -1,10 +1,10 @@
-import type { Event } from "@zotmeal/db/src/schema";
-import { EventSchema } from "@zotmeal/db/src/schema";
 import axios from "axios";
 import * as cheerio from "cheerio";
 
+import type { Event } from "@zotmeal/db/src/schema";
+import { EventSchema } from "@zotmeal/db/src/schema";
 
-export async function getHTML(url: string): Promise<string | undefined> {
+export async function getHTML(url: string): Promise<string> {
   try {
     const res = await axios.get(url);
     if (typeof res.data === "string") {
@@ -12,14 +12,12 @@ export async function getHTML(url: string): Promise<string | undefined> {
     }
     throw new Error("response data is not a string");
   } catch (e) {
-    if (e instanceof Error) {
-      console.error(`Error fetching from url: ${url}`, e.message);
-    }
+    console.error(`Error fetching from url: ${url}`, e.message);
+    throw e;
   }
 }
 
-export async function scrapeEvents(html: string):
-  Promise<Event[] | null> {
+export async function scrapeEvents(html: string): Promise<Event[] | null> {
   try {
     const $ = cheerio.load(html);
 
@@ -46,7 +44,7 @@ export async function scrapeEvents(html: string):
       const restaurant = eventPage$(".location")
         .text()
         .toLowerCase()
-        .replace(/[^a-z: ]/g, '') // allow letters, spaces, colons
+        .replace(/[^a-z: ]/g, "") // allow letters, spaces, colons
         .split(":") // "location: the anteatery" -> ["location", "the anteatery"]
         .pop()
         ?.split(" ") // "the anteatery" -> ["the", "anteatery"]
