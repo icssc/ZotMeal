@@ -6,7 +6,7 @@ type Event = typeof EventTable.$inferInsert;
 export async function upsertEvents(
   db: Drizzle,
   events: Event[],
-): Promise<Event[] | undefined> {
+): Promise<Event[]> {
   try {
     // batch upsert events
     const upsertPromises = [];
@@ -25,8 +25,7 @@ export async function upsertEvents(
     const upsertedEvents: Event[] = (await Promise.all(upsertPromises)).flat();
     return upsertedEvents;
   } catch (e) {
-    if (e instanceof Error) {
-      console.error(e);
-    }
+    console.error(e);
+    throw e;
   }
 }

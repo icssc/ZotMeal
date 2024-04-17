@@ -7,13 +7,6 @@ import { createDrizzle } from "@zotmeal/db";
 import { getHTML, scrapeEvents, upsertEvents } from "../services";
 
 describe("insert menu into db", async () => {
-  // refactor this to only test the insertion
-  // test the scrape separately from the insertion
-
-  // beforeAll(() => {
-  //   db = new PrismaClient();
-  // });
-
   const db = await createDrizzle(
     "postgres://admin:admin@localhost:5434/zotmeal",
   );
@@ -30,22 +23,10 @@ describe("insert menu into db", async () => {
     await expect(async () => {
       await db.transaction(async (trx) => {
         const upsertedEvents = await upsertEvents(trx, events!);
-        if (!upsertedEvents) {
-          throw new Error("upsertedEvents is null");
-        }
-
         console.log("upsertedEvents:", upsertedEvents);
 
         trx.rollback();
       });
     }).rejects.toThrowError("Rollback");
-  });
-
-  // it("", () => {
-  //   // add an integration test, ideally using testcontainers
-  // });
-
-  afterAll(async () => {
-    // await db.$disconnect();
   });
 });
