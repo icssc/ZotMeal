@@ -7,7 +7,7 @@ import {
 import { createDrizzle } from "@zotmeal/db";
 import { Restaurant } from "@zotmeal/db/src/schema";
 
-import { RESTAURANT_NAMES } from "../../../../../packages/utils/src/constants";
+import { RESTAURANT_TO_ID } from "../../../../../packages/utils/src/constants";
 
 export const main = async (event, context) => {
   try {
@@ -18,7 +18,7 @@ export const main = async (event, context) => {
     console.log(`Weekly task executed at: ${formattedTime}`);
 
     const formattedDate = format(now, "MM/dd/yyyy");
-    for (const restaurant of RESTAURANT_NAMES) {
+    for (const restaurant of Object.keys(RESTAURANT_TO_ID)) {
       await getWeekInfo(db, {
         date: formattedDate,
         restaurantName: restaurant as Restaurant["name"],

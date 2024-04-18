@@ -18,10 +18,7 @@ import {
   getRestaurantNameById,
   ID_TO_PERIOD
 } from "@zotmeal/utils";
-import type { CampusDishResponse } from "@zotmeal/validators";
 import { CampusDishResponseSchema } from "@zotmeal/validators";
-import axios from "axios";
-import { ZodError } from "zod";
 import { upsertDish } from "../../dishes";
 import { upsertRestaurant } from "../../restaurants/services/restaurant";
 import { upsertStation } from "../../stations";
