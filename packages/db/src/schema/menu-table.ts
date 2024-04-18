@@ -15,7 +15,7 @@ export const PeriodEnum = pgEnum("period", [
   "breakfast",
 ]);
 
-export const MenuTable = pgTable("menu", {
+export const MenuTable = pgTable("menus", {
   id: text("id").primaryKey().notNull(),
   date: date("date").notNull(),
   restaurantId: text("restaurantId")

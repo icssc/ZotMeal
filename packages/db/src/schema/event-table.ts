@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   date,
   pgTable,
@@ -7,12 +8,11 @@ import {
 } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 
-import { updatedAtColumnPostgres } from "./utils";
 import { RestaurantTable } from "./restaurant-table";
-import { relations } from "drizzle-orm";
+import { updatedAtColumnPostgres } from "./utils";
 
 export const EventTable = pgTable(
-  "Event",
+  "events",
   {
     title: text("title").notNull(),
     image: text("image").notNull(),
@@ -32,7 +32,6 @@ export const EventTable = pgTable(
     };
   },
 );
-
 
 export const eventRelation = relations(EventTable, ({ one }) => ({
   // * Many Events to one restaurant

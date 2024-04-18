@@ -15,5 +15,5 @@ export default {
   // Print all statements
   verbose: true,
   // Always ask for confirmation
-  strict: true,
+  strict: false,
 } satisfies Config;
