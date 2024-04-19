@@ -7,6 +7,7 @@ import type {
   DishWithRelations,
   Menu,
   NutritionInfo,
+  Period,
   Restaurant,
   Station,
 } from "@zotmeal/db/src/schema";
@@ -34,6 +35,11 @@ interface GetMenuParams {
 export async function getCampusDish(
   params: GetMenuParams,
 ): Promise<CampusDishResponse | null> {
+
+  //
+  console.log("Begin parse");
+  //
+
   const { date, restaurant, period } = params;
 
   const periodId = getPeriodId(period);
@@ -85,12 +91,11 @@ export async function parseCampusDish(
     name: restaurantName,
   };
 
-  await upsertRestaurant(db, restaurant);
+  //
+  console.log("Inserting restaurant");
+  //
 
-  // Promise.all optimize
-  for (const period of menuPeriods) {
-    await upsertPeriod(db, period);
-  }
+  await upsertRestaurant(db, restaurant);
 
   if (!response.SelectedPeriodId) {
     throw new Error("SelectedPeriodId is null");
@@ -103,24 +108,18 @@ export async function parseCampusDish(
   const menu = MenuSchema.parse({
     id: response.Menu.MenuId,
     restaurantId: response.LocationId,
-    periodId: response.SelectedPeriodId,
-    date: date
+    period: ID_TO_PERIOD[response.SelectedPeriodId],
+    start: response.Menu.MenuPeriods[0].UtcMealPeriodStartTime,
+    end: response.Menu.MenuPeriods[0].UtcMealPeriodEndTime,
+    date: date,
+    price: "13"  // Fix later
   })
-  await upsertMenu(db, menu);
-  const menus: Menu[] = response.Menu.MenuPeriods.map((menuPeriod) => {
-    const menu = MenuSchema.parse({
-      id: menuPeriod.PeriodId,
-      restaurantId: restaurant.id,
-      period: menuPeriod.Name.toLowerCase(),
-      start: menuPeriod.UtcMealPeriodStartTime,
-      end: menuPeriod.UtcMealPeriodEndTime,
-    });
-    return menu;
-  });
 
-  for (const menu of menus) {
-    await upsertMenu(db, menu);
-  }
+  //
+  console.log("Inserting menu");
+  //
+
+  await upsertMenu(db, menu);
 
   // collect by stations
   // dishes by station id
@@ -181,6 +180,10 @@ export async function parseCampusDish(
     },
   );
 
+  //
+  console.log("Inserting dishes");
+  //
+
   for (const dish of dishes) {
     await upsertDish(db, dish); // should nullcheck and throw for rollbacks
   }
@@ -189,10 +192,13 @@ export async function parseCampusDish(
     return {
       id: menuStation.StationId,
       restaurantId: restaurant.id,
-      menuId: response.Menu.MenuId,
       name: menuStation.Name,
     };
   });
+
+  //
+  console.log("Inserting stations");
+  //
 
   for (const station of stations) {
     await upsertStation(db, station);

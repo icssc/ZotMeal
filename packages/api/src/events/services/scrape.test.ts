@@ -36,4 +36,8 @@ describe("insert menu into db", async () => {
       });
     }).rejects.toThrowError("Rollback");
   });
-});
+},
+{
+  timeout: 1500,
+}
+);

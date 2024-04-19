@@ -13,6 +13,9 @@ const connectionString = process.env.DATABASE_URL
 
 export const main = async (event, context) => {
   try {
+    //
+    console.log("Starting update daily");
+    //
     const db = await createDrizzle(connectionString ??  "postgres://admin:admin@localhost:5434/zotmeal");
     const now = new Date();
     const formattedTime = format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx");

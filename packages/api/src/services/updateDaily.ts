@@ -17,6 +17,10 @@ export async function updateDaily(
   db: Drizzle,
   params: UpdateDailyParams
 ): Promise<void> {
+  //
+  console.log("Updating " + params.restaurantName);
+  //
+  
   for (const period of Object.keys(PERIOD_TO_ID)) {
     const campusDishParams = {
       date: params.date,
