@@ -1,6 +1,5 @@
 import { Image, Tabs, View } from "tamagui";
 
-import type { RestaurantName } from "~/app/home";
 import { TabSvg, useMenuStore } from "~/app/home";
 
 export default function RestaurantTabs({
@@ -27,9 +26,7 @@ export default function RestaurantTabs({
       <View height={65} />
       <Tabs
         value={selectedRestaurant}
-        onValueChange={(value) =>
-          setSelectedRestaurant(value as RestaurantName)
-        }
+        onValueChange={(value) => setSelectedRestaurant(value)}
         orientation="horizontal"
         flexDirection="column"
         width={"100%"}

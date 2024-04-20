@@ -14,7 +14,7 @@ import {
   YStack,
 } from "tamagui";
 
-import type { DishWithRelations } from "@zotmeal/db/src/schema";
+import type { NutritionInfo } from "@zotmeal/db/src/schema";
 
 import { useMenuStore } from "..";
 import RateItem from "./RateItem";
@@ -49,96 +49,93 @@ export default function MenuItem() {
   // Unused fields:
   // caloriesFromFat
 
-  function NutritionFacts({ dish }: { dish: DishWithRelations }) {
-    return (
-      <YStack
-        padding="$3"
-        borderWidth={2}
-        borderColor={theme.borderColor}
-        width="90%"
-        alignSelf="center"
-      >
-        <H3>Nutrition Facts</H3>
-        <Separator marginVertical="$2" borderWidth={1} />
-        <XStack justifyContent="space-between">
-          <Text fontWeight={"800"}>Serving Size</Text>
-          <Text fontWeight={"800"}>
-            {dish.nutritionInfo.servingSize}
-            {dish.nutritionInfo.servingUnit}
-          </Text>
-        </XStack>
-        <Separator marginVertical="$2" borderWidth={7} />
-        <Text>Amount per serving</Text>
-        <XStack justifyContent="space-between">
-          <H4>Calories</H4>
-          <H4>{dish.nutritionInfo.calories}</H4>
-        </XStack>
-        <Separator marginVertical="$2" borderWidth={4} />
-        {/* TODO: Add % Daily Value */}
-        {/* <Text>% Daily Value*</Text> */}
-        <Text>
-          <Text fontWeight={"800"}>Total Fat</Text>{" "}
-          {dish.nutritionInfo.totalFatG}
+  const NutritionFacts = ({
+    nutritionInfo,
+  }: {
+    nutritionInfo: NutritionInfo;
+  }) => (
+    <YStack
+      padding="$3"
+      borderWidth={2}
+      borderColor={theme.borderColor}
+      width="90%"
+      alignSelf="center"
+    >
+      <H3>Nutrition Facts</H3>
+      <Separator marginVertical="$2" borderWidth={1} />
+      <XStack justifyContent="space-between">
+        <Text fontWeight={"800"}>Serving Size</Text>
+        <Text fontWeight={"800"}>
+          {nutritionInfo.servingSize}
+          {nutritionInfo.servingUnit}
         </Text>
-        <Separator marginVertical="$2" borderWidth={1} />
-        <Text paddingLeft="$4">
-          Saturated Fat {dish.nutritionInfo.saturatedFatG}
-        </Text>
-        <Separator marginVertical="$2" borderWidth={1} />
-        <Text paddingLeft="$4">Trans Fat {dish.nutritionInfo.transFatG}</Text>
-        <Separator marginVertical="$2" borderWidth={1} />
-        <Text>
-          <Text fontWeight={"800"}>Cholesterol</Text>{" "}
-          {dish.nutritionInfo.cholesterolMg}
-        </Text>
-        <Separator marginVertical="$2" borderWidth={1} />
-        <Text>
-          <Text fontWeight={"800"}>Sodium</Text> {dish.nutritionInfo.sodiumMg}
-        </Text>
-        <Separator marginVertical="$2" borderWidth={1} />
-        <Text>
-          <Text fontWeight={"800"}>Total Carbohydrates</Text>{" "}
-          {dish.nutritionInfo.totalCarbsG}
-        </Text>
-        <Separator marginVertical="$2" borderWidth={1} />
-        <Text paddingLeft="$4">
-          Dietary Fiber {dish.nutritionInfo.dietaryFiberG}
-        </Text>
-        <Separator marginVertical="$2" borderWidth={1} />
-        <Text paddingLeft="$4">Sugars {dish.nutritionInfo.sugarsMg}</Text>
-        <Separator marginVertical="$2" borderWidth={1} />
-        <Text>
-          <Text fontWeight={"800"}>Sodium</Text> {dish.nutritionInfo.proteinG}
-        </Text>
-        <Separator marginVertical="$2" borderWidth={7} />
-        <XStack justifyContent="space-between">
-          <Text>Vitamin A</Text>
-          <Text>{dish.nutritionInfo.vitaminAIU}</Text>
-        </XStack>
-        <Separator marginVertical="$2" borderWidth={1} />
-        <XStack justifyContent="space-between">
-          <Text>Vitamin C</Text>
-          <Text>{dish.nutritionInfo.vitaminCIU}</Text>
-        </XStack>
-        <Separator marginVertical="$2" borderWidth={1} />
-        <XStack justifyContent="space-between">
-          <Text>Iron</Text>
-          <Text>{dish.nutritionInfo.ironMg}</Text>
-        </XStack>
-        <Separator marginVertical="$2" borderWidth={1} />
-        <XStack justifyContent="space-between">
-          <Text>Calcium</Text>
-          <Text>{dish.nutritionInfo.calciumMg}</Text>
-        </XStack>
-        <Separator marginVertical="$2" borderWidth={4} />
-        <Text>
-          The % Daily Value tells you how much a nutrient in a serving of food
-          contributes to a daily diet. 2,000 calories a day is used for general
-          nutrition advice.
-        </Text>
-      </YStack>
-    );
-  }
+      </XStack>
+      <Separator marginVertical="$2" borderWidth={7} />
+      <Text>Amount per serving</Text>
+      <XStack justifyContent="space-between">
+        <H4>Calories</H4>
+        <H4>{nutritionInfo.calories}</H4>
+      </XStack>
+      <Separator marginVertical="$2" borderWidth={4} />
+      {/* TODO: Add % Daily Value */}
+      {/* <Text>% Daily Value*</Text> */}
+      <Text>
+        <Text fontWeight={"800"}>Total Fat</Text> {nutritionInfo.totalFatG}
+      </Text>
+      <Separator marginVertical="$2" borderWidth={1} />
+      <Text paddingLeft="$4">Saturated Fat {nutritionInfo.saturatedFatG}</Text>
+      <Separator marginVertical="$2" borderWidth={1} />
+      <Text paddingLeft="$4">Trans Fat {nutritionInfo.transFatG}</Text>
+      <Separator marginVertical="$2" borderWidth={1} />
+      <Text>
+        <Text fontWeight={"800"}>Cholesterol</Text>{" "}
+        {nutritionInfo.cholesterolMg}
+      </Text>
+      <Separator marginVertical="$2" borderWidth={1} />
+      <Text>
+        <Text fontWeight={"800"}>Sodium</Text> {nutritionInfo.sodiumMg}
+      </Text>
+      <Separator marginVertical="$2" borderWidth={1} />
+      <Text>
+        <Text fontWeight={"800"}>Total Carbohydrates</Text>{" "}
+        {nutritionInfo.totalCarbsG}
+      </Text>
+      <Separator marginVertical="$2" borderWidth={1} />
+      <Text paddingLeft="$4">Dietary Fiber {nutritionInfo.dietaryFiberG}</Text>
+      <Separator marginVertical="$2" borderWidth={1} />
+      <Text paddingLeft="$4">Sugars {nutritionInfo.sugarsMg}</Text>
+      <Separator marginVertical="$2" borderWidth={1} />
+      <Text>
+        <Text fontWeight={"800"}>Sodium</Text> {nutritionInfo.proteinG}
+      </Text>
+      <Separator marginVertical="$2" borderWidth={7} />
+      <XStack justifyContent="space-between">
+        <Text>Vitamin A</Text>
+        <Text>{nutritionInfo.vitaminAIU}</Text>
+      </XStack>
+      <Separator marginVertical="$2" borderWidth={1} />
+      <XStack justifyContent="space-between">
+        <Text>Vitamin C</Text>
+        <Text>{nutritionInfo.vitaminCIU}</Text>
+      </XStack>
+      <Separator marginVertical="$2" borderWidth={1} />
+      <XStack justifyContent="space-between">
+        <Text>Iron</Text>
+        <Text>{nutritionInfo.ironMg}</Text>
+      </XStack>
+      <Separator marginVertical="$2" borderWidth={1} />
+      <XStack justifyContent="space-between">
+        <Text>Calcium</Text>
+        <Text>{nutritionInfo.calciumMg}</Text>
+      </XStack>
+      <Separator marginVertical="$2" borderWidth={4} />
+      <Text>
+        The % Daily Value tells you how much a nutrient in a serving of food
+        contributes to a daily diet. 2,000 calories a day is used for general
+        nutrition advice.
+      </Text>
+    </YStack>
+  );
 
   return (
     <>
@@ -149,7 +146,13 @@ export default function MenuItem() {
           headerTitleStyle: { color: "#FFFFFF" },
         }}
       />
-      <ScrollView height={"100%"} width={"100%"}>
+      <ScrollView
+        height={"100%"}
+        width={"100%"}
+        contentInset={{
+          bottom: 100,
+        }}
+      >
         <Image
           source={{
             uri: "https://images.rawpixel.com/image_png_1100/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTExL2ZyZWVpbWFnZXNjb21wYW55X3Bob3RvX29mX2Nob2NvbGF0ZV9jaGlwX2Nvb2tpZV90b3Bfdmlld19pc29sYV8xOGVkY2ZiYS00ZTJjLTQ5MWItYjZiOC02ZGZjNmY1M2Y0OWIucG5n.png",
@@ -181,16 +184,7 @@ export default function MenuItem() {
               Pin <Pin />
             </Button>
           </XStack>
-          <NutritionFacts dish={dish} />
-
-          <Image // nutrition label for reference
-            resizeMode="contain"
-            width={"100%"}
-            height={500}
-            source={{
-              uri: "https://www.fda.gov/files/NFL-NewLabel-900x900_0.png",
-            }}
-          />
+          <NutritionFacts nutritionInfo={dish.nutritionInfo} />
         </View>
       </ScrollView>
     </>

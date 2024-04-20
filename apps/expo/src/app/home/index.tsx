@@ -307,6 +307,7 @@ const StationTabs = ({ stations }: { stations: Station[] }) => (
       <ScrollView
         horizontal
         bounces={false} // Disable bounce for the station tabs
+        showsHorizontalScrollIndicator={false}
       >
         {stations.map((station) => (
           <Tabs.Tab
@@ -340,7 +341,12 @@ const StationTabs = ({ stations }: { stations: Station[] }) => (
           {Object.entries(
             groupBy(station.dishes, (dish) => dish.category as keyof Dish),
           ).map(([category, dishes]) => (
-            <Category key={category} category={category} dishes={dishes} />
+            <Category
+              key={category}
+              stationId={station.id}
+              category={category}
+              dishes={dishes}
+            />
           ))}
         </ScrollView>
       </Tabs.Content>
@@ -349,9 +355,11 @@ const StationTabs = ({ stations }: { stations: Station[] }) => (
 );
 
 const Category = ({
+  stationId,
   category,
   dishes,
 }: {
+  stationId: Station["id"];
   category: string;
   dishes: Dish[];
 }) => (
@@ -361,19 +369,28 @@ const Category = ({
     </H3>
     <YGroup bordered separator={<Separator borderWidth={1} />}>
       {dishes.map((dish) => (
-        <DishCard key={dish.id} dish={dish} />
+        <DishCard key={dish.id} dish={dish} stationId={stationId} />
       ))}
     </YGroup>
   </YStack>
 );
 
-const DishCard = ({ dish }: { dish: Dish }) => (
+const DishCard = ({
+  dish,
+  stationId,
+}: {
+  dish: Dish;
+  stationId: Station["id"];
+}) => (
   <YGroup.Item>
     <Link
       asChild
       href={{
         pathname: "/home/item/[id]",
-        params: { id: dish.id },
+        params: {
+          id: dish.id,
+          stationId,
+        },
       }}
     >
       <ListItem pressTheme>
