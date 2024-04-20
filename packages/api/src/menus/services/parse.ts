@@ -36,11 +36,11 @@ export async function getCampusDish(
   params: GetMenuParams,
 ): Promise<CampusDishResponse | null> {
 
-  //
-  console.log("Begin parse");
-  //
-
   const { date, restaurant, period } = params;
+
+  //
+  console.log("Begin parse of " + period);
+  //
 
   const periodId = getPeriodId(period);
 
