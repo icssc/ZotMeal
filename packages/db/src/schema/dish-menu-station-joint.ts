@@ -43,3 +43,5 @@ export const dishMenuStationRelations = relations(
     }),
   }),
 );
+
+export type DishMenuStationJointSchema = typeof DishMenuStationJoint.$inferInsert;

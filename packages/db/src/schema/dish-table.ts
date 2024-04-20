@@ -40,4 +40,6 @@ export type Dish = typeof DishTable.$inferInsert;
 export interface DishWithRelations extends Dish {
   dietRestriction: DietRestriction;
   nutritionInfo: NutritionInfo;
+  menuId: string;
+  stationId: string;
 }

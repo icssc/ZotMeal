@@ -104,9 +104,12 @@ export async function parseCampusDish(
     throw new Error("MenuPeriods.UtcMealPeriodEndTime is null");
   }
 
-  const date = format(response.Menu.MenuPeriods[0]?.UtcMealPeriodStartTime, "MM/dd/yyyy")
+  const date = format(response.Menu.MenuPeriods[0]?.UtcMealPeriodStartTime, "MM/dd/yyyy");
+
+  const menuIdHash = response.LocationId + date + response.SelectedPeriodId;
+
   const menu = MenuSchema.parse({
-    id: response.Menu.MenuId,
+    id: menuIdHash,
     restaurantId: response.LocationId,
     period: ID_TO_PERIOD[response.SelectedPeriodId],
     start: response.Menu.MenuPeriods[0].UtcMealPeriodStartTime,
@@ -170,7 +173,8 @@ export async function parseCampusDish(
 
       return {
         id: MenuProductId,
-        stationId: StationId,
+        stationId: StationId,  // StationId for DishJointTable
+        menuId: menuIdHash,    // MenuId for DishJointTable
         name: Product.MarketingName,
         description: Product.ShortDescription,
         category: Product.Categories?.[0]?.DisplayName ?? "Other", // category is other if not specified
