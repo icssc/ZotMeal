@@ -22,13 +22,6 @@ export async function upsertDish(
       updatedAt: params.updatedAt,
     };
 
-    // Insertion params for the dish-menu-station join table
-    const dishJointParams: DishMenuStationJointSchema = {
-      dishId: params.id,
-      menuId: params.menuId,
-      stationId: params.stationId
-    };
-
     // Inserting into dish table
     const dish = await db
       .insert(DishTable)
@@ -57,18 +50,36 @@ export async function upsertDish(
       })
       .returning();
 
-    // Insert into dish-menu-station joint table
-    await db
-      .insert(DishMenuStationJoint)
-      .values(dishJointParams)
-      .onConflictDoNothing();
-
     // TODO: do it without the bangs
     return {
       ...dish[0]!,
       dietRestriction: dietRestriction[0]!,
       nutritionInfo: nutritionInfo[0]!,
     };
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
+}
+
+export async function upsertDishMenuStationJoint(
+  db: Drizzle,
+  params: DishWithRelations,
+) {
+  try {
+    // Dish params for the joint table
+    const jointParams: DishMenuStationJointSchema = {
+      dishId: params.id,
+      stationId: params.stationId,
+      menuId: params.menuId,
+    };
+
+    // Insert into dish-menu-station joint table
+    await db
+    .insert(DishMenuStationJoint)
+    .values(jointParams)
+    .onConflictDoNothing();
+
   } catch (e) {
     console.error(e);
     throw e;
