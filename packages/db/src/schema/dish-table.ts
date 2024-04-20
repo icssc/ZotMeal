@@ -10,7 +10,7 @@ import { updatedAtColumnPostgres } from "./utils";
 
 export const DishTable = pgTable("dishes", {
   id: text("id").primaryKey().notNull(),
-  name: text("name").notNull(),
+  name: text("name").notNull().unique(),
   description: text("description").notNull(),
   category: text("category").notNull(),
 
