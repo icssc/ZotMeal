@@ -62,7 +62,7 @@ export async function upsertDish(
   }
 }
 
-export async function upsertDishMenuStationJoint(
+export async function insertDishMenuStationJoint(
   db: Drizzle,
   params: DishWithRelations,
 ) {

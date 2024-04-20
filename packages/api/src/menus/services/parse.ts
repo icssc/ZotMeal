@@ -20,7 +20,7 @@ import {
   ID_TO_PERIOD
 } from "@zotmeal/utils";
 import { CampusDishResponseSchema } from "@zotmeal/validators";
-import { upsertDish, upsertDishMenuStationJoint } from "../../dishes";
+import { upsertDish, insertDishMenuStationJoint } from "../../dishes";
 import { upsertRestaurant } from "../../restaurants/services/restaurant";
 import { upsertStation } from "../../stations";
 import { upsertMenu } from "./menu";
@@ -190,7 +190,7 @@ export async function parseCampusDish(
 
   for (const dish of dishes) {
     await upsertDish(db, dish); // should nullcheck and throw for rollbacks
-    await upsertDishMenuStationJoint(db, dish);
+    await insertDishMenuStationJoint(db, dish);
   }
 
   const stations: Station[] = response.Menu.MenuStations.map((menuStation) => {
