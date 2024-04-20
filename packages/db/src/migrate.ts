@@ -1,7 +1,10 @@
-import { migrate } from "drizzle-orm/node-postgres/migrator";
-import { client, db } from ".";
+import { drizzle } from "drizzle-orm/postgres-js";
+import { migrate } from "drizzle-orm/postgres-js/migrator";
+import postgres from "postgres";
 
-// This will run migrations on the database, skipping the ones already applied
+const connectionString = process.env.DATABASE_URL!;
+const sql = postgres(connectionString, { max: 1 });
+
+const db = drizzle(sql);
 await migrate(db, { migrationsFolder: "migrations" });
-// Don't forget to close the connection, otherwise the script will hang
-await client.end();
+await sql.end();

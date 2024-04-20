@@ -4,7 +4,7 @@ import { ID_TO_RESTAURANT } from "@zotmeal/utils";
 
 import { MenuProductSchema, MenuStationSchema } from "./models";
 
-const [restaurantId, ...restaurantIds] = Object.keys(ID_TO_RESTAURANT) as (keyof typeof ID_TO_RESTAURANT)[];
+const [restaurantId, ...restaurantIds] = Object.keys(ID_TO_RESTAURANT);
 export const CampusDishResponseSchema = z.object({
   LocationId: z.enum([restaurantId!, ...restaurantIds]),
   SelectedPeriodId: z.string().nullable(),

@@ -1,27 +1,43 @@
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+
 import type { Drizzle } from "@zotmeal/db";
-import type { Menu, MenuPeriod, MenuWithRelations, Restaurant } from "@zotmeal/db/src/schema";
-import { MenuPeriodSchema, RestaurantSchema, menu } from "@zotmeal/db/src/schema";
+import type { Dish, Menu, Station } from "@zotmeal/db/src/schema";
+import { eq } from "@zotmeal/db";
+import {
+  DishMenuStationJoint,
+  DishTable,
+  MenuTable,
+  StationTable,
+} from "@zotmeal/db/src/schema";
 import { parseDate } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
-import { z } from "zod";
 
 export interface GetMenuParams {
   date: string;
-  periodName: MenuPeriod["name"];
-  restaurantName: Restaurant["name"];
+  periodName: string;
+  restaurantName: string;
 }
 
 export const GetMenuSchema = z.object({
   date: DateRegex,
-  periodName: MenuPeriodSchema.shape.name,
-  restaurantName: RestaurantSchema.shape.name,
+  periodName: z.string(),
+  restaurantName: z.string(),
 }) satisfies z.ZodType<GetMenuParams>;
+
+// deliberate choice to exclude nutrition on dish model, the list view will not contain the full dish nutrition details
+interface StationResult extends Station {
+  dishes: Dish[];
+}
+
+interface MenuResult extends Menu {
+  stations: StationResult[];
+}
 
 export async function getMenu(
   db: Drizzle,
   params: GetMenuParams,
-): Promise<MenuWithRelations | undefined> {
+): Promise<MenuResult | null> {
   const date = parseDate(params.date);
   if (!date) {
     throw new TRPCError({
@@ -30,7 +46,7 @@ export async function getMenu(
     });
   }
 
-  const fetchedRestaurant = await db.query.restaurant.findFirst({
+  const fetchedRestaurant = await db.query.RestaurantTable.findFirst({
     where: (restaurant, { eq }) => eq(restaurant.name, params.restaurantName),
   });
 
@@ -38,62 +54,87 @@ export async function getMenu(
     throw new TRPCError({ message: "restaurant not found", code: "NOT_FOUND" });
   }
 
-  const menuPeriod = await db.query.menuPeriod.findFirst({
-    where: (menuPeriod, { eq }) => eq(menuPeriod.name, params.periodName),
-  });
+  const rows = await db
+    .select()
+    .from(DishMenuStationJoint)
+    .innerJoin(MenuTable, eq(DishMenuStationJoint.menuId, MenuTable.id))
+    .innerJoin(DishTable, eq(DishMenuStationJoint.dishId, DishTable.id))
+    .innerJoin(
+      StationTable,
+      eq(DishMenuStationJoint.stationId, StationTable.id),
+    );
 
-  if (!menuPeriod) {
-    throw new TRPCError({ message: "period not found", code: "NOT_FOUND" });
+  // this way we dont need to explicitly do join. drizzle will performs join behind the scenes
+  // const rowsRelation = await db.query.DishMenuStationJoint.findMany({
+  //   with: {
+  //     dish: true,
+  //     menu: true,
+  //     station: true,
+  //   },
+  // });
+
+  let menuResult: MenuResult | null = null;
+  const stationsResult: Record<string, StationResult> = {};
+
+  for (const row of rows) {
+    if (!menuResult) {
+      menuResult = {
+        ...row.menu,
+        stations: [],
+      };
+    }
+    const { dishes: dish, menu, stations: station } = row;
+    if (!(station.id in stationsResult)) {
+      stationsResult[station.id] = {
+        ...station,
+        dishes: [],
+      };
+    }
+    stationsResult[station.id]?.dishes.push(dish);
+    console.log(dish, menu, station);
+  }
+  if (!menuResult) {
+    return null;
   }
 
-  const menu = await db.query.menu.findFirst({
-    where: (menu, { eq }) => eq(menu.restaurantId, fetchedRestaurant.id),
-    with: {
-      menuPeriod: true,
-      stations: {
-        with: {
-          dishes: {
-            with: {
-              dietRestriction: true,
-              nutritionInfo: true,
-            },
-          }
-        },
-      }
-    }
-  });
+  for (const stationId in stationsResult) {
+    menuResult.stations.push(stationsResult[stationId]!);
+  }
 
-  return menu;
+  console.log("NUMBER OF ROWS", rows.length);
+  return menuResult;
 }
 
-export async function upsertMenu(
-  db: Drizzle,
-  params: Menu,
-): Promise<Menu | undefined> {
+export async function upsertMenu(db: Drizzle, params: Menu): Promise<Menu> {
   const date = parseDate(params.date);
   if (!date) {
     throw Error("invalid date");
   }
 
-  const { id, periodId, restaurantId } = params;
+  const { id, restaurantId } = params;
 
-  const upsertedMenu: Menu[] = await db
-    .insert(menu)
+  const menuResult: Menu[] = await db
+    .insert(MenuTable)
     .values({
       id,
-      periodId,
       restaurantId,
       date: date.toISOString(),
+      period: params.period, // Add the missing 'period' property
+      start: params.start, // Add the missing 'start' property
+      end: params.end, // Add the missing 'end' property
+      price: params.price,
     })
     .onConflictDoUpdate({
-      target: menu.id,
+      target: MenuTable.id,
       set: params,
     })
     .returning();
 
-  if (upsertedMenu.length !== 1) {
-    throw new Error(`expected 1 menu to be upserted, but got ${upsertedMenu.length}`);
+  if (menuResult.length !== 1) {
+    throw new Error(
+      `expected 1 menu to be upserted, but got ${menuResult.length}`,
+    );
   }
 
-  return upsertedMenu[0];
+  return menuResult[0]!;
 }

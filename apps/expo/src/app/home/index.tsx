@@ -15,6 +15,8 @@ import {
   Separator,
   Tabs,
   Text,
+  useTheme,
+  useWindowDimensions,
   View,
   XStack,
   YGroup,
@@ -56,9 +58,12 @@ export const useMenuStore = create<MenuState>((set) => ({
   brandywineMenu: brandywineData,
   // anteateryMenu: null,
   // brandywineMenu: null,
-  setSelectedRestaurant: (selectedRestaurant: RestaurantName) => set({ selectedRestaurant }),
-  setAnteateryMenu: (anteateryMenu: MenuWithRelations) => set({ anteateryMenu }),
-  setBrandywineMenu: (brandywineMenu: MenuWithRelations) => set({ brandywineMenu }),
+  setSelectedRestaurant: (selectedRestaurant: RestaurantName) =>
+    set({ selectedRestaurant }),
+  setAnteateryMenu: (anteateryMenu: MenuWithRelations) =>
+    set({ anteateryMenu }),
+  setBrandywineMenu: (brandywineMenu: MenuWithRelations) =>
+    set({ brandywineMenu }),
 }));
 
 export function EventToast() {
@@ -285,9 +290,7 @@ export const TabSvg = ({ label }: { label: string }) => {
   );
 };
 
-const StationTabs = ({ stations }: {
-  stations: Station[],
-}) => (
+const StationTabs = ({ stations }: { stations: Station[] }) => (
   <Tabs
     defaultValue={stations?.[0]?.name}
     orientation="horizontal"
@@ -317,10 +320,7 @@ const StationTabs = ({ stations }: {
     </Tabs.List>
 
     {stations.map((station) => (
-      <Tabs.Content
-        key={station.name}
-        value={station.name}
-      >
+      <Tabs.Content key={station.name} value={station.name}>
         <ScrollView
           padding="$2"
           contentContainerStyle={{
@@ -332,11 +332,11 @@ const StationTabs = ({ stations }: {
           }}
         >
           {/* group dishes by category */}
-          {Object
-            .entries(groupBy(station.dishes, dish => dish.category as keyof Dish))
-            .map(([category, dishes]) => (
-              <Category key={category} category={category} dishes={dishes} />
-            ))}
+          {Object.entries(
+            groupBy(station.dishes, (dish) => dish.category as keyof Dish),
+          ).map(([category, dishes]) => (
+            <Category key={category} category={category} dishes={dishes} />
+          ))}
         </ScrollView>
       </Tabs.Content>
     ))}
@@ -356,16 +356,15 @@ const Category = ({ category, dishes }: {
     </YGroup>
   </YStack>
 );
+);
 
-const DishCard = ({ dish }: {
-  dish: Dish,
-}) => (
+const DishCard = ({ dish }: { dish: Dish }) => (
   <YGroup.Item>
     <Link
       asChild
       href={{
         pathname: "/home/item/[id]",
-        params: { id: dish.id, stationId: dish.stationId },
+        params: { id: dish.id },
       }}
     >
       <ListItem pressTheme>
@@ -377,7 +376,7 @@ const DishCard = ({ dish }: {
             height={65}
             marginRight="$3"
             source={{
-              uri: 'https://images.rawpixel.com/image_png_1100/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTExL2ZyZWVpbWFnZXNjb21wYW55X3Bob3RvX29mX2Nob2NvbGF0ZV9jaGlwX2Nvb2tpZV90b3Bfdmlld19pc29sYV8xOGVkY2ZiYS00ZTJjLTQ5MWItYjZiOC02ZGZjNmY1M2Y0OWIucG5n.png',
+              uri: "https://images.rawpixel.com/image_png_1100/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTExL2ZyZWVpbWFnZXNjb21wYW55X3Bob3RvX29mX2Nob2NvbGF0ZV9jaGlwX2Nvb2tpZV90b3Bfdmlld19pc29sYV8xOGVkY2ZiYS00ZTJjLTQ5MWItYjZiOC02ZGZjNmY1M2Y0OWIucG5n.png",
             }}
           />
           <YStack gap="$1" width={"75%"} justifyContent='space-between' paddingTop="$4" paddingBottom="$3" >
@@ -400,4 +399,4 @@ const DishCard = ({ dish }: {
       </ListItem>
     </Link>
   </YGroup.Item>
-)
+);

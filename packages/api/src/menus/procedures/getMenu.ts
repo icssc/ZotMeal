@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
+
 import { publicProcedure } from "../../trpc";
-import { GetMenuSchema, getMenu } from "../services";
+import { getMenu, GetMenuSchema } from "../services";
 
 export const getMenuProcedure = publicProcedure
   .input(GetMenuSchema)

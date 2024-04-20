@@ -1,4 +1,3 @@
-import type { Drizzle } from "@zotmeal/db";
 import type {
   ExpoPushErrorReceipt,
   ExpoPushMessage,
@@ -7,6 +6,9 @@ import type {
   ExpoPushToken,
 } from "expo-server-sdk";
 import { Expo } from "expo-server-sdk";
+
+import type { Drizzle } from "@zotmeal/db";
+import { PushTokenTable } from "@zotmeal/db/src/schema";
 
 // Send Notification to all users which set up a notification id
 export interface Notification {
@@ -19,13 +21,8 @@ export interface Notification {
 export async function getPushTokens(
   db: Drizzle,
 ): Promise<ExpoPushToken[] | null> {
-  const pushTokens = await db.query.pushToken.findMany();
-  if (!pushTokens) {
-    return null;
-  }
-
-  const tokens = pushTokens.map((pushToken) => pushToken.token);
-  return tokens;
+  const pushTokens = await db.select().from(PushTokenTable).execute();
+  return pushTokens.map((pt) => pt.token);
 }
 
 export async function broadcastNotification(

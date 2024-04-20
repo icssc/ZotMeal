@@ -1,11 +1,13 @@
-import type { Notification } from "@zotmeal/api";
-import { broadcastNotification } from "@zotmeal/api";
-import { db } from "@zotmeal/db";
-import { EventSchema } from "@zotmeal/db/src/schema";
-import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { Expo } from "expo-server-sdk";
 
-export const main: APIGatewayProxyHandlerV2 = (evt, context) => {
+import type { Notification } from "@zotmeal/api";
+import { broadcastNotification } from "@zotmeal/api";
+import { createDrizzle } from "@zotmeal/db";
+import { EventSchema } from "@zotmeal/db/src/schema";
+
+export const main = async (evt, context) => {
+  const db = await createDrizzle(process.env.DATABASE_URL);
+
   const event = EventSchema.parse(evt.body);
   console.log("Broadcasting event notification");
 

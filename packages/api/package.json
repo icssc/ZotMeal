@@ -21,6 +21,8 @@
     "date-fns": "^3.6.0",
     "dotenv-cli": "^7.4.1",
     "expo-server-sdk": "^3.9.0",
+    "pino": "^8.20.0",
+    "pino-pretty": "^11.0.0",
     "superjson": "2.2.1",
     "vitest": "^1.4.0",
     "zod": "^3.22.4"
