@@ -1,20 +1,22 @@
-import { Event } from "@zotmeal/db/src/schema";
 import { Link } from "expo-router";
-import { H2, H3, Image, ScrollView, Text, YStack } from "tamagui";
+import { H3, Image, ScrollView, Text, YStack } from "tamagui";
+
+import type { Event } from "@zotmeal/db/src/schema";
+
 import RestaurantTabs from "~/components/RestaurantTabs";
+
 // import { api } from "~/utils/api";
 
 export default function Events() {
   // const { data, error } = api.event.get.useQuery({});
 
-  const testData = Array(5)
-    .fill({
-      date: new Date(),
-      title: "Test Event",
-      description: "This is a test event",
-      image: "https://via.placeholder.com/150",
-      restaurant: "brandywine",
-    }) satisfies Event[] as Event[];
+  const testData = Array(5).fill({
+    date: new Date(),
+    title: "Test Event",
+    description: "This is a test event",
+    image: "https://via.placeholder.com/150",
+    restaurant: "brandywine",
+  }) satisfies Event[] as Event[];
 
   // if (!data) {
   //   return <Text>Loading...</Text>;
@@ -35,7 +37,13 @@ export default function Events() {
             }}
             asChild
           >
-            <YStack borderWidth={1} justifyContent="center" alignItems="center" alignContent="center" alignSelf="center">
+            <YStack
+              borderWidth={1}
+              justifyContent="center"
+              alignItems="center"
+              alignContent="center"
+              alignSelf="center"
+            >
               <Image source={{ uri: event.image }} width={150} height={150} />
               <H3>{event.title}</H3>
               <Text>{event.description}</Text>

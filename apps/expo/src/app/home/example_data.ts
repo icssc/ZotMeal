@@ -4,9 +4,9 @@ import type { MenuWithRelations } from "@zotmeal/db/src/schema";
 export const brandywineData = {
   date: "1/22/2022",
   id: "123",
+  price: "10.00",
   createdAt: "2022-01-22T00:00:00.000Z",
   updatedAt: "2022-01-22T00:00:00.000Z",
-  periodId: "49",
   restaurantId: "3314",
   start: "7:15",
   end: "11:00",
@@ -17,7 +17,6 @@ export const brandywineData = {
       name: "Honeycakes/Bakery",
       createdAt: "2022-01-22T00:00:00.000Z",
       updatedAt: "2022-01-22T00:00:00.000Z",
-      menuId: "123",
       restaurantId: "3314",
       dishes: [
         {
@@ -26,7 +25,6 @@ export const brandywineData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Bakery",
-          stationId: "111",
           description: "A delicious blueberry scone",
           dietRestriction: {
             dishId: "123",
@@ -78,7 +76,6 @@ export const brandywineData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Bakery",
-          stationId: "111",
           description: "A delicious breakfast muffin",
           dietRestriction: {
             dishId: "123",
@@ -130,7 +127,6 @@ export const brandywineData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Sides",
-          stationId: "111",
           description: "A delicious side dish",
           dietRestriction: {
             dishId: "123",
@@ -182,7 +178,6 @@ export const brandywineData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Sides",
-          stationId: "111",
           description: "A delicious side dish 2",
           dietRestriction: {
             dishId: "123",
@@ -235,7 +230,6 @@ export const brandywineData = {
       name: "Hearth/Pizza",
       createdAt: "2022-01-22T00:00:00.000Z",
       updatedAt: "2022-01-22T00:00:00.000Z",
-      menuId: "123",
       restaurantId: "3314",
       dishes: [
         {
@@ -244,7 +238,6 @@ export const brandywineData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Bakery",
-          stationId: "111",
           description: "Item Description",
           dietRestriction: {
             dishId: "123",
@@ -296,7 +289,6 @@ export const brandywineData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Bakery",
-          stationId: "111",
           description: "Item Description",
           dietRestriction: {
             dishId: "123",
@@ -348,7 +340,6 @@ export const brandywineData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Sides",
-          stationId: "111",
           description: "Item Description",
           dietRestriction: {
             dishId: "123",
@@ -400,7 +391,6 @@ export const brandywineData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Sides",
-          stationId: "111",
           description: "Item Description",
           dietRestriction: {
             dishId: "123",
@@ -453,7 +443,6 @@ export const brandywineData = {
       name: "Hearth/Pizza 2",
       createdAt: "2022-01-22T00:00:00.000Z",
       updatedAt: "2022-01-22T00:00:00.000Z",
-      menuId: "123",
       restaurantId: "3314",
       dishes: [
         {
@@ -462,7 +451,6 @@ export const brandywineData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Bakery",
-          stationId: "111",
           description: "Item Description",
           dietRestriction: {
             dishId: "123",
@@ -514,7 +502,6 @@ export const brandywineData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Bakery",
-          stationId: "111",
           description: "Item Description",
           dietRestriction: {
             dishId: "123",
@@ -566,7 +553,6 @@ export const brandywineData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Sides",
-          stationId: "111",
           description: "Item Description",
           dietRestriction: {
             dishId: "123",
@@ -618,7 +604,6 @@ export const brandywineData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Sides",
-          stationId: "111",
           description: "Item Description",
           dietRestriction: {
             dishId: "123",
@@ -671,7 +656,6 @@ export const brandywineData = {
       name: "Hearth/Pizza 3",
       createdAt: "2022-01-22T00:00:00.000Z",
       updatedAt: "2022-01-22T00:00:00.000Z",
-      menuId: "123",
       restaurantId: "3314",
       dishes: [
         {
@@ -680,7 +664,6 @@ export const brandywineData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Bakery",
-          stationId: "111",
           description: "Item Description",
           dietRestriction: {
             dishId: "123",
@@ -732,7 +715,6 @@ export const brandywineData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Bakery",
-          stationId: "111",
           description: "Item Description",
           dietRestriction: {
             dishId: "123",
@@ -784,7 +766,6 @@ export const brandywineData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Sides",
-          stationId: "111",
           description: "Item Description",
           dietRestriction: {
             dishId: "123",
@@ -836,7 +817,6 @@ export const brandywineData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Sides",
-          stationId: "111",
           description: "Item Description",
           dietRestriction: {
             dishId: "123",
@@ -891,9 +871,9 @@ export const brandywineData = {
 export const anteateryData = {
   date: "1/22/2022",
   id: "5555",
+  price: "10.00",
   createdAt: "2022-01-22T00:00:00.000Z",
   updatedAt: "2022-01-22T00:00:00.000Z",
-  periodId: "49",
   restaurantId: "3056",
   start: "7:15",
   end: "11:00",
@@ -904,7 +884,6 @@ export const anteateryData = {
       name: "Honeycakes/Bakery",
       createdAt: "2022-01-22T00:00:00.000Z",
       updatedAt: "2022-01-22T00:00:00.000Z",
-      menuId: "123",
       restaurantId: "3056",
       dishes: [
         {
@@ -913,7 +892,6 @@ export const anteateryData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Bakery",
-          stationId: "111",
           description: "Item Description",
           dietRestriction: {
             dishId: "123",
@@ -965,7 +943,6 @@ export const anteateryData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Bakery",
-          stationId: "111",
           description: "Item Description",
           dietRestriction: {
             dishId: "123",
@@ -1017,7 +994,6 @@ export const anteateryData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Sides",
-          stationId: "111",
           description: "Item Description",
           dietRestriction: {
             dishId: "123",
@@ -1069,7 +1045,6 @@ export const anteateryData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Sides",
-          stationId: "111",
           description: "Item Description",
           dietRestriction: {
             dishId: "123",
@@ -1122,7 +1097,6 @@ export const anteateryData = {
       name: "Hearth/Pizza",
       createdAt: "2022-01-22T00:00:00.000Z",
       updatedAt: "2022-01-22T00:00:00.000Z",
-      menuId: "123",
       restaurantId: "3056",
       dishes: [
         {
@@ -1131,7 +1105,6 @@ export const anteateryData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Bakery",
-          stationId: "111",
           description: "Item Description",
           dietRestriction: {
             dishId: "123",
@@ -1183,7 +1156,6 @@ export const anteateryData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Bakery",
-          stationId: "111",
           description: "Item Description",
           dietRestriction: {
             dishId: "123",
@@ -1235,7 +1207,6 @@ export const anteateryData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Sides",
-          stationId: "111",
           description: "Item Description",
           dietRestriction: {
             dishId: "123",
@@ -1287,7 +1258,6 @@ export const anteateryData = {
           createdAt: "2022-01-22T00:00:00.000Z",
           updatedAt: "2022-01-22T00:00:00.000Z",
           category: "Sides",
-          stationId: "111",
           description: "Item Description",
           dietRestriction: {
             dishId: "123",

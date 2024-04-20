@@ -5,9 +5,7 @@ const { FileStore } = require("metro-cache");
 const path = require("path");
 
 module.exports = withTurborepoManagedCache(
-  withMonorepoPaths(
-    getDefaultConfig(__dirname),
-  ),
+  withMonorepoPaths(getDefaultConfig(__dirname)),
 );
 
 /**

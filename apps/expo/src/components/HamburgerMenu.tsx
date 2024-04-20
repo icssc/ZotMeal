@@ -1,33 +1,43 @@
-import { CalendarDays, ChevronRight, Home, Info, Menu, Settings, Siren } from '@tamagui/lucide-icons';
 import type { Href } from "expo-router";
-import { Link, useSegments } from 'expo-router';
+import { Link, useSegments } from "expo-router";
+import {
+  CalendarDays,
+  ChevronRight,
+  Home,
+  Info,
+  Menu,
+  Settings,
+  Siren,
+} from "@tamagui/lucide-icons";
 import { Adapt, Button, ListItem, Popover, Separator, YGroup } from "tamagui";
-
 
 // TODO: linking should only push to stack when the screen isn't home
 export default function HamburgerMenu() {
   const currentSegment = useSegments()[0] ?? "";
-  const screens: Record<string, {
-    path: Href<"pathname">;
-    description: string;
-    icon: typeof Home;
-  }> = {
-    "Home": {
+  const screens: Record<
+    string,
+    {
+      path: Href<"pathname">;
+      description: string;
+      icon: typeof Home;
+    }
+  > = {
+    Home: {
       path: "/",
       description: "See current menus",
       icon: Home,
     },
-    "Events": {
+    Events: {
       path: "/events/",
       description: "Upcoming events",
       icon: CalendarDays,
     },
-    "Settings": {
+    Settings: {
       path: "/settings/",
       description: "Adjust your settings",
       icon: Settings,
     },
-    "About": {
+    About: {
       path: "/about/",
       description: "Learn about ZotMeal",
       icon: Info,
@@ -42,7 +52,13 @@ export default function HamburgerMenu() {
   return (
     <Popover placement="top">
       <Popover.Trigger asChild theme="dark">
-        <Button backgroundColor={0} paddingHorizontal="$4" paddingVertical={0} theme="dark" pressTheme>
+        <Button
+          backgroundColor={0}
+          paddingHorizontal="$4"
+          paddingVertical={0}
+          theme="dark"
+          pressTheme
+        >
           <Menu color="white" size="$2" />
         </Button>
       </Popover.Trigger>
@@ -54,7 +70,8 @@ export default function HamburgerMenu() {
           <Popover.Sheet.Overlay
             animation="quickest"
             enterStyle={{ opacity: 0 }}
-            exitStyle={{ opacity: 0 }} />
+            exitStyle={{ opacity: 0 }}
+          />
         </Popover.Sheet>
       </Adapt>
       <Popover.Content
@@ -64,7 +81,7 @@ export default function HamburgerMenu() {
         exitStyle={{ y: -10, opacity: 0 }}
         elevate
         animation={[
-          'quickest',
+          "quickest",
           {
             opacity: {
               overshootClamping: true,
@@ -73,14 +90,13 @@ export default function HamburgerMenu() {
         ]}
       >
         <YGroup separator={<Separator />}>
-          {Object
-            .entries(screens)
-            .map(([name, { path, description, icon }]) => (
+          {Object.entries(screens).map(
+            ([name, { path, description, icon }]) => (
               <YGroup.Item key={name}>
                 <Popover.Close
                   asChild
                   disabled={path.replaceAll("/", "") === currentSegment}
-                  flexDirection='row'
+                  flexDirection="row"
                 >
                   <Link
                     replace
@@ -95,11 +111,13 @@ export default function HamburgerMenu() {
                       subTitle={description}
                       disabled={path.replaceAll("/", "") === currentSegment}
                       icon={icon}
-                      iconAfter={ChevronRight} />
+                      iconAfter={ChevronRight}
+                    />
                   </Link>
                 </Popover.Close>
               </YGroup.Item>
-            ))}
+            ),
+          )}
         </YGroup>
       </Popover.Content>
     </Popover>

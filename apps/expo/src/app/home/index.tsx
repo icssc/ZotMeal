@@ -1,11 +1,19 @@
-
-import type { DateTimePickerEvent } from '@react-native-community/datetimepicker';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { Picker } from '@react-native-picker/picker';
-import { ArrowRight, CalendarDays, Pin, PinOff, StarFull } from '@tamagui/lucide-icons';
-import type { MenuWithRelations } from '@zotmeal/db/src/schema';
-import { ID_TO_RESTAURANT, PERIOD_TO_ID, getCurrentPeriodName, getRestaurantNameById, isCurrentlyClosed } from '@zotmeal/utils';
-import { Link } from 'expo-router';
+import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
+// import { api } from '~/utils/api';
+import { useState } from "react";
+import { useColorScheme } from "react-native";
+import { G, Path, Svg, Text as TextSVG } from "react-native-svg";
+import { Link } from "expo-router";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { Picker } from "@react-native-picker/picker";
+import {
+  ArrowRight,
+  CalendarDays,
+  Pin,
+  PinOff,
+  StarFull,
+} from "@tamagui/lucide-icons";
+import { Toast, useToastController, useToastState } from "@tamagui/toast";
 import {
   Button,
   H3,
@@ -21,23 +29,27 @@ import {
   XStack,
   YGroup,
   YStack,
-  useTheme,
-  useWindowDimensions,
-} from 'tamagui';
-import { LinearGradient } from 'tamagui/linear-gradient'
-import { create } from 'zustand';
-import { anteateryData, brandywineData } from './example_data';
-// import { api } from '~/utils/api';
-import { useEffect, useState } from 'react';
-import { G, Path, Svg, Text as TextSVG } from 'react-native-svg';
-import { useColorScheme } from 'react-native';
-import { Toast, useToastController, useToastState } from '@tamagui/toast';
-import RestaurantTabs from '~/components/RestaurantTabs';
-import groupBy from '~/utils/groupBy';
+} from "tamagui";
+import { LinearGradient } from "tamagui/linear-gradient";
+import { create } from "zustand";
+
+import type { MenuWithRelations } from "@zotmeal/db/src/schema";
+import {
+  getCurrentPeriodName,
+  getRestaurantNameById,
+  isCurrentlyClosed,
+  PERIOD_TO_ID,
+} from "@zotmeal/utils";
+
+import RestaurantTabs from "~/components/RestaurantTabs";
+import groupBy from "~/utils/groupBy";
+import { anteateryData, brandywineData } from "./example_data";
 
 type Station = MenuWithRelations["stations"][0];
 type Dish = MenuWithRelations["stations"][0]["dishes"][0];
-export type RestaurantName = NonNullable<ReturnType<typeof getRestaurantNameById>>;
+export type RestaurantName = NonNullable<
+  ReturnType<typeof getRestaurantNameById>
+>;
 type PeriodName = NonNullable<ReturnType<typeof getCurrentPeriodName>>;
 
 // TODO: Replace with real user data
@@ -68,7 +80,6 @@ export const useMenuStore = create<MenuState>((set) => ({
 
 export function EventToast() {
   const currentToast = useToastState();
-  const toast = useToastController();
   if (!currentToast || currentToast.isHandledNatively) return null;
   return (
     <Toast
@@ -82,11 +93,11 @@ export function EventToast() {
       animation="quicker"
       viewportName={currentToast.viewportName}
       borderRadius="$4"
-      flexDirection='row'
+      flexDirection="row"
       width="90%"
       height="$6"
-      alignItems='center'
-      justifyContent='space-between'
+      alignItems="center"
+      justifyContent="space-between"
       gap
     >
       <CalendarDays />
@@ -95,7 +106,7 @@ export function EventToast() {
         colors={["cornflowerblue", "blueviolet"]}
         borderRadius="$20"
       >
-        <Toast.Action altText='See Events' asChild>
+        <Toast.Action altText="See Events" asChild>
           <Link href="/events/" asChild>
             <Button
               backgroundColor={0}
@@ -162,19 +173,19 @@ export function Home() {
     return <View>Loading...</View>;
   }
 
-  toast.show('There are 5 upcoming events.', {
+  toast.show("There are 5 upcoming events.", {
     // message: 'See upcoming events',
     duration: 10_000_000,
     burntOptions: {
       shouldDismissByDrag: true,
-      from: 'bottom',
-    }
+      from: "bottom",
+    },
   });
 
   return (
     <RestaurantTabs>
       <EventToast />
-      <XStack justifyContent='space-around'>
+      <XStack justifyContent="space-around">
         <PeriodPicker
           periodName={periodName}
           setPeriodName={setPeriodName}
@@ -195,7 +206,7 @@ export function Home() {
       {[brandywineMenu, anteateryMenu].map((menu) => (
         <Tabs.Content
           key={menu.restaurantId}
-          value={getRestaurantNameById(menu.restaurantId as keyof typeof ID_TO_RESTAURANT)!}
+          value={getRestaurantNameById(menu.restaurantId)!}
           alignItems="center"
           flex={1}
         >
@@ -204,7 +215,7 @@ export function Home() {
       ))}
     </RestaurantTabs>
   );
-};
+}
 
 interface PeriodPickerProps {
   periodName: PeriodName;
@@ -228,17 +239,11 @@ const PeriodPicker = ({
       color,
     }}
     selectedValue={periodName}
-    onValueChange={(itemValue, _) =>
-      setPeriodName(itemValue)
-    }
+    onValueChange={(itemValue, _) => setPeriodName(itemValue)}
   >
     {/* Create a Picker.Item for each period */}
     {Object.entries(PERIOD_TO_ID).map(([period, id]) => (
-      <Picker.Item
-        key={id}
-        label={period}
-        value={id}
-      />
+      <Picker.Item key={id} label={period} value={id} />
     ))}
   </Picker>
 );
@@ -251,7 +256,7 @@ export const TabSvg = ({ label }: { label: string }) => {
 
   return (
     <Svg
-      width={(deviceWidth / 2) + 135}
+      width={deviceWidth / 2 + 135}
       height="75"
       viewBox="0 0 403 82"
       fill="none"
@@ -264,10 +269,10 @@ export const TabSvg = ({ label }: { label: string }) => {
       />
       <G>
         <TextSVG
-          x='50%'
-          y='30%'
+          x="50%"
+          y="30%"
           fill={theme.color?.val as string}
-          textAnchor='middle'
+          textAnchor="middle"
           alignmentBaseline="central"
           fontSize="25"
           fontWeight="bold"
@@ -275,10 +280,10 @@ export const TabSvg = ({ label }: { label: string }) => {
           {label}
         </TextSVG>
         <TextSVG
-          x='50%'
-          y='60%'
+          x="50%"
+          y="60%"
           fill={isCurrentlyClosed() ? "firebrick" : "forestgreen"}
-          textAnchor='middle'
+          textAnchor="middle"
           alignmentBaseline="central"
           fontSize="18"
           fontWeight="bold"
@@ -343,19 +348,23 @@ const StationTabs = ({ stations }: { stations: Station[] }) => (
   </Tabs>
 );
 
-const Category = ({ category, dishes }: {
-  category: string,
-  dishes: Dish[],
+const Category = ({
+  category,
+  dishes,
+}: {
+  category: string;
+  dishes: Dish[];
 }) => (
   <YStack key={category} width={"100%"}>
-    <H3 fontWeight={"800"} marginTop="$5" paddingLeft="$2">{category}</H3>
+    <H3 fontWeight={"800"} marginTop="$5" paddingLeft="$2">
+      {category}
+    </H3>
     <YGroup bordered separator={<Separator borderWidth={1} />}>
       {dishes.map((dish) => (
         <DishCard key={dish.id} dish={dish} />
       ))}
     </YGroup>
   </YStack>
-);
 );
 
 const DishCard = ({ dish }: { dish: Dish }) => (
@@ -368,7 +377,7 @@ const DishCard = ({ dish }: { dish: Dish }) => (
       }}
     >
       <ListItem pressTheme>
-        <XStack justifyContent='space-between' paddingRight="$4">
+        <XStack justifyContent="space-between" paddingRight="$4">
           <Image
             resizeMode="contain"
             alignSelf="center"
@@ -379,20 +388,40 @@ const DishCard = ({ dish }: { dish: Dish }) => (
               uri: "https://images.rawpixel.com/image_png_1100/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTExL2ZyZWVpbWFnZXNjb21wYW55X3Bob3RvX29mX2Nob2NvbGF0ZV9jaGlwX2Nvb2tpZV90b3Bfdmlld19pc29sYV8xOGVkY2ZiYS00ZTJjLTQ5MWItYjZiOC02ZGZjNmY1M2Y0OWIucG5n.png",
             }}
           />
-          <YStack gap="$1" width={"75%"} justifyContent='space-between' paddingTop="$4" paddingBottom="$3" >
-            <XStack justifyContent='space-between'>
-              <Text fontWeight={"800"} fontSize={"$5"} >{dish.name}</Text>
-              <Text textAlign='right' fontSize="$5" fontWeight={"800"}>{dish.nutritionInfo.calories} cal</Text>
+          <YStack
+            gap="$1"
+            width={"75%"}
+            justifyContent="space-between"
+            paddingTop="$4"
+            paddingBottom="$3"
+          >
+            <XStack justifyContent="space-between">
+              <Text fontWeight={"800"} fontSize={"$5"}>
+                {dish.name}
+              </Text>
+              <Text textAlign="right" fontSize="$5" fontWeight={"800"}>
+                {dish.nutritionInfo.calories} cal
+              </Text>
             </XStack>
-            <XStack justifyContent='space-between' >
-              <XStack alignItems='center' gap="$1" width={"70%"}>
+            <XStack justifyContent="space-between">
+              <XStack alignItems="center" gap="$1" width={"70%"}>
                 <StarFull color="gold" scale={0.8} />
-                <Text><Text fontWeight="800" fontSize="$4">5.0</Text> <Text color="gray">(10,000 reviews)</Text></Text>
+                <Text>
+                  <Text fontWeight="800" fontSize="$4">
+                    5.0
+                  </Text>{" "}
+                  <Text color="gray">(10,000 reviews)</Text>
+                </Text>
               </XStack>
-              {dummyUserPins.includes(dish.id) ?
-                <Button minWidth={"48%"} scale={0.8} fontWeight={"800"}>Unpin <PinOff /></Button> :
-                <Button minWidth={"48%"} scale={0.8} fontWeight={"800"}>Pin <Pin /></Button>
-              }
+              {dummyUserPins.includes(dish.id) ? (
+                <Button minWidth={"48%"} scale={0.8} fontWeight={"800"}>
+                  Unpin <PinOff />
+                </Button>
+              ) : (
+                <Button minWidth={"48%"} scale={0.8} fontWeight={"800"}>
+                  Pin <Pin />
+                </Button>
+              )}
             </XStack>
           </YStack>
         </XStack>
