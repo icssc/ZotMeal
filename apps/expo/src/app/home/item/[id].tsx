@@ -5,6 +5,7 @@ import {
   H3,
   H4,
   Image,
+  Paragraph,
   ScrollView,
   Separator,
   Text,
@@ -16,7 +17,7 @@ import {
 
 import type { NutritionInfo } from "@zotmeal/db/src/schema";
 
-import { useMenuStore } from "..";
+import { useMenuStore } from "~/app/state";
 import RateItem from "./RateItem";
 
 export default function MenuItem() {
@@ -80,12 +81,12 @@ export default function MenuItem() {
       {/* TODO: Add % Daily Value */}
       {/* <Text>% Daily Value*</Text> */}
       <Text>
-        <Text fontWeight={"800"}>Total Fat</Text> {nutritionInfo.totalFatG}
+        <Text fontWeight={"800"}>Total Fat</Text> {nutritionInfo.totalFatG}g
       </Text>
       <Separator marginVertical="$2" borderWidth={1} />
-      <Text paddingLeft="$4">Saturated Fat {nutritionInfo.saturatedFatG}</Text>
+      <Text paddingLeft="$4">Saturated Fat {nutritionInfo.saturatedFatG}g</Text>
       <Separator marginVertical="$2" borderWidth={1} />
-      <Text paddingLeft="$4">Trans Fat {nutritionInfo.transFatG}</Text>
+      <Text paddingLeft="$4">Trans Fat {nutritionInfo.transFatG}g</Text>
       <Separator marginVertical="$2" borderWidth={1} />
       <Text>
         <Text fontWeight={"800"}>Cholesterol</Text>{" "}
@@ -93,47 +94,47 @@ export default function MenuItem() {
       </Text>
       <Separator marginVertical="$2" borderWidth={1} />
       <Text>
-        <Text fontWeight={"800"}>Sodium</Text> {nutritionInfo.sodiumMg}
+        <Text fontWeight={"800"}>Sodium</Text> {nutritionInfo.sodiumMg}mg
       </Text>
       <Separator marginVertical="$2" borderWidth={1} />
       <Text>
         <Text fontWeight={"800"}>Total Carbohydrates</Text>{" "}
-        {nutritionInfo.totalCarbsG}
+        {nutritionInfo.totalCarbsG}g
       </Text>
       <Separator marginVertical="$2" borderWidth={1} />
-      <Text paddingLeft="$4">Dietary Fiber {nutritionInfo.dietaryFiberG}</Text>
+      <Text paddingLeft="$4">Dietary Fiber {nutritionInfo.dietaryFiberG}g</Text>
       <Separator marginVertical="$2" borderWidth={1} />
-      <Text paddingLeft="$4">Sugars {nutritionInfo.sugarsMg}</Text>
+      <Text paddingLeft="$4">Sugars {nutritionInfo.sugarsMg}mg</Text>
       <Separator marginVertical="$2" borderWidth={1} />
       <Text>
-        <Text fontWeight={"800"}>Sodium</Text> {nutritionInfo.proteinG}
+        <Text fontWeight={"800"}>Sodium</Text> {nutritionInfo.proteinG}g
       </Text>
       <Separator marginVertical="$2" borderWidth={7} />
       <XStack justifyContent="space-between">
-        <Text>Vitamin A</Text>
-        <Text>{nutritionInfo.vitaminAIU}</Text>
+        <Text>Vitamin A {nutritionInfo.vitaminAIU} IU</Text>
+        <Text></Text>
       </XStack>
       <Separator marginVertical="$2" borderWidth={1} />
       <XStack justifyContent="space-between">
-        <Text>Vitamin C</Text>
-        <Text>{nutritionInfo.vitaminCIU}</Text>
+        <Text>Vitamin C {nutritionInfo.vitaminCIU} IU</Text>
+        <Text></Text>
       </XStack>
       <Separator marginVertical="$2" borderWidth={1} />
       <XStack justifyContent="space-between">
-        <Text>Iron</Text>
-        <Text>{nutritionInfo.ironMg}</Text>
+        <Text>Iron {nutritionInfo.ironMg}mg</Text>
+        <Text></Text>
       </XStack>
       <Separator marginVertical="$2" borderWidth={1} />
       <XStack justifyContent="space-between">
-        <Text>Calcium</Text>
-        <Text>{nutritionInfo.calciumMg}</Text>
+        <Text>Calcium {nutritionInfo.calciumMg}mg</Text>
+        <Text></Text>
       </XStack>
       <Separator marginVertical="$2" borderWidth={4} />
-      <Text>
+      <Paragraph>
         The % Daily Value tells you how much a nutrient in a serving of food
         contributes to a daily diet. 2,000 calories a day is used for general
         nutrition advice.
-      </Text>
+      </Paragraph>
     </YStack>
   );
 
@@ -143,7 +144,7 @@ export default function MenuItem() {
         options={{
           headerTitle: dish.name,
           headerBackTitle: "Home",
-          headerTitleStyle: { color: "#FFFFFF" },
+          headerTitleStyle: { color: "white" },
         }}
       />
       <ScrollView

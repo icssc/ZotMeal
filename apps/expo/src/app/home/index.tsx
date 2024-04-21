@@ -1,8 +1,6 @@
 import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 // import { api } from '~/utils/api';
 import { useState } from "react";
-import { useColorScheme } from "react-native";
-import { G, Path, Svg, Text as TextSVG } from "react-native-svg";
 import { Link } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
@@ -24,59 +22,30 @@ import {
   Tabs,
   Text,
   useTheme,
-  useWindowDimensions,
   View,
   XStack,
   YGroup,
   YStack,
 } from "tamagui";
 import { LinearGradient } from "tamagui/linear-gradient";
-import { create } from "zustand";
 
 import type { MenuWithRelations } from "@zotmeal/db/src/schema";
 import {
   getCurrentPeriodName,
   getRestaurantNameById,
-  isCurrentlyClosed,
   PERIOD_TO_ID,
 } from "@zotmeal/utils";
 
 import RestaurantTabs from "~/components/RestaurantTabs";
 import groupBy from "~/utils/groupBy";
-import { anteateryData, brandywineData } from "./example_data";
+import { useMenuStore } from "../state";
 
 type Station = MenuWithRelations["stations"][0];
 type Dish = MenuWithRelations["stations"][0]["dishes"][0];
-export type RestaurantName = NonNullable<
-  ReturnType<typeof getRestaurantNameById>
->;
 type PeriodName = NonNullable<ReturnType<typeof getCurrentPeriodName>>;
 
 // TODO: Replace with real user data
 const dummyUserPins = ["312"];
-
-interface MenuState {
-  selectedRestaurant: RestaurantName;
-  anteateryMenu: MenuWithRelations | null;
-  brandywineMenu: MenuWithRelations | null;
-  setSelectedRestaurant: (restaurant: RestaurantName) => void;
-  setAnteateryMenu: (anteateryMenu: MenuWithRelations) => void;
-  setBrandywineMenu: (brandywineMenu: MenuWithRelations) => void;
-}
-
-export const useMenuStore = create<MenuState>((set) => ({
-  selectedRestaurant: "brandywine",
-  anteateryMenu: anteateryData,
-  brandywineMenu: brandywineData,
-  // anteateryMenu: null,
-  // brandywineMenu: null,
-  setSelectedRestaurant: (selectedRestaurant: RestaurantName) =>
-    set({ selectedRestaurant }),
-  setAnteateryMenu: (anteateryMenu: MenuWithRelations) =>
-    set({ anteateryMenu }),
-  setBrandywineMenu: (brandywineMenu: MenuWithRelations) =>
-    set({ brandywineMenu }),
-}));
 
 export function EventToast() {
   const currentToast = useToastState();
@@ -107,7 +76,7 @@ export function EventToast() {
         borderRadius="$20"
       >
         <Toast.Action altText="See Events" asChild>
-          <Link href="/events/" asChild>
+          <Link href="/events/" asChild replace>
             <Button
               backgroundColor={0}
               pressTheme
@@ -135,7 +104,9 @@ export function Home() {
   const toast = useToastController();
 
   const [date, setDate] = useState(new Date());
-  const [periodName, setPeriodName] = useState(getCurrentPeriodName());
+  const [periodName, setPeriodName] = useState<string>(
+    getCurrentPeriodName() === "closed" ? "breakfast" : getCurrentPeriodName(),
+  );
   const theme = useTheme();
 
   // const anteateryMenu = anteateryData;
@@ -227,7 +198,7 @@ const PeriodPicker = ({
   periodName,
   setPeriodName,
   color,
-}: PeriodPickerProps) => (
+}: Readonly<PeriodPickerProps>) => (
   <Picker
     style={{
       width: 150,
@@ -248,54 +219,7 @@ const PeriodPicker = ({
   </Picker>
 );
 
-// Uses the svg from Figma
-export const TabSvg = ({ label }: { label: string }) => {
-  const colorScheme = useColorScheme();
-  const theme = useTheme();
-  const deviceWidth = useWindowDimensions().width;
-
-  return (
-    <Svg
-      width={deviceWidth / 2 + 135}
-      height="75"
-      viewBox="0 0 403 82"
-      fill="none"
-    >
-      <Path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M-31 82H403C370.624 82 359.956 61.6562 349.248 41.2347C338.458 20.6568 327.626 0 294.5 0H77.5C44.374 0 33.5423 20.6568 22.7519 41.2347C12.0436 61.6562 1.37595 82 -31 82Z"
-        fill={colorScheme === "dark" ? "#1A1B1D" : "#FFFFFF"}
-      />
-      <G>
-        <TextSVG
-          x="50%"
-          y="30%"
-          fill={theme.color?.val as string}
-          textAnchor="middle"
-          alignmentBaseline="central"
-          fontSize="25"
-          fontWeight="bold"
-        >
-          {label}
-        </TextSVG>
-        <TextSVG
-          x="50%"
-          y="60%"
-          fill={isCurrentlyClosed() ? "firebrick" : "forestgreen"}
-          textAnchor="middle"
-          alignmentBaseline="central"
-          fontSize="18"
-          fontWeight="bold"
-        >
-          {isCurrentlyClosed() ? "CLOSED" : "OPEN"}
-        </TextSVG>
-      </G>
-    </Svg>
-  );
-};
-
-const StationTabs = ({ stations }: { stations: Station[] }) => (
+const StationTabs = ({ stations }: Readonly<{ stations: Station[] }>) => (
   <Tabs
     defaultValue={stations?.[0]?.name}
     orientation="horizontal"
@@ -358,11 +282,11 @@ const Category = ({
   stationId,
   category,
   dishes,
-}: {
+}: Readonly<{
   stationId: Station["id"];
   category: string;
   dishes: Dish[];
-}) => (
+}>) => (
   <YStack key={category} width={"100%"}>
     <H3 fontWeight={"800"} marginTop="$5" paddingLeft="$2">
       {category}
@@ -378,10 +302,10 @@ const Category = ({
 const DishCard = ({
   dish,
   stationId,
-}: {
+}: Readonly<{
   dish: Dish;
   stationId: Station["id"];
-}) => (
+}>) => (
   <YGroup.Item>
     <Link
       asChild

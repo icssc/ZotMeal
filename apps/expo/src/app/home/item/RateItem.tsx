@@ -4,7 +4,9 @@ import { Adapt, Button, H4, Popover, XStack, YStack } from "tamagui";
 
 import type { DishWithRelations } from "@zotmeal/db/src/schema";
 
-export default function RateItem({ item }: { item: DishWithRelations }) {
+export default function RateItem({
+  item,
+}: Readonly<{ item: DishWithRelations }>) {
   const [rating, setRating] = useState<number>(5);
 
   return (

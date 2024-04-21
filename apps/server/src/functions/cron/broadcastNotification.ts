@@ -1,9 +1,9 @@
 import { Expo } from "expo-server-sdk";
 
-import type { Notification } from "@zotmeal/api";
-import { broadcastNotification } from "@zotmeal/api";
+import { broadcastNotification, Notification } from "@zotmeal/api";
 import { createDrizzle } from "@zotmeal/db";
 import { EventSchema } from "@zotmeal/db/src/schema";
+import { getRestaurantNameById } from "@zotmeal/utils";
 
 export const main = async (evt, context) => {
   const db = await createDrizzle(process.env.DATABASE_URL);
@@ -17,13 +17,15 @@ export const main = async (evt, context) => {
 
   // We should format the event subtitle to be something like "Brandywine is holding a special event"
   // Title: Special Event at {restaurant_name}
-  // Subtitle: event.description
+  // Subtitle: event.shortDescription
+  // TODO: Maybe put an image in the notification, but I don't think it's in the normal expo notification api
+  // Image: event.image
 
-  const notification: Notification = {
-    title: event.title,
-    subtitle: event.description,
-    body: event.description,
-  };
+  const notification = {
+    title: `Special event at ${getRestaurantNameById(event.restaurantId)} 🎉`,
+    subtitle: `Title: ${event.shortDescription}`,
+    body: `Description: ${event.shortDescription}`,
+  } satisfies Notification;
 
   const tickets = broadcastNotification(db, expo, notification);
 };

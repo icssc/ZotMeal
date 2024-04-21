@@ -1,12 +1,16 @@
-import { Image, Tabs, View } from "tamagui";
+import { useColorScheme } from "react-native";
+import { G, Path, Svg, Text } from "react-native-svg";
+import { Image, Tabs, useTheme, useWindowDimensions, View } from "tamagui";
 
-import { TabSvg, useMenuStore } from "~/app/home";
+import { getCurrentPeriodName } from "@zotmeal/utils";
+
+import { useMenuStore } from "~/app/state";
 
 export default function RestaurantTabs({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   const { selectedRestaurant, setSelectedRestaurant } = useMenuStore();
 
   return (
@@ -56,4 +60,52 @@ export default function RestaurantTabs({
       </Tabs>
     </>
   );
-}
+} // Uses the svg from Figma
+
+export const TabSvg = ({ label }: Readonly<{ label: string }>) => {
+  const colorScheme = useColorScheme();
+  const theme = useTheme();
+  const deviceWidth = useWindowDimensions().width;
+
+  return (
+    <Svg
+      width={deviceWidth / 2 + 135}
+      height="75"
+      viewBox="0 0 403 82"
+      fill="none"
+    >
+      <Path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M-31 82H403C370.624 82 359.956 61.6562 349.248 41.2347C338.458 20.6568 327.626 0 294.5 0H77.5C44.374 0 33.5423 20.6568 22.7519 41.2347C12.0436 61.6562 1.37595 82 -31 82Z"
+        fill={colorScheme === "dark" ? "#1A1B1D" : "#FFFFFF"}
+      />
+      <G>
+        <Text
+          x="50%"
+          y="30%"
+          fill={theme.color?.val as string}
+          textAnchor="middle"
+          alignmentBaseline="central"
+          fontSize="25"
+          fontWeight="bold"
+        >
+          {label}
+        </Text>
+        <Text
+          x="50%"
+          y="60%"
+          fill={
+            getCurrentPeriodName() === "closed" ? "firebrick" : "forestgreen"
+          }
+          textAnchor="middle"
+          alignmentBaseline="central"
+          fontSize="18"
+          fontWeight="bold"
+        >
+          {getCurrentPeriodName() === "closed" ? "CLOSED" : "OPEN"}
+        </Text>
+      </G>
+    </Svg>
+  );
+};

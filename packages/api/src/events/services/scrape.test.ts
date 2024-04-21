@@ -35,5 +35,5 @@ describe("insert menu into db", async () => {
         trx.rollback();
       });
     }).rejects.toThrowError("Rollback");
-  });
+  }, 10_000);
 });

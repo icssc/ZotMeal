@@ -12,7 +12,7 @@
     "test": "echo 'Add test script here'",
     "lint": "eslint .",
     "db:generate": "drizzle-kit generate:pg --schema=./src/schema --out=./migrations",
-    "db:push": "pnpm with-env drizzle-kit push:pg",
+    "db:push": "pnpm drizzle-kit push:pg",
     "db:migrate": "pnpm with-env tsx ./src/migrate.ts",
     "db:studio": "pnpm with-env drizzle-kit studio --port 3000 --verbose",
     "db:drop": "pnpm with-env drizzle-kit drop",

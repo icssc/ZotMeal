@@ -1,5 +1,6 @@
-import type { Period} from "@zotmeal/db/src/schema";
-import type {Restaurant} from "@zotmeal/db/src/schema";
+import { isFriday, isWeekend } from "date-fns";
+
+import type { Period, Restaurant } from "@zotmeal/db/src/schema";
 
 // id mappings (period, restaurant)
 // restaurant names
@@ -29,7 +30,6 @@ export const getRestaurantId = (
 export const getRestaurantNameById = (
   id: keyof typeof ID_TO_RESTAURANT,
 ): Restaurant["name"] | null => ID_TO_RESTAURANT[id] ?? null;
-
 
 export const PERIOD_TO_ID: Record<Period["name"], string> = {
   breakfast: "49",
@@ -70,64 +70,51 @@ export const getPeriodById = (
  *
  * @returns the current period based on the current time
  */
-export const getCurrentPeriodName = (): Period["name"] => {
+export const getCurrentPeriodName = (): string => {
   const today = new Date();
-  const hours = today.getHours();
-  const minutes = today.getMinutes();
-  const isWeekend = today.getDay() === 0 || today.getDay() === 6;
+  const totalMinutes = today.getHours() * 60 + today.getMinutes();
+  const weekend = isWeekend(today);
 
-  // breakfast: 7:15 AM - 11:00 AM on weekdays
-  // and 9:00 AM - 11:00 AM on weekends
-  if (hours < 11) {
+  const breakfastWeekdayStart = 7 * 60 + 15;
+  const breakfastWeekendStart = 9 * 60;
+  const breakfastEnd = 11 * 60;
+  const brunchEnd = 16 * 60 + 30;
+  const dinnerEnd = 20 * 60;
+  const lateNightEnd = 23 * 60;
+
+  if (
+    !weekend &&
+    totalMinutes >= breakfastWeekdayStart &&
+    totalMinutes < breakfastEnd
+  ) {
     return "breakfast";
-  }
-
-  // breakfast, brunch, and dinner are on weekends
-  if (isWeekend) {
-    if (hours < 16 || (hours === 16 && minutes < 30)) {
-      // if before 4:30 PM
-      return "brunch";
-    }
-    return "dinner";
-  }
-
-  // mon-friday
-  if (hours < 16 || (hours === 16 && minutes < 30)) {
-    // if before 4:30 PM
+  } else if (
+    weekend &&
+    totalMinutes >= breakfastWeekendStart &&
+    totalMinutes < breakfastEnd
+  ) {
+    return "breakfast";
+  } else if (
+    weekend &&
+    totalMinutes >= breakfastEnd &&
+    totalMinutes < brunchEnd
+  ) {
+    return "brunch";
+  } else if (
+    !weekend &&
+    totalMinutes >= breakfastEnd &&
+    totalMinutes < brunchEnd
+  ) {
     return "lunch";
-  } else if (hours < 20) {
-    // if before 8:00 PM
+  } else if (totalMinutes >= brunchEnd && totalMinutes < dinnerEnd) {
     return "dinner";
-  } else {
-    return today.getDay() === 5 ? "dinner" : "latenight"; // friday does not have latenight
+  } else if (
+    !weekend &&
+    !isFriday(today) &&
+    totalMinutes >= dinnerEnd &&
+    totalMinutes < lateNightEnd
+  ) {
+    return "latenight";
   }
-};
-
-export const isCurrentlyClosed = (): boolean => {
-  const today = new Date();
-  const hours = today.getHours();
-  const minutes = today.getMinutes();
-  const isWeekend = today.getDay() === 0 || today.getDay() === 6;
-
-  if (isWeekend) {
-    if (hours < 9 || (hours === 9 && minutes < 0)) {
-      // if before 9:00 AM
-      return true;
-    }
-  } else if (hours < 7 || (hours === 7 && minutes < 15)) {
-    // if before 7:15 AM
-    return true;
-  }
-
-  if (hours >= 23 || (hours === 22 && minutes > 0)) {
-    // if after 11:00 PM
-    return true;
-  }
-
-  if (today.getDay() === 5 && (hours >= 20 || (hours === 19 && minutes > 0))) {
-    // if after 8:00 PM on friday
-    return true;
-  }
-
-  return false;
+  return "closed";
 };
