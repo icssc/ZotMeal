@@ -9,9 +9,11 @@ import { Restaurant } from "@zotmeal/db/src/schema";
 
 import { RESTAURANT_TO_ID } from "../../../../../packages/utils/src/constants";
 
+const connectionString = process.env.DATABASE_URL ?? "postgres://admin:admin@localhost:5434/zotmeal"
+
 export const main = async (event, context) => {
   try {
-    const db = await createDrizzle(process.env.DATABASE_URL);
+    const db = await createDrizzle(connectionString);
 
     const now = new Date();
     const formattedTime = format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx");
