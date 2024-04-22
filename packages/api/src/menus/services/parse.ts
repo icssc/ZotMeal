@@ -124,14 +124,30 @@ export async function parseCampusDish(
 
   await upsertMenu(db, menu);
 
-  // collect by stations
-  // dishes by station id
+  // Insert all stations
+  const stations: Station[] = response.Menu.MenuStations.map((menuStation) => {
+    return {
+      id: menuStation.StationId,
+      restaurantId: restaurant.id,
+      name: menuStation.Name,
+    };
+  });
 
+  //
+  console.log("Inserting stations");
+  //
+
+  for (const station of stations) {
+    await upsertStation(db, station);
+  }
+
+
+  // Insert all dishes and dish relations
   const dishes: DishWithRelations[] = response.Menu.MenuProducts.map(
     (menuProduct) => {
-      const { MenuProductId, StationId, Product } = menuProduct;
+      const { ProductId, StationId, Product } = menuProduct;
       const dietRestriction: DietRestriction = {
-        dishId: MenuProductId,
+        dishId: ProductId,
         containsEggs: Product.ContainsEggs,
         containsFish: Product.ContainsFish,
         containsMilk: Product.ContainsMilk,
@@ -151,7 +167,7 @@ export async function parseCampusDish(
       };
 
       const nutritionInfo: NutritionInfo = {
-        dishId: MenuProductId,
+        dishId: ProductId,
         servingSize: Product.ServingSize,
         servingUnit: Product.ServingUnit,
         calories: Product.Calories,
@@ -172,7 +188,7 @@ export async function parseCampusDish(
       };
 
       return {
-        id: MenuProductId,
+        id: ProductId,  // 
         stationId: StationId,  // StationId for DishJointTable
         menuId: menuIdHash,    // MenuId for DishJointTable
         name: Product.MarketingName,
@@ -191,21 +207,5 @@ export async function parseCampusDish(
   for (const dish of dishes) {
     await upsertDish(db, dish); // should nullcheck and throw for rollbacks
     await insertDishMenuStationJoint(db, dish);
-  }
-
-  const stations: Station[] = response.Menu.MenuStations.map((menuStation) => {
-    return {
-      id: menuStation.StationId,
-      restaurantId: restaurant.id,
-      name: menuStation.Name,
-    };
-  });
-
-  //
-  console.log("Inserting stations");
-  //
-
-  for (const station of stations) {
-    await upsertStation(db, station);
   }
 }
