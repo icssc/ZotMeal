@@ -27,6 +27,7 @@ export const main = async (event, context) => {
         restaurantName: restaurant as Restaurant["name"],
       } satisfies GetWeekInfoParams);
     }
+    pool.end();
   } catch (error) {
     console.error("Failed to execute weekly task", error);
   }

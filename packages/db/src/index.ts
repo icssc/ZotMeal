@@ -18,13 +18,27 @@ export const createClient = async (
   return client;
 };
 
-export async function createDrizzle(connectionString: string) {
-  const client = await createClient(connectionString);
-  const db = drizzle(client, { schema });
+export const createPool = async (
+  connectionString: string,
+): Promise<pg.Pool> => {
+  if (!connectionString) {
+    throw new Error("DATABASE_URL is not set");
+  }
+  const pool = new pg.Pool({
+    connectionString,
+    max: 1,
+  });
+  return pool;
+};
 
-  return db;
+export async function createDrizzle(connectionString: string) {
+  // const client = await createClient(connectionString);
+  const pool = await createPool(connectionString);
+  const db = drizzle(pool, { schema });
+
+  return { pool, db };
 }
-export type Drizzle = Awaited<ReturnType<typeof createDrizzle>>;
+export type Drizzle = Awaited<ReturnType<typeof createDrizzle>>["db"];
 
 export * from "drizzle-orm";
 export * from "./schema";
