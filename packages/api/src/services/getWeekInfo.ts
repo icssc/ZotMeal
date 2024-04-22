@@ -13,7 +13,7 @@ export const GetWeekInfoSchema = z.object({
 });
 export type GetWeekInfoParams = z.infer<typeof GetWeekInfoSchema>;
 
-const NUM_DAYS_UPDATE = 7;
+const NUM_DAYS_UPDATE = 14;
 
 export async function getWeekInfo(
   db: Drizzle,
