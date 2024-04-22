@@ -38,9 +38,7 @@ export async function getCampusDish(
 
   const { date, restaurant, period } = params;
 
-  //
-  console.log("Begin parse of " + period);
-  //
+  // Verify Parameters
 
   const periodId = getPeriodId(period);
 
@@ -56,6 +54,7 @@ export async function getCampusDish(
     return null;
   }
 
+  // Request Format:
   // const res = await axios.get(
   //   "https://uci-campusdish-com.translate.goog/api/menu/GetMenus?locationId=3314&periodId=49&date=1/19/2024",
   // );
@@ -64,6 +63,7 @@ export async function getCampusDish(
     `https://uci-campusdish-com.translate.goog/api/menu/GetMenus?locationId=${restaurantId}&periodId=${periodId}&date=${date}`,
   );
 
+  // Verify repsonse schema
   try {
     const validated = CampusDishResponseSchema.parse(res.data);
     return validated;
@@ -80,6 +80,9 @@ export async function parseCampusDish(
   db: Drizzle,
   response: CampusDishResponse,
 ): Promise<void> {
+
+  // Verify parameters
+
   const restaurantName = getRestaurantNameById(response.LocationId);
 
   if (!restaurantName) {
@@ -90,10 +93,6 @@ export async function parseCampusDish(
     id: response.LocationId,
     name: restaurantName,
   };
-
-  //
-  console.log("Inserting restaurant");
-  //
 
   await upsertRestaurant(db, restaurant);
 
@@ -108,6 +107,7 @@ export async function parseCampusDish(
 
   const menuIdHash = response.LocationId + date + response.SelectedPeriodId;
 
+  // Insert Menu
   const menu = MenuSchema.parse({
     id: menuIdHash,
     restaurantId: response.LocationId,
@@ -115,12 +115,8 @@ export async function parseCampusDish(
     start: response.Menu.MenuPeriods[0].UtcMealPeriodStartTime,
     end: response.Menu.MenuPeriods[0].UtcMealPeriodEndTime,
     date: date,
-    price: "13"  // Fix later
+    price: "13"  // Need Add mapping <------------------------------------------ !!!
   })
-
-  //
-  console.log("Inserting menu");
-  //
 
   await upsertMenu(db, menu);
 
@@ -133,9 +129,6 @@ export async function parseCampusDish(
     };
   });
 
-  //
-  console.log("Inserting stations");
-  //
 
   for (const station of stations) {
     await upsertStation(db, station);
@@ -199,10 +192,6 @@ export async function parseCampusDish(
       };
     },
   );
-
-  //
-  console.log("Inserting dishes");
-  //
 
   for (const dish of dishes) {
     await upsertDish(db, dish); // should nullcheck and throw for rollbacks

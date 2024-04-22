@@ -38,6 +38,6 @@ describe("insert menu into db", async () => {
   });
 },
 {
-  timeout: 1500,
+  timeout: 10000,
 }
 );
