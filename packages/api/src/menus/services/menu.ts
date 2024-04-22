@@ -64,6 +64,15 @@ export async function getMenu(
       eq(DishMenuStationJoint.stationId, StationTable.id),
     );
 
+  // this way we dont need to explicitly do join. drizzle will performs join behind the scenes
+  // const rowsRelation = await db.query.DishMenuStationJoint.findMany({
+  //   with: {
+  //     dish: true,
+  //     menu: true,
+  //     station: true,
+  //   },
+  // });
+
   let menuResult: MenuResult | null = null;
   const stationsResult: Record<string, StationResult> = {};
 

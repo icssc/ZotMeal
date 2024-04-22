@@ -7,18 +7,23 @@ import {
 import { createDrizzle } from "@zotmeal/db";
 import { Restaurant } from "@zotmeal/db/src/schema";
 
-import { RESTAURANT_NAMES } from "../../../../../packages/utils/src/constants";
+import { RESTAURANT_TO_ID } from "../../../../../packages/utils/src/constants";
+
+const connectionString = process.env.DATABASE_URL ?? "postgres://admin:admin@localhost:5434/zotmeal"
 
 export const main = async (event, context) => {
   try {
-    const db = await createDrizzle(process.env.DATABASE_URL);
+    //
+    console.log("Starting update daily");
+    //
+    const db = await createDrizzle(connectionString);
     const now = new Date();
     const formattedTime = format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx");
     console.log(`Daily task executed at: ${formattedTime}`);
 
     const formattedDate = format(now, "MM/dd/yyyy");
 
-    for (const restaurant of RESTAURANT_NAMES) {
+    for (const restaurant of Object.keys(RESTAURANT_TO_ID)) {
       await updateDaily(db, {
         date: formattedDate,
         restaurantName: restaurant as Restaurant["name"],

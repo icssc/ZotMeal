@@ -7,6 +7,7 @@ import type {
   DishWithRelations,
   Menu,
   NutritionInfo,
+  Period,
   Restaurant,
   Station,
 } from "@zotmeal/db/src/schema";
@@ -18,11 +19,8 @@ import {
   getRestaurantNameById,
   ID_TO_PERIOD
 } from "@zotmeal/utils";
-import type { CampusDishResponse } from "@zotmeal/validators";
 import { CampusDishResponseSchema } from "@zotmeal/validators";
-import axios from "axios";
-import { ZodError } from "zod";
-import { upsertDish } from "../../dishes";
+import { upsertDish, insertDishMenuStationJoint } from "../../dishes";
 import { upsertRestaurant } from "../../restaurants/services/restaurant";
 import { upsertStation } from "../../stations";
 import { upsertMenu } from "./menu";
@@ -37,7 +35,10 @@ interface GetMenuParams {
 export async function getCampusDish(
   params: GetMenuParams,
 ): Promise<CampusDishResponse | null> {
+
   const { date, restaurant, period } = params;
+
+  // Verify Parameters
 
   const periodId = getPeriodId(period);
 
@@ -53,6 +54,7 @@ export async function getCampusDish(
     return null;
   }
 
+  // Request Format:
   // const res = await axios.get(
   //   "https://uci-campusdish-com.translate.goog/api/menu/GetMenus?locationId=3314&periodId=49&date=1/19/2024",
   // );
@@ -61,6 +63,7 @@ export async function getCampusDish(
     `https://uci-campusdish-com.translate.goog/api/menu/GetMenus?locationId=${restaurantId}&periodId=${periodId}&date=${date}`,
   );
 
+  // Verify repsonse schema
   try {
     const validated = CampusDishResponseSchema.parse(res.data);
     return validated;
@@ -77,6 +80,9 @@ export async function parseCampusDish(
   db: Drizzle,
   response: CampusDishResponse,
 ): Promise<void> {
+
+  // Verify parameters
+
   const restaurantName = getRestaurantNameById(response.LocationId);
 
   if (!restaurantName) {
@@ -90,11 +96,6 @@ export async function parseCampusDish(
 
   await upsertRestaurant(db, restaurant);
 
-  // Promise.all optimize
-  for (const period of menuPeriods) {
-    await upsertPeriod(db, period);
-  }
-
   if (!response.SelectedPeriodId) {
     throw new Error("SelectedPeriodId is null");
   }
@@ -102,37 +103,44 @@ export async function parseCampusDish(
     throw new Error("MenuPeriods.UtcMealPeriodEndTime is null");
   }
 
-  const date = format(response.Menu.MenuPeriods[0]?.UtcMealPeriodStartTime, "MM/dd/yyyy")
+  const date = format(response.Menu.MenuPeriods[0]?.UtcMealPeriodStartTime, "MM/dd/yyyy");
+
+  const menuIdHash = response.LocationId + date + response.SelectedPeriodId;
+
+  // Insert Menu
   const menu = MenuSchema.parse({
-    id: response.Menu.MenuId,
+    id: menuIdHash,
     restaurantId: response.LocationId,
-    periodId: response.SelectedPeriodId,
-    date: date
+    period: ID_TO_PERIOD[response.SelectedPeriodId],
+    start: response.Menu.MenuPeriods[0].UtcMealPeriodStartTime,
+    end: response.Menu.MenuPeriods[0].UtcMealPeriodEndTime,
+    date: date,
+    price: "13"  // Need Add mapping <------------------------------------------ !!!
   })
+
   await upsertMenu(db, menu);
-  const menus: Menu[] = response.Menu.MenuPeriods.map((menuPeriod) => {
-    const menu = MenuSchema.parse({
-      id: menuPeriod.PeriodId,
+
+  // Insert all stations
+  const stations: Station[] = response.Menu.MenuStations.map((menuStation) => {
+    return {
+      id: menuStation.StationId,
       restaurantId: restaurant.id,
-      period: menuPeriod.Name.toLowerCase(),
-      start: menuPeriod.UtcMealPeriodStartTime,
-      end: menuPeriod.UtcMealPeriodEndTime,
-    });
-    return menu;
+      name: menuStation.Name,
+    };
   });
 
-  for (const menu of menus) {
-    await upsertMenu(db, menu);
+
+  for (const station of stations) {
+    await upsertStation(db, station);
   }
 
-  // collect by stations
-  // dishes by station id
 
+  // Insert all dishes and dish relations
   const dishes: DishWithRelations[] = response.Menu.MenuProducts.map(
     (menuProduct) => {
-      const { MenuProductId, StationId, Product } = menuProduct;
+      const { ProductId, StationId, Product } = menuProduct;
       const dietRestriction: DietRestriction = {
-        dishId: MenuProductId,
+        dishId: ProductId,
         containsEggs: Product.ContainsEggs,
         containsFish: Product.ContainsFish,
         containsMilk: Product.ContainsMilk,
@@ -152,7 +160,7 @@ export async function parseCampusDish(
       };
 
       const nutritionInfo: NutritionInfo = {
-        dishId: MenuProductId,
+        dishId: ProductId,
         servingSize: Product.ServingSize,
         servingUnit: Product.ServingUnit,
         calories: Product.Calories,
@@ -173,8 +181,9 @@ export async function parseCampusDish(
       };
 
       return {
-        id: MenuProductId,
-        stationId: StationId,
+        id: ProductId,  // 
+        stationId: StationId,  // StationId for DishJointTable
+        menuId: menuIdHash,    // MenuId for DishJointTable
         name: Product.MarketingName,
         description: Product.ShortDescription,
         category: Product.Categories?.[0]?.DisplayName ?? "Other", // category is other if not specified
@@ -186,18 +195,6 @@ export async function parseCampusDish(
 
   for (const dish of dishes) {
     await upsertDish(db, dish); // should nullcheck and throw for rollbacks
-  }
-
-  const stations: Station[] = response.Menu.MenuStations.map((menuStation) => {
-    return {
-      id: menuStation.StationId,
-      restaurantId: restaurant.id,
-      menuId: response.Menu.MenuId,
-      name: menuStation.Name,
-    };
-  });
-
-  for (const station of stations) {
-    await upsertStation(db, station);
+    await insertDishMenuStationJoint(db, dish);
   }
 }
