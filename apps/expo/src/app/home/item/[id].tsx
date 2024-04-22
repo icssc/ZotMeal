@@ -1,7 +1,6 @@
 import { Redirect, Stack, useGlobalSearchParams } from "expo-router";
-import { ChevronRight, Pin } from "@tamagui/lucide-icons";
+import { ChevronRight } from "@tamagui/lucide-icons";
 import {
-  Button,
   H3,
   H4,
   Image,
@@ -17,7 +16,8 @@ import {
 
 import type { NutritionInfo } from "@zotmeal/db/src/schema";
 
-import { useMenuStore } from "~/app/state";
+import { PinButton } from "~/components";
+import { useMenuStore } from "~/utils";
 import RateItem from "./RateItem";
 
 export default function MenuItem() {
@@ -177,13 +177,13 @@ export default function MenuItem() {
           <Text>{dish.description ?? "No description found."}</Text>
           <XStack justifyContent="space-between" paddingVertical="$4">
             <RateItem item={dish} />
-            <Button
+            <PinButton
+              minWidth="30%"
+              fontWeight="800"
               borderRadius="$10"
+              dishName={dish.name}
               paddingHorizontal="$4"
-              fontWeight={"800"}
-            >
-              Pin <Pin />
-            </Button>
+            />
           </XStack>
           <NutritionFacts nutritionInfo={dish.nutritionInfo} />
         </View>

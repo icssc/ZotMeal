@@ -4,7 +4,7 @@ import { Image, Tabs, useTheme, useWindowDimensions, View } from "tamagui";
 
 import { getCurrentPeriodName } from "@zotmeal/utils";
 
-import { useMenuStore } from "~/app/state";
+import useMenuStore from "~/utils/useMenuStore";
 
 export default function RestaurantTabs({
   children,

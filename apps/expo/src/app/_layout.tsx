@@ -13,9 +13,8 @@ import Inter from "@tamagui/font-inter/otf/Inter-Medium.otf";
 import { ToastProvider, ToastViewport } from "@tamagui/toast";
 import { createTamagui, TamaguiProvider, Theme } from "tamagui";
 
-import HamburgerMenu from "~/components/HamburgerMenu";
-import Logo from "~/components/Logo";
-import { TRPCProvider } from "~/utils/api";
+import { HamburgerMenu, Logo } from "~/components";
+import { TRPCProvider } from "~/utils";
 
 // Main layout of the app
 // It wraps your pages with the providers they need

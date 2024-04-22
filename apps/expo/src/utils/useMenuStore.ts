@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 import type { MenuWithRelations, Restaurant } from "@zotmeal/db";
 
-import { anteateryData, brandywineData } from "./home/example_data";
+import { anteateryData, brandywineData } from "../app/home/example_menus";
 
 interface MenuState {
   selectedRestaurant: Restaurant["name"];
@@ -13,7 +13,7 @@ interface MenuState {
   setBrandywineMenu: (brandywineMenu: MenuWithRelations) => void;
 }
 
-export const useMenuStore = create<MenuState>((set) => ({
+export default create<MenuState>((set) => ({
   selectedRestaurant: "brandywine",
   anteateryMenu: anteateryData,
   brandywineMenu: brandywineData,

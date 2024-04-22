@@ -1,16 +1,10 @@
 import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
-// import { api } from '~/utils/api';
+// import { api } from '~/utils';
 import { useState } from "react";
 import { Link } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
-import {
-  ArrowRight,
-  CalendarDays,
-  Pin,
-  PinOff,
-  StarFull,
-} from "@tamagui/lucide-icons";
+import { ArrowRight, CalendarDays, StarFull } from "@tamagui/lucide-icons";
 import { Toast, useToastController, useToastState } from "@tamagui/toast";
 import {
   Button,
@@ -29,23 +23,21 @@ import {
 } from "tamagui";
 import { LinearGradient } from "tamagui/linear-gradient";
 
-import type { MenuWithRelations } from "@zotmeal/db/src/schema";
+import type { MenuWithRelations, Period } from "@zotmeal/db/src/schema";
 import {
   getCurrentPeriodName,
   getRestaurantNameById,
   PERIOD_TO_ID,
 } from "@zotmeal/utils";
 
-import RestaurantTabs from "~/components/RestaurantTabs";
-import groupBy from "~/utils/groupBy";
-import { useMenuStore } from "../state";
+import { PinButton, RestaurantTabs } from "~/components";
+import { groupBy, useMenuStore } from "~/utils";
 
 type Station = MenuWithRelations["stations"][0];
 type Dish = MenuWithRelations["stations"][0]["dishes"][0];
-type PeriodName = NonNullable<ReturnType<typeof getCurrentPeriodName>>;
+type PeriodName = Period["name"];
 
 // TODO: Replace with real user data
-const dummyUserPins = ["312"];
 
 export function EventToast() {
   const currentToast = useToastState();
@@ -354,15 +346,13 @@ const DishCard = ({
                   <Text color="gray">(10,000 reviews)</Text>
                 </Text>
               </XStack>
-              {dummyUserPins.includes(dish.id) ? (
-                <Button minWidth={"48%"} scale={0.8} fontWeight={"800"}>
-                  Unpin <PinOff />
-                </Button>
-              ) : (
-                <Button minWidth={"48%"} scale={0.8} fontWeight={"800"}>
-                  Pin <Pin />
-                </Button>
-              )}
+              <PinButton
+                dishName={dish.name}
+                scale={0.8}
+                minWidth="48%"
+                borderRadius="$10"
+                fontWeight="800"
+              />
             </XStack>
           </YStack>
         </XStack>

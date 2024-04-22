@@ -4,7 +4,7 @@ import { H3, Image, ScrollView, Text, YStack } from "tamagui";
 
 import type { Event } from "@zotmeal/db/src/schema";
 
-import RestaurantTabs from "~/components/RestaurantTabs";
+import { RestaurantTabs } from "~/components";
 
 // import { api } from "~/utils/api";
 
