@@ -6,6 +6,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import { ArrowRight, CalendarDays, StarFull } from "@tamagui/lucide-icons";
 import { Toast, useToastController, useToastState } from "@tamagui/toast";
+import { endOfWeek, startOfWeek } from "date-fns";
 import {
   Button,
   H3,
@@ -154,10 +155,11 @@ export function Home() {
           setPeriodName={setPeriodName}
           color={theme.color?.val as string}
         />
-        {/* TODO: Write a unit test for rendering and checking if onChange is triggered on event */}
         <DateTimePicker
           value={date}
           mode="date"
+          minimumDate={startOfWeek(new Date())}
+          maximumDate={endOfWeek(new Date())}
           onChange={(event: DateTimePickerEvent, selectedDate) => {
             if (selectedDate) {
               setDate(selectedDate);
