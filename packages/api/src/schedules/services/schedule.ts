@@ -50,7 +50,6 @@ export async function getSchedule(
   params: GetScheduleParams,
 ): Promise<ScheduleResult | null> {
   const date = parseDate(params.date);
-  console.log(date);
   if (!date) {
     throw new TRPCError({
       code: "BAD_REQUEST",
