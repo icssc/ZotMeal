@@ -6,7 +6,7 @@ import { testData, updateData } from "../testdata/restaurantData";
 import { upsertRestaurant } from "./restaurant";
 
 describe("upsertRestaurant correctly", async () => {
-  const db = await createDrizzle(
+  const { db } = await createDrizzle(
     "postgres://admin:admin@localhost:5434/zotmeal",
   );
   it("insertRestaurant", async () => {
