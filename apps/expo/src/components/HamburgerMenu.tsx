@@ -11,7 +11,6 @@ import {
 } from "@tamagui/lucide-icons";
 import { Adapt, Button, ListItem, Popover, Separator, YGroup } from "tamagui";
 
-// TODO: linking should only push to stack when the screen isn't home
 export default function HamburgerMenu() {
   const currentSegment = useSegments()[0] ?? "";
   const screens: Record<

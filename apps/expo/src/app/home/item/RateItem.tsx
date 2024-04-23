@@ -11,7 +11,7 @@ export default function RateItem({
 
   return (
     <Popover placement="top">
-      <Popover.Trigger asChild width={"25%"}>
+      <Popover.Trigger asChild width={"28%"}>
         <Button
           fontWeight={"800"}
           borderRadius="$10"
@@ -48,7 +48,6 @@ export default function RateItem({
           },
         ]}
       >
-        {/* <Popover.Arrow borderWidth={1} borderColor="$borderColor" /> */}
         <YStack gap="$6" alignItems="center">
           <H4>Rate {item.name}</H4>
           <XStack gap="$5">

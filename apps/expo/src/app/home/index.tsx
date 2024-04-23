@@ -1,6 +1,6 @@
-import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 // import { api } from '~/utils';
 import { useState } from "react";
+import { Platform } from "react-native";
 import { Link } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
@@ -38,8 +38,6 @@ type Station = MenuWithRelations["stations"][0];
 type Dish = MenuWithRelations["stations"][0]["dishes"][0];
 type PeriodName = Period["name"];
 
-// TODO: Replace with real user data
-
 export function EventToast() {
   const currentToast = useToastState();
   if (!currentToast || currentToast.isHandledNatively) return null;
@@ -60,7 +58,6 @@ export function EventToast() {
       height="$6"
       alignItems="center"
       justifyContent="space-between"
-      gap
     >
       <CalendarDays />
       <Toast.Title fontWeight="800">{currentToast.title}</Toast.Title>
@@ -96,7 +93,8 @@ export function Home() {
 
   const toast = useToastController();
 
-  const [date, setDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState<boolean>(true);
+  const [date, setDate] = useState<Date>(new Date());
   const [periodName, setPeriodName] = useState<string>(
     getCurrentPeriodName() === "closed" ? "breakfast" : getCurrentPeriodName(),
   );
@@ -155,17 +153,33 @@ export function Home() {
           setPeriodName={setPeriodName}
           color={theme.color?.val as string}
         />
-        <DateTimePicker
-          value={date}
-          mode="date"
-          minimumDate={startOfWeek(new Date())}
-          maximumDate={endOfWeek(new Date())}
-          onChange={(event: DateTimePickerEvent, selectedDate) => {
-            if (selectedDate) {
-              setDate(selectedDate);
-            }
-          }}
-        />
+        {Platform.OS === "android" && (
+          <Button
+            onPress={() => setShowDatePicker(true)}
+            icon={CalendarDays}
+            scaleIcon={1.5}
+            size="$5"
+            borderRadius="$10"
+            pressTheme
+          >
+            {date.toLocaleDateString("en-US")}
+          </Button>
+        )}
+        {showDatePicker && (
+          <DateTimePicker
+            value={date}
+            mode="date"
+            minimumDate={startOfWeek(new Date())}
+            maximumDate={endOfWeek(new Date())}
+            onChange={(_, selectedDate) => {
+              // hide date picker on android
+              setShowDatePicker(Platform.OS === "ios");
+              if (selectedDate) {
+                setDate(selectedDate);
+              }
+            }}
+          />
+        )}
       </XStack>
 
       {[brandywineMenu, anteateryMenu].map((menu) => (
@@ -224,7 +238,7 @@ const StationTabs = ({ stations }: Readonly<{ stations: Station[] }>) => (
     <Tabs.List>
       <ScrollView
         horizontal
-        bounces={false} // Disable bounce for the station tabs
+        bounces={false}
         showsHorizontalScrollIndicator={false}
       >
         {stations.map((station) => (
@@ -316,7 +330,7 @@ const DishCard = ({
           <Image
             resizeMode="contain"
             alignSelf="center"
-            width={65}
+            width="18%"
             height={65}
             marginRight="$3"
             source={{
