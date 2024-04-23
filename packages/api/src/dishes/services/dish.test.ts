@@ -15,7 +15,7 @@ describe("upsertDish correctly", async () => {
     await expect(async () => {
       await db.transaction(async (trx) => {
         const result = await upsertDish(trx, testData);
-        console.log(result);
+        // console.log(result);
         expect(result).toEqual({
           ...testData,
           dietRestriction: testData.dietRestriction,
@@ -33,7 +33,7 @@ describe("upsertDish correctly", async () => {
         await upsertDish(trx, testData);
         // await upsertDish(trx, testData);
         const result = await upsertDish(trx, updateData);
-        console.log(result);
+        // console.log(result);
         expect(result.id).toEqual(testData.id);
         trx.rollback();
       });

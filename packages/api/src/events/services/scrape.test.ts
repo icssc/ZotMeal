@@ -24,7 +24,7 @@ describe(
         );
         // console.log(html);
         const events = await scrapeEvents(html);
-        console.log("events:", events);
+        // console.log("events:", events);
         expect(events).toBeTruthy();
         await db.transaction(async (trx) => {
           const upsertedEvents = await upsertEvents(trx, events!);
@@ -32,7 +32,7 @@ describe(
             throw new Error("upsertedEvents is null");
           }
 
-          console.log("upsertedEvents:", upsertedEvents);
+          // console.log("upsertedEvents:", upsertedEvents);
 
           trx.rollback();
         });
