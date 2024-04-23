@@ -2,8 +2,6 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import type { Drizzle } from "@zotmeal/db";
-import type { Menu } from "@zotmeal/db/src/schema";
-import { MenuTable } from "@zotmeal/db/src/schema";
 import { parseDate, RESTAURANT_TO_ID } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
 

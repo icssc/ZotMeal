@@ -18,9 +18,7 @@ export const createClient = async (
   return client;
 };
 
-export const createPool = async (
-  connectionString: string,
-): Promise<pg.Pool> => {
+export const createPool = (connectionString: string): pg.Pool => {
   if (!connectionString) {
     throw new Error("DATABASE_URL is not set");
   }

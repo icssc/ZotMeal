@@ -1,4 +1,3 @@
-import { TRPCError } from "@trpc/server";
 import { describe, expect, it } from "vitest";
 
 import { createDrizzle } from "@zotmeal/db";
