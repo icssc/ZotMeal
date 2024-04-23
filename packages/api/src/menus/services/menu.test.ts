@@ -35,14 +35,11 @@ describe("upsertMenu()", async () => {
     };
 
     expect(testRestaurant).toBeTruthy();
-    console.log("BEFORE TEST");
     for (const testMenu of testMenus) {
       await expect(async () => {
         await db.transaction(async (trx) => {
-          console.log("HI");
           // Insert a test restaurant
           const restaurant = await upsertRestaurant(trx, testRestaurant);
-          console.log(restaurant);
           expect(restaurant).toBeTruthy();
           // Insert a test menu
           const menu = await upsertMenu(trx, testMenu);
