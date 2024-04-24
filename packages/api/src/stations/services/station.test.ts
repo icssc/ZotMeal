@@ -1,16 +1,22 @@
 import { describe, expect, it } from "vitest";
 
-import type { Menu } from "@zotmeal/db";
+import type { Menu, Restaurant } from "@zotmeal/db";
 import { createDrizzle } from "@zotmeal/db";
 
 import { upsertMenu } from "../../menus";
+import { upsertRestaurant } from "../../restaurants";
 import { testData, updateData } from "../testdata/stationData";
 import { upsertStation } from "./station";
 
 describe("upsertStation correctly", async () => {
-  const db = await createDrizzle(
+  const { db } = await createDrizzle(
     "postgres://admin:admin@localhost:5434/zotmeal",
   );
+
+  const testRestaurant: Restaurant = {
+    id: "9999",
+    name: "restaurant-test",
+  };
 
   const testMenu: Menu = {
     date: "04/07/2024",
@@ -26,7 +32,9 @@ describe("upsertStation correctly", async () => {
 
     await expect(async () => {
       await db.transaction(async (trx) => {
+        await upsertRestaurant(trx, testRestaurant);
         await upsertMenu(trx, testMenu);
+
         const result = await upsertStation(trx, testData);
         expect(result).toEqual(testData);
 
@@ -38,7 +46,9 @@ describe("upsertStation correctly", async () => {
   it("updateStation", async () => {
     await expect(async () => {
       await db.transaction(async (trx) => {
+        await upsertRestaurant(trx, testRestaurant);
         await upsertMenu(trx, testMenu);
+
         await upsertStation(trx, testData);
         const result = await upsertStation(trx, updateData);
         expect(result).toEqual(updateData);

@@ -8,8 +8,7 @@ export const MenuStationSchema = z.object({
 });
 
 export const MenuProductSchema = z.object({
-  Date: DateRegex,
-  MenuProductId: z.string().min(1),
+  ProductId: z.string().min(1),
   StationId: z.string().min(1),
   Product: z.object({
     MarketingName: z.string().min(1),

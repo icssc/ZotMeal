@@ -1,11 +1,36 @@
 import { format } from "date-fns";
 
+import {
+  updateDaily,
+  UpdateDailyParams,
+} from "@zotmeal/api/src/services/updateDaily";
+import { createDrizzle } from "@zotmeal/db";
+import { Restaurant } from "@zotmeal/db/src/schema";
+
+import { RESTAURANT_TO_ID } from "../../../../../packages/utils/src/constants";
+
+const connectionString =
+  process.env.DATABASE_URL ?? "postgres://admin:admin@localhost:5434/zotmeal";
+
 export const main = async (event, context) => {
   try {
+    //
+    console.log("Starting update daily");
+    //
+    const { pool, db } = await createDrizzle(connectionString);
     const now = new Date();
     const formattedTime = format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx");
-    console.log(`Weekly task executed at: ${formattedTime}`);
-    //TODO: get data from campusdish and update in db
+    console.log(`Daily task executed at: ${formattedTime}`);
+
+    const formattedDate = format(now, "MM/dd/yyyy");
+
+    for (const restaurant of Object.keys(RESTAURANT_TO_ID)) {
+      await updateDaily(db, {
+        date: formattedDate,
+        restaurantName: restaurant as Restaurant["name"],
+      } satisfies UpdateDailyParams);
+    }
+    pool.end();
   } catch (error) {
     console.error("Failed to execute weekly task", error);
   }

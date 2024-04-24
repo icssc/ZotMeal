@@ -37,7 +37,7 @@ export async function scrapeEvents(html: string): Promise<Event[] | null> {
       const href = eventItem.find("a").attr("href");
       if (!href) continue; // skip if unable to find event page link
       const eventPageUrl = href;
-      console.log(eventPageUrl);
+      // console.log(eventPageUrl);
       const eventPage = await getHTML(eventPageUrl);
       if (!eventPage) continue; // skip if unable to fetch event page
       const eventPage$ = cheerio.load(eventPage);
@@ -88,7 +88,7 @@ export async function scrapeEvents(html: string): Promise<Event[] | null> {
         date,
         restaurantId,
       };
-      console.log(event);
+      // console.log(event);
       const validEvent = EventSchema.parse(event);
 
       events.push(validEvent);

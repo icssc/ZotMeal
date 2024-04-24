@@ -1,6 +1,6 @@
 import { afterAll, describe, expect, it } from "vitest";
 
-import type { Menu } from "@zotmeal/db";
+import type { Menu, Restaurant } from "@zotmeal/db";
 import { createDrizzle } from "@zotmeal/db";
 
 import { upsertRestaurant } from "../../restaurants";
@@ -12,7 +12,7 @@ describe("menu", () => {
   });
 });
 describe("upsertMenu()", async () => {
-  const db = await createDrizzle(
+  const { db } = await createDrizzle(
     "postgres://admin:admin@localhost:5434/zotmeal",
   );
   it("inserts valid menu into db", async () => {
@@ -29,16 +29,22 @@ describe("upsertMenu()", async () => {
       },
     ];
 
-    const testRestaurant = await upsertRestaurant(db, {
+    const testRestaurant: Restaurant = {
       id: "9999",
-      name: "brandywine",
-    });
+      name: "brandywine_test",
+    };
 
     expect(testRestaurant).toBeTruthy();
-
+    console.log("BEFORE TEST");
     for (const testMenu of testMenus) {
       await expect(async () => {
         await db.transaction(async (trx) => {
+          console.log("HI");
+          // Insert a test restaurant
+          const restaurant = await upsertRestaurant(trx, testRestaurant);
+          console.log(restaurant);
+          expect(restaurant).toBeTruthy();
+          // Insert a test menu
           const menu = await upsertMenu(trx, testMenu);
           expect(menu).toBeTruthy();
           // console.log("upsertedMenu:", menu);
@@ -71,17 +77,19 @@ describe("upsertMenu()", async () => {
       },
     ];
 
-    const testRestaurant = await upsertRestaurant(db, {
+    const testRestaurant: Restaurant = {
       id: "9999",
-      name: "brandywine",
-    });
-
-    expect(testRestaurant).toBeTruthy();
+      name: "brandywine_test",
+    };
 
     // upsert dummy restaurant & period & menu. then rollback. should pass if 'Rollback' is the thrown error for each test
     for (const testMenu of testMenus) {
       await expect(async () => {
         await db.transaction(async (trx) => {
+          // Insert a test restaurant
+          const restaurant = await upsertRestaurant(trx, testRestaurant);
+          expect(restaurant).toBeTruthy();
+          // Insert test menu
           const menu = await upsertMenu(trx, testMenu);
           expect(menu).toBeTruthy();
           // console.log("upsertedMenu:", menu);

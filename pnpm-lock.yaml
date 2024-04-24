@@ -40,7 +40,7 @@ importers:
         version: 2.6.1(react-native@0.73.6)(react@18.2.0)
       '@react-navigation/drawer':
         specifier: ^6.6.11
-        version: 6.6.11(@react-navigation/native@6.1.14)(react-native-gesture-handler@2.16.0)(react-native-reanimated@3.8.1)(react-native-safe-area-context@4.9.0)(react-native-screens@3.30.1)(react-native@0.73.6)(react@18.2.0)
+        version: 6.6.15(@react-navigation/native@6.1.14)(react-native-gesture-handler@2.16.0)(react-native-reanimated@3.8.1)(react-native-safe-area-context@4.9.0)(react-native-screens@3.30.1)(react-native@0.73.6)(react@18.2.0)
       '@shopify/flash-list':
         specifier: 1.6.3
         version: 1.6.3(@babel/runtime@7.24.0)(react-native@0.73.6)(react@18.2.0)
@@ -55,13 +55,13 @@ importers:
         version: 1.94.3(react-native-svg@15.1.0)(react@18.2.0)
       '@tanstack/react-query':
         specifier: ^5.25.0
-        version: 5.25.0(react@18.2.0)
+        version: 5.29.2(react@18.2.0)
       '@trpc/client':
         specifier: 11.0.0-rc.330
         version: 11.0.0-rc.330(@trpc/server@11.0.0-rc.330)
       '@trpc/react-query':
         specifier: 11.0.0-rc.330
-        version: 11.0.0-rc.330(@tanstack/react-query@5.25.0)(@trpc/client@11.0.0-rc.330)(@trpc/server@11.0.0-rc.330)(react-dom@18.2.0)(react@18.2.0)
+        version: 11.0.0-rc.330(@tanstack/react-query@5.29.2)(@trpc/client@11.0.0-rc.330)(@trpc/server@11.0.0-rc.330)(react-dom@18.2.0)(react@18.2.0)
       '@trpc/server':
         specifier: 11.0.0-rc.330
         version: 11.0.0-rc.330
@@ -85,7 +85,7 @@ importers:
         version: 6.2.2(expo@50.0.8)
       expo-router:
         specifier: ~3.4.8
-        version: 3.4.8(@react-navigation/drawer@6.6.11)(expo-constants@15.4.5)(expo-linking@6.2.2)(expo-modules-autolinking@1.10.3)(expo-status-bar@1.11.1)(expo@50.0.8)(react-dom@18.2.0)(react-native-reanimated@3.8.1)(react-native-safe-area-context@4.9.0)(react-native-screens@3.30.1)(react-native@0.73.6)(react@18.2.0)
+        version: 3.4.8(@react-navigation/drawer@6.6.15)(expo-constants@15.4.5)(expo-linking@6.2.2)(expo-modules-autolinking@1.10.3)(expo-status-bar@1.11.1)(expo@50.0.8)(react-dom@18.2.0)(react-native-reanimated@3.8.1)(react-native-safe-area-context@4.9.0)(react-native-screens@3.30.1)(react-native@0.73.6)(react@18.2.0)
       expo-splash-screen:
         specifier: ~0.26.4
         version: 0.26.4(expo-modules-autolinking@1.10.3)(expo@50.0.8)
@@ -1015,6 +1015,55 @@ packages:
       '@smithy/util-retry': 2.1.3
       '@smithy/util-utf8': 2.1.1
       fast-xml-parser: 4.2.5
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - aws-crt
+    dev: false
+
+  /@aws-sdk/client-sts@3.540.0(@aws-sdk/credential-provider-node@3.523.0):
+    resolution: {integrity: sha512-ITHUQxvpqfQX6obfpIi3KYGzZYfe/I5Ixjfxoi5lB7ISCtmxqObKB1fzD93wonkMJytJ7LUO8panZl/ojiJ1uw==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      '@aws-sdk/credential-provider-node': ^3.540.0
+    dependencies:
+      '@aws-crypto/sha256-browser': 3.0.0
+      '@aws-crypto/sha256-js': 3.0.0
+      '@aws-sdk/core': 3.535.0
+      '@aws-sdk/credential-provider-node': 3.523.0
+      '@aws-sdk/middleware-host-header': 3.535.0
+      '@aws-sdk/middleware-logger': 3.535.0
+      '@aws-sdk/middleware-recursion-detection': 3.535.0
+      '@aws-sdk/middleware-user-agent': 3.540.0
+      '@aws-sdk/region-config-resolver': 3.535.0
+      '@aws-sdk/types': 3.535.0
+      '@aws-sdk/util-endpoints': 3.540.0
+      '@aws-sdk/util-user-agent-browser': 3.535.0
+      '@aws-sdk/util-user-agent-node': 3.535.0
+      '@smithy/config-resolver': 2.2.0
+      '@smithy/core': 1.4.1
+      '@smithy/fetch-http-handler': 2.5.0
+      '@smithy/hash-node': 2.2.0
+      '@smithy/invalid-dependency': 2.2.0
+      '@smithy/middleware-content-length': 2.2.0
+      '@smithy/middleware-endpoint': 2.5.0
+      '@smithy/middleware-retry': 2.3.0
+      '@smithy/middleware-serde': 2.3.0
+      '@smithy/middleware-stack': 2.2.0
+      '@smithy/node-config-provider': 2.3.0
+      '@smithy/node-http-handler': 2.5.0
+      '@smithy/protocol-http': 3.3.0
+      '@smithy/smithy-client': 2.5.0
+      '@smithy/types': 2.12.0
+      '@smithy/url-parser': 2.2.0
+      '@smithy/util-base64': 2.3.0
+      '@smithy/util-body-length-browser': 2.2.0
+      '@smithy/util-body-length-node': 2.3.0
+      '@smithy/util-defaults-mode-browser': 2.2.0
+      '@smithy/util-defaults-mode-node': 2.3.0
+      '@smithy/util-endpoints': 1.2.0
+      '@smithy/util-middleware': 2.2.0
+      '@smithy/util-retry': 2.2.0
+      '@smithy/util-utf8': 2.3.0
       tslib: 2.6.2
     transitivePeerDependencies:
       - aws-crt
@@ -5499,8 +5548,8 @@ packages:
       use-latest-callback: 0.1.9(react@18.2.0)
     dev: false
 
-  /@react-navigation/drawer@6.6.11(@react-navigation/native@6.1.14)(react-native-gesture-handler@2.16.0)(react-native-reanimated@3.8.1)(react-native-safe-area-context@4.9.0)(react-native-screens@3.30.1)(react-native@0.73.6)(react@18.2.0):
-    resolution: {integrity: sha512-UTrgz5HJjpLt8aHZFH1mETEazwUEEVV8bJ+jaOpTl/FgwCHLCkQHZAydnZETK7fPiik3lmu2lJO1Nasl0LwZoA==}
+  /@react-navigation/drawer@6.6.15(@react-navigation/native@6.1.14)(react-native-gesture-handler@2.16.0)(react-native-reanimated@3.8.1)(react-native-safe-area-context@4.9.0)(react-native-screens@3.30.1)(react-native@0.73.6)(react@18.2.0):
+    resolution: {integrity: sha512-GLkFQNxjtmxB/qXSHmu1DfoB89jCzW64tmX68iPndth+9U+0IP27GcCCaMZxQfwj+nI8Kn2zlTlXAZDIIHE+DQ==}
     peerDependencies:
       '@react-navigation/native': ^6.0.0
       react: '*'
@@ -5510,7 +5559,7 @@ packages:
       react-native-safe-area-context: '>= 3.0.0'
       react-native-screens: '>= 3.0.0'
     dependencies:
-      '@react-navigation/elements': 1.3.26(@react-navigation/native@6.1.14)(react-native-safe-area-context@4.9.0)(react-native@0.73.6)(react@18.2.0)
+      '@react-navigation/elements': 1.3.30(@react-navigation/native@6.1.14)(react-native-safe-area-context@4.9.0)(react-native@0.73.6)(react@18.2.0)
       '@react-navigation/native': 6.1.14(react-native@0.73.6)(react@18.2.0)
       color: 4.2.3
       react: 18.2.0
@@ -5524,6 +5573,20 @@ packages:
 
   /@react-navigation/elements@1.3.26(@react-navigation/native@6.1.14)(react-native-safe-area-context@4.9.0)(react-native@0.73.6)(react@18.2.0):
     resolution: {integrity: sha512-9rSY7MD6etU3M3j/OYUvtg4eBqABlkS39iJwwQheE89pSa9QyvXbJSsz/bUBEjFWwsOYxTVzj27bc7ulrDVWgw==}
+    peerDependencies:
+      '@react-navigation/native': ^6.0.0
+      react: '*'
+      react-native: '*'
+      react-native-safe-area-context: '>= 3.0.0'
+    dependencies:
+      '@react-navigation/native': 6.1.14(react-native@0.73.6)(react@18.2.0)
+      react: 18.2.0
+      react-native: 0.73.6(@babel/core@7.24.0)(@babel/preset-env@7.24.0)(react@18.2.0)
+      react-native-safe-area-context: 4.9.0(react-native@0.73.6)(react@18.2.0)
+    dev: false
+
+  /@react-navigation/elements@1.3.30(@react-navigation/native@6.1.14)(react-native-safe-area-context@4.9.0)(react-native@0.73.6)(react@18.2.0):
+    resolution: {integrity: sha512-plhc8UvCZs0UkV+sI+3bisIyn78wz9O/BiWZXpounu72k/R/Sj5PuZYFJ1fi6psvriUveMCGh4LeZckAZu2qiQ==}
     peerDependencies:
       '@react-navigation/native': ^6.0.0
       react: '*'
@@ -5756,12 +5819,12 @@ packages:
       join-component: 1.1.0
     dev: false
 
-  /@serverless/dashboard-plugin@7.2.0(@aws-sdk/credential-provider-node@3.540.0)(supports-color@8.1.1):
+  /@serverless/dashboard-plugin@7.2.0(@aws-sdk/credential-provider-node@3.523.0)(supports-color@8.1.1):
     resolution: {integrity: sha512-Gqzgef+KmrX1OxJW9aubrIN6AvPrtDARMv+NegMNEe+pfkZA/IMuZiSyYUaHgARokdw2/IALOysTLgdFJIrXvA==}
     engines: {node: '>=12.0'}
     dependencies:
       '@aws-sdk/client-cloudformation': 3.523.0
-      '@aws-sdk/client-sts': 3.540.0(@aws-sdk/credential-provider-node@3.540.0)
+      '@aws-sdk/client-sts': 3.540.0(@aws-sdk/credential-provider-node@3.523.0)
       '@serverless/event-mocks': 1.1.1
       '@serverless/platform-client': 4.5.1(supports-color@8.1.1)
       '@serverless/utils': 6.15.0
@@ -8138,16 +8201,16 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@tanstack/query-core@5.25.0:
-    resolution: {integrity: sha512-vlobHP64HTuSE68lWF1mEhwSRC5Q7gaT+a/m9S+ItuN+ruSOxe1rFnR9j0ACWQ314BPhBEVKfBQ6mHL0OWfdbQ==}
+  /@tanstack/query-core@5.29.0:
+    resolution: {integrity: sha512-WgPTRs58hm9CMzEr5jpISe8HXa3qKQ8CxewdYZeVnA54JrPY9B1CZiwsCoLpLkf0dGRZq+LcX5OiJb0bEsOFww==}
     dev: false
 
-  /@tanstack/react-query@5.25.0(react@18.2.0):
-    resolution: {integrity: sha512-u+n5R7mLO7RmeiIonpaCRVXNRWtZEef/aVZ/XGWRPa7trBIvGtzlfo0Ah7ZtnTYfrKEVwnZ/tzRCBcoiqJ/tFw==}
+  /@tanstack/react-query@5.29.2(react@18.2.0):
+    resolution: {integrity: sha512-nyuWILR4u7H5moLGSiifLh8kIqQDLNOHGuSz0rcp+J75fNc8aQLyr5+I2JCHU3n+nJrTTW1ssgAD8HiKD7IFBQ==}
     peerDependencies:
       react: ^18.0.0
     dependencies:
-      '@tanstack/query-core': 5.25.0
+      '@tanstack/query-core': 5.29.0
       react: 18.2.0
     dev: false
 
@@ -8167,7 +8230,7 @@ packages:
       '@trpc/server': 11.0.0-rc.330
     dev: false
 
-  /@trpc/react-query@11.0.0-rc.330(@tanstack/react-query@5.25.0)(@trpc/client@11.0.0-rc.330)(@trpc/server@11.0.0-rc.330)(react-dom@18.2.0)(react@18.2.0):
+  /@trpc/react-query@11.0.0-rc.330(@tanstack/react-query@5.29.2)(@trpc/client@11.0.0-rc.330)(@trpc/server@11.0.0-rc.330)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-qkAu+xxPE4dN8osBdsQNMzdEdZw6S5KnGR0WH7sCG0Rx0R0ynH0QBxlmWfhiKTXkKd1yGHIkBlN4EB2bQJ64lw==}
     peerDependencies:
       '@tanstack/react-query': ^5.25.0
@@ -8176,7 +8239,7 @@ packages:
       react: '>=18.2.0'
       react-dom: '>=18.2.0'
     dependencies:
-      '@tanstack/react-query': 5.25.0(react@18.2.0)
+      '@tanstack/react-query': 5.29.2(react@18.2.0)
       '@trpc/client': 11.0.0-rc.330(@trpc/server@11.0.0-rc.330)
       '@trpc/server': 11.0.0-rc.330
       react: 18.2.0
@@ -11560,7 +11623,7 @@ packages:
       invariant: 2.2.4
     dev: false
 
-  /expo-router@3.4.8(@react-navigation/drawer@6.6.11)(expo-constants@15.4.5)(expo-linking@6.2.2)(expo-modules-autolinking@1.10.3)(expo-status-bar@1.11.1)(expo@50.0.8)(react-dom@18.2.0)(react-native-reanimated@3.8.1)(react-native-safe-area-context@4.9.0)(react-native-screens@3.30.1)(react-native@0.73.6)(react@18.2.0):
+  /expo-router@3.4.8(@react-navigation/drawer@6.6.15)(expo-constants@15.4.5)(expo-linking@6.2.2)(expo-modules-autolinking@1.10.3)(expo-status-bar@1.11.1)(expo@50.0.8)(react-dom@18.2.0)(react-native-reanimated@3.8.1)(react-native-safe-area-context@4.9.0)(react-native-screens@3.30.1)(react-native@0.73.6)(react@18.2.0):
     resolution: {integrity: sha512-fOOAWHH4LSPjPFtIZbApxdTNU8xSS8qKvhZ7PfWNMfx9510J1R1Ce/nwENPzcRLHRuVofDsSAEBfi4kV03fJwg==}
     peerDependencies:
       '@react-navigation/drawer': ^6.5.8
@@ -11584,7 +11647,7 @@ packages:
       '@expo/server': 0.3.1
       '@radix-ui/react-slot': 1.0.1(react@18.2.0)
       '@react-navigation/bottom-tabs': 6.5.16(@react-navigation/native@6.1.14)(react-native-safe-area-context@4.9.0)(react-native-screens@3.30.1)(react-native@0.73.6)(react@18.2.0)
-      '@react-navigation/drawer': 6.6.11(@react-navigation/native@6.1.14)(react-native-gesture-handler@2.16.0)(react-native-reanimated@3.8.1)(react-native-safe-area-context@4.9.0)(react-native-screens@3.30.1)(react-native@0.73.6)(react@18.2.0)
+      '@react-navigation/drawer': 6.6.15(@react-navigation/native@6.1.14)(react-native-gesture-handler@2.16.0)(react-native-reanimated@3.8.1)(react-native-safe-area-context@4.9.0)(react-native-screens@3.30.1)(react-native@0.73.6)(react@18.2.0)
       '@react-navigation/native': 6.1.14(react-native@0.73.6)(react@18.2.0)
       '@react-navigation/native-stack': 6.9.22(@react-navigation/native@6.1.14)(react-native-safe-area-context@4.9.0)(react-native-screens@3.30.1)(react-native@0.73.6)(react@18.2.0)
       expo: 50.0.8(@babel/core@7.24.0)(@react-native/babel-preset@0.73.21)
@@ -16721,7 +16784,7 @@ packages:
       node-schedule: 2.1.1
       p-memoize: 7.1.1
       p-retry: 6.2.0
-      serverless: 3.38.0(@aws-sdk/credential-provider-node@3.540.0)
+      serverless: 3.38.0(@aws-sdk/credential-provider-node@3.523.0)
       velocityjs: 2.0.6
       ws: 8.16.0
     transitivePeerDependencies:
@@ -16732,13 +16795,13 @@ packages:
       - utf-8-validate
     dev: false
 
-  /serverless@3.38.0(@aws-sdk/credential-provider-node@3.540.0):
+  /serverless@3.38.0(@aws-sdk/credential-provider-node@3.523.0):
     resolution: {integrity: sha512-NJE1vOn8XmQEqfU9UxmVhkUFaCRmx6FhYw/jITN863WlOt4Y3PQbj3hwQyIb5QS1ZrXFq5ojklwewUXH7xGpdA==}
     engines: {node: '>=12.0'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@serverless/dashboard-plugin': 7.2.0(@aws-sdk/credential-provider-node@3.540.0)(supports-color@8.1.1)
+      '@serverless/dashboard-plugin': 7.2.0(@aws-sdk/credential-provider-node@3.523.0)(supports-color@8.1.1)
       '@serverless/platform-client': 4.5.1(supports-color@8.1.1)
       '@serverless/utils': 6.15.0
       abort-controller: 3.0.0
