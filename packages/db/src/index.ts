@@ -1,10 +1,9 @@
+import { exec } from "child_process";
+import { promisify } from "util";
 import { drizzle } from "drizzle-orm/node-postgres";
-import { migrate } from "drizzle-orm/node-postgres/migrator";
 import pg from "pg";
 
 import { schema } from "./schema";
-
-// const connectionString = process.env.DATABASE_URL;
 
 export const createClient = async (
   connectionString: string,
@@ -30,19 +29,22 @@ export const createPool = (connectionString: string): pg.Pool => {
   return pool;
 };
 
-export async function createDrizzle(connectionString: string) {
-  const client = await createClient(connectionString);
-  // const pool = await createPool(connectionString);
-  const db = drizzle(client, { schema });
-
-  return db;
-}
+export const createDrizzle = async (connectionString: string) =>
+  drizzle(await createClient(connectionString), { schema });
 
 // utility for api tests -- meant to be run in test-setup.ts
-export async function migrateSchema(connectionString: string) {
+export async function pushSchema(connectionString: string) {
   const client = new pg.Client({ connectionString });
   await client.connect();
-  await migrate(drizzle(client), { migrationsFolder: "../db/migrations" });
+  await promisify(exec)(
+    `npx drizzle-kit push:pg --config=../db/test-config.ts`,
+    {
+      env: {
+        DB_URL: connectionString,
+      },
+    },
+  );
+  await client.end();
 }
 
 export type Drizzle = Awaited<ReturnType<typeof createDrizzle>>;
