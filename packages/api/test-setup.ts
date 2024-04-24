@@ -1,6 +1,6 @@
 import { PostgreSqlContainer } from "@testcontainers/postgresql";
 
-import { pushSchema } from "@zotmeal/db";
+import { pool, pushSchema } from "@zotmeal/db";
 
 let teardownHappened = false;
 
@@ -12,12 +12,13 @@ export default async function () {
 
   await pushSchema(process.env.DB_URL);
 
-  // return teardown function
+  // teardown pool and container
   return async () => {
     if (teardownHappened) {
       throw new Error("teardown called twice");
     }
     teardownHappened = true;
+    await pool({ connectionString: process.env.DB_URL }).end();
     if (container) {
       await container.stop();
     }

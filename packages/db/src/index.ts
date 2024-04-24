@@ -1,41 +1,20 @@
 import { exec } from "child_process";
 import { promisify } from "util";
+import type { PoolConfig } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
-import pg from "pg";
+import { Pool } from "pg";
 
 import { schema } from "./schema";
 
-export const createClient = async (
-  connectionString: string,
-): Promise<pg.Client> => {
-  if (!connectionString) {
-    throw new Error("DATABASE_URL is not set");
-  }
+export const pool = (config: PoolConfig): Pool => new Pool(config);
 
-  const client = new pg.Client({ connectionString });
-  await client.connect();
-
-  return client;
-};
-
-export const createPool = (connectionString: string): pg.Pool => {
-  if (!connectionString) {
-    throw new Error("DATABASE_URL is not set");
-  }
-  const pool = new pg.Pool({
-    connectionString,
-    max: 1,
-  });
-  return pool;
-};
-
+// call pool.end() when finished with db
 export const createDrizzle = async (connectionString: string) =>
-  drizzle(await createClient(connectionString), { schema });
+  drizzle(await pool({ connectionString }).connect(), { schema });
 
 // utility for api tests -- meant to be run in test-setup.ts
 export async function pushSchema(connectionString: string) {
-  const client = new pg.Client({ connectionString });
-  await client.connect();
+  const client = await pool({ connectionString }).connect();
   await promisify(exec)(
     `npx drizzle-kit push:pg --config=../db/test-config.ts`,
     {
@@ -44,7 +23,7 @@ export async function pushSchema(connectionString: string) {
       },
     },
   );
-  await client.end();
+  client.release();
 }
 
 export type Drizzle = Awaited<ReturnType<typeof createDrizzle>>;
