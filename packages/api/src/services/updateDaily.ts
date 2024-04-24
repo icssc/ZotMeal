@@ -35,7 +35,7 @@ export async function updateDaily(
         if (!campusDishResponse) {
           return;
         }
-        void parseCampusDish(db, campusDishResponse);
+        await parseCampusDish(db, campusDishResponse);
       }),
     );
   } catch (err) {
