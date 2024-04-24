@@ -1,26 +1,27 @@
 import type { Drizzle } from "@zotmeal/db";
-import type { Dish, DishWithRelations, DishMenuStationJointSchema} from "@zotmeal/db/src/schema";
+import type {
+  Dish,
+  DishMenuStationJointSchema,
+  DishWithRelations,
+} from "@zotmeal/db/src/schema";
 import {
   DietRestrictionTable,
+  DishMenuStationJoint,
   DishTable,
   NutritionInfoTable,
-  DishMenuStationJoint,
 } from "@zotmeal/db/src/schema";
 
-export async function upsertDish(
-  db: Drizzle,
-  params: DishWithRelations,
-) {
+export async function upsertDish(db: Drizzle, params: DishWithRelations) {
   try {
     // Dish params for the dish table
-    const dishParams: Dish = {
+    const dishParams = {
       id: params.id,
       name: params.name,
       description: params.description,
       category: params.category,
       createdAt: params.createdAt,
       updatedAt: params.updatedAt,
-    };
+    } satisfies Dish;
 
     // Inserting into dish table
     const dish = await db
@@ -76,10 +77,9 @@ export async function insertDishMenuStationJoint(
 
     // Insert into dish-menu-station joint table
     await db
-    .insert(DishMenuStationJoint)
-    .values(jointParams)
-    .onConflictDoNothing();
-
+      .insert(DishMenuStationJoint)
+      .values(jointParams)
+      .onConflictDoNothing();
   } catch (e) {
     console.error(e);
     throw e;

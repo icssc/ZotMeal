@@ -2,36 +2,47 @@ import { z } from "zod";
 
 import type { Drizzle } from "@zotmeal/db";
 import { RestaurantSchema } from "@zotmeal/db/src/schema";
+import { PERIOD_TO_ID } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
 
+import type { GetMenuParams } from "../menus/services/parse";
 import { getCampusDish, parseCampusDish } from "..";
-import { PERIOD_TO_ID } from "@zotmeal/utils";
 
 export const UpdateDailySchema = z.object({
   date: DateRegex,
-  restaurantName: RestaurantSchema.shape.name
+  restaurantName: RestaurantSchema.shape.name,
 });
 export type UpdateDailyParams = z.infer<typeof UpdateDailySchema>;
 
 export async function updateDaily(
   db: Drizzle,
-  params: UpdateDailyParams
+  params: UpdateDailyParams,
 ): Promise<void> {
-  //
-  console.log("Updating " + params.restaurantName);
-  //
-  
-  for (const period of Object.keys(PERIOD_TO_ID)) {
-    const campusDishParams = {
-      date: params.date,
-      period: period,
-      restaurant: params.restaurantName
-    }
+  try {
+    console.log(`Updating ${params.restaurantName}`);
 
-    const campusDishResponse = await getCampusDish(campusDishParams);
-    if (!campusDishResponse) {
-      continue;
+    const { date, restaurantName } = UpdateDailySchema.parse(params);
+
+    await Promise.allSettled(
+      Object.keys(PERIOD_TO_ID).map(async (period) => {
+        const campusDishParams = {
+          date,
+          period,
+          restaurant: restaurantName,
+        } satisfies GetMenuParams;
+
+        const campusDishResponse = await getCampusDish(campusDishParams);
+        if (!campusDishResponse) {
+          return;
+        }
+        void parseCampusDish(db, campusDishResponse);
+      }),
+    );
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      console.error(err.issues);
     }
-    await parseCampusDish(db, campusDishResponse);
+    console.error(err);
+    throw err;
   }
 }

@@ -55,9 +55,7 @@ export async function getSchedule(
     });
   }
   const restaurantId =
-    RESTAURANT_TO_ID[
-      params.restaurantName as keyof typeof RESTAURANT_TO_ID
-    ]?.toString() || "";
+    RESTAURANT_TO_ID[params.restaurantName]?.toString() ?? "";
   const fetchedPeriods = await db.query.MenuTable.findMany({
     where: (menu, { eq }) => eq(menu.restaurantId, restaurantId),
     columns: {

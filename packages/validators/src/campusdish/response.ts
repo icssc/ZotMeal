@@ -7,9 +7,9 @@ import { MenuProductSchema, MenuStationSchema } from "./models";
 const [restaurantId, ...restaurantIds] = Object.keys(ID_TO_RESTAURANT);
 export const CampusDishResponseSchema = z.object({
   LocationId: z.enum([restaurantId!, ...restaurantIds]),
-  SelectedPeriodId: z.string().nullable(),
+  SelectedPeriodId: z.string().min(1),
   Menu: z.object({
-    MenuId: z.string(),
+    MenuId: z.string().min(1),
     MenuPeriods: z.array(
       z.object({
         PeriodId: z.string().min(1),

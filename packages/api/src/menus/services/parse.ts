@@ -1,4 +1,5 @@
 import axios from "axios";
+import { format } from "date-fns";
 import { ZodError } from "zod";
 
 import type { Drizzle } from "@zotmeal/db";
@@ -7,26 +8,25 @@ import type {
   DishWithRelations,
   Menu,
   NutritionInfo,
-  Period,
   Restaurant,
   Station,
 } from "@zotmeal/db/src/schema";
 import type { CampusDishResponse } from "@zotmeal/validators";
 import { MenuSchema } from "@zotmeal/db/src/schema";
 import {
+  getPeriodById,
   getPeriodId,
   getRestaurantId,
   getRestaurantNameById,
-  ID_TO_PERIOD
 } from "@zotmeal/utils";
 import { CampusDishResponseSchema } from "@zotmeal/validators";
-import { upsertDish, insertDishMenuStationJoint } from "../../dishes";
+
+import { insertDishMenuStationJoint, upsertDish } from "../../dishes";
 import { upsertRestaurant } from "../../restaurants/services/restaurant";
 import { upsertStation } from "../../stations";
 import { upsertMenu } from "./menu";
-import { format } from "date-fns";
 
-interface GetMenuParams {
+export interface GetMenuParams {
   date: string;
   period: string;
   restaurant: string;
@@ -35,7 +35,6 @@ interface GetMenuParams {
 export async function getCampusDish(
   params: GetMenuParams,
 ): Promise<CampusDishResponse | null> {
-
   const { date, restaurant, period } = params;
 
   // Verify Parameters
@@ -63,7 +62,7 @@ export async function getCampusDish(
     `https://uci-campusdish-com.translate.goog/api/menu/GetMenus?locationId=${restaurantId}&periodId=${periodId}&date=${date}`,
   );
 
-  // Verify repsonse schema
+  // Verify response schema
   try {
     const validated = CampusDishResponseSchema.parse(res.data);
     return validated;
@@ -80,30 +79,32 @@ export async function parseCampusDish(
   db: Drizzle,
   response: CampusDishResponse,
 ): Promise<void> {
-
-  // Verify parameters
-
+  // Verify params
   const restaurantName = getRestaurantNameById(response.LocationId);
 
   if (!restaurantName) {
-    throw Error("restaurant id not found");
+    throw new Error("restaurant id not found");
   }
 
-  const restaurant: Restaurant = {
+  const restaurant = {
     id: response.LocationId,
     name: restaurantName,
-  };
+  } satisfies Restaurant;
 
   await upsertRestaurant(db, restaurant);
 
-  if (!response.SelectedPeriodId) {
-    throw new Error("SelectedPeriodId is null");
-  }
-  if (!response.Menu.MenuPeriods[0]?.UtcMealPeriodEndTime) {
-    throw new Error("MenuPeriods.UtcMealPeriodEndTime is null");
+  // Filter the period in the response based on selected period
+  const selectedPeriod = response.Menu.MenuPeriods.find(
+    (period) => period.PeriodId === response.SelectedPeriodId,
+  );
+
+  if (!selectedPeriod) {
+    throw new Error(
+      `Period ${response.SelectedPeriodId} (${getPeriodById(response.SelectedPeriodId)}) not found in response`,
+    );
   }
 
-  const date = format(response.Menu.MenuPeriods[0]?.UtcMealPeriodStartTime, "MM/dd/yyyy");
+  const date = format(selectedPeriod.UtcMealPeriodStartTime, "MM/dd/yyyy");
 
   const menuIdHash = response.LocationId + date + response.SelectedPeriodId;
 
@@ -111,12 +112,12 @@ export async function parseCampusDish(
   const menu = MenuSchema.parse({
     id: menuIdHash,
     restaurantId: response.LocationId,
-    period: ID_TO_PERIOD[response.SelectedPeriodId],
-    start: response.Menu.MenuPeriods[0].UtcMealPeriodStartTime,
-    end: response.Menu.MenuPeriods[0].UtcMealPeriodEndTime,
-    date: date,
-    price: "13"  // Need Add mapping <------------------------------------------ !!!
-  })
+    period: getPeriodById(response.SelectedPeriodId) as Menu["period"],
+    start: selectedPeriod.UtcMealPeriodStartTime,
+    end: selectedPeriod.UtcMealPeriodEndTime,
+    date,
+    price: "13", // TODO: add menu price to response
+  } satisfies Menu);
 
   await upsertMenu(db, menu);
 
@@ -126,20 +127,20 @@ export async function parseCampusDish(
       id: menuStation.StationId,
       restaurantId: restaurant.id,
       name: menuStation.Name,
-    };
+    } satisfies Station;
   });
 
-
-  for (const station of stations) {
-    await upsertStation(db, station);
-  }
-
+  await Promise.allSettled(
+    stations.map(async (station) => {
+      await upsertStation(db, station);
+    }),
+  );
 
   // Insert all dishes and dish relations
   const dishes: DishWithRelations[] = response.Menu.MenuProducts.map(
     (menuProduct) => {
       const { ProductId, StationId, Product } = menuProduct;
-      const dietRestriction: DietRestriction = {
+      const dietRestriction = {
         dishId: ProductId,
         containsEggs: Product.ContainsEggs,
         containsFish: Product.ContainsFish,
@@ -157,9 +158,9 @@ export async function parseCampusDish(
         isOrganic: Product.IsOrganic,
         isVegan: Product.IsVegan,
         isVegetarian: Product.IsVegetarian,
-      };
+      } satisfies DietRestriction;
 
-      const nutritionInfo: NutritionInfo = {
+      const nutritionInfo = {
         dishId: ProductId,
         servingSize: Product.ServingSize,
         servingUnit: Product.ServingUnit,
@@ -178,23 +179,25 @@ export async function parseCampusDish(
         calciumMg: Product.Calcium,
         ironMg: Product.Iron,
         saturatedFatG: Product.SaturatedFat,
-      };
+      } satisfies NutritionInfo;
 
       return {
-        id: ProductId,  // 
-        stationId: StationId,  // StationId for DishJointTable
-        menuId: menuIdHash,    // MenuId for DishJointTable
+        id: ProductId, //
+        stationId: StationId, // StationId for DishJointTable
+        menuId: menuIdHash, // MenuId for DishJointTable
         name: Product.MarketingName,
         description: Product.ShortDescription,
         category: Product.Categories?.[0]?.DisplayName ?? "Other", // category is other if not specified
         dietRestriction,
         nutritionInfo,
-      };
+      } satisfies DishWithRelations;
     },
   );
 
-  for (const dish of dishes) {
-    await upsertDish(db, dish); // should nullcheck and throw for rollbacks
-    await insertDishMenuStationJoint(db, dish);
-  }
+  await Promise.allSettled(
+    dishes.map(async (dish) => {
+      await upsertDish(db, dish);
+      await insertDishMenuStationJoint(db, dish);
+    }),
+  );
 }
