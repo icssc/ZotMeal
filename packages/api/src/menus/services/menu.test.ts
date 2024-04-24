@@ -12,9 +12,7 @@ describe("menu", () => {
   });
 });
 describe("upsertMenu()", async () => {
-  const { db } = await createDrizzle(
-    "postgres://admin:admin@localhost:5434/zotmeal",
-  );
+  const db = await createDrizzle(process.env.DB_URL!);
   it("inserts valid menu into db", async () => {
     // upsert dummy restaurant & period & menu -- then rollback. should pass if 'Rollback' is successfully thrown for each
     const testMenus: Menu[] = [

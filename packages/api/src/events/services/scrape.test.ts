@@ -9,9 +9,7 @@ import { getHTML, scrapeEvents, upsertEvents } from "../services";
 describe(
   "insert menu into db",
   async () => {
-    const { db } = await createDrizzle(
-      "postgres://admin:admin@localhost:5434/zotmeal",
-    );
+    const db = await createDrizzle(process.env.DB_URL!);
 
     it("scrapes events data and upserts it to db", async () => {
       // const filepath = path.join(__dirname, "../testdata/events.html");

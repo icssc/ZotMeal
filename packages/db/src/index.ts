@@ -1,4 +1,5 @@
 import { drizzle } from "drizzle-orm/node-postgres";
+import { migrate } from "drizzle-orm/node-postgres/migrator";
 import pg from "pg";
 
 import { schema } from "./schema";
@@ -30,13 +31,21 @@ export const createPool = (connectionString: string): pg.Pool => {
 };
 
 export async function createDrizzle(connectionString: string) {
-  // const client = await createClient(connectionString);
-  const pool = await createPool(connectionString);
-  const db = drizzle(pool, { schema });
+  const client = await createClient(connectionString);
+  // const pool = await createPool(connectionString);
+  const db = drizzle(client, { schema });
 
-  return { pool, db };
+  return db;
 }
-export type Drizzle = Awaited<ReturnType<typeof createDrizzle>>["db"];
+
+// utility for api tests -- meant to be run in test-setup.ts
+export async function migrateSchema(connectionString: string) {
+  const client = new pg.Client({ connectionString });
+  await client.connect();
+  await migrate(drizzle(client), { migrationsFolder: "../db/migrations" });
+}
+
+export type Drizzle = Awaited<ReturnType<typeof createDrizzle>>;
 
 export * from "drizzle-orm";
 export * from "./schema";

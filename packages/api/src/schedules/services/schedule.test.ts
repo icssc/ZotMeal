@@ -2,12 +2,11 @@ import { describe, expect, it } from "vitest";
 
 import { createDrizzle } from "@zotmeal/db";
 
-import { getSchedule, GetScheduleParams } from "./schedule";
+import type { GetScheduleParams } from "./schedule";
+import { getSchedule } from "./schedule";
 
 describe("test", async () => {
-  const { db } = await createDrizzle(
-    "postgres://admin:admin@localhost:5434/zotmeal",
-  );
+  const db = await createDrizzle(process.env.DB_URL!);
   it("given date and restaurantName return the schedule of the date", async () => {
     const testParams: GetScheduleParams[] = [
       {
