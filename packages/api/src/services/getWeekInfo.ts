@@ -2,14 +2,15 @@ import { format } from "date-fns";
 import { z } from "zod";
 
 import type { Drizzle } from "@zotmeal/db";
-import { DateRegex } from "@zotmeal/validators";
 import { RestaurantSchema } from "@zotmeal/db/src/schema";
+import { DateRegex } from "@zotmeal/validators";
 
+import type { UpdateDailyParams } from "./updateDaily";
 import { updateDaily } from "./updateDaily";
 
 export const GetWeekInfoSchema = z.object({
   date: DateRegex,
-  restaurantName: RestaurantSchema.shape.name
+  restaurantName: RestaurantSchema.shape.name,
 });
 export type GetWeekInfoParams = z.infer<typeof GetWeekInfoSchema>;
 
@@ -17,28 +18,30 @@ const NUM_DAYS_UPDATE = 14;
 
 export async function getWeekInfo(
   db: Drizzle,
-  params: GetWeekInfoParams
+  params: GetWeekInfoParams,
 ): Promise<void> {
-  const {
-    date: dateString,
-    restaurantName: restaurantName
-  } = params;
+  const { date: dateString, restaurantName } = params;
   const startDate = new Date(dateString);
 
-  for (let i = 0; i < NUM_DAYS_UPDATE; ++i) {
-    const insertDate = new Date();
-    insertDate.setDate(startDate.getDate() + i);
-    const formattedDate = format(insertDate, "MM/dd/yyyy");
+  const results = await Promise.allSettled(
+    Array.from({ length: NUM_DAYS_UPDATE }).map((_, i) => {
+      const insertDate = new Date();
+      insertDate.setDate(startDate.getDate() + i);
+      const formattedDate = format(insertDate, "MM/dd/yyyy");
 
-    const dailyParams = {
-      date: formattedDate,
-      restaurantName: restaurantName
-    }
+      const dailyParams = {
+        date: formattedDate,
+        restaurantName,
+      } satisfies UpdateDailyParams;
 
-    try {
-      await updateDaily(db, dailyParams)
-    } catch (e) {
-      console.error('Error for batch insert with params: %j\n', dailyParams, e)
+      return updateDaily(db, dailyParams);
+    }),
+  );
+
+  // log errors from the promises
+  results.forEach((result, i) => {
+    if (result.status === "rejected") {
+      console.error(`Error updating day ${i + 1}:`, result.reason);
     }
-  }
+  });
 }

@@ -2,11 +2,13 @@ import { Expo } from "expo-server-sdk";
 
 import type { Notification } from "@zotmeal/api";
 import { broadcastNotification } from "@zotmeal/api";
-import { createDrizzle } from "@zotmeal/db";
+import { createDrizzle, pool } from "@zotmeal/db";
 import { EventSchema } from "@zotmeal/db/src/schema";
 
-export const main = async (evt, context) => {
-  const { pool, db } = await createDrizzle(process.env.DATABASE_URL);
+export const main = async (evt, _context) => {
+  const db = createDrizzle({
+    connectionString: process.env.DATABASE_URL,
+  });
 
   const event = EventSchema.parse(evt.body);
   console.log("Broadcasting event notification");
@@ -26,5 +28,6 @@ export const main = async (evt, context) => {
   };
 
   const tickets = broadcastNotification(db, expo, notification);
-  pool.end();
+
+  await pool({ connectionString: process.env.DATABASE_URL }).end();
 };

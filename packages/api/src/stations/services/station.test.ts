@@ -8,10 +8,8 @@ import { upsertRestaurant } from "../../restaurants";
 import { testData, updateData } from "../testdata/stationData";
 import { upsertStation } from "./station";
 
-describe("upsertStation correctly", async () => {
-  const { db } = await createDrizzle(
-    "postgres://admin:admin@localhost:5434/zotmeal",
-  );
+describe("upsertStation correctly", () => {
+  const db = createDrizzle({ connectionString: process.env.DB_URL! });
 
   const testRestaurant: Restaurant = {
     id: "9999",

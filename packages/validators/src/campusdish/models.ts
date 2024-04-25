@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-import { DateRegex } from "../zotmeal";
-
 export const MenuStationSchema = z.object({
   StationId: z.string().min(1),
   Name: z.string().min(1),

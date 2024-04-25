@@ -9,7 +9,6 @@
     "dev": "pnpm with-env sls offline --noPrependStageInUrl",
     "sls:deploy": "pnpm with-env sls deploy",
     "sls:local-invoke": "pnpm with-env sls invoke local --function updateDaily"
-
   },
   "engines": {
     "node": ">=20.12.1"
@@ -24,6 +23,7 @@
     "@zotmeal/api": "workspace:^",
     "@zotmeal/db": "workspace:^",
     "@zotmeal/eslint-config": "workspace:^",
+    "@zotmeal/utils": "workspace:^",
     "@zotmeal/validators": "workspace:^",
     "axios": "^1.6.8",
     "date-fns": "^3.6.0",

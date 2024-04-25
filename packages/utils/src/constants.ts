@@ -1,5 +1,4 @@
-import type { Period} from "@zotmeal/db/src/schema";
-import type {Restaurant} from "@zotmeal/db/src/schema";
+import type { Period, Restaurant } from "@zotmeal/db/src/schema";
 
 // id mappings (period, restaurant)
 // restaurant names
@@ -29,7 +28,6 @@ export const getRestaurantId = (
 export const getRestaurantNameById = (
   id: keyof typeof ID_TO_RESTAURANT,
 ): Restaurant["name"] | null => ID_TO_RESTAURANT[id] ?? null;
-
 
 export const PERIOD_TO_ID: Record<Period["name"], string> = {
   breakfast: "49",

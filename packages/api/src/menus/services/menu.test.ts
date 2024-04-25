@@ -1,4 +1,4 @@
-import { afterAll, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import type { Menu, Restaurant } from "@zotmeal/db";
 import { createDrizzle } from "@zotmeal/db";
@@ -6,15 +6,10 @@ import { createDrizzle } from "@zotmeal/db";
 import { upsertRestaurant } from "../../restaurants";
 import { upsertMenu } from "./menu";
 
-describe("menu", () => {
-  it("hello", () => {
-    console.log("hello");
-  });
-});
-describe("upsertMenu()", async () => {
-  const { db } = await createDrizzle(
-    "postgres://admin:admin@localhost:5434/zotmeal",
-  );
+describe("menu", () => it("hello", () => console.log("hello")));
+
+describe("upsertMenu()", () => {
+  const db = createDrizzle({ connectionString: process.env.DB_URL! });
   it("inserts valid menu into db", async () => {
     // upsert dummy restaurant & period & menu -- then rollback. should pass if 'Rollback' is successfully thrown for each
     const testMenus: Menu[] = [
@@ -35,14 +30,11 @@ describe("upsertMenu()", async () => {
     };
 
     expect(testRestaurant).toBeTruthy();
-    console.log("BEFORE TEST");
     for (const testMenu of testMenus) {
       await expect(async () => {
         await db.transaction(async (trx) => {
-          console.log("HI");
           // Insert a test restaurant
           const restaurant = await upsertRestaurant(trx, testRestaurant);
-          console.log(restaurant);
           expect(restaurant).toBeTruthy();
           // Insert a test menu
           const menu = await upsertMenu(trx, testMenu);
@@ -98,9 +90,5 @@ describe("upsertMenu()", async () => {
         });
       }).rejects.toThrowError("Rollback");
     }
-  });
-
-  afterAll(async () => {
-    // await db.$disconnect();
   });
 });

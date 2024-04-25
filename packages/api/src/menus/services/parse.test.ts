@@ -8,7 +8,7 @@ describe("parse campus dish", () => {
   it("parses valid campus dish response", () => {
     expect(() => {
       CampusDishResponseSchema.parse(campus_dish_response);
-    }).not.toThrow;
+    }).not.toThrow();
   });
 
   it("fails on invalid campus dish response", () => {
