@@ -6,10 +6,8 @@ import { createDrizzle } from "@zotmeal/db";
 
 import { getHTML, scrapeEvents, upsertEvents } from "../services";
 
-describe("insert menu into db", async () => {
-  const db = await createDrizzle(
-    "postgres://admin:admin@localhost:5434/zotmeal",
-  );
+describe("insert menu into db", () => {
+  const db = createDrizzle({ connectionString: process.env.DB_URL! });
 
   it("scrapes events data and upserts it to db", async () => {
     // const filepath = path.join(__dirname, "../testdata/events.html");
@@ -22,7 +20,7 @@ describe("insert menu into db", async () => {
       );
       // console.log(html);
       const events = await scrapeEvents(html);
-      console.log("events:", events);
+      // console.log("events:", events);
       expect(events).toBeTruthy();
       await db.transaction(async (trx) => {
         const upsertedEvents = await upsertEvents(trx, events!);
@@ -30,7 +28,7 @@ describe("insert menu into db", async () => {
           throw new Error("upsertedEvents is null");
         }
 
-        console.log("upsertedEvents:", upsertedEvents);
+        // console.log("upsertedEvents:", upsertedEvents);
 
         trx.rollback();
       });

@@ -1,24 +1,29 @@
 import type { Drizzle } from "@zotmeal/db";
-import type { Dish, DishWithRelations } from "@zotmeal/db/src/schema";
+import type {
+  Dish,
+  DishMenuStationJointSchema,
+  DishWithRelations,
+} from "@zotmeal/db/src/schema";
 import {
   DietRestrictionTable,
+  DishMenuStationJoint,
   DishTable,
   NutritionInfoTable,
 } from "@zotmeal/db/src/schema";
 
-export async function upsertDish(
-  db: Drizzle,
-  params: DishWithRelations,
-) {
+export async function upsertDish(db: Drizzle, params: DishWithRelations) {
   try {
-    const dishParams: Dish = {
+    // Dish params for the dish table
+    const dishParams = {
       id: params.id,
       name: params.name,
       description: params.description,
       category: params.category,
       createdAt: params.createdAt,
       updatedAt: params.updatedAt,
-    };
+    } satisfies Dish;
+
+    // Inserting into dish table
     const dish = await db
       .insert(DishTable)
       .values(dishParams)
@@ -52,6 +57,29 @@ export async function upsertDish(
       dietRestriction: dietRestriction[0]!,
       nutritionInfo: nutritionInfo[0]!,
     };
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
+}
+
+export async function insertDishMenuStationJoint(
+  db: Drizzle,
+  params: DishWithRelations,
+) {
+  try {
+    // Dish params for the joint table
+    const jointParams: DishMenuStationJointSchema = {
+      dishId: params.id,
+      stationId: params.stationId,
+      menuId: params.menuId,
+    };
+
+    // Insert into dish-menu-station joint table
+    await db
+      .insert(DishMenuStationJoint)
+      .values(jointParams)
+      .onConflictDoNothing();
   } catch (e) {
     console.error(e);
     throw e;

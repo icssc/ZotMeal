@@ -1,20 +1,15 @@
-import { afterAll, describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 
-import type { Menu } from "@zotmeal/db";
+import type { Menu, Restaurant } from "@zotmeal/db";
 import { createDrizzle } from "@zotmeal/db";
 
 import { upsertRestaurant } from "../../restaurants";
 import { upsertMenu } from "./menu";
 
-describe("menu", () => {
-  it("hello", () => {
-    console.log("hello");
-  });
-});
-describe("upsertMenu()", async () => {
-  const db = await createDrizzle(
-    "postgres://admin:admin@localhost:5434/zotmeal",
-  );
+describe("menu", () => it("hello", () => console.log("hello")));
+
+describe("upsertMenu()", () => {
+  const db = createDrizzle({ connectionString: process.env.DB_URL! });
   it("inserts valid menu into db", async () => {
     // upsert dummy restaurant & period & menu -- then rollback. should pass if 'Rollback' is successfully thrown for each
     const testMenus: Menu[] = [
@@ -29,16 +24,19 @@ describe("upsertMenu()", async () => {
       },
     ];
 
-    const testRestaurant = await upsertRestaurant(db, {
+    const testRestaurant: Restaurant = {
       id: "9999",
-      name: "brandywine",
-    });
+      name: "brandywine_test",
+    };
 
     expect(testRestaurant).toBeTruthy();
-
     for (const testMenu of testMenus) {
       await expect(async () => {
         await db.transaction(async (trx) => {
+          // Insert a test restaurant
+          const restaurant = await upsertRestaurant(trx, testRestaurant);
+          expect(restaurant).toBeTruthy();
+          // Insert a test menu
           const menu = await upsertMenu(trx, testMenu);
           expect(menu).toBeTruthy();
           // console.log("upsertedMenu:", menu);
@@ -71,17 +69,19 @@ describe("upsertMenu()", async () => {
       },
     ];
 
-    const testRestaurant = await upsertRestaurant(db, {
+    const testRestaurant: Restaurant = {
       id: "9999",
-      name: "brandywine",
-    });
-
-    expect(testRestaurant).toBeTruthy();
+      name: "brandywine_test",
+    };
 
     // upsert dummy restaurant & period & menu. then rollback. should pass if 'Rollback' is the thrown error for each test
     for (const testMenu of testMenus) {
       await expect(async () => {
         await db.transaction(async (trx) => {
+          // Insert a test restaurant
+          const restaurant = await upsertRestaurant(trx, testRestaurant);
+          expect(restaurant).toBeTruthy();
+          // Insert test menu
           const menu = await upsertMenu(trx, testMenu);
           expect(menu).toBeTruthy();
           // console.log("upsertedMenu:", menu);
@@ -90,9 +90,5 @@ describe("upsertMenu()", async () => {
         });
       }).rejects.toThrowError("Rollback");
     }
-  });
-
-  afterAll(async () => {
-    // await db.$disconnect();
   });
 });

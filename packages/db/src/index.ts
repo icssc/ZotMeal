@@ -1,30 +1,31 @@
+import { exec } from "child_process";
+import { promisify } from "util";
+import type { PoolConfig } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
-import pg from "pg";
+import { Pool } from "pg";
 
 import { schema } from "./schema";
 
-// const connectionString = process.env.DATABASE_URL;
+export const pool = (config: PoolConfig): Pool => new Pool(config);
 
-export const createClient = async (
-  connectionString: string,
-): Promise<pg.Client> => {
-  if (!connectionString) {
-    throw new Error("DATABASE_URL is not set");
-  }
+// caller must do `pool.end()` when finished with db
+export const createDrizzle = (config: PoolConfig) =>
+  drizzle(pool({ ...config }), { schema });
 
-  const client = new pg.Client({ connectionString });
-  await client.connect();
-
-  return client;
-};
-
-export async function createDrizzle(connectionString: string) {
-  const client = await createClient(connectionString);
-  const db = drizzle(client, { schema });
-
-  return db;
+// utility for api tests -- meant to be run in test-setup.ts
+export async function pushSchema(connectionString: string) {
+  await promisify(exec)(
+    `pnpm drizzle-kit push:pg --config=../db/test-config.ts`,
+    {
+      env: {
+        ...process.env,
+        DB_URL: connectionString,
+      },
+    },
+  );
 }
-export type Drizzle = Awaited<ReturnType<typeof createDrizzle>>;
+
+export type Drizzle = ReturnType<typeof createDrizzle>;
 
 export * from "drizzle-orm";
 export * from "./schema";

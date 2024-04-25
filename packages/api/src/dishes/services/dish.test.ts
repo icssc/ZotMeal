@@ -5,17 +5,15 @@ import { createDrizzle } from "@zotmeal/db";
 import { testData, updateData } from "../testdata";
 import { upsertDish } from "./dish";
 
-describe("upsertDish correctly", async () => {
+describe("upsertDish correctly", () => {
   // First time is insert because no conflict id
 
-  const db = await createDrizzle(
-    "postgres://admin:admin@localhost:5434/zotmeal",
-  );
+  const db = createDrizzle({ connectionString: process.env.DB_URL! });
   it("insertDish", async () => {
     await expect(async () => {
       await db.transaction(async (trx) => {
         const result = await upsertDish(trx, testData);
-        console.log(result);
+        // console.log(result);
         expect(result).toEqual({
           ...testData,
           dietRestriction: testData.dietRestriction,
@@ -33,7 +31,7 @@ describe("upsertDish correctly", async () => {
         await upsertDish(trx, testData);
         // await upsertDish(trx, testData);
         const result = await upsertDish(trx, updateData);
-        console.log(result);
+        // console.log(result);
         expect(result.id).toEqual(testData.id);
         trx.rollback();
       });

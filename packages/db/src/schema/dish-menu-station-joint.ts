@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text } from "drizzle-orm/pg-core";
+import { pgTable, text, primaryKey } from "drizzle-orm/pg-core";
 
 import { DishTable } from "./dish-table";
 import { MenuTable } from "./menu-table";
@@ -24,6 +24,10 @@ export const DishMenuStationJoint = pgTable("dish_menu_station_joint", {
       onDelete: "restrict",
       onUpdate: "cascade",
     }),
+}, (table) => {
+  return {
+    pk: primaryKey({ columns: [table.dishId, table.menuId, table.stationId] }),
+  };
 });
 
 export const dishMenuStationRelations = relations(
@@ -43,3 +47,5 @@ export const dishMenuStationRelations = relations(
     }),
   }),
 );
+
+export type DishMenuStationJointSchema = typeof DishMenuStationJoint.$inferInsert;

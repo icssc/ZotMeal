@@ -12,7 +12,7 @@ export const StationTable = pgTable("stations", {
     .defaultNow()
     .notNull(),
   updatedAt: updatedAtColumnPostgres,
-  name: text("name").notNull().unique(),
+  name: text("name").notNull(),
   restaurantId: text("restaurantId")
     .notNull()
     .references(() => RestaurantTable.id, {

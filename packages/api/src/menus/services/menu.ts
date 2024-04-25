@@ -79,11 +79,11 @@ export async function getMenu(
   for (const row of rows) {
     if (!menuResult) {
       menuResult = {
-        ...row.menu,
+        ...row.menus,
         stations: [],
       };
     }
-    const { dishes: dish, menu, stations: station } = row;
+    const { dishes: dish, menus, stations: station } = row;
     if (!(station.id in stationsResult)) {
       stationsResult[station.id] = {
         ...station,
@@ -91,7 +91,7 @@ export async function getMenu(
       };
     }
     stationsResult[station.id]?.dishes.push(dish);
-    console.log(dish, menu, station);
+    console.log(dish, menus, station);
   }
   if (!menuResult) {
     return null;
