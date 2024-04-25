@@ -8,22 +8,36 @@ import { schema } from "./schema";
 
 export const pool = (config: PoolConfig): Pool => new Pool(config);
 
-// call pool.end() when finished with db
-export const createDrizzle = async (connectionString: string) =>
-  drizzle(await pool({ connectionString }).connect(), { schema });
+// caller must do pool.end() when finished with db
+export async function createDrizzle(connectionString: string) {
+  // retry connecting to db 5 times with backoff
+  // mainly for for when testcontainer is not ready
+  for (let numRetries = 0; numRetries < 5; numRetries++) {
+    try {
+      const client = await pool({ connectionString }).connect();
+      return drizzle(client, { schema });
+    } catch (err) {
+      if (!(err instanceof Error)) throw err;
+      if (err.toString().includes("ECONNREFUSED") && numRetries === 4) {
+        throw err;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 250 * numRetries));
+    }
+  }
+  throw new Error("unreachable");
+}
 
 // utility for api tests -- meant to be run in test-setup.ts
 export async function pushSchema(connectionString: string) {
-  const client = await pool({ connectionString }).connect();
   await promisify(exec)(
-    `npx drizzle-kit push:pg --config=../db/test-config.ts`,
+    `pnpm drizzle-kit push:pg --config=../db/test-config.ts`,
     {
       env: {
+        ...process.env,
         DB_URL: connectionString,
       },
     },
   );
-  client.release();
 }
 
 export type Drizzle = Awaited<ReturnType<typeof createDrizzle>>;
