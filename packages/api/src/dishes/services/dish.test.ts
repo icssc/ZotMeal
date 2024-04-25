@@ -5,12 +5,10 @@ import { createDrizzle } from "@zotmeal/db";
 import { testData, updateData } from "../testdata";
 import { upsertDish } from "./dish";
 
-describe("upsertDish correctly", async () => {
+describe("upsertDish correctly", () => {
   // First time is insert because no conflict id
 
-  const { db } = await createDrizzle(
-    "postgres://admin:admin@localhost:5434/zotmeal",
-  );
+  const db = createDrizzle({ connectionString: process.env.DB_URL! });
   it("insertDish", async () => {
     await expect(async () => {
       await db.transaction(async (trx) => {

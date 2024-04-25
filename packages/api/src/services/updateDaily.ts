@@ -19,10 +19,11 @@ export async function updateDaily(
   params: UpdateDailyParams,
 ): Promise<void> {
   try {
-    console.log(`Updating ${params.restaurantName}`);
+    console.log(`Updating ${params.restaurantName}...`);
 
     const { date, restaurantName } = UpdateDailySchema.parse(params);
 
+    // Get menu for each period
     await Promise.allSettled(
       Object.keys(PERIOD_TO_ID).map(async (period) => {
         const campusDishParams = {
@@ -31,13 +32,14 @@ export async function updateDaily(
           restaurant: restaurantName,
         } satisfies GetMenuParams;
 
-        const campusDishResponse = await getCampusDish(campusDishParams);
-        if (!campusDishResponse) {
-          return;
-        }
-        await parseCampusDish(db, campusDishResponse);
+        // TODO: handle null response
+        return getCampusDish(campusDishParams).then((campusDishResponse) => {
+          if (!campusDishResponse) return;
+          return parseCampusDish(db, campusDishResponse);
+        });
       }),
     );
+    console.log(`Updated ${params.restaurantName}.`);
   } catch (err) {
     if (err instanceof z.ZodError) {
       console.error(err.issues);

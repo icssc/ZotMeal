@@ -62,13 +62,13 @@ export async function getCampusDish(
     `https://uci-campusdish-com.translate.goog/api/menu/GetMenus?locationId=${restaurantId}&periodId=${periodId}&date=${date}`,
   );
 
-  // Verify response schema
+  // Validate response
   try {
-    const validated = CampusDishResponseSchema.parse(res.data);
-    return validated;
+    return CampusDishResponseSchema.parse(res.data);
   } catch (e) {
     if (e instanceof ZodError) {
       console.error(e.issues);
+      throw e;
     }
     console.error(e);
     throw e;
@@ -131,9 +131,7 @@ export async function parseCampusDish(
   });
 
   await Promise.allSettled(
-    stations.map(async (station) => {
-      await upsertStation(db, station);
-    }),
+    stations.map((station) => upsertStation(db, station)),
   );
 
   // Insert all dishes and dish relations
@@ -195,9 +193,8 @@ export async function parseCampusDish(
   );
 
   await Promise.allSettled(
-    dishes.map(async (dish) => {
-      await upsertDish(db, dish);
-      await insertDishMenuStationJoint(db, dish);
-    }),
+    dishes.map((dish) =>
+      upsertDish(db, dish).then(() => insertDishMenuStationJoint(db, dish)),
+    ),
   );
 }

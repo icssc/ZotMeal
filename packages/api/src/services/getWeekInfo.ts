@@ -5,6 +5,7 @@ import type { Drizzle } from "@zotmeal/db";
 import { RestaurantSchema } from "@zotmeal/db/src/schema";
 import { DateRegex } from "@zotmeal/validators";
 
+import type { UpdateDailyParams } from "./updateDaily";
 import { updateDaily } from "./updateDaily";
 
 export const GetWeekInfoSchema = z.object({
@@ -22,8 +23,8 @@ export async function getWeekInfo(
   const { date: dateString, restaurantName } = params;
   const startDate = new Date(dateString);
 
-  await Promise.allSettled(
-    Array.from({ length: NUM_DAYS_UPDATE }, async (_, i) => {
+  const results = await Promise.allSettled(
+    Array.from({ length: NUM_DAYS_UPDATE }).map((_, i) => {
       const insertDate = new Date();
       insertDate.setDate(startDate.getDate() + i);
       const formattedDate = format(insertDate, "MM/dd/yyyy");
@@ -31,17 +32,16 @@ export async function getWeekInfo(
       const dailyParams = {
         date: formattedDate,
         restaurantName,
-      };
+      } satisfies UpdateDailyParams;
 
-      try {
-        await updateDaily(db, dailyParams);
-      } catch (e) {
-        console.error(
-          "Error for batch insert with params: %j\n",
-          dailyParams,
-          e,
-        );
-      }
+      return updateDaily(db, dailyParams);
     }),
   );
+
+  // log errors from the promises
+  results.forEach((result, i) => {
+    if (result.status === "rejected") {
+      console.error(`Error updating day ${i + 1}:`, result.reason);
+    }
+  });
 }
