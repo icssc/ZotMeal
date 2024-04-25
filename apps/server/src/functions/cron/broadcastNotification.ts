@@ -27,5 +27,5 @@ export const main = async (evt, _context) => {
 
   const tickets = broadcastNotification(db, expo, notification);
 
-  pool({ connectionString: process.env.DATABASE_URL }).end();
+  await pool({ connectionString: process.env.DATABASE_URL }).end();
 };

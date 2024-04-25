@@ -13,25 +13,27 @@ const connectionString =
 
 export const main = async (_event, _context) => {
   try {
-    //
-    console.log("Starting update daily");
-    //
     const db = await createDrizzle(connectionString);
     const now = new Date();
     const formattedTime = format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx");
-    console.log(`Daily task executed at: ${formattedTime}`);
+    console.log(`Start update daily job at ${formattedTime}`);
 
-    const formattedDate = format(now, "MM/dd/yyyy");
+    const date = format(now, "MM/dd/yyyy");
 
-    for (const restaurant of Object.keys(RESTAURANT_TO_ID)) {
+    for (const restaurantName of Object.keys(
+      RESTAURANT_TO_ID,
+    ) as Restaurant["name"][]) {
       await updateDaily(db, {
-        date: formattedDate,
-        restaurantName: restaurant as Restaurant["name"],
+        date,
+        restaurantName,
       } satisfies UpdateDailyParams);
     }
+    console.log("Finished update daily job.");
   } catch (error) {
     console.error("Failed to execute weekly task", error);
   } finally {
-    pool({ connectionString }).end();
+    console.log("Closing connection pool...");
+    await pool({ connectionString }).end();
+    console.log("Closed connection pool.");
   }
 };

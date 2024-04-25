@@ -8,17 +8,22 @@ import { schema } from "./schema";
 
 export const pool = (config: PoolConfig): Pool => new Pool(config);
 
-// caller must do pool.end() when finished with db
+// caller must do `await pool.end()` when finished with db
 export async function createDrizzle(connectionString: string) {
   // retry connecting to db 5 times with backoff
   // mainly for for when testcontainer is not ready
   for (let numRetries = 0; numRetries < 5; numRetries++) {
     try {
-      const client = await pool({ connectionString }).connect();
+      console.log(`(attempt ${numRetries + 1}) connecting to db...`);
+      const client = await pool({
+        connectionString,
+      }).connect();
+      console.log(`connected to db.`);
       return drizzle(client, { schema });
     } catch (err) {
       if (!(err instanceof Error)) throw err;
       if (err.toString().includes("ECONNREFUSED") && numRetries === 4) {
+        console.error("Failed to connect to db after 5 retries.");
         throw err;
       }
       await new Promise((resolve) => setTimeout(resolve, 250 * numRetries));

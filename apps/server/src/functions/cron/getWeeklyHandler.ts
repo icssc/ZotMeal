@@ -29,6 +29,6 @@ export const main = async (_event, _context) => {
   } catch (error) {
     console.error("Failed to execute weekly task", error);
   } finally {
-    pool({ connectionString }).end();
+    await pool({ connectionString }).end();
   }
 };
