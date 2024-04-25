@@ -5,8 +5,8 @@ import { createDrizzle } from "@zotmeal/db";
 import { testData, updateData } from "../testdata/restaurantData";
 import { upsertRestaurant } from "./restaurant";
 
-describe("upsertRestaurant correctly", async () => {
-  const db = await createDrizzle(process.env.DB_URL!);
+describe("upsertRestaurant correctly", () => {
+  const db = createDrizzle({ connectionString: process.env.DB_URL! });
   it("insertRestaurant", async () => {
     await expect(async () => {
       await db.transaction(async (trx) => {

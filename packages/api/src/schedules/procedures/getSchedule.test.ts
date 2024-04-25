@@ -36,8 +36,8 @@ describe("getScheduleSchema validates properly", () => {
   });
 });
 
-describe("getSchedule", async () => {
-  const db = await createDrizzle(process.env.DB_URL!);
+describe("getSchedule", () => {
+  const db = createDrizzle({ connectionString: process.env.DB_URL! });
   const ctx = createTRPCContext({ db });
   const caller = createCaller(ctx);
 

@@ -13,7 +13,7 @@ const connectionString =
 
 export const main = async (_event, _context) => {
   try {
-    const db = await createDrizzle(connectionString);
+    const db = createDrizzle({ connectionString });
 
     const now = new Date();
     const formattedTime = format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx");

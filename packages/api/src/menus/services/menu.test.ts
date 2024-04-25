@@ -8,8 +8,8 @@ import { upsertMenu } from "./menu";
 
 describe("menu", () => it("hello", () => console.log("hello")));
 
-describe("upsertMenu()", async () => {
-  const db = await createDrizzle(process.env.DB_URL!);
+describe("upsertMenu()", () => {
+  const db = createDrizzle({ connectionString: process.env.DB_URL! });
   it("inserts valid menu into db", async () => {
     // upsert dummy restaurant & period & menu -- then rollback. should pass if 'Rollback' is successfully thrown for each
     const testMenus: Menu[] = [

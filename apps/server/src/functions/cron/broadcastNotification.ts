@@ -6,7 +6,9 @@ import { createDrizzle, pool } from "@zotmeal/db";
 import { EventSchema } from "@zotmeal/db/src/schema";
 
 export const main = async (evt, _context) => {
-  const db = await createDrizzle(process.env.DATABASE_URL);
+  const db = createDrizzle({
+    connectionString: process.env.DATABASE_URL,
+  });
 
   const event = EventSchema.parse(evt.body);
   console.log("Broadcasting event notification");

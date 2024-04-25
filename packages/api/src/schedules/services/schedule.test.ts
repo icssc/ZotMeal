@@ -5,8 +5,8 @@ import { createDrizzle } from "@zotmeal/db";
 import type { GetScheduleParams } from "./schedule";
 import { getSchedule } from "./schedule";
 
-describe("test", async () => {
-  const db = await createDrizzle(process.env.DB_URL!);
+describe("test", () => {
+  const db = createDrizzle({ connectionString: process.env.DB_URL! });
   it("given date and restaurantName return the schedule of the date", async () => {
     const testParams: GetScheduleParams[] = [
       {
