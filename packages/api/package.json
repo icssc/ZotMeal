@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@testcontainers/postgresql": "^10.8.2",
     "@trpc/server": "11.0.0-rc.330",
     "@zotmeal/db": "workspace:^",
     "@zotmeal/eslint-config": "workspace:^",
@@ -24,6 +25,7 @@
     "pino": "^8.20.0",
     "pino-pretty": "^11.0.0",
     "superjson": "2.2.1",
+    "testcontainers": "^10.8.2",
     "vitest": "^1.4.0",
     "zod": "^3.22.4"
   },
