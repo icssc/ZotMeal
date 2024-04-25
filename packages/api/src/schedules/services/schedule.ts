@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import type { Drizzle } from "@zotmeal/db";
+import type { Drizzle, Period } from "@zotmeal/db";
 import { parseDate, RESTAURANT_TO_ID } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
 
@@ -15,33 +15,12 @@ export const GetScheduleSchema = z.object({
   restaurantName: z.string(),
 }) satisfies z.ZodType<GetScheduleParams>;
 
-interface ScheduleResult {
-  breakfast?: {
-    start: string;
-    end: string;
-    price: string;
-  };
-  brunch?: {
-    start: string;
-    end: string;
-    price: string;
-  };
-  lunch?: {
-    start: string;
-    end: string;
-    price: string;
-  };
-  dinner?: {
-    start: string;
-    end: string;
-    price: string;
-  };
-  latenight?: {
-    start: string;
-    end: string;
-    price: string;
-  };
-}
+// TODO: might be more robust to do a type intersection depending on if its a weekday or weekend
+// since brunch is only on weekends, etc.
+type ScheduleResult = Record<
+  Period["name"],
+  { start: string; end: string; price: string }
+>;
 
 export async function getSchedule(
   db: Drizzle,
@@ -66,8 +45,7 @@ export async function getSchedule(
     },
   });
 
-  // conforms to the ScheduleResult type,but all object inside is optional (bc sometime they dont have brunch and latenight)
-  const schedule: Partial<ScheduleResult> = {};
+  const schedule: ScheduleResult = {};
   for (const Period of fetchedPeriods) {
     const { period, start, end, price } = Period;
     schedule[period] = { start, end, price };
