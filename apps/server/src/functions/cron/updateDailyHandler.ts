@@ -5,7 +5,6 @@ import {
   UpdateDailyParams,
 } from "@zotmeal/api/src/services/updateDaily";
 import { createDrizzle, pool } from "@zotmeal/db";
-import { Restaurant } from "@zotmeal/db/src/schema";
 import { RESTAURANT_TO_ID } from "@zotmeal/utils";
 
 const connectionString =
@@ -20,14 +19,15 @@ export const main = async (_event, _context) => {
 
     const date = format(now, "MM/dd/yyyy");
 
-    for (const restaurantName of Object.keys(
-      RESTAURANT_TO_ID,
-    ) as Restaurant["name"][]) {
-      await updateDaily(db, {
-        date,
-        restaurantName,
-      } satisfies UpdateDailyParams);
-    }
+    await Promise.allSettled(
+      Object.keys(RESTAURANT_TO_ID).map((restaurantName) =>
+        updateDaily(db, {
+          date,
+          restaurantName,
+        } satisfies UpdateDailyParams),
+      ),
+    );
+
     console.log("Finished update daily job.");
   } catch (error) {
     console.error("Failed to execute weekly task", error);

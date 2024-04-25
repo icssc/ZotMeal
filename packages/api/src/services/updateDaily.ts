@@ -32,11 +32,11 @@ export async function updateDaily(
           restaurant: restaurantName,
         } satisfies GetMenuParams;
 
-        const campusDishResponse = await getCampusDish(campusDishParams);
-        if (!campusDishResponse) {
-          return;
-        }
-        await parseCampusDish(db, campusDishResponse);
+        // TODO: handle null response
+        return getCampusDish(campusDishParams).then((campusDishResponse) => {
+          if (!campusDishResponse) return;
+          return parseCampusDish(db, campusDishResponse);
+        });
       }),
     );
     console.log(`Updated ${params.restaurantName}.`);
