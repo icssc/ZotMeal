@@ -7,7 +7,7 @@ import type {
   MenuWithRelations,
   StationWithRelations,
 } from "@zotmeal/db/src/schema";
-import { MenuTable } from "@zotmeal/db/src/schema";
+import { MenuSchema, MenuTable } from "@zotmeal/db/src/schema";
 import { parseDate } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
 
@@ -19,7 +19,7 @@ export interface GetMenuParams {
 
 export const GetMenuSchema = z.object({
   date: DateRegex,
-  periodName: z.string(),
+  periodName: MenuSchema.shape.period,
   restaurantName: z.string(),
 }) satisfies z.ZodType<GetMenuParams>;
 
@@ -28,16 +28,19 @@ export async function getMenu(
   params: GetMenuParams,
 ): Promise<MenuWithRelations | null> {
   console.log("GET MENU params:", params);
-  const date = parseDate(params.date);
-  if (!date) {
+  const parsedParams = GetMenuSchema.safeParse(params);
+
+  if (!parsedParams.success) {
     throw new TRPCError({
       code: "BAD_REQUEST",
-      message: "invalid date format",
+      message: `invalid params: ${parsedParams.error.message}`,
     });
   }
 
+  const { date, periodName, restaurantName } = parsedParams.data;
+
   const fetchedRestaurant = await db.query.RestaurantTable.findFirst({
-    where: (restaurant, { eq }) => eq(restaurant.name, params.restaurantName),
+    where: (restaurant, { eq }) => eq(restaurant.name, restaurantName),
   });
 
   if (!fetchedRestaurant) {
@@ -55,6 +58,7 @@ export async function getMenu(
       menu: true,
       station: true,
     },
+    limit: 5, // TODO: do findFirst with where clause instead
   });
 
   let menuResult: MenuWithRelations | null = null;

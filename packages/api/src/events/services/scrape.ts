@@ -5,6 +5,8 @@ import type { Event } from "@zotmeal/db/src/schema";
 import { EventSchema } from "@zotmeal/db/src/schema";
 import { parseEventDate, RESTAURANT_TO_ID } from "@zotmeal/utils";
 
+import { logger } from "../../../logger";
+
 export async function getHTML(url: string): Promise<string> {
   try {
     const res = await axios.get(url);
@@ -39,7 +41,7 @@ export async function scrapeEvents(html: string): Promise<Event[] | null> {
       // do an inner fetch on the event's page for restaurant association
       const href = eventItem.find("a").attr("href");
       if (!href) continue; // skip if unable to find event page link
-      console.log(href);
+      logger.debug(href);
       const eventPageHtml = await getHTML(href);
 
       // skip if unable to fetch event page
@@ -105,7 +107,7 @@ export async function scrapeEvents(html: string): Promise<Event[] | null> {
         end,
       } satisfies Event);
 
-      console.log(event);
+      logger.debug(event);
 
       events.push(event);
     }

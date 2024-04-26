@@ -9,8 +9,7 @@ import { RESTAURANT_TO_ID } from "@zotmeal/utils";
 
 import { logger } from "../../../logger";
 
-const connectionString =
-  process.env.DATABASE_URL ?? "postgres://admin:admin@localhost:5434/zotmeal";
+const connectionString = process.env.DATABASE_URL;
 
 export const main = async (_event, _context) => {
   try {
