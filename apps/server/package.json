@@ -8,7 +8,7 @@
     "with-env": "dotenv -e ../../.env -- ",
     "dev": "pnpm with-env sls offline --noPrependStageInUrl",
     "sls:deploy": "pnpm with-env sls deploy",
-    "sls:local-invoke": "pnpm with-env sls invoke local --function updateDaily"
+    "sls:test": "pnpm with-env sls invoke local --function"
   },
   "engines": {
     "node": ">=20.12.1"

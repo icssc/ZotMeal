@@ -20,12 +20,22 @@ export const main = async (_event, _context) => {
     console.log(`Weekly task executed at: ${formattedTime}`);
 
     const formattedDate = format(now, "MM/dd/yyyy");
-    for (const restaurant of Object.keys(RESTAURANT_TO_ID)) {
-      await getWeekInfo(db, {
-        date: formattedDate,
-        restaurantName: restaurant as Restaurant["name"],
-      } satisfies GetWeekInfoParams);
-    }
+
+    const results = await Promise.allSettled(
+      Object.keys(RESTAURANT_TO_ID).map(async (restaurant) => {
+        getWeekInfo(db, {
+          date: formattedDate,
+          restaurantName: restaurant as Restaurant["name"],
+        } satisfies GetWeekInfoParams);
+      }),
+    );
+
+    // log errors if any
+    results.forEach((result) => {
+      if (result.status === "rejected") {
+        console.error(result.reason);
+      }
+    });
   } catch (error) {
     console.error("Failed to execute weekly task", error);
   } finally {

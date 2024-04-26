@@ -19,7 +19,7 @@ export async function updateDaily(
   params: UpdateDailyParams,
 ): Promise<void> {
   try {
-    console.log(`Updating ${params.restaurantName}...`);
+    console.log(`(${params.date}) Updating ${params.restaurantName}...`);
 
     const { date, restaurantName } = UpdateDailySchema.parse(params);
 
