@@ -6,7 +6,7 @@
     "dev": "echo 'Add dev script here'",
     "build": "echo 'Add build script here'",
     "with-env": "dotenv -e ../../.env --",
-    "test": "npx vitest run --config vitest.config.ts",
+    "test": "pnpm with-env vitest run --config vitest.config.ts",
     "lint": "eslint ."
   },
   "dependencies": {

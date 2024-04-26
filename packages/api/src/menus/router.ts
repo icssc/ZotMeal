@@ -10,8 +10,7 @@ const helloProcedure = publicProcedure.query(async (opts) => {
   const res = await axios.get("https://jsonplaceholder.typicode.com/todos/1");
   const _ = opts;
   console.log(res.data);
-  console.log("hello");
-  return "hello";
+  return "menu -> hello";
 });
 
 export const menuRouter = createTRPCRouter({

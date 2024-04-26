@@ -1,4 +1,5 @@
 import { TRPCError } from "@trpc/server";
+import { format } from "date-fns";
 import { z } from "zod";
 
 import type { Drizzle, Period } from "@zotmeal/db";
@@ -36,7 +37,9 @@ export async function getSchedule(
   const restaurantId =
     RESTAURANT_TO_ID[params.restaurantName]?.toString() ?? "";
   const fetchedPeriods = await db.query.MenuTable.findMany({
-    where: (menu, { eq }) => eq(menu.restaurantId, restaurantId),
+    where: (menu, { eq }) =>
+      eq(menu.restaurantId, restaurantId) &&
+      eq(menu.date, format(date, "MM/dd/yyyy")),
     columns: {
       start: true,
       end: true,
@@ -45,10 +48,7 @@ export async function getSchedule(
     },
   });
 
-  const schedule: ScheduleResult = {};
-  for (const Period of fetchedPeriods) {
-    const { period, start, end, price } = Period;
-    schedule[period] = { start, end, price };
-  }
-  return schedule;
+  return Object.fromEntries(
+    fetchedPeriods.map(({ period, ...data }) => [period, data]),
+  );
 }

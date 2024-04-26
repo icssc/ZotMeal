@@ -40,10 +40,12 @@ const db = createDrizzle({
 });
 
 export const createTRPCContext = (opts: {
-  // headers: Headers;
+  headers: Headers;
   // session: Session | null;
 }) => {
-  console.log(">>> tRPC Request from", "something", "by", "someone");
+  const source = opts.headers.get("x-trpc-source") ?? "unknown";
+
+  console.log(">>> tRPC Request from", source, "by", "someone");
   return {
     ...opts,
     db,

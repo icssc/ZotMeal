@@ -33,5 +33,5 @@ describe("insert menu into db", () => {
         trx.rollback();
       });
     }).rejects.toThrowError("Rollback");
-  }, 10_000);
-});
+  });
+}, 10_000);

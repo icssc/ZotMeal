@@ -2,14 +2,12 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import type { Drizzle } from "@zotmeal/db";
-import type { Dish, Menu, Station } from "@zotmeal/db/src/schema";
-import { eq } from "@zotmeal/db";
-import {
-  DishMenuStationJoint,
-  DishTable,
-  MenuTable,
-  StationTable,
+import type {
+  Menu,
+  MenuWithRelations,
+  StationWithRelations,
 } from "@zotmeal/db/src/schema";
+import { MenuTable } from "@zotmeal/db/src/schema";
 import { parseDate } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
 
@@ -25,19 +23,11 @@ export const GetMenuSchema = z.object({
   restaurantName: z.string(),
 }) satisfies z.ZodType<GetMenuParams>;
 
-// deliberate choice to exclude nutrition on dish model, the list view will not contain the full dish nutrition details
-interface StationResult extends Station {
-  dishes: Dish[];
-}
-
-interface MenuResult extends Menu {
-  stations: StationResult[];
-}
-
 export async function getMenu(
   db: Drizzle,
   params: GetMenuParams,
-): Promise<MenuResult | null> {
+): Promise<MenuWithRelations | null> {
+  console.log("GET MENU params:", params);
   const date = parseDate(params.date);
   if (!date) {
     throw new TRPCError({
@@ -54,44 +44,38 @@ export async function getMenu(
     throw new TRPCError({ message: "restaurant not found", code: "NOT_FOUND" });
   }
 
-  const rows = await db
-    .select()
-    .from(DishMenuStationJoint)
-    .innerJoin(MenuTable, eq(DishMenuStationJoint.menuId, MenuTable.id))
-    .innerJoin(DishTable, eq(DishMenuStationJoint.dishId, DishTable.id))
-    .innerJoin(
-      StationTable,
-      eq(DishMenuStationJoint.stationId, StationTable.id),
-    );
+  const rows = await db.query.DishMenuStationJoint.findMany({
+    with: {
+      dish: {
+        with: {
+          dietRestriction: true,
+          nutritionInfo: true,
+        },
+      },
+      menu: true,
+      station: true,
+    },
+  });
 
-  // this way we dont need to explicitly do join. drizzle will performs join behind the scenes
-  // const rowsRelation = await db.query.DishMenuStationJoint.findMany({
-  //   with: {
-  //     dish: true,
-  //     menu: true,
-  //     station: true,
-  //   },
-  // });
-
-  let menuResult: MenuResult | null = null;
-  const stationsResult: Record<string, StationResult> = {};
+  let menuResult: MenuWithRelations | null = null;
+  const stationsResult: Record<string, StationWithRelations> = {};
 
   for (const row of rows) {
     if (!menuResult) {
       menuResult = {
-        ...row.menus,
+        ...row.menu,
         stations: [],
       };
     }
-    const { dishes: dish, menus, stations: station } = row;
+    const { dish, menu, station, menuId, stationId } = row;
     if (!(station.id in stationsResult)) {
       stationsResult[station.id] = {
         ...station,
         dishes: [],
       };
     }
-    stationsResult[station.id]?.dishes.push(dish);
-    console.log(dish, menus, station);
+    stationsResult[station.id]?.dishes.push({ ...dish, menuId, stationId });
+    console.log(dish, menu, station);
   }
   if (!menuResult) {
     return null;
