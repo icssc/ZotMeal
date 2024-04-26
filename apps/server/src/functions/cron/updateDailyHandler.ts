@@ -7,17 +7,17 @@ import {
 import { createDrizzle, pool } from "@zotmeal/db";
 import { RESTAURANT_TO_ID } from "@zotmeal/utils";
 
+import { logger } from "../../../logger";
+
 const connectionString =
   process.env.DATABASE_URL ?? "postgres://admin:admin@localhost:5434/zotmeal";
 
 export const main = async (_event, _context) => {
   try {
     const db = createDrizzle({ connectionString });
-    const now = new Date();
-    const formattedTime = format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx");
-    console.log(`Start update daily job at ${formattedTime}`);
+    logger.info("Start update daily job...");
 
-    const date = format(now, "MM/dd/yyyy");
+    const date = format(new Date(), "MM/dd/yyyy");
 
     await Promise.allSettled(
       Object.keys(RESTAURANT_TO_ID).map((restaurantName) =>
@@ -28,12 +28,12 @@ export const main = async (_event, _context) => {
       ),
     );
 
-    console.log("Finished update daily job.");
+    logger.info("Finished update daily job.");
   } catch (error) {
-    console.error("Failed to execute weekly task", error);
+    logger.error("Failed to execute weekly task", error);
   } finally {
-    console.log("Closing connection pool...");
+    logger.info("Closing connection pool...");
     await pool({ connectionString }).end();
-    console.log("Closed connection pool.");
+    logger.info("Closed connection pool.");
   }
 };

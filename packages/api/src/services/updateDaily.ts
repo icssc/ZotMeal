@@ -7,6 +7,7 @@ import { DateRegex } from "@zotmeal/validators";
 
 import type { GetMenuParams } from "../menus/services/parse";
 import { getCampusDish, parseCampusDish } from "..";
+import { logger } from "../../logger";
 
 export const UpdateDailySchema = z.object({
   date: DateRegex,
@@ -19,7 +20,9 @@ export async function updateDaily(
   params: UpdateDailyParams,
 ): Promise<void> {
   try {
-    console.log(`(${params.date}) Updating ${params.restaurantName}...`);
+    logger.info(
+      `Updating ${params.restaurantName} menu for (${params.date})...`,
+    );
 
     const { date, restaurantName } = UpdateDailySchema.parse(params);
 
@@ -39,7 +42,7 @@ export async function updateDaily(
         });
       }),
     );
-    console.log(`Updated ${params.restaurantName}.`);
+    logger.info(`Updated ${params.restaurantName}.`);
   } catch (err) {
     if (err instanceof z.ZodError) {
       console.error(err.issues);

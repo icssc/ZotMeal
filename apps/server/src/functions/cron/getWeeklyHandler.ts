@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { logger } from "logger";
 
 import {
   getWeekInfo,
@@ -17,7 +18,7 @@ export const main = async (_event, _context) => {
 
     const now = new Date();
     const formattedTime = format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx");
-    console.log(`Weekly task executed at: ${formattedTime}`);
+    logger.info(`Weekly task executed at: ${formattedTime}`);
 
     const formattedDate = format(now, "MM/dd/yyyy");
 
@@ -33,11 +34,11 @@ export const main = async (_event, _context) => {
     // log errors if any
     results.forEach((result) => {
       if (result.status === "rejected") {
-        console.error(result.reason);
+        logger.error(result.reason);
       }
     });
   } catch (error) {
-    console.error("Failed to execute weekly task", error);
+    logger.error("Failed to execute weekly task", error);
   } finally {
     await pool({ connectionString }).end();
   }
