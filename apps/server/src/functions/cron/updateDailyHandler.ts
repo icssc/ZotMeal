@@ -26,13 +26,12 @@ export const main = async (_event, _context) => {
         } satisfies UpdateDailyParams),
       ),
     );
-
-    logger.info("Finished update daily job.");
   } catch (error) {
     logger.error("Failed to execute weekly task", error);
   } finally {
     logger.info("Closing connection pool...");
     await pool({ connectionString }).end();
     logger.info("Closed connection pool.");
+    logger.info("✅ Finished update daily job.");
   }
 };

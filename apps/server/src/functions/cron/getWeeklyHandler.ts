@@ -15,30 +15,26 @@ export const main = async (_event, _context) => {
   try {
     const db = createDrizzle({ connectionString });
 
-    const now = new Date();
-    const formattedTime = format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx");
-    logger.info(`Weekly task executed at: ${formattedTime}`);
+    logger.info(`Start get weekly job...`);
 
-    const formattedDate = format(now, "MM/dd/yyyy");
+    const date = format(new Date(), "MM/dd/yyyy");
 
     const results = await Promise.allSettled(
-      Object.keys(RESTAURANT_TO_ID).map(async (restaurant) => {
-        getWeekInfo(db, {
-          date: formattedDate,
-          restaurantName: restaurant as Restaurant["name"],
-        } satisfies GetWeekInfoParams);
-      }),
+      Object.keys(RESTAURANT_TO_ID).map(async (restaurantName) =>
+        getWeekInfo(db, { date, restaurantName }),
+      ),
     );
 
     // log errors if any
     results.forEach((result) => {
       if (result.status === "rejected") {
-        logger.error(result.reason);
+        logger.error("getWeekInfo() failed:", result.reason);
       }
     });
   } catch (error) {
     logger.error("Failed to execute weekly task", error);
   } finally {
     await pool({ connectionString }).end();
+    logger.info(`✅ Finished get weekly job.`);
   }
 };

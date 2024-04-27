@@ -42,7 +42,9 @@ export async function updateDaily(
         });
       }),
     );
-    logger.info(`Updated ${params.restaurantName}.`);
+    logger.info(
+      `✅ Updated ${params.restaurantName} menu for (${params.date}).`,
+    );
   } catch (err) {
     if (err instanceof z.ZodError) {
       console.error(err.issues);
