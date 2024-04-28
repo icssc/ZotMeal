@@ -3,12 +3,13 @@ import { format } from "date-fns";
 import { z } from "zod";
 
 import type { Drizzle, Period } from "@zotmeal/db";
-import { parseDate, RESTAURANT_TO_ID } from "@zotmeal/utils";
+import { RestaurantSchema } from "@zotmeal/db";
+import { getRestaurantId, parseDate } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
 
 export const GetScheduleSchema = z.object({
   date: DateRegex,
-  restaurant: z.string(),
+  restaurant: RestaurantSchema.shape.name,
 });
 
 export type GetScheduleParams = z.infer<typeof GetScheduleSchema>;
@@ -31,7 +32,7 @@ export async function getSchedule(
       message: "invalid date format",
     });
   }
-  const restaurantId = RESTAURANT_TO_ID[params.restaurant]?.toString() ?? "";
+  const restaurantId = getRestaurantId(params.restaurant);
   const fetchedPeriods = await db.query.MenuTable.findMany({
     where: (menu, { eq }) =>
       eq(menu.restaurantId, restaurantId) &&

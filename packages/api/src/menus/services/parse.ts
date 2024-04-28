@@ -26,12 +26,12 @@ import { logger } from "../../../logger";
 import { insertDishMenuStationJoint, upsertDish } from "../../dishes";
 import { upsertRestaurant } from "../../restaurants/services/restaurant";
 import { upsertStation } from "../../stations";
-import { upsertMenu } from "./menu";
+import { GetMenuSchema, upsertMenu } from "./menu";
 
 export async function getCampusDish(
   params: GetMenuParams,
 ): Promise<CampusDishResponse | null> {
-  const { date, period, restaurant: restaurantName } = params;
+  const { date, period, restaurant } = GetMenuSchema.parse(params);
 
   // Verify Parameters
 
@@ -42,10 +42,10 @@ export async function getCampusDish(
     return null;
   }
 
-  const restaurantId = getRestaurantId(restaurantName);
+  const restaurantId = getRestaurantId(restaurant);
 
   if (!restaurantId) {
-    logger.error("invalid restaurant", restaurantName);
+    logger.error("invalid restaurant", restaurant);
     return null;
   }
 
@@ -108,7 +108,7 @@ export async function parseCampusDish(
   const menu = MenuSchema.parse({
     id: menuIdHash,
     restaurantId: response.LocationId,
-    period: getPeriodById(response.SelectedPeriodId)!,
+    period: getPeriodById(response.SelectedPeriodId),
     start: selectedPeriod.UtcMealPeriodStartTime,
     end: selectedPeriod.UtcMealPeriodEndTime,
     date,

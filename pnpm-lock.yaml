@@ -444,6 +444,9 @@ importers:
 
   packages/validators:
     dependencies:
+      '@zotmeal/db':
+        specifier: workspace:^
+        version: link:../db
       '@zotmeal/utils':
         specifier: workspace:^
         version: link:../utils

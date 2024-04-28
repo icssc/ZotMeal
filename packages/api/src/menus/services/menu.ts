@@ -7,7 +7,7 @@ import type {
   MenuWithRelations,
   StationWithRelations,
 } from "@zotmeal/db";
-import { MenuSchema, MenuTable } from "@zotmeal/db";
+import { MenuSchema, MenuTable, RestaurantSchema } from "@zotmeal/db";
 import { parseDate } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
 
@@ -16,7 +16,7 @@ import { logger } from "../../../logger";
 export const GetMenuSchema = z.object({
   date: DateRegex,
   period: MenuSchema.shape.period,
-  restaurant: z.string(),
+  restaurant: RestaurantSchema.shape.name,
 });
 
 export type GetMenuParams = z.infer<typeof GetMenuSchema>;
@@ -42,10 +42,13 @@ export async function getMenu(
   });
 
   if (!fetchedRestaurant) {
-    throw new TRPCError({ message: "restaurant not found", code: "NOT_FOUND" });
+    throw new TRPCError({
+      message: `restaurant ${restaurant} not found`,
+      code: "NOT_FOUND",
+    });
   }
 
-  const rows = await db.query.DishMenuStationJoint.findMany({
+  const rows = await db.query.DishMenuStationJointTable.findMany({
     with: {
       dish: {
         with: {

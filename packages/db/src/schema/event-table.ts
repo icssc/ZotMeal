@@ -3,7 +3,7 @@ import { pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 
 import { RestaurantTable } from "./restaurant-table";
-import { updatedAtColumnPostgres } from "./utils";
+import { metadataColumns } from "./utils";
 
 export const EventTable = pgTable(
   "events",
@@ -15,10 +15,8 @@ export const EventTable = pgTable(
     longDescription: text("long_description"),
     start: timestamp("start").notNull(),
     end: timestamp("end").notNull(),
-    createdAt: timestamp("createdAt", { precision: 3, mode: "string" })
-      .defaultNow()
-      .notNull(),
-    updatedAt: updatedAtColumnPostgres,
+
+    ...metadataColumns,
   },
   (table) => {
     return {
@@ -29,8 +27,12 @@ export const EventTable = pgTable(
   },
 );
 
+/**
+ * Event has one:
+ *
+ * {@linkcode RestaurantTable}
+ */
 export const eventRelation = relations(EventTable, ({ one }) => ({
-  // * Many Events to one restaurant
   restaurant: one(RestaurantTable, {
     fields: [EventTable.restaurantId],
     references: [RestaurantTable.id],

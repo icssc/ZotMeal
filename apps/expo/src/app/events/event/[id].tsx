@@ -21,10 +21,12 @@ import {
 } from "tamagui";
 
 import type { Event } from "@zotmeal/db";
-import { getRestaurantNameById } from "@zotmeal/utils";
+
+import { useMenuStore } from "~/utils";
 
 export default function Event() {
   const { id } = useGlobalSearchParams();
+  const { selectedRestaurant } = useMenuStore();
 
   const testData = {
     title: "Test Event",
@@ -36,12 +38,6 @@ export default function Event() {
     longDescription: `This is a long description of the event. It's so long that it wraps around multiple lines. It's a very long description, but it's also very interesting. You should definitely read it.`,
     restaurantId: "3314",
   } satisfies Event;
-
-  const restaurantName = getRestaurantNameById(testData.restaurantId);
-
-  if (!restaurantName) {
-    throw new Error("Restaurant not found");
-  }
 
   return (
     <>
@@ -87,7 +83,8 @@ export default function Event() {
           <XStack alignItems="center" padding={0} gap="$2">
             <MapPin />
             <Text fontWeight="700">
-              {restaurantName.charAt(0).toUpperCase() + restaurantName.slice(1)}
+              {selectedRestaurant.charAt(0).toUpperCase() +
+                selectedRestaurant.slice(1)}
             </Text>
           </XStack>
           <XStack alignItems="center" padding={0} gap="$2">

@@ -26,6 +26,7 @@ import type { MenuWithRelations, Period } from "@zotmeal/db";
 import {
   getCurrentPeriodName,
   getRestaurantNameById,
+  ID_TO_RESTAURANT,
   PERIOD_TO_ID,
 } from "@zotmeal/utils";
 
@@ -189,7 +190,9 @@ export function Home() {
           {menu && (
             <Tabs.Content
               key={menu.restaurantId}
-              value={getRestaurantNameById(menu.restaurantId)!}
+              value={getRestaurantNameById(
+                menu.restaurantId as keyof typeof ID_TO_RESTAURANT,
+              )}
               alignItems="center"
               flex={1}
             >

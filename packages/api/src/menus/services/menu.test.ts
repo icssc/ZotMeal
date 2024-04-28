@@ -26,7 +26,7 @@ describe("upsertMenu()", () => {
 
     const testRestaurant: Restaurant = {
       id: "9999",
-      name: "brandywine_test",
+      name: "brandywine",
     };
 
     expect(testRestaurant).toBeTruthy();
@@ -71,7 +71,7 @@ describe("upsertMenu()", () => {
 
     const testRestaurant: Restaurant = {
       id: "9999",
-      name: "brandywine_test",
+      name: "brandywine",
     };
 
     // upsert dummy restaurant & period & menu. then rollback. should pass if 'Rollback' is the thrown error for each test

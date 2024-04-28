@@ -3,9 +3,8 @@ import { isFriday, isWeekend } from "date-fns";
 import type { Period, Restaurant } from "@zotmeal/db";
 
 // id mappings (period, restaurant)
-// restaurant names
 
-function invertMapping<K extends string, V extends string>(
+function invertMapping<K extends PropertyKey, V extends PropertyKey>(
   mapping: Record<K, V>,
 ): Record<V, K> {
   const inverted = {} as Record<V, K>;
@@ -17,41 +16,39 @@ function invertMapping<K extends string, V extends string>(
   return inverted;
 }
 
-export const RESTAURANT_TO_ID: Record<Restaurant["name"], string> = {
+export const RESTAURANT_TO_ID = {
   brandywine: "3314",
   anteatery: "3056",
-} as const;
-export const ID_TO_RESTAURANT = invertMapping(RESTAURANT_TO_ID);
+} as const satisfies Record<Restaurant["name"], string>;
 
-export const getRestaurantId = (
-  restaurant: Restaurant["name"],
-): string | null => RESTAURANT_TO_ID[restaurant] ?? null;
-
-export const getRestaurantNameById = (
-  id: keyof typeof ID_TO_RESTAURANT,
-): Restaurant["name"] | null => ID_TO_RESTAURANT[id] ?? null;
-
-export const PERIOD_TO_ID: Record<Period, string> = {
+export const PERIOD_TO_ID = {
   breakfast: "49",
-  lunch: "106",
-  dinner: "107",
   brunch: "2651",
+  dinner: "107",
   latenight: "108",
-} as const;
+  lunch: "106",
+} as const satisfies Record<Period, string>;
+
+export const ID_TO_RESTAURANT = invertMapping(RESTAURANT_TO_ID);
 export const ID_TO_PERIOD = invertMapping(PERIOD_TO_ID);
 
-export const getPeriodId = (period: Period): keyof typeof ID_TO_PERIOD | null =>
-  PERIOD_TO_ID[period] ?? null;
+export type RestaurantId = keyof typeof ID_TO_RESTAURANT;
+export type PeriodId = keyof typeof ID_TO_PERIOD;
 
-export const getPeriodById = (id: keyof typeof ID_TO_PERIOD): Period | null =>
-  ID_TO_PERIOD[id] ?? null;
+export const getRestaurantId = (name: Restaurant["name"]) =>
+  RESTAURANT_TO_ID[name];
+
+export const getRestaurantNameById = (id: RestaurantId) => ID_TO_RESTAURANT[id];
+
+export const getPeriodId = (name: Period) => PERIOD_TO_ID[name];
+export const getPeriodById = (id: PeriodId) => ID_TO_PERIOD[id];
 
 /**
  * Based on UCI Campusdish website:
  *
- * https://uci.campusdish.com/en/locationsandmenus/theanteatery/
+ * @see https://uci.campusdish.com/en/locationsandmenus/theanteatery/
  *
- * https://uci.campusdish.com/en/locationsandmenus/brandywine/
+ * @see https://uci.campusdish.com/en/locationsandmenus/brandywine/
  *
  * @example
  * Breakfast

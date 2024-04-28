@@ -2,6 +2,7 @@ import { useColorScheme } from "react-native";
 import { G, Path, Svg, Text } from "react-native-svg";
 import { Image, Tabs, useTheme, useWindowDimensions, View } from "tamagui";
 
+import type { Restaurant } from "@zotmeal/db";
 import { getCurrentPeriodName } from "@zotmeal/utils";
 
 import useMenuStore from "~/utils/useMenuStore";
@@ -30,7 +31,9 @@ export default function RestaurantTabs({
       <View height={65} />
       <Tabs
         value={selectedRestaurant}
-        onValueChange={(value) => setSelectedRestaurant(value)}
+        onValueChange={(value) =>
+          setSelectedRestaurant(value as Restaurant["name"])
+        }
         orientation="horizontal"
         flexDirection="column"
         width={"100%"}

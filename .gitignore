@@ -9,9 +9,9 @@ node_modules/
 
 .expo
 
-# Turborepo cookies
-# .turbo
+# Turborepo
 **/*.cookie
+**/*.log
 
 # Logs.
 *.log

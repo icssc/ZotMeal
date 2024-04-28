@@ -1,12 +1,12 @@
 import type {
   Dish,
-  DishMenuStationJointSchema,
+  DishMenuStationJoint,
   DishWithRelations,
   Drizzle,
 } from "@zotmeal/db";
 import {
   DietRestrictionTable,
-  DishMenuStationJoint,
+  DishMenuStationJointTable,
   DishTable,
   NutritionInfoTable,
 } from "@zotmeal/db";
@@ -69,15 +69,15 @@ export async function insertDishMenuStationJoint(
 ) {
   try {
     // Dish params for the joint table
-    const jointParams: DishMenuStationJointSchema = {
+    const jointParams = {
       dishId: params.id,
       stationId: params.stationId,
       menuId: params.menuId,
-    };
+    } satisfies DishMenuStationJoint;
 
     // Insert into dish-menu-station joint table
     await db
-      .insert(DishMenuStationJoint)
+      .insert(DishMenuStationJointTable)
       .values(jointParams)
       .onConflictDoNothing();
   } catch (e) {
