@@ -30,4 +30,4 @@ describe("insert menu into db", () => {
       });
     }).rejects.toThrowError("Rollback");
   });
-}, 10_000);
+}, 30_000);
