@@ -14,7 +14,7 @@ import {
   YStack,
 } from "tamagui";
 
-import type { NutritionInfo } from "@zotmeal/db/src/schema";
+import type { NutritionInfo } from "@zotmeal/db";
 
 import { PinButton } from "~/components";
 import { useMenuStore } from "~/utils";

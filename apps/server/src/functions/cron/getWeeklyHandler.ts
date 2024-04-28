@@ -1,12 +1,8 @@
 import { format } from "date-fns";
 import { logger } from "logger";
 
-import {
-  getWeekInfo,
-  GetWeekInfoParams,
-} from "@zotmeal/api/src/services/getWeekInfo";
+import { getWeekInfo } from "@zotmeal/api/src/services/getWeekInfo";
 import { createDrizzle, pool } from "@zotmeal/db";
-import { Restaurant } from "@zotmeal/db/src/schema";
 import { RESTAURANT_TO_ID } from "@zotmeal/utils";
 
 const connectionString = process.env.DATABASE_URL;

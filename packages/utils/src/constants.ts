@@ -1,6 +1,6 @@
 import { isFriday, isWeekend } from "date-fns";
 
-import type { Period, Restaurant } from "@zotmeal/db/src/schema";
+import type { Period, Restaurant } from "@zotmeal/db";
 
 // id mappings (period, restaurant)
 // restaurant names

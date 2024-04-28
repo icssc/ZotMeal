@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import { z } from "zod";
 
 import type { Drizzle } from "@zotmeal/db";
-import { RestaurantSchema } from "@zotmeal/db/src/schema";
+import { RestaurantSchema } from "@zotmeal/db";
 import { DateRegex } from "@zotmeal/validators";
 
 import type { UpdateDailyParams } from "./updateDaily";

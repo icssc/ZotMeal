@@ -1,13 +1,13 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import type { Drizzle } from "@zotmeal/db";
 import type {
+  Drizzle,
   Menu,
   MenuWithRelations,
   StationWithRelations,
-} from "@zotmeal/db/src/schema";
-import { MenuSchema, MenuTable } from "@zotmeal/db/src/schema";
+} from "@zotmeal/db";
+import { MenuSchema, MenuTable } from "@zotmeal/db";
 import { parseDate } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
 

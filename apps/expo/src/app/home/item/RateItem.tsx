@@ -2,7 +2,7 @@ import { useState } from "react";
 import { StarFull } from "@tamagui/lucide-icons";
 import { Adapt, Button, H4, Popover, XStack, YStack } from "tamagui";
 
-import type { DishWithRelations } from "@zotmeal/db/src/schema";
+import type { DishWithRelations } from "@zotmeal/db";
 
 export default function RateItem({
   item,

@@ -1,8 +1,8 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
 
-import type { Event } from "@zotmeal/db/src/schema";
-import { EventSchema } from "@zotmeal/db/src/schema";
+import type { Event } from "@zotmeal/db";
+import { EventSchema } from "@zotmeal/db";
 import { parseEventDate, RESTAURANT_TO_ID } from "@zotmeal/utils";
 
 import { logger } from "../../../logger";

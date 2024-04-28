@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import type { Drizzle } from "@zotmeal/db";
-import { RestaurantSchema } from "@zotmeal/db/src/schema";
+import { RestaurantSchema } from "@zotmeal/db";
 import { PERIOD_TO_ID } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
 

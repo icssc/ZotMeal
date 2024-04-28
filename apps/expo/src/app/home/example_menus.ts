@@ -1,4 +1,4 @@
-import type { MenuWithRelations } from "@zotmeal/db/src/schema";
+import type { MenuWithRelations } from "@zotmeal/db";
 
 // TODO: Replace with real data
 export const brandywineData = {

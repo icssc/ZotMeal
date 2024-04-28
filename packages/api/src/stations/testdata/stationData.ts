@@ -1,4 +1,4 @@
-import type { Station } from "@zotmeal/db/src/schema";
+import type { Station } from "@zotmeal/db";
 
 export const testData: Station = {
   id: "station123",

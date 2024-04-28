@@ -2,7 +2,7 @@ import { Link } from "expo-router";
 import { format } from "date-fns";
 import { H3, Image, ScrollView, Text, YStack } from "tamagui";
 
-import type { Event } from "@zotmeal/db/src/schema";
+import type { Event } from "@zotmeal/db";
 
 import { RestaurantTabs } from "~/components";
 

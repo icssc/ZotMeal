@@ -1,15 +1,15 @@
-import type { Drizzle } from "@zotmeal/db";
 import type {
   Dish,
   DishMenuStationJointSchema,
   DishWithRelations,
-} from "@zotmeal/db/src/schema";
+  Drizzle,
+} from "@zotmeal/db";
 import {
   DietRestrictionTable,
   DishMenuStationJoint,
   DishTable,
   NutritionInfoTable,
-} from "@zotmeal/db/src/schema";
+} from "@zotmeal/db";
 
 export async function upsertDish(db: Drizzle, params: DishWithRelations) {
   try {

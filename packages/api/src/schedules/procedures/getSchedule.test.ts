@@ -1,7 +1,7 @@
 import { format, isToday } from "date-fns";
 import { describe, expect, it } from "vitest";
 
-import { PeriodEnum } from "@zotmeal/db/src/schema";
+import { PeriodEnum } from "@zotmeal/db";
 
 import type { GetScheduleParams } from "../services/schedule";
 import { createCaller, createTRPCContext } from "../..";

@@ -1,5 +1,5 @@
 import type { Drizzle, Event } from "@zotmeal/db";
-import { EventTable } from "@zotmeal/db/src/schema";
+import { EventTable } from "@zotmeal/db";
 
 export async function upsertEvents(
   db: Drizzle,

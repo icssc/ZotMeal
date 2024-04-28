@@ -1,6 +1,5 @@
-import type { Drizzle } from "@zotmeal/db";
-import type { Station } from "@zotmeal/db/src/schema";
-import { StationTable } from "@zotmeal/db/src/schema";
+import type { Drizzle, Station } from "@zotmeal/db";
+import { StationTable } from "@zotmeal/db";
 
 export async function upsertStation(
   db: Drizzle,

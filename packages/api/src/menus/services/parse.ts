@@ -2,17 +2,17 @@ import axios from "axios";
 import { format } from "date-fns";
 import { ZodError } from "zod";
 
-import type { Drizzle } from "@zotmeal/db";
 import type {
   DietRestriction,
   DishWithRelations,
+  Drizzle,
   Menu,
   NutritionInfo,
   Restaurant,
   Station,
-} from "@zotmeal/db/src/schema";
+} from "@zotmeal/db";
 import type { CampusDishResponse } from "@zotmeal/validators";
-import { MenuSchema } from "@zotmeal/db/src/schema";
+import { MenuSchema } from "@zotmeal/db";
 import {
   getPeriodById,
   getPeriodId,
