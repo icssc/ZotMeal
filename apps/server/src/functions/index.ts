@@ -15,17 +15,17 @@ export const functions: AWS["functions"] = {
       },
     ],
   },
-  // testLog: {
-  //   handler: "src/functions/cron/testLog.main",
-  //   events: [
-  //     {
-  //       schedule: {
-  //         rate: ["cron(* * * * ? *)"], //Runs every min. https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-cron-expressions.html
-  //         enabled: true,
-  //       },
-  //     },
-  //   ],
-  // },
+  testLog: {
+    handler: "src/functions/cron/testLog.main",
+    events: [
+      {
+        schedule: {
+          rate: ["cron(* * * * ? *)"], //Runs every min. https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-cron-expressions.html
+          enabled: true,
+        },
+      },
+    ],
+  },
   getWeekly: {
     handler: "src/functions/cron/getWeeklyHandler.main",
     events: [
