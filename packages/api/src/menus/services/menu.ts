@@ -11,23 +11,21 @@ import { MenuSchema, MenuTable } from "@zotmeal/db";
 import { parseDate } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
 
-export interface GetMenuParams {
-  date: string;
-  periodName: string;
-  restaurantName: string;
-}
+import { logger } from "../../../logger";
 
 export const GetMenuSchema = z.object({
   date: DateRegex,
-  periodName: MenuSchema.shape.period,
-  restaurantName: z.string(),
-}) satisfies z.ZodType<GetMenuParams>;
+  period: MenuSchema.shape.period,
+  restaurant: z.string(),
+});
+
+export type GetMenuParams = z.infer<typeof GetMenuSchema>;
 
 export async function getMenu(
   db: Drizzle,
   params: GetMenuParams,
 ): Promise<MenuWithRelations | null> {
-  console.log("GET MENU params:", params);
+  logger.debug("getMenu() params:", params);
   const parsedParams = GetMenuSchema.safeParse(params);
 
   if (!parsedParams.success) {
@@ -37,10 +35,10 @@ export async function getMenu(
     });
   }
 
-  const { date, periodName, restaurantName } = parsedParams.data;
+  const { restaurant } = parsedParams.data;
 
   const fetchedRestaurant = await db.query.RestaurantTable.findFirst({
-    where: (restaurant, { eq }) => eq(restaurant.name, restaurantName),
+    where: ({ name }, { eq }) => eq(name, restaurant),
   });
 
   if (!fetchedRestaurant) {

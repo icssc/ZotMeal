@@ -31,7 +31,7 @@ export const getRestaurantNameById = (
   id: keyof typeof ID_TO_RESTAURANT,
 ): Restaurant["name"] | null => ID_TO_RESTAURANT[id] ?? null;
 
-export const PERIOD_TO_ID: Record<Period["name"], string> = {
+export const PERIOD_TO_ID: Record<Period, string> = {
   breakfast: "49",
   lunch: "106",
   dinner: "107",
@@ -40,13 +40,11 @@ export const PERIOD_TO_ID: Record<Period["name"], string> = {
 } as const;
 export const ID_TO_PERIOD = invertMapping(PERIOD_TO_ID);
 
-export const getPeriodId = (
-  period: Period["name"],
-): keyof typeof ID_TO_PERIOD | null => PERIOD_TO_ID[period] ?? null;
+export const getPeriodId = (period: Period): keyof typeof ID_TO_PERIOD | null =>
+  PERIOD_TO_ID[period] ?? null;
 
-export const getPeriodById = (
-  id: keyof typeof ID_TO_PERIOD,
-): Period["name"] | null => ID_TO_PERIOD[id] ?? null;
+export const getPeriodById = (id: keyof typeof ID_TO_PERIOD): Period | null =>
+  ID_TO_PERIOD[id] ?? null;
 
 /**
  * Based on UCI Campusdish website:
@@ -70,7 +68,7 @@ export const getPeriodById = (
  *
  * @returns the current period based on the current time
  */
-export const getCurrentPeriodName = (): string => {
+export const getCurrentPeriodName = (): Period | "closed" => {
   const today = new Date();
   const totalMinutes = today.getHours() * 60 + today.getMinutes();
   const weekend = isWeekend(today);

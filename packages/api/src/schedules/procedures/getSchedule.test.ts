@@ -12,7 +12,7 @@ describe("getScheduleSchema validates properly", () => {
     const tests: GetScheduleParams[] = [
       {
         date: "04/22/2024",
-        restaurantName: "brandywine",
+        restaurant: "brandywine",
       },
     ];
 
@@ -26,7 +26,7 @@ describe("getScheduleSchema validates properly", () => {
     const tests: GetScheduleParams[] = [
       {
         date: "04-22/2024",
-        restaurantName: "brandywine",
+        restaurant: "brandywine",
       },
     ];
 
@@ -45,7 +45,7 @@ describe("getSchedule", () => {
   it("should get today's brandywine schedule", async () => {
     const schedule = await caller.schedule.get({
       date,
-      restaurantName: "brandywine",
+      restaurant: "brandywine",
     });
     expect(schedule).toBeTruthy();
     PeriodEnum.enumValues.forEach((period) => {

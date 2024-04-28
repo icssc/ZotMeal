@@ -6,20 +6,17 @@ import type { Drizzle, Period } from "@zotmeal/db";
 import { parseDate, RESTAURANT_TO_ID } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
 
-export interface GetScheduleParams {
-  date: string;
-  restaurantName: string;
-}
-
 export const GetScheduleSchema = z.object({
   date: DateRegex,
-  restaurantName: z.string(),
-}) satisfies z.ZodType<GetScheduleParams>;
+  restaurant: z.string(),
+});
+
+export type GetScheduleParams = z.infer<typeof GetScheduleSchema>;
 
 // TODO: might be more robust to do a type intersection depending on if its a weekday or weekend
 // since brunch is only on weekends, etc.
 type ScheduleResult = Record<
-  Period["name"],
+  Period,
   { start: string; end: string; price: string }
 >;
 
@@ -34,8 +31,7 @@ export async function getSchedule(
       message: "invalid date format",
     });
   }
-  const restaurantId =
-    RESTAURANT_TO_ID[params.restaurantName]?.toString() ?? "";
+  const restaurantId = RESTAURANT_TO_ID[params.restaurant]?.toString() ?? "";
   const fetchedPeriods = await db.query.MenuTable.findMany({
     where: (menu, { eq }) =>
       eq(menu.restaurantId, restaurantId) &&
@@ -50,5 +46,5 @@ export async function getSchedule(
 
   return Object.fromEntries(
     fetchedPeriods.map(({ period, ...data }) => [period, data]),
-  );
+  ) as ScheduleResult;
 }

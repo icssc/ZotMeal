@@ -15,8 +15,8 @@ describe("GetMenuSchema validates properly", () => {
     const tests: GetMenuParams[] = [
       {
         date: "10/10/2024",
-        periodName: "breakfast",
-        restaurantName: "brandywine",
+        period: "breakfast",
+        restaurant: "brandywine",
       },
     ];
 
@@ -30,8 +30,8 @@ describe("GetMenuSchema validates properly", () => {
     const tests: GetMenuParams[] = [
       {
         date: "10-10-2024",
-        periodName: "breakfast",
-        restaurantName: "brandywine",
+        period: "breakfast",
+        restaurant: "brandywine",
       },
     ];
 
@@ -50,8 +50,8 @@ describe("menu.get", () => {
   it("should get today's brandywine lunch menu", async () => {
     const menu = await caller.menu.get({
       date,
-      periodName: "lunch",
-      restaurantName: "brandywine",
+      period: "lunch",
+      restaurant: "brandywine",
     });
     expect(menu).toBeTruthy();
     // expect(isToday(menu.date)).toBeTruthy(); // TODO: re-integrate once getMenu is fixed
@@ -62,22 +62,22 @@ describe("menu.get", () => {
   it("should not get an invalid menu", async () => {
     const invalidDate = caller.menu.get({
       date: "4-24-2024",
-      periodName: "lunch",
-      restaurantName: "brandywine",
+      period: "lunch",
+      restaurant: "brandywine",
     });
     await expect(invalidDate).rejects.toThrowError(TRPCError);
 
     const invalidPeriod = caller.menu.get({
       date,
-      periodName: "latelatenight" as "latenight",
-      restaurantName: "brandywine",
+      period: "latelatenight" as "latenight",
+      restaurant: "brandywine",
     });
     await expect(invalidPeriod).rejects.toThrowError(TRPCError);
 
     const invalidRestaurant = caller.menu.get({
       date,
-      periodName: "lunch",
-      restaurantName: "antwine" as "anteatery",
+      period: "lunch",
+      restaurant: "antwine" as "anteatery",
     });
 
     await expect(invalidRestaurant).rejects.toThrowError(TRPCError);

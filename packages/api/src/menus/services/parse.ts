@@ -21,35 +21,31 @@ import {
 } from "@zotmeal/utils";
 import { CampusDishResponseSchema } from "@zotmeal/validators";
 
+import type { GetMenuParams } from "./menu";
+import { logger } from "../../../logger";
 import { insertDishMenuStationJoint, upsertDish } from "../../dishes";
 import { upsertRestaurant } from "../../restaurants/services/restaurant";
 import { upsertStation } from "../../stations";
 import { upsertMenu } from "./menu";
 
-export interface GetMenuParams {
-  date: string;
-  period: string;
-  restaurant: string;
-}
-
 export async function getCampusDish(
   params: GetMenuParams,
 ): Promise<CampusDishResponse | null> {
-  const { date, restaurant, period } = params;
+  const { date, period, restaurant: restaurantName } = params;
 
   // Verify Parameters
 
   const periodId = getPeriodId(period);
 
   if (!periodId) {
-    console.error("invalid period", period);
+    logger.error("invalid period", period);
     return null;
   }
 
-  const restaurantId = getRestaurantId(restaurant);
+  const restaurantId = getRestaurantId(restaurantName);
 
   if (!restaurantId) {
-    console.error("invalid restaurant", restaurant);
+    logger.error("invalid restaurant", restaurantName);
     return null;
   }
 
@@ -112,7 +108,7 @@ export async function parseCampusDish(
   const menu = MenuSchema.parse({
     id: menuIdHash,
     restaurantId: response.LocationId,
-    period: getPeriodById(response.SelectedPeriodId) as Menu["period"],
+    period: getPeriodById(response.SelectedPeriodId)!,
     start: selectedPeriod.UtcMealPeriodStartTime,
     end: selectedPeriod.UtcMealPeriodEndTime,
     date,

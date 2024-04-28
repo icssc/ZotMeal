@@ -1,5 +1,4 @@
-// import { api } from '~/utils';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Platform } from "react-native";
 import { Link } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -17,14 +16,13 @@ import {
   Tabs,
   Text,
   useTheme,
-  View,
   XStack,
   YGroup,
   YStack,
 } from "tamagui";
 import { LinearGradient } from "tamagui/linear-gradient";
 
-import type { MenuWithRelations, Period } from "@zotmeal/db/src/schema";
+import type { MenuWithRelations, Period } from "@zotmeal/db";
 import {
   getCurrentPeriodName,
   getRestaurantNameById,
@@ -33,10 +31,10 @@ import {
 
 import { PinButton, RestaurantTabs } from "~/components";
 import { groupBy, useMenuStore } from "~/utils";
+import { api } from "~/utils/api";
 
 type Station = MenuWithRelations["stations"][0];
 type Dish = MenuWithRelations["stations"][0]["dishes"][0];
-type PeriodName = Period["name"];
 
 export function EventToast() {
   const currentToast = useToastState();
@@ -84,55 +82,59 @@ export function EventToast() {
 }
 
 export function Home() {
-  const {
-    anteateryMenu,
-    brandywineMenu,
-    // setAnteateryMenu,
-    // setBrandywineMenu,
-  } = useMenuStore();
+  const { anteateryMenu, brandywineMenu, setAnteateryMenu, setBrandywineMenu } =
+    useMenuStore();
 
   const toast = useToastController();
 
   const [showDatePicker, setShowDatePicker] = useState<boolean>(true);
   const [date, setDate] = useState<Date>(new Date());
-  const [periodName, setPeriodName] = useState<string>(
-    getCurrentPeriodName() === "closed" ? "breakfast" : getCurrentPeriodName(),
+
+  const currentPeriod = getCurrentPeriodName();
+
+  const [periodName, setPeriodName] = useState<Period>(
+    currentPeriod === "closed" ? "breakfast" : currentPeriod,
   );
   const theme = useTheme();
 
-  // const anteateryMenu = anteateryData;
-  // const brandywineMenu = brandywineData;
+  // TODO: how should we handle fetching when restaurant is closed?
+  const [anteateryQuery, brandywineQuery] = api.useQueries((t) =>
+    (["anteatery", "brandywine"] as const).map((restaurantName) =>
+      t.menu.get({
+        date: date.toLocaleDateString("en-US"),
+        period: periodName,
+        restaurant: restaurantName,
+      }),
+    ),
+  );
 
-  // const [anteateryMenu, brandywineMenu] = api.useQueries((t) =>
-  //   (["anteatery", "brandywine"] as const).map((restaurantName) =>
-  //     t.menu.get({
-  //       date: date.toLocaleDateString("en-US"),
-  //       periodName,
-  //       restaurantName,
-  //     })));
+  useEffect(() => {
+    if (anteateryQuery?.data) {
+      setAnteateryMenu(anteateryQuery.data);
+    }
 
-  // useEffect(() => {
-  //   if (anteateryMenu?.data) {
-  //     setAnteateryMenu(anteateryMenu.data);
-  //   }
+    if (brandywineQuery?.data) {
+      setBrandywineMenu(brandywineQuery.data);
+    }
+  }, [anteateryQuery, brandywineQuery, setAnteateryMenu, setBrandywineMenu]);
 
-  //   if (brandywineMenu?.data) {
-  //     setBrandywineMenu(brandywineMenu.data);
-  //   }
-  // }, [anteateryMenu, brandywineMenu, setAnteateryMenu, setBrandywineMenu]);
+  if (!anteateryQuery || !brandywineQuery) {
+    return <Text>Fetching menus</Text>;
+  }
 
-  // TODO: Could be better, maybe loading spinner
+  // TODO: maybe loading spinner instead
+  if (anteateryQuery.isLoading || brandywineQuery.isLoading) {
+    return <Text>Loading...</Text>;
+  }
 
-  // if (anteateryMenu.isLoading || brandywineMenu.isLoading) {
-  //   return <View>Loading...</View>;
-  // }
-
-  // if (anteateryMenu.isError || brandywineMenu.isError || !anteateryMenu.data || !brandywineMenu.data) {
-  //   return <View>Error: {anteateryMenu.error ?? brandywineMenu.error}</View>;
-  // }
-
-  if (!anteateryMenu || !brandywineMenu) {
-    return <View>Loading...</View>;
+  if (anteateryQuery.isError || brandywineQuery.isError) {
+    console.error(anteateryQuery.error, brandywineQuery.error);
+    return (
+      <>
+        <Text>{anteateryQuery.error?.message}</Text>
+        <Text>{brandywineQuery.error?.message}</Text>
+      </>
+    );
   }
 
   toast.show("There are 5 upcoming events.", {
@@ -183,22 +185,26 @@ export function Home() {
       </XStack>
 
       {[brandywineMenu, anteateryMenu].map((menu) => (
-        <Tabs.Content
-          key={menu.restaurantId}
-          value={getRestaurantNameById(menu.restaurantId)!}
-          alignItems="center"
-          flex={1}
-        >
-          <StationTabs stations={menu.stations} />
-        </Tabs.Content>
+        <>
+          {menu && (
+            <Tabs.Content
+              key={menu.restaurantId}
+              value={getRestaurantNameById(menu.restaurantId)!}
+              alignItems="center"
+              flex={1}
+            >
+              <StationTabs stations={menu.stations} />
+            </Tabs.Content>
+          )}
+        </>
       ))}
     </RestaurantTabs>
   );
 }
 
 interface PeriodPickerProps {
-  periodName: PeriodName;
-  setPeriodName: (periodName: PeriodName) => void;
+  periodName: Period;
+  setPeriodName: (periodName: Period) => void;
   color: string;
 }
 

@@ -50,4 +50,5 @@ export type Menu = typeof MenuTable.$inferInsert;
 export interface MenuWithRelations extends Menu {
   stations: StationWithRelations[];
 }
-export type Period = typeof PeriodEnum;
+
+export type Period = Menu["period"];
