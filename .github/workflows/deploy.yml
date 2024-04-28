@@ -3,6 +3,10 @@ name: Deploy main branch development
 on:
   push:
     branches:
+      - fix-deploy-action
+  pull_request:
+    types: [closed]
+    branches:
       - main
 
 jobs:
