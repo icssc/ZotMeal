@@ -1,9 +1,11 @@
-## Describe your changes
+## Summary
 
-## Change Checklist
+## Changes
+
+- [ ]
+
+## Verification
 
 - [ ]
 
-## Verification?
-
-- [ ]
+Closes #
