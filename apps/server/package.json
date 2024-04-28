@@ -8,7 +8,7 @@
     "with-env": "dotenv -e ../../.env -- ",
     "dev": "pnpm with-env sls offline --noPrependStageInUrl",
     "sls:deploy": "pnpm with-env AWS_PROFILE=icssc sls deploy --stage production",
-    "sls:local-invoke": "pnpm with-env AWS_PROFILE=icssc sls invoke local --function updateDaily --region us-west-1"
+    "sls:local-invoke": "pnpm with-env sls invoke local --function updateDaily"
   },
   "engines": {
     "node": ">=20.12.1"
