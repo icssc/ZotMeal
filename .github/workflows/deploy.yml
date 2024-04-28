@@ -25,7 +25,7 @@ jobs:
       - name: serverless deploy
         uses: serverless/github-action@v3.2
         with:
-          args: -c "cd ./apps/server && deploy --stage production"
+          args: -c "cd ./apps/server && serverless deploy --stage production"
           entrypoint: /bin/sh
 
         env:
