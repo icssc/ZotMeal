@@ -1,8 +1,7 @@
 name: Deploy main branch development
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
       - main
 
@@ -22,7 +21,7 @@ jobs:
       - name: serverless deploy
         uses: serverless/github-action@v3.2
         with:
-          args: serverless deploy --stage production
+          args: deploy --stage production
 
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
