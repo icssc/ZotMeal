@@ -28,6 +28,7 @@ import {
   getCurrentPeriodName,
   getRestaurantNameById,
   PeriodEnum,
+  restaurantNames,
 } from "@zotmeal/utils";
 
 import { PinButton, RestaurantTabs } from "~/components";
@@ -101,7 +102,7 @@ export function Home() {
 
   // TODO: how should we handle fetching when restaurant is closed?
   const [anteateryQuery, brandywineQuery] = api.useQueries((t) =>
-    (["anteatery", "brandywine"] as const).map((restaurantName) =>
+    restaurantNames.map((restaurantName) =>
       t.menu.get({
         date: date.toLocaleDateString("en-US"),
         period: periodName,
