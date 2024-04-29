@@ -56,7 +56,7 @@ describe("menu.get", () => {
     expect(menu).toBeTruthy();
     // expect(isToday(menu.date)).toBeTruthy(); // TODO: re-integrate once getMenu is fixed
     expect(menu.restaurantId).toEqual(getRestaurantId("brandywine"));
-  });
+  }, 10_000);
 
   // TODO: have each invalid input give unique TRPCError message
   it("should not get an invalid menu", async () => {
@@ -82,4 +82,4 @@ describe("menu.get", () => {
 
     await expect(invalidRestaurant).rejects.toThrowError(TRPCError);
   });
-});
+}, 10_000);

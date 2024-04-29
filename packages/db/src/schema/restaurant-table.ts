@@ -9,7 +9,7 @@ import { MenuTable } from "./menu-table";
 import { StationTable } from "./station-table";
 import { metadataColumns } from "./utils";
 
-export const restaurantIdEnum = pgEnum("restaurant_id", restaurantIds);
+export const restaurantIdEnum = pgEnum("restaurant_id_enum", restaurantIds);
 export const restaurantNameEnum = pgEnum("restaurant_name", restaurantNames);
 
 export const RestaurantTable = pgTable("restaurants", {

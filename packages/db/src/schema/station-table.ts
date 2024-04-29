@@ -1,15 +1,19 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text } from "drizzle-orm/pg-core";
+import { pgEnum, pgTable, text } from "drizzle-orm/pg-core";
+
+import { restaurantIds } from "@zotmeal/utils";
 
 import type { DishWithRelations } from "./dish-table";
 import { DishMenuStationJointTable } from "./dish-menu-station-joint";
 import { RestaurantTable } from "./restaurant-table";
 import { metadataColumns } from "./utils";
 
+const restaurantIdEnum = pgEnum("restaurant_id_enum", restaurantIds);
+
 export const StationTable = pgTable("stations", {
   id: text("id").primaryKey().notNull(),
   name: text("name").notNull(),
-  restaurantId: text("restaurant_id")
+  restaurantId: restaurantIdEnum("restaurant_id")
     .notNull()
     .references(() => RestaurantTable.id, {
       onDelete: "restrict",

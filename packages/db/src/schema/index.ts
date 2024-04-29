@@ -10,6 +10,7 @@ import * as stationSchema from "./station-table";
 
 export const schema = {
   ...dietRestrictionSchema,
+  ...dishMenuStationJointSchema,
   ...dishSchema,
   ...eventSchema,
   ...menuSchema,
@@ -17,10 +18,10 @@ export const schema = {
   ...pushTokenSchema,
   ...restaurantSchema,
   ...stationSchema,
-  ...dishMenuStationJointSchema,
 };
 
 export * from "./diet-restriction-table";
+export * from "./dish-menu-station-joint";
 export * from "./dish-table";
 export * from "./event-table";
 export * from "./menu-table";
@@ -28,4 +29,3 @@ export * from "./nutrition-info-table";
 export * from "./push-token-table";
 export * from "./restaurant-table";
 export * from "./station-table";
-export * from "./dish-menu-station-joint";

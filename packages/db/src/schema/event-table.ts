@@ -1,16 +1,32 @@
 import { relations } from "drizzle-orm";
-import { pgTable, primaryKey, text, timestamp } from "drizzle-orm/pg-core";
+import {
+  pgEnum,
+  pgTable,
+  primaryKey,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
+
+import { restaurantIds } from "@zotmeal/utils";
 
 import { RestaurantTable } from "./restaurant-table";
 import { metadataColumns } from "./utils";
+
+const restaurantIdEnum = pgEnum("restaurant_id_enum", restaurantIds);
 
 export const EventTable = pgTable(
   "events",
   {
     title: text("title").notNull(),
     image: text("image"),
-    restaurantId: text("restaurant_id").notNull(),
+    restaurantId: restaurantIdEnum("restaurant_id")
+      .notNull()
+      .references(() => RestaurantTable.id, {
+        onDelete: "restrict",
+        onUpdate: "cascade",
+      }),
+
     shortDescription: text("short_description"),
     longDescription: text("long_description"),
     start: timestamp("start").notNull(),
