@@ -14,7 +14,6 @@ import { env } from "../env";
 //   process.env.DATABASE_URL ?? "postgres://admin:admin@localhost:5434/zotmeal";
 
 const connectionString = env.DATABASE_URL;
-console.log(connectionString);
 export const main = async (_event, _context) => {
   try {
     const db = createDrizzle({ connectionString });
