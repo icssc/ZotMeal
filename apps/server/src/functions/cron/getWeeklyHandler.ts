@@ -8,9 +8,12 @@ import { createDrizzle, pool } from "@zotmeal/db";
 import { Restaurant } from "@zotmeal/db/src/schema";
 import { RESTAURANT_TO_ID } from "@zotmeal/utils";
 
-const connectionString =
-  process.env.DATABASE_URL ?? "postgres://admin:admin@localhost:5434/zotmeal";
+import { env } from "../env";
 
+// const connectionString =
+//   process.env.DATABASE_URL ?? "postgres://admin:admin@localhost:5434/zotmeal";
+
+const connectionString = env.DATABASE_URL;
 export const main = async (_event, _context) => {
   try {
     const db = createDrizzle({ connectionString });
