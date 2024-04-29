@@ -1,20 +1,20 @@
 import { relations } from "drizzle-orm";
-import { pgEnum, pgTable, text } from "drizzle-orm/pg-core";
+import { pgEnum, pgTable } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
+
+import { restaurantIds, restaurantNames } from "@zotmeal/utils";
 
 import { EventTable } from "./event-table";
 import { MenuTable } from "./menu-table";
 import { StationTable } from "./station-table";
 import { metadataColumns } from "./utils";
 
-export const RestaurantNameEnum = pgEnum("restaurant_name", [
-  "anteatery",
-  "brandywine",
-]);
+export const restaurantIdEnum = pgEnum("restaurant_id", restaurantIds);
+export const restaurantNameEnum = pgEnum("restaurant_name", restaurantNames);
 
 export const RestaurantTable = pgTable("restaurants", {
-  id: text("id").primaryKey().notNull(),
-  name: RestaurantNameEnum("name").notNull(),
+  id: restaurantIdEnum("id").primaryKey().notNull(),
+  name: restaurantNameEnum("name").notNull(),
 
   ...metadataColumns,
 });

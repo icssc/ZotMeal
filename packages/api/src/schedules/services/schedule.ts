@@ -2,9 +2,10 @@ import { TRPCError } from "@trpc/server";
 import { format } from "date-fns";
 import { z } from "zod";
 
-import type { Drizzle, Period } from "@zotmeal/db";
+import type { Drizzle } from "@zotmeal/db";
+import type { PeriodName } from "@zotmeal/utils";
 import { RestaurantSchema } from "@zotmeal/db";
-import { getRestaurantId, parseDate } from "@zotmeal/utils";
+import { getRestaurantId } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
 
 export const GetScheduleSchema = z.object({
@@ -16,23 +17,26 @@ export type GetScheduleParams = z.infer<typeof GetScheduleSchema>;
 
 // TODO: might be more robust to do a type intersection depending on if its a weekday or weekend
 // since brunch is only on weekends, etc.
-type ScheduleResult = Record<
-  Period,
-  { start: string; end: string; price: string }
+type ScheduleResult = Partial<
+  Record<PeriodName, { start: string; end: string; price: string }>
 >;
 
 export async function getSchedule(
   db: Drizzle,
   params: GetScheduleParams,
 ): Promise<ScheduleResult | null> {
-  const date = parseDate(params.date);
-  if (!date) {
+  const parsedParams = GetScheduleSchema.safeParse(params);
+
+  if (!parsedParams.success) {
     throw new TRPCError({
       code: "BAD_REQUEST",
-      message: "invalid date format",
+      message: `invalid params: ${parsedParams.error.message}`,
     });
   }
-  const restaurantId = getRestaurantId(params.restaurant);
+
+  const { date, restaurant } = parsedParams.data;
+
+  const restaurantId = getRestaurantId(restaurant);
   const fetchedPeriods = await db.query.MenuTable.findMany({
     where: (menu, { eq }) =>
       eq(menu.restaurantId, restaurantId) &&

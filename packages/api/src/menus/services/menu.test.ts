@@ -15,7 +15,7 @@ describe("upsertMenu()", () => {
     const testMenus: Menu[] = [
       {
         id: "1",
-        restaurantId: "9999",
+        restaurantId: "3056",
         date: "01/17/2024",
         period: "dinner",
         start: "01/17/2024",
@@ -25,7 +25,7 @@ describe("upsertMenu()", () => {
     ];
 
     const testRestaurant: Restaurant = {
-      id: "9999",
+      id: "3056",
       name: "brandywine",
     };
 
@@ -50,7 +50,7 @@ describe("upsertMenu()", () => {
     const testMenus: Menu[] = [
       {
         id: "1",
-        restaurantId: "9999",
+        restaurantId: "3056",
         date: "01/17/2024",
         period: "dinner",
         start: "01/17/2024",
@@ -60,7 +60,7 @@ describe("upsertMenu()", () => {
       {
         // second menu with same id but different date
         id: "1",
-        restaurantId: "9999",
+        restaurantId: "3056",
         date: "04/30/2024",
         period: "dinner",
         start: "01/17/2024",
@@ -70,7 +70,7 @@ describe("upsertMenu()", () => {
     ];
 
     const testRestaurant: Restaurant = {
-      id: "9999",
+      id: "3056",
       name: "brandywine",
     };
 

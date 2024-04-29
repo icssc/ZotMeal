@@ -32,7 +32,6 @@
   },
   "prettier": "@zotmeal/prettier-config",
   "dependencies": {
-    "@zotmeal/db": "workspace:^",
     "vitest": "^1.4.0"
   }
 }

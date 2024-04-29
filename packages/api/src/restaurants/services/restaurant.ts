@@ -27,12 +27,3 @@ export async function upsertRestaurant(
     throw e;
   }
 }
-
-export async function getRestaurantById(
-  db: Drizzle,
-  id: string,
-): Promise<Restaurant | undefined> {
-  return await db.query.RestaurantTable.findFirst({
-    where: (RestaurantTable, { eq }) => eq(RestaurantTable.id, id),
-  });
-}

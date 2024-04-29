@@ -4,6 +4,7 @@ import type { PoolConfig } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 
+import { logger } from "../logger";
 import { schema } from "./schema";
 
 export const pool = (config: PoolConfig): Pool => new Pool(config);
@@ -18,6 +19,7 @@ export const createDrizzle = (config: PoolConfig) =>
  * Push schema to test container, used in `test-setup.ts`.
  */
 export async function pushSchema(connectionString: string) {
+  logger.info(`Pushing schema to test container (${process.env.DB_URL})...`);
   await promisify(exec)(
     `pnpm drizzle-kit push:pg --config=../db/test-config.ts`,
     {
@@ -27,6 +29,7 @@ export async function pushSchema(connectionString: string) {
       },
     },
   );
+  logger.info("Schema pushed to test container.");
 }
 
 export type Drizzle = ReturnType<typeof createDrizzle>;

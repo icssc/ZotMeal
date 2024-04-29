@@ -1,7 +1,7 @@
 import { format, isToday } from "date-fns";
 import { describe, expect, it } from "vitest";
 
-import { PeriodEnum } from "@zotmeal/db";
+import { periodNames } from "@zotmeal/utils";
 
 import type { GetScheduleParams } from "../services/schedule";
 import { createCaller, createTRPCContext } from "../..";
@@ -48,7 +48,7 @@ describe("getSchedule", () => {
       restaurant: "brandywine",
     });
     expect(schedule).toBeTruthy();
-    PeriodEnum.enumValues.forEach((period) => {
+    periodNames.forEach((period) => {
       const fetchedPeriod = schedule[period];
 
       if (!fetchedPeriod) {

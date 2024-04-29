@@ -43,9 +43,12 @@
   "prettier": "@zotmeal/prettier-config",
   "dependencies": {
     "@neondatabase/serverless": "^0.9.0",
+    "@zotmeal/utils": "workspace:^",
     "drizzle-orm": "^0.29.4",
     "drizzle-zod": "^0.5.1",
     "pg": "^8.11.3",
+    "pino": "^8.20.0",
+    "pino-pretty": "^11.0.0",
     "postgres": "^3.4.4",
     "tsx": "^4.7.1",
     "zod": "^3.22.4"

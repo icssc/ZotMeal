@@ -291,6 +291,9 @@ importers:
       '@neondatabase/serverless':
         specifier: ^0.9.0
         version: 0.9.1
+      '@zotmeal/utils':
+        specifier: workspace:^
+        version: link:../utils
       drizzle-orm:
         specifier: ^0.29.4
         version: 0.29.5(@neondatabase/serverless@0.9.1)(@types/pg@8.11.5)(pg@8.11.5)(postgres@3.4.4)
@@ -300,6 +303,12 @@ importers:
       pg:
         specifier: ^8.11.3
         version: 8.11.5
+      pino:
+        specifier: ^8.20.0
+        version: 8.21.0
+      pino-pretty:
+        specifier: ^11.0.0
+        version: 11.0.0
       postgres:
         specifier: ^3.4.4
         version: 3.4.4
@@ -416,9 +425,6 @@ importers:
 
   packages/utils:
     dependencies:
-      '@zotmeal/db':
-        specifier: workspace:^
-        version: link:../db
       vitest:
         specifier: ^1.4.0
         version: 1.5.2(@types/node@20.12.7)

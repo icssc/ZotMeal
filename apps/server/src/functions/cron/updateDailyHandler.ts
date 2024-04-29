@@ -1,11 +1,8 @@
 import { format } from "date-fns";
 
-import {
-  updateDaily,
-  UpdateDailyParams,
-} from "@zotmeal/api/src/services/updateDaily";
+import { updateDaily, UpdateDailyParams } from "@zotmeal/api";
 import { createDrizzle, pool } from "@zotmeal/db";
-import { RESTAURANT_TO_ID } from "@zotmeal/utils";
+import { restaurantNames } from "@zotmeal/utils";
 
 import { logger } from "../../../logger";
 
@@ -19,7 +16,7 @@ export const main = async (_event, _context) => {
     const date = format(new Date(), "MM/dd/yyyy");
 
     await Promise.allSettled(
-      Object.keys(RESTAURANT_TO_ID).map((restaurantName) =>
+      restaurantNames.map((restaurantName) =>
         updateDaily(db, {
           date,
           restaurantName,

@@ -1,47 +1,42 @@
 import { isFriday, isWeekend } from "date-fns";
 
-import type { Period, Restaurant } from "@zotmeal/db";
-
-// id mappings (period, restaurant)
-
-function invertMapping<K extends PropertyKey, V extends PropertyKey>(
-  mapping: Record<K, V>,
-): Record<V, K> {
-  const inverted = {} as Record<V, K>;
-  for (const key in mapping) {
-    const value = mapping[key];
-    inverted[value] = key;
-  }
-
-  return inverted;
+export enum RestaurantEnum {
+  anteatery = "3056",
+  brandywine = "3314",
 }
 
-export const RESTAURANT_TO_ID = {
-  brandywine: "3314",
-  anteatery: "3056",
-} as const satisfies Record<Restaurant["name"], string>;
+export enum PeriodEnum {
+  breakfast = "49",
+  brunch = "2651",
+  dinner = "107",
+  latenight = "108",
+  lunch = "106",
+}
 
-export const PERIOD_TO_ID = {
-  breakfast: "49",
-  brunch: "2651",
-  dinner: "107",
-  latenight: "108",
-  lunch: "106",
-} as const satisfies Record<Period, string>;
+export const restaurantNames = Object.keys(RestaurantEnum) as [RestaurantName];
+export const restaurantIds = Object.values(RestaurantEnum) as [RestaurantId];
+export const periodNames = Object.keys(PeriodEnum) as [PeriodName];
+export const periodIds = Object.values(PeriodEnum) as [PeriodId];
 
-export const ID_TO_RESTAURANT = invertMapping(RESTAURANT_TO_ID);
-export const ID_TO_PERIOD = invertMapping(PERIOD_TO_ID);
+export const capitalizedPeriodNames = periodNames.map(
+  (name) => name.charAt(0).toUpperCase() + name.slice(1),
+) as [Capitalize<PeriodName>];
 
-export type RestaurantId = keyof typeof ID_TO_RESTAURANT;
-export type PeriodId = keyof typeof ID_TO_PERIOD;
+type GetEnumKeys<Enum> = keyof Enum;
+export type RestaurantName = GetEnumKeys<typeof RestaurantEnum>;
+export type PeriodName = GetEnumKeys<typeof PeriodEnum>;
 
-export const getRestaurantId = (name: Restaurant["name"]) =>
-  RESTAURANT_TO_ID[name];
+export type RestaurantId = `${RestaurantEnum}`;
+export type PeriodId = `${PeriodEnum}`;
 
-export const getRestaurantNameById = (id: RestaurantId) => ID_TO_RESTAURANT[id];
+export const getRestaurantId = (name: RestaurantName) => RestaurantEnum[name];
+export const getPeriodId = (name: PeriodName) => PeriodEnum[name];
 
-export const getPeriodId = (name: Period) => PERIOD_TO_ID[name];
-export const getPeriodById = (id: PeriodId) => ID_TO_PERIOD[id];
+export const getRestaurantNameById = (id: RestaurantId) =>
+  restaurantNames[restaurantIds.indexOf(id)]!;
+
+export const getPeriodNameById = (id: PeriodId) =>
+  periodNames[periodIds.indexOf(id)]!;
 
 /**
  * Based on UCI Campusdish website:
@@ -65,7 +60,7 @@ export const getPeriodById = (id: PeriodId) => ID_TO_PERIOD[id];
  *
  * @returns the current period based on the current time
  */
-export const getCurrentPeriodName = (): Period | "closed" => {
+export const getCurrentPeriodName = (): PeriodName | "closed" => {
   const today = new Date();
   const totalMinutes = today.getHours() * 60 + today.getMinutes();
   const weekend = isWeekend(today);

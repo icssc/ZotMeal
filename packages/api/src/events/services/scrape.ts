@@ -3,7 +3,7 @@ import * as cheerio from "cheerio";
 
 import type { Event } from "@zotmeal/db";
 import { EventSchema } from "@zotmeal/db";
-import { parseEventDate, RESTAURANT_TO_ID } from "@zotmeal/utils";
+import { getRestaurantId, parseEventDate } from "@zotmeal/utils";
 
 import { logger } from "../../../logger";
 
@@ -90,12 +90,7 @@ export async function scrapeEvents(html: string): Promise<Event[] | null> {
         .text()
         .trim();
 
-      const restaurantId = RESTAURANT_TO_ID[restaurant];
-
-      if (!restaurantId) {
-        console.error("invalid restaurant", restaurant);
-        continue;
-      }
+      const restaurantId = getRestaurantId(restaurant);
 
       const event = EventSchema.parse({
         title,

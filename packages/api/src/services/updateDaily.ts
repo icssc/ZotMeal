@@ -1,7 +1,8 @@
 import { z } from "zod";
 
-import type { Drizzle, Period } from "@zotmeal/db";
-import { PeriodEnum, RestaurantSchema } from "@zotmeal/db";
+import type { Drizzle } from "@zotmeal/db";
+import { RestaurantSchema } from "@zotmeal/db";
+import { periodNames } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
 
 import type { GetMenuParams } from "..";
@@ -27,7 +28,7 @@ export async function updateDaily(
 
     // Get menu for each period
     await Promise.allSettled(
-      (Object.keys(PeriodEnum.enumValues) as Period[]).map(async (period) => {
+      periodNames.map(async (period) => {
         const campusDishParams = {
           date,
           period,

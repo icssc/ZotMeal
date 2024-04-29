@@ -14,17 +14,16 @@ import type {
 import type { CampusDishResponse } from "@zotmeal/validators";
 import { MenuSchema } from "@zotmeal/db";
 import {
-  getPeriodById,
   getPeriodId,
+  getPeriodNameById,
   getRestaurantId,
   getRestaurantNameById,
 } from "@zotmeal/utils";
 import { CampusDishResponseSchema } from "@zotmeal/validators";
 
 import type { GetMenuParams } from "./menu";
-import { logger } from "../../../logger";
 import { insertDishMenuStationJoint, upsertDish } from "../../dishes";
-import { upsertRestaurant } from "../../restaurants/services/restaurant";
+import { upsertRestaurant } from "../../restaurants";
 import { upsertStation } from "../../stations";
 import { GetMenuSchema, upsertMenu } from "./menu";
 
@@ -33,21 +32,8 @@ export async function getCampusDish(
 ): Promise<CampusDishResponse | null> {
   const { date, period, restaurant } = GetMenuSchema.parse(params);
 
-  // Verify Parameters
-
   const periodId = getPeriodId(period);
-
-  if (!periodId) {
-    logger.error("invalid period", period);
-    return null;
-  }
-
   const restaurantId = getRestaurantId(restaurant);
-
-  if (!restaurantId) {
-    logger.error("invalid restaurant", restaurant);
-    return null;
-  }
 
   // Request Format:
   // const res = await axios.get(
@@ -78,10 +64,6 @@ export async function parseCampusDish(
   // Verify params
   const restaurantName = getRestaurantNameById(response.LocationId);
 
-  if (!restaurantName) {
-    throw new Error("restaurant id not found");
-  }
-
   const restaurant = {
     id: response.LocationId,
     name: restaurantName,
@@ -89,17 +71,18 @@ export async function parseCampusDish(
 
   await upsertRestaurant(db, restaurant);
 
-  // Filter the period in the response based on selected period
+  // Find the period in the response based on selected period
   const selectedPeriod = response.Menu.MenuPeriods.find(
     (period) => period.PeriodId === response.SelectedPeriodId,
   );
 
   if (!selectedPeriod) {
     throw new Error(
-      `Period ${response.SelectedPeriodId} (${getPeriodById(response.SelectedPeriodId)}) not found in response`,
+      `Period ${response.SelectedPeriodId} (${getPeriodNameById(response.SelectedPeriodId)}) not found in response`,
     );
   }
 
+  // TODO: this can throw if date is incorrect format
   const date = format(selectedPeriod.UtcMealPeriodStartTime, "MM/dd/yyyy");
 
   const menuIdHash = response.LocationId + date + response.SelectedPeriodId;
@@ -108,7 +91,7 @@ export async function parseCampusDish(
   const menu = MenuSchema.parse({
     id: menuIdHash,
     restaurantId: response.LocationId,
-    period: getPeriodById(response.SelectedPeriodId),
+    period: getPeriodNameById(response.SelectedPeriodId),
     start: selectedPeriod.UtcMealPeriodStartTime,
     end: selectedPeriod.UtcMealPeriodEndTime,
     date,

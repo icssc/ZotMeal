@@ -22,12 +22,12 @@ import {
 } from "tamagui";
 import { LinearGradient } from "tamagui/linear-gradient";
 
-import type { MenuWithRelations, Period } from "@zotmeal/db";
+import type { MenuWithRelations } from "@zotmeal/db";
+import type { PeriodName } from "@zotmeal/utils";
 import {
   getCurrentPeriodName,
   getRestaurantNameById,
-  ID_TO_RESTAURANT,
-  PERIOD_TO_ID,
+  PeriodEnum,
 } from "@zotmeal/utils";
 
 import { PinButton, RestaurantTabs } from "~/components";
@@ -93,7 +93,8 @@ export function Home() {
 
   const currentPeriod = getCurrentPeriodName();
 
-  const [periodName, setPeriodName] = useState<Period>(
+  // TODO: how should we handle fetching when restaurant is closed?
+  const [periodName, setPeriodName] = useState<PeriodName>(
     currentPeriod === "closed" ? "breakfast" : currentPeriod,
   );
   const theme = useTheme();
@@ -190,9 +191,7 @@ export function Home() {
           {menu && (
             <Tabs.Content
               key={menu.restaurantId}
-              value={getRestaurantNameById(
-                menu.restaurantId as keyof typeof ID_TO_RESTAURANT,
-              )}
+              value={getRestaurantNameById(menu.restaurantId)}
               alignItems="center"
               flex={1}
             >
@@ -206,8 +205,8 @@ export function Home() {
 }
 
 interface PeriodPickerProps {
-  periodName: Period;
-  setPeriodName: (periodName: Period) => void;
+  periodName: PeriodName;
+  setPeriodName: (periodName: PeriodName) => void;
   color: string;
 }
 
@@ -230,7 +229,7 @@ const PeriodPicker = ({
     onValueChange={(itemValue, _) => setPeriodName(itemValue)}
   >
     {/* Create a Picker.Item for each period */}
-    {Object.entries(PERIOD_TO_ID).map(([period, id]) => (
+    {Object.entries(PeriodEnum).map(([period, id]) => (
       <Picker.Item key={id} label={period} value={id} />
     ))}
   </Picker>
