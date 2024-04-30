@@ -8,16 +8,7 @@ import { Pool } from "pg";
 
 import { schema } from "./schema";
 
-const certificate = fs.readFileSync(
-  path.join(__dirname, "../certs", "global-bundle.pem"),
-);
-export const pool = (config: PoolConfig): Pool =>
-  new Pool({
-    ...config,
-    ssl: {
-      ca: certificate,
-    },
-  });
+export const pool = (config: PoolConfig): Pool => new Pool(config);
 
 // caller must do `pool.end()` when finished with db
 export const createDrizzle = (config: PoolConfig) =>

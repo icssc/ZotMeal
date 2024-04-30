@@ -15,17 +15,20 @@ import { env } from "../env";
 // const connectionString =
 //   process.env.DATABASE_URL ?? "postgres://admin:admin@localhost:5434/zotmeal";
 
-const certificate = fs.readFileSync(
-  path.join(__dirname, "../../../certs", "global-bundle.pem"),
-);
+const isProduction = process.env.NODE_ENV === "production";
 const connectionString = env.DATABASE_URL;
+const sslConfig = isProduction
+  ? {
+      ca: fs.readFileSync(
+        path.join(__dirname, "../../../../../certs", "global-bundle.pem"),
+      ),
+    }
+  : null;
 export const main = async (_event, _context) => {
   try {
     const db = createDrizzle({
       connectionString,
-      ssl: {
-        ca: certificate,
-      },
+      ssl: sslConfig,
     });
     const now = new Date();
     const formattedTime = format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx");
