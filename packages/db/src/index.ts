@@ -1,4 +1,6 @@
 import { exec } from "child_process";
+import fs from "fs";
+import path from "path";
 import { promisify } from "util";
 import type { PoolConfig } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
@@ -6,7 +8,16 @@ import { Pool } from "pg";
 
 import { schema } from "./schema";
 
-export const pool = (config: PoolConfig): Pool => new Pool(config);
+const certificate = fs.readFileSync(
+  path.join(__dirname, "../certs", "global-bundle.pem"),
+);
+export const pool = (config: PoolConfig): Pool =>
+  new Pool({
+    ...config,
+    ssl: {
+      ca: certificate,
+    },
+  });
 
 // caller must do `pool.end()` when finished with db
 export const createDrizzle = (config: PoolConfig) =>
