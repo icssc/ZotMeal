@@ -23,7 +23,10 @@ const serverlessConfiguration: AWS = {
   },
   // import the function via paths
   functions: functions,
-  package: { individually: true },
+  package: {
+    individually: true,
+    include: ["certs/*", "src/functions/cron/*"],
+  },
   custom: {
     esbuild: {
       bundle: true,
@@ -34,7 +37,6 @@ const serverlessConfiguration: AWS = {
       define: { "require.resolve": undefined },
       platform: "node",
       concurrency: 10,
-      assets: [{ path: "certs/", glob: "**/*.pem" }],
     },
   },
 };
