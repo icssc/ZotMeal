@@ -21,7 +21,7 @@ const sslConfig = isProduction
   ? {
       rejectUnauthorized: false,
       ca: fs.readFileSync(
-        path.join(__dirname, "certs", "global-bundle.pem"),
+        path.join(__dirname, "certs", "global-bundle.pem"), // deployment structure is diff
       ),
     }
   : null;
