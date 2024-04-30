@@ -19,12 +19,17 @@ const isProduction = process.env.NODE_ENV === "production";
 const connectionString = env.DATABASE_URL;
 const sslConfig = isProduction
   ? {
+      rejectUnauthorized: false,
       ca: fs.readFileSync(
         path.join(__dirname, "../../../../../certs", "global-bundle.pem"),
       ),
     }
   : null;
-
+console.log(
+  fs.readFileSync(
+    path.join(__dirname, "../../../../../certs", "global-bundle.pem"),
+  ),
+);
 export const main = async (_event, _context) => {
   try {
     const db = createDrizzle({
