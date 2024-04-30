@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import { format } from "date-fns";
 
 import {
@@ -13,10 +15,18 @@ import { env } from "../env";
 // const connectionString =
 //   process.env.DATABASE_URL ?? "postgres://admin:admin@localhost:5434/zotmeal";
 
+const certificate = fs.readFileSync(
+  path.join(__dirname, "../../../../../certs", "global-bundle.pem"),
+);
 const connectionString = env.DATABASE_URL;
 export const main = async (_event, _context) => {
   try {
-    const db = createDrizzle({ connectionString });
+    const db = createDrizzle({
+      connectionString,
+      ssl: {
+        ca: certificate,
+      },
+    });
     const now = new Date();
     const formattedTime = format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx");
     console.log(`Start update daily job at ${formattedTime}`);
