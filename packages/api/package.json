@@ -2,11 +2,18 @@
   "name": "@zotmeal/api",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./src/index.ts"
+    }
+  },
   "scripts": {
     "dev": "echo 'Add dev script here'",
     "build": "echo 'Add build script here'",
     "with-env": "dotenv -e ../../.env --",
-    "test": "npx vitest run --config vitest.config.ts",
+    "test": "pnpm with-env vitest run --config vitest.config.ts | pino-pretty",
     "lint": "eslint ."
   },
   "dependencies": {

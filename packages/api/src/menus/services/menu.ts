@@ -1,97 +1,86 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import type { Drizzle } from "@zotmeal/db";
-import type { Dish, Menu, Station } from "@zotmeal/db/src/schema";
-import { eq } from "@zotmeal/db";
-import {
-  DishMenuStationJoint,
-  DishTable,
-  MenuTable,
-  StationTable,
-} from "@zotmeal/db/src/schema";
+import type {
+  Drizzle,
+  Menu,
+  MenuWithRelations,
+  StationWithRelations,
+} from "@zotmeal/db";
+import { MenuSchema, MenuTable, RestaurantSchema } from "@zotmeal/db";
 import { parseDate } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
 
-export interface GetMenuParams {
-  date: string;
-  periodName: string;
-  restaurantName: string;
-}
+import { logger } from "../../../logger";
 
 export const GetMenuSchema = z.object({
   date: DateRegex,
-  periodName: z.string(),
-  restaurantName: z.string(),
-}) satisfies z.ZodType<GetMenuParams>;
+  period: MenuSchema.shape.period,
+  restaurant: RestaurantSchema.shape.name,
+});
 
-// deliberate choice to exclude nutrition on dish model, the list view will not contain the full dish nutrition details
-interface StationResult extends Station {
-  dishes: Dish[];
-}
-
-interface MenuResult extends Menu {
-  stations: StationResult[];
-}
+export type GetMenuParams = z.infer<typeof GetMenuSchema>;
 
 export async function getMenu(
   db: Drizzle,
   params: GetMenuParams,
-): Promise<MenuResult | null> {
-  const date = parseDate(params.date);
-  if (!date) {
+): Promise<MenuWithRelations | null> {
+  logger.debug("getMenu() params:", params);
+  const parsedParams = GetMenuSchema.safeParse(params);
+
+  if (!parsedParams.success) {
     throw new TRPCError({
       code: "BAD_REQUEST",
-      message: "invalid date format",
+      message: `invalid params: ${parsedParams.error.message}`,
     });
   }
 
+  const { restaurant } = parsedParams.data;
+
   const fetchedRestaurant = await db.query.RestaurantTable.findFirst({
-    where: (restaurant, { eq }) => eq(restaurant.name, params.restaurantName),
+    where: ({ name }, { eq }) => eq(name, restaurant),
   });
 
   if (!fetchedRestaurant) {
-    throw new TRPCError({ message: "restaurant not found", code: "NOT_FOUND" });
+    throw new TRPCError({
+      message: `restaurant ${restaurant} not found`,
+      code: "NOT_FOUND",
+    });
   }
 
-  const rows = await db
-    .select()
-    .from(DishMenuStationJoint)
-    .innerJoin(MenuTable, eq(DishMenuStationJoint.menuId, MenuTable.id))
-    .innerJoin(DishTable, eq(DishMenuStationJoint.dishId, DishTable.id))
-    .innerJoin(
-      StationTable,
-      eq(DishMenuStationJoint.stationId, StationTable.id),
-    );
+  const rows = await db.query.DishMenuStationJointTable.findMany({
+    with: {
+      dish: {
+        with: {
+          dietRestriction: true,
+          nutritionInfo: true,
+        },
+      },
+      menu: true,
+      station: true,
+    },
+    limit: 5, // TODO: do findFirst with where clause instead
+  });
 
-  // this way we dont need to explicitly do join. drizzle will performs join behind the scenes
-  // const rowsRelation = await db.query.DishMenuStationJoint.findMany({
-  //   with: {
-  //     dish: true,
-  //     menu: true,
-  //     station: true,
-  //   },
-  // });
-
-  let menuResult: MenuResult | null = null;
-  const stationsResult: Record<string, StationResult> = {};
+  let menuResult: MenuWithRelations | null = null;
+  const stationsResult: Record<string, StationWithRelations> = {};
 
   for (const row of rows) {
     if (!menuResult) {
       menuResult = {
-        ...row.menus,
+        ...row.menu,
         stations: [],
       };
     }
-    const { dishes: dish, menus, stations: station } = row;
+    const { dish, menu, station, menuId, stationId } = row;
     if (!(station.id in stationsResult)) {
       stationsResult[station.id] = {
         ...station,
         dishes: [],
       };
     }
-    stationsResult[station.id]?.dishes.push(dish);
-    console.log(dish, menus, station);
+    stationsResult[station.id]?.dishes.push({ ...dish, menuId, stationId });
+    console.log(dish, menu, station);
   }
   if (!menuResult) {
     return null;

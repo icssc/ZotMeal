@@ -11,7 +11,7 @@ describe("test", () => {
     const testParams: GetScheduleParams[] = [
       {
         date: "04/22/2024",
-        restaurantName: "brandywine",
+        restaurant: "brandywine",
       },
     ];
     for (const testParam of testParams) {

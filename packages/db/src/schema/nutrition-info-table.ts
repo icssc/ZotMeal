@@ -1,7 +1,7 @@
-import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text } from "drizzle-orm/pg-core";
 
 import { DishTable } from "./dish-table";
-import { updatedAtColumnPostgres } from "./utils";
+import { metadataColumns } from "./utils";
 
 export const NutritionInfoTable = pgTable("nutrition_info", {
   dishId: text("dish_id")
@@ -11,10 +11,6 @@ export const NutritionInfoTable = pgTable("nutrition_info", {
       onDelete: "restrict",
       onUpdate: "cascade",
     }),
-  createdAt: timestamp("created_at", { precision: 3, mode: "string" })
-    .defaultNow()
-    .notNull(),
-  updatedAt: updatedAtColumnPostgres,
   servingSize: text("serving_size"),
   servingUnit: text("serving_unit"),
   calories: text("calories"),
@@ -32,6 +28,8 @@ export const NutritionInfoTable = pgTable("nutrition_info", {
   vitaminCIU: text("vitamin_c_iu"),
   calciumMg: text("calcium_mg"),
   ironMg: text("iron_mg"),
+
+  ...metadataColumns,
 });
 
 export type NutritionInfo = typeof NutritionInfoTable.$inferInsert;

@@ -1,15 +1,25 @@
-import { StarFull } from '@tamagui/lucide-icons'
-import type { DishWithRelations } from '@zotmeal/db/src/schema'
-import { useState } from 'react';
-import { Adapt, Button, H4, Popover, XStack, YStack } from 'tamagui'
+import { useState } from "react";
+import { StarFull } from "@tamagui/lucide-icons";
+import { Adapt, Button, H4, Popover, XStack, YStack } from "tamagui";
 
-export default function RateItem({ item }: { item: DishWithRelations }) {
+import type { DishWithRelations } from "@zotmeal/db";
+
+export default function RateItem({
+  item,
+}: Readonly<{ item: DishWithRelations }>) {
   const [rating, setRating] = useState<number>(5);
 
   return (
     <Popover placement="top">
-      <Popover.Trigger asChild width={"25%"}>
-        <Button fontWeight={"800"} borderRadius="$10" paddingHorizontal="unset" icon={<StarFull color="gold" size="$1" />} >5.0</Button>
+      <Popover.Trigger asChild width={"28%"}>
+        <Button
+          fontWeight={"800"}
+          borderRadius="$10"
+          paddingHorizontal="unset"
+          icon={<StarFull color="gold" size="$1" />}
+        >
+          5.0
+        </Button>
       </Popover.Trigger>
       <Adapt when={"sm" as unknown as undefined} platform="touch">
         <Popover.Sheet modal dismissOnSnapToBottom snapPoints={[30]}>
@@ -30,7 +40,7 @@ export default function RateItem({ item }: { item: DishWithRelations }) {
         exitStyle={{ y: -10, opacity: 0 }}
         elevate
         animation={[
-          'quickest',
+          "quickest",
           {
             opacity: {
               overshootClamping: true,
@@ -38,8 +48,7 @@ export default function RateItem({ item }: { item: DishWithRelations }) {
           },
         ]}
       >
-        {/* <Popover.Arrow borderWidth={1} borderColor="$borderColor" /> */}
-        <YStack gap="$6" alignItems='center'>
+        <YStack gap="$6" alignItems="center">
           <H4>Rate {item.name}</H4>
           <XStack gap="$5">
             {Array.from({ length: 5 }).map((_, i) => (
@@ -47,7 +56,9 @@ export default function RateItem({ item }: { item: DishWithRelations }) {
                 unstyled
                 key={i}
                 onPress={() => setRating(i + 1)}
-                icon={<StarFull size={"$3"} color={i < rating ? "gold" : "gray"} />}
+                icon={
+                  <StarFull size={"$3"} color={i < rating ? "gold" : "gray"} />
+                }
               />
             ))}
           </XStack>
@@ -68,7 +79,5 @@ export default function RateItem({ item }: { item: DishWithRelations }) {
         </YStack>
       </Popover.Content>
     </Popover>
-
-  )
-
+  );
 }

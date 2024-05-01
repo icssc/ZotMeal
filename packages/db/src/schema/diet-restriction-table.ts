@@ -1,7 +1,7 @@
-import { boolean, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, pgTable, text } from "drizzle-orm/pg-core";
 
 import { DishTable } from "./dish-table";
-import { updatedAtColumnPostgres } from "./utils";
+import { metadataColumns } from "./utils";
 
 export const DietRestrictionTable = pgTable("diet_restrictions", {
   dishId: text("dish_id")
@@ -11,10 +11,7 @@ export const DietRestrictionTable = pgTable("diet_restrictions", {
       onDelete: "restrict",
       onUpdate: "cascade",
     }),
-  createdAt: timestamp("created_at", { precision: 3, mode: "string" })
-    .defaultNow()
-    .notNull(),
-  updatedAt: updatedAtColumnPostgres,
+
   containsEggs: boolean("contains_eggs"),
   containsFish: boolean("contains_fish"),
   containsMilk: boolean("contains_milk"),
@@ -31,6 +28,8 @@ export const DietRestrictionTable = pgTable("diet_restrictions", {
   isOrganic: boolean("is_organic"),
   isVegan: boolean("is_vegan"),
   isVegetarian: boolean("is_vegetarian"),
+
+  ...metadataColumns,
 });
 
 export type DietRestriction = typeof DietRestrictionTable.$inferInsert;

@@ -1,12 +1,13 @@
 import { z } from "zod";
 
 import type { Drizzle } from "@zotmeal/db";
-import { RestaurantSchema } from "@zotmeal/db/src/schema";
-import { PERIOD_TO_ID } from "@zotmeal/utils";
+import { RestaurantSchema } from "@zotmeal/db";
+import { periodNames } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
 
-import type { GetMenuParams } from "../menus/services/parse";
+import type { GetMenuParams } from "..";
 import { getCampusDish, parseCampusDish } from "..";
+import { logger } from "../../logger";
 
 export const UpdateDailySchema = z.object({
   date: DateRegex,
@@ -19,13 +20,15 @@ export async function updateDaily(
   params: UpdateDailyParams,
 ): Promise<void> {
   try {
-    console.log(`Updating ${params.restaurantName}...`);
+    logger.info(
+      `Updating ${params.restaurantName} menu for (${params.date})...`,
+    );
 
     const { date, restaurantName } = UpdateDailySchema.parse(params);
 
     // Get menu for each period
     await Promise.allSettled(
-      Object.keys(PERIOD_TO_ID).map(async (period) => {
+      periodNames.map(async (period) => {
         const campusDishParams = {
           date,
           period,
@@ -39,7 +42,9 @@ export async function updateDaily(
         });
       }),
     );
-    console.log(`Updated ${params.restaurantName}.`);
+    logger.info(
+      `✅ Updated ${params.restaurantName} menu for (${params.date}).`,
+    );
   } catch (err) {
     if (err instanceof z.ZodError) {
       console.error(err.issues);

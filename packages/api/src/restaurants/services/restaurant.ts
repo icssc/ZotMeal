@@ -1,6 +1,5 @@
-import type { Drizzle } from "@zotmeal/db";
-import type { Restaurant } from "@zotmeal/db/src/schema";
-import { RestaurantTable } from "@zotmeal/db/src/schema";
+import type { Drizzle, Restaurant } from "@zotmeal/db";
+import { RestaurantTable } from "@zotmeal/db";
 
 export async function upsertRestaurant(
   db: Drizzle,
@@ -27,13 +26,4 @@ export async function upsertRestaurant(
     console.error(e);
     throw e;
   }
-}
-
-export async function getRestaurantById(
-  db: Drizzle,
-  id: string,
-): Promise<Restaurant | undefined> {
-  return await db.query.RestaurantTable.findFirst({
-    where: (RestaurantTable, { eq }) => eq(RestaurantTable.id, id),
-  });
 }

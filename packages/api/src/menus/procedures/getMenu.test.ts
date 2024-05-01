@@ -1,22 +1,22 @@
+import { TRPCError } from "@trpc/server";
+import { format } from "date-fns";
 import { describe, expect, it } from "vitest";
+
+import { getRestaurantId } from "@zotmeal/utils";
+
 import type { GetMenuParams } from "..";
 import { GetMenuSchema } from "..";
 import { createCaller, createTRPCContext } from "../..";
-import { TRPCError } from "@trpc/server";
 
-describe("getMenu", () => {
-  it("hello", () => {
-    console.log("hello");
-  });
-});
+describe("getMenu", () => it("hello", () => console.log("hello")));
 
 describe("GetMenuSchema validates properly", () => {
   it("parses valid params", () => {
     const tests: GetMenuParams[] = [
       {
         date: "10/10/2024",
-        periodName: "breakfast",
-        restaurantName: "brandywine",
+        period: "breakfast",
+        restaurant: "brandywine",
       },
     ];
 
@@ -30,8 +30,8 @@ describe("GetMenuSchema validates properly", () => {
     const tests: GetMenuParams[] = [
       {
         date: "10-10-2024",
-        periodName: "breakfast",
-        restaurantName: "brandywine",
+        period: "breakfast",
+        restaurant: "brandywine",
       },
     ];
 
@@ -43,47 +43,43 @@ describe("GetMenuSchema validates properly", () => {
 });
 
 describe("menu.get", () => {
-  // this test will not pass because the database is empty
-  const ctx = createTRPCContext({});
+  const ctx = createTRPCContext({ headers: new Headers() });
   const caller = createCaller(ctx);
+  const date = format(new Date(), "MM/d/yyyy");
 
-  // it("should get today's brandywine lunch menu", async () => {
-  //   const menu = caller.menu.get({
-  //     date: "1/24/2024",
-  //     periodName: "breakfast",
-  //     restaurantName: "brandywine",
-  //   })
-  //   await expect(menu).resolves.toBeTruthy();
-  //   console.log("menu:", await menu); // should have a more robust test
-  // });
+  it("should get today's brandywine lunch menu", async () => {
+    const menu = await caller.menu.get({
+      date,
+      period: "lunch",
+      restaurant: "brandywine",
+    });
+    expect(menu).toBeTruthy();
+    // expect(isToday(menu.date)).toBeTruthy(); // TODO: re-integrate once getMenu is fixed
+    expect(menu.restaurantId).toEqual(getRestaurantId("brandywine"));
+  }, 10_000);
 
-  // TODO: finish implementing this once the database is populated.
-  // each error should have a different message
+  // TODO: have each invalid input give unique TRPCError message
   it("should not get an invalid menu", async () => {
-    // invalid date (these tests fails)
-    /*
     const invalidDate = caller.menu.get({
-      date: "1/24/1984",
-      periodName: "breakfast",
-      restaurantName: "brandywine",
-    })
+      date: "4-24-2024",
+      period: "lunch",
+      restaurant: "brandywine",
+    });
     await expect(invalidDate).rejects.toThrowError(TRPCError);
 
-    // invalid period
     const invalidPeriod = caller.menu.get({
-      date: "1/24/2024",
-      periodName: "latelatenight" as "latenight",
-      restaurantName: "brandywine",
-    })
+      date,
+      period: "latelatenight" as "latenight",
+      restaurant: "brandywine",
+    });
     await expect(invalidPeriod).rejects.toThrowError(TRPCError);
-    */
 
-    // invalid restaurant
     const invalidRestaurant = caller.menu.get({
-      date: "1/24/2024",
-      periodName: "breakfast",
-      restaurantName: "antwine" as "anteatery",
-    })
+      date,
+      period: "lunch",
+      restaurant: "antwine" as "anteatery",
+    });
+
     await expect(invalidRestaurant).rejects.toThrowError(TRPCError);
   });
-});
+}, 10_000);

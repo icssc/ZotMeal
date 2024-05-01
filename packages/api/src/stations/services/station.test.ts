@@ -12,14 +12,14 @@ describe("upsertStation correctly", () => {
   const db = createDrizzle({ connectionString: process.env.DB_URL! });
 
   const testRestaurant: Restaurant = {
-    id: "9999",
-    name: "restaurant-test",
+    id: "3314",
+    name: "brandywine",
   };
 
   const testMenu: Menu = {
     date: "04/07/2024",
     id: "menu123",
-    restaurantId: "9999",
+    restaurantId: "3314",
     period: "dinner",
     start: "04/07/2024",
     end: "04/07/2024",

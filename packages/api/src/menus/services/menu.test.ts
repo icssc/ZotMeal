@@ -15,7 +15,7 @@ describe("upsertMenu()", () => {
     const testMenus: Menu[] = [
       {
         id: "1",
-        restaurantId: "9999",
+        restaurantId: "3056",
         date: "01/17/2024",
         period: "dinner",
         start: "01/17/2024",
@@ -25,8 +25,8 @@ describe("upsertMenu()", () => {
     ];
 
     const testRestaurant: Restaurant = {
-      id: "9999",
-      name: "brandywine_test",
+      id: "3056",
+      name: "brandywine",
     };
 
     expect(testRestaurant).toBeTruthy();
@@ -50,7 +50,7 @@ describe("upsertMenu()", () => {
     const testMenus: Menu[] = [
       {
         id: "1",
-        restaurantId: "9999",
+        restaurantId: "3056",
         date: "01/17/2024",
         period: "dinner",
         start: "01/17/2024",
@@ -60,7 +60,7 @@ describe("upsertMenu()", () => {
       {
         // second menu with same id but different date
         id: "1",
-        restaurantId: "9999",
+        restaurantId: "3056",
         date: "04/30/2024",
         period: "dinner",
         start: "01/17/2024",
@@ -70,8 +70,8 @@ describe("upsertMenu()", () => {
     ];
 
     const testRestaurant: Restaurant = {
-      id: "9999",
-      name: "brandywine_test",
+      id: "3056",
+      name: "brandywine",
     };
 
     // upsert dummy restaurant & period & menu. then rollback. should pass if 'Rollback' is the thrown error for each test

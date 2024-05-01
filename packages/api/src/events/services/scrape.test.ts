@@ -18,9 +18,7 @@ describe("insert menu into db", () => {
       const html = await getHTML(
         "https://uci-campusdish-com.translate.goog/api/events?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en&_x_tr_pto=wapp",
       );
-      // console.log(html);
       const events = await scrapeEvents(html);
-      // console.log("events:", events);
       expect(events).toBeTruthy();
       await db.transaction(async (trx) => {
         const upsertedEvents = await upsertEvents(trx, events!);
@@ -28,10 +26,8 @@ describe("insert menu into db", () => {
           throw new Error("upsertedEvents is null");
         }
 
-        // console.log("upsertedEvents:", upsertedEvents);
-
         trx.rollback();
       });
     }).rejects.toThrowError("Rollback");
   });
-}, 10_000);
+}, 30_000);

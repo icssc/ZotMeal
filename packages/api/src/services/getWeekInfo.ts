@@ -2,10 +2,11 @@ import { format } from "date-fns";
 import { z } from "zod";
 
 import type { Drizzle } from "@zotmeal/db";
-import { RestaurantSchema } from "@zotmeal/db/src/schema";
+import { RestaurantSchema } from "@zotmeal/db";
 import { DateRegex } from "@zotmeal/validators";
 
 import type { UpdateDailyParams } from "./updateDaily";
+import { logger } from "../../logger";
 import { updateDaily } from "./updateDaily";
 
 export const GetWeekInfoSchema = z.object({
@@ -41,7 +42,7 @@ export async function getWeekInfo(
   // log errors from the promises
   results.forEach((result, i) => {
     if (result.status === "rejected") {
-      console.error(`Error updating day ${i + 1}:`, result.reason);
+      logger.error(`Error updating day ${i + 1}:`, result.reason);
     }
   });
 }

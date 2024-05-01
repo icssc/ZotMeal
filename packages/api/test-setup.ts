@@ -3,6 +3,8 @@ import { Wait } from "testcontainers";
 
 import { pool, pushSchema } from "@zotmeal/db";
 
+import { logger } from "./logger";
+
 let teardownHappened = false;
 
 // Set up postgres container for tests
@@ -14,6 +16,8 @@ export default async function () {
     .start();
 
   process.env.DB_URL = container.getConnectionUri();
+
+  logger.info(`postgres container started. DB_URL: ${process.env.DB_URL}`);
 
   await pushSchema(process.env.DB_URL);
 

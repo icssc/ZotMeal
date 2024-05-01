@@ -1,7 +1,5 @@
-import type { Drizzle } from "@zotmeal/db";
-import { EventTable } from "@zotmeal/db/src/schema";
-
-type Event = typeof EventTable.$inferInsert;
+import type { Drizzle, Event } from "@zotmeal/db";
+import { EventTable } from "@zotmeal/db";
 
 export async function upsertEvents(
   db: Drizzle,
@@ -16,7 +14,7 @@ export async function upsertEvents(
         .values(e)
         .onConflictDoUpdate({
           // upsert
-          target: [EventTable.title, EventTable.date, EventTable.restaurantId],
+          target: [EventTable.title, EventTable.start, EventTable.restaurantId],
           set: e,
         })
         .returning();
