@@ -11,7 +11,7 @@ import { updateDaily } from "./updateDaily";
 
 export const GetWeekInfoSchema = z.object({
   date: DateRegex,
-  restaurantName: RestaurantSchema.shape.name,
+  restaurant: RestaurantSchema.shape.name,
 });
 export type GetWeekInfoParams = z.infer<typeof GetWeekInfoSchema>;
 
@@ -21,7 +21,7 @@ export async function getWeekInfo(
   db: Drizzle,
   params: GetWeekInfoParams,
 ): Promise<void> {
-  const { date: dateString, restaurantName } = params;
+  const { date: dateString, restaurant } = params;
   const startDate = new Date(dateString);
 
   const results = await Promise.allSettled(
@@ -32,7 +32,7 @@ export async function getWeekInfo(
 
       const dailyParams = {
         date: formattedDate,
-        restaurantName,
+        restaurant,
       } satisfies UpdateDailyParams;
 
       return updateDaily(db, dailyParams);

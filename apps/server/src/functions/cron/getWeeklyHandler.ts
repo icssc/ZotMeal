@@ -17,7 +17,7 @@ export const main = async (_event, _context) => {
 
     const results = await Promise.allSettled(
       restaurantNames.map(async (restaurantName) =>
-        getWeekInfo(db, { date, restaurantName }),
+        getWeekInfo(db, { date, restaurant: restaurantName }),
       ),
     );
 

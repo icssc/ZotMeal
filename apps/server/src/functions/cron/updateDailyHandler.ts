@@ -16,10 +16,10 @@ export const main = async (_event, _context) => {
     const date = format(new Date(), "MM/dd/yyyy");
 
     await Promise.allSettled(
-      restaurantNames.map((restaurantName) =>
+      restaurantNames.map((restaurant) =>
         updateDaily(db, {
           date,
-          restaurantName,
+          restaurant,
         } satisfies UpdateDailyParams),
       ),
     );
