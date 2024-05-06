@@ -10,6 +10,7 @@ export enum PeriodEnum {
   brunch = "2651",
   dinner = "107",
   latenight = "108",
+  "light lunch" = "3819",
   lunch = "106",
 }
 
@@ -18,9 +19,18 @@ export const restaurantIds = Object.values(RestaurantEnum) as [RestaurantId];
 export const periodNames = Object.keys(PeriodEnum) as [PeriodName];
 export const periodIds = Object.values(PeriodEnum) as [PeriodId];
 
-export const capitalizedPeriodNames = periodNames.map(
-  (name) => name.charAt(0).toUpperCase() + name.slice(1),
+// light lunch -> Light Lunch
+
+export const capitalizedPeriodNames = periodNames.map((name) =>
+  name
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" "),
 ) as [Capitalize<PeriodName>];
+
+// export const capitalizedPeriodNames = periodNames.map(
+//   (name) => name.charAt(0).toUpperCase() + name.slice(1),
+// ) as [Capitalize<PeriodName>];
 
 type GetEnumKeys<Enum> = keyof Enum;
 export type RestaurantName = GetEnumKeys<typeof RestaurantEnum>;
