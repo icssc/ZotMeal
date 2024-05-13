@@ -11,7 +11,7 @@ import { logger } from "../../logger";
 
 export const UpdateDailySchema = z.object({
   date: DateRegex,
-  restaurantName: RestaurantSchema.shape.name,
+  restaurant: RestaurantSchema.shape.name,
 });
 export type UpdateDailyParams = z.infer<typeof UpdateDailySchema>;
 
@@ -20,11 +20,9 @@ export async function updateDaily(
   params: UpdateDailyParams,
 ): Promise<void> {
   try {
-    logger.info(
-      `Updating ${params.restaurantName} menu for (${params.date})...`,
-    );
+    logger.info(`Updating ${params.restaurant} menu for (${params.date})...`);
 
-    const { date, restaurantName } = UpdateDailySchema.parse(params);
+    const { date, restaurant } = UpdateDailySchema.parse(params);
 
     // Get menu for each period
     await Promise.allSettled(
@@ -32,7 +30,7 @@ export async function updateDaily(
         const campusDishParams = {
           date,
           period,
-          restaurant: restaurantName,
+          restaurant,
         } satisfies GetMenuParams;
 
         // TODO: handle null response
@@ -42,9 +40,7 @@ export async function updateDaily(
         });
       }),
     );
-    logger.info(
-      `✅ Updated ${params.restaurantName} menu for (${params.date}).`,
-    );
+    logger.info(`✅ Updated ${params.restaurant} menu for (${params.date}).`);
   } catch (err) {
     if (err instanceof z.ZodError) {
       console.error(err.issues);

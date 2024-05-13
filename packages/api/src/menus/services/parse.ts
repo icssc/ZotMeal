@@ -61,12 +61,9 @@ export async function parseCampusDish(
   db: Drizzle,
   response: CampusDishResponse,
 ): Promise<void> {
-  // Verify params
-  const restaurantName = getRestaurantNameById(response.LocationId);
-
   const restaurant = {
     id: response.LocationId,
-    name: restaurantName,
+    name: getRestaurantNameById(response.LocationId),
   } satisfies Restaurant;
 
   await upsertRestaurant(db, restaurant);

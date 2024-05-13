@@ -20,8 +20,13 @@ describe("insert menu into db", () => {
       );
       const events = await scrapeEvents(html);
       expect(events).toBeTruthy();
+
+      if (!events) {
+        throw new Error("events is null");
+      }
+
       await db.transaction(async (trx) => {
-        const upsertedEvents = await upsertEvents(trx, events!);
+        const upsertedEvents = await upsertEvents(trx, events);
         if (!upsertedEvents) {
           throw new Error("upsertedEvents is null");
         }
