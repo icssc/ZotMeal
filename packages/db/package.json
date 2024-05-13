@@ -51,6 +51,7 @@
     "pino-pretty": "^11.0.0",
     "postgres": "^3.4.4",
     "tsx": "^4.7.1",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "@zotmeal/tsconfig": "workspace:^0.1.0"
   }
 }
