@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import { format } from "date-fns";
 
 import { updateDaily, UpdateDailyParams } from "@zotmeal/api";
@@ -5,12 +7,24 @@ import { createDrizzle, pool } from "@zotmeal/db";
 import { restaurantNames } from "@zotmeal/utils";
 
 import { logger } from "../../../logger";
+import { env } from "../env";
 
-const connectionString = process.env.DATABASE_URL;
-
+const isProduction = process.env.NODE_ENV === "production";
+const connectionString = env.DATABASE_URL;
+const sslConfig = isProduction
+  ? {
+      rejectUnauthorized: false,
+      ca: fs.readFileSync(
+        path.join(__dirname, "../../../certs", "global-bundle.pem").toString(),
+      ),
+    }
+  : null;
 export const main = async (_event, _context) => {
   try {
-    const db = createDrizzle({ connectionString });
+    const db = createDrizzle({
+      connectionString,
+      ssl: sslConfig,
+    });
     logger.info("Start update daily job...");
 
     const date = format(new Date(), "MM/dd/yyyy");

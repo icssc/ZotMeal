@@ -22,9 +22,10 @@
     "typecheck": "turbo typecheck"
   },
   "devDependencies": {
-    "@zotmeal/prettier-config": "workspace:^0.1.0",
     "@turbo/gen": "^1.13.2",
+    "@zotmeal/prettier-config": "workspace:^0.1.0",
     "prettier": "^3.2.5",
+    "ts-node": "^10.9.2",
     "turbo": "^1.13.2",
     "typescript": "^5.4.3"
   },
