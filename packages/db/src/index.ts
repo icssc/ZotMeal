@@ -1,4 +1,6 @@
 import { exec } from "child_process";
+import fs from "fs";
+import path from "path";
 import { promisify } from "util";
 import type { PoolConfig } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";

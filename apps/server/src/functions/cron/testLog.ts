@@ -1,7 +1,5 @@
 import { format } from "date-fns";
 
-import { env } from "../env";
-
 export const main = async (event, context) => {
   try {
     const now = new Date();

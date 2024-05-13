@@ -16,7 +16,8 @@
   "dependencies": {
     "@zotmeal/db": "workspace:^",
     "@zotmeal/utils": "workspace:^",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "@zotmeal/tsconfig": "workspace:^0.1.0"
   },
   "devDependencies": {
     "@zotmeal/eslint-config": "workspace:^",
