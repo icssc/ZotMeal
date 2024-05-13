@@ -84,10 +84,10 @@ export function EventToast() {
 }
 
 export function Home() {
-  const { anteateryMenu, brandywineMenu, setAnteateryMenu, setBrandywineMenu } =
-    useMenuStore();
+  // const { anteateryMenu, brandywineMenu, setAnteateryMenu, setBrandywineMenu } =
+  //   useMenuStore();
 
-  const toast = useToastController();
+  // const toast = useToastController();
 
   const [showDatePicker, setShowDatePicker] = useState<boolean>(true);
   const [date, setDate] = useState<Date>(new Date());
@@ -100,54 +100,74 @@ export function Home() {
   );
   const theme = useTheme();
 
-  // TODO: how should we handle fetching when restaurant is closed?
-  const [anteateryQuery, brandywineQuery] = api.useQueries((t) =>
-    restaurantNames.map((restaurantName) =>
-      t.menu.get({
-        date: date.toLocaleDateString("en-US"),
-        period: periodName,
-        restaurant: restaurantName,
-      }),
-    ),
-  );
+  // // TODO: how should we handle fetching when restaurant is closed?
+  // const [anteateryQuery, brandywineQuery] = api.useQueries((t) =>
+  //   restaurantNames.map((restaurantName) =>
+  //     t.menu.get({
+  //       date: date.toLocaleDateString("en-US"),
+  //       period: periodName,
+  //       restaurant: restaurantName,
+  //     }),
+  //   ),
+  // );
 
-  useEffect(() => {
-    if (anteateryQuery?.data) {
-      setAnteateryMenu(anteateryQuery.data);
-    }
+  // useEffect(() => {
+  //   if (anteateryQuery?.data) {
+  //     setAnteateryMenu(anteateryQuery.data);
+  //   }
 
-    if (brandywineQuery?.data) {
-      setBrandywineMenu(brandywineQuery.data);
-    }
-  }, [anteateryQuery, brandywineQuery, setAnteateryMenu, setBrandywineMenu]);
+  //   if (brandywineQuery?.data) {
+  //     setBrandywineMenu(brandywineQuery.data);
+  //   }
+  // }, [anteateryQuery, brandywineQuery, setAnteateryMenu, setBrandywineMenu]);
 
-  if (!anteateryQuery || !brandywineQuery) {
-    return <Text>Fetching menus</Text>;
-  }
+  // if (!anteateryQuery || !brandywineQuery) {
+  //   return <Text>Fetching menus</Text>;
+  // }
 
-  // TODO: maybe loading spinner instead
-  if (anteateryQuery.isLoading || brandywineQuery.isLoading) {
+  // // TODO: maybe loading spinner instead
+  // if (anteateryQuery.isLoading || brandywineQuery.isLoading) {
+  //   return <Text>Loading...</Text>;
+  // }
+
+  // if (anteateryQuery.isError || brandywineQuery.isError) {
+  //   console.error(anteateryQuery.error, brandywineQuery.error);
+  //   return (
+  //     <>
+  //       <Text>{anteateryQuery.error?.message}</Text>
+  //       <Text>{brandywineQuery.error?.message}</Text>
+  //     </>
+  //   );
+  // }
+
+  // toast.show("There are 5 upcoming events.", {
+  //   // message: 'See upcoming events',
+  //   duration: 10_000_000,
+  //   burntOptions: {
+  //     shouldDismissByDrag: true,
+  //     from: "bottom",
+  //   },
+  // });
+
+  const hello = api.menu.hello.useQuery();
+
+  const { data, error, isLoading } = hello;
+
+  if (isLoading) {
     return <Text>Loading...</Text>;
   }
 
-  if (anteateryQuery.isError || brandywineQuery.isError) {
-    console.error(anteateryQuery.error, brandywineQuery.error);
-    return (
-      <>
-        <Text>{anteateryQuery.error?.message}</Text>
-        <Text>{brandywineQuery.error?.message}</Text>
-      </>
-    );
+  if (error) {
+    return <Text>{error.message}</Text>;
   }
 
-  toast.show("There are 5 upcoming events.", {
-    // message: 'See upcoming events',
-    duration: 10_000_000,
-    burntOptions: {
-      shouldDismissByDrag: true,
-      from: "bottom",
-    },
-  });
+  if (!data) {
+    return <Text>No data</Text>;
+  }
+
+  if (data) {
+    return <Text>{data}</Text>;
+  }
 
   return (
     <RestaurantTabs>

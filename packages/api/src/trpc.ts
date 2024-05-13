@@ -37,12 +37,12 @@ const expo: Expo = new Expo({
 const db = createDrizzle({ connectionString: process.env.DATABASE_URL });
 
 export const createTRPCContext = (opts: {
-  headers: Headers;
+  // headers: Headers;
   // session: Session | null;
 }) => {
-  const source = opts.headers.get("x-trpc-source") ?? "unknown";
+  // const source = opts.headers.get("x-trpc-source") ?? "unknown";
 
-  console.log(">>> tRPC Request from", source, "by", "someone");
+  // console.log(">>> tRPC Request from", source, "by", "someone");
   return {
     ...opts,
     db,
