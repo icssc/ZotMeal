@@ -84,6 +84,8 @@ export function EventToast() {
 }
 
 export function Home() {
+  // const hello = api.menu.hello.useQuery();
+
   const { anteateryMenu, brandywineMenu, setAnteateryMenu, setBrandywineMenu } =
     useMenuStore();
 
