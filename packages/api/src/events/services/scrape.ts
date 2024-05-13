@@ -1,9 +1,11 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
 
-import type { Event } from "@zotmeal/db/src/schema";
-import { EventSchema } from "@zotmeal/db/src/schema";
-import { RESTAURANT_TO_ID } from "@zotmeal/utils";
+import type { Event } from "@zotmeal/db";
+import { EventSchema } from "@zotmeal/db";
+import { getRestaurantId, parseEventDate } from "@zotmeal/utils";
+
+import { logger } from "../../../logger";
 
 export async function getHTML(url: string): Promise<string> {
   try {
@@ -13,7 +15,9 @@ export async function getHTML(url: string): Promise<string> {
     }
     throw new Error("response data is not a string");
   } catch (e) {
-    console.error(`Error fetching from url: ${url}`, e.message);
+    if (e instanceof Error) {
+      console.error(`Error fetching from url: ${url}`, e.message);
+    }
     throw e;
   }
 }
@@ -25,22 +29,45 @@ export async function scrapeEvents(html: string): Promise<Event[] | null> {
     const events: Event[] = [];
 
     // iterate through each event item and extract data
+    // TODO: parallelize this
     for (const el of $("li")) {
       const eventItem = $(el);
 
       const title = eventItem.find(".gridItem_title_text").text();
       const imageSrc = eventItem.find("img").attr("src");
 
-      const image = `https://uci.campusdish.com${imageSrc}`;
+      const image = imageSrc ? `https://uci.campusdish.com${imageSrc}` : "";
 
       // do an inner fetch on the event's page for restaurant association
       const href = eventItem.find("a").attr("href");
       if (!href) continue; // skip if unable to find event page link
-      const eventPageUrl = href;
-      // console.log(eventPageUrl);
-      const eventPage = await getHTML(eventPageUrl);
-      if (!eventPage) continue; // skip if unable to fetch event page
-      const eventPage$ = cheerio.load(eventPage);
+      logger.debug(href);
+      const eventPageHtml = await getHTML(href);
+
+      // skip if unable to fetch event page
+      if (!eventPageHtml) {
+        console.error("unable to fetch event page for event: ", title);
+        continue;
+      }
+
+      const eventPage$ = cheerio.load(eventPageHtml);
+
+      const longDescription = eventPage$(".col-xs-6").text();
+
+      // e.g. APRIL 22 11:00 AM – APRIL 27 3:00 PM
+      const eventDates = eventPage$(".dates").text().trim().split("–");
+
+      if (eventDates.length !== 2) {
+        console.error("invalid date format", eventDates);
+        continue;
+      }
+
+      const [start, end] = eventDates.map(parseEventDate);
+
+      if (!start || !end) {
+        console.error("invalid date format", eventDates);
+        continue;
+      }
 
       // logic to conform to restaurant enum
       // could be cleaner but the html isn't always in the same format
@@ -53,45 +80,31 @@ export async function scrapeEvents(html: string): Promise<Event[] | null> {
         .pop()
         ?.split(" "); // "the anteatery" -> ["the", "anteatery"] or [ '', '', 'brandywine', '', '', '', '', '', '', '', '', '' ]
 
-      const restaurant =
-        restaurantArray && restaurantArray.includes("anteatery")
-          ? "anteatery"
-          : "brandywine";
+      const restaurant = restaurantArray?.includes("anteatery")
+        ? "anteatery"
+        : "brandywine";
 
-      const description = eventItem
+      const shortDescription = eventItem
         .find(".gridItem__body")
         .first()
         .text()
         .trim();
 
-      // format into Date object
-      const dayString = eventItem
-        .find(".disclaimers")
-        .children()
-        .first()
-        .text();
-      const timeString = eventItem
-        .find(".disclaimers")
-        .children()
-        .last()
-        .text();
-      const currentYear = new Date().getFullYear();
-      const dateString = `${dayString}, ${currentYear}, ${timeString}`;
-      const date = new Date(dateString);
+      const restaurantId = getRestaurantId(restaurant);
 
-      const restaurantId = RESTAURANT_TO_ID[restaurant];
-      const event = {
+      const event = EventSchema.parse({
         title,
         image,
-        restaurant,
-        description,
-        date,
         restaurantId,
-      };
-      // console.log(event);
-      const validEvent = EventSchema.parse(event);
+        shortDescription,
+        longDescription,
+        start,
+        end,
+      } satisfies Event);
 
-      events.push(validEvent);
+      logger.debug(event);
+
+      events.push(event);
     }
 
     return events;

@@ -1,7 +1,7 @@
 import { Expo } from "expo-server-sdk";
 import { TRPCError } from "@trpc/server";
 
-import { PushTokenSchema, PushTokenTable } from "@zotmeal/db/src/schema";
+import { PushTokenSchema, PushTokenTable } from "@zotmeal/db";
 
 import { publicProcedure } from "../../trpc";
 

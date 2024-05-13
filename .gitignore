@@ -9,13 +9,13 @@ node_modules/
 
 .expo
 
-# Turborepo cookies
-# .turbo
+# Turborepo
 **/*.cookie
 
 # Logs.
 *.log
 .pnpm-debug.log*
+**/*.log*
 
 
 #####################################################################################

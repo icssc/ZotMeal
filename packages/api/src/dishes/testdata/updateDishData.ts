@@ -2,7 +2,7 @@ import type {
   DietRestriction,
   DishWithRelations,
   NutritionInfo,
-} from "@zotmeal/db/src/schema";
+} from "@zotmeal/db";
 
 const testDishId = "dish123";
 

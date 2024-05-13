@@ -1,6 +1,7 @@
+import { format, isToday } from "date-fns";
 import { describe, expect, it } from "vitest";
 
-import { createDrizzle, MenuTable } from "@zotmeal/db";
+import { periodNames } from "@zotmeal/utils";
 
 import type { GetScheduleParams } from "../services/schedule";
 import { createCaller, createTRPCContext } from "../..";
@@ -11,7 +12,7 @@ describe("getScheduleSchema validates properly", () => {
     const tests: GetScheduleParams[] = [
       {
         date: "04/22/2024",
-        restaurantName: "brandywine",
+        restaurant: "brandywine",
       },
     ];
 
@@ -25,7 +26,7 @@ describe("getScheduleSchema validates properly", () => {
     const tests: GetScheduleParams[] = [
       {
         date: "04-22/2024",
-        restaurantName: "brandywine",
+        restaurant: "brandywine",
       },
     ];
 
@@ -37,23 +38,25 @@ describe("getScheduleSchema validates properly", () => {
 });
 
 describe("getSchedule", () => {
-  const db = createDrizzle({ connectionString: process.env.DB_URL! });
-  const ctx = createTRPCContext({ db });
+  const ctx = createTRPCContext({ headers: new Headers() });
   const caller = createCaller(ctx);
+  const date = format(new Date(), "MM/d/yyyy");
 
-  it("should get schedule", async () => {
-    const menuRows = await db.select().from(MenuTable);
+  it("should get today's brandywine schedule", async () => {
+    const schedule = await caller.schedule.get({
+      date,
+      restaurant: "brandywine",
+    });
+    expect(schedule).toBeTruthy();
+    periodNames.forEach((period) => {
+      const fetchedPeriod = schedule[period];
 
-    // TODO: have a better way to run this test in integration
-    if (menuRows.length === 0) {
-      expect(true).toBeTruthy();
-    } else {
-      const schedule = await caller.schedule.get({
-        date: "04/22/2024",
-        restaurantName: "brandywine",
-      });
+      if (!fetchedPeriod) {
+        return;
+      }
 
-      expect(schedule).toBeTruthy();
-    }
+      // TODO: re-integrate this correctly. This fails because a pst day can span multiple days in UTC
+      // expect(isToday(fetchedPeriod.start)).toBeTruthy();
+    });
   });
 });

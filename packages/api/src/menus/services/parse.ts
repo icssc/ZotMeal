@@ -2,56 +2,38 @@ import axios from "axios";
 import { format } from "date-fns";
 import { ZodError } from "zod";
 
-import type { Drizzle } from "@zotmeal/db";
 import type {
   DietRestriction,
   DishWithRelations,
+  Drizzle,
   Menu,
   NutritionInfo,
   Restaurant,
   Station,
-} from "@zotmeal/db/src/schema";
+} from "@zotmeal/db";
 import type { CampusDishResponse } from "@zotmeal/validators";
-import { MenuSchema } from "@zotmeal/db/src/schema";
+import { MenuSchema } from "@zotmeal/db";
 import {
-  getPeriodById,
   getPeriodId,
+  getPeriodNameById,
   getRestaurantId,
   getRestaurantNameById,
 } from "@zotmeal/utils";
 import { CampusDishResponseSchema } from "@zotmeal/validators";
 
+import type { GetMenuParams } from "./menu";
 import { insertDishMenuStationJoint, upsertDish } from "../../dishes";
-import { upsertRestaurant } from "../../restaurants/services/restaurant";
+import { upsertRestaurant } from "../../restaurants";
 import { upsertStation } from "../../stations";
-import { upsertMenu } from "./menu";
-
-export interface GetMenuParams {
-  date: string;
-  period: string;
-  restaurant: string;
-}
+import { GetMenuSchema, upsertMenu } from "./menu";
 
 export async function getCampusDish(
   params: GetMenuParams,
 ): Promise<CampusDishResponse | null> {
-  const { date, restaurant, period } = params;
-
-  // Verify Parameters
+  const { date, period, restaurant } = GetMenuSchema.parse(params);
 
   const periodId = getPeriodId(period);
-
-  if (!periodId) {
-    console.error("invalid period", period);
-    return null;
-  }
-
   const restaurantId = getRestaurantId(restaurant);
-
-  if (!restaurantId) {
-    console.error("invalid restaurant", restaurant);
-    return null;
-  }
 
   // Request Format:
   // const res = await axios.get(
@@ -79,31 +61,25 @@ export async function parseCampusDish(
   db: Drizzle,
   response: CampusDishResponse,
 ): Promise<void> {
-  // Verify params
-  const restaurantName = getRestaurantNameById(response.LocationId);
-
-  if (!restaurantName) {
-    throw new Error("restaurant id not found");
-  }
-
   const restaurant = {
     id: response.LocationId,
-    name: restaurantName,
+    name: getRestaurantNameById(response.LocationId),
   } satisfies Restaurant;
 
   await upsertRestaurant(db, restaurant);
 
-  // Filter the period in the response based on selected period
+  // Find the period in the response based on selected period
   const selectedPeriod = response.Menu.MenuPeriods.find(
     (period) => period.PeriodId === response.SelectedPeriodId,
   );
 
   if (!selectedPeriod) {
     throw new Error(
-      `Period ${response.SelectedPeriodId} (${getPeriodById(response.SelectedPeriodId)}) not found in response`,
+      `Period ${response.SelectedPeriodId} (${getPeriodNameById(response.SelectedPeriodId)}) not found in response`,
     );
   }
 
+  // TODO: this can throw if date is incorrect format
   const date = format(selectedPeriod.UtcMealPeriodStartTime, "MM/dd/yyyy");
 
   const menuIdHash = response.LocationId + date + response.SelectedPeriodId;
@@ -112,7 +88,7 @@ export async function parseCampusDish(
   const menu = MenuSchema.parse({
     id: menuIdHash,
     restaurantId: response.LocationId,
-    period: getPeriodById(response.SelectedPeriodId) as Menu["period"],
+    period: getPeriodNameById(response.SelectedPeriodId),
     start: selectedPeriod.UtcMealPeriodStartTime,
     end: selectedPeriod.UtcMealPeriodEndTime,
     date,

@@ -1,42 +1,46 @@
 import { TRPCError } from "@trpc/server";
+import { format } from "date-fns";
 import { z } from "zod";
 
-import type { Drizzle, Period } from "@zotmeal/db";
-import { parseDate, RESTAURANT_TO_ID } from "@zotmeal/utils";
+import type { Drizzle } from "@zotmeal/db";
+import type { PeriodName } from "@zotmeal/utils";
+import { RestaurantSchema } from "@zotmeal/db";
+import { getRestaurantId } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
-
-export interface GetScheduleParams {
-  date: string;
-  restaurantName: string;
-}
 
 export const GetScheduleSchema = z.object({
   date: DateRegex,
-  restaurantName: z.string(),
-}) satisfies z.ZodType<GetScheduleParams>;
+  restaurant: RestaurantSchema.shape.name,
+});
+
+export type GetScheduleParams = z.infer<typeof GetScheduleSchema>;
 
 // TODO: might be more robust to do a type intersection depending on if its a weekday or weekend
 // since brunch is only on weekends, etc.
-type ScheduleResult = Record<
-  Period["name"],
-  { start: string; end: string; price: string }
+type ScheduleResult = Partial<
+  Record<PeriodName, { start: string; end: string; price: string }>
 >;
 
 export async function getSchedule(
   db: Drizzle,
   params: GetScheduleParams,
 ): Promise<ScheduleResult | null> {
-  const date = parseDate(params.date);
-  if (!date) {
+  const parsedParams = GetScheduleSchema.safeParse(params);
+
+  if (!parsedParams.success) {
     throw new TRPCError({
       code: "BAD_REQUEST",
-      message: "invalid date format",
+      message: `invalid params: ${parsedParams.error.message}`,
     });
   }
-  const restaurantId =
-    RESTAURANT_TO_ID[params.restaurantName]?.toString() ?? "";
+
+  const { date, restaurant } = parsedParams.data;
+
+  const restaurantId = getRestaurantId(restaurant);
   const fetchedPeriods = await db.query.MenuTable.findMany({
-    where: (menu, { eq }) => eq(menu.restaurantId, restaurantId),
+    where: (menu, { eq }) =>
+      eq(menu.restaurantId, restaurantId) &&
+      eq(menu.date, format(date, "MM/dd/yyyy")),
     columns: {
       start: true,
       end: true,
@@ -45,10 +49,7 @@ export async function getSchedule(
     },
   });
 
-  const schedule: ScheduleResult = {};
-  for (const Period of fetchedPeriods) {
-    const { period, start, end, price } = Period;
-    schedule[period] = { start, end, price };
-  }
-  return schedule;
+  return Object.fromEntries(
+    fetchedPeriods.map(({ period, ...data }) => [period, data]),
+  ) as ScheduleResult;
 }

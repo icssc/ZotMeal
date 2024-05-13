@@ -34,16 +34,15 @@ const expo: Expo = new Expo({
   accessToken: process.env.EXPO_ACCESS_TOKEN,
 });
 
-const db = createDrizzle({
-  connectionString:
-    process.env.DATABASE_URL ?? "postgres://admin:admin@localhost:5434/zotmeal",
-});
+const db = createDrizzle({ connectionString: process.env.DATABASE_URL });
 
 export const createTRPCContext = (opts: {
-  // headers: Headers;
+  headers: Headers;
   // session: Session | null;
 }) => {
-  console.log(">>> tRPC Request from", "something", "by", "someone");
+  const source = opts.headers.get("x-trpc-source") ?? "unknown";
+
+  console.log(">>> tRPC Request from", source, "by", "someone");
   return {
     ...opts,
     db,

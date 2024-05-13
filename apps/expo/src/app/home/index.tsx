@@ -1,12 +1,11 @@
-import type { DateTimePickerEvent } from "@react-native-community/datetimepicker";
-// import { api } from '~/utils/api';
-import { useState } from "react";
-import { useColorScheme } from "react-native";
-import { G, Path, Svg, Text as TextSVG } from "react-native-svg";
+import { useEffect, useState } from "react";
+import { Platform } from "react-native";
 import { Link } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
-import { Pin, PinOff, StarFull } from "@tamagui/lucide-icons";
+import { ArrowRight, CalendarDays, StarFull } from "@tamagui/lucide-icons";
+import { Toast, useToastController, useToastState } from "@tamagui/toast";
+import { endOfWeek, startOfWeek } from "date-fns";
 import {
   Button,
   H3,
@@ -17,261 +16,227 @@ import {
   Tabs,
   Text,
   useTheme,
-  useWindowDimensions,
-  View,
   XStack,
   YGroup,
   YStack,
 } from "tamagui";
-import { create } from "zustand";
+import { LinearGradient } from "tamagui/linear-gradient";
 
-import type { MenuWithRelations } from "@zotmeal/db/src/schema";
+import type { MenuWithRelations } from "@zotmeal/db";
+import type { PeriodName } from "@zotmeal/utils";
 import {
   getCurrentPeriodName,
   getRestaurantNameById,
-  isCurrentlyClosed,
-  PERIOD_TO_ID,
+  PeriodEnum,
+  restaurantNames,
 } from "@zotmeal/utils";
 
-import { anteateryData, brandywineData } from "./example_data";
+import { PinButton, RestaurantTabs } from "~/components";
+import { groupBy, useMenuStore } from "~/utils";
+import { api } from "~/utils/api";
 
 type Station = MenuWithRelations["stations"][0];
 type Dish = MenuWithRelations["stations"][0]["dishes"][0];
-type RestaurantName = NonNullable<ReturnType<typeof getRestaurantNameById>>;
 
-// TODO: Replace with real user data
-const dummyUserPins = ["312"];
-
-interface MenuState {
-  selectedRestaurant: RestaurantName;
-  anteateryMenu: MenuWithRelations | null;
-  brandywineMenu: MenuWithRelations | null;
-  setSelectedRestaurant: (restaurant: RestaurantName) => void;
-  setAnteateryMenu: (anteateryMenu: MenuWithRelations) => void;
-  setBrandywineMenu: (brandywineMenu: MenuWithRelations) => void;
+export function EventToast() {
+  const currentToast = useToastState();
+  if (!currentToast || currentToast.isHandledNatively) return null;
+  return (
+    <Toast
+      key={currentToast.id}
+      duration={currentToast.duration}
+      enterStyle={{ opacity: 0, scale: 1, y: 50 }}
+      exitStyle={{ opacity: 0, scale: 1, y: -20 }}
+      // y={0}
+      opacity={1}
+      scale={1}
+      animation="quicker"
+      viewportName={currentToast.viewportName}
+      borderRadius="$4"
+      flexDirection="row"
+      width="90%"
+      height="$6"
+      alignItems="center"
+      justifyContent="space-between"
+    >
+      <CalendarDays />
+      <Toast.Title fontWeight="800">{currentToast.title}</Toast.Title>
+      <LinearGradient
+        colors={["cornflowerblue", "blueviolet"]}
+        borderRadius="$20"
+      >
+        <Toast.Action altText="See Events" asChild>
+          <Link href="/events/" asChild replace>
+            <Button
+              backgroundColor={0}
+              pressTheme
+              size="$4"
+              circular
+              color="white"
+              icon={ArrowRight}
+              scaleIcon={1.5}
+            />
+          </Link>
+        </Toast.Action>
+      </LinearGradient>
+    </Toast>
+  );
 }
-
-export const useMenuStore = create<MenuState>((set) => ({
-  selectedRestaurant: "brandywine",
-  anteateryMenu: anteateryData,
-  brandywineMenu: brandywineData,
-  // anteateryMenu: null,
-  // brandywineMenu: null,
-  setSelectedRestaurant: (selectedRestaurant: RestaurantName) =>
-    set({ selectedRestaurant }),
-  setAnteateryMenu: (anteateryMenu: MenuWithRelations) =>
-    set({ anteateryMenu }),
-  setBrandywineMenu: (brandywineMenu: MenuWithRelations) =>
-    set({ brandywineMenu }),
-}));
 
 export function Home() {
-  const { selectedRestaurant } = useMenuStore();
+  const { anteateryMenu, brandywineMenu, setAnteateryMenu, setBrandywineMenu } =
+    useMenuStore();
 
-  return (
-    <>
-      <Image
-        source={{
-          uri:
-            selectedRestaurant === "brandywine"
-              ? "https://s3-media0.fl.yelpcdn.com/bphoto/P0DIhR8cO-JxYygc3V3aaQ/348s.jpg"
-              : "https://images.rsmdesign.com/7321bb55-579f-47fd-9f27-a6abf3e9826e.jpg",
-        }}
-        position="absolute"
-        zIndex={-1}
-        width={"100%"}
-        height={125}
-      />
-      <View height={65} />
-      <RestaurantTabs />
-    </>
+  const toast = useToastController();
+
+  const [showDatePicker, setShowDatePicker] = useState<boolean>(true);
+  const [date, setDate] = useState<Date>(new Date());
+
+  const currentPeriod = getCurrentPeriodName();
+
+  // TODO: how should we handle fetching when restaurant is closed?
+  const [periodName, setPeriodName] = useState<PeriodName>(
+    currentPeriod === "closed" ? "breakfast" : currentPeriod,
   );
-}
-
-const CustomTab = ({ label }: { label: string }) => {
-  const colorScheme = useColorScheme();
-  const theme = useTheme();
-  const deviceWidth = useWindowDimensions().width;
-
-  return (
-    <Svg
-      width={deviceWidth / 2 + 135}
-      height="75"
-      viewBox="0 0 403 82"
-      fill="none"
-    >
-      <Path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M-31 82H403C370.624 82 359.956 61.6562 349.248 41.2347C338.458 20.6568 327.626 0 294.5 0H77.5C44.374 0 33.5423 20.6568 22.7519 41.2347C12.0436 61.6562 1.37595 82 -31 82Z"
-        fill={colorScheme === "dark" ? "#1A1B1D" : "#FFFFFF"}
-      />
-      <G>
-        <TextSVG
-          x="50%"
-          y="30%"
-          fill={theme.color?.val as string}
-          textAnchor="middle"
-          alignmentBaseline="central"
-          fontSize="25"
-          fontWeight="bold"
-        >
-          {label}
-        </TextSVG>
-        {isCurrentlyClosed() && (
-          <TextSVG
-            x="50%"
-            y="60%"
-            fill="firebrick"
-            textAnchor="middle"
-            alignmentBaseline="central"
-            fontSize="18"
-            fontWeight="bold"
-          >
-            CLOSED
-          </TextSVG>
-        )}
-      </G>
-    </Svg>
-  );
-};
-
-function RestaurantTabs() {
-  const {
-    selectedRestaurant,
-    anteateryMenu,
-    brandywineMenu,
-    setSelectedRestaurant,
-    // setAnteateryMenu,
-    // setBrandywineMenu,
-  } = useMenuStore();
-
-  // const anteateryMenu = anteateryData;
-  // const brandywineMenu = brandywineData;
-
-  const [date, setDate] = useState(new Date());
-  const [periodName, setPeriodName] = useState(getCurrentPeriodName());
-  // const [anteateryMenu, brandywineMenu] = api.useQueries((t) =>
-  //   (["anteatery", "brandywine"] as const).map((restaurantName) =>
-  //     t.menu.get({
-  //       date: date.toLocaleDateString("en-US"),
-  //       periodName,
-  //       restaurantName,
-  //     })));
-
-  // useEffect(() => {
-  //   if (anteateryMenu?.data) {
-  //     setAnteateryMenu(anteateryMenu.data);
-  //   }
-
-  //   if (brandywineMenu?.data) {
-  //     setBrandywineMenu(brandywineMenu.data);
-  //   }
-  // }, [anteateryMenu, brandywineMenu, setAnteateryMenu, setBrandywineMenu]);
-
   const theme = useTheme();
 
-  // TODO: Could be better, maybe loading spinner
-  if (!anteateryMenu || !brandywineMenu) {
-    return <View>Loading...</View>;
+  // TODO: how should we handle fetching when restaurant is closed?
+  const [anteateryQuery, brandywineQuery] = api.useQueries((t) =>
+    restaurantNames.map((restaurantName) =>
+      t.menu.get({
+        date: date.toLocaleDateString("en-US"),
+        period: periodName,
+        restaurant: restaurantName,
+      }),
+    ),
+  );
+
+  useEffect(() => {
+    if (anteateryQuery?.data) {
+      setAnteateryMenu(anteateryQuery.data);
+    }
+
+    if (brandywineQuery?.data) {
+      setBrandywineMenu(brandywineQuery.data);
+    }
+  }, [anteateryQuery, brandywineQuery, setAnteateryMenu, setBrandywineMenu]);
+
+  if (!anteateryQuery || !brandywineQuery) {
+    return <Text>Fetching menus</Text>;
   }
 
-  // if (anteateryMenu.isLoading || brandywineMenu.isLoading) {
-  //   return <View>Loading...</View>;
-  // }
+  // TODO: maybe loading spinner instead
+  if (anteateryQuery.isLoading || brandywineQuery.isLoading) {
+    return <Text>Loading...</Text>;
+  }
 
-  // if (anteateryMenu.isError || brandywineMenu.isError || !anteateryMenu.data || !brandywineMenu.data) {
-  //   return <View>Error: {anteateryMenu.error ?? brandywineMenu.error}</View>;
-  // }
+  if (anteateryQuery.isError || brandywineQuery.isError) {
+    console.error(anteateryQuery.error, brandywineQuery.error);
+    return (
+      <>
+        <Text>{anteateryQuery.error?.message}</Text>
+        <Text>{brandywineQuery.error?.message}</Text>
+      </>
+    );
+  }
 
-  const PeriodPicker = ({ color }: { color: string }) => (
-    <Picker
-      style={{
-        width: 150,
-      }}
-      itemStyle={{
-        height: 50,
-        paddingVertical: 50,
-        fontSize: 18,
-        color,
-      }}
-      selectedValue={periodName}
-      onValueChange={(itemValue, _) => setPeriodName(itemValue)}
-    >
-      {/* Create a Picker.Item for each period */}
-      {Object.entries(PERIOD_TO_ID).map(([period, id]) => (
-        <Picker.Item key={id} label={period} value={id} />
-      ))}
-    </Picker>
-  );
+  toast.show("There are 5 upcoming events.", {
+    // message: 'See upcoming events',
+    duration: 10_000_000,
+    burntOptions: {
+      shouldDismissByDrag: true,
+      from: "bottom",
+    },
+  });
 
   return (
-    <Tabs
-      value={selectedRestaurant}
-      onValueChange={(value) => setSelectedRestaurant(value)}
-      orientation="horizontal"
-      flexDirection="column"
-      width={"100%"}
-      height={"100%"}
-    >
-      <Tabs.List
-        borderRadius={"$20"}
-        // separator={<Separator vertical />}
-        // disablePassBorderRadius="bottom"
-        flexDirection="column"
-      >
-        <View width={"100%"} flexDirection="row">
-          <Tabs.Tab
-            flex={1}
-            height={70}
-            value="brandywine"
-            opacity={selectedRestaurant === "brandywine" ? 1 : 0.5}
-          >
-            <CustomTab label={"Brandywine"} />
-            {/* <H3 fontWeight={"800"}>Brandywine</H3> */}
-          </Tabs.Tab>
-          <Tabs.Tab
-            flex={1}
-            height={70}
-            value="anteatery"
-            opacity={selectedRestaurant === "anteatery" ? 1 : 0.5}
-          >
-            <CustomTab label={"The Anteatery"} />
-            {/* <H3 fontWeight={"800"}>The Anteatery</H3> */}
-          </Tabs.Tab>
-        </View>
-      </Tabs.List>
-
+    <RestaurantTabs>
+      <EventToast />
       <XStack justifyContent="space-around">
-        <PeriodPicker color={theme.color?.val as string} />
-        {/* TODO: Write a unit test for rendering and checking if onChange is triggered on event */}
-        <DateTimePicker
-          value={date}
-          mode="date"
-          onChange={(event: DateTimePickerEvent, selectedDate) => {
-            if (selectedDate) {
-              setDate(selectedDate);
-            }
-          }}
+        <PeriodPicker
+          periodName={periodName}
+          setPeriodName={setPeriodName}
+          color={theme.color?.val as string}
         />
+        {Platform.OS === "android" && (
+          <Button
+            onPress={() => setShowDatePicker(true)}
+            icon={CalendarDays}
+            scaleIcon={1.5}
+            size="$5"
+            borderRadius="$10"
+            pressTheme
+          >
+            {date.toLocaleDateString("en-US")}
+          </Button>
+        )}
+        {showDatePicker && (
+          <DateTimePicker
+            value={date}
+            mode="date"
+            minimumDate={startOfWeek(new Date())}
+            maximumDate={endOfWeek(new Date())}
+            onChange={(_, selectedDate) => {
+              // hide date picker on android
+              setShowDatePicker(Platform.OS === "ios");
+              if (selectedDate) {
+                setDate(selectedDate);
+              }
+            }}
+          />
+        )}
       </XStack>
 
-      {/* {[brandywineMenu.data, anteateryMenu.data].map((menu) => ( */}
       {[brandywineMenu, anteateryMenu].map((menu) => (
-        <Tabs.Content
-          key={menu.restaurantId}
-          value={getRestaurantNameById(menu.restaurantId)!}
-          alignItems="center"
-          flex={1}
-        >
-          <StationTabs stations={menu.stations} />
-        </Tabs.Content>
+        <>
+          {menu && (
+            <Tabs.Content
+              key={menu.restaurantId}
+              value={getRestaurantNameById(menu.restaurantId)}
+              alignItems="center"
+              flex={1}
+            >
+              <StationTabs stations={menu.stations} />
+            </Tabs.Content>
+          )}
+        </>
       ))}
-    </Tabs>
+    </RestaurantTabs>
   );
 }
 
-const StationTabs = ({ stations }: { stations: Station[] }) => (
+interface PeriodPickerProps {
+  periodName: PeriodName;
+  setPeriodName: (periodName: PeriodName) => void;
+  color: string;
+}
+
+const PeriodPicker = ({
+  periodName,
+  setPeriodName,
+  color,
+}: Readonly<PeriodPickerProps>) => (
+  <Picker
+    style={{
+      width: 150,
+    }}
+    itemStyle={{
+      height: 50,
+      paddingVertical: 50,
+      fontSize: 18,
+      color,
+    }}
+    selectedValue={periodName}
+    onValueChange={(itemValue, _) => setPeriodName(itemValue)}
+  >
+    {/* Create a Picker.Item for each period */}
+    {Object.entries(PeriodEnum).map(([period, id]) => (
+      <Picker.Item key={id} label={period} value={id} />
+    ))}
+  </Picker>
+);
+
+const StationTabs = ({ stations }: Readonly<{ stations: Station[] }>) => (
   <Tabs
     defaultValue={stations?.[0]?.name}
     orientation="horizontal"
@@ -282,7 +247,8 @@ const StationTabs = ({ stations }: { stations: Station[] }) => (
     <Tabs.List>
       <ScrollView
         horizontal
-        bounces={false} // Disable bounce for the station tabs
+        bounces={false}
+        showsHorizontalScrollIndicator={false}
       >
         {stations.map((station) => (
           <Tabs.Tab
@@ -316,7 +282,12 @@ const StationTabs = ({ stations }: { stations: Station[] }) => (
           {Object.entries(
             groupBy(station.dishes, (dish) => dish.category as keyof Dish),
           ).map(([category, dishes]) => (
-            <Category key={category} category={category} dishes={dishes} />
+            <Category
+              key={category}
+              stationId={station.id}
+              category={category}
+              dishes={dishes}
+            />
           ))}
         </ScrollView>
       </Tabs.Content>
@@ -324,111 +295,89 @@ const StationTabs = ({ stations }: { stations: Station[] }) => (
   </Tabs>
 );
 
-const groupBy = <T, K extends keyof T>(arr: T[], key: (i: T) => K) =>
-  arr.reduce(
-    (groups, item) => {
-      (groups[key(item)] ||= []).push(item);
-      return groups;
-    },
-    {} as Record<K, T[]>,
-  );
-
 const Category = ({
+  stationId,
   category,
   dishes,
-}: {
+}: Readonly<{
+  stationId: Station["id"];
   category: string;
   dishes: Dish[];
-}) => (
+}>) => (
   <YStack key={category} width={"100%"}>
-    <H3 fontWeight={"800"} marginTop="$5">
+    <H3 fontWeight={"800"} marginTop="$5" paddingLeft="$2">
       {category}
     </H3>
     <YGroup bordered separator={<Separator borderWidth={1} />}>
       {dishes.map((dish) => (
-        <DishCard key={dish.id} dish={dish} />
+        <DishCard key={dish.id} dish={dish} stationId={stationId} />
       ))}
     </YGroup>
   </YStack>
 );
 
-const DishCard = ({ dish }: { dish: Dish }) => (
+const DishCard = ({
+  dish,
+  stationId,
+}: Readonly<{
+  dish: Dish;
+  stationId: Station["id"];
+}>) => (
   <YGroup.Item>
     <Link
       asChild
       href={{
         pathname: "/home/item/[id]",
-        params: { id: dish.id },
+        params: {
+          id: dish.id,
+          stationId,
+        },
       }}
     >
       <ListItem pressTheme>
-        <XStack justifyContent="space-between">
+        <XStack justifyContent="space-between" paddingRight="$4">
           <Image
             resizeMode="contain"
             alignSelf="center"
-            width={50}
-            height={50}
-            marginRight="$1"
+            width="18%"
+            height={65}
+            marginRight="$3"
             source={{
               uri: "https://images.rawpixel.com/image_png_1100/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTExL2ZyZWVpbWFnZXNjb21wYW55X3Bob3RvX29mX2Nob2NvbGF0ZV9jaGlwX2Nvb2tpZV90b3Bfdmlld19pc29sYV8xOGVkY2ZiYS00ZTJjLTQ5MWItYjZiOC02ZGZjNmY1M2Y0OWIucG5n.png",
             }}
           />
           <YStack
             gap="$1"
-            width={"85%"}
+            width={"75%"}
             justifyContent="space-between"
-            paddingVertical="$3"
-            borderWidth={1}
-            borderColor={"red"}
+            paddingTop="$4"
+            paddingBottom="$3"
           >
             <XStack justifyContent="space-between">
-              <Text
-                fontWeight={"800"}
-                fontSize={"$5"}
-                borderWidth={1}
-                borderColor={"red"}
-              >
+              <Text fontWeight={"800"} fontSize={"$5"}>
                 {dish.name}
               </Text>
-              <Text
-                textAlign="right"
-                fontSize="$5"
-                borderWidth={1}
-                borderColor={"red"}
-                fontWeight={"800"}
-              >
+              <Text textAlign="right" fontSize="$5" fontWeight={"800"}>
                 {dish.nutritionInfo.calories} cal
               </Text>
             </XStack>
-            <XStack
-              justifyContent="space-between"
-              borderWidth={1}
-              borderColor={"red"}
-            >
-              <XStack
-                alignItems="center"
-                gap="$1"
-                borderWidth={1}
-                borderColor={"red"}
-                width={"70%"}
-              >
+            <XStack justifyContent="space-between">
+              <XStack alignItems="center" gap="$1" width={"70%"}>
                 <StarFull color="gold" scale={0.8} />
                 <Text>
                   <Text fontWeight="800" fontSize="$4">
                     5.0
                   </Text>{" "}
-                  <Text color={"gray"}>(10,000 reviews)</Text>
+                  <Text color="gray">(10,000 reviews)</Text>
                 </Text>
               </XStack>
-              {dummyUserPins.includes(dish.id) ? (
-                <Button scale={0.8} fontWeight={"800"}>
-                  Unpin <PinOff />
-                </Button>
-              ) : (
-                <Button scale={0.8} fontWeight={"800"}>
-                  Pin <Pin />
-                </Button>
-              )}
+              <PinButton
+                dishName={dish.name}
+                scale={0.8}
+                minWidth="48%"
+                borderRadius="$10"
+                fontWeight="800"
+              />
             </XStack>
           </YStack>
         </XStack>

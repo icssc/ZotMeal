@@ -1,19 +1,13 @@
 import fs from "fs";
 import path from "path";
 import { format } from "date-fns";
+import { logger } from "logger";
 
-import {
-  getWeekInfo,
-  GetWeekInfoParams,
-} from "@zotmeal/api/src/services/getWeekInfo";
+import { getWeekInfo } from "@zotmeal/api";
 import { createDrizzle, pool } from "@zotmeal/db";
-import { Restaurant } from "@zotmeal/db/src/schema";
-import { RESTAURANT_TO_ID } from "@zotmeal/utils";
+import { restaurantNames } from "@zotmeal/utils";
 
 import { env } from "../env";
-
-// const connectionString =
-//   process.env.DATABASE_URL ?? "postgres://admin:admin@localhost:5434/zotmeal";
 
 const isProduction = process.env.NODE_ENV === "production";
 const connectionString = env.DATABASE_URL;
@@ -31,20 +25,26 @@ export const main = async (_event, _context) => {
       connectionString,
       ssl: sslConfig,
     });
-    const now = new Date();
-    const formattedTime = format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx");
-    console.log(`Weekly task executed at: ${formattedTime}`);
+    logger.info(`Start get weekly job...`);
 
-    const formattedDate = format(now, "MM/dd/yyyy");
-    for (const restaurant of Object.keys(RESTAURANT_TO_ID)) {
-      await getWeekInfo(db, {
-        date: formattedDate,
-        restaurantName: restaurant as Restaurant["name"],
-      } satisfies GetWeekInfoParams);
-    }
+    const date = format(new Date(), "MM/dd/yyyy");
+
+    const results = await Promise.allSettled(
+      restaurantNames.map(async (restaurant) =>
+        getWeekInfo(db, { date, restaurant }),
+      ),
+    );
+
+    // log errors if any
+    results.forEach((result) => {
+      if (result.status === "rejected") {
+        logger.error("getWeekInfo() failed:", result.reason);
+      }
+    });
   } catch (error) {
-    console.error("Failed to execute weekly task", error);
+    logger.error("Failed to execute weekly task", error);
   } finally {
     await pool({ connectionString }).end();
+    logger.info(`✅ Finished get weekly job.`);
   }
 };

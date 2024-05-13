@@ -1,57 +1,59 @@
-import type { Period, Restaurant } from "@zotmeal/db/src/schema";
+import { isFriday, isWeekend } from "date-fns";
 
-// id mappings (period, restaurant)
-// restaurant names
-
-function invertMapping<K extends string, V extends string>(
-  mapping: Record<K, V>,
-): Record<V, K> {
-  const inverted = {} as Record<V, K>;
-  for (const key in mapping) {
-    const value = mapping[key];
-    inverted[value] = key;
-  }
-
-  return inverted;
+export enum RestaurantEnum {
+  anteatery = "3056",
+  brandywine = "3314",
 }
 
-export const RESTAURANT_TO_ID: Record<Restaurant["name"], string> = {
-  brandywine: "3314",
-  anteatery: "3056",
-} as const;
-export const ID_TO_RESTAURANT = invertMapping(RESTAURANT_TO_ID);
+export enum PeriodEnum {
+  breakfast = "49",
+  brunch = "2651",
+  dinner = "107",
+  latenight = "108",
+  "light lunch" = "3819",
+  lunch = "106",
+}
 
-export const getRestaurantId = (
-  restaurant: Restaurant["name"],
-): string | null => RESTAURANT_TO_ID[restaurant] ?? null;
+export const restaurantNames = Object.keys(RestaurantEnum) as [RestaurantName];
+export const restaurantIds = Object.values(RestaurantEnum) as [RestaurantId];
+export const periodNames = Object.keys(PeriodEnum) as [PeriodName];
+export const periodIds = Object.values(PeriodEnum) as [PeriodId];
 
-export const getRestaurantNameById = (
-  id: keyof typeof ID_TO_RESTAURANT,
-): Restaurant["name"] | null => ID_TO_RESTAURANT[id] ?? null;
+// light lunch -> Light Lunch
 
-export const PERIOD_TO_ID: Record<Period["name"], string> = {
-  breakfast: "49",
-  lunch: "106",
-  dinner: "107",
-  brunch: "2651",
-  latenight: "108",
-} as const;
-export const ID_TO_PERIOD = invertMapping(PERIOD_TO_ID);
+export const capitalizedPeriodNames = periodNames.map((name) =>
+  name
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" "),
+) as [Capitalize<PeriodName>];
 
-export const getPeriodId = (
-  period: Period["name"],
-): keyof typeof ID_TO_PERIOD | null => PERIOD_TO_ID[period] ?? null;
+// export const capitalizedPeriodNames = periodNames.map(
+//   (name) => name.charAt(0).toUpperCase() + name.slice(1),
+// ) as [Capitalize<PeriodName>];
 
-export const getPeriodById = (
-  id: keyof typeof ID_TO_PERIOD,
-): Period["name"] | null => ID_TO_PERIOD[id] ?? null;
+type GetEnumKeys<Enum> = keyof Enum;
+export type RestaurantName = GetEnumKeys<typeof RestaurantEnum>;
+export type PeriodName = GetEnumKeys<typeof PeriodEnum>;
+
+export type RestaurantId = `${RestaurantEnum}`;
+export type PeriodId = `${PeriodEnum}`;
+
+export const getRestaurantId = (name: RestaurantName) => RestaurantEnum[name];
+export const getPeriodId = (name: PeriodName) => PeriodEnum[name];
+
+export const getRestaurantNameById = (id: RestaurantId) =>
+  restaurantNames[restaurantIds.indexOf(id)]!;
+
+export const getPeriodNameById = (id: PeriodId) =>
+  periodNames[periodIds.indexOf(id)]!;
 
 /**
  * Based on UCI Campusdish website:
  *
- * https://uci.campusdish.com/en/locationsandmenus/theanteatery/
+ * @see https://uci.campusdish.com/en/locationsandmenus/theanteatery/
  *
- * https://uci.campusdish.com/en/locationsandmenus/brandywine/
+ * @see https://uci.campusdish.com/en/locationsandmenus/brandywine/
  *
  * @example
  * Breakfast
@@ -68,64 +70,51 @@ export const getPeriodById = (
  *
  * @returns the current period based on the current time
  */
-export const getCurrentPeriodName = (): Period["name"] => {
+export const getCurrentPeriodName = (): PeriodName | "closed" => {
   const today = new Date();
-  const hours = today.getHours();
-  const minutes = today.getMinutes();
-  const isWeekend = today.getDay() === 0 || today.getDay() === 6;
+  const totalMinutes = today.getHours() * 60 + today.getMinutes();
+  const weekend = isWeekend(today);
 
-  // breakfast: 7:15 AM - 11:00 AM on weekdays
-  // and 9:00 AM - 11:00 AM on weekends
-  if (hours < 11) {
+  const breakfastWeekdayStart = 7 * 60 + 15;
+  const breakfastWeekendStart = 9 * 60;
+  const breakfastEnd = 11 * 60;
+  const brunchEnd = 16 * 60 + 30;
+  const dinnerEnd = 20 * 60;
+  const lateNightEnd = 23 * 60;
+
+  if (
+    !weekend &&
+    totalMinutes >= breakfastWeekdayStart &&
+    totalMinutes < breakfastEnd
+  ) {
     return "breakfast";
-  }
-
-  // breakfast, brunch, and dinner are on weekends
-  if (isWeekend) {
-    if (hours < 16 || (hours === 16 && minutes < 30)) {
-      // if before 4:30 PM
-      return "brunch";
-    }
-    return "dinner";
-  }
-
-  // mon-friday
-  if (hours < 16 || (hours === 16 && minutes < 30)) {
-    // if before 4:30 PM
+  } else if (
+    weekend &&
+    totalMinutes >= breakfastWeekendStart &&
+    totalMinutes < breakfastEnd
+  ) {
+    return "breakfast";
+  } else if (
+    weekend &&
+    totalMinutes >= breakfastEnd &&
+    totalMinutes < brunchEnd
+  ) {
+    return "brunch";
+  } else if (
+    !weekend &&
+    totalMinutes >= breakfastEnd &&
+    totalMinutes < brunchEnd
+  ) {
     return "lunch";
-  } else if (hours < 20) {
-    // if before 8:00 PM
+  } else if (totalMinutes >= brunchEnd && totalMinutes < dinnerEnd) {
     return "dinner";
-  } else {
-    return today.getDay() === 5 ? "dinner" : "latenight"; // friday does not have latenight
+  } else if (
+    !weekend &&
+    !isFriday(today) &&
+    totalMinutes >= dinnerEnd &&
+    totalMinutes < lateNightEnd
+  ) {
+    return "latenight";
   }
-};
-
-export const isCurrentlyClosed = (): boolean => {
-  const today = new Date();
-  const hours = today.getHours();
-  const minutes = today.getMinutes();
-  const isWeekend = today.getDay() === 0 || today.getDay() === 6;
-
-  if (isWeekend) {
-    if (hours < 9 || (hours === 9 && minutes < 0)) {
-      // if before 9:00 AM
-      return true;
-    }
-  } else if (hours < 7 || (hours === 7 && minutes < 15)) {
-    // if before 7:15 AM
-    return true;
-  }
-
-  if (hours >= 23 || (hours === 22 && minutes > 0)) {
-    // if after 11:00 PM
-    return true;
-  }
-
-  if (today.getDay() === 5 && (hours >= 20 || (hours === 19 && minutes > 0))) {
-    // if after 8:00 PM on friday
-    return true;
-  }
-
-  return false;
+  return "closed";
 };

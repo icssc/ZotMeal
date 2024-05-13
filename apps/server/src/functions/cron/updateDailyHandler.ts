@@ -2,18 +2,12 @@ import fs from "fs";
 import path from "path";
 import { format } from "date-fns";
 
-import {
-  updateDaily,
-  UpdateDailyParams,
-} from "@zotmeal/api/src/services/updateDaily";
+import { updateDaily, UpdateDailyParams } from "@zotmeal/api";
 import { createDrizzle, pool } from "@zotmeal/db";
-import { RESTAURANT_TO_ID } from "@zotmeal/utils";
+import { restaurantNames } from "@zotmeal/utils";
 
+import { logger } from "../../../logger";
 import { env } from "../env";
-
-// process.env.NODE_ENV
-// const connectionString =
-//   process.env.DATABASE_URL ?? "postgres://admin:admin@localhost:5434/zotmeal";
 
 const isProduction = process.env.NODE_ENV === "production";
 const connectionString = env.DATABASE_URL;
@@ -31,27 +25,24 @@ export const main = async (_event, _context) => {
       connectionString,
       ssl: sslConfig,
     });
-    const now = new Date();
-    const formattedTime = format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx");
-    console.log(`Start update daily job at ${formattedTime}`);
+    logger.info("Start update daily job...");
 
-    const date = format(now, "MM/dd/yyyy");
+    const date = format(new Date(), "MM/dd/yyyy");
 
     await Promise.allSettled(
-      Object.keys(RESTAURANT_TO_ID).map((restaurantName) =>
+      restaurantNames.map((restaurant) =>
         updateDaily(db, {
           date,
-          restaurantName,
+          restaurant,
         } satisfies UpdateDailyParams),
       ),
     );
-
-    console.log("Finished update daily job.");
   } catch (error) {
-    console.error("Failed to execute weekly task", error);
+    logger.error("Failed to execute weekly task", error);
   } finally {
-    console.log("Closing connection pool...");
+    logger.info("Closing connection pool...");
     await pool({ connectionString }).end();
-    console.log("Closed connection pool.");
+    logger.info("Closed connection pool.");
+    logger.info("✅ Finished update daily job.");
   }
 };
