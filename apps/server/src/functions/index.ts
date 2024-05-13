@@ -28,6 +28,7 @@ export const functions: AWS["functions"] = {
   },
   getWeekly: {
     handler: "src/functions/cron/getWeeklyHandler.main",
+    timeout: 600,
     events: [
       {
         schedule: {
@@ -39,6 +40,7 @@ export const functions: AWS["functions"] = {
   },
   updateDaily: {
     handler: "src/functions/cron/updateDailyHandler.main",
+    timeout: 600,
     events: [
       {
         schedule: {
