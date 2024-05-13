@@ -297,6 +297,9 @@ importers:
       '@neondatabase/serverless':
         specifier: ^0.9.0
         version: 0.9.1
+      '@zotmeal/tsconfig':
+        specifier: workspace:^0.1.0
+        version: link:../../tooling/typescript
       '@zotmeal/utils':
         specifier: workspace:^
         version: link:../utils
@@ -334,9 +337,6 @@ importers:
       '@zotmeal/prettier-config':
         specifier: workspace:^0.1.0
         version: link:../../tooling/prettier
-      '@zotmeal/tsconfig':
-        specifier: workspace:^0.1.0
-        version: link:../../tooling/typescript
       dotenv-cli:
         specifier: ^7.4.1
         version: 7.4.1
@@ -373,6 +373,9 @@ importers:
       '@zotmeal/db':
         specifier: workspace:^
         version: link:../db
+      '@zotmeal/tsconfig':
+        specifier: workspace:^0.1.0
+        version: link:../../tooling/typescript
       '@zotmeal/utils':
         specifier: workspace:^
         version: link:../utils
@@ -407,9 +410,6 @@ importers:
       '@zotmeal/tailwind-config':
         specifier: workspace:^0.1.0
         version: link:../../tooling/tailwind
-      '@zotmeal/tsconfig':
-        specifier: workspace:^0.1.0
-        version: link:../../tooling/typescript
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
@@ -431,6 +431,9 @@ importers:
 
   packages/utils:
     dependencies:
+      '@zotmeal/tsconfig':
+        specifier: workspace:^
+        version: link:../../tooling/typescript
       vitest:
         specifier: ^1.4.0
         version: 1.5.2(@types/node@20.12.7)
@@ -441,9 +444,6 @@ importers:
       '@zotmeal/prettier-config':
         specifier: workspace:^0.1.0
         version: link:../../tooling/prettier
-      '@zotmeal/tsconfig':
-        specifier: workspace:^
-        version: link:../../tooling/typescript
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
@@ -459,6 +459,9 @@ importers:
       '@zotmeal/db':
         specifier: workspace:^
         version: link:../db
+      '@zotmeal/tsconfig':
+        specifier: workspace:^0.1.0
+        version: link:../../tooling/typescript
       '@zotmeal/utils':
         specifier: workspace:^
         version: link:../utils
@@ -472,9 +475,6 @@ importers:
       '@zotmeal/prettier-config':
         specifier: workspace:^0.1.0
         version: link:../../tooling/prettier
-      '@zotmeal/tsconfig':
-        specifier: workspace:^0.1.0
-        version: link:../../tooling/typescript
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
