@@ -80,7 +80,6 @@ export async function getMenu(
       };
     }
     stationsResult[station.id]?.dishes.push({ ...dish, menuId, stationId });
-    console.log(dish, menu, station);
   }
   if (!menuResult) {
     return null;
@@ -90,7 +89,6 @@ export async function getMenu(
     menuResult.stations.push(stationsResult[stationId]!);
   }
 
-  console.log("NUMBER OF ROWS", rows.length);
   return menuResult;
 }
 

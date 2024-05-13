@@ -1,17 +1,12 @@
 import { relations } from "drizzle-orm";
-import { date, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { date, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
-
-import { periodNames, restaurantIds } from "@zotmeal/utils";
 
 import type { StationWithRelations } from "./station-table";
 import { DishMenuStationJointTable } from "./dish-menu-station-joint";
+import { periodNameEnum, restaurantIdEnum } from "./enums";
 import { RestaurantTable } from "./restaurant-table";
 import { metadataColumns } from "./utils";
-
-const restaurantIdEnum = pgEnum("restaurant_id_enum", restaurantIds);
-
-export const periodNameEnum = pgEnum("period_name", periodNames);
 
 export const MenuTable = pgTable("menus", {
   id: text("id").primaryKey().notNull(),

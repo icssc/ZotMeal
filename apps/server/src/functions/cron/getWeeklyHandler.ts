@@ -16,8 +16,8 @@ export const main = async (_event, _context) => {
     const date = format(new Date(), "MM/dd/yyyy");
 
     const results = await Promise.allSettled(
-      restaurantNames.map(async (restaurantName) =>
-        getWeekInfo(db, { date, restaurantName }),
+      restaurantNames.map(async (restaurant) =>
+        getWeekInfo(db, { date, restaurant }),
       ),
     );
 
