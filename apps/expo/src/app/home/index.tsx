@@ -151,6 +151,11 @@ export function Home() {
 
   const hello = api.menu.hello.useQuery();
 
+  // fetch("http://localhost:3000/menu.hello")
+  //   .then((res) => res.json())
+  //   .then(console.log)
+  //   .catch(console.error);
+
   const { data, error, isLoading } = hello;
 
   if (isLoading) {
@@ -158,7 +163,12 @@ export function Home() {
   }
 
   if (error) {
-    return <Text>{error.message}</Text>;
+    return (
+      <Text>
+        {error.data?.code}
+        {error.message}
+      </Text>
+    );
   }
 
   if (!data) {
