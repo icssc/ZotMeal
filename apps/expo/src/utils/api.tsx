@@ -19,7 +19,7 @@ export { type RouterInputs, type RouterOutputs } from "@zotmeal/api";
  */
 const getBaseUrl = () => {
   /**
-   * Gets the IP address of your host-machine. If it cannot automatically find it,
+   * Gets the IP address of your host-machine. If it cannot automatically find i  t,
    * you'll have to manually set it. NOTE: Port 3000 should work for most but confirm
    * you don't have anything else running on it, or you'd have to change it.
    *
