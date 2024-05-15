@@ -35,7 +35,7 @@ const getBaseUrl = () => {
       "Failed to get localhost. Please point to your production server.",
     );
   }
-  return `http://${localhost}:3000`;
+  return `http://localhost:3000`;
 };
 
 /**
@@ -49,7 +49,7 @@ export function TRPCProvider(props: { children: React.ReactNode }) {
       links: [
         httpBatchLink({
           transformer: superjson,
-          url: `${getBaseUrl()}/api/trpc`,
+          url: getBaseUrl(),
           headers() {
             const headers = new Map<string, string>();
             headers.set("x-trpc-source", "expo-react");
