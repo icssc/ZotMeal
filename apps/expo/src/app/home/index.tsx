@@ -84,8 +84,8 @@ export function EventToast() {
 }
 
 export function Home() {
-  // const { anteateryMenu, brandywineMenu, setAnteateryMenu, setBrandywineMenu } =
-  //   useMenuStore();
+  const { anteateryMenu, brandywineMenu, setAnteateryMenu, setBrandywineMenu } =
+    useMenuStore();
 
   // const toast = useToastController();
 
@@ -100,16 +100,18 @@ export function Home() {
   );
   const theme = useTheme();
 
-  // // TODO: how should we handle fetching when restaurant is closed?
-  // const [anteateryQuery, brandywineQuery] = api.useQueries((t) =>
-  //   restaurantNames.map((restaurantName) =>
-  //     t.menu.get({
-  //       date: date.toLocaleDateString("en-US"),
-  //       period: periodName,
-  //       restaurant: restaurantName,
-  //     }),
-  //   ),
-  // );
+  // TODO: how should we handle fetching when restaurant is closed?
+  const [anteateryQuery, brandywineQuery] = api.useQueries((t) =>
+    restaurantNames.map((restaurantName) =>
+      t.menu.get({
+        date: date.toLocaleDateString("en-US"),
+        period: periodName,
+        restaurant: restaurantName,
+      }),
+    ),
+  );
+  console.log(anteateryQuery);
+  console.log(brandywineQuery);
 
   // useEffect(() => {
   //   if (anteateryQuery?.data) {
@@ -148,36 +150,6 @@ export function Home() {
   //     from: "bottom",
   //   },
   // });
-
-  const hello = api.menu.hello.useQuery();
-
-  // fetch("http://localhost:3000/menu.hello")
-  //   .then((res) => res.json())
-  //   .then(console.log)
-  //   .catch(console.error);
-
-  const { data, error, isLoading } = hello;
-
-  if (isLoading) {
-    return <Text>Loading...</Text>;
-  }
-
-  if (error) {
-    return (
-      <Text>
-        {error.data?.code}
-        {error.message}
-      </Text>
-    );
-  }
-
-  if (!data) {
-    return <Text>No data</Text>;
-  }
-
-  if (data) {
-    return <Text>{data}</Text>;
-  }
 
   return (
     <RestaurantTabs>
