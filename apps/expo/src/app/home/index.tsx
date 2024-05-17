@@ -87,7 +87,7 @@ export function Home() {
   const { anteateryMenu, brandywineMenu, setAnteateryMenu, setBrandywineMenu } =
     useMenuStore();
 
-  // const toast = useToastController();
+  const toast = useToastController();
 
   const [showDatePicker, setShowDatePicker] = useState<boolean>(true);
   const [date, setDate] = useState<Date>(new Date());
@@ -113,43 +113,56 @@ export function Home() {
   console.log(anteateryQuery);
   console.log(brandywineQuery);
 
-  // useEffect(() => {
-  //   if (anteateryQuery?.data) {
-  //     setAnteateryMenu(anteateryQuery.data);
-  //   }
+  useEffect(() => {
+    if (anteateryQuery?.data) {
+      setAnteateryMenu(anteateryQuery.data);
+    }
 
-  //   if (brandywineQuery?.data) {
-  //     setBrandywineMenu(brandywineQuery.data);
-  //   }
-  // }, [anteateryQuery, brandywineQuery, setAnteateryMenu, setBrandywineMenu]);
+    if (brandywineQuery?.data) {
+      setBrandywineMenu(brandywineQuery.data);
+    }
 
-  // if (!anteateryQuery || !brandywineQuery) {
-  //   return <Text>Fetching menus</Text>;
-  // }
+    if (
+      anteateryQuery &&
+      brandywineQuery &&
+      anteateryQuery.isSuccess &&
+      brandywineQuery.isSuccess
+    ) {
+      toast.show("There are 5 upcoming events.", {
+        // message: 'See upcoming events',
+        duration: 10_000_000,
+        burntOptions: {
+          shouldDismissByDrag: true,
+          from: "bottom",
+        },
+      });
+    }
+  }, [
+    anteateryQuery?.data,
+    brandywineQuery?.data,
+    setAnteateryMenu,
+    setBrandywineMenu,
+    toast,
+  ]);
 
-  // // TODO: maybe loading spinner instead
-  // if (anteateryQuery.isLoading || brandywineQuery.isLoading) {
-  //   return <Text>Loading...</Text>;
-  // }
+  if (!anteateryQuery || !brandywineQuery) {
+    return <Text>Fetching menus</Text>;
+  }
 
-  // if (anteateryQuery.isError || brandywineQuery.isError) {
-  //   console.error(anteateryQuery.error, brandywineQuery.error);
-  //   return (
-  //     <>
-  //       <Text>{anteateryQuery.error?.message}</Text>
-  //       <Text>{brandywineQuery.error?.message}</Text>
-  //     </>
-  //   );
-  // }
+  // TODO: maybe loading spinner instead
+  if (anteateryQuery.isLoading || brandywineQuery.isLoading) {
+    return <Text>Loading...</Text>;
+  }
 
-  // toast.show("There are 5 upcoming events.", {
-  //   // message: 'See upcoming events',
-  //   duration: 10_000_000,
-  //   burntOptions: {
-  //     shouldDismissByDrag: true,
-  //     from: "bottom",
-  //   },
-  // });
+  if (anteateryQuery.isError || brandywineQuery.isError) {
+    console.error(anteateryQuery.error, brandywineQuery.error);
+    return (
+      <>
+        <Text>{anteateryQuery.error?.message}</Text>
+        <Text>{brandywineQuery.error?.message}</Text>
+      </>
+    );
+  }
 
   return (
     <RestaurantTabs>
