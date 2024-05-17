@@ -24,10 +24,12 @@ import { LinearGradient } from "tamagui/linear-gradient";
 
 import type { MenuWithRelations } from "@zotmeal/db";
 import type { PeriodName } from "@zotmeal/utils";
+import { restaurantIdEnum } from "@zotmeal/db";
 import {
   getCurrentPeriodName,
   getRestaurantNameById,
   PeriodEnum,
+  restaurantIds,
   restaurantNames,
 } from "@zotmeal/utils";
 
@@ -242,11 +244,13 @@ const PeriodPicker = ({
       color,
     }}
     selectedValue={periodName}
-    onValueChange={(itemValue, _) => setPeriodName(itemValue)}
+    onValueChange={(itemValue, _) => {
+      setPeriodName(itemValue);
+    }}
   >
     {/* Create a Picker.Item for each period */}
     {Object.entries(PeriodEnum).map(([period, id]) => (
-      <Picker.Item key={id} label={period} value={id} />
+      <Picker.Item key={id} label={period} value={period} />
     ))}
   </Picker>
 );
