@@ -10,7 +10,7 @@
 // import type { Session } from "@zotmeal/auth";
 // import { auth } from "@zotmeal/auth";
 
-import { Expo } from "expo-server-sdk";
+// import { Expo } from "expo-server-sdk";
 import { initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
@@ -30,24 +30,18 @@ import { createDrizzle } from "@zotmeal/db";
  * @see https://trpc.io/docs/server/context
  */
 
-const expo: Expo = new Expo({
-  accessToken: process.env.EXPO_ACCESS_TOKEN,
-});
+// const expo: Expo = new Expo({
+//   accessToken: process.env.EXPO_ACCESS_TOKEN,
+// });
 
 const db = createDrizzle({ connectionString: process.env.DATABASE_URL });
 
-export const createTRPCContext = (opts: {
-  headers: Headers;
-  // session: Session | null;
-}) => {
+export const createTRPCContext = (opts: { headers: Headers }) => {
   const source = opts.headers.get("x-trpc-source") ?? "unknown";
 
-  console.log(">>> tRPC Request from", source, "by", "someone");
-  return {
-    ...opts,
-    db,
-    expo,
-  };
+  console.log(">>> tRPC Request from", source);
+
+  return { db };
 };
 
 /**

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Platform } from "react-native";
 import Constants from "expo-constants";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink, loggerLink } from "@trpc/client";
@@ -19,7 +20,7 @@ export { type RouterInputs, type RouterOutputs } from "@zotmeal/api";
  */
 const getBaseUrl = () => {
   /**
-   * Gets the IP address of your host-machine. If it cannot automatically find i  t,
+   * Gets the IP address of your host-machine. If it cannot automatically find it,
    * you'll have to manually set it. NOTE: Port 3000 should work for most but confirm
    * you don't have anything else running on it, or you'd have to change it.
    *
@@ -35,7 +36,12 @@ const getBaseUrl = () => {
       "Failed to get localhost. Please point to your production server.",
     );
   }
-  return `http://${localhost}:3000`;
+
+  if (Platform.OS == "android") {
+    return `http://10.0.2.2:3000`;
+  }
+  
+  return `http://localhost:3000`;
 };
 
 /**
@@ -49,7 +55,7 @@ export function TRPCProvider(props: { children: React.ReactNode }) {
       links: [
         httpBatchLink({
           transformer: superjson,
-          url: `${getBaseUrl()}/api/trpc`,
+          url: getBaseUrl(),
           headers() {
             const headers = new Map<string, string>();
             headers.set("x-trpc-source", "expo-react");

@@ -36,7 +36,10 @@ export async function getMenu(
   }
 
   const { restaurant } = parsedParams.data;
+  const requestedDate = parsedParams.data.date;
+  const requestedPeriod = parsedParams.data.period;
 
+// Attempt to find the restaurant
   const fetchedRestaurant = await db.query.RestaurantTable.findFirst({
     where: ({ name }, { eq }) => eq(name, restaurant),
   });
@@ -48,7 +51,29 @@ export async function getMenu(
     });
   }
 
+  const requested_restaurant_id = fetchedRestaurant.id
+
+  // Attempt to find the menu
+  const fetchedMenu = await db.query.MenuTable.findFirst({
+    where: ({ date, period, restaurantId }, { eq, and }) =>
+        and(eq(date, requestedDate), 
+            eq(period, requestedPeriod),
+            eq(restaurantId, requested_restaurant_id)),
+  });
+
+  if (!fetchedMenu) {
+    throw new TRPCError({
+      message: `menu (${restaurant}, ${requestedPeriod}, ${requestedDate}) not found`,
+      code: "NOT_FOUND",
+    });
+  }
+
+  const requestedMenuId = fetchedMenu.id
+
+  // Compile stations and dishes for the menu
+
   const rows = await db.query.DishMenuStationJointTable.findMany({
+    where: ({menuId}, {eq}) => eq(menuId, requestedMenuId),
     with: {
       dish: {
         with: {
@@ -59,7 +84,6 @@ export async function getMenu(
       menu: true,
       station: true,
     },
-    limit: 5, // TODO: do findFirst with where clause instead
   });
 
   let menuResult: MenuWithRelations | null = null;

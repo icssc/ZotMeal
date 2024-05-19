@@ -24,10 +24,12 @@ import { LinearGradient } from "tamagui/linear-gradient";
 
 import type { MenuWithRelations } from "@zotmeal/db";
 import type { PeriodName } from "@zotmeal/utils";
+import { restaurantIdEnum } from "@zotmeal/db";
 import {
   getCurrentPeriodName,
   getRestaurantNameById,
   PeriodEnum,
+  restaurantIds,
   restaurantNames,
 } from "@zotmeal/utils";
 
@@ -84,8 +86,6 @@ export function EventToast() {
 }
 
 export function Home() {
-  // const hello = api.menu.hello.useQuery();
-
   const { anteateryMenu, brandywineMenu, setAnteateryMenu, setBrandywineMenu } =
     useMenuStore();
 
@@ -112,6 +112,8 @@ export function Home() {
       }),
     ),
   );
+  console.log(anteateryQuery);
+  console.log(brandywineQuery);
 
   useEffect(() => {
     if (anteateryQuery?.data) {
@@ -121,7 +123,29 @@ export function Home() {
     if (brandywineQuery?.data) {
       setBrandywineMenu(brandywineQuery.data);
     }
-  }, [anteateryQuery, brandywineQuery, setAnteateryMenu, setBrandywineMenu]);
+
+    if (
+      anteateryQuery &&
+      brandywineQuery &&
+      anteateryQuery.isSuccess &&
+      brandywineQuery.isSuccess
+    ) {
+      toast.show("There are 5 upcoming events.", {
+        // message: 'See upcoming events',
+        duration: 10_000_000,
+        burntOptions: {
+          shouldDismissByDrag: true,
+          from: "bottom",
+        },
+      });
+    }
+  }, [
+    anteateryQuery?.data,
+    brandywineQuery?.data,
+    setAnteateryMenu,
+    setBrandywineMenu,
+    toast,
+  ]);
 
   if (!anteateryQuery || !brandywineQuery) {
     return <Text>Fetching menus</Text>;
@@ -141,15 +165,6 @@ export function Home() {
       </>
     );
   }
-
-  toast.show("There are 5 upcoming events.", {
-    // message: 'See upcoming events',
-    duration: 10_000_000,
-    burntOptions: {
-      shouldDismissByDrag: true,
-      from: "bottom",
-    },
-  });
 
   return (
     <RestaurantTabs>
@@ -229,11 +244,13 @@ const PeriodPicker = ({
       color,
     }}
     selectedValue={periodName}
-    onValueChange={(itemValue, _) => setPeriodName(itemValue)}
+    onValueChange={(itemValue, _) => {
+      setPeriodName(itemValue);
+    }}
   >
     {/* Create a Picker.Item for each period */}
     {Object.entries(PeriodEnum).map(([period, id]) => (
-      <Picker.Item key={id} label={period} value={id} />
+      <Picker.Item key={id} label={period} value={period} />
     ))}
   </Picker>
 );

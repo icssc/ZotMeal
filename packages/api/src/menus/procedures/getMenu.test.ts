@@ -1,5 +1,5 @@
 import { TRPCError } from "@trpc/server";
-import { format } from "date-fns";
+import { format, isToday, parseISO } from "date-fns";
 import { describe, expect, it } from "vitest";
 
 import { getRestaurantId } from "@zotmeal/utils";
@@ -54,7 +54,7 @@ describe("menu.get", () => {
       restaurant: "brandywine",
     });
     expect(menu).toBeTruthy();
-    // expect(isToday(menu.date)).toBeTruthy(); // TODO: re-integrate once getMenu is fixed
+    expect(isToday(parseISO(menu.date))).toBeTruthy();
     expect(menu.restaurantId).toEqual(getRestaurantId("brandywine"));
   }, 10_000);
 
