@@ -4,6 +4,7 @@ import { z } from "zod";
 import type { Drizzle } from "@zotmeal/db";
 import { RestaurantSchema } from "@zotmeal/db";
 import { DateRegex } from "@zotmeal/validators";
+import { scrapeCampusDishEvents } from "../events";
 
 import type { UpdateDailyParams } from "./updateDaily";
 import { logger } from "../../logger";
@@ -24,6 +25,10 @@ export async function getWeekInfo(
   const { date: dateString, restaurant } = params;
   const startDate = new Date(dateString);
 
+  // Scrape and insert new events into db
+  const eventResults = await scrapeCampusDishEvents(db)
+
+  // Update menus for each day
   const results = await Promise.allSettled(
     Array.from({ length: NUM_DAYS_UPDATE }).map((_, i) => {
       const insertDate = new Date();
