@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Platform } from "react-native";
 import Constants from "expo-constants";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink, loggerLink } from "@trpc/client";
@@ -35,6 +36,11 @@ const getBaseUrl = () => {
       "Failed to get localhost. Please point to your production server.",
     );
   }
+
+  if (Platform.OS == "android") {
+    return `http://10.0.2.2:3000`;
+  }
+  
   return `http://localhost:3000`;
 };
 

@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
     "with-env": "dotenv -e ../../.env -- ",
-    "dev": "pnpm with-env sls offline --noPrependStageInUrl",
+    "dev": "pnpm with-env sls offline --noPrependStageInUrl --host 127.0.0.1",
     "deploy": "pnpm with-env AWS_PROFILE=icssc sls deploy --stage production",
     "test:daily": "pnpm with-env sls invoke local --function updateDaily | pino-pretty",
     "test:weekly": "pnpm with-env sls invoke local --function getWeekly | pino-pretty"
