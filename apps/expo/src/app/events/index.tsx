@@ -35,6 +35,9 @@ export default function Events() {
   useEffect(() => {
     if (eventsQuery?.data) {
       setEvents(eventsQuery.data);
+      eventsQuery.data.forEach((event) => {
+        console.log(event.image)
+      })
     }
   }, [eventsQuery?.data]);
 
@@ -54,52 +57,50 @@ export default function Events() {
         }}
       >
         {events.map((event: Event, index: number) => (
-          <EventContext.Provider value={event}>
-            <Link
-              key={index}
-              href={{
-                pathname: "/events/event/[id]",
-                params: { id: index },
-              }}
-              asChild
+          <Link
+            key={index}
+            href={{
+              pathname: "/events/event/[id]",
+              params: { id: index },
+            }}
+            asChild
+          >
+            <YStack
+              borderWidth={1.5}
+              borderRadius="$8"
+              borderColor="$borderColor"
+              width="90%"
+              padding="$4"
+              marginVertical="$4"
+              justifyContent="center"
+              alignItems="center"
+              alignContent="center"
+              alignSelf="center"
+              elevation={10}
             >
               <YStack
-                borderWidth={1.5}
-                borderRadius="$8"
-                borderColor="$borderColor"
-                width="90%"
-                padding="$4"
-                marginVertical="$4"
                 justifyContent="center"
-                alignItems="center"
-                alignContent="center"
-                alignSelf="center"
-                elevation={10}
+                width="100%"
+                backgroundColor="$borderColor"
+                borderRadius="$6"
               >
-                <YStack
-                  justifyContent="center"
-                  width="100%"
-                  backgroundColor="$borderColor"
-                  borderRadius="$6"
-                >
-                  <Image
-                    resizeMode="contain"
-                    source={{
-                      uri: event.image ?? "https://via.placeholder.com/150",
-                    }}
-                    minWidth={100}
-                    maxWidth="100%"
-                    height={175}
-                  />
-                </YStack>
-                <H3>{event.title}</H3>
-                <Text color="gray">
-                  {format(event.start.toString(), "LLL do p")} -{" "}
-                  {format(event.end.toString(), "LLL do p")}
-                </Text>
+                <Image
+                  resizeMode="contain"
+                  source={{
+                    uri: event.image ?? "https://via.placeholder.com/150",
+                  }}
+                  minWidth={100}
+                  maxWidth="100%"
+                  height={175}
+                />
               </YStack>
-            </Link>
-          </EventContext.Provider>
+              <H3>{event.title}</H3>
+              <Text color="gray">
+                {format(event.start.toString(), "LLL do p")} -{" "}
+                {format(event.end.toString(), "LLL do p")}
+              </Text>
+            </YStack>
+          </Link>
         ))}
       </ScrollView>
     </RestaurantTabs>
