@@ -24,20 +24,19 @@ import type { Event } from "@zotmeal/db";
 
 import { useMenuStore } from "~/utils";
 
-import { EventContext } from "..";
+import { useEvents } from "../eventsContext";
 
 export default function Event() {
   const { id } = useGlobalSearchParams();
   const { selectedRestaurant } = useMenuStore();
-  const eventData = useContext(EventContext)
+  const { events } = useEvents()
+  const eventData = events[Number(id)]!
 
   return (
     <>
       <Stack.Screen
         options={{
-          headerTitle: eventData.title,
-          headerBackTitle: "Events",
-          headerTitleStyle: { color: "white" },
+          headerTitle: eventData.title
         }}
       />
       <ScrollView
@@ -69,7 +68,7 @@ export default function Event() {
             height={200}
           />
         </YStack>
-        <YStack padding={0} gap="$2" marginVertical="$4">
+        <YStack padding={20} gap="$2" marginVertical="$4">
           <H3>{eventData.title}</H3>
           <Separator marginBottom="$2" />
           <XStack alignItems="center" padding={0} gap="$2">

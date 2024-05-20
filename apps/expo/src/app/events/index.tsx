@@ -1,9 +1,10 @@
-import { createContext, useEffect, useState } from "react";
-import { Link, Stack } from "expo-router";
+import { useEffect} from "react";
+import { Link } from "expo-router";
 import { format } from "date-fns";
 import { H3, Image, ScrollView, Text, YStack } from "tamagui";
 
 import type { Event } from "@zotmeal/db";
+import { useEvents } from "./eventsContext";
 
 import { RestaurantTabs } from "~/components";
 
@@ -24,20 +25,15 @@ const testData: Event = {
   restaurantId: "3314",
 } satisfies Event;
 
-export const EventContext = createContext(testData)
-
 // Events Component
 export default function Events() {
-  const [events, setEvents] = useState<Event[]>([]);
+  const { events, setEvents } = useEvents();
 
   const eventsQuery = api.event.get.useQuery({});
 
   useEffect(() => {
     if (eventsQuery?.data) {
       setEvents(eventsQuery.data);
-      eventsQuery.data.forEach((event) => {
-        console.log(event.image)
-      })
     }
   }, [eventsQuery?.data]);
 
