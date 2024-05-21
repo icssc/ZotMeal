@@ -13,12 +13,12 @@ import {
   restaurantNames,
 } from "@zotmeal/utils";
 
-import { RestaurantTabs } from "~/components";
 import { useMenuStore } from "~/utils";
 import { api } from "~/utils/api";
+import { EventToast } from "./_components/event-toast";
 import { PeriodPicker } from "./_components/period-picker";
 import { StationTabs } from "./_components/station-tabs";
-import { EventToast } from './_components/event-toast';
+import RestaurantTabs from '~/components/navigation/RestaurantTabs';
 
 export function Home() {
   const { anteateryMenu, brandywineMenu, setAnteateryMenu, setBrandywineMenu } =

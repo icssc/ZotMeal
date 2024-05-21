@@ -2,9 +2,9 @@ import { Link } from "expo-router";
 import { StarFull } from "@tamagui/lucide-icons";
 import { Image, ListItem, Text, XStack, YGroup, YStack } from "tamagui";
 
-import type { MenuWithRelations } from "@zotmeal/db";
 
-import { PinButton } from "~/components";
+import type { MenuWithRelations } from "@zotmeal/db";
+import { PinButton } from '~/components';
 
 type Station = MenuWithRelations["stations"][0];
 type Dish = MenuWithRelations["stations"][0]["dishes"][0];

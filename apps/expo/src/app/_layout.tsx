@@ -1,12 +1,15 @@
 import { config } from "@tamagui/config/v3";
+import { z } from "zod";
 
 import "@tamagui/core/reset.css";
 
+import type { TokenCache } from "@clerk/clerk-expo/dist/cache";
 import type { FontSource } from "expo-font";
 import { useColorScheme } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
+import * as SecureStore from "expo-secure-store";
 import { StatusBar } from "expo-status-bar";
 import { ClerkProvider } from "@clerk/clerk-expo";
 import InterBold from "@tamagui/font-inter/otf/Inter-Bold.otf";
@@ -14,7 +17,8 @@ import Inter from "@tamagui/font-inter/otf/Inter-Medium.otf";
 import { ToastProvider, ToastViewport } from "@tamagui/toast";
 import { createTamagui, TamaguiProvider, Theme } from "tamagui";
 
-import { HamburgerMenu, Logo } from "~/components";
+import Logo from "~/components/Logo";
+import HamburgerMenu from "~/components/navigation/HamburgerMenu";
 import { TRPCProvider } from "~/utils";
 import { env } from "../utils/env";
 
@@ -22,6 +26,23 @@ import { env } from "../utils/env";
 // It wraps your pages with the providers they need
 
 const tamaguiConfig = createTamagui(config);
+
+const tokenCache: TokenCache = {
+  async getToken(key: string) {
+    try {
+      return SecureStore.getItemAsync(key);
+    } catch (err) {
+      return null;
+    }
+  },
+  async saveToken(key: string, value: string) {
+    try {
+      await SecureStore.setItemAsync(key, value);
+    } catch (err) {
+      console.error(err);
+    }
+  },
+};
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -39,7 +60,10 @@ export default function RootLayout() {
   return (
     <TRPCProvider>
       <TamaguiProvider config={tamaguiConfig}>
-        <ClerkProvider publishableKey={env.CLERK_PUBLISHABLE_KEY}>
+        <ClerkProvider
+          publishableKey={env.CLERK_PUBLISHABLE_KEY}
+          tokenCache={tokenCache}
+        >
           <ToastProvider>
             <Theme name={colorScheme}>
               <Stack

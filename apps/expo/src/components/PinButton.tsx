@@ -8,7 +8,7 @@ interface PinButtonProps extends GetProps<typeof Button> {
   dishName: string;
 }
 
-export default function PinButton({ dishName, ...props }: PinButtonProps) {
+export function PinButton({ dishName, ...props }: PinButtonProps) {
   const [pinnedItems, setPinnedItems] = useState<Record<string, boolean>>({});
   const { getItem, setItem } = useAsyncStorage("pinnedItems");
 

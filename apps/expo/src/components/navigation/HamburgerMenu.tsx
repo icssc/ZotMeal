@@ -5,6 +5,7 @@ import {
   ChevronRight,
   Home,
   Info,
+  LogIn,
   Menu,
   Settings,
   Siren,
@@ -45,6 +46,11 @@ export default function HamburgerMenu() {
       path: "/privacy-policy/",
       description: "About your privacy",
       icon: Siren,
+    },
+    Auth: {
+      path: "/auth/",
+      description: "Authentication",
+      icon: LogIn,
     },
   };
 

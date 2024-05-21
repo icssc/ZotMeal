@@ -50,6 +50,9 @@ importers:
       '@react-navigation/drawer':
         specifier: ^6.6.11
         version: 6.6.15(@react-navigation/native@6.1.17)(react-native-gesture-handler@2.16.0)(react-native-reanimated@3.8.1)(react-native-safe-area-context@4.9.0)(react-native-screens@3.30.1)(react-native@0.73.7)(react@18.2.0)
+      '@rehookify/datepicker':
+        specifier: ^6.6.1
+        version: 6.6.1(react@18.2.0)
       '@shopify/flash-list':
         specifier: 1.6.3
         version: 1.6.3(@babel/runtime@7.24.4)(react-native@0.73.7)(react@18.2.0)
@@ -107,6 +110,9 @@ importers:
       expo-router:
         specifier: ~3.4.8
         version: 3.4.8(@react-navigation/drawer@6.6.15)(expo-constants@15.4.6)(expo-linking@6.2.2)(expo-modules-autolinking@1.10.3)(expo-status-bar@1.11.1)(expo@50.0.17)(react-dom@18.2.0)(react-native-reanimated@3.8.1)(react-native-safe-area-context@4.9.0)(react-native-screens@3.30.1)(react-native@0.73.7)(react@18.2.0)
+      expo-secure-store:
+        specifier: ^13.0.1
+        version: 13.0.1(expo@50.0.17)
       expo-splash-screen:
         specifier: ~0.26.4
         version: 0.26.4(expo-modules-autolinking@1.10.3)(expo@50.0.17)
@@ -5628,6 +5634,15 @@ packages:
     resolution: {integrity: sha512-lTM8gSFHSfkJvQkxacGM6VJtBt61ip2XO54aNfswD+KMw6eeZ4oehl7m0me3CR9hnDE4+60iAZR8sAhvCiI3NA==}
     dependencies:
       nanoid: 3.3.7
+    dev: false
+
+  /@rehookify/datepicker@6.6.1(react@18.2.0):
+    resolution: {integrity: sha512-g1Ap4Jz1iHd9pNW7mZ02qFb4kvjvli483j+/KQNiW3+6J11ZFJmLweO+IHd20J4p7agxCtlXW+HPeNNZeLOGLg==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /@remix-run/node@1.19.3:
@@ -11660,6 +11675,14 @@ packages:
       - react-dom
       - react-native
       - supports-color
+    dev: false
+
+  /expo-secure-store@13.0.1(expo@50.0.17):
+    resolution: {integrity: sha512-5DTKjbv98X7yPbm+1jER/sOEIlt2Ih7qwabTvkWDXry5bPcQGoulxH5zIX9+JvVH7of8GI4t7NSEbpAO3P7FZA==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      expo: 50.0.17(@babel/core@7.24.4)(@react-native/babel-preset@0.74.81)
     dev: false
 
   /expo-server-sdk@3.9.0:
