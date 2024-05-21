@@ -4,9 +4,9 @@ import { describe, expect, it } from "vitest";
 
 import { getRestaurantId } from "@zotmeal/utils";
 
-import type { GetMenuParams } from "..";
-import { GetMenuSchema } from "..";
+import type { GetMenuParams } from "./getMenu";
 import { createCaller, createTRPCContext } from "../..";
+import { GetMenuSchema } from "./getMenu";
 
 describe("getMenu", () => it("hello", () => console.log("hello")));
 

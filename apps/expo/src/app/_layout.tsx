@@ -1,5 +1,4 @@
 import { config } from "@tamagui/config/v3";
-import { z } from "zod";
 
 import "@tamagui/core/reset.css";
 
@@ -18,7 +17,7 @@ import { ToastProvider, ToastViewport } from "@tamagui/toast";
 import { createTamagui, TamaguiProvider, Theme } from "tamagui";
 
 import Logo from "~/components/Logo";
-import HamburgerMenu from "~/components/navigation/HamburgerMenu";
+import { HamburgerMenu } from "~/components/navigation/HamburgerMenu";
 import { TRPCProvider } from "~/utils";
 import { env } from "../utils/env";
 

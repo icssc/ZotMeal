@@ -11,6 +11,7 @@ services:
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: zotmeal
     volumes:
+      - ./docker/db/zotmeal.sql:/docker-entrypoint-initdb.d/init.sql
       - db_data:/var/lib/postgresql/data
     ports:
       - 5433:5432

@@ -12,7 +12,7 @@ import {
 } from "@tamagui/lucide-icons";
 import { Adapt, Button, ListItem, Popover, Separator, YGroup } from "tamagui";
 
-export default function HamburgerMenu() {
+export function HamburgerMenu() {
   const currentSegment = useSegments()[0] ?? "";
   const screens: Record<
     string,
