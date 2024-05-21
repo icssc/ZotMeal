@@ -24,12 +24,10 @@ import { LinearGradient } from "tamagui/linear-gradient";
 
 import type { MenuWithRelations } from "@zotmeal/db";
 import type { PeriodName } from "@zotmeal/utils";
-import { restaurantIdEnum } from "@zotmeal/db";
 import {
   getCurrentPeriodName,
   getRestaurantNameById,
   PeriodEnum,
-  restaurantIds,
   restaurantNames,
 } from "@zotmeal/utils";
 

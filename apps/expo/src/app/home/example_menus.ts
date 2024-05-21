@@ -69,6 +69,8 @@ export const brandywineData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
         {
           name: "Breakfast Muffin",
@@ -120,6 +122,8 @@ export const brandywineData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
         {
           name: "Side 1",
@@ -171,6 +175,8 @@ export const brandywineData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
         {
           name: "Side 2",
@@ -222,6 +228,8 @@ export const brandywineData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
       ],
     },
@@ -282,6 +290,8 @@ export const brandywineData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
         {
           name: "Breakfast Muffin",
@@ -333,6 +343,8 @@ export const brandywineData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
         {
           name: "Side 1",
@@ -384,6 +396,8 @@ export const brandywineData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
         {
           name: "Side 2",
@@ -435,6 +449,8 @@ export const brandywineData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
       ],
     },
@@ -495,6 +511,8 @@ export const brandywineData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
         {
           name: "Breakfast Muffin",
@@ -546,6 +564,8 @@ export const brandywineData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
         {
           name: "Side 1",
@@ -597,6 +617,8 @@ export const brandywineData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
         {
           name: "Side 2",
@@ -648,6 +670,8 @@ export const brandywineData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
       ],
     },
@@ -708,6 +732,8 @@ export const brandywineData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
         {
           name: "Breakfast Muffin",
@@ -759,6 +785,8 @@ export const brandywineData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
         {
           name: "Side 1",
@@ -810,6 +838,8 @@ export const brandywineData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
         {
           name: "Side 2",
@@ -861,6 +891,8 @@ export const brandywineData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
       ],
     },
@@ -936,6 +968,8 @@ export const anteateryData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
         {
           name: "Breakfast Muffin",
@@ -987,6 +1021,8 @@ export const anteateryData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
         {
           name: "Side 1",
@@ -1038,6 +1074,8 @@ export const anteateryData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
         {
           name: "Side 2",
@@ -1089,6 +1127,8 @@ export const anteateryData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
       ],
     },
@@ -1149,6 +1189,8 @@ export const anteateryData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
         {
           name: "Breakfast Muffin",
@@ -1200,6 +1242,8 @@ export const anteateryData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
         {
           name: "Side 1",
@@ -1251,6 +1295,8 @@ export const anteateryData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
         {
           name: "Side 2",
@@ -1302,6 +1348,8 @@ export const anteateryData = {
             servingUnit: "g",
             caloriesFromFat: "2",
           },
+          menuId: '',
+          stationId: ''
         },
       ],
     },
