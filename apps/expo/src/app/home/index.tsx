@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-
-
-
 import { Platform } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { CalendarDays } from "@tamagui/lucide-icons";
@@ -186,10 +183,4 @@ export function Home() {
       </ScrollView>
     </RestaurantTabs>
   );
-}
-
-
-
-function CategorySection() {
-
 }
