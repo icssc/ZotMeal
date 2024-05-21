@@ -1,9 +1,10 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
 
-import type { Event } from "@zotmeal/db";
+import type { Event, Drizzle } from "@zotmeal/db";
 import { EventSchema } from "@zotmeal/db";
 import { getRestaurantId, parseEventDate } from "@zotmeal/utils";
+import { upsertEvents } from "./event";
 
 import { logger } from "../../../logger";
 
@@ -114,4 +115,20 @@ export async function scrapeEvents(html: string): Promise<Event[] | null> {
     }
   }
   return null;
+}
+
+// scrapes all events from campusDish and upserts them into the db
+export async function scrapeCampusDishEvents(db: Drizzle): Promise<Event[]> {
+  const html = await getHTML(
+    "https://uci-campusdish-com.translate.goog/api/events?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en&_x_tr_pto=wapp",
+  );
+  const events = await scrapeEvents(html);
+
+  if (!events) {
+    throw new Error("Could not retrieve campus dish events");
+  }
+
+  const upsertedEvents = await upsertEvents(db, events);
+
+  return upsertedEvents
 }
