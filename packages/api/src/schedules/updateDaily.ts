@@ -5,9 +5,9 @@ import { RestaurantSchema } from "@zotmeal/db";
 import { periodNames } from "@zotmeal/utils";
 import { DateRegex } from "@zotmeal/validators";
 
-import type { GetMenuParams } from "..";
-import { getCampusDish, parseCampusDish } from "..";
+import type { GetMenuParams } from "../menus";
 import { logger } from "../../logger";
+import { getCampusDish, parseCampusDish } from "../menus";
 
 export const UpdateDailySchema = z.object({
   date: DateRegex,

@@ -34,7 +34,6 @@ export * from "./menus";
 export * from "./notifications";
 export * from "./restaurants";
 export * from "./schedules";
-export * from "./services";
 
 export { createTRPCContext, appRouter, createCaller };
 export type { AppRouter, RouterInputs, RouterOutputs };

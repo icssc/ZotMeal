@@ -1,1 +1,3 @@
-export * from "./services/schedule";
+export * from "./getWeekInfo";
+export * from "./schedule";
+export * from "./updateDaily";
