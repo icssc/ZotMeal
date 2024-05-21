@@ -5,7 +5,7 @@
   "main": "serverless.ts",
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
-    "with-env": "dotenv -e ../../.env -- ",
+    "with-env": "dotenv -e .env.development -- ",
     "dev": "pnpm with-env sls offline --noPrependStageInUrl --host 127.0.0.1",
     "deploy": "pnpm with-env AWS_PROFILE=icssc sls deploy --stage production",
     "test:daily": "pnpm with-env sls invoke local --function updateDaily | pino-pretty",

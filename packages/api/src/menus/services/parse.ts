@@ -21,11 +21,12 @@ import {
 } from "@zotmeal/utils";
 import { CampusDishResponseSchema } from "@zotmeal/validators";
 
-import type { GetMenuParams } from "./menu";
 import { insertDishMenuStationJoint, upsertDish } from "../../dishes";
 import { upsertRestaurant } from "../../restaurants";
 import { upsertStation } from "../../stations";
-import { GetMenuSchema, upsertMenu } from "./menu";
+import { upsertMenu } from "./menu";
+import type { GetMenuParams} from '../procedures/getMenu';
+import { GetMenuSchema } from '../procedures/getMenu';
 
 export async function getCampusDish(
   params: GetMenuParams,
