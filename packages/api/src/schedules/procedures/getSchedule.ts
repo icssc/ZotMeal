@@ -1,7 +1,9 @@
 import { TRPCError } from "@trpc/server";
 
 import { publicProcedure } from "../../trpc";
-import { getSchedule, GetScheduleSchema } from "../services/schedule";
+import { getSchedule, GetScheduleSchema } from "../schedule";
+
+// import { getSchedule, GetScheduleSchema } from
 
 export const getScheduleProcedure = publicProcedure
   .input(GetScheduleSchema)

@@ -10,8 +10,6 @@
     }
   },
   "scripts": {
-    "dev": "echo 'Add dev script here'",
-    "build": "echo 'Add build script here'",
     "with-env": "dotenv -e ../../.env --",
     "test": "pnpm with-env vitest run --config vitest.config.ts | pino-pretty",
     "lint": "eslint ."

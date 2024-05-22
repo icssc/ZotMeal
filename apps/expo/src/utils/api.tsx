@@ -40,7 +40,7 @@ const getBaseUrl = () => {
   if (Platform.OS == "android") {
     return `http://10.0.2.2:3000`;
   }
-  
+
   return `http://localhost:3000`;
 };
 
@@ -50,12 +50,14 @@ const getBaseUrl = () => {
  */
 export function TRPCProvider(props: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
-  const [trpcClient] = useState(() =>
-    api.createClient({
+  const [trpcClient] = useState(() => {
+    const url = getBaseUrl();
+    console.error("hello", url);
+    return api.createClient({
       links: [
         httpBatchLink({
           transformer: superjson,
-          url: getBaseUrl(),
+          url: url,
           headers() {
             const headers = new Map<string, string>();
             headers.set("x-trpc-source", "expo-react");
@@ -69,8 +71,8 @@ export function TRPCProvider(props: { children: React.ReactNode }) {
           colorMode: "ansi",
         }),
       ],
-    }),
-  );
+    });
+  });
 
   return (
     <api.Provider client={trpcClient} queryClient={queryClient}>
