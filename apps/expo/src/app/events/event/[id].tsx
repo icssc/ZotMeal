@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Stack, useGlobalSearchParams } from "expo-router";
 import {
   CalendarClock,
@@ -24,28 +24,19 @@ import type { Event } from "@zotmeal/db";
 
 import { useMenuStore } from "~/utils";
 
+import { useEvents } from "../eventsContext";
+
 export default function Event() {
   const { id } = useGlobalSearchParams();
   const { selectedRestaurant } = useMenuStore();
-
-  const testData = {
-    title: "Test Event",
-    start: new Date("2022-01-01 12:00:00"),
-    end: new Date(),
-    image:
-      "https://uci.campusdish.com/-/media/Feature/Articles/DefaultEventImage.ashx?mh=350&mw=350&hash=B788068F09F0E38D1D19756934E293E4C1379BBF",
-    shortDescription: "This is a test event with a short description!",
-    longDescription: `This is a long description of the event. It's so long that it wraps around multiple lines. It's a very long description, but it's also very interesting. You should definitely read it.`,
-    restaurantId: "3314",
-  } satisfies Event;
+  const { events } = useEvents()
+  const eventData = events[Number(id)]!
 
   return (
     <>
       <Stack.Screen
         options={{
-          headerTitle: testData.title,
-          headerBackTitle: "Events",
-          headerTitleStyle: { color: "white" },
+          headerTitle: eventData.title
         }}
       />
       <ScrollView
@@ -70,15 +61,15 @@ export default function Event() {
           <Image
             resizeMode="contain"
             source={{
-              uri: testData.image ?? require("../example-event-image.png"),
+              uri: eventData.image ?? require("../example-event-image.png"),
             }}
             minWidth={100}
             maxWidth="100%"
             height={200}
           />
         </YStack>
-        <YStack padding={0} gap="$2" marginVertical="$4">
-          <H3>{testData.title}</H3>
+        <YStack padding={20} gap="$2" marginVertical="$4">
+          <H3>{eventData.title}</H3>
           <Separator marginBottom="$2" />
           <XStack alignItems="center" padding={0} gap="$2">
             <MapPin />
@@ -90,13 +81,13 @@ export default function Event() {
           <XStack alignItems="center" padding={0} gap="$2">
             <CalendarClock />
             <Text>
-              {format(testData.start.toString(), "LLL do p")} -{" "}
-              {format(testData.end.toString(), "LLL do p")}
+              {format(eventData.start.toString(), "LLL do p")} -{" "}
+              {format(eventData.end.toString(), "LLL do p")}
             </Text>
           </XStack>
           <XStack alignItems="center" padding={0} gap="$2">
             <Info />
-            <Text>{testData.shortDescription}</Text>
+            <Text>{eventData.shortDescription}</Text>
           </XStack>
         </YStack>
         <Accordion overflow="hidden" width="95%" type="multiple">
@@ -124,7 +115,7 @@ export default function Event() {
               borderTopLeftRadius={0}
               borderTopRightRadius={0}
             >
-              <Paragraph>{testData.longDescription}</Paragraph>
+              <Paragraph>{eventData.longDescription}</Paragraph>
             </Accordion.Content>
           </Accordion.Item>
         </Accordion>

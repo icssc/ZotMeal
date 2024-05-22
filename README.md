@@ -35,6 +35,9 @@ A summary of the libraries we use are listed below.
    It's responsible for installing, uninstalling, and keeping track of the app's dependencies.
    `npm install --global pnpm`
 
+3. Make sure to have `docker` installed, which will allow you to run the local postgres database
+   required for backend functions. You can install it from [the official website here](https://www.docker.com/get-started/).
+
 ## Developing
 
 1. Clone the ZotMeal repository or your fork.
@@ -44,19 +47,25 @@ A summary of the libraries we use are listed below.
    `nvm use`
 3. Navigate to the root directory and install the dependencies.
    `cd ZotMeal && pnpm install`
-4. Create a .env based on the .env.example
-5. To start a local Postgres container database run the `start-database.sh` script. This will automatically set a test database.
-6. Run `turbo db:generate`
 
-7. Start the local development servers for expo and server.
-   `pnpm dev`
+4. To start a local Postgres container database run the `docker compose up` in the root directory.
+   This will automatically set up and run a test database using docker.
+
+5. Create a .env based on the .env.example using `localhost`
+  
+6. Run `pnpm db:push` to push the schema to the docker database. 
+
+7. Start the local development servers for expo and server with `pnpm dev`.
    The tRPC procedures are available on <http://localhost:3000/><router.procedure\>?input={field: value}
 
-8. View the local website at <http://localhost:19006> and/or with the [Expo Go mobile app](https://expo.dev/client).
+8. View the local website at <http://localhost:8081> and/or with the [Expo Go mobile app](https://expo.dev/client).
    As you make changes to the Expo application, those changes will be automatically
    reflected on the local website as well as the mobile app.
-9. To add a new package run `turbo gen workspace` and follow the prompts
 
 ## Testing
 
 Run `turbo test` at the root of the project.
+
+## Adding Workspaces
+
+To add a new package run `turbo gen workspace` and follow the prompts
