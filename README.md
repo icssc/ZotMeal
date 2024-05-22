@@ -47,10 +47,11 @@ A summary of the libraries we use are listed below.
    `nvm use`
 3. Navigate to the root directory and install the dependencies.
    `cd ZotMeal && pnpm install`
-4. Create a .env based on the .env.example
 
-5. To start a local Postgres container database run the `docker compose up` in the root directory.
+4. To start a local Postgres container database run the `docker compose up` in the root directory.
    This will automatically set up and run a test database using docker.
+
+5. Create a .env based on the .env.example using `localhost`
   
 6. Run `pnpm db:push` to push the schema to the docker database. 
 
