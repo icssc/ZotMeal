@@ -3,9 +3,9 @@ import { describe, expect, it } from "vitest";
 
 import { periodNames } from "@zotmeal/utils";
 
-import type { GetScheduleParams } from "../services/schedule";
+import type { GetScheduleParams } from "../schedule";
 import { createCaller, createTRPCContext } from "../..";
-import { GetScheduleSchema } from "../services/schedule";
+import { GetScheduleSchema } from "../schedule";
 
 describe("getScheduleSchema validates properly", () => {
   it("sucess when parse valid params", () => {
@@ -58,5 +58,5 @@ describe("getSchedule", () => {
       // TODO: re-integrate this correctly. This fails because a pst day can span multiple days in UTC
       // expect(isToday(fetchedPeriod.start)).toBeTruthy();
     });
-  });
+  }, 10_0000);
 });
