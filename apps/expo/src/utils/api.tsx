@@ -30,16 +30,14 @@ const getBaseUrl = () => {
   const debuggerHost = Constants.expoConfig?.hostUri;
   const localhost = debuggerHost?.split(":")[0];
 
-  if (!localhost) {
-    // return "https://turbo.t3.gg";
-    throw new Error(
-      "Failed to get localhost. Please point to your production server.",
-    );
-  }
+  // if (!localhost) {
+  //   // return "https://turbo.t3.gg";
+  //   throw new Error(
+  //     "Failed to get localhost. Please point to your production server.",
+  //   );
+  // }
 
-  if (Platform.OS == "android") {
-    return `http://10.0.2.2:3000`;
-  }
+  if (Platform.OS === "android") return `http://10.0.2.2:3000`;
 
   return `http://localhost:3000`;
 };
@@ -52,12 +50,11 @@ export function TRPCProvider(props: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() => {
     const url = getBaseUrl();
-    console.error("hello", url);
     return api.createClient({
       links: [
         httpBatchLink({
+          url,
           transformer: superjson,
-          url: url,
           headers() {
             const headers = new Map<string, string>();
             headers.set("x-trpc-source", "expo-react");

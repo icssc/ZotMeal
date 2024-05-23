@@ -14,15 +14,15 @@ import {
 } from "@zotmeal/utils";
 
 import { RestaurantTabs } from "~/components";
-import { useMenuStore } from "~/utils";
 import { api } from "~/utils/api";
+import useZotmealStore from "~/utils/useZotmealStore";
+import { EventToast } from "./_components/event-toast";
 import { PeriodPicker } from "./_components/period-picker";
 import { StationTabs } from "./_components/station-tabs";
-import { EventToast } from './_components/event-toast';
 
 export function Home() {
   const { anteateryMenu, brandywineMenu, setAnteateryMenu, setBrandywineMenu } =
-    useMenuStore();
+    useZotmealStore();
 
   const toast = useToastController();
 
@@ -101,6 +101,10 @@ export function Home() {
     );
   }
 
+  if (!anteateryMenu || !brandywineMenu) {
+    return <Text>Menus not found</Text>;
+  }
+
   return (
     <RestaurantTabs>
       <EventToast />
@@ -140,18 +144,14 @@ export function Home() {
       </XStack>
 
       {[brandywineMenu, anteateryMenu].map((menu) => (
-        <>
-          {menu && (
-            <Tabs.Content
-              key={menu.restaurantId}
-              value={getRestaurantNameById(menu.restaurantId)}
-              alignItems="center"
-              flex={1}
-            >
-              <StationTabs stations={menu.stations} />
-            </Tabs.Content>
-          )}
-        </>
+        <Tabs.Content
+          key={menu.restaurantId}
+          value={getRestaurantNameById(menu.restaurantId)}
+          alignItems="center"
+          flex={1}
+        >
+          <StationTabs stations={menu.stations} />
+        </Tabs.Content>
       ))}
     </RestaurantTabs>
   );

@@ -1,5 +1,5 @@
 import { TRPCProvider } from "./api";
 import groupBy from "./groupBy";
-import useMenuStore from "./useMenuStore";
+import useZotmealStore from "./useZotmealStore";
 
-export { TRPCProvider, groupBy, useMenuStore };
+export { TRPCProvider, groupBy, useZotmealStore };

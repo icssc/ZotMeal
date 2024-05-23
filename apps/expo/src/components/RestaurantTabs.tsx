@@ -5,14 +5,14 @@ import { Image, Tabs, useTheme, useWindowDimensions, View } from "tamagui";
 import type { Restaurant } from "@zotmeal/db";
 import { getCurrentPeriodName } from "@zotmeal/utils";
 
-import useMenuStore from "~/utils/useMenuStore";
+import useZotmealStore from "~/utils/useZotmealStore";
 
 export default function RestaurantTabs({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { selectedRestaurant, setSelectedRestaurant } = useMenuStore();
+  const { selectedRestaurant, setSelectedRestaurant } = useZotmealStore();
 
   return (
     <>
