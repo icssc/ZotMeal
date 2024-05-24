@@ -1,6 +1,4 @@
-import HamburgerMenu from "./HamburgerMenu";
-import Logo from "./Logo";
-import PinButton from "./PinButton";
-import RestaurantTabs from "./RestaurantTabs";
-
-export { HamburgerMenu, Logo, PinButton, RestaurantTabs };
+export * from "./navigation/HamburgerMenu";
+export * from "./Logo";
+export * from "./PinButton";
+export * from "./navigation/RestaurantTabs";

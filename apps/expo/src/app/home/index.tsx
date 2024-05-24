@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Platform } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { CalendarDays } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import { endOfWeek, startOfWeek } from "date-fns";
-import { Button, Tabs, Text, useTheme, XStack } from "tamagui";
+import { Button, ScrollView, Tabs, Text, useTheme, XStack } from "tamagui";
 
 import type { PeriodName } from "@zotmeal/utils";
 import {
@@ -16,6 +16,7 @@ import {
 import { RestaurantTabs } from "~/components";
 import { api } from "~/utils/api";
 import useZotmealStore from "~/utils/useZotmealStore";
+import { CategoryCard } from "~/components/menu/category-card";
 import { EventToast } from "./_components/event-toast";
 import { PeriodPicker } from "./_components/period-picker";
 import { StationTabs } from "./_components/station-tabs";
@@ -47,8 +48,6 @@ export function Home() {
       }),
     ),
   );
-  console.log(anteateryQuery);
-  console.log(brandywineQuery);
 
   useEffect(() => {
     if (anteateryQuery?.data) {
@@ -107,52 +106,85 @@ export function Home() {
 
   return (
     <RestaurantTabs>
-      <EventToast />
-      <XStack justifyContent="space-around">
-        <PeriodPicker
-          periodName={periodName}
-          setPeriodName={setPeriodName}
-          color={theme.color?.val as string}
-        />
-        {Platform.OS === "android" && (
-          <Button
-            onPress={() => setShowDatePicker(true)}
-            icon={CalendarDays}
-            scaleIcon={1.5}
-            size="$5"
-            borderRadius="$10"
-            pressTheme
-          >
-            {date.toLocaleDateString("en-US")}
-          </Button>
-        )}
-        {showDatePicker && (
-          <DateTimePicker
-            value={date}
-            mode="date"
-            minimumDate={startOfWeek(new Date())}
-            maximumDate={endOfWeek(new Date())}
-            onChange={(_, selectedDate) => {
-              // hide date picker on android
-              setShowDatePicker(Platform.OS === "ios");
-              if (selectedDate) {
-                setDate(selectedDate);
-              }
-            }}
-          />
-        )}
-      </XStack>
+      <ScrollView>
+        <EventToast />
 
-      {[brandywineMenu, anteateryMenu].map((menu) => (
-        <Tabs.Content
-          key={menu.restaurantId}
-          value={getRestaurantNameById(menu.restaurantId)}
-          alignItems="center"
-          flex={1}
-        >
-          <StationTabs stations={menu.stations} />
-        </Tabs.Content>
-      ))}
+        <XStack justifyContent="space-around">
+          <PeriodPicker
+            periodName={periodName}
+            setPeriodName={setPeriodName}
+            color={theme.color?.val as string}
+          />
+          {Platform.OS === "android" && (
+            <Button
+              onPress={() => setShowDatePicker(true)}
+              icon={CalendarDays}
+              scaleIcon={1.5}
+              size="$5"
+              borderRadius="$10"
+              pressTheme
+            >
+              {date.toLocaleDateString("en-US")}
+            </Button>
+          )}
+          {showDatePicker && (
+            <DateTimePicker
+              value={date}
+              mode="date"
+              minimumDate={startOfWeek(new Date())}
+              maximumDate={endOfWeek(new Date())}
+              onChange={(_, selectedDate) => {
+                // hide date picker on android
+                setShowDatePicker(Platform.OS === "ios");
+                if (selectedDate) {
+                  setDate(selectedDate);
+                }
+              }}
+            />
+          )}
+        </XStack>
+        
+        <ScrollView horizontal>
+          <XStack gap={10}>
+            <CategoryCard
+              category="Soups"
+              image={""}
+              onPress={function (): void {
+                throw new Error("Function not implemented.");
+              }}
+            />
+            <CategoryCard
+              category="Vegan"
+              image={""}
+              onPress={function (): void {
+                throw new Error("Function not implemented.");
+              }}
+            />
+            <CategoryCard
+              category="Noodles"
+              image={""}
+              onPress={function (): void {
+                throw new Error("Function not implemented.");
+              }}
+            />
+          </XStack>
+        </ScrollView>
+
+        {[brandywineMenu, anteateryMenu].map((menu) => (
+          <>
+            {menu && (
+              <Tabs.Content
+                key={menu.restaurantId}
+                value={getRestaurantNameById(menu.restaurantId)}
+                alignItems="center"
+                flex={1}
+              >
+                <StationTabs stations={menu.stations} />
+              </Tabs.Content>
+            )}
+          </>
+        ))}
+      </ScrollView>
     </RestaurantTabs>
   );
 }

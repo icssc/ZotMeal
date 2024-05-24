@@ -1,5 +1,4 @@
 import { TRPCError } from "@trpc/server";
-import { z } from "zod";
 
 import type {
   Drizzle,
@@ -7,19 +6,14 @@ import type {
   MenuWithRelations,
   StationWithRelations,
 } from "@zotmeal/db";
-import { MenuSchema, MenuTable, RestaurantSchema } from "@zotmeal/db";
+import { MenuTable } from "@zotmeal/db";
 import { parseDate } from "@zotmeal/utils";
-import { DateRegex } from "@zotmeal/validators";
 
 import { logger } from "../../../logger";
+import type { GetMenuParams} from '../procedures/getMenu';
+import { GetMenuSchema } from '../procedures/getMenu';
 
-export const GetMenuSchema = z.object({
-  date: DateRegex,
-  period: MenuSchema.shape.period,
-  restaurant: RestaurantSchema.shape.name,
-});
 
-export type GetMenuParams = z.infer<typeof GetMenuSchema>;
 
 export async function getMenu(
   db: Drizzle,

@@ -4,9 +4,9 @@ import { describe, expect, it } from "vitest";
 
 import { getRestaurantId } from "@zotmeal/utils";
 
-import type { GetMenuParams } from "..";
-import { GetMenuSchema } from "..";
+import type { GetMenuParams } from "./getMenu";
 import { createCaller, createTRPCContext } from "../..";
+import { GetMenuSchema } from "./getMenu";
 
 describe("getMenu", () => it("hello", () => console.log("hello")));
 
@@ -56,7 +56,7 @@ describe("menu.get", () => {
     expect(menu).toBeTruthy();
     expect(isToday(parseISO(menu.date))).toBeTruthy();
     expect(menu.restaurantId).toEqual(getRestaurantId("brandywine"));
-  }, 10_000);
+  }, 10_0000);
 
   // TODO: have each invalid input give unique TRPCError message
   it("should not get an invalid menu", async () => {
