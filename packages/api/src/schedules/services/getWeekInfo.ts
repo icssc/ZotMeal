@@ -4,10 +4,10 @@ import { z } from "zod";
 import type { Drizzle } from "@zotmeal/db";
 import { RestaurantSchema } from "@zotmeal/db";
 import { DateRegex } from "@zotmeal/validators";
-import { scrapeCampusDishEvents } from "../events";
+import { scrapeCampusDishEvents } from "../../events";
 
 import type { UpdateDailyParams } from "./updateDaily";
-import { logger } from "../../logger";
+import { logger } from "../../../logger";
 import { updateDaily } from "./updateDaily";
 
 export const GetWeekInfoSchema = z.object({
