@@ -14,9 +14,9 @@ import {
 } from "@zotmeal/utils";
 
 import { RestaurantTabs } from "~/components";
+import { CategoryCard } from "~/components/menu/category-card";
 import { api } from "~/utils/api";
 import useZotmealStore from "~/utils/useZotmealStore";
-import { CategoryCard } from "~/components/menu/category-card";
 import { EventToast } from "./_components/event-toast";
 import { PeriodPicker } from "./_components/period-picker";
 import { StationTabs } from "./_components/station-tabs";
@@ -41,22 +41,22 @@ export function Home() {
   // TODO: how should we handle fetching when restaurant is closed?
   const [anteateryQuery, brandywineQuery] = api.useQueries((t) =>
     restaurantNames.map((restaurantName) =>
-      t.menu.get({
-        date: date.toLocaleDateString("en-US"),
-        period: periodName,
-        restaurant: restaurantName,
-      }),
+      t.menu.get(
+        {
+          date: date.toLocaleDateString("en-US"),
+          period: periodName,
+          restaurant: restaurantName,
+        },
+        {
+          refetchOnWindowFocus: false,
+        },
+      ),
     ),
   );
 
   useEffect(() => {
-    if (anteateryQuery?.data) {
-      setAnteateryMenu(anteateryQuery.data);
-    }
-
-    if (brandywineQuery?.data) {
-      setBrandywineMenu(brandywineQuery.data);
-    }
+    if (anteateryQuery?.data) setAnteateryMenu(anteateryQuery.data);
+    if (brandywineQuery?.data) setBrandywineMenu(brandywineQuery.data);
 
     if (
       anteateryQuery &&
@@ -81,14 +81,12 @@ export function Home() {
     toast,
   ]);
 
-  if (!anteateryQuery || !brandywineQuery) {
-    return <Text>Fetching menus</Text>;
-  }
+  if (!anteateryQuery || !brandywineQuery)
+    throw new Error("Unreachable: anteateryQuery and brandywineQuery are null");
 
   // TODO: maybe loading spinner instead
-  if (anteateryQuery.isLoading || brandywineQuery.isLoading) {
+  if (anteateryQuery.isLoading || brandywineQuery.isLoading)
     return <Text>Loading...</Text>;
-  }
 
   if (anteateryQuery.isError || brandywineQuery.isError) {
     console.error(anteateryQuery.error, brandywineQuery.error);
@@ -100,9 +98,7 @@ export function Home() {
     );
   }
 
-  if (!anteateryMenu || !brandywineMenu) {
-    return <Text>Menus not found</Text>;
-  }
+  if (!anteateryMenu || !brandywineMenu) return <Text>Menus not found</Text>;
 
   return (
     <RestaurantTabs>
@@ -143,7 +139,7 @@ export function Home() {
             />
           )}
         </XStack>
-        
+
         <ScrollView horizontal>
           <XStack gap={10}>
             <CategoryCard

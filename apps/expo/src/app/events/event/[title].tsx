@@ -46,6 +46,8 @@ export default function Event() {
       <Stack.Screen
         options={{
           headerTitle: event.title,
+          headerBackTitle: "Events",
+          headerTitleStyle: { color: "white" },
         }}
       />
       <ScrollView

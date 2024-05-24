@@ -35,17 +35,17 @@ export default function MenuItem() {
     selectedRestaurant === "anteatery" ? anteateryMenu : brandywineMenu;
 
   // TODO: Log error if menu is not found
-  if (!menu) return <Redirect href="/home/" />;
+  if (!menu) return <Redirect href="/" />;
 
   const station = menu.stations.find((station) => station.id === stationId);
 
   // TODO: Log error if station is not found
-  if (!station) return <Redirect href="/home/" />;
+  if (!station) return <Redirect href="/" />;
 
   const dish = station.dishes.find((dish) => dish.id === id);
 
   // TODO: Log error if dish is not found
-  if (!dish) return <Redirect href="/home/" />;
+  if (!dish) return <Redirect href="/" />;
 
   // Unused fields:
   // caloriesFromFat
