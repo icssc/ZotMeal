@@ -7,7 +7,7 @@ import { getCurrentPeriodName } from "@zotmeal/utils";
 
 import useMenuStore from "~/utils/useMenuStore";
 
-export default function RestaurantTabs({
+export function RestaurantTabs({
   children,
 }: Readonly<{
   children: React.ReactNode;

@@ -5,13 +5,14 @@ import {
   ChevronRight,
   Home,
   Info,
+  LogIn,
   Menu,
   Settings,
   Siren,
 } from "@tamagui/lucide-icons";
 import { Adapt, Button, ListItem, Popover, Separator, YGroup } from "tamagui";
 
-export default function HamburgerMenu() {
+export function HamburgerMenu() {
   const currentSegment = useSegments()[0] ?? "";
   const screens: Record<
     string,
@@ -45,6 +46,11 @@ export default function HamburgerMenu() {
       path: "/privacy-policy/",
       description: "About your privacy",
       icon: Siren,
+    },
+    Auth: {
+      path: "/auth/",
+      description: "Authentication",
+      icon: LogIn,
     },
   };
 

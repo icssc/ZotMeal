@@ -8,6 +8,8 @@ import superjson from "superjson";
 
 import type { AppRouter } from "@zotmeal/api";
 
+import { env } from "./env";
+
 /**
  * A set of typesafe hooks for consuming your API.
  */
@@ -29,7 +31,9 @@ const getBaseUrl = () => {
    */
   const debuggerHost = Constants.expoConfig?.hostUri;
   const localhost = debuggerHost?.split(":")[0];
-
+  if (env.NODE_ENV === "production") {
+    return env.API_URL;
+  }
   if (!localhost) {
     // return "https://turbo.t3.gg";
     throw new Error(

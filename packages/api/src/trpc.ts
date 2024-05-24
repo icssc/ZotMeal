@@ -13,9 +13,12 @@
 // import { Expo } from "expo-server-sdk";
 import { initTRPC } from "@trpc/server";
 import superjson from "superjson";
+import { assert } from "vitest";
 import { ZodError } from "zod";
 
 import { createDrizzle } from "@zotmeal/db";
+
+import { logger } from "../logger";
 
 /**
  * 1. CONTEXT
@@ -33,6 +36,8 @@ import { createDrizzle } from "@zotmeal/db";
 // const expo: Expo = new Expo({
 //   accessToken: process.env.EXPO_ACCESS_TOKEN,
 // });
+
+logger.debug("trpc api db url: " + process.env.DATABASE_URL);
 
 const db = createDrizzle({ connectionString: process.env.DATABASE_URL });
 
