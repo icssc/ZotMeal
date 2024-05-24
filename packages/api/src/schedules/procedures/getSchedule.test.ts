@@ -3,9 +3,9 @@ import { describe, expect, it } from "vitest";
 
 import { periodNames } from "@zotmeal/utils";
 
-import type { GetScheduleParams } from "../schedule";
+import type { GetScheduleParams } from "../services/schedule";
 import { createCaller, createTRPCContext } from "../..";
-import { GetScheduleSchema } from "../schedule";
+import { GetScheduleSchema } from "../services/schedule";
 
 describe("getScheduleSchema validates properly", () => {
   it("sucess when parse valid params", () => {
