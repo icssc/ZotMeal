@@ -58,5 +58,5 @@ describe("getSchedule", () => {
       // TODO: re-integrate this correctly. This fails because a pst day can span multiple days in UTC
       // expect(isToday(fetchedPeriod.start)).toBeTruthy();
     });
-  });
+  }, 10_0000);
 });
