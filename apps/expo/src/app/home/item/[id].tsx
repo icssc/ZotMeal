@@ -65,8 +65,8 @@ export default function MenuItem() {
       <H3>Nutrition Facts</H3>
       <Separator marginVertical="$2" borderWidth={1} />
       <XStack justifyContent="space-between">
-        <Text fontWeight={"800"}>Serving Size</Text>
-        <Text fontWeight={"800"}>
+        <Text fontWeight="800">Serving Size</Text>
+        <Text fontWeight="800">
           {nutritionInfo.servingSize}
           {nutritionInfo.servingUnit}
         </Text>
@@ -81,7 +81,7 @@ export default function MenuItem() {
       {/* TODO: Add % Daily Value */}
       {/* <Text>% Daily Value*</Text> */}
       <Text>
-        <Text fontWeight={"800"}>Total Fat</Text> {nutritionInfo.totalFatG}g
+        <Text fontWeight="800">Total Fat</Text> {nutritionInfo.totalFatG}g
       </Text>
       <Separator marginVertical="$2" borderWidth={1} />
       <Text paddingLeft="$4">Saturated Fat {nutritionInfo.saturatedFatG}g</Text>
@@ -89,16 +89,15 @@ export default function MenuItem() {
       <Text paddingLeft="$4">Trans Fat {nutritionInfo.transFatG}g</Text>
       <Separator marginVertical="$2" borderWidth={1} />
       <Text>
-        <Text fontWeight={"800"}>Cholesterol</Text>{" "}
-        {nutritionInfo.cholesterolMg}
+        <Text fontWeight="800">Cholesterol</Text> {nutritionInfo.cholesterolMg}
       </Text>
       <Separator marginVertical="$2" borderWidth={1} />
       <Text>
-        <Text fontWeight={"800"}>Sodium</Text> {nutritionInfo.sodiumMg}mg
+        <Text fontWeight="800">Sodium</Text> {nutritionInfo.sodiumMg}mg
       </Text>
       <Separator marginVertical="$2" borderWidth={1} />
       <Text>
-        <Text fontWeight={"800"}>Total Carbohydrates</Text>{" "}
+        <Text fontWeight="800">Total Carbohydrates</Text>{" "}
         {nutritionInfo.totalCarbsG}g
       </Text>
       <Separator marginVertical="$2" borderWidth={1} />
@@ -107,7 +106,7 @@ export default function MenuItem() {
       <Text paddingLeft="$4">Sugars {nutritionInfo.sugarsMg}mg</Text>
       <Separator marginVertical="$2" borderWidth={1} />
       <Text>
-        <Text fontWeight={"800"}>Sodium</Text> {nutritionInfo.proteinG}g
+        <Text fontWeight="800">Sodium</Text> {nutritionInfo.proteinG}g
       </Text>
       <Separator marginVertical="$2" borderWidth={7} />
       <XStack justifyContent="space-between">
@@ -147,29 +146,23 @@ export default function MenuItem() {
           headerTitleStyle: { color: "white" },
         }}
       />
-      <ScrollView
-        height={"100%"}
-        width={"100%"}
-        contentInset={{
-          bottom: 100,
-        }}
-      >
+      <ScrollView height="100%" width="100%">
         <Image
           source={{
             uri: "https://images.rawpixel.com/image_png_1100/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTExL2ZyZWVpbWFnZXNjb21wYW55X3Bob3RvX29mX2Nob2NvbGF0ZV9jaGlwX2Nvb2tpZV90b3Bfdmlld19pc29sYV8xOGVkY2ZiYS00ZTJjLTQ5MWItYjZiOC02ZGZjNmY1M2Y0OWIucG5n.png",
           }}
-          width={"100%"}
+          width="100%"
           height={200}
         />
 
         <View padding="$4">
           <XStack alignItems="center">
-            <Text fontSize={"$5"} color={"gray"}>
+            <Text fontSize="$5" color="gray">
               {selectedRestaurant.charAt(0).toUpperCase() +
                 selectedRestaurant.slice(1)}
             </Text>
-            <ChevronRight color={"gray"} />
-            <Text fontSize={"$5"} color={"gray"}>
+            <ChevronRight color="gray" />
+            <Text fontSize="$5" color="gray">
               {station.name}
             </Text>
           </XStack>
@@ -187,6 +180,7 @@ export default function MenuItem() {
           </XStack>
           <NutritionFacts nutritionInfo={dish.nutritionInfo} />
         </View>
+        <View height={100} />
       </ScrollView>
     </>
   );

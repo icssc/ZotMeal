@@ -16,6 +16,7 @@ import {
   Separator,
   Square,
   Text,
+  View,
   XStack,
   YStack,
 } from "tamagui";
@@ -56,9 +57,6 @@ export default function Event() {
         contentContainerStyle={{
           justifyContent: "center",
           alignItems: "center",
-        }}
-        contentInset={{
-          bottom: 100,
         }}
       >
         <YStack
@@ -130,6 +128,7 @@ export default function Event() {
             </Accordion.Content>
           </Accordion.Item>
         </Accordion>
+        <View height={100} />
       </ScrollView>
     </>
   );

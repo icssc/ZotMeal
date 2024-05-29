@@ -90,6 +90,7 @@ export const TabSvg = ({ label }: Readonly<{ label: string }>) => {
           fill={theme.color?.val as string}
           textAnchor="middle"
           alignmentBaseline="central"
+          fontFamily="Inter"
           fontSize="25"
           fontWeight="bold"
         >
@@ -103,6 +104,7 @@ export const TabSvg = ({ label }: Readonly<{ label: string }>) => {
           }
           textAnchor="middle"
           alignmentBaseline="central"
+          fontFamily="Inter"
           fontSize="18"
           fontWeight="bold"
         >

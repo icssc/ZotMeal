@@ -4,8 +4,6 @@ import { Toast, useToastState } from "@tamagui/toast";
 import { Button } from "tamagui";
 import { LinearGradient } from "tamagui/linear-gradient";
 
-
-
 export function EventToast() {
   const currentToast = useToastState();
   if (!currentToast || currentToast.isHandledNatively) return null;
@@ -37,9 +35,9 @@ export function EventToast() {
           <Link href="/events/" asChild replace>
             <Button
               backgroundColor={0}
-              pressTheme
               size="$4"
               circular
+              hoverStyle={{ backgroundColor: "rgba(0,0,0,0.1)" }}
               color="white"
               icon={ArrowRight}
               scaleIcon={1.5}
