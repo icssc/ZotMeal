@@ -1,22 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { Platform } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { CalendarDays } from "@tamagui/lucide-icons";
+import { AlertTriangle } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
-import { endOfWeek, startOfWeek } from "date-fns";
-import { Button, ScrollView, Tabs, Text, useTheme, XStack } from "tamagui";
+import {
+  ScrollView,
+  Spinner,
+  Tabs,
+  Text,
+  useTheme,
+  View,
+  XStack,
+} from "tamagui";
 
 import type { PeriodName } from "@zotmeal/utils";
 import {
   getCurrentPeriodName,
+  getDayPeriodsByDate,
   getRestaurantNameById,
   restaurantNames,
 } from "@zotmeal/utils";
 
 import { RestaurantTabs } from "~/components";
-import { CategoryCard } from "~/components/menu/category-card";
 import { api } from "~/utils/api";
 import useZotmealStore from "~/utils/useZotmealStore";
+import { UniversalDatePicker } from "./_components/date-picker";
 import { EventToast } from "./_components/event-toast";
 import { PeriodPicker } from "./_components/period-picker";
 import { StationTabs } from "./_components/station-tabs";
@@ -27,7 +34,6 @@ export function Home() {
 
   const toast = useToastController();
 
-  const [showDatePicker, setShowDatePicker] = useState<boolean>(true);
   const [date, setDate] = useState<Date>(new Date());
 
   const currentPeriod = getCurrentPeriodName();
@@ -58,6 +64,9 @@ export function Home() {
     if (anteateryQuery?.data) setAnteateryMenu(anteateryQuery.data);
     if (brandywineQuery?.data) setBrandywineMenu(brandywineQuery.data);
 
+    if (anteateryQuery?.isError) setAnteateryMenu(null);
+    if (brandywineQuery?.isError) setBrandywineMenu(null);
+
     if (
       anteateryQuery &&
       brandywineQuery &&
@@ -84,62 +93,53 @@ export function Home() {
   if (!anteateryQuery || !brandywineQuery)
     throw new Error("Unreachable: anteateryQuery and brandywineQuery are null");
 
-  // TODO: maybe loading spinner instead
-  if (anteateryQuery.isLoading || brandywineQuery.isLoading)
-    return <Text>Loading...</Text>;
-
+  // TODO: show a toast if there is an error
   if (anteateryQuery.isError || brandywineQuery.isError) {
-    console.error(anteateryQuery.error, brandywineQuery.error);
-    return (
-      <>
-        <Text>{anteateryQuery.error?.message}</Text>
-        <Text>{brandywineQuery.error?.message}</Text>
-      </>
-    );
+    if (anteateryQuery.error) console.error(anteateryQuery.error);
+    if (brandywineQuery.error) console.error(brandywineQuery.error);
   }
 
-  if (!anteateryMenu || !brandywineMenu) return <Text>Menus not found</Text>;
+  const MenuContent = () =>
+    anteateryQuery.isLoading || brandywineQuery.isLoading ? (
+      <Spinner size="large" marginTop="$10" />
+    ) : brandywineMenu && anteateryMenu ? (
+      <>
+        {[brandywineMenu, anteateryMenu].map((menu) => (
+          <Tabs.Content
+            key={menu.restaurantId}
+            value={getRestaurantNameById(menu.restaurantId)}
+            alignItems="center"
+            flex={1}
+          >
+            <StationTabs stations={menu.stations} />
+          </Tabs.Content>
+        ))}
+      </>
+    ) : (
+      <View alignItems="center">
+        <AlertTriangle size="$10" />
+        <Text>Menu not found</Text>
+      </View>
+    );
 
   return (
     <RestaurantTabs>
       <ScrollView>
         <EventToast />
 
-        <XStack justifyContent="space-around">
+        <XStack
+          justifyContent={Platform.OS === "web" ? "center" : "space-around"}
+          columnGap={Platform.OS === "web" ? 20 : 0}
+        >
           <PeriodPicker
+            availablePeriods={getDayPeriodsByDate(date)}
             periodName={periodName}
             setPeriodName={setPeriodName}
             color={theme.color?.val as string}
           />
-          {Platform.OS === "android" && (
-            <Button
-              onPress={() => setShowDatePicker(true)}
-              icon={CalendarDays}
-              scaleIcon={1.5}
-              size="$5"
-              borderRadius="$10"
-              pressTheme
-            >
-              {date.toLocaleDateString("en-US")}
-            </Button>
-          )}
-          {showDatePicker && (
-            <DateTimePicker
-              value={date}
-              mode="date"
-              minimumDate={startOfWeek(new Date())}
-              maximumDate={endOfWeek(new Date())}
-              onChange={(_, selectedDate) => {
-                // hide date picker on android
-                setShowDatePicker(Platform.OS === "ios");
-                if (selectedDate) {
-                  setDate(selectedDate);
-                }
-              }}
-            />
-          )}
+          <UniversalDatePicker date={date} setDate={setDate} />
         </XStack>
-
+        {/*
         <ScrollView horizontal>
           <XStack gap={10}>
             <CategoryCard
@@ -164,22 +164,9 @@ export function Home() {
               }}
             />
           </XStack>
-        </ScrollView>
+        </ScrollView> */}
 
-        {[brandywineMenu, anteateryMenu].map((menu) => (
-          <>
-            {menu && (
-              <Tabs.Content
-                key={menu.restaurantId}
-                value={getRestaurantNameById(menu.restaurantId)}
-                alignItems="center"
-                flex={1}
-              >
-                <StationTabs stations={menu.stations} />
-              </Tabs.Content>
-            )}
-          </>
-        ))}
+        <MenuContent />
       </ScrollView>
     </RestaurantTabs>
   );

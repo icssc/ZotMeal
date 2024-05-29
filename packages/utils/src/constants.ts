@@ -8,10 +8,10 @@ export enum RestaurantEnum {
 export enum PeriodEnum {
   breakfast = "49",
   brunch = "2651",
+  lunch = "106",
+  "light lunch" = "3819",
   dinner = "107",
   latenight = "108",
-  "light lunch" = "3819",
-  lunch = "106",
 }
 
 export const restaurantNames = Object.keys(RestaurantEnum) as [RestaurantName];
@@ -49,6 +49,27 @@ export const getPeriodNameById = (id: PeriodId) =>
   periodNames[periodIds.indexOf(id)]!;
 
 /**
+ * Get the periods available for a given day.
+ *
+ * ! Sorting is based on the enum order, so it's brittle for now until we have a better solution
+ */
+export const getDayPeriodsByDate = (day: Date): PeriodName[] => {
+  const periodIds: PeriodId[] = [
+    getPeriodId("breakfast"),
+    getPeriodId("dinner"),
+  ];
+
+  if (isWeekend(day)) periodIds.push(getPeriodId("brunch"));
+  else {
+    periodIds.push(getPeriodId("lunch"));
+    periodIds.push(getPeriodId("light lunch"));
+    if (!isFriday(day)) periodIds.push(getPeriodId("latenight"));
+  }
+
+  return periodNames.filter((name) => periodIds.includes(getPeriodId(name)));
+};
+
+/**
  * Based on UCI Campusdish website:
  *
  * @see https://uci.campusdish.com/en/locationsandmenus/theanteatery/
@@ -62,9 +83,11 @@ export const getPeriodNameById = (id: PeriodId) =>
  * Brunch
  *    Sat - Sun 11:00AM - 4:30PM
  * Lunch
- *    Mon - Fri 11:00AM - 4:30PM
+ *    Mon - Fri 11:00AM - 2:30PM
+ * Light Lunch
+ *    Mon - Fri  2:30PM - 4:30PM
  * Dinner
- *    Mon - Sun 4:30PM - 8:00PM
+ *    Mon - Sun  4:30PM - 8:00PM
  * Latenight
  *    Mon - Thu 8:00PM - 11:00PM
  *
@@ -79,6 +102,8 @@ export const getCurrentPeriodName = (): PeriodName | "closed" => {
   const breakfastWeekendStart = 9 * 60;
   const breakfastEnd = 11 * 60;
   const brunchEnd = 16 * 60 + 30;
+  const lunchEnd = 14 * 60 + 30;
+  const lightLunchEnd = 16 * 60 + 30;
   const dinnerEnd = 20 * 60;
   const lateNightEnd = 23 * 60;
 
@@ -86,35 +111,29 @@ export const getCurrentPeriodName = (): PeriodName | "closed" => {
     !weekend &&
     totalMinutes >= breakfastWeekdayStart &&
     totalMinutes < breakfastEnd
-  ) {
+  )
     return "breakfast";
-  } else if (
+  else if (
     weekend &&
     totalMinutes >= breakfastWeekendStart &&
     totalMinutes < breakfastEnd
-  ) {
+  )
     return "breakfast";
-  } else if (
-    weekend &&
-    totalMinutes >= breakfastEnd &&
-    totalMinutes < brunchEnd
-  ) {
+  else if (weekend && totalMinutes >= breakfastEnd && totalMinutes < brunchEnd)
     return "brunch";
-  } else if (
-    !weekend &&
-    totalMinutes >= breakfastEnd &&
-    totalMinutes < brunchEnd
-  ) {
+  else if (!weekend && totalMinutes >= breakfastEnd && totalMinutes < lunchEnd)
     return "lunch";
-  } else if (totalMinutes >= brunchEnd && totalMinutes < dinnerEnd) {
+  else if (!weekend && totalMinutes >= lunchEnd && totalMinutes < lightLunchEnd)
+    return "light lunch";
+  else if (totalMinutes >= lightLunchEnd && totalMinutes < dinnerEnd)
     return "dinner";
-  } else if (
+  else if (
     !weekend &&
     !isFriday(today) &&
     totalMinutes >= dinnerEnd &&
     totalMinutes < lateNightEnd
-  ) {
+  )
     return "latenight";
-  }
+
   return "closed";
 };
