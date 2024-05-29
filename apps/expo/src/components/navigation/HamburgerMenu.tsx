@@ -55,7 +55,13 @@ export function HamburgerMenu() {
   };
 
   return (
-    <Popover placement="top">
+    <Popover
+      placement="bottom-start"
+      offset={{
+        alignmentAxis: -30,
+        mainAxis: -10,
+      }}
+    >
       <Popover.Trigger asChild theme="dark">
         <Button
           backgroundColor={0}

@@ -10,7 +10,7 @@ export default function RateItem({
   const [rating, setRating] = useState<number>(5);
 
   return (
-    <Popover placement="top">
+    <Popover placement="bottom">
       <Popover.Trigger asChild width={"28%"}>
         <Button
           fontWeight={"800"}

@@ -17,35 +17,35 @@ import {
 import type { NutritionInfo } from "@zotmeal/db";
 
 import { PinButton } from "~/components";
-import { useMenuStore } from "~/utils";
+import useZotmealStore from "~/utils/useZotmealStore";
 import RateItem from "./RateItem";
 
 export default function MenuItem() {
   const theme = useTheme();
   const { id, stationId } = useGlobalSearchParams();
 
-  if (!id || typeof id !== "string")
-    throw new Error("unreachable: id is not a string");
+  if (!id || typeof id !== "string") throw new Error("id is not a string");
   if (!stationId || typeof stationId !== "string")
-    throw new Error("unreachable: stationId is not a string");
+    throw new Error("stationId is not a string");
 
-  const { selectedRestaurant, anteateryMenu, brandywineMenu } = useMenuStore();
+  const { selectedRestaurant, anteateryMenu, brandywineMenu } =
+    useZotmealStore();
 
   const menu =
     selectedRestaurant === "anteatery" ? anteateryMenu : brandywineMenu;
 
   // TODO: Log error if menu is not found
-  if (!menu) return <Redirect href="/home/" />;
+  if (!menu) return <Redirect href="/" />;
 
   const station = menu.stations.find((station) => station.id === stationId);
 
   // TODO: Log error if station is not found
-  if (!station) return <Redirect href="/home/" />;
+  if (!station) return <Redirect href="/" />;
 
   const dish = station.dishes.find((dish) => dish.id === id);
 
   // TODO: Log error if dish is not found
-  if (!dish) return <Redirect href="/home/" />;
+  if (!dish) return <Redirect href="/" />;
 
   // Unused fields:
   // caloriesFromFat

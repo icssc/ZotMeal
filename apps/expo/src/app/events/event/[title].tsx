@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Stack, useGlobalSearchParams } from "expo-router";
+import React from "react";
+import { Redirect, Stack, useGlobalSearchParams } from "expo-router";
 import {
   CalendarClock,
   ChevronDown,
@@ -22,21 +22,32 @@ import {
 
 import type { Event } from "@zotmeal/db";
 
-import { useMenuStore } from "~/utils";
-
-import { useEvents } from "../eventsContext";
+import useZotmealStore from "~/utils/useZotmealStore";
 
 export default function Event() {
-  const { id } = useGlobalSearchParams();
-  const { selectedRestaurant } = useMenuStore();
-  const { events } = useEvents()
-  const eventData = events[Number(id)]!
+  const { title } = useGlobalSearchParams();
+
+  if (!title || typeof title !== "string")
+    throw new Error("title is not a string");
+
+  const { selectedRestaurant, anteateryEvents, brandywineEvents } =
+    useZotmealStore();
+
+  const events =
+    selectedRestaurant === "anteatery" ? anteateryEvents : brandywineEvents;
+
+  const event = events.find((event) => event.title === title);
+
+  // TODO: Log error if event is not found
+  if (!event) return <Redirect href="/events/" />;
 
   return (
     <>
       <Stack.Screen
         options={{
-          headerTitle: eventData.title
+          headerTitle: event.title,
+          headerBackTitle: "Events",
+          headerTitleStyle: { color: "white" },
         }}
       />
       <ScrollView
@@ -61,7 +72,7 @@ export default function Event() {
           <Image
             resizeMode="contain"
             source={{
-              uri: eventData.image ?? require("../example-event-image.png"),
+              uri: event.image ?? require("../example-event-image.png"),
             }}
             minWidth={100}
             maxWidth="100%"
@@ -69,7 +80,7 @@ export default function Event() {
           />
         </YStack>
         <YStack padding={20} gap="$2" marginVertical="$4">
-          <H3>{eventData.title}</H3>
+          <H3>{event.title}</H3>
           <Separator marginBottom="$2" />
           <XStack alignItems="center" padding={0} gap="$2">
             <MapPin />
@@ -81,13 +92,13 @@ export default function Event() {
           <XStack alignItems="center" padding={0} gap="$2">
             <CalendarClock />
             <Text>
-              {format(eventData.start.toString(), "LLL do p")} -{" "}
-              {format(eventData.end.toString(), "LLL do p")}
+              {format(event.start.toString(), "LLL do p")} -{" "}
+              {format(event.end.toString(), "LLL do p")}
             </Text>
           </XStack>
           <XStack alignItems="center" padding={0} gap="$2">
             <Info />
-            <Text>{eventData.shortDescription}</Text>
+            <Text>{event.shortDescription}</Text>
           </XStack>
         </YStack>
         <Accordion overflow="hidden" width="95%" type="multiple">
@@ -115,7 +126,7 @@ export default function Event() {
               borderTopLeftRadius={0}
               borderTopRightRadius={0}
             >
-              <Paragraph>{eventData.longDescription}</Paragraph>
+              <Paragraph>{event.longDescription}</Paragraph>
             </Accordion.Content>
           </Accordion.Item>
         </Accordion>
