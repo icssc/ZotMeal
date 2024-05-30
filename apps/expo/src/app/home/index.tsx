@@ -1,28 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { Platform } from "react-native";
-import { AlertTriangle } from "@tamagui/lucide-icons";
+import { AlertTriangle, RefreshCw } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
 import {
+  Button,
   ScrollView,
   Spinner,
   Tabs,
   Text,
+  useDebounce,
   useTheme,
   View,
   XStack,
 } from "tamagui";
 
 import type { PeriodName } from "@zotmeal/utils";
-import {
-  getCurrentPeriodName,
-  getDayPeriodsByDate,
-  getRestaurantNameById,
-  restaurantNames,
-} from "@zotmeal/utils";
+import { getCurrentPeriodName, getDayPeriodsByDate } from "@zotmeal/utils";
 
 import { RestaurantTabs } from "~/components";
+import { useZotmealStore } from "~/utils";
 import { api } from "~/utils/api";
-import useZotmealStore from "~/utils/useZotmealStore";
 import { UniversalDatePicker } from "./_components/date-picker";
 import { EventToast } from "./_components/event-toast";
 import { PeriodPicker } from "./_components/period-picker";
@@ -38,41 +35,49 @@ export function Home() {
 
   const currentPeriod = getCurrentPeriodName();
 
-  // TODO: how should we handle fetching when restaurant is closed?
-  const [periodName, setPeriodName] = useState<PeriodName>(
+  const [period, setPeriod] = useState<PeriodName>(
     currentPeriod === "closed" ? "breakfast" : currentPeriod,
   );
   const theme = useTheme();
 
-  // TODO: how should we handle fetching when restaurant is closed?
-  const [anteateryQuery, brandywineQuery] = api.useQueries((t) =>
-    restaurantNames.map((restaurantName) =>
-      t.menu.get(
-        {
-          date: date.toLocaleDateString("en-US"),
-          period: periodName,
-          restaurant: restaurantName,
-        },
-        {
-          refetchOnWindowFocus: false,
-        },
-      ),
-    ),
+  const queryOptions = {
+    retry: false,
+    refetchOnWindowFocus: false,
+  } as const;
+
+  const anteateryQuery = api.menu.get.useQuery(
+    {
+      date: date.toLocaleDateString("en-US"),
+      period,
+      restaurant: "anteatery",
+    },
+    queryOptions,
+  );
+
+  const brandywineQuery = api.menu.get.useQuery(
+    {
+      date: date.toLocaleDateString("en-US"),
+      period,
+      restaurant: "brandywine",
+    },
+    queryOptions,
+  );
+
+  // ! Not sure if this is actually working but we do want debouncing for the refresh button
+  const refetchMenusWithDebounce = useDebounce(
+    () => {
+      anteateryQuery.refetch();
+      brandywineQuery.refetch();
+    },
+    1000,
+    { leading: true },
   );
 
   useEffect(() => {
-    if (anteateryQuery?.data) setAnteateryMenu(anteateryQuery.data);
-    if (brandywineQuery?.data) setBrandywineMenu(brandywineQuery.data);
+    if (anteateryQuery.isSuccess) setAnteateryMenu(anteateryQuery.data);
+    if (brandywineQuery.isSuccess) setBrandywineMenu(brandywineQuery.data);
 
-    if (anteateryQuery?.isError) setAnteateryMenu(null);
-    if (brandywineQuery?.isError) setBrandywineMenu(null);
-
-    if (
-      anteateryQuery &&
-      brandywineQuery &&
-      anteateryQuery.isSuccess &&
-      brandywineQuery.isSuccess
-    ) {
+    if (anteateryQuery.isSuccess && brandywineQuery.isSuccess) {
       toast.show("There are 5 upcoming events.", {
         // message: 'See upcoming events',
         duration: 10_000_000,
@@ -82,45 +87,77 @@ export function Home() {
         },
       });
     }
-  }, [
-    anteateryQuery?.data,
-    brandywineQuery?.data,
-    setAnteateryMenu,
-    setBrandywineMenu,
-    toast,
-  ]);
-
-  if (!anteateryQuery || !brandywineQuery)
-    throw new Error("Unreachable: anteateryQuery and brandywineQuery are null");
+  }, [anteateryQuery.data, brandywineQuery.data, toast]);
 
   // TODO: show a toast if there is an error
-  if (anteateryQuery.isError || brandywineQuery.isError) {
-    if (anteateryQuery.error) console.error(anteateryQuery.error);
-    if (brandywineQuery.error) console.error(brandywineQuery.error);
+  if (
+    (anteateryMenu && anteateryQuery.isError) ||
+    (brandywineMenu && brandywineQuery.isError)
+  ) {
+    if (anteateryQuery.error)
+      console.error("anteatery query error", anteateryQuery.error);
+    if (brandywineQuery.error)
+      console.error("brandywine query error", brandywineQuery.error);
+
+    setAnteateryMenu(null);
+    setBrandywineMenu(null);
   }
 
-  const MenuContent = () =>
-    anteateryQuery.isLoading || brandywineQuery.isLoading ? (
-      <Spinner size="large" marginTop="$10" />
-    ) : brandywineMenu && anteateryMenu ? (
-      <>
-        {[brandywineMenu, anteateryMenu].map((menu) => (
-          <Tabs.Content
-            key={menu.restaurantId}
-            value={getRestaurantNameById(menu.restaurantId)}
-            alignItems="center"
-            flex={1}
-          >
-            <StationTabs stations={menu.stations} />
-          </Tabs.Content>
-        ))}
-      </>
-    ) : (
-      <View alignItems="center">
-        <AlertTriangle size="$10" />
-        <Text>Menu not found</Text>
-      </View>
-    );
+  // TODO: make it not possible to click into the menu if it's loading
+  const MenuContent = () => (
+    <>
+      <Tabs.Content
+        key="brandywine"
+        value="brandywine"
+        alignItems="center"
+        flex={1}
+        opacity={brandywineQuery.isLoading ? 0.5 : 1}
+      >
+        {brandywineQuery.isLoading ? (
+          <Spinner
+            size="large"
+            zIndex={10}
+            marginTop="$10"
+            position="absolute"
+            marginVertical={200}
+          />
+        ) : null}
+        {brandywineMenu ? (
+          <StationTabs stations={brandywineMenu.stations} />
+        ) : (
+          <View alignItems="center">
+            <AlertTriangle size="$10" />
+            <Text>Menu not found</Text>
+          </View>
+        )}
+      </Tabs.Content>
+      <Tabs.Content
+        key="anteatery"
+        value="anteatery"
+        alignItems="center"
+        flex={1}
+        opacity={anteateryQuery.isLoading ? 0.5 : 1}
+      >
+        {anteateryQuery.isLoading ? (
+          <Spinner
+            size="large"
+            zIndex={10}
+            marginTop="$10"
+            position="absolute"
+            marginVertical={200}
+          />
+        ) : null}
+        {anteateryMenu ? (
+          <StationTabs stations={anteateryMenu.stations} />
+        ) : (
+          <View alignItems="center">
+            <AlertTriangle size="$10" />
+            <Text>Menu not found</Text>
+          </View>
+        )}
+      </Tabs.Content>
+    </>
+  );
 
   return (
     <RestaurantTabs>
@@ -133,11 +170,19 @@ export function Home() {
         >
           <PeriodPicker
             availablePeriods={getDayPeriodsByDate(date)}
-            periodName={periodName}
-            setPeriodName={setPeriodName}
+            period={period}
+            setPeriod={setPeriod}
             color={theme.color?.val as string}
           />
           <UniversalDatePicker date={date} setDate={setDate} />
+          <Button
+            disabled={anteateryQuery.isLoading || brandywineQuery.isLoading}
+            opacity={
+              anteateryQuery.isLoading || brandywineQuery.isLoading ? 0.5 : 1
+            }
+            onPress={refetchMenusWithDebounce}
+            icon={<RefreshCw />}
+          />
         </XStack>
         {/*
         <ScrollView horizontal>

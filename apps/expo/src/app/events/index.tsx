@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "expo-router";
-import { AlertTriangle } from "@tamagui/lucide-icons";
+import { CalendarX2 } from "@tamagui/lucide-icons";
 import { format } from "date-fns";
 import { H3, Image, Spinner, Tabs, Text, View, YStack } from "tamagui";
 
@@ -8,8 +8,8 @@ import type { Event } from "@zotmeal/db";
 import { getRestaurantNameById } from "@zotmeal/utils";
 
 import { RestaurantTabs } from "~/components";
+import { useZotmealStore } from "~/utils";
 import { api } from "~/utils/api";
-import useZotmealStore from "~/utils/useZotmealStore";
 
 // Create a context for events, default value is a test event
 const _testData = {
@@ -119,8 +119,8 @@ export default function Events() {
       </>
     ) : (
       <View alignItems="center">
-        <AlertTriangle size="$10" />
-        <Text>Menu not found</Text>
+        <CalendarX2 size="$10" />
+        <Text>Events not found</Text>
       </View>
     );
 

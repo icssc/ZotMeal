@@ -30,7 +30,7 @@ export const StationTabs = ({
             marginHorizontal="$1"
             marginBottom="$3"
           >
-            <Text fontSize={"$5"}>{station.name}</Text>
+            <Text fontSize="$5">{station.name}</Text>
           </Tabs.Tab>
         ))}
       </ScrollView>

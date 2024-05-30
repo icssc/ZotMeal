@@ -37,7 +37,6 @@ export function EventToast() {
               backgroundColor={0}
               size="$4"
               circular
-              hoverStyle={{ backgroundColor: "rgba(0,0,0,0.1)" }}
               color="white"
               icon={ArrowRight}
               scaleIcon={1.5}

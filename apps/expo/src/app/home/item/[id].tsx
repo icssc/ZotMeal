@@ -1,4 +1,5 @@
-import { Redirect, Stack, useGlobalSearchParams } from "expo-router";
+import { Platform } from "react-native";
+import { Link, Redirect, Stack, useGlobalSearchParams } from "expo-router";
 import { ChevronRight } from "@tamagui/lucide-icons";
 import {
   H3,
@@ -17,7 +18,8 @@ import {
 import type { NutritionInfo } from "@zotmeal/db";
 
 import { PinButton } from "~/components";
-import useZotmealStore from "~/utils/useZotmealStore";
+import { useZotmealStore } from "~/utils";
+import { testDishImages } from "../testDishImages";
 import RateItem from "./RateItem";
 
 export default function MenuItem() {
@@ -50,6 +52,23 @@ export default function MenuItem() {
   // Unused fields:
   // caloriesFromFat
 
+  const units = {
+    calories: "cal",
+    totalFatG: "g",
+    transFatG: "g",
+    saturatedFatG: "g",
+    cholesterolMg: "mg",
+    sodiumMg: "mg",
+    totalCarbsG: "g",
+    dietaryFiberG: "g",
+    sugarsMg: "mg",
+    proteinG: "g",
+    vitaminAIU: "IU",
+    vitaminCIU: "IU",
+    calciumMg: "mg",
+    ironMg: "mg",
+  } as const satisfies Partial<Record<keyof NutritionInfo, string>>;
+
   const NutritionFacts = ({
     nutritionInfo,
   }: {
@@ -60,79 +79,117 @@ export default function MenuItem() {
       borderWidth={2}
       borderColor={theme.borderColor}
       width="90%"
+      maxWidth={500}
       alignSelf="center"
     >
       <H3>Nutrition Facts</H3>
       <Separator marginVertical="$2" borderWidth={1} />
-      <XStack justifyContent="space-between">
+      <XStack
+        justifyContent="space-between"
+        opacity={nutritionInfo.servingSize ? 1 : 0.5}
+      >
         <Text fontWeight="800">Serving Size</Text>
         <Text fontWeight="800">
-          {nutritionInfo.servingSize}
+          {nutritionInfo.servingSize ?? "?"}
           {nutritionInfo.servingUnit}
         </Text>
       </XStack>
       <Separator marginVertical="$2" borderWidth={7} />
-      <Text>Amount per serving</Text>
-      <XStack justifyContent="space-between">
+      <Text opacity={nutritionInfo.calories ? 1 : 0.5}>Amount per serving</Text>
+      <XStack
+        justifyContent="space-between"
+        opacity={nutritionInfo.calories ? 1 : 0.5}
+      >
         <H4>Calories</H4>
-        <H4>{nutritionInfo.calories}</H4>
+        <H4>{nutritionInfo.calories ?? "?"}</H4>
       </XStack>
       <Separator marginVertical="$2" borderWidth={4} />
       {/* TODO: Add % Daily Value */}
       {/* <Text>% Daily Value*</Text> */}
-      <Text>
-        <Text fontWeight="800">Total Fat</Text> {nutritionInfo.totalFatG}g
+      <Text opacity={nutritionInfo.totalFatG ? 1 : 0.5}>
+        <Text fontWeight="800">Total Fat</Text> {nutritionInfo.totalFatG ?? "?"}
+        {units.totalFatG}
       </Text>
       <Separator marginVertical="$2" borderWidth={1} />
-      <Text paddingLeft="$4">Saturated Fat {nutritionInfo.saturatedFatG}g</Text>
-      <Separator marginVertical="$2" borderWidth={1} />
-      <Text paddingLeft="$4">Trans Fat {nutritionInfo.transFatG}g</Text>
-      <Separator marginVertical="$2" borderWidth={1} />
-      <Text>
-        <Text fontWeight="800">Cholesterol</Text> {nutritionInfo.cholesterolMg}
+      <Text paddingLeft="$4" opacity={nutritionInfo.saturatedFatG ? 1 : 0.5}>
+        Saturated Fat{" "}
+        {nutritionInfo.saturatedFatG ? nutritionInfo.saturatedFatG : "?"}
+        {units.saturatedFatG}
       </Text>
       <Separator marginVertical="$2" borderWidth={1} />
-      <Text>
-        <Text fontWeight="800">Sodium</Text> {nutritionInfo.sodiumMg}mg
+      <Text paddingLeft="$4" opacity={nutritionInfo.transFatG ? 1 : 0.5}>
+        Trans Fat {nutritionInfo.transFatG ?? "?"}
+        {units.transFatG}
       </Text>
       <Separator marginVertical="$2" borderWidth={1} />
-      <Text>
+      <Text opacity={nutritionInfo.cholesterolMg ? 1 : 0.5}>
+        <Text fontWeight="800">Cholesterol</Text>{" "}
+        {nutritionInfo.cholesterolMg ?? "?"}
+        {units.cholesterolMg}
+      </Text>
+      <Separator marginVertical="$2" borderWidth={1} />
+      <Text opacity={nutritionInfo.sodiumMg ? 1 : 0.5}>
+        <Text fontWeight="800">Sodium</Text> {nutritionInfo.sodiumMg ?? "?"}
+        {units.sodiumMg}
+      </Text>
+      <Separator marginVertical="$2" borderWidth={1} />
+      <Text opacity={nutritionInfo.totalCarbsG ? 1 : 0.5}>
         <Text fontWeight="800">Total Carbohydrates</Text>{" "}
-        {nutritionInfo.totalCarbsG}g
+        {nutritionInfo.totalCarbsG ?? "?"}
+        {units.totalCarbsG}
       </Text>
       <Separator marginVertical="$2" borderWidth={1} />
-      <Text paddingLeft="$4">Dietary Fiber {nutritionInfo.dietaryFiberG}g</Text>
+      <Text paddingLeft="$4" opacity={nutritionInfo.dietaryFiberG ? 1 : 0.5}>
+        Dietary Fiber {nutritionInfo.dietaryFiberG ?? "?"}
+        {units.dietaryFiberG}
+      </Text>
       <Separator marginVertical="$2" borderWidth={1} />
-      <Text paddingLeft="$4">Sugars {nutritionInfo.sugarsMg}mg</Text>
+      <Text paddingLeft="$4" opacity={nutritionInfo.sugarsMg ? 1 : 0.5}>
+        Sugars {nutritionInfo.sugarsMg ?? "?"}
+        {units.sugarsMg}
+      </Text>
       <Separator marginVertical="$2" borderWidth={1} />
-      <Text>
-        <Text fontWeight="800">Sodium</Text> {nutritionInfo.proteinG}g
+      <Text opacity={nutritionInfo.proteinG ? 1 : 0.5}>
+        <Text fontWeight="800">Sodium</Text> {nutritionInfo.proteinG ?? "?"}
+        {units.proteinG}
       </Text>
       <Separator marginVertical="$2" borderWidth={7} />
       <XStack justifyContent="space-between">
-        <Text>Vitamin A {nutritionInfo.vitaminAIU} IU</Text>
+        <Text opacity={nutritionInfo.vitaminAIU ? 1 : 0.5}>
+          Vitamin A {nutritionInfo.vitaminAIU ?? "?"} {units.vitaminAIU}
+        </Text>
         <Text></Text>
       </XStack>
       <Separator marginVertical="$2" borderWidth={1} />
       <XStack justifyContent="space-between">
-        <Text>Vitamin C {nutritionInfo.vitaminCIU} IU</Text>
+        <Text opacity={nutritionInfo.vitaminCIU ? 1 : 0.5}>
+          Vitamin C {nutritionInfo.vitaminCIU ?? "?"} {units.vitaminCIU}
+        </Text>
         <Text></Text>
       </XStack>
       <Separator marginVertical="$2" borderWidth={1} />
       <XStack justifyContent="space-between">
-        <Text>Iron {nutritionInfo.ironMg}mg</Text>
+        <Text opacity={nutritionInfo.ironMg ? 1 : 0.5}>
+          Iron {nutritionInfo.ironMg ?? "?"}
+          {units.ironMg}
+        </Text>
         <Text></Text>
       </XStack>
       <Separator marginVertical="$2" borderWidth={1} />
       <XStack justifyContent="space-between">
-        <Text>Calcium {nutritionInfo.calciumMg}mg</Text>
+        <Text opacity={nutritionInfo.calciumMg ? 1 : 0.5}>
+          Calcium {nutritionInfo.calciumMg ?? "?"}
+          {units.calciumMg}
+        </Text>
         <Text></Text>
       </XStack>
       <Separator marginVertical="$2" borderWidth={4} />
       <Paragraph>
-        The % Daily Value tells you how much a nutrient in a serving of food
+        * Some nutrition facts may not be disclosed by the dining halls. Contact
+        the dining hall if you need more information.
+        {/* The % Daily Value tells you how much a nutrient in a serving of food
         contributes to a daily diet. 2,000 calories a day is used for general
-        nutrition advice.
+        nutrition advice. */}
       </Paragraph>
     </YStack>
   );
@@ -149,18 +206,24 @@ export default function MenuItem() {
       <ScrollView height="100%" width="100%">
         <Image
           source={{
-            uri: "https://images.rawpixel.com/image_png_1100/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTExL2ZyZWVpbWFnZXNjb21wYW55X3Bob3RvX29mX2Nob2NvbGF0ZV9jaGlwX2Nvb2tpZV90b3Bfdmlld19pc29sYV8xOGVkY2ZiYS00ZTJjLTQ5MWItYjZiOC02ZGZjNmY1M2Y0OWIucG5n.png",
+            uri: testDishImages[
+              Math.floor(Math.random() * testDishImages.length)
+            ],
           }}
           width="100%"
-          height={200}
+          maxWidth={300}
+          alignSelf="center"
+          height={Platform.OS === "web" ? 300 : 200}
         />
 
         <View padding="$4">
           <XStack alignItems="center">
-            <Text fontSize="$5" color="gray">
-              {selectedRestaurant.charAt(0).toUpperCase() +
-                selectedRestaurant.slice(1)}
-            </Text>
+            <Link href="/">
+              <Text fontSize="$5" color="gray">
+                {selectedRestaurant.charAt(0).toUpperCase() +
+                  selectedRestaurant.slice(1)}
+              </Text>
+            </Link>
             <ChevronRight color="gray" />
             <Text fontSize="$5" color="gray">
               {station.name}

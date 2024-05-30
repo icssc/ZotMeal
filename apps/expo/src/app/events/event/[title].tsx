@@ -23,7 +23,7 @@ import {
 
 import type { Event } from "@zotmeal/db";
 
-import useZotmealStore from "~/utils/useZotmealStore";
+import { useZotmealStore } from "~/utils";
 
 export default function Event() {
   const { title } = useGlobalSearchParams();
