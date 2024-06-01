@@ -19,7 +19,7 @@ import type { NutritionInfo } from "@zotmeal/db";
 
 import { PinButton } from "~/components";
 import { useZotmealStore } from "~/utils";
-import { testDishImages } from "../testDishImages";
+import { testDishImages } from "../../components/menu/testDishImages";
 import RateItem from "./RateItem";
 
 export default function MenuItem() {

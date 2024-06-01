@@ -20,10 +20,10 @@ import { getCurrentPeriodName, getDayPeriodsByDate } from "@zotmeal/utils";
 import { RestaurantTabs } from "~/components";
 import { useZotmealStore } from "~/utils";
 import { api } from "~/utils/api";
-import { UniversalDatePicker } from "./_components/date-picker";
-import { EventToast } from "./_components/event-toast";
-import { PeriodPicker } from "./_components/period-picker";
-import { StationTabs } from "./_components/station-tabs";
+import { UniversalDatePicker } from "../../app/home/_components/date-picker";
+import { EventToast } from "../../app/home/_components/event-toast";
+import { PeriodPicker } from "../../app/home/_components/period-picker";
+import { StationTabs } from "../../app/home/_components/station-tabs";
 
 export function Home() {
   const { anteateryMenu, brandywineMenu, setAnteateryMenu, setBrandywineMenu } =
@@ -38,12 +38,13 @@ export function Home() {
   const [period, setPeriod] = useState<PeriodName>(
     currentPeriod === "closed" ? "breakfast" : currentPeriod,
   );
+
   const theme = useTheme();
 
   const queryOptions = {
     retry: false,
     refetchOnWindowFocus: false,
-  } as const;
+  } satisfies Parameters<typeof api.menu.get.useQuery>[1];
 
   const anteateryQuery = api.menu.get.useQuery(
     {
@@ -124,7 +125,7 @@ export function Home() {
         ) : null}
         {brandywineMenu ? (
           <StationTabs stations={brandywineMenu.stations} />
-        ) : (
+        ) : brandywineQuery.isPending ? null : (
           <View alignItems="center">
             <AlertTriangle size="$10" />
             <Text>Menu not found</Text>
@@ -149,7 +150,7 @@ export function Home() {
         ) : null}
         {anteateryMenu ? (
           <StationTabs stations={anteateryMenu.stations} />
-        ) : (
+        ) : anteateryQuery.isPending ? null : (
           <View alignItems="center">
             <AlertTriangle size="$10" />
             <Text>Menu not found</Text>
@@ -171,10 +172,19 @@ export function Home() {
           <PeriodPicker
             availablePeriods={getDayPeriodsByDate(date)}
             period={period}
-            setPeriod={setPeriod}
+            setPeriod={(period) => {
+              setPeriod(period);
+              refetchMenusWithDebounce();
+            }}
             color={theme.color?.val as string}
           />
-          <UniversalDatePicker date={date} setDate={setDate} />
+          <UniversalDatePicker
+            date={date}
+            setDate={(date) => {
+              setDate(date);
+              refetchMenusWithDebounce();
+            }}
+          />
           <Button
             disabled={anteateryQuery.isLoading || brandywineQuery.isLoading}
             opacity={

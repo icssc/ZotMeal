@@ -5,7 +5,7 @@ import { Image, ListItem, Text, View, XStack, YGroup, YStack } from "tamagui";
 import type { MenuWithRelations } from "@zotmeal/db";
 
 import { PinButton } from "~/components";
-import { testDishImages } from "../testDishImages";
+import { testDishImages } from "../../../components/menu/testDishImages";
 
 type Station = MenuWithRelations["stations"][0];
 type Dish = MenuWithRelations["stations"][0]["dishes"][0];
@@ -33,7 +33,7 @@ export const DishCard = ({
       <Link
         asChild
         href={{
-          pathname: "/home/item/[id]",
+          pathname: "/item/[id]",
           params: {
             id: dish.id,
             stationId,

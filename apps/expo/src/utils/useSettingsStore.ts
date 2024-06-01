@@ -9,9 +9,9 @@ interface SettingsState {
 }
 
 export const useSettingsStore = create<SettingsState>((set, get) => ({
-  colorSchemePreference: "system",
-  setColorSchemePreference: (colorScheme) =>
-    set({ colorSchemePreference: colorScheme }),
+  colorSchemePreference: "system" as const,
+  setColorSchemePreference: (colorSchemePreference) =>
+    set({ colorSchemePreference }),
 }));
 
 export const useZotmealColorScheme = () => {

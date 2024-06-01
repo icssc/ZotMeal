@@ -5,7 +5,7 @@ import type { PeriodName } from "@zotmeal/utils";
 interface PeriodPickerProps extends PickerProps {
   availablePeriods: PeriodName[];
   period: PeriodName;
-  setPeriod: (periodName: PeriodName) => void;
+  setPeriod: (period: PeriodName) => void;
   color: string;
 }
 
