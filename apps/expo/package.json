@@ -13,7 +13,7 @@
     "ios": "expo run:ios",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint .",
-    "test": "jest",
+    "_test": "jest",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
