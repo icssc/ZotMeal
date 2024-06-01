@@ -1,6 +1,6 @@
 {
   "name": "@zotmeal/eslint-config",
-  "version": "0.2.0",
+  "version": "0.1.0",
   "private": true,
   "license": "MIT",
   "files": [
@@ -26,9 +26,9 @@
     "eslint-plugin-react-hooks": "^4.6.0"
   },
   "devDependencies": {
+    "@types/eslint": "^8.56.7",
     "@zotmeal/prettier-config": "workspace:^0.1.0",
     "@zotmeal/tsconfig": "workspace:^0.1.0",
-    "@types/eslint": "^8.56.7",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
     "typescript": "^5.4.3"
