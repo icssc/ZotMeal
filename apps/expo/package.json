@@ -13,6 +13,7 @@
     "ios": "expo run:ios",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "lint": "eslint .",
+    "test": "jest",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -32,7 +33,6 @@
     "@trpc/client": "11.0.0-rc.330",
     "@trpc/react-query": "11.0.0-rc.330",
     "@trpc/server": "11.0.0-rc.330",
-    "@types/react-datepicker": "^6.2.0",
     "@zotmeal/api": "workspace:^",
     "@zotmeal/db": "workspace:^",
     "@zotmeal/utils": "workspace:^",
@@ -64,15 +64,23 @@
   "devDependencies": {
     "@babel/core": "^7.24.0",
     "@babel/preset-env": "^7.24.0",
+    "@babel/preset-typescript": "^7.24.6",
     "@babel/runtime": "^7.24.0",
+    "@jest/globals": "^29.7.0",
+    "@testing-library/react-native": "^12.5.1",
+    "@types/react-datepicker": "^6.2.0",
     "@zotmeal/eslint-config": "workspace:^0.2.0",
     "@zotmeal/prettier-config": "workspace:^0.1.0",
     "@zotmeal/tailwind-config": "workspace:^0.1.0",
     "@zotmeal/tsconfig": "workspace:^0.1.0",
     "@zotmeal/ui": "workspace:^",
     "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "jest-expo": "^50.0.4",
     "prettier": "^3.2.5",
+    "react-test-renderer": "^18.2.0",
     "tailwindcss": "^3.4.3",
+    "ts-jest": "^29.1.4",
     "typescript": "^5.4.3"
   },
   "eslintConfig": {
