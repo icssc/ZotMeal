@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text } from "drizzle-orm/pg-core";
+import { integer, pgTable, text } from "drizzle-orm/pg-core";
 
 import type { DietRestriction } from "./diet-restriction-table";
 import type { NutritionInfo } from "./nutrition-info-table";
@@ -13,7 +13,8 @@ export const DishTable = pgTable("dishes", {
   name: text("name").notNull(),
   description: text("description").notNull(),
   category: text("category").notNull(),
-
+  numRatings: integer("num_ratings").default(0).notNull(),
+  totalRating: integer("total_rating").default(0).notNull(),
   ...metadataColumns,
 });
 
@@ -40,6 +41,7 @@ export const dishRelations = relations(DishTable, ({ one, many }) => ({
 }));
 
 export type Dish = typeof DishTable.$inferInsert;
+
 export interface DishWithRelations extends Dish {
   dietRestriction: DietRestriction;
   nutritionInfo: NutritionInfo;

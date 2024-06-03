@@ -13,7 +13,6 @@
 // import { Expo } from "expo-server-sdk";
 import { initTRPC } from "@trpc/server";
 import superjson from "superjson";
-import { assert } from "vitest";
 import { ZodError } from "zod";
 
 import { createDrizzle } from "@zotmeal/db";

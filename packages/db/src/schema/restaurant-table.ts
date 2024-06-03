@@ -11,7 +11,6 @@ import { metadataColumns } from "./utils";
 export const RestaurantTable = pgTable("restaurants", {
   id: restaurantIdEnum("id").primaryKey().notNull(),
   name: restaurantNameEnum("name").notNull(),
-
   ...metadataColumns,
 });
 

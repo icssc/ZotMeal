@@ -6,12 +6,17 @@ import { Text } from "tamagui";
 import SignInWithOAuth from "~/components/auth/SignInWithOAuth";
 
 export default function AuthPage() {
-  const auth = useAuth();
-  console.log("is signed in", auth.isSignedIn);
+  const { isSignedIn, isLoaded, userId } = useAuth();
+
+  if (!isLoaded) return <Text>Loading...</Text>;
+
+  console.log("is signed in", isSignedIn);
   return (
     <SafeAreaView>
       <SignedIn>
-        <Text>You are Signed in</Text>
+        <Text zIndex={10} width="100%" height="100%" backgroundColor="red">
+          You are Signed in
+        </Text>
       </SignedIn>
       <SignedOut>
         <SignInWithOAuth />

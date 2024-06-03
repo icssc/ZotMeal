@@ -17,6 +17,11 @@ export default async function () {
 
   process.env.DB_URL = container.getConnectionUri();
 
+  // if (process.env.DB_URL !== "postgres://test:test@127.0.0.1:32790/test")
+  //   throw new Error(
+  //     `Unexpected connection uri '${process.env.DB_URL}', Check test-setup.ts`,
+  //   );
+
   logger.info(`postgres container started. DB_URL: ${process.env.DB_URL}`);
 
   await pushSchema(process.env.DB_URL);

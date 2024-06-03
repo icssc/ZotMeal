@@ -8,7 +8,7 @@ interface SettingsState {
   ) => void;
 }
 
-export const useSettingsStore = create<SettingsState>((set, get) => ({
+export const useSettingsStore = create<SettingsState>((set) => ({
   colorSchemePreference: "system" as const,
   setColorSchemePreference: (colorSchemePreference) =>
     set({ colorSchemePreference }),

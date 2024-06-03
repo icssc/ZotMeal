@@ -18,8 +18,8 @@ export const MenuTable = pgTable("menus", {
       onUpdate: "cascade",
     }),
 
-  start: timestamp("start", { precision: 3, mode: "string" }).notNull(),
-  end: timestamp("end", { precision: 3, mode: "string" }).notNull(),
+  start: timestamp("start").notNull(),
+  end: timestamp("end").notNull(),
   price: text("price").notNull(),
   period: periodNameEnum("period").notNull(),
 

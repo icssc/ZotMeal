@@ -48,7 +48,7 @@ export function Home() {
 
   const anteateryQuery = api.menu.get.useQuery(
     {
-      date: date.toLocaleDateString("en-US"),
+      date,
       period,
       restaurant: "anteatery",
     },
@@ -57,7 +57,7 @@ export function Home() {
 
   const brandywineQuery = api.menu.get.useQuery(
     {
-      date: date.toLocaleDateString("en-US"),
+      date,
       period,
       restaurant: "brandywine",
     },

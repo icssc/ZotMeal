@@ -18,7 +18,7 @@ export function PinButton({ dishName, ...props }: PinButtonProps) {
   };
 
   useEffect(() => {
-    const readItemFromStorage = async () => {
+    async function readItemFromStorage() {
       const item = await getItem();
       if (!item) return;
 
@@ -28,7 +28,7 @@ export function PinButton({ dishName, ...props }: PinButtonProps) {
     };
 
     readItemFromStorage().catch(console.error);
-  }, [getItem]);
+  }, []);
 
   return (
     <Button

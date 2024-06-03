@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import type { Event, MenuWithRelations, Restaurant } from "@zotmeal/db";
+import type { Event, MenuWithRelations } from "@zotmeal/db";
 import type { RestaurantName } from "@zotmeal/utils";
 
 // import { anteateryData, brandywineData } from "../app/home/example_menus";

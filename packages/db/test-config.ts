@@ -1,9 +1,9 @@
-import type { Config } from "drizzle-kit";
+import { defineConfig } from "drizzle-kit";
 
-export default {
-  driver: "pg",
+if (!process.env.DB_URL) throw new Error("DB_URL is not set");
+
+export default defineConfig({
+  dialect: "postgresql",
   schema: "../db/src/schema",
-  dbCredentials: {
-    connectionString: process.env.DB_URL!,
-  },
-} satisfies Config;
+  dbCredentials: { url: process.env.DB_URL },
+});

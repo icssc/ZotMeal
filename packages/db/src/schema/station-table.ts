@@ -38,6 +38,7 @@ export const stationRelations = relations(StationTable, ({ one, many }) => ({
 }));
 
 export type Station = typeof StationTable.$inferInsert;
+
 export interface StationWithRelations extends Station {
   dishes: DishWithRelations[];
 }

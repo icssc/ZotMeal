@@ -1,6 +1,4 @@
 import { exec } from "child_process";
-import fs from "fs";
-import path from "path";
 import { promisify } from "util";
 import type { PoolConfig } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
@@ -22,19 +20,14 @@ export const createDrizzle = (config: PoolConfig) =>
  */
 export async function pushSchema(connectionString: string) {
   logger.info(`Pushing schema to test container (${process.env.DB_URL})...`);
-  await promisify(exec)(
-    `pnpm drizzle-kit push:pg --config=../db/test-config.ts`,
-    {
-      env: {
-        ...process.env,
-        DB_URL: connectionString,
-      },
+  await promisify(exec)(`pnpm drizzle-kit push --config=../db/test-config.ts`, {
+    env: {
+      ...process.env,
+      DB_URL: connectionString,
     },
-  );
+  });
   logger.info("Schema pushed to test container.");
 }
 
 export type Drizzle = ReturnType<typeof createDrizzle>;
-
-export * from "drizzle-orm";
 export * from "./schema";

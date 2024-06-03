@@ -11,7 +11,7 @@
   },
   "scripts": {
     "with-env": "dotenv -e ../../.env --",
-    "test": "pnpm with-env vitest run --config vitest.config.ts | pino-pretty",
+    "test": "pnpm with-env vitest run --config vitest.config.ts",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -22,6 +22,7 @@
     "cheerio": "1.0.0-rc.12",
     "date-fns": "^3.6.0",
     "date-fns-tz": "^3.1.3",
+    "drizzle-orm": "^0.31.0",
     "expo-server-sdk": "^3.9.0",
     "pino": "^8.20.0",
     "pino-pretty": "^11.0.0",
@@ -36,10 +37,10 @@
   },
   "prettier": "@zotmeal/prettier-config",
   "devDependencies": {
+    "@testcontainers/postgresql": "^10.9.0",
     "@zotmeal/eslint-config": "workspace:^",
     "@zotmeal/prettier-config": "workspace:^",
     "@zotmeal/tsconfig": "workspace:^",
-    "@testcontainers/postgresql": "^10.9.0",
     "dotenv-cli": "^7.4.1",
     "testcontainers": "^10.9.0",
     "vitest": "^1.4.0"
