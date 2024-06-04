@@ -1,6 +1,6 @@
 {
   "name": "@zotmeal/db",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "exports": {
@@ -25,9 +25,9 @@
   },
   "devDependencies": {
     "@types/pg": "^8.11.2",
-    "@zotmeal/eslint-config": "workspace:^0.2.0",
-    "@zotmeal/prettier-config": "workspace:^0.1.0",
-    "@zotmeal/tsconfig": "workspace:^0.1.0",
+    "@zotmeal/eslint-config": "workspace:^",
+    "@zotmeal/prettier-config": "workspace:^",
+    "@zotmeal/tsconfig": "workspace:^",
     "dotenv-cli": "^7.4.1",
     "drizzle-kit": "^0.20.17",
     "eslint": "^8.57.0",
@@ -51,7 +51,6 @@
     "pino-pretty": "^11.0.0",
     "postgres": "^3.4.4",
     "tsx": "^4.7.1",
-    "zod": "^3.22.4",
-    "@zotmeal/tsconfig": "workspace:^0.1.0"
+    "zod": "^3.22.4"
   }
 }

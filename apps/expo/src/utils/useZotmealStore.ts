@@ -12,24 +12,21 @@ interface ZotmealState {
   anteateryEvents: Event[];
   brandywineEvents: Event[];
   setSelectedRestaurant: (restaurant: RestaurantName) => void;
-  setAnteateryMenu: (anteateryMenu: MenuWithRelations) => void;
-  setBrandywineMenu: (brandywineMenu: MenuWithRelations) => void;
+  setAnteateryMenu: (anteateryMenu: MenuWithRelations | null) => void;
+  setBrandywineMenu: (brandywineMenu: MenuWithRelations | null) => void;
   setAnteateryEvents: (anteateryEvents: Event[]) => void;
   setBrandywineEvents: (brandywineEvents: Event[]) => void;
 }
 
-export default create<ZotmealState>((set) => ({
+export const useZotmealStore = create<ZotmealState>((set) => ({
   selectedRestaurant: "brandywine",
   anteateryMenu: null,
   brandywineMenu: null,
   anteateryEvents: [],
   brandywineEvents: [],
-  setSelectedRestaurant: (selectedRestaurant: Restaurant["name"]) =>
-    set({ selectedRestaurant }),
-  setAnteateryMenu: (anteateryMenu: MenuWithRelations) =>
-    set({ anteateryMenu }),
-  setBrandywineMenu: (brandywineMenu: MenuWithRelations) =>
-    set({ brandywineMenu }),
-  setAnteateryEvents: (anteateryEvents: Event[]) => set({ anteateryEvents }),
-  setBrandywineEvents: (brandywineEvents: Event[]) => set({ brandywineEvents }),
+  setSelectedRestaurant: (selectedRestaurant) => set({ selectedRestaurant }),
+  setAnteateryMenu: (anteateryMenu) => set({ anteateryMenu }),
+  setBrandywineMenu: (brandywineMenu) => set({ brandywineMenu }),
+  setAnteateryEvents: (anteateryEvents) => set({ anteateryEvents }),
+  setBrandywineEvents: (brandywineEvents) => set({ brandywineEvents }),
 }));

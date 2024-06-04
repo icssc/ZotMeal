@@ -1,14 +1,15 @@
 import { useEffect } from "react";
 import { Link } from "expo-router";
+import { CalendarX2 } from "@tamagui/lucide-icons";
 import { format } from "date-fns";
-import { H3, Image, Tabs, Text, YStack } from "tamagui";
+import { H3, Image, Spinner, Tabs, Text, View, YStack } from "tamagui";
 
 import type { Event } from "@zotmeal/db";
 import { getRestaurantNameById } from "@zotmeal/utils";
 
 import { RestaurantTabs } from "~/components";
+import { useZotmealStore } from "~/utils";
 import { api } from "~/utils/api";
-import useZotmealStore from "~/utils/useZotmealStore";
 
 // Create a context for events, default value is a test event
 const _testData = {
@@ -95,32 +96,37 @@ export default function Events() {
     setBrandywineEvents(brandywineEvents);
   }, [eventsQuery.data, setAnteateryEvents, setBrandywineEvents]);
 
-  if (eventsQuery?.isLoading) {
-    return <Text>Loading...</Text>;
-  }
+  // TODO: show a toast if there is an error
+  if (eventsQuery?.isError) console.error(eventsQuery.error);
 
-  if (eventsQuery?.isError) {
-    return <Text>Error: {eventsQuery.error.message}</Text>;
-  }
-
-  if (!anteateryEvents || !brandywineEvents) {
-    return <Text>No events found</Text>;
-  }
+  const EventsContent = () =>
+    eventsQuery.isLoading ? (
+      <Spinner size="large" marginTop="$10" />
+    ) : brandywineEvents && anteateryEvents ? (
+      <>
+        {[brandywineEvents, anteateryEvents].map((events, index) => (
+          <Tabs.Content
+            key={index}
+            value={getRestaurantNameById(index === 0 ? "3314" : "3056")}
+          >
+            <YStack>
+              {events.map((event, index) => (
+                <EventCard key={index} event={event} />
+              ))}
+            </YStack>
+          </Tabs.Content>
+        ))}
+      </>
+    ) : (
+      <View alignItems="center">
+        <CalendarX2 size="$10" />
+        <Text>Events not found</Text>
+      </View>
+    );
 
   return (
     <RestaurantTabs>
-      {[brandywineEvents, anteateryEvents].map((events, index) => (
-        <Tabs.Content
-          key={index}
-          value={getRestaurantNameById(index === 0 ? "3314" : "3056")}
-        >
-          <YStack>
-            {events.map((event, index) => (
-              <EventCard key={index} event={event} />
-            ))}
-          </YStack>
-        </Tabs.Content>
-      ))}
+      <EventsContent />
     </RestaurantTabs>
   );
 }

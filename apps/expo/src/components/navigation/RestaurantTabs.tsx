@@ -1,11 +1,10 @@
-import { useColorScheme } from "react-native";
 import { G, Path, Svg, Text } from "react-native-svg";
 import { Image, Tabs, useTheme, useWindowDimensions, View } from "tamagui";
 
 import type { Restaurant } from "@zotmeal/db";
 import { getCurrentPeriodName } from "@zotmeal/utils";
 
-import useZotmealStore from "~/utils/useZotmealStore";
+import { useZotmealColorScheme, useZotmealStore } from "~/utils";
 
 export function RestaurantTabs({
   children,
@@ -25,7 +24,7 @@ export function RestaurantTabs({
         }}
         position="absolute"
         zIndex={-1}
-        width={"100%"}
+        width="100%"
         height={125}
       />
       <View height={65} />
@@ -36,18 +35,18 @@ export function RestaurantTabs({
         }
         orientation="horizontal"
         flexDirection="column"
-        width={"100%"}
-        height={"100%"}
+        width="100%"
+        height="100%"
       >
-        <Tabs.List borderRadius={"$20"} flexDirection="column">
-          <View width={"100%"} flexDirection="row">
+        <Tabs.List borderRadius="$20" flexDirection="column">
+          <View width="100%" flexDirection="row">
             <Tabs.Tab
               flex={1}
               height={70}
               value="brandywine"
               opacity={selectedRestaurant === "brandywine" ? 1 : 0.5}
             >
-              <TabSvg label={"Brandywine"} />
+              <TabSvg label="Brandywine" />
             </Tabs.Tab>
             <Tabs.Tab
               flex={1}
@@ -55,7 +54,7 @@ export function RestaurantTabs({
               value="anteatery"
               opacity={selectedRestaurant === "anteatery" ? 1 : 0.5}
             >
-              <TabSvg label={"The Anteatery"} />
+              <TabSvg label="The Anteatery" />
             </Tabs.Tab>
           </View>
         </Tabs.List>
@@ -66,7 +65,7 @@ export function RestaurantTabs({
 } // Uses the svg from Figma
 
 export const TabSvg = ({ label }: Readonly<{ label: string }>) => {
-  const colorScheme = useColorScheme();
+  const colorScheme = useZotmealColorScheme();
   const theme = useTheme();
   const deviceWidth = useWindowDimensions().width;
 
@@ -90,6 +89,7 @@ export const TabSvg = ({ label }: Readonly<{ label: string }>) => {
           fill={theme.color?.val as string}
           textAnchor="middle"
           alignmentBaseline="central"
+          fontFamily="Inter"
           fontSize="25"
           fontWeight="bold"
         >
@@ -103,6 +103,7 @@ export const TabSvg = ({ label }: Readonly<{ label: string }>) => {
           }
           textAnchor="middle"
           alignmentBaseline="central"
+          fontFamily="Inter"
           fontSize="18"
           fontWeight="bold"
         >

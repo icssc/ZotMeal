@@ -58,8 +58,8 @@ export function HamburgerMenu() {
     <Popover
       placement="bottom-start"
       offset={{
-        alignmentAxis: -30,
-        mainAxis: -10,
+        alignmentAxis: -5,
+        mainAxis: 15,
       }}
     >
       <Popover.Trigger asChild theme="dark">
@@ -100,6 +100,7 @@ export function HamburgerMenu() {
           },
         ]}
       >
+        <Popover.Arrow borderWidth={1} borderColor="$borderColor" />
         <YGroup separator={<Separator />}>
           {Object.entries(screens).map(
             ([name, { path, description, icon }]) => (

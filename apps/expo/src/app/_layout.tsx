@@ -2,13 +2,10 @@ import { config } from "@tamagui/config/v3";
 
 import "@tamagui/core/reset.css";
 
-import type { TokenCache } from "@clerk/clerk-expo/dist/cache";
 import type { FontSource } from "expo-font";
-import { useColorScheme } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
-import * as SecureStore from "expo-secure-store";
 import { StatusBar } from "expo-status-bar";
 import { ClerkProvider } from "@clerk/clerk-expo";
 import InterBold from "@tamagui/font-inter/otf/Inter-Bold.otf";
@@ -16,32 +13,13 @@ import Inter from "@tamagui/font-inter/otf/Inter-Medium.otf";
 import { ToastProvider, ToastViewport } from "@tamagui/toast";
 import { createTamagui, TamaguiProvider, Theme } from "tamagui";
 
-import Logo from "~/components/Logo";
+import { Logo } from "~/components";
 import { HamburgerMenu } from "~/components/navigation/HamburgerMenu";
-import { TRPCProvider } from "~/utils";
+import { TRPCProvider, useZotmealColorScheme } from "~/utils";
+import { tokenCache } from "~/utils/tokenCache";
 import { env } from "../utils/env";
 
-// Main layout of the app
-// It wraps your pages with the providers they need
-
 const tamaguiConfig = createTamagui(config);
-
-const tokenCache: TokenCache = {
-  async getToken(key: string) {
-    try {
-      return SecureStore.getItemAsync(key);
-    } catch (err) {
-      return null;
-    }
-  },
-  async saveToken(key: string, value: string) {
-    try {
-      await SecureStore.setItemAsync(key, value);
-    } catch (err) {
-      console.error(err);
-    }
-  },
-};
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -49,12 +27,11 @@ export default function RootLayout() {
     InterBold: InterBold as FontSource,
   });
 
-  const colorScheme = useColorScheme();
+  const colorScheme = useZotmealColorScheme();
+
   const { bottom, left, right } = useSafeAreaInsets();
 
-  if (!loaded) {
-    return null;
-  }
+  if (!loaded) return null;
 
   return (
     <TRPCProvider>

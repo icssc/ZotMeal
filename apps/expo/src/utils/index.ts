@@ -1,5 +1,4 @@
-import { TRPCProvider } from "./api";
-import groupBy from "./groupBy";
-import useZotmealStore from "./useZotmealStore";
-
-export { TRPCProvider, groupBy, useZotmealStore };
+export { TRPCProvider } from "./api";
+export * from "./groupBy";
+export * from "./useZotmealStore";
+export * from "./useSettingsStore";

@@ -1,10 +1,11 @@
 import { Link } from "expo-router";
 import { StarFull } from "@tamagui/lucide-icons";
-import { Image, ListItem, Text, XStack, YGroup, YStack } from "tamagui";
-
+import { Image, ListItem, Text, View, XStack, YGroup, YStack } from "tamagui";
 
 import type { MenuWithRelations } from "@zotmeal/db";
-import { PinButton } from '~/components';
+
+import { PinButton } from "~/components";
+import { testDishImages } from "../../../components/menu/testDishImages";
 
 type Station = MenuWithRelations["stations"][0];
 type Dish = MenuWithRelations["stations"][0]["dishes"][0];
@@ -16,52 +17,47 @@ export const DishCard = ({
   dish: Dish;
   stationId: Station["id"];
 }>) => (
-  <YGroup.Item>
-    <Link
-      asChild
-      href={{
-        pathname: "/home/item/[id]",
-        params: {
-          id: dish.id,
-          stationId,
-        },
+  <XStack justifyContent="space-between" height={100}>
+    <Image
+      resizeMode="cover"
+      alignSelf="center"
+      width={100}
+      height="90%"
+      borderRadius={5}
+      source={{
+        uri: testDishImages[Math.floor(Math.random() * testDishImages.length)],
       }}
-    >
-      <ListItem pressTheme>
-        <XStack justifyContent="space-between" paddingRight="$4">
-          <Image
-            resizeMode="contain"
-            alignSelf="center"
-            width="18%"
-            height={65}
-            marginRight="$3"
-            source={{
-              uri: "https://images.rawpixel.com/image_png_1100/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTExL2ZyZWVpbWFnZXNjb21wYW55X3Bob3RvX29mX2Nob2NvbGF0ZV9jaGlwX2Nvb2tpZV90b3Bfdmlld19pc29sYV8xOGVkY2ZiYS00ZTJjLTQ5MWItYjZiOC02ZGZjNmY1M2Y0OWIucG5n.png",
-            }}
-          />
-          <YStack
-            gap="$1"
-            width={"75%"}
-            justifyContent="space-between"
-            paddingTop="$4"
-            paddingBottom="$3"
-          >
+    />
+    <View width={15} />
+    <YGroup.Item>
+      <Link
+        asChild
+        href={{
+          pathname: "/item/[id]",
+          params: {
+            id: dish.id,
+            stationId,
+          },
+        }}
+      >
+        <ListItem pressTheme>
+          <YStack gap="$1" paddingTop="$4" paddingBottom="$3">
             <XStack justifyContent="space-between">
-              <Text fontWeight={"800"} fontSize={"$5"}>
+              <Text fontWeight="800" fontSize="$5">
                 {dish.name}
               </Text>
-              <Text textAlign="right" fontSize="$5" fontWeight={"800"}>
-                {dish.nutritionInfo.calories} cal
+              <Text textAlign="right" fontSize="$5" fontWeight="800">
+                {dish.nutritionInfo.calories
+                  ? `${dish.nutritionInfo.calories} cal`
+                  : ""}
               </Text>
             </XStack>
             <XStack justifyContent="space-between">
-              <XStack alignItems="center" gap="$1" width={"70%"}>
+              <XStack alignItems="center" gap="$1" width="70%">
                 <StarFull color="gold" scale={0.8} />
                 <Text>
-                  <Text fontWeight="800" fontSize="$4">
-                    5.0
-                  </Text>{" "}
-                  <Text color="gray">(10,000 reviews)</Text>
+                  <Text fontWeight="800">5.0</Text>
+                  <Text color="gray"> (10,000 reviews)</Text>
                 </Text>
               </XStack>
               <PinButton
@@ -73,8 +69,8 @@ export const DishCard = ({
               />
             </XStack>
           </YStack>
-        </XStack>
-      </ListItem>
-    </Link>
-  </YGroup.Item>
+        </ListItem>
+      </Link>
+    </YGroup.Item>
+  </XStack>
 );

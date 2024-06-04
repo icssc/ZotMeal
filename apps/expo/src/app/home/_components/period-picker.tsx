@@ -1,17 +1,18 @@
-import { Picker } from "@react-native-picker/picker";
+import { Picker, PickerProps } from "@react-native-picker/picker";
 
 import type { PeriodName } from "@zotmeal/utils";
-import { PeriodEnum } from "@zotmeal/utils";
 
-interface PeriodPickerProps {
-  periodName: PeriodName;
-  setPeriodName: (periodName: PeriodName) => void;
+interface PeriodPickerProps extends PickerProps {
+  availablePeriods: PeriodName[];
+  period: PeriodName;
+  setPeriod: (period: PeriodName) => void;
   color: string;
 }
 
 export const PeriodPicker = ({
-  periodName,
-  setPeriodName,
+  availablePeriods,
+  period,
+  setPeriod,
   color,
 }: Readonly<PeriodPickerProps>) => (
   <Picker
@@ -24,14 +25,12 @@ export const PeriodPicker = ({
       fontSize: 18,
       color,
     }}
-    selectedValue={periodName}
-    onValueChange={(itemValue, _) => {
-      setPeriodName(itemValue);
-    }}
+    selectedValue={period}
+    onValueChange={setPeriod}
   >
     {/* Create a Picker.Item for each period */}
-    {Object.entries(PeriodEnum).map(([period, id]) => (
-      <Picker.Item key={id} label={period} value={period} />
+    {availablePeriods.map((period) => (
+      <Picker.Item key={period} label={period} value={period} />
     ))}
   </Picker>
 );
