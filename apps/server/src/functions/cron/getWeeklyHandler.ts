@@ -1,6 +1,5 @@
 import fs from "fs";
 import path from "path";
-import { format } from "date-fns";
 import { logger } from "logger";
 
 import { getWeekInfo } from "@zotmeal/api";
@@ -27,11 +26,9 @@ export const main = async (_event, _context) => {
     });
     logger.info(`Start get weekly job...`);
 
-    const date = format(new Date(), "MM/dd/yyyy");
-
     const results = await Promise.allSettled(
       restaurantNames.map(async (restaurant) =>
-        getWeekInfo(db, { date, restaurant }),
+        getWeekInfo(db, new Date(), restaurant),
       ),
     );
 

@@ -1,21 +1,29 @@
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+
+import { RestaurantSchema } from "@zotmeal/db";
 
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { getSchedule, GetScheduleSchema } from "./services";
+import { getSchedule } from "./services";
 
 export const getScheduleProcedure = publicProcedure
-  .input(GetScheduleSchema)
-  .query(async ({ ctx: { db }, input }) => {
-    const schedule = await getSchedule(db, input);
-
-    if (!schedule) {
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: "schedule not found",
-      });
-    }
-    return schedule;
-  });
+  .input(
+    z.object({
+      date: z.date(),
+      restaurant: RestaurantSchema.shape.name,
+    }),
+  )
+  .query(
+    async ({ ctx: { db }, input: { date, restaurant } }) =>
+      await getSchedule(db, date, restaurant).catch((e) => {
+        if (e instanceof TRPCError) throw e;
+        console.error(e);
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "error getting schedule",
+        });
+      }),
+  );
 
 export const scheduleRouter = createTRPCRouter({
   get: getScheduleProcedure,

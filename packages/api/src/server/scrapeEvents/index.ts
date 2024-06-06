@@ -11,18 +11,16 @@ import { upsertEvents } from "../../events/services";
 export async function getHTML(url: string): Promise<string> {
   try {
     const res = await axios.get(url);
-    if (typeof res.data === "string") return res.data;
-
-    throw new Error("response data is not a string");
+    if (typeof res.data !== "string")
+      throw new Error("response data is not a string");
+    return res.data;
   } catch (e) {
-    if (e instanceof Error)
-      console.error(`Error fetching from url: ${url}`, e.message);
-
+    console.error(`Error fetching from url: ${url}`, e);
     throw e;
   }
 }
 
-export async function scrapeEvents(html: string): Promise<Event[] | null> {
+export async function scrapeEvents(html: string): Promise<Event[]> {
   try {
     const $ = cheerio.load(html);
 
@@ -90,12 +88,10 @@ export async function scrapeEvents(html: string): Promise<Event[] | null> {
         .text()
         .trim();
 
-      const restaurantId = getRestaurantId(restaurant);
-
       const event = EventSchema.parse({
         title,
         image,
-        restaurantId,
+        restaurantId: getRestaurantId(restaurant),
         shortDescription,
         longDescription,
         start,
@@ -109,21 +105,14 @@ export async function scrapeEvents(html: string): Promise<Event[] | null> {
 
     return events;
   } catch (e) {
-    if (e instanceof Error) console.error(e);
+    console.error(e);
+    throw e;
   }
-  return null;
 }
 
-// scrapes all events from campusDish and upserts them into the db
-export async function scrapeCampusDishEvents(db: Drizzle): Promise<Event[]> {
+export async function scrapeAndUpsertEvents(db: Drizzle): Promise<Event[]> {
   const html = await getHTML(
     "https://uci-campusdish-com.translate.goog/api/events?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en&_x_tr_pto=wapp",
   );
-  const events = await scrapeEvents(html);
-
-  if (!events) throw new Error("Could not retrieve campus dish events");
-
-  const upsertedEvents = await upsertEvents(db, events);
-
-  return upsertedEvents;
+  return await upsertEvents(db, await scrapeEvents(html));
 }

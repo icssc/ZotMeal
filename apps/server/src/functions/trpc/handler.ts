@@ -8,13 +8,14 @@ import { appRouter, createTRPCContext } from "@zotmeal/api";
 
 const createContext = (
   _opts: CreateAWSLambdaContextOptions<APIGatewayProxyEventV2>,
-) => {
-  return createTRPCContext({
+) =>
+  createTRPCContext({
     headers: new Headers({
       "x-trpc-source": "@zotmeal/aws-lambda",
     }),
+    connectionString: process.env.DATABASE_URL,
   });
-};
+
 // type Context = Awaited<ReturnType<typeof createContext>>;
 
 export const handler = awsLambdaRequestHandler({

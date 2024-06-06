@@ -1,14 +1,14 @@
-import { z } from "zod";
-
-import { EventTable } from "@zotmeal/db";
-
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
-export const getEvents = publicProcedure
-  .input(z.object({}))
-  .query(
-    async ({ ctx: { db } }) => await db.select().from(EventTable).execute(),
-  );
+/**
+ * Get all events that are happening today or later.
+ */
+export const getEvents = publicProcedure.query(
+  async ({ ctx: { db } }) =>
+    await db.query.EventTable.findMany({
+      where: (event, { gte }) => gte(event.end, new Date()),
+    }),
+);
 
 export const eventRouter = createTRPCRouter({
   get: getEvents,

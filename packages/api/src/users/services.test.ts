@@ -1,49 +1,57 @@
-import { describe, expect, it } from "vitest";
+import { describe } from "vitest";
 
-import { createDrizzle } from "@zotmeal/db";
-
+import { apiTest } from "../../apiTest";
 import { getUser, upsertUser } from "./services";
 
-const userId = "1";
-
-const user = {
-  id: userId,
-  name: "John Doe",
-};
-
-const updatedUser = {
-  id: userId,
-  name: "Jane Doe",
-};
-
 describe("upsertUser", () => {
-  const db = createDrizzle({ connectionString: process.env.DB_URL! });
-  it("inserts valid user into db", async () => {
-    const upsertedUser = await upsertUser(db, user);
-    expect(upsertedUser).toBeDefined();
-    expect(upsertedUser?.id).toBe(userId);
+  apiTest("inserts valid user into db", async ({ db, expect, testData }) => {
+    await expect(
+      db.transaction(async (trx) => {
+        await upsertUser(trx, testData.user);
+        const fetchedUser = await getUser(trx, testData.user.id);
+        expect(fetchedUser).toBeDefined();
+        expect(fetchedUser?.id).toBe(testData.user.id);
+        expect(fetchedUser?.name).toBe(testData.user.name);
+        trx.rollback();
+      }),
+    ).rejects.toThrowError("Rollback");
   });
 
-  //
-  it("updates existing user in db", async () => {
-    const upsertedUser = await upsertUser(db, updatedUser);
-    expect(upsertedUser).toBeDefined();
-    expect(upsertedUser?.id).toBe(userId);
-    expect(upsertedUser?.name).toBe("Jane Doe");
+  apiTest("updates existing user in db", async ({ db, expect, testData }) => {
+    await expect(
+      db.transaction(async (trx) => {
+        await upsertUser(trx, testData.user);
+        await upsertUser(trx, {
+          ...testData.user,
+          name: "Beter",
+        });
+        const fetchedUser = await getUser(trx, testData.user.id);
+        expect(fetchedUser).toBeDefined();
+        expect(fetchedUser?.id).toBe(testData.user.id);
+        expect(fetchedUser?.name).toBe("Beter");
+        trx.rollback();
+      }),
+    ).rejects.toThrowError("Rollback");
   });
 });
 
 describe("getUser", () => {
-  const db = createDrizzle({ connectionString: process.env.DB_URL! });
-  it("gets user by id", async () => {
-    await upsertUser(db, user);
-    const fetchedUser = await getUser(db, { userId });
-    expect(fetchedUser).toBeDefined();
-    expect(fetchedUser?.userId).toBe("1");
+  apiTest("gets user", async ({ db, expect, testData }) => {
+    await expect(
+      db.transaction(async (trx) => {
+        const insertedUser = await upsertUser(trx, testData.user);
+        console.log("insertedUser:", insertedUser);
+        const fetchedUser = await getUser(trx, testData.user.id);
+        expect(fetchedUser).toBeDefined();
+        expect(fetchedUser?.id).toBe(testData.user.id);
+        trx.rollback();
+      }),
+    ).rejects.toThrowError("Rollback");
   });
 
-  it("should return null if user not found", async () => {
-    const user = await getUser(db, { userId: "2" });
-    expect(user).toBeNull();
-  });
+  apiTest(
+    "should return null if user not found",
+    async ({ db, expect }) =>
+      await expect(getUser(db, "invalid")).rejects.toThrow(),
+  );
 });

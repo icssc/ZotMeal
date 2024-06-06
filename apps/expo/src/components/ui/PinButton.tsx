@@ -25,7 +25,7 @@ export function PinButton({ dishName, ...props }: PinButtonProps) {
       const parsedItem = JSON.parse(item) as Record<string, boolean>;
 
       setPinnedItems(parsedItem);
-    };
+    }
 
     readItemFromStorage().catch(console.error);
   }, []);

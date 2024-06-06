@@ -28,7 +28,7 @@ export const main = async (evt, _context) => {
     body: `Description: ${event.shortDescription}`,
   } satisfies Notification;
 
-  const tickets = broadcastNotification(db, expo, notification);
+  const _tickets = broadcastNotification(db, expo, notification);
 
   await pool({ connectionString: process.env.DATABASE_URL }).end();
 };

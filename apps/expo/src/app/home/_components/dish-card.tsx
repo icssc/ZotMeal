@@ -53,13 +53,22 @@ export const DishCard = ({
               </Text>
             </XStack>
             <XStack justifyContent="space-between">
-              <XStack alignItems="center" gap="$1" width="70%">
-                <StarFull color="gold" scale={0.8} />
-                <Text>
-                  <Text fontWeight="800">5.0</Text>
-                  <Text color="gray"> (10,000 reviews)</Text>
-                </Text>
-              </XStack>
+              {dish.totalRating && dish.numRatings ? (
+                <XStack alignItems="center" gap="$1" width="70%">
+                  <StarFull color="gold" scale={0.8} />
+                  <Text>
+                    <Text fontWeight="800">
+                      {dish.totalRating / dish.numRatings}
+                      /5.0
+                    </Text>
+                    <Text color="gray"> {dish.numRatings ?? "No"} reviews</Text>
+                  </Text>
+                </XStack>
+              ) : (
+                <XStack alignItems="center" gap="$1" width="70%">
+                  <Text color="gray">No reviews yet</Text>
+                </XStack>
+              )}
               <PinButton
                 dishName={dish.name}
                 scale={0.8}

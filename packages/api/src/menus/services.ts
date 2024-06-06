@@ -1,5 +1,5 @@
 import { TRPCError } from "@trpc/server";
-import { z } from "zod";
+import { format } from "date-fns";
 
 import type {
   Drizzle,
@@ -7,71 +7,43 @@ import type {
   MenuWithRelations,
   StationWithRelations,
 } from "@zotmeal/db";
-import { MenuSchema, MenuTable, RestaurantSchema } from "@zotmeal/db";
-import { parseDate } from "@zotmeal/utils";
-import { DateRegex } from "@zotmeal/validators";
-
-import { logger } from "../../logger";
-
-// ! Could have date be a union of date and DateRegex
-export const GetMenuSchema = z.object({
-  date: z.date(),
-  period: MenuSchema.shape.period,
-  restaurant: RestaurantSchema.shape.name,
-});
-
-export type GetMenuParams = z.infer<typeof GetMenuSchema>;
+import { MenuTable } from "@zotmeal/db";
+import { PeriodName, RestaurantName } from "@zotmeal/utils";
 
 export async function getMenu(
   db: Drizzle,
-  params: GetMenuParams,
-): Promise<MenuWithRelations | null> {
-  logger.debug("getMenu() params:", params);
-  const parsedParams = GetMenuSchema.safeParse(params);
-
-  if (!parsedParams.success)
-    throw new TRPCError({
-      code: "BAD_REQUEST",
-      message: `invalid params: ${parsedParams.error.message}`,
-    });
-
-  const { date, period, restaurant } = parsedParams.data;
-
-  // Attempt to find the restaurant
+  date: Date,
+  period: PeriodName,
+  restaurantName: RestaurantName,
+): Promise<MenuWithRelations> {
   const fetchedRestaurant = await db.query.RestaurantTable.findFirst({
-    where: ({ name }, { eq }) => eq(name, restaurant),
+    where: (restaurant, { eq }) => eq(restaurant.name, restaurantName),
   });
 
   if (!fetchedRestaurant)
     throw new TRPCError({
-      message: `restaurant ${restaurant} not found`,
+      message: `restaurant ${restaurantName} not found`,
       code: "NOT_FOUND",
     });
 
-  const restaurantId = fetchedRestaurant.id;
-
-  // Attempt to find the menu
   const fetchedMenu = await db.query.MenuTable.findFirst({
     where: (menu, { eq, and }) =>
       and(
-        eq(menu.date, date),
+        eq(menu.date, format(date, "yyyy-MM-dd")),
         eq(menu.period, period),
-        eq(menu.restaurantId, restaurantId),
+        eq(menu.restaurantId, fetchedRestaurant.id),
       ),
   });
 
   if (!fetchedMenu)
     throw new TRPCError({
-      message: `menu (${restaurant}, ${period}, ${date}) not found`,
+      message: `menu (${restaurantName}, ${period}, ${date.toLocaleDateString()}) not found`,
       code: "NOT_FOUND",
     });
 
-  const requestedMenuId = fetchedMenu.id;
-
   // Compile stations and dishes for the menu
-
   const rows = await db.query.DishMenuStationJointTable.findMany({
-    where: ({ menuId }, { eq }) => eq(menuId, requestedMenuId),
+    where: ({ menuId }, { eq }) => eq(menuId, fetchedMenu.id),
     with: {
       dish: {
         with: {
@@ -94,18 +66,22 @@ export async function getMenu(
         stations: [],
       };
 
-    const { dish, menu: _menu, station, menuId, stationId } = row;
-    if (!(station.id in stationsResult)) {
+    const { dish, station, menuId, stationId } = row;
+
+    if (!(station.id in stationsResult))
       stationsResult[station.id] = {
         ...station,
         dishes: [],
       };
-    }
+
     stationsResult[station.id]?.dishes.push({ ...dish, menuId, stationId });
   }
-  if (!menuResult) {
-    return null;
-  }
+
+  if (!menuResult)
+    throw new TRPCError({
+      message: "error querying join table",
+      code: "NOT_FOUND",
+    });
 
   for (const stationId in stationsResult)
     menuResult.stations.push(stationsResult[stationId]!);

@@ -1,7 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe } from "vitest";
+
+import { apiTest } from "../../../apiTest";
 
 describe("updateDaily", () => {
-  it("should populate db with daily menu", async () => {
-    expect(true).toBe(true);
-  });
+  apiTest.todo("should populate db with daily menu");
 });

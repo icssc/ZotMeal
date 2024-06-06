@@ -1,5 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe } from "vitest";
+
+import { apiTest } from "../../apiTest";
 
 describe("createEvents", () => {
-  it("inserts events", () => expect(true).toBe(true));
+  apiTest.todo("inserts events");
 });

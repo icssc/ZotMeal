@@ -4,22 +4,15 @@ import { z } from "zod";
 
 import { DishTable, RatingSchema } from "@zotmeal/db";
 
-import {
-  getNumRatingsByDishId,
-  getTotalRatingByDishId,
-  upsertRating,
-} from "../ratings/services";
+import { upsertRating } from "../ratings/services";
 import { createTRPCRouter, publicProcedure } from "../trpc";
+import { getUser } from "../users/services";
 
-const GetRatingSchema = z.object({
-  dishId: z.string(),
-});
-
-export const getRatingProcedure = publicProcedure
-  .input(GetRatingSchema)
-  .query(async ({ ctx: { db }, input: { dishId } }) => {
+export const getDishProcedure = publicProcedure
+  .input(z.object({ id: z.string() }))
+  .query(async ({ ctx: { db }, input }) => {
     const dish = await db.query.DishTable.findFirst({
-      where: (DishTable, { eq }) => eq(DishTable.id, dishId),
+      where: (DishTable, { eq }) => eq(DishTable.id, input.id),
     });
 
     if (!dish)
@@ -28,7 +21,7 @@ export const getRatingProcedure = publicProcedure
         message: "dish not found",
       });
 
-    return dish.totalRating / dish.numRatings;
+    return dish;
   });
 
 export const rateDishProcedure = publicProcedure
@@ -44,16 +37,24 @@ export const rateDishProcedure = publicProcedure
         message: "dish not found",
       });
 
-    const rating = await upsertRating(db, input);
+    const user = await getUser(db, input.userId);
 
-    const numRatings = await getNumRatingsByDishId(db, input.dishId);
-    const totalRating = await getTotalRatingByDishId(db, input.dishId);
+    const oldRating = user.ratings.find((rating) => rating.dishId === dish.id);
+
+    await upsertRating(db, input);
+
+    const newNumRatings = dish.numRatings + (oldRating ? 0 : 1);
+
+    const newTotalRating =
+      dish.totalRating + (input.rating - (oldRating?.rating ?? 0));
+
+    const rating = await upsertRating(db, input);
 
     const updateDishResult = await db
       .update(DishTable)
       .set({
-        numRatings,
-        totalRating,
+        numRatings: newNumRatings,
+        totalRating: newTotalRating,
       })
       .where(eq(DishTable.id, rating.dishId))
       .returning();
@@ -66,10 +67,10 @@ export const rateDishProcedure = publicProcedure
         message: "failed to update dish",
       });
 
-    return updatedDish.numRatings;
+    return rating;
   });
 
 export const dishRouter = createTRPCRouter({
-  getRating: getRatingProcedure,
+  get: getDishProcedure,
   rate: rateDishProcedure,
 });

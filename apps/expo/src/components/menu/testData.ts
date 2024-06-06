@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 import type { MenuWithRelations } from "@zotmeal/db";
 
 const metadataFields = {
@@ -55,7 +57,7 @@ const times = {
   end: new Date(new Date().getTime() + 1000 * 60 * 60 * 24),
 };
 
-const date = new Date();
+const date = format(new Date(), "yyyy-MM-dd");
 
 // TODO: Replace with real data
 export const brandywineData = {

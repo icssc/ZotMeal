@@ -17,7 +17,9 @@ import { ZodError } from "zod";
 
 import { createDrizzle } from "@zotmeal/db";
 
-import { logger } from "../logger";
+// const expo: Expo = new Expo({
+//   accessToken: process.env.EXPO_ACCESS_TOKEN,
+// });
 
 /**
  * 1. CONTEXT
@@ -31,19 +33,18 @@ import { logger } from "../logger";
  *
  * @see https://trpc.io/docs/server/context
  */
-
-// const expo: Expo = new Expo({
-//   accessToken: process.env.EXPO_ACCESS_TOKEN,
-// });
-
-logger.debug("trpc api db url: " + process.env.DATABASE_URL);
-
-const db = createDrizzle({ connectionString: process.env.DATABASE_URL });
-
-export const createTRPCContext = (opts: { headers: Headers }) => {
-  const source = opts.headers.get("x-trpc-source") ?? "unknown";
+export const createTRPCContext = ({
+  headers,
+  connectionString,
+}: {
+  headers: Headers;
+  connectionString: string;
+}) => {
+  const source = headers.get("x-trpc-source") ?? "unknown";
 
   console.log(">>> tRPC Request from", source);
+
+  const db = createDrizzle({ connectionString });
 
   return { db };
 };

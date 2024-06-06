@@ -1,85 +1,60 @@
 import { TRPCError } from "@trpc/server";
-import { format, isToday, parseISO } from "date-fns";
-import { describe, expect, it } from "vitest";
+import { isSameDay } from "date-fns";
+import { describe } from "vitest";
 
-import { getRestaurantId } from "@zotmeal/utils";
+import { apiTest } from "../../apiTest";
+import { insertDishMenuStationJoint, upsertDish } from "../dishes/services";
+import { upsertRestaurant } from "../restaurants/services";
+import { upsertStation } from "../stations/services";
+import { upsertMenu } from "./services";
 
-import type { GetMenuParams } from "./services";
-import { createCaller, createTRPCContext } from "..";
-import { GetMenuSchema } from "./services";
+describe("getMenuProcedure", () => {
+  const date = new Date();
 
-describe("getMenu", () => it("hello", () => console.log("hello")));
+  apiTest(
+    "should get today's brandywine lunch menu",
+    async ({ api, expect, db, testData }) => {
+      await upsertRestaurant(db, testData.restaurant);
+      await upsertStation(db, testData.station);
+      await upsertDish(db, testData.dish);
+      await upsertMenu(db, testData.menu);
+      await insertDishMenuStationJoint(db, testData.joint);
 
-describe("GetMenuSchema validates properly", () => {
-  it("parses valid params", () => {
-    const tests: GetMenuParams[] = [
-      {
-        date: "10/10/2024",
-        period: "breakfast",
+      const menu = await api.menu.get({
+        date,
+        period: "lunch",
         restaurant: "brandywine",
-      },
-    ];
+      });
 
-    for (const test of tests) {
-      const result = GetMenuSchema.safeParse(test);
-      expect(result.success).toBe(true);
-    }
-  });
-
-  it("fails on invalid params", () => {
-    const tests: GetMenuParams[] = [
-      {
-        date: "10-10-2024",
-        period: "breakfast",
-        restaurant: "brandywine",
-      },
-    ];
-
-    for (const test of tests) {
-      const result = GetMenuSchema.safeParse(test);
-      expect(result.success).toEqual(false);
-    }
-  });
-});
-
-describe("menu.get", () => {
-  const ctx = createTRPCContext({ headers: new Headers() });
-  const caller = createCaller(ctx);
-  const date = format(new Date(), "MM/d/yyyy");
-
-  it("should get today's brandywine lunch menu", async () => {
-    const menu = await caller.menu.get({
-      date,
-      period: "lunch",
-      restaurant: "brandywine",
-    });
-    expect(menu).toBeTruthy();
-    expect(isToday(parseISO(menu.date))).toBeTruthy();
-    expect(menu.restaurantId).toEqual(getRestaurantId("brandywine"));
-  }, 10_0000);
+      expect(menu.date).toBe(testData.menu.date);
+      expect(isSameDay(menu.date, testData.menu.date)).toBe(true);
+    },
+  );
 
   // TODO: have each invalid input give unique TRPCError message
-  it("should not get an invalid menu", async () => {
-    const invalidDate = caller.menu.get({
-      date: "4-24-2024",
-      period: "lunch",
-      restaurant: "brandywine",
-    });
-    await expect(invalidDate).rejects.toThrowError(TRPCError);
+  apiTest("should not get an invalid menu", async ({ api, expect }) => {
+    await expect(
+      api.menu.get({
+        date: "4-24-2024" as unknown as Date,
+        period: "lunch",
+        restaurant: "brandywine",
+      }),
+    ).rejects.toThrowError(TRPCError);
 
-    const invalidPeriod = caller.menu.get({
-      date,
-      period: "latelatenight" as "latenight",
-      restaurant: "brandywine",
-    });
-    await expect(invalidPeriod).rejects.toThrowError(TRPCError);
+    await expect(
+      api.menu.get({
+        date,
+        period: "latelatenight" as "latenight",
+        restaurant: "brandywine",
+      }),
+    ).rejects.toThrowError(TRPCError);
 
-    const invalidRestaurant = caller.menu.get({
-      date,
-      period: "lunch",
-      restaurant: "antwine" as "anteatery",
-    });
-
-    await expect(invalidRestaurant).rejects.toThrowError(TRPCError);
+    await expect(
+      api.menu.get({
+        date,
+        period: "lunch",
+        restaurant: "antwine" as "anteatery",
+      }),
+    ).rejects.toThrowError(TRPCError);
   });
-}, 10_000);
+});

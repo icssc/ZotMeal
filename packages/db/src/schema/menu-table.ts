@@ -10,7 +10,7 @@ import { metadataColumns } from "./utils";
 
 export const MenuTable = pgTable("menus", {
   id: text("id").primaryKey().notNull(),
-  date: date("date").notNull(),
+  date: date("date", { mode: "string" }).notNull(),
   restaurantId: restaurantIdEnum("restaurant_id")
     .notNull()
     .references(() => RestaurantTable.id, {

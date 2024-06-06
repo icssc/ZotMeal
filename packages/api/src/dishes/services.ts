@@ -11,9 +11,11 @@ import {
   NutritionInfoTable,
 } from "@zotmeal/db";
 
-export async function upsertDish(db: Drizzle, params: DishWithRelations) {
+export async function upsertDish(
+  db: Drizzle,
+  params: DishWithRelations,
+): Promise<Omit<DishWithRelations, "menuId" | "stationId">> {
   try {
-    // Dish params for the dish table
     const dishParams = {
       id: params.id,
       name: params.name,
@@ -23,8 +25,7 @@ export async function upsertDish(db: Drizzle, params: DishWithRelations) {
       updatedAt: params.updatedAt,
     } satisfies Dish;
 
-    // Inserting into dish table
-    const dish = await db
+    const dishResult = await db
       .insert(DishTable)
       .values(dishParams)
       .onConflictDoUpdate({
@@ -33,7 +34,11 @@ export async function upsertDish(db: Drizzle, params: DishWithRelations) {
       })
       .returning();
 
-    const dietRestriction = await db
+    const dish = dishResult[0];
+
+    if (!dish) throw new Error("error upserting dish");
+
+    const dietRestrictionResult = await db
       .insert(DietRestrictionTable)
       .values(params.dietRestriction)
       .onConflictDoUpdate({
@@ -42,7 +47,11 @@ export async function upsertDish(db: Drizzle, params: DishWithRelations) {
       })
       .returning();
 
-    const nutritionInfo = await db
+    const dietRestriction = dietRestrictionResult[0];
+
+    if (!dietRestriction) throw new Error("error upserting dietRestriction");
+
+    const nutritionInfoResult = await db
       .insert(NutritionInfoTable)
       .values(params.nutritionInfo)
       .onConflictDoUpdate({
@@ -51,11 +60,14 @@ export async function upsertDish(db: Drizzle, params: DishWithRelations) {
       })
       .returning();
 
-    // TODO: do it without the bangs
+    const nutritionInfo = nutritionInfoResult[0];
+
+    if (!nutritionInfo) throw new Error("error upserting nutritionInfo");
+
     return {
-      ...dish[0]!,
-      dietRestriction: dietRestriction[0]!,
-      nutritionInfo: nutritionInfo[0]!,
+      ...dish,
+      dietRestriction,
+      nutritionInfo,
     };
   } catch (e) {
     console.error(e);
@@ -65,20 +77,12 @@ export async function upsertDish(db: Drizzle, params: DishWithRelations) {
 
 export async function insertDishMenuStationJoint(
   db: Drizzle,
-  params: DishWithRelations,
-) {
+  params: DishMenuStationJoint,
+): Promise<void> {
   try {
-    // Dish params for the joint table
-    const jointParams = {
-      dishId: params.id,
-      stationId: params.stationId,
-      menuId: params.menuId,
-    } satisfies DishMenuStationJoint;
-
-    // Insert into dish-menu-station joint table
     await db
       .insert(DishMenuStationJointTable)
-      .values(jointParams)
+      .values(params)
       .onConflictDoNothing();
   } catch (e) {
     console.error(e);

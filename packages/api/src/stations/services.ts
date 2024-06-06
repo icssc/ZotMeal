@@ -17,11 +17,10 @@ export async function upsertStation(
 
     const upsertedStation = upsertResult[0];
 
-    if (!upsertedStation || upsertResult.length !== 1) {
+    if (!upsertedStation || upsertResult.length !== 1)
       throw new Error(
         `expected 1 station to be upserted, but got ${upsertResult.length}`,
       );
-    }
 
     return upsertedStation;
   } catch (e) {

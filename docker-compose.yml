@@ -10,9 +10,10 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: zotmeal
-    volumes:
-      - ./docker/db/zotmeal.sql:/docker-entrypoint-initdb.d/init.sql
-      - db_data:/var/lib/postgresql/data
+    # TODO: volume is out of date, rn just do docker-compuse up and db:push
+    # volumes:
+    #   - ./docker/db/zotmeal.sql:/docker-entrypoint-initdb.d/init.sql
+    #   - db_data:/var/lib/postgresql/data
     ports:
       - 5434:5432
 

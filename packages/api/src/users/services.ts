@@ -1,78 +1,48 @@
 import { TRPCError } from "@trpc/server";
-import { z } from "zod";
 
-import type { Drizzle, User } from "@zotmeal/db";
+import type { Drizzle, Pin, Rating, User } from "@zotmeal/db";
 import { UserTable } from "@zotmeal/db";
-
-export const GetUserSchema = z.object({ userId: z.string() });
-
-export interface UserResult {
-  userId: string;
-  name: string;
-  pinnedItems: string[];
-  ratedItems: string[];
-}
 
 export async function getUser(
   db: Drizzle,
-  params: z.infer<typeof GetUserSchema>,
-): Promise<UserResult | null> {
-  const parsedParams = GetUserSchema.safeParse(params);
-
-  if (!parsedParams.success)
-    throw new TRPCError({
-      code: "BAD_REQUEST",
-      message: `invalid params: ${parsedParams.error.message}`,
-    });
-
-  const { userId } = parsedParams.data;
-
+  id: string,
+): Promise<
+  User & {
+    pins: Pin[];
+    ratings: Rating[];
+  }
+> {
   const fetchedUser = await db.query.UserTable.findFirst({
-    where: (user, { eq }) => eq(user.id, userId),
+    where: (user, { eq }) => eq(user.id, id),
     with: {
       pins: true,
       ratings: true,
     },
   });
 
-  if (!fetchedUser) return null;
+  if (!fetchedUser)
+    throw new TRPCError({ code: "NOT_FOUND", message: "user not found" });
 
-  const pinnedItems = fetchedUser.pins.map((pin) => pin.dishId);
-  const ratedItems = fetchedUser.ratings.map((rating) => rating.dishId);
-
-  return {
-    userId: fetchedUser.id,
-    name: fetchedUser.name,
-    pinnedItems,
-    ratedItems,
-  };
+  return fetchedUser;
 }
 
-// TODO: ? do we want to throw trpc errors in here or in the caller?
-export async function upsertUser(
-  db: Drizzle,
-  params: User,
-): Promise<User | null> {
-  try {
-    const upsertResult = await db
-      .insert(UserTable)
-      .values(params)
-      .onConflictDoUpdate({
-        target: UserTable.id,
-        set: params,
-      })
-      .returning();
+export async function upsertUser(db: Drizzle, user: User): Promise<User> {
+  const upsertResult = await db
+    .insert(UserTable)
+    .values(user)
+    .onConflictDoUpdate({
+      target: UserTable.id,
+      set: user,
+    })
+    .returning();
 
-    const upsertedUser = upsertResult[0];
+  const upsertedUser = upsertResult[0];
 
-    if (!upsertedUser || upsertResult.length !== 1)
-      throw new Error(
-        `expected 1 user to be upserted, but got ${upsertResult.length}`,
-      );
+  if (!upsertedUser || upsertResult.length !== 1)
+    throw new TRPCError({
+      code: "INTERNAL_SERVER_ERROR",
+      message: `expected 1 user to be upserted, but got ${upsertResult.length}`,
+    });
 
-    return upsertedUser;
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
+  return upsertedUser;
 }

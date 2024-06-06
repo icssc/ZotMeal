@@ -1,27 +1,22 @@
-import { describe, expect, it } from "vitest";
+import { describe } from "vitest";
+
+import { apiTest } from "../../apiTest";
 
 const pushToken = "exp://<PUSH_TOKEN>";
 
+// TODO
 describe("getPushTokens", () => {
-  it("should get push tokens", async () => {
-    expect(true).toBe(true);
-  });
+  apiTest.todo("should get push tokens");
 });
 
 describe("broadcastNotification", () => {
-  it("should broadcast notification", async () => {
-    expect(true).toBe(true);
-  });
+  apiTest.todo("should broadcast notification");
 });
 
 describe("handlePushTickets", () => {
-  it("should handle push tickets", async () => {
-    expect(true).toBe(true);
-  });
+  apiTest.todo("should handle push tickets");
 });
 
 describe("handleNotificationReceipts", () => {
-  it("should handle notification receipts", async () => {
-    expect(true).toBe(true);
-  });
+  apiTest.todo("should handle notification receipts");
 });

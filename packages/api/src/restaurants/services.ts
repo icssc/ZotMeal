@@ -3,15 +3,15 @@ import { RestaurantTable } from "@zotmeal/db";
 
 export async function upsertRestaurant(
   db: Drizzle,
-  params: Restaurant,
+  restaurant: Restaurant,
 ): Promise<Restaurant> {
   try {
     const upsertResult = await db
       .insert(RestaurantTable)
-      .values(params)
+      .values(restaurant)
       .onConflictDoUpdate({
         target: RestaurantTable.id,
-        set: params,
+        set: restaurant,
       })
       .returning();
 

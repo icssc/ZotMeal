@@ -1,8 +1,7 @@
 import fs from "fs";
 import path from "path";
-import { format } from "date-fns";
 
-import { updateDaily, UpdateDailyParams } from "@zotmeal/api";
+import { updateDaily } from "@zotmeal/api";
 import { createDrizzle, pool } from "@zotmeal/db";
 import { restaurantNames } from "@zotmeal/utils";
 
@@ -27,14 +26,9 @@ export const main = async (_event, _context) => {
     });
     logger.info("Start update daily job...");
 
-    const date = format(new Date(), "MM/dd/yyyy");
-
     await Promise.allSettled(
       restaurantNames.map((restaurant) =>
-        updateDaily(db, {
-          date,
-          restaurant,
-        } satisfies UpdateDailyParams),
+        updateDaily(db, new Date(), restaurant),
       ),
     );
   } catch (error) {

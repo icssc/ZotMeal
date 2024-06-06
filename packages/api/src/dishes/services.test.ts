@@ -1,35 +1,32 @@
-import { describe, expect, it } from "vitest";
+import { describe } from "vitest";
 
-import { createDrizzle } from "@zotmeal/db";
-
+import { apiTest } from "../../apiTest";
 import { upsertDish } from "./services";
-import { testData, updateData } from "./testData";
 
 describe("upsertDish", () => {
-  // First time is insert because no conflict id
-
-  const db = createDrizzle({ connectionString: process.env.DB_URL! });
-  it("inserts a dish", async () => {
-    await expect(async () => {
-      await db.transaction(async (trx) => {
-        const result = await upsertDish(trx, testData);
-        expect(result.id).toEqual(testData.id);
+  apiTest("inserts a dish", async ({ db, expect, testData }) => {
+    await expect(
+      db.transaction(async (trx) => {
+        const result = await upsertDish(trx, testData.dish);
+        expect(result.id).toEqual(testData.dish.id);
         expect(result.dietRestriction).toBeDefined();
         expect(result.nutritionInfo).toBeDefined();
         trx.rollback();
-      });
-    }).rejects.toThrowError("Rollback");
+      }),
+    ).rejects.toThrowError("Rollback");
   });
 
-  //Second time update because conflict id
-  it("updates a dish", async () => {
-    await expect(async () => {
-      await db.transaction(async (trx) => {
-        await upsertDish(trx, testData);
-        const result = await upsertDish(trx, updateData);
-        expect(result.id).toEqual(testData.id);
+  apiTest("updates a dish", async ({ db, expect, testData }) => {
+    await expect(
+      db.transaction(async (trx) => {
+        const insertResult = await upsertDish(trx, testData.dish);
+        const updateResult = await upsertDish(trx, {
+          ...testData.dish,
+          name: "New dish name",
+        });
+        expect(updateResult.updatedAt).not.toEqual(insertResult.updatedAt);
         trx.rollback();
-      });
-    }).rejects.toThrowError("Rollback");
+      }),
+    ).rejects.toThrowError("Rollback");
   });
 });

@@ -1,7 +1,8 @@
-import { describe, expect, it } from "vitest";
+import { describe } from "vitest";
 
+import { apiTest } from "../../../apiTest";
+
+// TODO
 describe("getWeekInfo", () => {
-  it("should populate db with menus for the week", async () => {
-    expect(true).toBe(true);
-  });
+  apiTest.todo("populates db with menus for the week");
 });

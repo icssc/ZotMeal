@@ -1,12 +1,21 @@
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+
+import { periodNames, restaurantNames } from "@zotmeal/utils";
 
 import { createTRPCRouter, publicProcedure } from "../trpc";
-import { getMenu, GetMenuSchema } from "./services";
+import { getMenu } from "./services";
 
 export const getMenuProcedure = publicProcedure
-  .input(GetMenuSchema)
-  .query(async ({ ctx: { db }, input }) => {
-    const menu = await getMenu(db, input);
+  .input(
+    z.object({
+      date: z.date(),
+      period: z.enum(periodNames),
+      restaurant: z.enum(restaurantNames),
+    }),
+  )
+  .query(async ({ ctx: { db }, input: { date, period, restaurant } }) => {
+    const menu = await getMenu(db, date, period, restaurant);
 
     if (!menu)
       throw new TRPCError({

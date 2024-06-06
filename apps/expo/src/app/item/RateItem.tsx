@@ -4,13 +4,27 @@ import { Adapt, Button, H4, Popover, Text, XStack, YStack } from "tamagui";
 
 import type { DishWithRelations } from "@zotmeal/db";
 
+import { api } from "~/utils/api";
+import { useAuthStore } from "~/utils/useAuthStore";
+
 export default function RateItem({
   item,
 }: Readonly<{ item: DishWithRelations }>) {
-  // const [rating, setRating] = useState<number>(item.rating ?? 0);
   const [rating, setRating] = useState<number>(0);
-  const [isAuthenticated] = useState<boolean>(true); // TODO: replace with actual auth check
-  const [userRated, setUserRated] = useState<boolean>(false); // TODO: replace with actual user rating check
+  const { user } = useAuthStore();
+
+  const userRated = user?.ratings.some((r) => r.dishId === item.id) ?? false;
+
+  const rateQuery = api.dish.rate.useQuery(
+    {
+      dishId: item.id,
+      userId: user?.id,
+      rating,
+    },
+    {
+      enabled: false, // Only trigger query imperatively
+    },
+  );
 
   return (
     <Popover placement="bottom" allowFlip>
@@ -21,10 +35,17 @@ export default function RateItem({
           paddingHorizontal="unset"
           icon={<StarFull color="gold" size="$1" />}
         >
-          5.0
-          <Text color="gray" fontWeight="normal">
-            (10,000 reviews)
-          </Text>
+          {item.totalRating && item.numRatings ? (
+            <>
+              {item.totalRating / item.numRatings}
+              /5.0
+              <Text color="gray" fontWeight="normal">
+                {item.numRatings} reviews
+              </Text>
+            </>
+          ) : (
+            "Rate"
+          )}
         </Button>
       </Popover.Trigger>
       <Adapt when={"sm" as unknown as undefined} platform="touch">
@@ -75,23 +96,18 @@ export default function RateItem({
           </XStack>
           <Popover.Close asChild>
             <Button
-              disabled={!isAuthenticated || !rating}
-              opacity={rating ? 1 : 0.5}
+              disabled={!user || !rating}
+              opacity={user && rating ? 1 : 0.5}
               size="$5"
               fontWeight="800"
               paddingHorizontal="$5"
               borderRadius="$10"
-              onPress={() => {
-                /* Custom code goes here, does not interfere with popover closure */
-                // TODO: submit rating
-                setUserRated(true);
-              }}
+              onPress={async () =>
+                /* does not interfere with popover closure */
+                await rateQuery.refetch()
+              }
             >
-              {isAuthenticated
-                ? userRated
-                  ? "Resubmit"
-                  : "Submit"
-                : "Login to Rate"}
+              {user ? (userRated ? "Resubmit" : "Submit") : "Login to Rate"}
             </Button>
           </Popover.Close>
         </YStack>

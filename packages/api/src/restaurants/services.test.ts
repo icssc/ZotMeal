@@ -1,33 +1,42 @@
-import { describe, expect, it } from "vitest";
+import { describe } from "vitest";
 
-import { createDrizzle } from "@zotmeal/db";
-
+import { apiTest } from "../../apiTest";
 import { upsertRestaurant } from "./services";
-import { testData, updateData } from "./testData";
 
 describe("upsertRestaurant", () => {
-  const db = createDrizzle({ connectionString: process.env.DB_URL! });
-  it("inserts a new restaurant", async () => {
-    await expect(async () => {
-      await db.transaction(async (trx) => {
-        const result = await upsertRestaurant(trx, testData);
-        expect(result.createdAt).toBeDefined();
-        expect(result.updatedAt).toBeDefined();
+  apiTest("inserts a new restaurant", async ({ expect, db, testData }) => {
+    await expect(
+      db.transaction(async (trx) => {
+        const fetchedRestaurant = await upsertRestaurant(
+          trx,
+          testData.restaurant,
+        );
+        expect(fetchedRestaurant.id).toEqual(testData.restaurant.id);
+        expect(fetchedRestaurant.name).toEqual(testData.restaurant.name);
         trx.rollback();
-      });
-    }).rejects.toThrowError("Rollback");
+      }),
+    ).rejects.toThrowError("Rollback");
   });
 
-  it("updates an existing restaurant", async () => {
-    await expect(async () => {
-      await db.transaction(async (trx) => {
-        const insertedRestaurant = await upsertRestaurant(trx, testData);
-        const updatedRestaurant = await upsertRestaurant(trx, updateData);
-        expect(insertedRestaurant.updatedAt).not.toEqual(
-          updatedRestaurant.updatedAt,
-        );
-        trx.rollback();
-      });
-    }).rejects.toThrowError("Rollback");
-  });
+  apiTest(
+    "updates an existing restaurant",
+    async ({ expect, db, testData }) => {
+      await expect(
+        db.transaction(async (trx) => {
+          const insertedRestaurant = await upsertRestaurant(
+            trx,
+            testData.restaurant,
+          );
+          const updatedRestaurant = await upsertRestaurant(
+            trx,
+            testData.restaurant,
+          );
+          expect(insertedRestaurant.updatedAt).not.toEqual(
+            updatedRestaurant.updatedAt,
+          );
+          trx.rollback();
+        }),
+      ).rejects.toThrowError("Rollback");
+    },
+  );
 });

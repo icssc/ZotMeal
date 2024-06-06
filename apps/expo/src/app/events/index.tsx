@@ -11,20 +11,6 @@ import { RestaurantTabs } from "~/components";
 import { useZotmealStore } from "~/utils";
 import { api } from "~/utils/api";
 
-// Create a context for events, default value is a test event
-const _testData = {
-  start: new Date("2022-01-01 12:00:00"),
-  end: new Date(),
-  title: "Test Event",
-  shortDescription: "This is a test event",
-  longDescription: `This is a long description of the event. It's so long that it wraps
-    around multiple lines. It's a very long description, but it's also
-    very interesting. You should definitely read it.`,
-  image:
-    "https://uci.campusdish.com/-/media/Feature/Articles/DefaultEventImage.ashx?mh=350&mw=350&hash=B788068F09F0E38D1D19756934E293E4C1379BBF",
-  restaurantId: "3314",
-} satisfies Event;
-
 const EventCard = ({ event }: Readonly<{ event: Event }>) => (
   <Link
     href={{
@@ -80,7 +66,7 @@ export default function Events() {
     setBrandywineEvents,
   } = useZotmealStore();
 
-  const eventsQuery = api.event.get.useQuery({});
+  const eventsQuery = api.event.get.useQuery();
 
   useEffect(() => {
     if (!eventsQuery?.data) return;

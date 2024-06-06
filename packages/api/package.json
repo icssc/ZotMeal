@@ -12,7 +12,9 @@
   "scripts": {
     "with-env": "dotenv -e ../../.env --",
     "test": "pnpm with-env vitest run --config vitest.config.ts",
-    "lint": "eslint ."
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
     "@trpc/server": "11.0.0-rc.330",
@@ -29,13 +31,6 @@
     "superjson": "2.2.1",
     "zod": "^3.22.4"
   },
-  "eslintConfig": {
-    "root": true,
-    "extends": [
-      "@zotmeal/eslint-config/base"
-    ]
-  },
-  "prettier": "@zotmeal/prettier-config",
   "devDependencies": {
     "@testcontainers/postgresql": "^10.9.0",
     "@zotmeal/eslint-config": "workspace:^",
@@ -43,6 +38,14 @@
     "@zotmeal/tsconfig": "workspace:^",
     "dotenv-cli": "^7.4.1",
     "testcontainers": "^10.9.0",
+    "vite-tsconfig-paths": "^4.3.2",
     "vitest": "^1.4.0"
-  }
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "@zotmeal/eslint-config/base"
+    ]
+  },
+  "prettier": "@zotmeal/prettier-config"
 }
