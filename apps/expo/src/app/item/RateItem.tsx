@@ -4,8 +4,8 @@ import { Adapt, Button, H4, Popover, Text, XStack, YStack } from "tamagui";
 
 import type { DishWithRelations } from "@zotmeal/db";
 
+import { useAuthStore } from "~/utils";
 import { api } from "~/utils/api";
-import { useAuthStore } from "~/utils/useAuthStore";
 
 export default function RateItem({
   item,
