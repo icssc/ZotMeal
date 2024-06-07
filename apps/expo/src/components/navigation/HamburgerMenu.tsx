@@ -1,5 +1,5 @@
 import type { Href } from "expo-router";
-import { Link, useSegments } from "expo-router";
+import { router, useSegments } from "expo-router";
 import {
   CalendarDays,
   ChevronRight,
@@ -63,6 +63,8 @@ const screens = [
   },
 ] as const satisfies Screen[];
 
+// ! Forwarding ref from Popover.close to Link to ListItem does not work on android, so we have to use a workaround
+// ! If its fixed later on, we can use the forwarded ref
 export function HamburgerMenu() {
   const currentSegment = useSegments()[0] ?? "";
 
@@ -81,9 +83,8 @@ export function HamburgerMenu() {
           paddingVertical={0}
           theme="dark"
           pressTheme
-        >
-          <Menu color="white" size="$2" />
-        </Button>
+          icon={<Menu color="white" size="$2" />}
+        />
       </Popover.Trigger>
       <Adapt when={"sm" as unknown as undefined} platform="touch">
         <Popover.Sheet modal dismissOnSnapToBottom snapPoints={[65, 90]}>
@@ -123,7 +124,15 @@ export function HamburgerMenu() {
         <YGroup separator={<Separator />}>
           {screens.map(({ href, ...props }) => (
             <YGroup.Item key={href}>
-              <Popover.Close
+              <ListItem
+                {...props}
+                size="$5"
+                onPress={() => router.push(href)}
+                pressTheme
+                disabled={href.replaceAll("/", "") === currentSegment}
+                iconAfter={ChevronRight}
+              />
+              {/* <Popover.Close
                 disabled={href.replaceAll("/", "") === currentSegment}
                 asChild
                 flexDirection="row"
@@ -142,7 +151,7 @@ export function HamburgerMenu() {
                     iconAfter={ChevronRight}
                   />
                 </Link>
-              </Popover.Close>
+              </Popover.Close> */}
             </YGroup.Item>
           ))}
         </YGroup>

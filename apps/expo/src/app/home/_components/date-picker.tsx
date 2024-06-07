@@ -16,7 +16,7 @@ export const UniversalDatePicker = ({
   date,
   setDate,
 }: Readonly<{ date: Date; setDate: (date: Date) => void }>) => {
-  const [showDatePicker, setShowDatePicker] = useState<boolean>(true);
+  const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
 
   return (
     <>
