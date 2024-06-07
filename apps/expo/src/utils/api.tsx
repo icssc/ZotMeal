@@ -20,7 +20,10 @@ export { type RouterInputs, type RouterOutputs } from "@zotmeal/api";
  * Extend this function when going to production by
  * setting the baseUrl to your production API URL.
  */
-const getBaseUrl = () => {
+export const getBaseUrl = () => {
+  if (Platform.OS === "web") return "http://localhost:3000";
+  if (Platform.OS === "android") return `http://10.0.2.2:3000`;
+
   /**
    * Gets the IP address of your host-machine. If it cannot automatically find it,
    * you'll have to manually set it. NOTE: Port 3000 should work for most but confirm
@@ -30,11 +33,10 @@ const getBaseUrl = () => {
    * baseUrl to your production API URL.
    */
   const debuggerHost = Constants.expoConfig?.hostUri;
-  // const localhost = debuggerHost?.split(":")[0];
+  const localhost = debuggerHost?.split(":")[0];
 
-  if (env.NODE_ENV === "production") {
-    return env.API_URL;
-  }
+  if (env.NODE_ENV === "production") return env.API_URL;
+
   // if (!localhost) {
   //   // return "https://turbo.t3.gg";
   //   throw new Error(
@@ -42,9 +44,7 @@ const getBaseUrl = () => {
   //   );
   // }
 
-  if (Platform.OS === "android") return `http://10.0.2.2:3000`;
-
-  return `http://localhost:3000`;
+  return `http://${localhost}:3000`;
 };
 
 /**
@@ -62,7 +62,7 @@ export function TRPCProvider(props: { children: React.ReactNode }) {
           transformer: superjson,
           headers() {
             const headers = new Map<string, string>();
-            headers.set("x-trpc-source", "expo-react");
+            headers.set("x-trpc-source", `expo-react-${Platform.OS}`);
             return Object.fromEntries(headers);
           },
         }),

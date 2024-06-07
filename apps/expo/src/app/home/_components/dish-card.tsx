@@ -17,9 +17,9 @@ export const DishCard = ({
   dish: Dish;
   stationId: Station["id"];
 }>) => (
-  <XStack justifyContent="space-between" height={100}>
+  <XStack height={100}>
     <Image
-      resizeMode="cover"
+      objectFit="cover"
       alignSelf="center"
       width={100}
       height="90%"
@@ -40,17 +40,21 @@ export const DishCard = ({
           },
         }}
       >
-        <ListItem pressTheme>
+        <ListItem pressTheme width="85%">
           <YStack gap="$1" paddingTop="$4" paddingBottom="$3">
-            <XStack justifyContent="space-between">
-              <Text fontWeight="800" fontSize="$5">
-                {dish.name}
-              </Text>
-              <Text textAlign="right" fontSize="$5" fontWeight="800">
-                {dish.nutritionInfo.calories
-                  ? `${dish.nutritionInfo.calories} cal`
-                  : ""}
-              </Text>
+            <XStack justifyContent="space-between" width="100%">
+              <View>
+                <Text fontWeight="800" fontSize="$5">
+                  {dish.name}
+                </Text>
+              </View>
+              <View>
+                <Text textAlign="right" fontSize="$5" fontWeight="800">
+                  {dish.nutritionInfo.calories
+                    ? `${dish.nutritionInfo.calories} cal`
+                    : ""}
+                </Text>
+              </View>
             </XStack>
             <XStack justifyContent="space-between">
               {dish.totalRating && dish.numRatings ? (

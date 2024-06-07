@@ -38,12 +38,7 @@ export const StationTabs = ({
 
     {stations.map((station) => (
       <Tabs.Content key={station.name} value={station.name}>
-        <ScrollView
-          padding="$2"
-          contentContainerStyle={{
-            alignItems: "center",
-          }}
-        >
+        <ScrollView padding="$2" alignSelf="center" minWidth="50%">
           {/* group dishes by category */}
           {Object.entries(
             groupBy(station.dishes, (dish) => dish.category as keyof Dish),

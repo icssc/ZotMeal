@@ -1,17 +1,20 @@
 import type { ExpoConfig } from "expo/config";
 
+const image = "./assets/zotmeal.png";
+const backgroundColor = "#161B22";
+
 const defineConfig = (): ExpoConfig => ({
   name: "expo",
   slug: "expo",
   scheme: "expo",
   version: "0.1.0",
   orientation: "portrait",
-  icon: "./assets/icon.png",
+  icon: image,
   userInterfaceStyle: "automatic",
   splash: {
-    image: "./assets/icon.png",
+    image,
     resizeMode: "contain",
-    backgroundColor: "#1F104A",
+    backgroundColor,
   },
   updates: {
     fallbackToCacheTimeout: 0,
@@ -24,8 +27,8 @@ const defineConfig = (): ExpoConfig => ({
   android: {
     package: "your.bundle.identifier",
     adaptiveIcon: {
-      foregroundImage: "./assets/icon.png",
-      backgroundColor: "#1F104A",
+      foregroundImage: image,
+      backgroundColor,
     },
   },
   extra: {
@@ -38,7 +41,7 @@ const defineConfig = (): ExpoConfig => ({
     tsconfigPaths: true,
     typedRoutes: true,
   },
-  plugins: ["expo-router"],
+  plugins: ["expo-router", "expo-font"],
 });
 
 export default defineConfig;

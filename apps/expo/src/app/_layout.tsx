@@ -3,6 +3,8 @@ import { config } from "@tamagui/config/v3";
 import "@tamagui/core/reset.css";
 
 import type { FontSource } from "expo-font";
+import { useState } from "react";
+import { Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
@@ -10,16 +12,61 @@ import { StatusBar } from "expo-status-bar";
 import { ClerkProvider } from "@clerk/clerk-expo";
 import InterBold from "@tamagui/font-inter/otf/Inter-Bold.otf";
 import Inter from "@tamagui/font-inter/otf/Inter-Medium.otf";
+import { Info } from "@tamagui/lucide-icons";
 import { ToastProvider, ToastViewport } from "@tamagui/toast";
-import { createTamagui, TamaguiProvider, Theme } from "tamagui";
+import {
+  Button,
+  createTamagui,
+  TamaguiProvider,
+  Text,
+  Theme,
+  View,
+} from "tamagui";
 
 import { Logo } from "~/components";
 import { HamburgerMenu } from "~/components/navigation/HamburgerMenu";
 import { TRPCProvider, useZotmealColorScheme } from "~/utils";
+import { getBaseUrl } from "~/utils/api";
 import { tokenCache } from "~/utils/tokenCache";
 import { env } from "../utils/env";
 
 const tamaguiConfig = createTamagui(config);
+
+const DevInfo = () => {
+  const [open, setOpen] = useState(true);
+
+  return (
+    <View
+      onPress={() => setOpen(!open)}
+      zIndex={10}
+      width={open ? "60%" : "10%"}
+      height={open ? "25%" : "10%"}
+      position="absolute"
+      bottom={30}
+      right={10}
+    >
+      {open ? (
+        <Button
+          unstyled
+          width="100%"
+          height="100%"
+          backgroundColor="red"
+          padding="$4"
+        >
+          <Text fontSize="$3" fontWeight="bold">
+            Platform.OS: {Platform.OS}
+            {"\n"}
+            baseurl: {getBaseUrl()}
+            {"\n"}
+            env: {JSON.stringify(env, null, 2)}
+          </Text>
+        </Button>
+      ) : (
+        <Info size="$5" color="red" />
+      )}
+    </View>
+  );
+};
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -29,7 +76,7 @@ export default function RootLayout() {
 
   const colorScheme = useZotmealColorScheme();
 
-  const { bottom, left, right } = useSafeAreaInsets();
+  const { top, ...insets } = useSafeAreaInsets();
 
   if (!loaded) return null;
 
@@ -55,7 +102,7 @@ export default function RootLayout() {
                   },
                 }}
               >
-                <Stack.Screen name="(tabs)" />
+                {/* <Stack.Screen name="(tabs)" /> */}
                 {/* <Stack.Screen
                 name="events"
                 options={{
@@ -65,12 +112,8 @@ export default function RootLayout() {
               </Stack>
               <StatusBar style="light" />
             </Theme>
-            <ToastViewport
-              flexDirection="column"
-              bottom={bottom}
-              left={left}
-              right={right}
-            />
+            <ToastViewport flexDirection="column" {...insets} />
+            <DevInfo />
           </ToastProvider>
         </ClerkProvider>
       </TamaguiProvider>

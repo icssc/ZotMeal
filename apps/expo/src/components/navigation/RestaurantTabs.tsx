@@ -1,5 +1,12 @@
 import { G, Path, Svg, Text } from "react-native-svg";
-import { Image, Tabs, useTheme, useWindowDimensions, View } from "tamagui";
+import {
+  GetProps,
+  Image,
+  Tabs,
+  useTheme,
+  useWindowDimensions,
+  View,
+} from "tamagui";
 
 import type { Restaurant } from "@zotmeal/db";
 import { getCurrentPeriodName } from "@zotmeal/utils";
@@ -13,20 +20,36 @@ export function RestaurantTabs({
 }>) {
   const { selectedRestaurant, setSelectedRestaurant } = useZotmealStore();
 
+  type ImageProps = GetProps<typeof Image>;
+
+  // TODO: maybe scale each image accordingly
+  const imageProps = [
+    {
+      source: {
+        uri: "https://s3-media0.fl.yelpcdn.com/bphoto/P0DIhR8cO-JxYygc3V3aaQ/348s.jpg",
+      },
+      display: selectedRestaurant === "brandywine" ? "block" : "none",
+    },
+    {
+      source: {
+        uri: "https://images.rsmdesign.com/7321bb55-579f-47fd-9f27-a6abf3e9826e.jpg",
+      },
+      display: selectedRestaurant === "anteatery" ? "block" : "none",
+    },
+  ] as const satisfies ImageProps[];
+
   return (
     <>
-      <Image
-        source={{
-          uri:
-            selectedRestaurant === "brandywine"
-              ? "https://s3-media0.fl.yelpcdn.com/bphoto/P0DIhR8cO-JxYygc3V3aaQ/348s.jpg"
-              : "https://images.rsmdesign.com/7321bb55-579f-47fd-9f27-a6abf3e9826e.jpg",
-        }}
-        position="absolute"
-        zIndex={-1}
-        width="100%"
-        height={125}
-      />
+      {imageProps.map((props, index) => (
+        <Image
+          {...props}
+          key={index}
+          position="absolute"
+          zIndex={-1}
+          width="100%"
+          height={125}
+        />
+      ))}
       <View height={65} />
       <Tabs
         value={selectedRestaurant}

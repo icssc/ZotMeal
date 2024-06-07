@@ -12,23 +12,28 @@ __/\\\\\\\\\\\\\\\______________________________/\\\\____________/\\\\__________
         _\///////////////_____\/////_________\/////____\///______________\///____\//////////___\////////\//__\/////////__
 </pre>
 
-# About
+## About
 
 ZotMeal is a cross-platform React Native Expo application.
 A summary of the libraries we use are listed below.
 
 ## Technology
 
-### Web/Mobile Application
+### Frontend
 
 - [Expo](https://expo.dev) - Universal framework for React Native.
-- [Tamagui](https://tamagui.dev/) - UI component library for React Native.
+- [Tamagui](https://tamagui.dev/) - Universal UI component library for React Native.
+
+### Backend
+
+- [Drizzle](https://drizzle.dev/) - ORM for Postgres.
+- [AWS](https://aws.amazon.com/) - RDS and Lambda.
 - [Serverless Framework](https://www.serverless.com/) - Framework for cloud resources such as AWS Lambda.
 - [tRPC](https://trpc.io/) - Typesafe RPCs.
 
-# Getting Started
+## Getting Started
 
-## Pre-requisites
+### Pre-requisites
 
 1. Install `Node.js`. This allows you to run JavaScript on your computer (outside of a browser).
    This is best done with a version manager that allows you to easily switch between
@@ -47,16 +52,17 @@ A summary of the libraries we use are listed below.
    It's responsible for installing, uninstalling, and keeping track of the app's dependencies.
    `npm install --global pnpm`
 
-3. Make sure to have `docker` installed, which will allow you to run the local postgres database
-   required for backend functions. You can install it from [the official website here](https://www.docker.com/get-started/).
+3. Make sure to have `docker` installed, which can be installed from [the official website](https://www.docker.com/get-started/). It will allow you to
+   - run the local postgres database required for backend functions.
+   - run backend tests that rely on Testcontainers.
 
-## Developing
+### Developing
 
 1. Clone the ZotMeal repository or your fork.
    `git clone https://github.com/icssc/ZotMeal.git`
 
 2. Change your node version to the one specified in .nvmrc
-   `nvm use`
+   `nvm use` or `fnm use`
 3. Navigate to the root directory and install the dependencies.
    `cd ZotMeal && pnpm install`
 
@@ -67,17 +73,22 @@ A summary of the libraries we use are listed below.
 
 6. Run `pnpm db:push` to push the schema to the docker database.
 
-7. Start the local development servers for expo and server with `pnpm dev`.
+7. Start local development by running `pnpm dev` in `/apps/expo` and `pnpm dev` in `/apps/server` (or `turbo dev` in the root directory).
    The tRPC procedures are available on <http://localhost:3000/><router.procedure\>?input={field: value}
+
+   ```sh
+   # example
+   http://localhost:3000/events.get
+   ```
 
 8. View the local website at <http://localhost:8081> and/or with the [Expo Go mobile app](https://expo.dev/client).
    As you make changes to the Expo application, those changes will be automatically
    reflected on the local website as well as the mobile app.
 
-## Testing
+### Testing
 
 Run `turbo test` at the root of the project.
 
-## Adding Workspaces
+### Adding Workspaces
 
 To add a new package run `turbo gen workspace` and follow the prompts

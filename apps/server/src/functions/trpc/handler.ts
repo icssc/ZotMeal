@@ -11,7 +11,7 @@ const createContext = (
 ) =>
   createTRPCContext({
     headers: new Headers({
-      "x-trpc-source": "@zotmeal/aws-lambda",
+      "x-trpc-source": "zotmeal-lambda",
     }),
     connectionString: process.env.DATABASE_URL,
   });

@@ -24,6 +24,7 @@ const EventCard = ({ event }: Readonly<{ event: Event }>) => (
       borderRadius="$8"
       borderColor="$borderColor"
       width="90%"
+      maxWidth={500}
       padding="$4"
       marginVertical="$4"
       justifyContent="center"
@@ -39,7 +40,7 @@ const EventCard = ({ event }: Readonly<{ event: Event }>) => (
         borderRadius="$6"
       >
         <Image
-          resizeMode="contain"
+          objectFit="contain"
           source={{
             uri: event.image ?? "https://via.placeholder.com/150",
           }}
@@ -66,48 +67,57 @@ export default function Events() {
     setBrandywineEvents,
   } = useZotmealStore();
 
-  const eventsQuery = api.event.get.useQuery();
+  const eventsQuery = api.event.get.useQuery(undefined, {
+    retry: false,
+    refetchOnWindowFocus: false,
+  });
 
   useEffect(() => {
-    if (!eventsQuery?.data) return;
+    if (!eventsQuery.isSuccess) return;
 
     const anteateryEvents = eventsQuery.data.filter(
-      (event: Event) => event.restaurantId === "3056",
+      (event) => event.restaurantId === "3056",
     );
     const brandywineEvents = eventsQuery.data.filter(
-      (event: Event) => event.restaurantId === "3314",
+      (event) => event.restaurantId === "3314",
     );
 
     setAnteateryEvents(anteateryEvents);
     setBrandywineEvents(brandywineEvents);
-  }, [eventsQuery.data, setAnteateryEvents, setBrandywineEvents]);
+  }, [eventsQuery.data]);
 
   // TODO: show a toast if there is an error
-  if (eventsQuery?.isError) console.error(eventsQuery.error);
+  if ((anteateryEvents || brandywineEvents) && eventsQuery.isError) {
+    console.error(eventsQuery.error);
+    setAnteateryEvents(null);
+    setBrandywineEvents(null);
+  }
 
   const EventsContent = () =>
     eventsQuery.isLoading ? (
       <Spinner size="large" marginTop="$10" />
-    ) : brandywineEvents && anteateryEvents ? (
+    ) : (
       <>
         {[brandywineEvents, anteateryEvents].map((events, index) => (
           <Tabs.Content
             key={index}
             value={getRestaurantNameById(index === 0 ? "3314" : "3056")}
           >
-            <YStack>
-              {events.map((event, index) => (
-                <EventCard key={index} event={event} />
-              ))}
-            </YStack>
+            {events && events.length > 0 ? (
+              <YStack>
+                {events.map((event, index) => (
+                  <EventCard key={index} event={event} />
+                ))}
+              </YStack>
+            ) : (
+              <View alignItems="center">
+                <CalendarX2 size="$10" />
+                <Text>Events not found</Text>
+              </View>
+            )}
           </Tabs.Content>
         ))}
       </>
-    ) : (
-      <View alignItems="center">
-        <CalendarX2 size="$10" />
-        <Text>Events not found</Text>
-      </View>
     );
 
   return (

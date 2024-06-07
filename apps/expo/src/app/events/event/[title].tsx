@@ -37,7 +37,7 @@ export default function Event() {
   const events =
     selectedRestaurant === "anteatery" ? anteateryEvents : brandywineEvents;
 
-  const event = events.find((event) => event.title === title);
+  const event = events?.find((event) => event.title === title);
 
   // TODO: Log error if event is not found
   if (!event) return <Redirect href="/events/" />;
@@ -62,6 +62,7 @@ export default function Event() {
         <YStack
           justifyContent="center"
           width="90%"
+          maxWidth={700}
           themeInverse
           backgroundColor="$borderColor"
           borderRadius="$5"
