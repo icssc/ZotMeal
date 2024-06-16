@@ -1,8 +1,8 @@
+import { apiTest } from "@api/apiTest";
+import { upsertDish } from "@api/dishes/services";
+import { upsertUser } from "@api/users/services";
 import { describe } from "vitest";
 
-import { apiTest } from "../../apiTest";
-import { upsertDish } from "../dishes/services";
-import { upsertUser } from "../users/services";
 import { upsertRating } from "./services";
 
 describe("upsertRating", () => {

@@ -1,19 +1,18 @@
+import { apiTest } from "@api/apiTest";
+import { upsertPeriod } from "@api/periods/services";
+import { upsertRestaurant } from "@api/restaurants/services";
 import { describe } from "vitest";
 
-import { apiTest } from "../../apiTest";
-import { upsertRestaurant } from "../restaurants/services";
 import { upsertMenu } from "./services";
 
-describe("menu", () => apiTest("hello", () => console.log("hello")));
-
-describe("upsertMenu()", () => {
+describe("upsertMenu", () => {
   apiTest("inserts valid menu into db", async ({ expect, db, testData }) => {
     await expect(
       db.transaction(async (trx) => {
-        const restaurant = await upsertRestaurant(trx, testData.restaurant);
-        expect(restaurant).toBeDefined();
-        const upsertedMenu = await upsertMenu(trx, testData.menu);
-        expect(upsertedMenu).toBeDefined();
+        await upsertRestaurant(trx, testData.brandywine);
+        await upsertPeriod(trx, testData.period);
+        await upsertMenu(trx, testData.menu);
+
         trx.rollback();
       }),
     ).rejects.toThrowError("Rollback");
@@ -21,9 +20,8 @@ describe("upsertMenu()", () => {
   apiTest("updates existing menu in db", async ({ expect, db, testData }) => {
     await expect(
       db.transaction(async (trx) => {
-        const restaurant = await upsertRestaurant(trx, testData.restaurant);
-        expect(restaurant).toBeDefined();
-
+        await upsertRestaurant(trx, testData.brandywine);
+        await upsertPeriod(trx, testData.period);
         const insertedMenu = await upsertMenu(trx, testData.menu);
         const updatedMenu = await upsertMenu(trx, {
           ...testData.menu,

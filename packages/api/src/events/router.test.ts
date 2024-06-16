@@ -1,15 +1,15 @@
+import { apiTest } from "@api/apiTest";
+import { upsertRestaurant } from "@api/restaurants/services";
 import { addDays } from "date-fns";
 import { describe } from "vitest";
 
-import { apiTest } from "../../apiTest";
-import { upsertRestaurant } from "../restaurants/services";
 import { upsertEvent } from "./services";
 
 describe("getEvents", () => {
   apiTest(
     "gets all events that are happening today or later",
     async ({ api, db, expect, testData }) => {
-      await upsertRestaurant(db, testData.restaurant);
+      await upsertRestaurant(db, testData.brandywine);
       const event = await upsertEvent(db, testData.event);
       const eventFuture = await upsertEvent(db, {
         ...testData.event,
@@ -28,7 +28,7 @@ describe("getEvents", () => {
       expect(eventFuture.end >= new Date()).toBeTruthy();
       expect(eventPast.end >= new Date()).toBeFalsy();
 
-      const events = await api.event.get();
+      const events = await api.event.getAllUpcoming();
 
       expect(events).toHaveLength(2); // should not include the past event
 

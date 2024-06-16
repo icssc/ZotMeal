@@ -1,11 +1,10 @@
 {
-  "extends": [
-    "@zotmeal/tsconfig/base.json"
-  ],
+  "extends": ["@zotmeal/tsconfig/base.json"],
   "compilerOptions": {
-    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
+    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
+    "paths": {
+      "@api/*": ["./src/*"]
+    }
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

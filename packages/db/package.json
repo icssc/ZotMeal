@@ -25,7 +25,6 @@
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.9.0",
-    "@zotmeal/utils": "workspace:^",
     "dotenv-cli": "^7.4.1",
     "drizzle-orm": "^0.31.0",
     "drizzle-zod": "^0.5.1",
@@ -38,9 +37,9 @@
   },
   "devDependencies": {
     "@types/pg": "^8.11.2",
-    "@zotmeal/eslint-config": "workspace:^",
-    "@zotmeal/prettier-config": "workspace:^",
-    "@zotmeal/tsconfig": "workspace:^",
+    "@zotmeal/eslint-config": "workspace:*",
+    "@zotmeal/prettier-config": "workspace:*",
+    "@zotmeal/tsconfig": "workspace:*",
     "drizzle-kit": "^0.22.1",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",

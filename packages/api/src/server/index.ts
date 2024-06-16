@@ -1,4 +1,4 @@
 export * from "./scrapeEvents";
-export * from "./getWeekInfo";
-export * from "./updateDaily";
+export * from "./daily";
+export * from "./weekly";
 export * from "../notifications/services";

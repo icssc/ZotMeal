@@ -1,12 +1,18 @@
+import { logger } from "@api/logger";
 import axios from "axios";
 import * as cheerio from "cheerio";
+import { setYear } from "date-fns";
 
-import type { Drizzle, Event } from "@zotmeal/db";
-import { EventSchema } from "@zotmeal/db";
-import { getRestaurantId, parseEventDate } from "@zotmeal/utils";
+import type { Event } from "@zotmeal/db";
+import { EventSchema, getRestaurantId } from "@zotmeal/db";
 
-import { logger } from "../../../logger";
-import { upsertEvents } from "../../events/services";
+/**
+ * @example
+ * dateStr => "APRIL 22 11:00 AM"
+ * output would be => new Date("APRIL 22, <current year> 11:00 AM")
+ */
+export const parseEventDate = (dateStr: string) =>
+  setYear(new Date(dateStr), new Date().getFullYear());
 
 export async function getHTML(url: string): Promise<string> {
   try {
@@ -24,95 +30,71 @@ export async function scrapeEvents(html: string): Promise<Event[]> {
   try {
     const $ = cheerio.load(html);
 
-    const events: Event[] = [];
-
     // iterate through each event item and extract data
-    // TODO: parallelize this
-    for (const el of $("li")) {
-      const eventItem = $(el);
+    return await Promise.all(
+      $("li").map(async (_, element) => {
+        const eventItem = $(element);
 
-      const title = eventItem.find(".gridItem_title_text").text();
-      const imageSrc = eventItem.find("img").attr("src");
+        const title = eventItem.find(".gridItem_title_text").text();
+        const imageSrc = eventItem.find("img").attr("src");
 
-      const image = imageSrc ? `https://uci.campusdish.com${imageSrc}` : "";
+        const image = imageSrc ? `https://uci.campusdish.com${imageSrc}` : "";
 
-      // do an inner fetch on the event's page for restaurant association
-      const href = eventItem.find("a").attr("href");
-      if (!href) continue; // skip if unable to find event page link
-      logger.debug(href);
-      const eventPageHtml = await getHTML(href);
+        // do an inner fetch on the event's page for restaurant association
+        const href = eventItem.find("a").attr("href");
+        if (!href) throw new Error("unable to find event page link");
+        logger.debug(href);
+        const eventPageHtml = await getHTML(href);
 
-      // skip if unable to fetch event page
-      if (!eventPageHtml) {
-        console.error("unable to fetch event page for event: ", title);
-        continue;
-      }
+        // skip if unable to fetch event page
+        if (!eventPageHtml)
+          throw new Error(`unable to fetch event page for event: ${title}`);
 
-      const eventPage$ = cheerio.load(eventPageHtml);
+        const eventPage$ = cheerio.load(eventPageHtml);
 
-      const longDescription = eventPage$(".col-xs-6").text();
+        const longDescription = eventPage$(".col-xs-6").text();
 
-      // e.g. APRIL 22 11:00 AM – APRIL 27 3:00 PM
-      const eventDates = eventPage$(".dates").text().trim().split("–");
+        // e.g. APRIL 22 11:00 AM – APRIL 27 3:00 PM
+        const eventDates = eventPage$(".dates").text().trim().split("–");
+        const [start, end] = eventDates.map(parseEventDate);
 
-      if (eventDates.length !== 2) {
-        console.error("invalid date format", eventDates);
-        continue;
-      }
+        if (!start || !end)
+          throw new Error(`invalid date format ${eventDates}`);
 
-      const [start, end] = eventDates.map(parseEventDate);
+        // e.g. "LOCATION: THE ANTEATERY" or "LOCATION: BRANDYWINE"
+        const location = eventPage$(".location").text().toLowerCase();
 
-      if (!start || !end) {
-        console.error("invalid date format", eventDates);
-        continue;
-      }
+        if (!location.includes("anteatery") && !location.includes("brandywine"))
+          throw new Error(
+            `expected location to be brandywine or anteatery but got ${location}`,
+          );
 
-      // logic to conform to restaurant enum
-      // could be cleaner but the html isn't always in the same format
+        const restaurant = location.includes("anteatery")
+          ? "anteatery"
+          : "brandywine";
 
-      const restaurantArray = eventPage$(".location")
-        .text()
-        .toLowerCase()
-        .replace(/[^a-z: ]/g, "") // allow letters, spaces, colons
-        .split(":") // "location: the anteatery" -> ["location", "the anteatery"]
-        .pop()
-        ?.split(" "); // "the anteatery" -> ["the", "anteatery"] or [ '', '', 'brandywine', '', '', '', '', '', '', '', '', '' ]
+        const shortDescription = eventItem
+          .find(".gridItem__body")
+          .first()
+          .text()
+          .trim();
 
-      const restaurant = restaurantArray?.includes("anteatery")
-        ? "anteatery"
-        : "brandywine";
+        const event = EventSchema.parse({
+          title,
+          image,
+          restaurantId: getRestaurantId(restaurant),
+          shortDescription,
+          longDescription,
+          start,
+          end,
+        } satisfies Event);
 
-      const shortDescription = eventItem
-        .find(".gridItem__body")
-        .first()
-        .text()
-        .trim();
-
-      const event = EventSchema.parse({
-        title,
-        image,
-        restaurantId: getRestaurantId(restaurant),
-        shortDescription,
-        longDescription,
-        start,
-        end,
-      } satisfies Event);
-
-      logger.debug(event);
-
-      events.push(event);
-    }
-
-    return events;
-  } catch (e) {
-    console.error(e);
-    throw e;
+        logger.debug(event);
+        return event;
+      }),
+    );
+  } catch (error) {
+    console.error(`Error scraping events: ${error}`);
+    throw error;
   }
-}
-
-export async function scrapeAndUpsertEvents(db: Drizzle): Promise<Event[]> {
-  const html = await getHTML(
-    "https://uci-campusdish-com.translate.goog/api/events?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en&_x_tr_pto=wapp",
-  );
-  return await upsertEvents(db, await scrapeEvents(html));
 }

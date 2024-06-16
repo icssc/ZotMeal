@@ -1,4 +1,5 @@
 import type { Href } from "expo-router";
+import type { GetProps } from "tamagui";
 import { router, useSegments } from "expo-router";
 import {
   CalendarDays,
@@ -10,15 +11,7 @@ import {
   Settings,
   Siren,
 } from "@tamagui/lucide-icons";
-import {
-  Adapt,
-  Button,
-  GetProps,
-  ListItem,
-  Popover,
-  Separator,
-  YGroup,
-} from "tamagui";
+import { Adapt, Button, ListItem, Popover, Separator, YGroup } from "tamagui";
 
 interface Screen extends GetProps<typeof ListItem> {
   href: Href<"pathname">;

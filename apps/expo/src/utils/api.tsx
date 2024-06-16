@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Platform } from "react-native";
 import Constants from "expo-constants";
+import { useAuth } from "@clerk/clerk-expo";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink, loggerLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
@@ -52,19 +53,18 @@ export const getBaseUrl = () => {
  * Use only in _app.tsx
  */
 export function TRPCProvider(props: { children: React.ReactNode }) {
+  const { getToken } = useAuth();
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() => {
-    const url = getBaseUrl();
     return api.createClient({
       links: [
         httpBatchLink({
-          url,
+          url: getBaseUrl(),
           transformer: superjson,
-          headers() {
-            const headers = new Map<string, string>();
-            headers.set("x-trpc-source", `expo-react-${Platform.OS}`);
-            return Object.fromEntries(headers);
-          },
+          headers: async () => ({
+            Authorization: (await getToken()) ?? undefined,
+            "x-trpc-source": `expo-react-${Platform.OS}`,
+          }),
         }),
         loggerLink({
           enabled: (opts) =>

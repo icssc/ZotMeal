@@ -1,15 +1,15 @@
+import { apiTest } from "@api/apiTest";
+import { upsertMenu } from "@api/menus/services";
+import { upsertRestaurant } from "@api/restaurants/services";
 import { describe } from "vitest";
 
-import { apiTest } from "../../apiTest";
-import { upsertMenu } from "../menus/services";
-import { upsertRestaurant } from "../restaurants/services";
 import { upsertStation } from "./services";
 
 describe("upsertStation", () => {
   apiTest("inserts a new station", async ({ expect, db, testData }) => {
     await expect(
       db.transaction(async (trx) => {
-        await upsertRestaurant(trx, testData.restaurant);
+        await upsertRestaurant(trx, testData.brandywine);
         await upsertMenu(trx, testData.menu);
 
         const result = await upsertStation(trx, testData.station);
@@ -23,7 +23,7 @@ describe("upsertStation", () => {
   apiTest("updates a station", async ({ expect, db, testData }) => {
     await expect(
       db.transaction(async (trx) => {
-        await upsertRestaurant(trx, testData.restaurant);
+        await upsertRestaurant(trx, testData.brandywine);
         await upsertMenu(trx, testData.menu);
 
         await upsertStation(trx, testData.station);

@@ -1,9 +1,9 @@
+import { apiTest } from "@api/apiTest";
+import { testData } from "@api/testData";
+import { upsertUser } from "@api/users/services";
 import { TRPCError } from "@trpc/server";
 import { describe } from "vitest";
 
-import { apiTest } from "../../apiTest";
-import { testData } from "../../testData";
-import { upsertUser } from "../users/services";
 import { upsertDish } from "./services";
 
 describe("getDishProcedure", () => {

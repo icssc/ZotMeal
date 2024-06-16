@@ -1,8 +1,7 @@
+import { apiTest } from "@api/apiTest";
 import { describe } from "vitest";
 
-import { apiTest } from "../../apiTest";
-
-const pushToken = "exp://<PUSH_TOKEN>";
+const _pushToken = "exp://<PUSH_TOKEN>";
 
 // TODO
 describe("getPushTokens", () => {

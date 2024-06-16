@@ -1,8 +1,8 @@
+import { apiTest } from "@api/apiTest";
+import { upsertEvents } from "@api/events/services";
 import { describe } from "vitest";
 
 import { getHTML, scrapeEvents } from ".";
-import { apiTest } from "../../../apiTest";
-import { upsertEvents } from "../../events/services";
 
 describe("scrapeEvents", () => {
   apiTest(
@@ -16,7 +16,7 @@ describe("scrapeEvents", () => {
           const events = await scrapeEvents(html);
           expect(events).toBeTruthy();
 
-          await expect(upsertEvents(trx, events!)).resolves.toBeDefined();
+          await expect(upsertEvents(trx, events)).resolves.toBeDefined();
           trx.rollback();
         }),
       ).rejects.toThrowError("Rollback");

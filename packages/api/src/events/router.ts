@@ -1,15 +1,13 @@
-import { createTRPCRouter, publicProcedure } from "../trpc";
-
-/**
- * Get all events that are happening today or later.
- */
-export const getEvents = publicProcedure.query(
-  async ({ ctx: { db } }) =>
-    await db.query.EventTable.findMany({
-      where: (event, { gte }) => gte(event.end, new Date()),
-    }),
-);
+import { createTRPCRouter, publicProcedure } from "@api/trpc";
 
 export const eventRouter = createTRPCRouter({
-  get: getEvents,
+  /**
+   * Get all events that are happening today or later.
+   */
+  getAllUpcoming: publicProcedure.query(
+    async ({ ctx: { db } }) =>
+      await db.query.events.findMany({
+        where: (event, { gte }) => gte(event.end, new Date()),
+      }),
+  ),
 });

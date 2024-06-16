@@ -1,18 +1,17 @@
+import { upsertRating } from "@api/ratings/services";
+import { createTRPCRouter, publicProcedure } from "@api/trpc";
+import { getUser } from "@api/users/services";
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
-import { DishTable, RatingSchema } from "@zotmeal/db";
-
-import { upsertRating } from "../ratings/services";
-import { createTRPCRouter, publicProcedure } from "../trpc";
-import { getUser } from "../users/services";
+import { dishes, RatingSchema } from "@zotmeal/db";
 
 export const getDishProcedure = publicProcedure
   .input(z.object({ id: z.string() }))
   .query(async ({ ctx: { db }, input }) => {
-    const dish = await db.query.DishTable.findFirst({
-      where: (DishTable, { eq }) => eq(DishTable.id, input.id),
+    const dish = await db.query.dishes.findFirst({
+      where: (dishes, { eq }) => eq(dishes.id, input.id),
     });
 
     if (!dish)
@@ -26,9 +25,9 @@ export const getDishProcedure = publicProcedure
 
 export const rateDishProcedure = publicProcedure
   .input(RatingSchema)
-  .query(async ({ ctx: { db }, input }) => {
-    const dish = await db.query.DishTable.findFirst({
-      where: (DishTable, { eq }) => eq(DishTable.id, input.dishId),
+  .mutation(async ({ ctx: { db }, input }) => {
+    const dish = await db.query.dishes.findFirst({
+      where: (dishes, { eq }) => eq(dishes.id, input.dishId),
     });
 
     if (!dish)
@@ -51,12 +50,12 @@ export const rateDishProcedure = publicProcedure
     const rating = await upsertRating(db, input);
 
     const updateDishResult = await db
-      .update(DishTable)
+      .update(dishes)
       .set({
         numRatings: newNumRatings,
         totalRating: newTotalRating,
       })
-      .where(eq(DishTable.id, rating.dishId))
+      .where(eq(dishes.id, rating.dishId))
       .returning();
 
     const updatedDish = updateDishResult[0];
@@ -71,6 +70,12 @@ export const rateDishProcedure = publicProcedure
   });
 
 export const dishRouter = createTRPCRouter({
+  /**
+   * Get a dish by its id.
+   */
   get: getDishProcedure,
+  /**
+   * Rate a dish.
+   */
   rate: rateDishProcedure,
 });

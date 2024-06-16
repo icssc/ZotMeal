@@ -1,30 +1,28 @@
 import { useState } from "react";
 import { Star, StarFull } from "@tamagui/lucide-icons";
-import { Adapt, Button, H4, Popover, Text, XStack, YStack } from "tamagui";
+import {
+  Adapt,
+  Button,
+  H4,
+  Popover,
+  Spinner,
+  Text,
+  XStack,
+  YStack,
+} from "tamagui";
 
-import type { DishWithRelations } from "@zotmeal/db";
-
+import type { Dish } from "~/utils";
 import { useAuthStore } from "~/utils";
 import { api } from "~/utils/api";
 
-export default function RateItem({
-  item,
-}: Readonly<{ item: DishWithRelations }>) {
+export default function RateItem({ item }: Readonly<{ item: Dish }>) {
   const [rating, setRating] = useState<number>(0);
   const { user } = useAuthStore();
 
-  const userRated = user?.ratings.some((r) => r.dishId === item.id) ?? false;
+  const rateMutation = api.dish.rate.useMutation();
 
-  const rateQuery = api.dish.rate.useQuery(
-    {
-      dishId: item.id,
-      userId: user?.id,
-      rating,
-    },
-    {
-      enabled: false, // Only trigger query imperatively
-    },
-  );
+  // const userRated = user?.ratings.some((r) => r.dishId === item.id) ?? false;
+  const userRated = false;
 
   return (
     <Popover placement="bottom" allowFlip>
@@ -96,18 +94,30 @@ export default function RateItem({
           </XStack>
           <Popover.Close asChild>
             <Button
-              disabled={!user || !rating}
-              opacity={user && rating ? 1 : 0.5}
+              // disabled={!user || !rating || rateMutation.isPending}
+              disabled={!rating || rateMutation.isPending}
+              opacity={user && rating && !rateMutation.isPending ? 1 : 0.5}
               size="$5"
               fontWeight="800"
               paddingHorizontal="$5"
               borderRadius="$10"
-              onPress={async () =>
-                /* does not interfere with popover closure */
-                await rateQuery.refetch()
-              }
+              icon={rateMutation.isPending ? <Spinner /> : undefined}
+              onPress={() => {
+                if (!user) return;
+                rateMutation.mutate({
+                  dishId: item.id,
+                  userId: "some-user-id",
+                  rating,
+                });
+              }}
             >
-              {user ? (userRated ? "Resubmit" : "Submit") : "Login to Rate"}
+              {rateMutation.isPending
+                ? ""
+                : user
+                  ? userRated
+                    ? "Resubmit"
+                    : "Submit"
+                  : "Login to Rate"}
             </Button>
           </Popover.Close>
         </YStack>

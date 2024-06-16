@@ -21,21 +21,18 @@ import {
   YStack,
 } from "tamagui";
 
-import type { Event } from "@zotmeal/db";
-
 import { useZotmealStore } from "~/utils";
 
 export default function Event() {
-  const { title } = useGlobalSearchParams();
+  const { title, restaurant } = useGlobalSearchParams();
+  const { zotmeal } = useZotmealStore();
 
   if (!title || typeof title !== "string")
     throw new Error("title is not a string");
+  if (restaurant !== "brandywine" && restaurant !== "anteatery")
+    throw new Error("restaurant should be either brandywine or anteatery");
 
-  const { selectedRestaurant, anteateryEvents, brandywineEvents } =
-    useZotmealStore();
-
-  const events =
-    selectedRestaurant === "anteatery" ? anteateryEvents : brandywineEvents;
+  const events = zotmeal?.[restaurant].events;
 
   const event = events?.find((event) => event.title === title);
 
@@ -84,8 +81,7 @@ export default function Event() {
           <XStack alignItems="center" padding={0} gap="$2">
             <MapPin />
             <Text fontWeight="700">
-              {selectedRestaurant.charAt(0).toUpperCase() +
-                selectedRestaurant.slice(1)}
+              {restaurant.charAt(0).toUpperCase() + restaurant.slice(1)}
             </Text>
           </XStack>
           <XStack alignItems="center" padding={0} gap="$2">

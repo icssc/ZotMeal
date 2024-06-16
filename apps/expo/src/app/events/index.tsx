@@ -1,21 +1,21 @@
-import { useEffect } from "react";
+import React from "react";
 import { Link } from "expo-router";
 import { CalendarX2 } from "@tamagui/lucide-icons";
-import { format } from "date-fns";
-import { H3, Image, Spinner, Tabs, Text, View, YStack } from "tamagui";
+import { format, isWithinInterval } from "date-fns";
+import { H3, Image, Tabs, Text, View, YStack } from "tamagui";
 
-import type { Event } from "@zotmeal/db";
-import { getRestaurantNameById } from "@zotmeal/utils";
-
+import type { Event } from "~/utils";
 import { RestaurantTabs } from "~/components";
 import { useZotmealStore } from "~/utils";
-import { api } from "~/utils/api";
 
 const EventCard = ({ event }: Readonly<{ event: Event }>) => (
   <Link
     href={{
       pathname: "/events/event/[title]",
-      params: { title: event.title },
+      params: {
+        title: event.title,
+        restaurant: event.restaurantId === "3314" ? "brandywine" : "anteatery",
+      },
     }}
     asChild
   >
@@ -60,68 +60,82 @@ const EventCard = ({ event }: Readonly<{ event: Event }>) => (
 
 // Events Component
 export default function Events() {
-  const {
-    anteateryEvents,
-    brandywineEvents,
-    setAnteateryEvents,
-    setBrandywineEvents,
-  } = useZotmealStore();
+  const { zotmeal } = useZotmealStore();
+  const [restaurant, setRestaurant] = React.useState<
+    "brandywine" | "anteatery"
+  >("brandywine");
 
-  const eventsQuery = api.event.get.useQuery(undefined, {
-    retry: false,
-    refetchOnWindowFocus: false,
-  });
+  const anteateryInfo = zotmeal?.anteatery;
+  const brandywineInfo = zotmeal?.brandywine;
 
-  useEffect(() => {
-    if (!eventsQuery.isSuccess) return;
+  const anteateryEvents = anteateryInfo?.events;
+  const brandywineEvents = brandywineInfo?.events;
 
-    const anteateryEvents = eventsQuery.data.filter(
-      (event) => event.restaurantId === "3056",
-    );
-    const brandywineEvents = eventsQuery.data.filter(
-      (event) => event.restaurantId === "3314",
-    );
+  const periods = {
+    anteatery: anteateryInfo?.menus.map((menu) => menu.period) ?? [],
+    brandywine: brandywineInfo?.menus.map((menu) => menu.period) ?? [],
+  };
 
-    setAnteateryEvents(anteateryEvents);
-    setBrandywineEvents(brandywineEvents);
-  }, [eventsQuery.data]);
+  const currentAnteateryPeriod = periods.anteatery.find((period) =>
+    isWithinInterval(new Date(), {
+      start: period.startTime,
+      end: period.endTime,
+    }),
+  );
+
+  const currentBrandywinePeriod = periods.brandywine.find((period) =>
+    isWithinInterval(new Date(), {
+      start: period.startTime,
+      end: period.endTime,
+    }),
+  );
 
   // TODO: show a toast if there is an error
-  if ((anteateryEvents || brandywineEvents) && eventsQuery.isError) {
-    console.error(eventsQuery.error);
-    setAnteateryEvents(null);
-    setBrandywineEvents(null);
-  }
 
-  const EventsContent = () =>
-    eventsQuery.isLoading ? (
-      <Spinner size="large" marginTop="$10" />
-    ) : (
+  const EventsContent = () => {
+    // if (query.isLoading) return <Spinner size="large" marginTop="$10" />;
+
+    return (
       <>
-        {[brandywineEvents, anteateryEvents].map((events, index) => (
-          <Tabs.Content
-            key={index}
-            value={getRestaurantNameById(index === 0 ? "3314" : "3056")}
-          >
-            {events && events.length > 0 ? (
-              <YStack>
-                {events.map((event, index) => (
-                  <EventCard key={index} event={event} />
-                ))}
-              </YStack>
-            ) : (
-              <View alignItems="center">
-                <CalendarX2 size="$10" />
-                <Text>Events not found</Text>
-              </View>
-            )}
-          </Tabs.Content>
-        ))}
+        <Tabs.Content value="brandywine">
+          {brandywineEvents && brandywineEvents.length > 0 ? (
+            <YStack>
+              {brandywineEvents.map((event, index) => (
+                <EventCard key={index} event={event} />
+              ))}
+            </YStack>
+          ) : (
+            <View alignItems="center">
+              <CalendarX2 size="$10" />
+              <Text>No events found</Text>
+            </View>
+          )}
+        </Tabs.Content>
+        <Tabs.Content value="anteatery">
+          {anteateryEvents && anteateryEvents.length > 0 ? (
+            <YStack>
+              {anteateryEvents.map((event, index) => (
+                <EventCard key={index} event={event} />
+              ))}
+            </YStack>
+          ) : (
+            <View alignItems="center">
+              <CalendarX2 size="$10" />
+              <Text>No events found</Text>
+            </View>
+          )}
+        </Tabs.Content>
       </>
     );
+  };
 
   return (
-    <RestaurantTabs>
+    <RestaurantTabs
+      restaurant={restaurant}
+      setRestaurant={setRestaurant}
+      anteateryStatus={currentAnteateryPeriod ? "open" : "closed"}
+      brandywineStatus={currentBrandywinePeriod ? "open" : "closed"}
+    >
       <EventsContent />
     </RestaurantTabs>
   );

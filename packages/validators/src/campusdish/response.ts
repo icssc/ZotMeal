@@ -1,22 +1,23 @@
 import { z } from "zod";
 
-import {
-  capitalizedPeriodNames,
-  periodIds,
-  restaurantIds,
-} from "@zotmeal/utils";
+import { restaurantIds } from "@zotmeal/db";
 
 import { MenuProductSchema, MenuStationSchema } from "./models";
 
-export const CampusDishResponseSchema = z.object({
+export const CampusDishMenuSchema = z.object({
   LocationId: z.enum(restaurantIds),
-  SelectedPeriodId: z.enum(periodIds),
+  Date: z.string().min(1),
+  SelectedPeriodId: z
+    .string({
+      message: `Expected a string for SelectedPeriodId, restaurant may be closed or API might have changed`,
+    })
+    .min(1),
   Menu: z.object({
     MenuId: z.string().min(1),
     MenuPeriods: z.array(
       z.object({
-        PeriodId: z.enum(periodIds),
-        Name: z.enum(capitalizedPeriodNames),
+        PeriodId: z.string().min(1),
+        Name: z.string().min(1),
         UtcMealPeriodStartTime: z.string().min(1),
         UtcMealPeriodEndTime: z.string().min(1),
       }),
@@ -26,4 +27,4 @@ export const CampusDishResponseSchema = z.object({
   }),
 });
 
-export type CampusDishResponse = z.infer<typeof CampusDishResponseSchema>;
+export type CampusDishMenu = z.infer<typeof CampusDishMenuSchema>;

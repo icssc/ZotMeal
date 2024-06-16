@@ -1,9 +1,9 @@
+import { createTRPCRouter, publicProcedure } from "@api/trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { UserSchema } from "@zotmeal/db";
 
-import { createTRPCRouter, publicProcedure } from "../trpc";
 import { getUser, upsertUser } from "./services";
 
 const getUserProcedure = publicProcedure
@@ -12,7 +12,6 @@ const getUserProcedure = publicProcedure
     async ({ ctx: { db }, input }) =>
       await getUser(db, input.id).catch((e) => {
         if (e instanceof TRPCError) throw e;
-        console.log("error getting user with input:", input);
         console.error(e);
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
@@ -21,7 +20,7 @@ const getUserProcedure = publicProcedure
       }),
   );
 
-const upsertUserProcedure = publicProcedure.input(UserSchema).query(
+const upsertUserProcedure = publicProcedure.input(UserSchema).mutation(
   async ({ ctx: { db }, input }) =>
     await upsertUser(db, input).catch((e) => {
       if (e instanceof TRPCError) throw e;
@@ -34,6 +33,12 @@ const upsertUserProcedure = publicProcedure.input(UserSchema).query(
 );
 
 export const userRouter = createTRPCRouter({
+  /**
+   * Get a user by id.
+   */
   get: getUserProcedure,
+  /**
+   * Upsert a user.
+   */
   upsert: upsertUserProcedure,
 });

@@ -1,10 +1,10 @@
+import { apiTest } from "@api/apiTest";
 import { describe } from "vitest";
 
-import { apiTest } from "../../apiTest";
 import { upsertUser } from "./services";
 
 describe("upsertUserProcedure", () => {
-  apiTest("inserts a user", async ({ api, expect, db, testData }) => {
+  apiTest("inserts a user", async ({ api, expect, testData }) => {
     const user = await api.user.upsert(testData.user);
     expect(user).toBeDefined();
   });

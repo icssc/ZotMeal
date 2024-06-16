@@ -1,5 +1,6 @@
+import type { SizeTokens } from "tamagui";
 import React from "react";
-import { Label, Separator, SizeTokens, Switch, XStack } from "tamagui";
+import { Label, Separator, Switch, XStack } from "tamagui";
 
 /**
  *  Component from tamagui docs

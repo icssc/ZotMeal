@@ -17,7 +17,7 @@
     "prettier-plugin-tailwindcss": "^0.5.13"
   },
   "devDependencies": {
-    "@zotmeal/tsconfig": "workspace:^0.1.0",
+    "@zotmeal/tsconfig": "workspace:*",
     "typescript": "^5.4.3"
   },
   "prettier": "@zotmeal/prettier-config"

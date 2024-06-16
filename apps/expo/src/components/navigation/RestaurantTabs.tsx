@@ -8,18 +8,21 @@ import {
   View,
 } from "tamagui";
 
-import type { Restaurant } from "@zotmeal/db";
-import { getCurrentPeriodName } from "@zotmeal/utils";
-
-import { useZotmealColorScheme, useZotmealStore } from "~/utils";
+import { RestaurantInfo, useZotmealColorScheme } from "~/utils";
 
 export function RestaurantTabs({
+  restaurant,
+  setRestaurant,
+  anteateryStatus,
+  brandywineStatus,
   children,
 }: Readonly<{
+  restaurant: RestaurantInfo["name"];
+  setRestaurant: (value: RestaurantInfo["name"]) => void;
+  anteateryStatus: "closed" | "open";
+  brandywineStatus: "closed" | "open";
   children: React.ReactNode;
 }>) {
-  const { selectedRestaurant, setSelectedRestaurant } = useZotmealStore();
-
   type ImageProps = GetProps<typeof Image>;
 
   // TODO: maybe scale each image accordingly
@@ -28,13 +31,13 @@ export function RestaurantTabs({
       source: {
         uri: "https://s3-media0.fl.yelpcdn.com/bphoto/P0DIhR8cO-JxYygc3V3aaQ/348s.jpg",
       },
-      display: selectedRestaurant === "brandywine" ? "block" : "none",
+      display: restaurant === "brandywine" ? "block" : "none",
     },
     {
       source: {
         uri: "https://images.rsmdesign.com/7321bb55-579f-47fd-9f27-a6abf3e9826e.jpg",
       },
-      display: selectedRestaurant === "anteatery" ? "block" : "none",
+      display: restaurant === "anteatery" ? "block" : "none",
     },
   ] as const satisfies ImageProps[];
 
@@ -52,9 +55,9 @@ export function RestaurantTabs({
       ))}
       <View height={65} />
       <Tabs
-        value={selectedRestaurant}
+        value={restaurant}
         onValueChange={(value) =>
-          setSelectedRestaurant(value as Restaurant["name"])
+          setRestaurant(value as RestaurantInfo["name"])
         }
         orientation="horizontal"
         flexDirection="column"
@@ -67,17 +70,17 @@ export function RestaurantTabs({
               flex={1}
               height={70}
               value="brandywine"
-              opacity={selectedRestaurant === "brandywine" ? 1 : 0.5}
+              opacity={restaurant === "brandywine" ? 1 : 0.5}
             >
-              <TabSvg label="Brandywine" />
+              <TabSvg title="Brandywine" status={brandywineStatus} />
             </Tabs.Tab>
             <Tabs.Tab
               flex={1}
               height={70}
               value="anteatery"
-              opacity={selectedRestaurant === "anteatery" ? 1 : 0.5}
+              opacity={restaurant === "anteatery" ? 1 : 0.5}
             >
-              <TabSvg label="The Anteatery" />
+              <TabSvg title="The Anteatery" status={anteateryStatus} />
             </Tabs.Tab>
           </View>
         </Tabs.List>
@@ -87,18 +90,19 @@ export function RestaurantTabs({
   );
 } // Uses the svg from Figma
 
-export const TabSvg = ({ label }: Readonly<{ label: string }>) => {
+export const TabSvg = ({
+  title,
+  status,
+}: Readonly<{
+  title: string;
+  status: "closed" | "open";
+}>) => {
   const colorScheme = useZotmealColorScheme();
   const theme = useTheme();
-  const deviceWidth = useWindowDimensions().width;
+  const { width } = useWindowDimensions();
 
   return (
-    <Svg
-      width={deviceWidth / 2 + 135}
-      height="75"
-      viewBox="0 0 403 82"
-      fill="none"
-    >
+    <Svg width={width / 2 + 135} height="75" viewBox="0 0 403 82" fill="none">
       <Path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -116,21 +120,19 @@ export const TabSvg = ({ label }: Readonly<{ label: string }>) => {
           fontSize="25"
           fontWeight="bold"
         >
-          {label}
+          {title}
         </Text>
         <Text
           x="50%"
           y="60%"
-          fill={
-            getCurrentPeriodName() === "closed" ? "firebrick" : "forestgreen"
-          }
+          fill={status === "closed" ? "firebrick" : "forestgreen"}
           textAnchor="middle"
           alignmentBaseline="central"
           fontFamily="Inter"
           fontSize="18"
           fontWeight="bold"
         >
-          {getCurrentPeriodName() === "closed" ? "CLOSED" : "OPEN"}
+          {status.toUpperCase()}
         </Text>
       </G>
     </Svg>

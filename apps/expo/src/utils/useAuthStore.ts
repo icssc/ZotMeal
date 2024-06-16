@@ -1,10 +1,14 @@
 import { create } from "zustand";
 
-import { Pin, Rating, UserWithRelations } from "@zotmeal/db";
+import { appRouter } from "@zotmeal/api";
+
+export type User = Awaited<ReturnType<typeof appRouter.user.get>>;
+export type Pin = User["pins"][number];
+export type Rating = User["ratings"][number];
 
 interface AuthState {
-  user: (UserWithRelations & { pins: Pin[]; ratings: Rating[] }) | null;
-  setUser: (user: UserWithRelations) => void;
+  user: User | null;
+  setUser: (user: User) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({

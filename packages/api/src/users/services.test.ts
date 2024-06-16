@@ -1,6 +1,6 @@
+import { apiTest } from "@api/apiTest";
 import { describe } from "vitest";
 
-import { apiTest } from "../../apiTest";
 import { getUser, upsertUser } from "./services";
 
 describe("upsertUser", () => {
