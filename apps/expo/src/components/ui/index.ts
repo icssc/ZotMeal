@@ -7,3 +7,4 @@ export * from "./UniversalDatePicker";
 export * from "./EventToast";
 export * from "./DishCard";
 export * from "./StationTabs";
+export * from "./DevInfo";

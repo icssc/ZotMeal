@@ -6,9 +6,7 @@ import { pushTokens, PushTokenSchema } from "@zotmeal/db";
 
 export const registerPushToken = publicProcedure
   .input(PushTokenSchema)
-  .query(async ({ ctx, input }) => {
-    const { db } = ctx;
-
+  .query(async ({ ctx: { db }, input }) => {
     if (!Expo.isExpoPushToken(input.token)) {
       console.error("pushToken", pushTokens);
       throw new TRPCError({

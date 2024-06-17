@@ -1,9 +1,8 @@
 import React from "react";
-import { Platform } from "react-native";
-import { AlertTriangle, RefreshCw } from "@tamagui/lucide-icons";
-import { addDays, isWithinInterval } from "date-fns";
+import { Platform, RefreshControl } from "react-native";
+import { AlertTriangle } from "@tamagui/lucide-icons";
+import { isWithinInterval } from "date-fns";
 import {
-  Button,
   ScrollView,
   Spinner,
   Tabs,
@@ -23,7 +22,7 @@ import { UniversalDatePicker } from "../components/ui/UniversalDatePicker";
 
 export default function Home() {
   const theme = useTheme();
-  const [date, setDate] = React.useState(addDays(new Date(), -1));
+  const [date, setDate] = React.useState<Date>(new Date());
   const [period, setPeriod] = React.useState<string | null>(null);
   const [restaurant, setRestaurant] =
     React.useState<keyof ZotmealData>("brandywine");
@@ -68,9 +67,13 @@ export default function Home() {
   );
 
   // ! Not sure if this is actually working but we do want debouncing for the refresh button
-  const refetchWithDebounce = useDebounce(() => query.refetch(), 1000, {
-    leading: true,
-  });
+  const refetchWithDebounce = useDebounce(
+    async () => await query.refetch(),
+    1000,
+    {
+      leading: true,
+    },
+  );
 
   // const toast = useToastController();
   // useEffect(() => {
@@ -87,12 +90,13 @@ export default function Home() {
   // }, [data, toast]);
   // TODO: show a toast if there is an error
 
-  const brandywineMenuAtPeriod = brandywineInfo?.menus.find(
+  // Get the stations for the current period
+  const brandywineStations = brandywineInfo?.menus.find(
     (menu) => menu.period.name === period,
-  );
-  const anteateryMenuAtPeriod = anteateryInfo?.menus.find(
+  )?.stations;
+  const anteateryStations = anteateryInfo?.menus.find(
     (menu) => menu.period.name === period,
-  );
+  )?.stations;
 
   // TODO: make it not possible to click into the menu if it's loading
   const MenuContent = () => (
@@ -113,8 +117,8 @@ export default function Home() {
             marginVertical={200}
           />
         ) : null}
-        {brandywineInfo && brandywineMenuAtPeriod ? (
-          <StationTabs stations={brandywineMenuAtPeriod?.stations} />
+        {brandywineInfo && brandywineStations ? (
+          <StationTabs stations={brandywineStations} />
         ) : query.isPending ? null : (
           <View alignItems="center">
             <AlertTriangle size="$10" />
@@ -138,8 +142,8 @@ export default function Home() {
             marginVertical={200}
           />
         ) : null}
-        {anteateryInfo && anteateryMenuAtPeriod ? (
-          <StationTabs stations={anteateryMenuAtPeriod?.stations} />
+        {anteateryInfo && anteateryStations ? (
+          <StationTabs stations={anteateryStations} />
         ) : query.isPending ? null : (
           <View alignItems="center">
             <AlertTriangle size="$10" />
@@ -157,7 +161,20 @@ export default function Home() {
       anteateryStatus={currentAnteateryPeriod ? "open" : "closed"}
       brandywineStatus={currentBrandywinePeriod ? "open" : "closed"}
     >
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            /**
+             * ! The indicator is hidden for now since it doesn't seem to show up on state change for the date.
+             * If there is a way to show this indicator when the user changes the date, we can use this indicator instead.
+             *
+             * @see https://github.com/facebook/react-native/issues/24855
+             */
+            refreshing={false}
+            onRefresh={refetchWithDebounce}
+          />
+        }
+      >
         <EventToast />
 
         <XStack
@@ -170,19 +187,7 @@ export default function Home() {
             setPeriod={setPeriod}
             color={theme.color?.val as string}
           />
-          <UniversalDatePicker
-            date={date}
-            setDate={(date) => {
-              setDate(date);
-              refetchWithDebounce();
-            }}
-          />
-          <Button
-            disabled={query.isLoading}
-            opacity={query.isLoading ? 0.5 : 1}
-            onPress={refetchWithDebounce}
-            icon={<RefreshCw />}
-          />
+          <UniversalDatePicker date={date} setDate={setDate} />
         </XStack>
         {/*
         <ScrollView horizontal>

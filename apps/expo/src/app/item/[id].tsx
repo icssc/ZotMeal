@@ -69,9 +69,9 @@ export default function MenuItem() {
 
   const NutritionFacts = ({
     nutritionInfo,
-  }: {
+  }: Readonly<{
     nutritionInfo: NutritionInfo;
-  }) => (
+  }>) => (
     <YStack
       padding="$3"
       borderWidth={2}

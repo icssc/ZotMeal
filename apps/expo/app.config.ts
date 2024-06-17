@@ -1,12 +1,14 @@
-import type { ExpoConfig } from "expo/config";
+import type { ConfigContext, ExpoConfig } from "expo/config";
 
 const image = "./assets/zotmeal.png";
+const name = "ZotMeal";
 const backgroundColor = "#161B22";
 
-const defineConfig = (): ExpoConfig => ({
-  name: "expo",
-  slug: "expo",
-  scheme: "expo",
+export default ({ config }: ConfigContext): ExpoConfig => ({
+  ...config,
+  name,
+  slug: name.toLowerCase(),
+  scheme: name.toLowerCase(),
   version: "0.1.0",
   orientation: "portrait",
   icon: image,
@@ -43,5 +45,3 @@ const defineConfig = (): ExpoConfig => ({
   },
   plugins: ["expo-router", "expo-font"],
 });
-
-export default defineConfig;

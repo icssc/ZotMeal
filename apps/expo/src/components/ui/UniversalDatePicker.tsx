@@ -16,7 +16,9 @@ export const UniversalDatePicker = ({
   date,
   setDate,
 }: Readonly<{ date: Date; setDate: (date: Date) => void }>) => {
-  const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
+  const [showDatePicker, setShowDatePicker] = useState<boolean>(
+    Platform.OS === "ios",
+  );
 
   return (
     <>
@@ -41,9 +43,7 @@ export const UniversalDatePicker = ({
           onChange={(_, selectedDate) => {
             // hide date picker on android
             setShowDatePicker(Platform.OS === "ios");
-            if (selectedDate) {
-              setDate(selectedDate);
-            }
+            if (selectedDate) setDate(selectedDate);
           }}
         />
       )}
