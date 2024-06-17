@@ -17,34 +17,37 @@ export const functions: AWS["functions"] = {
   },
   testLog: {
     handler: "src/functions/cron/testLog.main",
+    description: "Log a test message",
     events: [
       {
         schedule: {
-          rate: ["cron(* * * * ? *)"], //Runs every min. https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-cron-expressions.html
+          rate: ["cron(* * * * ? *)"], // Runs every min. https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-cron-expressions.html
           enabled: true,
         },
       },
     ],
   },
-  getWeekly: {
-    handler: "src/functions/cron/getWeeklyHandler.main",
+  weekly: {
+    handler: "src/functions/cron/weekly.main",
+    description: "Fetch and process weekly data",
     timeout: 600,
     events: [
       {
         schedule: {
-          rate: ["cron(0 0 ? * 1 *)"], //Runs at 00:00 on Sunday. https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-cron-expressions.html
+          rate: ["cron(0 0 ? * 1 *)"], // Runs at 00:00 on Sunday. https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-cron-expressions.html
           enabled: true,
         },
       },
     ],
   },
-  updateDaily: {
-    handler: "src/functions/cron/updateDailyHandler.main",
+  daily: {
+    handler: "src/functions/cron/daily.main",
+    description: "Fetch and process daily data",
     timeout: 600,
     events: [
       {
         schedule: {
-          rate: ["cron(0 0 * * ? *)"], //Run daily at 00:00. https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-cron-expressions.html
+          rate: ["cron(0 0 * * ? *)"], // Run daily at 00:00. https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-cron-expressions.html
           enabled: true,
         },
       },

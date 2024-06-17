@@ -1,16 +1,28 @@
 import { useState } from "react";
 import { Star, StarFull } from "@tamagui/lucide-icons";
-import { Adapt, Button, H4, Popover, Text, XStack, YStack } from "tamagui";
+import {
+  Adapt,
+  Button,
+  H4,
+  Popover,
+  Spinner,
+  Text,
+  XStack,
+  YStack,
+} from "tamagui";
 
-import type { DishWithRelations } from "@zotmeal/db";
+import type { Dish } from "~/utils";
+import { useAuthStore } from "~/utils";
+import { api } from "~/utils/api";
 
-export default function RateItem({
-  item,
-}: Readonly<{ item: DishWithRelations }>) {
-  // const [rating, setRating] = useState<number>(item.rating ?? 0);
+export default function RateItem({ item }: Readonly<{ item: Dish }>) {
   const [rating, setRating] = useState<number>(0);
-  const [isAuthenticated] = useState<boolean>(true); // TODO: replace with actual auth check
-  const [userRated, setUserRated] = useState<boolean>(false); // TODO: replace with actual user rating check
+  const { user } = useAuthStore();
+
+  const rateMutation = api.dish.rate.useMutation();
+
+  // const userRated = user?.ratings.some((r) => r.dishId === item.id) ?? false;
+  const userRated = false;
 
   return (
     <Popover placement="bottom" allowFlip>
@@ -21,10 +33,17 @@ export default function RateItem({
           paddingHorizontal="unset"
           icon={<StarFull color="gold" size="$1" />}
         >
-          5.0
-          <Text color="gray" fontWeight="normal">
-            (10,000 reviews)
-          </Text>
+          {item.totalRating && item.numRatings ? (
+            <>
+              {item.totalRating / item.numRatings}
+              /5.0
+              <Text color="gray" fontWeight="normal">
+                {item.numRatings} reviews
+              </Text>
+            </>
+          ) : (
+            "Rate"
+          )}
         </Button>
       </Popover.Trigger>
       <Adapt when={"sm" as unknown as undefined} platform="touch">
@@ -75,23 +94,30 @@ export default function RateItem({
           </XStack>
           <Popover.Close asChild>
             <Button
-              disabled={!isAuthenticated || !rating}
-              opacity={rating ? 1 : 0.5}
+              // disabled={!user || !rating || rateMutation.isPending}
+              disabled={!rating || rateMutation.isPending}
+              opacity={user && rating && !rateMutation.isPending ? 1 : 0.5}
               size="$5"
               fontWeight="800"
               paddingHorizontal="$5"
               borderRadius="$10"
+              icon={rateMutation.isPending ? <Spinner /> : undefined}
               onPress={() => {
-                /* Custom code goes here, does not interfere with popover closure */
-                // TODO: submit rating
-                setUserRated(true);
+                if (!user) return;
+                rateMutation.mutate({
+                  dishId: item.id,
+                  userId: "some-user-id",
+                  rating,
+                });
               }}
             >
-              {isAuthenticated
-                ? userRated
-                  ? "Resubmit"
-                  : "Submit"
-                : "Login to Rate"}
+              {rateMutation.isPending
+                ? ""
+                : user
+                  ? userRated
+                    ? "Resubmit"
+                    : "Submit"
+                  : "Login to Rate"}
             </Button>
           </Popover.Close>
         </YStack>

@@ -18,17 +18,17 @@ export function PinButton({ dishName, ...props }: PinButtonProps) {
   };
 
   useEffect(() => {
-    const readItemFromStorage = async () => {
+    async function readItemFromStorage() {
       const item = await getItem();
       if (!item) return;
 
       const parsedItem = JSON.parse(item) as Record<string, boolean>;
 
       setPinnedItems(parsedItem);
-    };
+    }
 
     readItemFromStorage().catch(console.error);
-  }, [getItem]);
+  }, []);
 
   return (
     <Button

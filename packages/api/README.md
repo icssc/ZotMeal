@@ -1,1 +1,1 @@
-# `@zotmeal/test`
+# `@zotmeal/api`

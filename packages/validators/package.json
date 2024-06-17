@@ -14,14 +14,13 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@zotmeal/db": "workspace:^",
-    "@zotmeal/utils": "workspace:^",
+    "@zotmeal/db": "workspace:*",
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@zotmeal/eslint-config": "workspace:^",
-    "@zotmeal/prettier-config": "workspace:^0.1.0",
-    "@zotmeal/tsconfig": "workspace:^0.1.0",
+    "@zotmeal/eslint-config": "workspace:*",
+    "@zotmeal/prettier-config": "workspace:*",
+    "@zotmeal/tsconfig": "workspace:*",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
     "typescript": "^5.4.3"

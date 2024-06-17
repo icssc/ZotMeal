@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Platform } from "react-native";
 import Constants from "expo-constants";
+import { useAuth } from "@clerk/clerk-expo";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink, loggerLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
@@ -20,7 +21,10 @@ export { type RouterInputs, type RouterOutputs } from "@zotmeal/api";
  * Extend this function when going to production by
  * setting the baseUrl to your production API URL.
  */
-const getBaseUrl = () => {
+export const getBaseUrl = () => {
+  if (Platform.OS === "web") return "http://localhost:3000";
+  if (Platform.OS === "android") return `http://10.0.2.2:3000`;
+
   /**
    * Gets the IP address of your host-machine. If it cannot automatically find it,
    * you'll have to manually set it. NOTE: Port 3000 should work for most but confirm
@@ -30,11 +34,10 @@ const getBaseUrl = () => {
    * baseUrl to your production API URL.
    */
   const debuggerHost = Constants.expoConfig?.hostUri;
-  // const localhost = debuggerHost?.split(":")[0];
+  const localhost = debuggerHost?.split(":")[0];
 
-  if (env.NODE_ENV === "production") {
-    return env.API_URL;
-  }
+  if (env.NODE_ENV === "production") return env.API_URL;
+
   // if (!localhost) {
   //   // return "https://turbo.t3.gg";
   //   throw new Error(
@@ -42,9 +45,7 @@ const getBaseUrl = () => {
   //   );
   // }
 
-  if (Platform.OS === "android") return `http://10.0.2.2:3000`;
-
-  return `http://localhost:3000`;
+  return `http://${localhost}:3000`;
 };
 
 /**
@@ -52,19 +53,18 @@ const getBaseUrl = () => {
  * Use only in _app.tsx
  */
 export function TRPCProvider(props: { children: React.ReactNode }) {
+  const { getToken } = useAuth();
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() => {
-    const url = getBaseUrl();
     return api.createClient({
       links: [
         httpBatchLink({
-          url,
+          url: getBaseUrl(),
           transformer: superjson,
-          headers() {
-            const headers = new Map<string, string>();
-            headers.set("x-trpc-source", "expo-react");
-            return Object.fromEntries(headers);
-          },
+          headers: async () => ({
+            Authorization: (await getToken()) ?? undefined,
+            "x-trpc-source": `expo-react-${Platform.OS}`,
+          }),
         }),
         loggerLink({
           enabled: (opts) =>

@@ -7,16 +7,15 @@
     "with-env": "dotenv -e .env.development -- ",
     "dev": "pnpm with-env sls offline --noPrependStageInUrl --host 127.0.0.1",
     "deploy": "pnpm with-env AWS_PROFILE=icssc sls deploy --stage production",
-    "test:daily": "pnpm with-env sls invoke local --function updateDaily | pino-pretty",
-    "test:weekly": "pnpm with-env sls invoke local --function getWeekly | pino-pretty"
+    "test:daily": "pnpm with-env sls invoke local --function daily | pino-pretty",
+    "test:weekly": "pnpm with-env sls invoke local --function weekly | pino-pretty"
   },
   "license": "MIT",
   "dependencies": {
     "@aws-sdk/client-scheduler": "^3.540.0",
-    "@zotmeal/api": "workspace:^",
-    "@zotmeal/db": "workspace:^",
-    "@zotmeal/utils": "workspace:^",
-    "@zotmeal/validators": "workspace:^",
+    "@zotmeal/api": "workspace:*",
+    "@zotmeal/db": "workspace:*",
+    "@zotmeal/validators": "workspace:*",
     "axios": "^1.6.8",
     "date-fns": "^3.6.0",
     "expo-server-sdk": "^3.9.0",
@@ -27,7 +26,7 @@
     "@serverless/typescript": "^3.38.0",
     "@types/aws-lambda": "^8.10.136",
     "@types/node": "^20.13.0",
-    "@zotmeal/eslint-config": "workspace:^",
+    "@zotmeal/eslint-config": "workspace:*",
     "dotenv-cli": "^7.4.1"
   }
 }
