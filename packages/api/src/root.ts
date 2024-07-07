@@ -13,8 +13,10 @@ export const appRouter = createTRPCRouter({
   dish: dishRouter,
   notification: notificationRouter,
   user: userRouter,
+  /** Returns "Hello, world!" */
   hello: publicProcedure.query(() => "Hello, world!"),
-  getZotmeal: publicProcedure.input(z.object({ date: z.date() })).query(
+  /** Get all information about restaurants on a given date. */
+  zotmeal: publicProcedure.input(z.object({ date: z.date() })).query(
     async ({ ctx: { db }, input: { date } }) =>
       await getRestaurantsByDate(db, date).catch((error) => {
         if (error instanceof TRPCError) throw error;

@@ -28,7 +28,7 @@ describe("getEvents", () => {
       expect(eventFuture.end >= new Date()).toBeTruthy();
       expect(eventPast.end >= new Date()).toBeFalsy();
 
-      const events = await api.event.getAllUpcoming();
+      const events = await api.event.upcoming();
 
       expect(events).toHaveLength(2); // should not include the past event
 

@@ -13,6 +13,7 @@ const isNotQueryResultNever = <T extends TableConfig>(
   result: unknown,
 ): result is PgTableWithColumns<T>["$inferSelect"][] => Array.isArray(result);
 
+/** Convenience function to upsert a record in a table. */
 export async function upsert<T extends TableConfig>(
   db: Drizzle,
   table: PgTableWithColumns<T>,
@@ -30,8 +31,7 @@ export async function upsert<T extends TableConfig>(
       `upsert: no result for table '${table._.name}' with config ${JSON.stringify(config)}`,
     );
 
-  const upsertedRow = result[0];
-  if (!upsertedRow) throw new Error("upsert: no result");
+  if (!result[0]) throw new Error("upsert: no result");
 
-  return upsertedRow;
+  return result[0];
 }

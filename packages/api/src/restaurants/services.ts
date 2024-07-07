@@ -21,8 +21,11 @@ export const upsertRestaurant = async (db: Drizzle, restaurant: Restaurant) =>
     set: restaurant,
   });
 
+/** Restaurant information for a given date. */
 interface RestaurantInfo extends Restaurant {
+  /** Events that are happening today or later. */
   events: Event[];
+  /** List of menus for each period. */
   menus: (Menu & {
     period: Period;
     stations: (Station & {
@@ -36,6 +39,7 @@ interface RestaurantInfo extends Restaurant {
   })[];
 }
 
+/** Data object to be given to the client. */
 interface ZotmealData {
   anteatery: RestaurantInfo;
   brandywine: RestaurantInfo;
@@ -51,6 +55,7 @@ export async function getRestaurantsByDate(
 ): Promise<ZotmealData> {
   const restaurants = await db.query.restaurants.findMany({
     with: {
+      /** Get menus that correspond to the given date. */
       menus: {
         where: (menus, { eq }) => eq(menus.date, format(date, "yyyy-MM-dd")),
         with: {
@@ -67,6 +72,7 @@ export async function getRestaurantsByDate(
           },
         },
       },
+      /** Get events that are happening today or later. */
       events: {
         where: (events, { gte }) => gte(events.end, new Date()),
       },

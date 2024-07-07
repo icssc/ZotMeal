@@ -118,9 +118,8 @@ export async function handleNotificationReceipts(
         // notification and information about an error, if one occurred.
         for (const receiptId in receipts) {
           const { status, details } = receipts[receiptId]!;
-          if (status === "ok") {
-            continue;
-          } else if (status === "error") {
+          if (status === "ok") continue;
+          else if (status === "error") {
             const { message } = receipts[receiptId] as ExpoPushErrorReceipt;
             console.error(
               `There was an error sending a notification: ${message}`,

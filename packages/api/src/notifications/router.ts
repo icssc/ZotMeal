@@ -4,7 +4,7 @@ import { TRPCError } from "@trpc/server";
 
 import { pushTokens, PushTokenSchema } from "@zotmeal/db";
 
-export const registerPushToken = publicProcedure
+const registerPushToken = publicProcedure
   .input(PushTokenSchema)
   .query(async ({ ctx: { db }, input }) => {
     if (!Expo.isExpoPushToken(input.token)) {
@@ -14,15 +14,10 @@ export const registerPushToken = publicProcedure
         code: "BAD_REQUEST",
       });
     }
-
-    // insert into the database
-
     await db.insert(pushTokens).values(input);
   });
 
 export const notificationRouter = createTRPCRouter({
-  /**
-   * Register a push token.
-   */
+  /** Register a push token and save it to the database. */
   register: registerPushToken,
 });

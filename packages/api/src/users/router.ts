@@ -33,12 +33,8 @@ const upsertUserProcedure = publicProcedure.input(UserSchema).mutation(
 );
 
 export const userRouter = createTRPCRouter({
-  /**
-   * Get a user by id.
-   */
+  /** Get a user by id. */
   get: getUserProcedure,
-  /**
-   * Upsert a user.
-   */
+  /** Upsert a user. */
   upsert: upsertUserProcedure,
 });

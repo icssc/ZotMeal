@@ -7,7 +7,7 @@ import { z } from "zod";
 
 import { dishes, RatingSchema } from "@zotmeal/db";
 
-export const getDishProcedure = publicProcedure
+const getDishProcedure = publicProcedure
   .input(z.object({ id: z.string() }))
   .query(async ({ ctx: { db }, input }) => {
     const dish = await db.query.dishes.findFirst({
@@ -23,7 +23,7 @@ export const getDishProcedure = publicProcedure
     return dish;
   });
 
-export const rateDishProcedure = publicProcedure
+const rateDishProcedure = publicProcedure
   .input(RatingSchema)
   .mutation(async ({ ctx: { db }, input }) => {
     const dish = await db.query.dishes.findFirst({
@@ -58,24 +58,18 @@ export const rateDishProcedure = publicProcedure
       .where(eq(dishes.id, rating.dishId))
       .returning();
 
-    const updatedDish = updateDishResult[0];
-
-    if (!updatedDish || updateDishResult.length !== 1)
+    if (!updateDishResult[0])
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: "failed to update dish",
       });
 
-    return rating;
+    return updateDishResult[0];
   });
 
 export const dishRouter = createTRPCRouter({
-  /**
-   * Get a dish by its id.
-   */
+  /** Get a dish by its id. */
   get: getDishProcedure,
-  /**
-   * Rate a dish.
-   */
+  /** Rate a dish. */
   rate: rateDishProcedure,
 });

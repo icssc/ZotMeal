@@ -15,9 +15,15 @@ export const main = async (_event, _context) => {
       ssl,
     });
 
-    await Promise.allSettled(
+    const results = await Promise.allSettled(
       restaurantNames.map((restaurant) => daily(db, new Date(), restaurant)),
     );
+
+    // log errors if any
+    results.forEach((result) => {
+      if (result.status === "rejected")
+        logger.error("daily() failed:", result.reason);
+    });
   } catch (error) {
     logger.error(error, "Failed to execute daily task");
   } finally {
