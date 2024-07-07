@@ -32,7 +32,6 @@
     "pino": "^8.20.0",
     "pino-pretty": "^11.0.0",
     "postgres": "^3.4.4",
-    "tsx": "^4.7.1",
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -43,7 +42,7 @@
     "drizzle-kit": "^0.22.1",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
-    "typescript": "^5.4.3"
+    "typescript": "^5.5.3"
   },
   "eslintConfig": {
     "root": true,
