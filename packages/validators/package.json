@@ -15,15 +15,15 @@
   },
   "dependencies": {
     "@zotmeal/db": "workspace:*",
-    "zod": "^3.22.4"
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@zotmeal/eslint-config": "workspace:*",
     "@zotmeal/prettier-config": "workspace:*",
     "@zotmeal/tsconfig": "workspace:*",
-    "eslint": "^8.57.0",
-    "prettier": "^3.2.5",
-    "typescript": "^5.5.3"
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:"
   },
   "eslintConfig": {
     "extends": [

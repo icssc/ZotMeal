@@ -24,25 +24,25 @@
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^0.9.0",
-    "dotenv-cli": "^7.4.1",
-    "drizzle-orm": "^0.31.0",
-    "drizzle-zod": "^0.5.1",
-    "pg": "^8.11.3",
-    "pino": "^8.20.0",
-    "pino-pretty": "^11.0.0",
-    "postgres": "^3.4.4",
-    "zod": "^3.22.4"
+    "@neondatabase/serverless": "catalog:",
+    "dotenv-cli": "catalog:",
+    "drizzle-orm": "catalog:",
+    "drizzle-zod": "catalog:",
+    "pg": "catalog:",
+    "pino": "catalog:",
+    "pino-pretty": "catalog:",
+    "postgres": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
-    "@types/pg": "^8.11.2",
+    "@types/pg": "catalog:",
     "@zotmeal/eslint-config": "workspace:*",
     "@zotmeal/prettier-config": "workspace:*",
     "@zotmeal/tsconfig": "workspace:*",
-    "drizzle-kit": "^0.22.1",
-    "eslint": "^8.57.0",
-    "prettier": "^3.2.5",
-    "typescript": "^5.5.3"
+    "drizzle-kit": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:"
   },
   "eslintConfig": {
     "root": true,
