@@ -1,4 +1,6 @@
 import { apiTest } from "@api/apiTest";
+import { upsertRestaurant } from "@api/restaurants/services";
+import { upsertStation } from "@api/stations/services";
 import { testData } from "@api/testData";
 import { upsertUser } from "@api/users/services";
 import { TRPCError } from "@trpc/server";
@@ -6,8 +8,10 @@ import { describe } from "vitest";
 
 import { upsertDish } from "./services";
 
-describe("getDishProcedure", () => {
+describe("dish.get", () => {
   apiTest("gets a dish", async ({ api, expect, db, testData }) => {
+    await upsertRestaurant(db, testData.brandywine);
+    await upsertStation(db, testData.station);
     await upsertDish(db, testData.dish);
     const result = await api.dish.get({
       id: testData.dish.id,
@@ -26,9 +30,11 @@ describe("getDishProcedure", () => {
   });
 });
 
-describe("rateDishProcedure", () => {
+describe("dish.rate", () => {
   const dishId = `${testData.dish.id}2` as const; // TODO: temporary workaround since db is dirtied between tests. should clear db after procedure tests
   apiTest("rates a dish", async ({ api, expect, testData, db }) => {
+    // await upsertRestaurant(db, testData.brandywine);
+    // await upsertStation(db, testData.station);
     await upsertDish(db, {
       ...testData.dish,
       id: dishId,
@@ -41,8 +47,8 @@ describe("rateDishProcedure", () => {
     const fetchedDish = await api.dish.get({
       id: testData.dish.id,
     });
-    expect(result.dishId).toEqual(testData.dish.id);
-    expect(result.rating).toEqual(fetchedDish.totalRating);
+    expect(result.id).toEqual(testData.dish.id);
+    expect(result.totalRating).toEqual(fetchedDish.totalRating);
     expect(fetchedDish.numRatings).toEqual(1);
   });
 

@@ -70,6 +70,6 @@ const rateDishProcedure = publicProcedure
 export const dishRouter = createTRPCRouter({
   /** Get a dish by its id. */
   get: getDishProcedure,
-  /** Rate a dish. */
+  /** Rate a dish and return the updated dish. */
   rate: rateDishProcedure,
 });

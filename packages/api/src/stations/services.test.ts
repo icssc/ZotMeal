@@ -10,8 +10,6 @@ describe("upsertStation", () => {
     await expect(
       db.transaction(async (trx) => {
         await upsertRestaurant(trx, testData.brandywine);
-        await upsertMenu(trx, testData.menu);
-
         const result = await upsertStation(trx, testData.station);
         expect(result.id).toEqual(testData.station.id);
         expect(result.name).toEqual(testData.station.name);
@@ -24,8 +22,6 @@ describe("upsertStation", () => {
     await expect(
       db.transaction(async (trx) => {
         await upsertRestaurant(trx, testData.brandywine);
-        await upsertMenu(trx, testData.menu);
-
         await upsertStation(trx, testData.station);
         const result = await upsertStation(trx, {
           ...testData.station,
