@@ -77,7 +77,7 @@ catalog:
   prettier: ^3.2.5
   prettier-plugin-tailwindcss: ^0.5.13
   react-datepicker: ^6.9.0
-  react-native: ~0.74.2
+  react-native: ~0.74.3
   react-native-css-interop: ~0.0.34
   react-native-gesture-handler: ~2.16.2
   react-native-reanimated: ~3.10.1
