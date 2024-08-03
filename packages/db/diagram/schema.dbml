@@ -1,0 +1,185 @@
+enum restaurant_id_enum {
+  3056
+  3314
+}
+
+enum restaurant_name_enum {
+  anteatery
+  brandywine
+}
+
+table diet_restrictions {
+  dish_id text [pk, not null]
+  contains_eggs boolean
+  contains_fish boolean
+  contains_milk boolean
+  contains_peanuts boolean
+  contains_sesame boolean
+  contains_shellfish boolean
+  contains_soy boolean
+  contains_tree_nuts boolean
+  contains_wheat boolean
+  is_gluten_free boolean
+  is_halal boolean
+  is_kosher boolean
+  is_locally_grown boolean
+  is_organic boolean
+  is_vegan boolean
+  is_vegetarian boolean
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp
+}
+
+table dishes {
+  id text [pk, not null]
+  station_id text [not null]
+  name text [not null]
+  description text [not null]
+  category text [not null, default: 'Other']
+  num_ratings integer [not null, default: 0]
+  total_rating integer [not null, default: 0]
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp
+}
+
+table dishes_to_menus {
+  menu_id text [not null]
+  dish_id text [not null]
+
+  indexes {
+    (menu_id, dish_id) [pk]
+  }
+}
+
+table events {
+  title text [not null]
+  image text
+  restaurant_id restaurant_id_enum [not null]
+  short_description text
+  long_description text
+  start timestamp [not null]
+  end timestamp [not null]
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp
+
+  indexes {
+    (title, restaurant_id, start) [pk]
+  }
+}
+
+table menus {
+  id text [pk, not null]
+  period_id text [not null]
+  date date [not null]
+  restaurant_id restaurant_id_enum [not null]
+  price text [not null]
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp
+}
+
+table nutrition_infos {
+  dish_id text [pk, not null]
+  serving_size text
+  serving_unit text
+  calories text
+  calories_from_fat text
+  total_fat_g text
+  trans_fat_g text
+  saturated_fat_g text
+  cholesterol_mg text
+  sodium_mg text
+  total_carbs_g text
+  dietary_fiber_g text
+  sugars_mg text
+  protein_g text
+  vitamin_a_iu text
+  vitamin_c_iu text
+  calcium_mg text
+  iron_mg text
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp
+}
+
+table periods {
+  id text [pk, not null]
+  start time [not null]
+  end time [not null]
+  name text [not null]
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp
+}
+
+table pins {
+  user_id text [not null]
+  dish_id text [not null]
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp
+
+  indexes {
+    (user_id, dish_id) [pk]
+  }
+}
+
+table push_tokens {
+  token text [pk, not null]
+}
+
+table ratings {
+  user_id text [not null]
+  dish_id text [not null]
+  rating smallint [not null]
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp
+
+  indexes {
+    (user_id, dish_id) [pk]
+  }
+}
+
+table restaurants {
+  id restaurant_id_enum [pk, not null]
+  name restaurant_name_enum [not null]
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp
+}
+
+table stations {
+  id text [pk, not null]
+  name text [not null]
+  restaurant_id restaurant_id_enum [not null]
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp
+}
+
+table users {
+  id text [pk, not null]
+  name text [not null]
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp
+}
+
+ref: dishes.station_id > stations.id
+
+ref: dishes.id - diet_restrictions.dish_id
+
+ref: dishes.id - nutrition_infos.dish_id
+
+ref: dishes_to_menus.dish_id > dishes.id
+
+ref: dishes_to_menus.menu_id > menus.id
+
+ref: events.restaurant_id > restaurants.id
+
+ref: menus.restaurant_id > restaurants.id
+
+ref: menus.period_id - periods.id
+
+ref: pins.dish_id - dishes.id
+
+ref: pins.user_id > users.id
+
+ref: ratings.dish_id - dishes.id
+
+ref: ratings.user_id > users.id
+
+ref: stations.restaurant_id > restaurants.id

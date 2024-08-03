@@ -21,11 +21,13 @@
     "db:studio": "pnpm with-env drizzle-kit studio --port 3000 --verbose",
     "db:drop": "pnpm with-env drizzle-kit drop",
     "db:check": "pnpm with-env drizzle-kit check",
+    "db:diagram": "pnpx tsx dbml.ts && pnpx @softwaretechnik/dbml-renderer -i diagram/schema.dbml -o diagram/erd.svg",
     "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
     "@neondatabase/serverless": "catalog:",
     "dotenv-cli": "catalog:",
+    "drizzle-dbml-generator": "catalog:",
     "drizzle-orm": "catalog:",
     "drizzle-zod": "catalog:",
     "pg": "catalog:",
