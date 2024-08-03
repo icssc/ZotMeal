@@ -6,6 +6,7 @@ import { Button, Text, View } from "tamagui";
 import { getBaseUrl } from "~/utils/api";
 import { env } from "~/utils/env";
 
+/** Utility component to show dev info in the bottom right corner. */
 export function DevInfo() {
   const [open, setOpen] = React.useState(false);
 

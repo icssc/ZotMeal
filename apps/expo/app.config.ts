@@ -33,6 +33,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       backgroundColor,
     },
   },
+  web: {
+    favicon: image,
+  },
   extra: {
     eas: {
       projectId: "e5b5d2cd-098b-4fe4-85ed-ac05e395552d", // dennis' project id for now

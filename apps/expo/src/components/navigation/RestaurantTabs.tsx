@@ -10,6 +10,13 @@ import {
 
 import { RestaurantInfo, useZotmealColorScheme } from "~/utils";
 
+type ImageProps = GetProps<typeof Image>;
+
+/**
+ * Tabs to select between the two restaurants.
+ *
+ * Uses the state given by its parent to determine which restaurant is selected.
+ */
 export function RestaurantTabs({
   restaurant,
   setRestaurant,
@@ -23,21 +30,19 @@ export function RestaurantTabs({
   brandywineStatus: "closed" | "open";
   children: React.ReactNode;
 }>) {
-  type ImageProps = GetProps<typeof Image>;
-
   // TODO: maybe scale each image accordingly
   const imageProps = [
     {
       source: {
         uri: "https://s3-media0.fl.yelpcdn.com/bphoto/P0DIhR8cO-JxYygc3V3aaQ/348s.jpg",
       },
-      display: restaurant === "brandywine" ? "block" : "none",
+      opacity: restaurant === "brandywine" ? 1 : 0,
     },
     {
       source: {
         uri: "https://images.rsmdesign.com/7321bb55-579f-47fd-9f27-a6abf3e9826e.jpg",
       },
-      display: restaurant === "anteatery" ? "block" : "none",
+      opacity: restaurant === "anteatery" ? 1 : 0,
     },
   ] as const satisfies ImageProps[];
 
@@ -67,18 +72,22 @@ export function RestaurantTabs({
         <Tabs.List borderRadius="$20" flexDirection="column">
           <View width="100%" flexDirection="row">
             <Tabs.Tab
+              unstyled
               flex={1}
-              height={70}
+              height={75}
               value="brandywine"
               opacity={restaurant === "brandywine" ? 1 : 0.5}
+              background="transparent"
             >
               <TabSvg title="Brandywine" status={brandywineStatus} />
             </Tabs.Tab>
             <Tabs.Tab
+              unstyled
               flex={1}
-              height={70}
+              height={75}
               value="anteatery"
               opacity={restaurant === "anteatery" ? 1 : 0.5}
+              background="transparent"
             >
               <TabSvg title="The Anteatery" status={anteateryStatus} />
             </Tabs.Tab>
@@ -88,13 +97,16 @@ export function RestaurantTabs({
       </Tabs>
     </>
   );
-} // Uses the svg from Figma
+}
 
+/** Tab component for a restaurant. Uses the tab svg from Figma. */
 export const TabSvg = ({
   title,
   status,
 }: Readonly<{
+  /** The title of the restaurant, e.g. `Brandywine`. */
   title: string;
+  /** The status of the restaurant, e.g. `closed`. */
   status: "closed" | "open";
 }>) => {
   const colorScheme = useZotmealColorScheme();
@@ -111,26 +123,26 @@ export const TabSvg = ({
       />
       <G>
         <Text
-          x="50%"
+          x="46.5%"
           y="30%"
           fill={theme.color?.val as string}
           textAnchor="middle"
           alignmentBaseline="central"
           fontFamily="Inter"
-          fontSize="25"
-          fontWeight="bold"
+          fontSize="23"
+          fontWeight="500"
         >
           {title}
         </Text>
         <Text
-          x="50%"
+          x="46.5%"
           y="60%"
           fill={status === "closed" ? "firebrick" : "forestgreen"}
           textAnchor="middle"
           alignmentBaseline="central"
           fontFamily="Inter"
-          fontSize="18"
-          fontWeight="bold"
+          fontSize="17"
+          fontWeight="500"
         >
           {status.toUpperCase()}
         </Text>

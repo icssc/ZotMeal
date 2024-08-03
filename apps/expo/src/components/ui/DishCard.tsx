@@ -3,8 +3,8 @@ import { StarFull } from "@tamagui/lucide-icons";
 import { Image, ListItem, Text, View, XStack, YGroup, YStack } from "tamagui";
 
 import type { Dish } from "~/utils";
-import { PinButton } from "~/components";
 import { testDishImages } from "../menu/testDishImages";
+import { PinButton } from "./PinButton";
 
 export const DishCard = ({
   dish,

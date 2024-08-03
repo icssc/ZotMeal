@@ -10,8 +10,8 @@ import { ClerkProvider } from "@clerk/clerk-expo";
 import { ToastProvider, ToastViewport } from "@tamagui/toast";
 import { createTamagui, TamaguiProvider, Theme } from "tamagui";
 
-import { DevInfo, Logo } from "~/components";
-import { HamburgerMenu } from "~/components/navigation/HamburgerMenu";
+import { HamburgerMenu } from "~/components/navigation";
+import { DevInfo, Logo } from "~/components/ui";
 import { TRPCProvider, useZotmealColorScheme } from "~/utils";
 import { tokenCache } from "~/utils/tokenCache";
 import { env } from "../utils/env";

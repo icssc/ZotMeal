@@ -36,20 +36,16 @@ const CustomInput = (
   </Button>
 );
 
-/**
- * Universal date picker for web.
- */
+/** Universal date picker for web. */
 export const UniversalDatePicker = ({
   date,
   setDate,
-}: Readonly<UniversalDatePickerProps>) => {
-  return (
-    <DatePicker
-      customInput={React.createElement(React.forwardRef(CustomInput))}
-      selected={date}
-      minDate={startOfWeek(new Date())}
-      maxDate={endOfWeek(new Date())}
-      onChange={(prev) => setDate(prev ?? new Date())}
-    />
-  );
-};
+}: Readonly<UniversalDatePickerProps>) => (
+  <DatePicker
+    customInput={React.createElement(React.forwardRef(CustomInput))}
+    selected={date}
+    minDate={startOfWeek(new Date())}
+    maxDate={endOfWeek(new Date())}
+    onChange={(prev) => setDate(prev ?? new Date())}
+  />
+);

@@ -5,7 +5,7 @@ import { format, isWithinInterval } from "date-fns";
 import { H3, Image, Tabs, Text, View, YStack } from "tamagui";
 
 import type { Event } from "~/utils";
-import { RestaurantTabs } from "~/components";
+import { RestaurantTabs } from "~/components/navigation";
 import { useZotmealStore } from "~/utils";
 
 const EventCard = ({ event }: Readonly<{ event: Event }>) => (
@@ -92,6 +92,13 @@ export default function Events() {
 
   // TODO: show a toast if there is an error
 
+  const NotFound = () => (
+    <View alignItems="center" gap="$3">
+      <CalendarX2 size="$5" />
+      <Text>No events found</Text>
+    </View>
+  );
+
   const EventsContent = () => {
     // if (query.isLoading) return <Spinner size="large" marginTop="$10" />;
 
@@ -105,10 +112,7 @@ export default function Events() {
               ))}
             </YStack>
           ) : (
-            <View alignItems="center">
-              <CalendarX2 size="$10" />
-              <Text>No events found</Text>
-            </View>
+            <NotFound />
           )}
         </Tabs.Content>
         <Tabs.Content value="anteatery">
@@ -119,10 +123,7 @@ export default function Events() {
               ))}
             </YStack>
           ) : (
-            <View alignItems="center">
-              <CalendarX2 size="$10" />
-              <Text>No events found</Text>
-            </View>
+            <NotFound />
           )}
         </Tabs.Content>
       </>

@@ -15,7 +15,7 @@ import {
   YStack,
 } from "tamagui";
 
-import { PinButton } from "~/components";
+import { PinButton } from "~/components/ui";
 import { NutritionInfo, useZotmealStore } from "~/utils";
 import { testDishImages } from "../../components/menu/testDishImages";
 import RateItem from "./RateItem";

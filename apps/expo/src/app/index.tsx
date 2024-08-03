@@ -13,7 +13,7 @@ import {
   XStack,
 } from "tamagui";
 
-import { RestaurantTabs } from "~/components";
+import { RestaurantTabs } from "~/components/navigation";
 import { useZotmealQuery, useZotmealStore, ZotmealData } from "~/utils";
 import { EventToast } from "../components/ui/EventToast";
 import { PeriodPicker } from "../components/ui/PeriodPicker";
@@ -23,7 +23,12 @@ import { UniversalDatePicker } from "../components/ui/UniversalDatePicker";
 export default function Home() {
   const theme = useTheme();
   const [date, setDate] = React.useState<Date>(new Date());
-  const [period, setPeriod] = React.useState<string | null>(null);
+  const [brandywinePeriod, setBrandywinePeriod] = React.useState<string | null>(
+    null,
+  );
+  const [anteateryPeriod, setAnteateryPeriod] = React.useState<string | null>(
+    null,
+  );
   const [restaurant, setRestaurant] =
     React.useState<keyof ZotmealData>("brandywine");
   const { setZotmeal } = useZotmealStore();
@@ -34,32 +39,30 @@ export default function Home() {
     setZotmeal(query.data);
 
     // set initial period to the current period or the first period if the current period is not found
-    setPeriod(currentPeriod?.name ?? periods[restaurant][0]?.name ?? null);
+    setBrandywinePeriod(
+      currentBrandywinePeriod?.name ?? brandywinePeriods[0]?.name ?? null,
+    );
+    setAnteateryPeriod(
+      currentAnteateryPeriod?.name ?? anteateryPeriods[0]?.name ?? null,
+    );
   }, [query.data]);
 
   const anteateryInfo = query.data?.anteatery;
-  const brandywineInfo = query.data?.anteatery;
+  const brandywineInfo = query.data?.brandywine;
 
-  const periods = {
-    anteatery: anteateryInfo?.menus.map((menu) => menu.period) ?? [],
-    brandywine: brandywineInfo?.menus.map((menu) => menu.period) ?? [],
-  };
+  const anteateryPeriods =
+    anteateryInfo?.menus.map((menu) => menu.period) ?? [];
+  const brandywinePeriods =
+    brandywineInfo?.menus.map((menu) => menu.period) ?? [];
 
-  const currentPeriod = periods[restaurant].find((period) =>
+  const currentAnteateryPeriod = anteateryPeriods.find((period) =>
     isWithinInterval(new Date(), {
       start: period.startTime,
       end: period.endTime,
     }),
   );
 
-  const currentAnteateryPeriod = periods.anteatery.find((period) =>
-    isWithinInterval(new Date(), {
-      start: period.startTime,
-      end: period.endTime,
-    }),
-  );
-
-  const currentBrandywinePeriod = periods.brandywine.find((period) =>
+  const currentBrandywinePeriod = brandywinePeriods.find((period) =>
     isWithinInterval(new Date(), {
       start: period.startTime,
       end: period.endTime,
@@ -92,11 +95,18 @@ export default function Home() {
 
   // Get the stations for the current period
   const brandywineStations = brandywineInfo?.menus.find(
-    (menu) => menu.period.name === period,
+    (menu) => menu.period.name === brandywinePeriod,
   )?.stations;
   const anteateryStations = anteateryInfo?.menus.find(
-    (menu) => menu.period.name === period,
+    (menu) => menu.period.name === anteateryPeriod,
   )?.stations;
+
+  const NotFound = () => (
+    <View alignItems="center" gap="$3">
+      <AlertTriangle size="$5" />
+      <Text>Menu not found</Text>
+    </View>
+  );
 
   // TODO: make it not possible to click into the menu if it's loading
   const MenuContent = () => (
@@ -104,7 +114,6 @@ export default function Home() {
       <Tabs.Content
         key="brandywine"
         value="brandywine"
-        alignItems="center"
         flex={1}
         opacity={query.isLoading ? 0.5 : 1}
       >
@@ -114,22 +123,33 @@ export default function Home() {
             zIndex={10}
             marginTop="$10"
             position="absolute"
+            alignSelf="center"
             marginVertical={200}
           />
         ) : null}
+        <XStack
+          justifyContent={Platform.OS === "web" ? "unset" : "space-around"}
+          columnGap={Platform.OS === "web" ? 20 : 0}
+          marginLeft={Platform.OS === "web" ? "$5" : 0}
+          marginTop="$3"
+        >
+          <PeriodPicker
+            periods={brandywinePeriods.map((period) => period.name)}
+            period={brandywinePeriod}
+            setPeriod={setBrandywinePeriod}
+            color={theme.color?.val as string}
+          />
+          <UniversalDatePicker date={date} setDate={setDate} />
+        </XStack>
         {brandywineInfo && brandywineStations ? (
           <StationTabs stations={brandywineStations} />
         ) : query.isPending ? null : (
-          <View alignItems="center">
-            <AlertTriangle size="$10" />
-            <Text>Menu not found</Text>
-          </View>
+          <NotFound />
         )}
       </Tabs.Content>
       <Tabs.Content
         key="anteatery"
         value="anteatery"
-        alignItems="center"
         flex={1}
         opacity={query.isLoading ? 0.5 : 1}
       >
@@ -139,16 +159,28 @@ export default function Home() {
             zIndex={10}
             marginTop="$10"
             position="absolute"
+            alignSelf="center"
             marginVertical={200}
           />
         ) : null}
+        <XStack
+          justifyContent={Platform.OS === "web" ? "unset" : "space-around"}
+          columnGap={Platform.OS === "web" ? 20 : 0}
+          marginLeft={Platform.OS === "web" ? "$5" : 0}
+          marginTop="$3"
+        >
+          <PeriodPicker
+            periods={anteateryPeriods.map((period) => period.name)}
+            period={anteateryPeriod}
+            setPeriod={setAnteateryPeriod}
+            color={theme.color?.val as string}
+          />
+          <UniversalDatePicker date={date} setDate={setDate} />
+        </XStack>
         {anteateryInfo && anteateryStations ? (
           <StationTabs stations={anteateryStations} />
         ) : query.isPending ? null : (
-          <View alignItems="center">
-            <AlertTriangle size="$10" />
-            <Text>Menu not found</Text>
-          </View>
+          <NotFound />
         )}
       </Tabs.Content>
     </>
@@ -177,18 +209,6 @@ export default function Home() {
       >
         <EventToast />
 
-        <XStack
-          justifyContent={Platform.OS === "web" ? "center" : "space-around"}
-          columnGap={Platform.OS === "web" ? 20 : 0}
-        >
-          <PeriodPicker
-            periods={periods[restaurant].map((period) => period.name)}
-            period={period}
-            setPeriod={setPeriod}
-            color={theme.color?.val as string}
-          />
-          <UniversalDatePicker date={date} setDate={setDate} />
-        </XStack>
         {/*
         <ScrollView horizontal>
           <XStack gap={10}>
@@ -215,7 +235,6 @@ export default function Home() {
             />
           </XStack>
         </ScrollView> */}
-
         <MenuContent />
       </ScrollView>
     </RestaurantTabs>
