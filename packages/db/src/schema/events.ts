@@ -40,5 +40,6 @@ export const eventsRelations = relations(events, ({ one }) => ({
   }),
 }));
 
+/** A special event at a restaurant. */
 export type Event = typeof events.$inferInsert;
 export const EventSchema = createInsertSchema(events);

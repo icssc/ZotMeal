@@ -17,7 +17,7 @@ export const dishes = pgTable("dishes", {
     }),
   name: text("name").notNull(),
   description: text("description").notNull(),
-  /** Defaults to "Other" if not specified */
+  /** Defaults to "Other" if not specified. */
   category: text("category").notNull().default("Other"),
   numRatings: integer("num_ratings").default(0).notNull(),
   totalRating: integer("total_rating").default(0).notNull(),
@@ -40,6 +40,7 @@ export const dishRelations = relations(dishes, ({ one, many }) => ({
   }),
 }));
 
+/** A dish at a restaurant. */
 export type Dish = typeof dishes.$inferInsert;
 export interface DishWithRelations extends Dish {
   dietRestriction: DietRestriction;

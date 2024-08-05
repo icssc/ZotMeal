@@ -33,12 +33,6 @@ export const ratings = pgTable(
   },
 );
 
-/**
- * Rating has one:
- *
- * {@linkcode users}
- * {@linkcode dishes}
- */
 export const ratingsRelations = relations(ratings, ({ one }) => ({
   dish: one(dishes, {
     fields: [ratings.dishId],
@@ -50,6 +44,14 @@ export const ratingsRelations = relations(ratings, ({ one }) => ({
   }),
 }));
 
+/**
+ * A rating a user has given a dish.
+ *
+ * A rating has one:
+ *
+ * {@linkcode users}
+ * {@linkcode dishes}
+ */
 export type Rating = typeof ratings.$inferInsert;
 
 export const RatingSchema = createInsertSchema(ratings);

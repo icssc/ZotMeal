@@ -31,12 +31,6 @@ export const pins = pgTable(
   },
 );
 
-/**
- * Pin has one:
- *
- * {@linkcode dishes}
- * {@linkcode users}
- */
 export const pinsRelations = relations(pins, ({ one }) => ({
   dish: one(dishes, {
     fields: [pins.dishId],
@@ -48,4 +42,12 @@ export const pinsRelations = relations(pins, ({ one }) => ({
   }),
 }));
 
+/**
+ * A pin a user has put on a dish.
+ *
+ * A pin has one:
+ *
+ * {@linkcode dishes}
+ * {@linkcode users}
+ */
 export type Pin = typeof pins.$inferInsert;

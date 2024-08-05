@@ -6,13 +6,6 @@ import { pins } from "./pins";
 import { ratings } from "./ratings";
 import { metadataColumns } from "./utils";
 
-/**
- * A user has many:
- *
- * {@linkcode pins}
- * {@linkcode ratings}
- *
- */
 export const users = pgTable("users", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
@@ -24,5 +17,14 @@ export const usersRelations = relations(users, ({ many }) => ({
   ratings: many(ratings),
 }));
 
+/**
+ * A user of the app.
+ *
+ * A user has many:
+ *
+ * {@linkcode pins}
+ * {@linkcode ratings}
+ *
+ */
 export type User = typeof users.$inferInsert;
 export const UserSchema = createInsertSchema(users);

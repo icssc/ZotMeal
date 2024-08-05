@@ -13,17 +13,17 @@ export const restaurants = pgTable("restaurants", {
   ...metadataColumns,
 });
 
-/**
- * Restaurant has many:
- *
- * {@linkcode stations}
- * {@linkcode menus}
- * {@linkcode events}
- */
 export const restaurantsRelations = relations(restaurants, ({ many }) => ({
   stations: many(stations),
   menus: many(menus),
   events: many(events),
 }));
 
+/**
+ * A restaurant has many:
+ *
+ * {@linkcode stations}
+ * {@linkcode menus}
+ * {@linkcode events}
+ */
 export type Restaurant = typeof restaurants.$inferInsert;

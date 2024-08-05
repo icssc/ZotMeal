@@ -28,10 +28,10 @@ export async function upsert<T extends TableConfig>(
 
   if (!isNotQueryResultNever(result))
     throw new Error(
-      `upsert: no result for table '${table._.name}' with config ${JSON.stringify(config)}`,
+      `[upsert > ${table._.name}]: unexpected result with config ${JSON.stringify(config)}`,
     );
 
-  if (!result[0]) throw new Error("upsert: no result");
+  if (!result[0]) throw new Error(`[upsert > ${table._.name}]: no result`);
 
   return result[0];
 }

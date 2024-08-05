@@ -26,4 +26,11 @@ export const stationsRelations = relations(stations, ({ one, many }) => ({
   }),
 }));
 
+/**
+ * A station of a restaurant.
+ *
+ * A station has many:
+ *
+ * {@linkcode dishes}
+ */
 export type Station = typeof stations.$inferInsert;
