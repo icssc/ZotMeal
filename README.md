@@ -31,6 +31,10 @@ A summary of the libraries we use are listed below.
 - [Serverless Framework](https://www.serverless.com/) - Framework for cloud resources such as AWS Lambda.
 - [tRPC](https://trpc.io/) - Typesafe RPCs.
 
+### Backend ERD Diagram
+
+![ERD Diagram](/packages/db/diagram/erd.svg)
+
 ## Getting Started
 
 ### Pre-requisites
