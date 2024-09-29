@@ -26,31 +26,31 @@ const screens = [
   },
   {
     title: "Events",
-    href: "/events/",
+    href: "/events",
     subTitle: "Upcoming events",
     icon: CalendarDays,
   },
   {
     title: "Settings",
-    href: "/settings/",
+    href: "/settings",
     subTitle: "Adjust your settings",
     icon: Settings,
   },
   {
     title: "About",
-    href: "/about/",
+    href: "/about",
     subTitle: "Learn about ZotMeal",
     icon: Info,
   },
   {
     title: "Privacy Policy",
-    href: "/privacy-policy/",
+    href: "/privacy-policy",
     subTitle: "About your privacy",
     icon: Siren,
   },
   {
     title: "Your Account",
-    href: "/auth/",
+    href: "/auth",
     subTitle: "Sign in to your account",
     icon: LogIn,
   },
@@ -122,7 +122,7 @@ export function HamburgerMenu() {
                 size="$5"
                 onPress={() => router.push(href)}
                 pressTheme
-                disabled={href.replaceAll("/", "") === currentSegment}
+                disabled={href.replace("/", "") === currentSegment}
                 iconAfter={ChevronRight}
               />
               {/* <Popover.Close

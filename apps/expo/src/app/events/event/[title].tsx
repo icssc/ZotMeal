@@ -1,4 +1,3 @@
-import React from "react";
 import { Redirect, Stack, useGlobalSearchParams } from "expo-router";
 import {
   CalendarClock,
@@ -37,7 +36,7 @@ export default function Event() {
   const event = events?.find((event) => event.title === title);
 
   // TODO: Log error if event is not found
-  if (!event) return <Redirect href="/events/" />;
+  if (!event) return <Redirect href="/events" />;
 
   return (
     <>

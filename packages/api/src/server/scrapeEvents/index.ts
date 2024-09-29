@@ -8,8 +8,8 @@ import { EventSchema, getRestaurantId } from "@zotmeal/db";
 
 /**
  * @example
- * dateStr => "APRIL 22 11:00 AM"
- * output would be => new Date("APRIL 22, <current year> 11:00 AM")
+ * parseEventDate("APRIL 22 11:00 AM")
+ * // output: new Date("APRIL 22, <current year> 11:00 AM")
  */
 export const parseEventDate = (dateStr: string) =>
   setYear(new Date(dateStr), new Date().getFullYear());

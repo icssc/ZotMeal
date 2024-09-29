@@ -32,7 +32,7 @@ export function EventToast() {
         borderRadius="$20"
       >
         <Toast.Action altText="See Events" asChild>
-          <Link href="/events/" asChild replace>
+          <Link href="/events" asChild replace>
             <Button
               backgroundColor={0}
               size="$4"

@@ -14,11 +14,11 @@ import {
 } from "tamagui";
 
 import { RestaurantTabs } from "~/components/navigation";
+import { EventToast } from "~/components/ui/EventToast";
+import { PeriodPicker } from "~/components/ui/PeriodPicker";
+import { StationTabs } from "~/components/ui/StationTabs";
+import { UniversalDatePicker } from "~/components/ui/UniversalDatePicker";
 import { useZotmealQuery, useZotmealStore, ZotmealData } from "~/utils";
-import { EventToast } from "../components/ui/EventToast";
-import { PeriodPicker } from "../components/ui/PeriodPicker";
-import { StationTabs } from "../components/ui/StationTabs";
-import { UniversalDatePicker } from "../components/ui/UniversalDatePicker";
 
 export default function Home() {
   const theme = useTheme();

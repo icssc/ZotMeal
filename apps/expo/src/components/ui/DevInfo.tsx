@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { Platform } from "react-native";
 import { Info } from "@tamagui/lucide-icons";
 import { Button, Text, View } from "tamagui";
@@ -8,7 +8,7 @@ import { env } from "~/utils/env";
 
 /** Utility component to show dev info in the bottom right corner. */
 export function DevInfo() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <View

@@ -13,8 +13,8 @@ import { createTamagui, TamaguiProvider, Theme } from "tamagui";
 import { HamburgerMenu } from "~/components/navigation";
 import { DevInfo, Logo } from "~/components/ui";
 import { TRPCProvider, useZotmealColorScheme } from "~/utils";
+import { env } from "~/utils/env";
 import { tokenCache } from "~/utils/tokenCache";
-import { env } from "../utils/env";
 
 const tamaguiConfig = createTamagui(config);
 

@@ -12,6 +12,7 @@ import type { CampusDishMenu } from "@zotmeal/validators";
 import { getRestaurantId } from "@zotmeal/db";
 import { CampusDishMenuSchema } from "@zotmeal/validators";
 
+/** Fetch the CampusDish menu for a given date. */
 export async function getCampusDishMenu(
   date: Date,
   restaurantName: RestaurantName,
@@ -30,6 +31,7 @@ export async function getCampusDishMenu(
   return CampusDishMenuSchema.parse(res.data);
 }
 
+/** Upsert menus for a given date. */
 export async function upsertMenusForDate(
   db: Drizzle,
   date: Date,
