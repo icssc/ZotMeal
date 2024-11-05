@@ -36,10 +36,10 @@
   },
   "prettier": "@zotmeal/prettier-config",
   "devDependencies": {
+    "@testcontainers/postgresql": "^10.9.0",
     "@zotmeal/eslint-config": "workspace:^",
     "@zotmeal/prettier-config": "workspace:^",
     "@zotmeal/tsconfig": "workspace:^",
-    "@testcontainers/postgresql": "^10.9.0",
     "dotenv-cli": "^7.4.1",
     "testcontainers": "^10.9.0",
     "vitest": "^1.4.0"
