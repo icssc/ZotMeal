@@ -1,5 +1,6 @@
+import type { SizeTokens } from "tamagui";
 import React from "react";
-import { Label, RadioGroup, SizeTokens, XStack } from "tamagui";
+import { Label, RadioGroup, XStack } from "tamagui";
 
 export function RadioGroupItemWithLabel(props: {
   size: SizeTokens;

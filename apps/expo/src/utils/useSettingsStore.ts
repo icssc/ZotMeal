@@ -8,15 +8,18 @@ interface SettingsState {
   ) => void;
 }
 
-export const useSettingsStore = create<SettingsState>((set, get) => ({
+/** Store for global settings. */
+export const useSettingsStore = create<SettingsState>((set) => ({
   colorSchemePreference: "system" as const,
   setColorSchemePreference: (colorSchemePreference) =>
     set({ colorSchemePreference }),
 }));
 
+/** Hook for accessing global {@link colorSchemePreference}. */
 export const useZotmealColorScheme = () => {
   const { colorSchemePreference } = useSettingsStore();
   const systemScheme = useColorScheme();
+
   return colorSchemePreference === "system"
     ? systemScheme
     : colorSchemePreference;

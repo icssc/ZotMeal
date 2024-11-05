@@ -1,6 +1,6 @@
 import { H3, RadioGroup, Separator, YStack } from "tamagui";
 
-import { RadioGroupItemWithLabel, SwitchWithLabel } from "~/components";
+import { RadioGroupItemWithLabel, SwitchWithLabel } from "~/components/ui";
 import { useSettingsStore } from "~/utils";
 
 export default function Settings() {

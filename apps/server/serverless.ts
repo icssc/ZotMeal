@@ -21,11 +21,10 @@ const serverlessConfiguration: AWS = {
       DATABASE_URL: process.env.DATABASE_URL,
     },
   },
-  // import the function via paths
-  functions: functions,
+  functions,
   package: {
     individually: true,
-    include: ["certs/*", "src/functions/cron/*"],
+    patterns: ["certs/*", "src/functions/cron/*"],
   },
   custom: {
     esbuild: {

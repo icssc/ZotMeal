@@ -1,40 +1,24 @@
-import { exec } from "child_process";
-import fs from "fs";
-import path from "path";
-import { promisify } from "util";
 import type { PoolConfig } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 
-import { logger } from "../logger";
 import * as schema from "./schema";
 
 export const pool = (config: PoolConfig): Pool => new Pool(config);
 
 /**
+ * Create a drizzle instance with a connection string (add ssl or enable logs if needed)
+ *
+ * @example
+ * const db = createDrizzle({ connectionString });
+ *
  * Caller must do `pool.end()` when finished with db.
+ *
+ * TODO: change logs destination. @see https://orm.drizzle.team/docs/goodies#logging
+ *
  */
-export const createDrizzle = (config: PoolConfig) =>
-  drizzle(pool({ ...config }), { schema });
-
-/**
- * Push schema to test container, used in `test-setup.ts`.
- */
-export async function pushSchema(connectionString: string) {
-  logger.info(`Pushing schema to test container (${process.env.DB_URL})...`);
-  await promisify(exec)(
-    `pnpm drizzle-kit push:pg --config=../db/test-config.ts`,
-    {
-      env: {
-        ...process.env,
-        DB_URL: connectionString,
-      },
-    },
-  );
-  logger.info("Schema pushed to test container.");
-}
+export const createDrizzle = (config: PoolConfig, logger?: boolean) =>
+  drizzle(pool({ ...config }), { schema, logger });
 
 export type Drizzle = ReturnType<typeof createDrizzle>;
-
-export * from "drizzle-orm";
 export * from "./schema";
