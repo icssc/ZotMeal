@@ -82,7 +82,6 @@ table nutrition_infos {
   serving_size text
   serving_unit text
   calories text
-  calories_from_fat text
   total_fat_g text
   trans_fat_g text
   saturated_fat_g text
