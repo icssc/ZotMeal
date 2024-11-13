@@ -1,7 +1,8 @@
 import React from "react";
 import { Platform, RefreshControl } from "react-native";
 import { AlertTriangle } from "@tamagui/lucide-icons";
-import { isWithinInterval } from "date-fns";
+import { addDays, isWithinInterval } from "date-fns";
+import { toZonedTime } from "date-fns-tz";
 import {
   ScrollView,
   Spinner,
@@ -55,17 +56,38 @@ export default function Home() {
   const brandywinePeriods =
     brandywineInfo?.menus.map((menu) => menu.period) ?? [];
 
+  /**
+   * Convert postgres `time` column to PST.
+   *
+   * e.g. "00:30:00" -> "4:30 PM"
+   */
+  function utcToPacific(timeString: string) {
+    const today = new Date();
+    const [hours, minutes, seconds] = timeString.split(":");
+    const utcDate = new Date(
+      Date.UTC(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate(),
+        parseInt(hours!),
+        parseInt(minutes!),
+        parseInt(seconds!),
+      ),
+    );
+    return addDays(toZonedTime(utcDate, "America/Los_Angeles"), 1);
+  }
+
   const currentAnteateryPeriod = anteateryPeriods.find((period) =>
     isWithinInterval(new Date(), {
-      start: period.startTime,
-      end: period.endTime,
+      start: utcToPacific(period.startTime),
+      end: utcToPacific(period.endTime),
     }),
   );
 
   const currentBrandywinePeriod = brandywinePeriods.find((period) =>
     isWithinInterval(new Date(), {
-      start: period.startTime,
-      end: period.endTime,
+      start: utcToPacific(period.startTime),
+      end: utcToPacific(period.endTime),
     }),
   );
 
