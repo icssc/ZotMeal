@@ -13,7 +13,6 @@ export const nutritionInfos = pgTable("nutrition_infos", {
   servingSize: text("serving_size"),
   servingUnit: text("serving_unit"),
   calories: text("calories"),
-  caloriesFromFat: text("calories_from_fat"),
   totalFatG: text("total_fat_g"),
   transFatG: text("trans_fat_g"),
   saturatedFatG: text("saturated_fat_g"),

@@ -1,3 +1,4 @@
+import { writeFileSync } from "fs";
 import { upsertDish, upsertDishToMenu } from "@api/dishes/services";
 import { logger } from "@api/logger";
 import { upsertMenu } from "@api/menus/services";
@@ -28,6 +29,11 @@ export async function getCampusDishMenu(
       },
     },
   );
+  if (process.env.IS_LOCAL) {
+    const outPath = `./${restaurantName}-${format(date, "MM-dd-yyyy")}-${periodId}-res.json`;
+    writeFileSync(outPath, JSON.stringify(res.data), { flag: "w" });
+    logger.info(`Wrote CampusDish response to ${outPath}.`);
+  }
   return CampusDishMenuSchema.parse(res.data);
 }
 
@@ -39,9 +45,17 @@ export async function upsertMenusForDate(
 ): Promise<void> {
   const restaurantId = getRestaurantId(restaurantName);
 
-  // Get the menu for the given date to first get all the periods and stations
+  // Get the menu for the given date to first get all the periods and stations.
   const menuAtDate = await getCampusDishMenu(date, restaurantName).catch(
     (e) => {
+      logger.error(`❌ Failed to parse CampusDish menu for ${restaurantName}.`);
+      if (process.env.IS_LOCAL) {
+        const outPath = `./${restaurantName}-${format(date, "MM-dd-yyyy")}-error.json`;
+        writeFileSync(outPath, JSON.stringify(e), { flag: "w" });
+        throw new Error(
+          `Failed to parse CampusDish menu. Wrote validation error to ${outPath}.`,
+        );
+      }
       throw e;
     },
   );
@@ -133,7 +147,6 @@ export async function upsertMenusForDate(
               servingSize: menuProduct.Product.ServingSize,
               servingUnit: menuProduct.Product.ServingUnit,
               calories: menuProduct.Product.Calories,
-              caloriesFromFat: menuProduct.Product.CaloriesFromFat,
               totalFatG: menuProduct.Product.TotalFat,
               transFatG: menuProduct.Product.TransFat,
               cholesterolMg: menuProduct.Product.Cholesterol,

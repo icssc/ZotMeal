@@ -68,7 +68,6 @@ const dish = {
     servingSize: "350",
     servingUnit: "grams",
     calories: "560",
-    caloriesFromFat: "190",
     totalFatG: "21g",
     transFatG: "0g",
     saturatedFatG: "4g",

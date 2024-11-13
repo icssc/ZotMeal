@@ -33,7 +33,6 @@ export const MenuProductSchema = z.object({
     ServingSize: z.string().nullable(),
     ServingUnit: z.string().nullable(),
     Calories: z.string().nullable(),
-    CaloriesFromFat: z.string().nullable(),
     TotalFat: z.string().nullable(),
     TransFat: z.string().nullable(),
     Cholesterol: z.string().nullable(),

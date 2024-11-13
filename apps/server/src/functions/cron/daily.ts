@@ -22,7 +22,7 @@ export const main = async (_event, _context) => {
     // log errors if any
     results.forEach((result) => {
       if (result.status === "rejected")
-        logger.error("daily() failed:", result.reason);
+        logger.error(result.reason, "daily() failed:");
     });
   } catch (error) {
     logger.error(error, "Failed to execute daily task");

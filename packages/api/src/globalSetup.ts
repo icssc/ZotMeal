@@ -9,9 +9,7 @@ import { logger } from "./logger";
 
 let teardownHappened = false;
 
-/**
- * Push schema to test container.
- */
+/** Push schema to test container. */
 async function pushSchema(connectionString: string) {
   logger.info(`Pushing schema to test container (${process.env.TEST_URL})...`);
   await promisify(exec)(`pnpm drizzle-kit push --config=../db/test-config.ts`, {
