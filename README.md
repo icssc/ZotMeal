@@ -1,7 +1,6 @@
 # ZotMeal
 
 # About
-hi
 
 ZotMeal is a cross-platform React Native Expo application.
 A summary of the libraries we use are listed below.
