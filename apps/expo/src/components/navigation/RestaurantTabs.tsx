@@ -1,37 +1,68 @@
 import { G, Path, Svg, Text } from "react-native-svg";
-import { Image, Tabs, useTheme, useWindowDimensions, View } from "tamagui";
+import {
+  GetProps,
+  Image,
+  Tabs,
+  useTheme,
+  useWindowDimensions,
+  View,
+} from "tamagui";
 
-import type { Restaurant } from "@zotmeal/db";
-import { getCurrentPeriodName } from "@zotmeal/utils";
+import { RestaurantInfo, useZotmealColorScheme } from "~/utils";
 
-import { useZotmealColorScheme, useZotmealStore } from "~/utils";
+type ImageProps = GetProps<typeof Image>;
 
+/**
+ * Tabs to select between the two restaurants.
+ *
+ * Uses the state given by its parent to determine which restaurant is selected.
+ */
 export function RestaurantTabs({
+  restaurant,
+  setRestaurant,
+  anteateryStatus,
+  brandywineStatus,
   children,
 }: Readonly<{
+  restaurant: RestaurantInfo["name"];
+  setRestaurant: (value: RestaurantInfo["name"]) => void;
+  anteateryStatus: "closed" | "open";
+  brandywineStatus: "closed" | "open";
   children: React.ReactNode;
 }>) {
-  const { selectedRestaurant, setSelectedRestaurant } = useZotmealStore();
+  // TODO: maybe scale each image accordingly
+  const imageProps = [
+    {
+      source: {
+        uri: "https://s3-media0.fl.yelpcdn.com/bphoto/P0DIhR8cO-JxYygc3V3aaQ/348s.jpg",
+      },
+      opacity: restaurant === "brandywine" ? 1 : 0,
+    },
+    {
+      source: {
+        uri: "https://images.rsmdesign.com/7321bb55-579f-47fd-9f27-a6abf3e9826e.jpg",
+      },
+      opacity: restaurant === "anteatery" ? 1 : 0,
+    },
+  ] as const satisfies ImageProps[];
 
   return (
     <>
-      <Image
-        source={{
-          uri:
-            selectedRestaurant === "brandywine"
-              ? "https://s3-media0.fl.yelpcdn.com/bphoto/P0DIhR8cO-JxYygc3V3aaQ/348s.jpg"
-              : "https://images.rsmdesign.com/7321bb55-579f-47fd-9f27-a6abf3e9826e.jpg",
-        }}
-        position="absolute"
-        zIndex={-1}
-        width="100%"
-        height={125}
-      />
+      {imageProps.map((props, index) => (
+        <Image
+          {...props}
+          key={index}
+          position="absolute"
+          zIndex={-1}
+          width="100%"
+          height={125}
+        />
+      ))}
       <View height={65} />
       <Tabs
-        value={selectedRestaurant}
+        value={restaurant}
         onValueChange={(value) =>
-          setSelectedRestaurant(value as Restaurant["name"])
+          setRestaurant(value as RestaurantInfo["name"])
         }
         orientation="horizontal"
         flexDirection="column"
@@ -41,20 +72,24 @@ export function RestaurantTabs({
         <Tabs.List borderRadius="$20" flexDirection="column">
           <View width="100%" flexDirection="row">
             <Tabs.Tab
+              unstyled
               flex={1}
-              height={70}
+              height={75}
               value="brandywine"
-              opacity={selectedRestaurant === "brandywine" ? 1 : 0.5}
+              opacity={restaurant === "brandywine" ? 1 : 0.5}
+              background="transparent"
             >
-              <TabSvg label="Brandywine" />
+              <TabSvg title="Brandywine" status={brandywineStatus} />
             </Tabs.Tab>
             <Tabs.Tab
+              unstyled
               flex={1}
-              height={70}
+              height={75}
               value="anteatery"
-              opacity={selectedRestaurant === "anteatery" ? 1 : 0.5}
+              opacity={restaurant === "anteatery" ? 1 : 0.5}
+              background="transparent"
             >
-              <TabSvg label="The Anteatery" />
+              <TabSvg title="The Anteatery" status={anteateryStatus} />
             </Tabs.Tab>
           </View>
         </Tabs.List>
@@ -62,20 +97,24 @@ export function RestaurantTabs({
       </Tabs>
     </>
   );
-} // Uses the svg from Figma
+}
 
-export const TabSvg = ({ label }: Readonly<{ label: string }>) => {
+/** Tab component for a restaurant. Uses the tab svg from Figma. */
+export const TabSvg = ({
+  title,
+  status,
+}: Readonly<{
+  /** The title of the restaurant, e.g. `Brandywine`. */
+  title: string;
+  /** The status of the restaurant, e.g. `closed`. */
+  status: "closed" | "open";
+}>) => {
   const colorScheme = useZotmealColorScheme();
   const theme = useTheme();
-  const deviceWidth = useWindowDimensions().width;
+  const { width } = useWindowDimensions();
 
   return (
-    <Svg
-      width={deviceWidth / 2 + 135}
-      height="75"
-      viewBox="0 0 403 82"
-      fill="none"
-    >
+    <Svg width={width / 2 + 135} height="75" viewBox="0 0 403 82" fill="none">
       <Path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -84,30 +123,28 @@ export const TabSvg = ({ label }: Readonly<{ label: string }>) => {
       />
       <G>
         <Text
-          x="50%"
+          x="46.5%"
           y="30%"
           fill={theme.color?.val as string}
           textAnchor="middle"
           alignmentBaseline="central"
           fontFamily="Inter"
-          fontSize="25"
-          fontWeight="bold"
+          fontSize="23"
+          fontWeight="500"
         >
-          {label}
+          {title}
         </Text>
         <Text
-          x="50%"
+          x="46.5%"
           y="60%"
-          fill={
-            getCurrentPeriodName() === "closed" ? "firebrick" : "forestgreen"
-          }
+          fill={status === "closed" ? "firebrick" : "forestgreen"}
           textAnchor="middle"
           alignmentBaseline="central"
           fontFamily="Inter"
-          fontSize="18"
-          fontWeight="bold"
+          fontSize="17"
+          fontWeight="500"
         >
-          {getCurrentPeriodName() === "closed" ? "CLOSED" : "OPEN"}
+          {status.toUpperCase()}
         </Text>
       </G>
     </Svg>

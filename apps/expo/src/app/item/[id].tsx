@@ -1,6 +1,6 @@
 import { Platform } from "react-native";
 import { Link, Redirect, Stack, useGlobalSearchParams } from "expo-router";
-import { ChevronRight } from "@tamagui/lucide-icons";
+import { ArrowRight } from "@tamagui/lucide-icons";
 import {
   H3,
   H4,
@@ -15,26 +15,26 @@ import {
   YStack,
 } from "tamagui";
 
-import type { NutritionInfo } from "@zotmeal/db";
-
-import { PinButton } from "~/components";
-import { useZotmealStore } from "~/utils";
+import { PinButton } from "~/components/ui";
+import { NutritionInfo, useZotmealStore } from "~/utils";
 import { testDishImages } from "../../components/menu/testDishImages";
 import RateItem from "./RateItem";
 
 export default function MenuItem() {
   const theme = useTheme();
-  const { id, stationId } = useGlobalSearchParams();
+  const { zotmeal } = useZotmealStore();
+  const { id, stationId, menuId, restaurant } = useGlobalSearchParams();
 
   if (!id || typeof id !== "string") throw new Error("id is not a string");
+  if (!zotmeal) throw new Error("zotmeal is not defined");
   if (!stationId || typeof stationId !== "string")
     throw new Error("stationId is not a string");
+  if (!menuId || typeof menuId !== "string")
+    throw new Error("menuId is not a string");
+  if (restaurant !== "anteatery" && restaurant !== "brandywine")
+    throw new Error("restaurant is not a string");
 
-  const { selectedRestaurant, anteateryMenu, brandywineMenu } =
-    useZotmealStore();
-
-  const menu =
-    selectedRestaurant === "anteatery" ? anteateryMenu : brandywineMenu;
+  const menu = zotmeal[restaurant].menus.find((menu) => menu.id === menuId);
 
   // TODO: Log error if menu is not found
   if (!menu) return <Redirect href="/" />;
@@ -48,9 +48,6 @@ export default function MenuItem() {
 
   // TODO: Log error if dish is not found
   if (!dish) return <Redirect href="/" />;
-
-  // Unused fields:
-  // caloriesFromFat
 
   const units = {
     calories: "cal",
@@ -67,13 +64,14 @@ export default function MenuItem() {
     vitaminCIU: "IU",
     calciumMg: "mg",
     ironMg: "mg",
+    // caloriesFromFat
   } as const satisfies Partial<Record<keyof NutritionInfo, string>>;
 
   const NutritionFacts = ({
     nutritionInfo,
-  }: {
+  }: Readonly<{
     nutritionInfo: NutritionInfo;
-  }) => (
+  }>) => (
     <YStack
       padding="$3"
       borderWidth={2}
@@ -219,13 +217,12 @@ export default function MenuItem() {
         <View padding="$4">
           <XStack alignItems="center">
             <Link href="/">
-              <Text fontSize="$5" color="gray">
-                {selectedRestaurant.charAt(0).toUpperCase() +
-                  selectedRestaurant.slice(1)}
+              <Text fontSize="$5" color="deepskyblue">
+                {restaurant.charAt(0).toUpperCase() + restaurant.slice(1)}
               </Text>
             </Link>
-            <ChevronRight color="gray" />
-            <Text fontSize="$5" color="gray">
+            <ArrowRight color="deepskyblue" size="$1" />
+            <Text fontSize="$5" color="deepskyblue">
               {station.name}
             </Text>
           </XStack>

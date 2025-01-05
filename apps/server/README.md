@@ -8,7 +8,7 @@ For detailed instructions, please refer to the [documentation](https://www.serve
 
 Depending on your preferred package manager, follow the instructions below to deploy your project.
 
-> **Requirements**: NodeJS `lts/fermium (v.14.15.0)`. If you're using [nvm](https://github.com/nvm-sh/nvm), run `nvm use` to ensure you're using the same Node version in local and in your lambda's runtime.
+> **Requirements**: Node version: `lts/*`. If you're using [nvm](https://github.com/nvm-sh/nvm), run `nvm use` to ensure you're using the same Node version in local and in your lambda's runtime.
 
 ### Using NPM
 
@@ -43,7 +43,7 @@ Check the [sls invoke local command documentation](https://www.serverless.com/fr
 
 Copy and replace your `url` - found in Serverless `deploy` command output - and `name` parameter in the following `curl` command in your terminal or in Postman to test your newly deployed application.
 
-```
+```sh
 curl --location --request POST 'https://myApiEndpoint/dev/hello' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -60,7 +60,7 @@ The project code base is mainly located within the `src` folder. This folder is 
 - `functions` - containing code base and configuration for your lambda functions
 - `libs` - containing shared code base between your lambdas
 
-```
+```sh
 .
 ├── src
 │   ├── functions               # Lambda configuration and source code folder
@@ -87,7 +87,7 @@ The project code base is mainly located within the `src` folder. This folder is 
 ### 3rd party libraries
 
 - [json-schema-to-ts](https://github.com/ThomasAribart/json-schema-to-ts) - uses JSON-Schema definitions used by API Gateway for HTTP request validation to statically generate TypeScript types in your lambda's handler code base
-- [middy](https://github.com/middyjs/middy) - middleware engine for Node.Js lambda. This template uses [http-json-body-parser](https://github.com/middyjs/middy/tree/master/packages/http-json-body-parser) to convert API Gateway `event.body` property, originally passed as a stringified JSON, to its corresponding parsed object
+- [middy](https://github.com/middyjs/middy) - middleware engine for Node.js lambda. This template uses [http-json-body-parser](https://github.com/middyjs/middy/tree/master/packages/http-json-body-parser) to convert API Gateway `event.body` property, originally passed as a stringified JSON, to its corresponding parsed object
 - [@serverless/typescript](https://github.com/serverless/typescript) - provides up-to-date TypeScript definitions for your `serverless.ts` service file
 
 ### Advanced usage

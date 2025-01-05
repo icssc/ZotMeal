@@ -2,44 +2,40 @@ import { config } from "@tamagui/config/v3";
 
 import "@tamagui/core/reset.css";
 
-import type { FontSource } from "expo-font";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { ClerkProvider } from "@clerk/clerk-expo";
-import InterBold from "@tamagui/font-inter/otf/Inter-Bold.otf";
-import Inter from "@tamagui/font-inter/otf/Inter-Medium.otf";
 import { ToastProvider, ToastViewport } from "@tamagui/toast";
 import { createTamagui, TamaguiProvider, Theme } from "tamagui";
 
-import { Logo } from "~/components";
-import { HamburgerMenu } from "~/components/navigation/HamburgerMenu";
+import { HamburgerMenu } from "~/components/navigation";
+import { DevInfo, Logo } from "~/components/ui";
 import { TRPCProvider, useZotmealColorScheme } from "~/utils";
+import { env } from "~/utils/env";
 import { tokenCache } from "~/utils/tokenCache";
-import { env } from "../utils/env";
 
 const tamaguiConfig = createTamagui(config);
 
 export default function RootLayout() {
   const [loaded] = useFonts({
-    Inter: Inter as FontSource,
-    InterBold: InterBold as FontSource,
+    Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
+    InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
   });
 
   const colorScheme = useZotmealColorScheme();
-
-  const { bottom, left, right } = useSafeAreaInsets();
+  const insets = useSafeAreaInsets();
 
   if (!loaded) return null;
 
   return (
-    <TRPCProvider>
-      <TamaguiProvider config={tamaguiConfig}>
-        <ClerkProvider
-          publishableKey={env.CLERK_PUBLISHABLE_KEY}
-          tokenCache={tokenCache}
-        >
+    <ClerkProvider
+      publishableKey={env.CLERK_PUBLISHABLE_KEY}
+      tokenCache={tokenCache}
+    >
+      <TRPCProvider>
+        <TamaguiProvider config={tamaguiConfig}>
           <ToastProvider>
             <Theme name={colorScheme}>
               <Stack
@@ -55,25 +51,21 @@ export default function RootLayout() {
                   },
                 }}
               >
-                <Stack.Screen name="(tabs)" />
+                {/* <Stack.Screen name="(tabs)" /> */}
                 {/* <Stack.Screen
                 name="events"
                 options={{
                   presentation: "modal",
-                }}
-              /> */}
+                  }}
+                  /> */}
               </Stack>
               <StatusBar style="light" />
             </Theme>
-            <ToastViewport
-              flexDirection="column"
-              bottom={bottom}
-              left={left}
-              right={right}
-            />
+            <ToastViewport flexDirection="column" {...insets} />
+            <DevInfo />
           </ToastProvider>
-        </ClerkProvider>
-      </TamaguiProvider>
-    </TRPCProvider>
+        </TamaguiProvider>
+      </TRPCProvider>
+    </ClerkProvider>
   );
 }

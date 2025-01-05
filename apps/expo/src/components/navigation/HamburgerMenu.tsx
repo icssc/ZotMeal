@@ -1,5 +1,6 @@
 import type { Href } from "expo-router";
-import { Link, useSegments } from "expo-router";
+import type { GetProps } from "tamagui";
+import { router, useSegments } from "expo-router";
 import {
   CalendarDays,
   ChevronRight,
@@ -12,47 +13,53 @@ import {
 } from "@tamagui/lucide-icons";
 import { Adapt, Button, ListItem, Popover, Separator, YGroup } from "tamagui";
 
+interface Screen extends GetProps<typeof ListItem> {
+  href: Href<"pathname">;
+}
+
+const screens = [
+  {
+    title: "Home",
+    href: "/",
+    subTitle: "See current menus",
+    icon: Home,
+  },
+  {
+    title: "Events",
+    href: "/events",
+    subTitle: "Upcoming events",
+    icon: CalendarDays,
+  },
+  {
+    title: "Settings",
+    href: "/settings",
+    subTitle: "Adjust your settings",
+    icon: Settings,
+  },
+  {
+    title: "About",
+    href: "/about",
+    subTitle: "Learn about ZotMeal",
+    icon: Info,
+  },
+  {
+    title: "Privacy Policy",
+    href: "/privacy-policy",
+    subTitle: "About your privacy",
+    icon: Siren,
+  },
+  {
+    title: "Your Account",
+    href: "/auth",
+    subTitle: "Sign in to your account",
+    icon: LogIn,
+  },
+] as const satisfies Screen[];
+
+// ! Forwarding ref from Popover.close to Link to ListItem does not work on android, so we have to use a workaround
+// ! If its fixed later on, we can use the forwarded ref
 export function HamburgerMenu() {
   const currentSegment = useSegments()[0] ?? "";
-  const screens: Record<
-    string,
-    {
-      path: Href<"pathname">;
-      description: string;
-      icon: typeof Home;
-    }
-  > = {
-    Home: {
-      path: "/",
-      description: "See current menus",
-      icon: Home,
-    },
-    Events: {
-      path: "/events/",
-      description: "Upcoming events",
-      icon: CalendarDays,
-    },
-    Settings: {
-      path: "/settings/",
-      description: "Adjust your settings",
-      icon: Settings,
-    },
-    About: {
-      path: "/about/",
-      description: "Learn about ZotMeal",
-      icon: Info,
-    },
-    "Privacy Policy": {
-      path: "/privacy-policy/",
-      description: "About your privacy",
-      icon: Siren,
-    },
-    Auth: {
-      path: "/auth/",
-      description: "Authentication",
-      icon: LogIn,
-    },
-  };
 
   return (
     <Popover
@@ -69,13 +76,19 @@ export function HamburgerMenu() {
           paddingVertical={0}
           theme="dark"
           pressTheme
-        >
-          <Menu color="white" size="$2" />
-        </Button>
+          icon={<Menu color="white" size="$2" />}
+        />
       </Popover.Trigger>
       <Adapt when={"sm" as unknown as undefined} platform="touch">
-        <Popover.Sheet modal dismissOnSnapToBottom snapPoints={[55]}>
-          <Popover.Sheet.Frame padding="$4">
+        <Popover.Sheet modal dismissOnSnapToBottom snapPoints={[65, 90]}>
+          <Popover.Sheet.Frame padding="$4" paddingTop="0">
+            <Separator
+              marginVertical="$4"
+              borderRadius="$10"
+              borderWidth={3}
+              width="$5"
+              alignSelf="center"
+            />
             <Adapt.Contents />
           </Popover.Sheet.Frame>
           <Popover.Sheet.Overlay
@@ -102,34 +115,38 @@ export function HamburgerMenu() {
       >
         <Popover.Arrow borderWidth={1} borderColor="$borderColor" />
         <YGroup separator={<Separator />}>
-          {Object.entries(screens).map(
-            ([name, { path, description, icon }]) => (
-              <YGroup.Item key={name}>
-                <Popover.Close
+          {screens.map(({ href, ...props }) => (
+            <YGroup.Item key={href}>
+              <ListItem
+                {...props}
+                size="$5"
+                onPress={() => router.push(href)}
+                pressTheme
+                disabled={href.replace("/", "") === currentSegment}
+                iconAfter={ChevronRight}
+              />
+              {/* <Popover.Close
+                disabled={href.replaceAll("/", "") === currentSegment}
+                asChild
+                flexDirection="row"
+              >
+                <Link
+                  href={href}
+                  disabled={href.replaceAll("/", "") === currentSegment}
+                  replace
                   asChild
-                  disabled={path.replaceAll("/", "") === currentSegment}
-                  flexDirection="row"
                 >
-                  <Link
-                    replace
-                    href={path}
-                    asChild
-                    disabled={path.replaceAll("/", "") === currentSegment}
-                  >
-                    <ListItem
-                      size="$5"
-                      pressTheme
-                      title={name}
-                      subTitle={description}
-                      disabled={path.replaceAll("/", "") === currentSegment}
-                      icon={icon}
-                      iconAfter={ChevronRight}
-                    />
-                  </Link>
-                </Popover.Close>
-              </YGroup.Item>
-            ),
-          )}
+                  <ListItem
+                    {...props}
+                    size="$5"
+                    pressTheme
+                    disabled={href.replaceAll("/", "") === currentSegment}
+                    iconAfter={ChevronRight}
+                  />
+                </Link>
+              </Popover.Close> */}
+            </YGroup.Item>
+          ))}
         </YGroup>
       </Popover.Content>
     </Popover>

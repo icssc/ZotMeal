@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "expo-router";
 import { H3, Image, View } from "tamagui";
 
