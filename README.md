@@ -65,22 +65,20 @@ A summary of the libraries we use are listed below.
 1. Clone the ZotMeal repository or your fork.
    `git clone https://github.com/icssc/ZotMeal.git`
 
-2. Download the correct version of node.
-   `nvm install 20.12.1` or `fnm install 20.12.1`
-
-3. Change your node version
-   `nvm use 20.12.1` or `fnm use 20.12.1`
-4. Navigate to the root directory and install the dependencies.
+3. Change your node version to the one specified in the .nvmrc
+   `nvm use` or `fnm use`
+   
+5. Navigate to the root directory and install the dependencies.
    `cd ZotMeal && pnpm install`
 
-5. To start a local Postgres container database run the `docker compose up` in the root directory.
+6. To start a local Postgres container database run the `docker compose up` in the root directory.
    This will automatically set up and run a test database using docker.
 
-6. Create a .env based on the example given in `.env.development`
+7. Create a .env based on the example given in `.env.development`
 
-7. Run `pnpm db:push` to push the schema to the docker database.
+8. Run `pnpm db:push` to push the schema to the docker database.
 
-8. Start local development by running `pnpm dev` in `/apps/expo` and `pnpm dev` in `/apps/server` (or `turbo dev` in the root directory).
+9. Start local development by running `pnpm dev` in `/apps/expo` and `pnpm dev` in `/apps/server` (or `turbo dev` in the root directory).
    The tRPC procedures are available on <http://localhost:3000/><router.procedure\>?input={field: value}
 
    ```sh
@@ -88,7 +86,7 @@ A summary of the libraries we use are listed below.
    http://localhost:3000/events.get
    ```
 
-9. View the local website at <http://localhost:8081> and/or with the [Expo Go mobile app](https://expo.dev/client).
+10. View the local website at <http://localhost:8081> and/or with the [Expo Go mobile app](https://expo.dev/client).
    As you make changes to the Expo application, those changes will be automatically
    reflected on the local website as well as the mobile app.
 
