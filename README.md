@@ -66,7 +66,7 @@ A summary of the libraries we use are listed below.
    `git clone https://github.com/icssc/ZotMeal.git`
 
 3. Change your node version to the one specified in the .nvmrc
-   `nvm use` or `fnm use`
+   `nvm use` or `fnm use`. In particular, we will be using Node v20.
    
 5. Navigate to the root directory and install the dependencies.
    `cd ZotMeal && pnpm install`
