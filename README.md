@@ -90,6 +90,20 @@ A summary of the libraries we use are listed below.
    As you make changes to the Expo application, those changes will be automatically
    reflected on the local website as well as the mobile app.
 
+### Potential Issues
+
+Sometimes, you may run into errors when trying to run some of the commands listed above. Here are some things that can help fix this:
+
+Reinstall packages
+- Run `rm -force node_modules` and `pnpm install` to reinstall all packages in the project
+
+Ensure Node is correct version
+- Node v20 (latest of that version)
+- Check by running `node -v`
+
+Clear expo cache
+- Run `npx expo start -c` to clear the expo cache. This usually helps when `pnpm dev` gives an expo related error 
+
 ### Testing
 
 Run `turbo test` at the root of the project.
