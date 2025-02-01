@@ -28,10 +28,11 @@ export async function getHTML(url: string): Promise<string> {
 
 export async function scrapeEvents(html: string): Promise<Event[]> {
   try {
+    logger.info(`scrapeEvents: Scraping events...`);
     const $ = cheerio.load(html);
 
     // iterate through each event item and extract data
-    return await Promise.all(
+    const events = await Promise.all(
       $("li").map(async (_, element) => {
         const eventItem = $(element);
 
@@ -93,8 +94,12 @@ export async function scrapeEvents(html: string): Promise<Event[]> {
         return event;
       }),
     );
+
+    logger.info(`scrapeEvents: ✅ Scraped ${events.length} events.`);
+
+    return events;
   } catch (error) {
-    console.error(`Error scraping events: ${error}`);
+    console.error(`scrapeEvents: ❌ Error scraping events: ${error}`);
     throw error;
   }
 }
