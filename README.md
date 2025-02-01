@@ -46,7 +46,7 @@ A summary of the libraries we use are listed below.
 
    - [nvm](https://github.com/nvm-sh/nvm) - Node-Version-Manager.
    - [fnm](https://github.com/Schniz/fnm) - Fast-Node-Manager.
-   - [nvm-widows](https://github.com/coreybutler/nvm-windows)
+   - [nvm-windows](https://github.com/coreybutler/nvm-windows)
 
    If none of those work for any reason, you can defer to your Operating System's
    package manager or [the downloads from the official website](https://nodejs.org/en/download).
