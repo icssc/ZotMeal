@@ -51,7 +51,7 @@ x`### Pre-requisites
    As you make changes to the Expo application, those changes will be automatically
    reflected on the local website as well as the mobile app.
 
-### Potential Issues
+### Troubleshooting
 
 Sometimes, you may run into errors when trying to run some of the commands listed above. Here are some things that can help fix this:
 
