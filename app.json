@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "76cd5294-7054-4e14-b8de-d6efef07a491"
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "com.yoshimi1.zotmeal",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    }
+  }
+}
