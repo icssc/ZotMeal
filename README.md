@@ -74,7 +74,7 @@ A summary of the libraries we use are listed below.
 6. To start a local Postgres container database run the `docker compose up` in the root directory.
    This will automatically set up and run a test database using docker.
 
-7. Create a .env based on the example given in `.env.development`
+7. Create a new file called `.env` based on the example given in `.env.development`
 
 8. Run `pnpm db:push` to push the schema to the docker database.
 
