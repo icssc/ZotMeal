@@ -22,6 +22,7 @@ interface ApiFixtures {
 
 /**
  * {@linkcode apiTest} contains fixtures for testing the service and api layers.
+ * Enable db logger to see queries.
  */
 export const apiTest = test.extend<ApiFixtures>({
   db: createDrizzle({ connectionString }, true),

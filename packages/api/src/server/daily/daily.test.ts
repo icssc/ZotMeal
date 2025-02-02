@@ -1,5 +1,4 @@
 import { apiTest } from "@api/apiTest";
-import { logger } from "@api/logger";
 import { describe } from "vitest";
 
 import { daily } from ".";
