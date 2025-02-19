@@ -13,9 +13,12 @@ import "react-native-reanimated";
 
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SheetProvider } from "react-native-sheet-transitions";
+import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-expo";
 
 import { useColorScheme } from "../hooks/useColorScheme";
 import { TRPCProvider } from "../utils/api";
+import { tokenCache } from "../utils/cache";
+import { env } from "../utils/env";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -40,18 +43,30 @@ export default function RootLayout() {
   }
 
   return (
-    <TRPCProvider>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <GestureHandlerRootView>
-          <SheetProvider>
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="+not-found" />
-            </Stack>
-            <StatusBar style="auto" />
-          </SheetProvider>
-        </GestureHandlerRootView>
-      </ThemeProvider>
-    </TRPCProvider>
+    <ClerkProvider
+      publishableKey={env.CLERK_PUBLISHABLE_KEY}
+      tokenCache={tokenCache}
+    >
+      <ClerkLoaded>
+        <TRPCProvider>
+          <ThemeProvider
+            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+          >
+            <GestureHandlerRootView>
+              <SheetProvider>
+                <Stack>
+                  <Stack.Screen
+                    name="(tabs)"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen name="+not-found" />
+                </Stack>
+                <StatusBar style="auto" />
+              </SheetProvider>
+            </GestureHandlerRootView>
+          </ThemeProvider>
+        </TRPCProvider>
+      </ClerkLoaded>
+    </ClerkProvider>
   );
 }

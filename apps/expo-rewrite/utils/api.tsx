@@ -53,7 +53,7 @@ export const getBaseUrl = () => {
  * Use only in _app.tsx
  */
 export function TRPCProvider(props: { children: React.ReactNode }) {
-  // const { getToken } = useAuth();
+  const { getToken } = useAuth();
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() => {
     return api.createClient({
@@ -62,7 +62,7 @@ export function TRPCProvider(props: { children: React.ReactNode }) {
           url: getBaseUrl(),
           transformer: superjson,
           headers: async () => ({
-            // Authorization: (await getToken()) ?? undefined,
+            Authorization: (await getToken()) ?? undefined,
             "x-trpc-source": `expo-react-${Platform.OS}`,
           }),
         }),
