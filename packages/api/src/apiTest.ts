@@ -25,7 +25,7 @@ interface ApiFixtures {
  * Enable db logger to see queries.
  */
 export const apiTest = test.extend<ApiFixtures>({
-  db: createDrizzle({ connectionString }, true),
+  db: createDrizzle({ connectionString }, !process.env.CI),
   ctx: createTRPCContext({
     headers: new Headers({
       "x-trpc-source": "vitest",
