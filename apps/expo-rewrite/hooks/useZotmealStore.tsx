@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 import { appRouter } from "@zotmeal/api";
 
-import { api } from "./api";
+import { api } from "../utils/api";
 
 export type ZotmealData = Awaited<ReturnType<typeof appRouter.zotmeal>>;
 export type RestaurantName = keyof ZotmealData;

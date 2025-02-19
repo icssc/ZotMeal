@@ -1,13 +1,14 @@
-export function colorShade(col: string, amt: number) {
-  col = col.replace(/^#/, "");
-  if (col.length === 3)
-    col = col[0] + col[0] + col[1] + col[1] + col[2] + col[2];
+/** Darken or lighten a color by an amount. */
+export function colorShade(color: string, amount: number) {
+  color = color.replace(/^#/, "");
+  if (color.length === 3)
+    color = color[0] + color[0] + color[1] + color[1] + color[2] + color[2];
 
-  let [r, g, b] = col.match(/.{2}/g)!;
+  let [r, g, b] = color.match(/.{2}/g)!;
   let [rn, gn, bn] = [
-    parseInt(r, 16) + amt,
-    parseInt(g, 16) + amt,
-    parseInt(b, 16) + amt,
+    parseInt(r, 16) + amount,
+    parseInt(g, 16) + amount,
+    parseInt(b, 16) + amount,
   ];
 
   r = Math.max(Math.min(255, rn), 0).toString(16);
@@ -21,10 +22,11 @@ export function colorShade(col: string, amt: number) {
   return `#${rr}${gg}${bb}`;
 }
 
-export function getContrastText(hex: string) {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
+/** Return white or black text color depending on luminance. */
+export function getContrastText(hexColor: string) {
+  const r = parseInt(hexColor.slice(1, 3), 16);
+  const g = parseInt(hexColor.slice(3, 5), 16);
+  const b = parseInt(hexColor.slice(5, 7), 16);
 
   const luminance =
     (0.2126 * r) / 255 + (0.7152 * g) / 255 + (0.0722 * b) / 255;
@@ -32,6 +34,7 @@ export function getContrastText(hex: string) {
   return luminance > 0.5 ? "#000000" : "#FFFFFF";
 }
 
+/** Return a color string from a string hash. */
 export function stringToColor(str: string) {
   let hash = 0;
   str.split("").forEach((char) => {

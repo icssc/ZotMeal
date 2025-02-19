@@ -1,5 +1,5 @@
 import type { PropsWithChildren, ReactElement } from "react";
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet } from "react-native";
 import Animated, {
   interpolate,
@@ -7,8 +7,12 @@ import Animated, {
   useAnimatedStyle,
   useScrollViewOffset,
 } from "react-native-reanimated";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { BlurView } from "expo-blur";
 
 import { useColorScheme } from "../hooks/useColorScheme";
+import { RestaurantContext } from "./RestaurantContext";
+import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
 import { useBottomTabOverflow } from "./ui/TabBarBackground";
 
@@ -24,6 +28,8 @@ export default function ParallaxScrollView({
   headerImage,
   headerBackgroundColor,
 }: Props) {
+  const insets = useSafeAreaInsets();
+  const { restaurantName } = useContext(RestaurantContext)!;
   const colorScheme = useColorScheme() ?? "light";
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(scrollRef);
@@ -56,6 +62,28 @@ export default function ParallaxScrollView({
 
   return (
     <ThemedView style={styles.container}>
+      <BlurView
+        intensity={100}
+        style={{
+          width: "100%",
+          height: "auto",
+          position: "absolute",
+          paddingHorizontal: 20,
+          paddingTop: insets.top,
+          paddingBottom: 10,
+          zIndex: 100,
+          justifyContent: "flex-end",
+        }}
+      >
+        <ThemedText
+          type="default"
+          style={{
+            fontSize: 22,
+          }}
+        >
+          {restaurantName.charAt(0).toUpperCase() + restaurantName.slice(1)}
+        </ThemedText>
+      </BlurView>
       <Animated.ScrollView
         ref={scrollRef}
         scrollEventThrottle={16}

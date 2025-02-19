@@ -1,14 +1,8 @@
-import React, {
-  createContext,
-  forwardRef,
-  useCallback,
-  useContext,
-} from "react";
+import React, { forwardRef, useCallback, useContext } from "react";
 import {
   ActivityIndicator,
   Image,
   ImageBackground,
-  ImageSourcePropType,
   Text,
   TouchableOpacity,
   useWindowDimensions,
@@ -18,25 +12,24 @@ import {
   GestureHandlerRootView,
   ScrollView,
 } from "react-native-gesture-handler";
-import Animated, { useAnimatedStyle } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
 
 import { useThemeColor } from "../hooks/useThemeColor";
-import { colorShade, getContrastText, stringToColor } from "../utils/color";
-import { formatEventDateRange } from "../utils/date";
 import {
   Dish,
   Menu,
-  RestaurantInfo,
   RestaurantName,
   Station,
   useZotmealQuery,
   useZotmealStore,
-} from "../utils/useZotmealStore";
+} from "../hooks/useZotmealStore";
+import { colorShade, getContrastText, stringToColor } from "../utils/color";
+import { formatEventDateRange } from "../utils/date";
 import BottomSheet, { BottomSheetRefProps } from "./BottomSheet";
 import { Calendar } from "./Calendar";
 import { NutritionFacts } from "./NutritionFacts";
 import ParallaxScrollView from "./ParallaxScrollView";
+import { RestaurantContext } from "./RestaurantContext";
 import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
 
@@ -52,9 +45,9 @@ const StationCarousel = forwardRef<BottomSheetRefProps, { station: Station }>(
     return (
       <View>
         <ThemedText
+          type="defaultSemiBold"
           style={{
             fontSize: 20,
-            fontWeight: "bold",
             marginLeft: 10,
           }}
         >
@@ -66,7 +59,7 @@ const StationCarousel = forwardRef<BottomSheetRefProps, { station: Station }>(
           }}
           data={sortedDishes}
           width={dishButtonWidth}
-          height={180}
+          height={190}
           loop={false}
           overscrollEnabled={false}
           scrollAnimationDuration={200}
@@ -141,29 +134,45 @@ const DishButton = forwardRef<BottomSheetRefProps, { dish: Dish }>(
                   marginRight: 3,
                 }}
               />
-              <Text
+              <ThemedText
+                type="defaultSemiBold"
                 style={{
                   fontSize: 13,
-                  fontWeight: 600,
                   color: "white",
                 }}
               >
                 {dish.category}
-              </Text>
+              </ThemedText>
             </View>
             <View style={{ backgroundColor: color, height: 5, marginTop: 2 }} />
           </ImageBackground>
-          <ThemedText
+          <View
             style={{
-              fontWeight: 500,
-              fontSize: 11,
-              textAlign: "left",
               width: "90%",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
               paddingTop: 2,
             }}
           >
-            {dish.name}
-          </ThemedText>
+            <ThemedText
+              type="default"
+              style={{
+                fontSize: 11,
+              }}
+            >
+              ★ {rating}
+            </ThemedText>
+            <ThemedText
+              type="default"
+              style={{
+                fontSize: 11,
+                paddingTop: 1.5,
+              }}
+            >
+              {dish.nutritionInfo.calories ?? "n/a"} cal
+            </ThemedText>
+          </View>
           <View
             style={{
               width: "90%",
@@ -175,13 +184,14 @@ const DishButton = forwardRef<BottomSheetRefProps, { dish: Dish }>(
           />
           <ThemedText
             style={{
-              fontWeight: "semibold",
               fontSize: 11,
               textAlign: "left",
               width: "90%",
+              lineHeight: 14,
+              marginTop: 0,
             }}
           >
-            ★ {rating}
+            {dish.name}
           </ThemedText>
         </View>
       </TouchableOpacity>
@@ -218,16 +228,17 @@ function DishDetails() {
             alignItems: "center",
           }}
         >
-          <Text
+          <ThemedText
+            type="defaultSemiBold"
             style={{
               color: getContrastText(categoryColor),
-              fontWeight: 700,
               fontSize: 20,
               width: "50%",
+              lineHeight: 24,
             }}
           >
             {dish.name}
-          </Text>
+          </ThemedText>
           <View style={{ flexDirection: "row", gap: 10 }}>
             <TouchableOpacity
               style={{
@@ -237,9 +248,12 @@ function DishDetails() {
                 backgroundColor: colorShade(categoryColor, -20),
               }}
             >
-              <Text style={{ color: textColor, fontWeight: "bold" }}>
+              <ThemedText
+                type="defaultSemiBold"
+                style={{ color: textColor, marginTop: 0 }}
+              >
                 ★ {rating}
-              </Text>
+              </ThemedText>
             </TouchableOpacity>
             <TouchableOpacity
               style={{
@@ -261,20 +275,21 @@ function DishDetails() {
             marginVertical: 5,
           }}
         />
-        <Text
+        <ThemedText
           style={{
+            fontSize: 13,
             color: textColor,
             backgroundColor: colorShade(categoryColor, -20),
             marginTop: 10,
-            fontWeight: 600,
             padding: 10,
             borderRadius: 10,
+            lineHeight: 20,
           }}
         >
           {dish.description.trim() === ""
             ? "No description available."
             : dish.description}
-        </Text>
+        </ThemedText>
         <ScrollView
           contentContainerStyle={{
             width: 250,
@@ -311,9 +326,9 @@ function EventDetails() {
       }}
     >
       <ThemedText
+        type="defaultSemiBold"
         style={{
           fontSize: 20,
-          fontWeight: "bold",
         }}
       >
         {event.title}
@@ -328,7 +343,7 @@ function EventDetails() {
       />
       <ThemedText
         style={{
-          fontSize: 12,
+          fontSize: 13,
           fontWeight: "semibold",
           textAlign: "left",
         }}
@@ -337,12 +352,13 @@ function EventDetails() {
       </ThemedText>
       <ThemedText
         style={{
-          fontSize: 12,
+          fontSize: 13,
           marginTop: 10,
           backgroundColor: secondaryBackgroundColor,
           fontWeight: 600,
           padding: 10,
           borderRadius: 10,
+          lineHeight: 16,
         }}
       >
         {event.longDescription?.trim() ??
@@ -395,11 +411,22 @@ function MenuButton({
   );
 }
 
-const RestaurantContext = createContext<{
-  restaurantName: RestaurantName;
-  image: ImageSourcePropType;
-  data?: RestaurantInfo;
-} | null>(null);
+function LoadIndicator() {
+  const { width, height } = useWindowDimensions();
+
+  return (
+    <View
+      style={{
+        width: "100%",
+        height: height / 2,
+        justifyContent: "flex-start",
+        alignItems: "center",
+      }}
+    >
+      <ActivityIndicator style={{ marginTop: 50 }} />
+    </View>
+  );
+}
 
 export default function RestaurantView({
   restaurantName,
@@ -421,21 +448,6 @@ export default function RestaurantView({
       restaurantName === "anteatery" ? data.anteatery : data.brandywine;
     setSelectedMenu(restaurant.menus[0]);
   }, [data]);
-
-  function LoadIndicator() {
-    return (
-      <View
-        style={{
-          width: "100%",
-          height: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <ActivityIndicator />
-      </View>
-    );
-  }
 
   if (error)
     return (
@@ -512,9 +524,9 @@ export default function RestaurantView({
                 />
               ))}
               <ThemedText
+                type="defaultSemiBold"
                 style={{
                   fontSize: 20,
-                  fontWeight: "bold",
                   marginLeft: 10,
                 }}
               >
@@ -553,35 +565,46 @@ export default function RestaurantView({
                         overflow: "hidden",
                       }}
                     >
-                      <ThemedText
-                        style={{
-                          width: "80%",
-                          fontSize: 12,
-                          fontWeight: "bold",
-                          textAlign: "left",
-                          marginTop: 5,
-                        }}
-                      >
-                        {event.title}
-                      </ThemedText>
                       <View
                         style={{
-                          width: "90%",
-                          height: 1,
-                          marginVertical: 4,
-                          backgroundColor: "white",
-                        }}
-                      />
-                      <ThemedText
-                        style={{
-                          width: "100%",
-                          fontSize: 11,
-                          fontWeight: "semibold",
-                          textAlign: "left",
+                          backgroundColor: "#11111155",
+                          borderRadius: 5,
+                          paddingHorizontal: 8,
+                          paddingVertical: 5,
                         }}
                       >
-                        {formatEventDateRange(event)}
-                      </ThemedText>
+                        <ThemedText
+                          type="defaultSemiBold"
+                          style={{
+                            width: "90%",
+                            color: "white",
+                            fontSize: 12,
+                            textAlign: "left",
+                            marginTop: 5,
+                          }}
+                        >
+                          {event.title}
+                        </ThemedText>
+                        <View
+                          style={{
+                            width: "90%",
+                            height: 1,
+                            marginVertical: 4,
+                            backgroundColor: "white",
+                          }}
+                        />
+                        <ThemedText
+                          style={{
+                            width: "90%",
+                            color: "white",
+                            marginTop: 0,
+                            fontSize: 9,
+                            textAlign: "left",
+                          }}
+                        >
+                          {formatEventDateRange(event)}
+                        </ThemedText>
+                      </View>
                       <ImageBackground
                         source={{ uri: event.image! }}
                         resizeMode="contain"

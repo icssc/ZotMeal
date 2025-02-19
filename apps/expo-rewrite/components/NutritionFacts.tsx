@@ -1,8 +1,7 @@
 import React from "react";
 import { Platform, Text, TextProps, View } from "react-native";
 
-import { colorShade } from "../utils/color";
-import { NutritionInfo } from "../utils/useZotmealStore";
+import { NutritionInfo } from "../hooks/useZotmealStore";
 
 const units = {
   calories: "cal",

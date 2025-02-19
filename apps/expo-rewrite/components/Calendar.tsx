@@ -40,7 +40,7 @@ export function Calendar({
         duration: 100,
       }),
       height: withSpring(open.value ? 300 : 0, springConfig),
-      marginBottom: withSpring(open.value ? -25 : -50, springConfig),
+      marginBottom: withSpring(open.value ? 0 : -50, springConfig),
     };
   });
 
@@ -80,7 +80,33 @@ export function Calendar({
           onChange={({ date }) => {
             setDate(new Date(date as Date));
           }}
-          styles={defaultStyles}
+          styles={{
+            ...defaultStyles,
+            month_selector_label: {
+              ...defaultStyles.month_selector_label,
+              fontFamily: "Default",
+            },
+            year_selector_label: {
+              ...defaultStyles.year_selector_label,
+              fontFamily: "Default",
+            },
+            weekday_label: {
+              ...defaultStyles.weekday_label,
+              fontFamily: "Default",
+            },
+            day_label: {
+              ...defaultStyles.day_label,
+              fontFamily: "Default",
+            },
+            button_prev: {
+              ...defaultStyles.button_prev,
+              fontFamily: "Default",
+            },
+            button_next: {
+              ...defaultStyles.button_next,
+              fontFamily: "Default",
+            },
+          }}
         />
       </Animated.View>
     </>

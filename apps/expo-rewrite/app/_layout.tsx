@@ -16,7 +16,6 @@ import { SheetProvider } from "react-native-sheet-transitions";
 
 import { useColorScheme } from "../hooks/useColorScheme";
 import { TRPCProvider } from "../utils/api";
-import { useZotmealStore } from "../utils/useZotmealStore";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -24,7 +23,10 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    Default: require("../assets/fonts/Nohemi-Regular.ttf"),
+    DefaultSemiBold: require("../assets/fonts/Nohemi-Medium.ttf"),
+    DefaultBold: require("../assets/fonts/Nohemi-Bold.ttf"),
+    DefaultBlack: require("../assets/fonts/Nohemi-Black.ttf"),
   });
 
   useEffect(() => {

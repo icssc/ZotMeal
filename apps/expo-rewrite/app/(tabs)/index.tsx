@@ -23,7 +23,7 @@ function RightAction(prog: SharedValue<number>, drag: SharedValue<number>) {
   );
 }
 
-export default function Example() {
+export default function SwipeableRestaurantView() {
   return (
     <ReanimatedSwipeable
       containerStyle={{
