@@ -1,13 +1,3 @@
-// import AuthView from "../../components/AuthView";
-
-// export default function SettingsScreen() {
-//   return (
-//     <>
-//       <AuthView />
-//     </>
-//   );
-// }
-
 import React, { useCallback, useEffect } from "react";
 import { Button, View } from "react-native";
 import * as AuthSession from "expo-auth-session";

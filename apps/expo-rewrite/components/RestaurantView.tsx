@@ -39,6 +39,7 @@ import ParallaxScrollView from "./ParallaxScrollView";
 import { RestaurantContext } from "./RestaurantContext";
 import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
+import { IconSymbol } from "./ui/IconSymbol";
 
 const dishButtonWidth = 120;
 
@@ -90,6 +91,7 @@ const DishButton = forwardRef<BottomSheetRefProps, { dish: Dish }>(
     const { setSelectedItem } = useZotmealStore();
     const { height } = useWindowDimensions();
     const { image, skeletonValue } = useContext(RestaurantContext)!;
+    const textColor = useThemeColor({}, "text");
 
     const handlePress = useCallback(() => {
       setSelectedItem(dish);
@@ -179,14 +181,30 @@ const DishButton = forwardRef<BottomSheetRefProps, { dish: Dish }>(
               paddingTop: 2,
             }}
           >
-            <ThemedText
-              type="default"
+            <View
               style={{
-                fontSize: 11,
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 1,
               }}
             >
-              ★ {rating}
-            </ThemedText>
+              <IconSymbol
+                name="star.fill"
+                color={textColor}
+                style={{
+                  height: 11,
+                  marginHorizontal: -5,
+                }}
+              />
+              <ThemedText
+                type="default"
+                style={{
+                  fontSize: 11,
+                }}
+              >
+                {rating}
+              </ThemedText>
+            </View>
             <ThemedText
               type="default"
               style={{
@@ -267,16 +285,22 @@ function DishDetails() {
             <TouchableOpacity
               style={{
                 padding: 5,
-                paddingHorizontal: 10,
+                paddingRight: 10,
                 borderRadius: 25,
                 backgroundColor: colorShade(categoryColor, -20),
+                flexDirection: "row",
+                alignItems: "center",
               }}
             >
-              <ThemedText
-                type="defaultSemiBold"
-                style={{ color: textColor, marginTop: 0 }}
-              >
-                ★ {rating}
+              <IconSymbol
+                name="star.fill"
+                color={textColor}
+                style={{
+                  height: 15,
+                }}
+              />
+              <ThemedText type="defaultSemiBold" style={{ color: textColor }}>
+                {rating}
               </ThemedText>
             </TouchableOpacity>
             <TouchableOpacity
@@ -287,7 +311,13 @@ function DishDetails() {
                 backgroundColor: colorShade(categoryColor, -20),
               }}
             >
-              <Text>📌</Text>
+              <IconSymbol
+                name="pin.fill"
+                color={textColor}
+                style={{
+                  height: 18,
+                }}
+              />
             </TouchableOpacity>
           </View>
         </View>
