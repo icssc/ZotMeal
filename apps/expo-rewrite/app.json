@@ -4,7 +4,7 @@
     "slug": "expo-rewrite",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/zotmeal-icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -27,10 +27,10 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "image": "./assets/zotmeal-splash.png",
+          "imageWidth": 828,
+          "resizeMode": "cover",
+          "backgroundColor": "#121212"
         }
       ]
     ],

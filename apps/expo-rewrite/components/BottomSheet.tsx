@@ -12,6 +12,8 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
+import { useThemeColor } from "../hooks/useThemeColor";
+
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const MAX_TRANSLATE_Y = -SCREEN_HEIGHT + 50;
@@ -29,6 +31,7 @@ const BottomSheet = React.forwardRef<BottomSheetRefProps, BottomSheetProps>(
   ({ children }, ref) => {
     const translateY = useSharedValue(0);
     const active = useSharedValue(false);
+    const textColor = useThemeColor({}, "text");
 
     const scrollTo = useCallback((destination: number) => {
       "worklet";
@@ -117,7 +120,16 @@ const BottomSheet = React.forwardRef<BottomSheetRefProps, BottomSheetProps>(
           <Animated.View
             style={[styles.bottomSheetContainer, rBottomSheetStyle]}
           >
-            <View style={styles.line} />
+            <View
+              style={{
+                width: 75,
+                height: 4,
+                backgroundColor: textColor,
+                alignSelf: "center",
+                marginVertical: 10,
+                borderRadius: 2,
+              }}
+            />
             {children}
           </Animated.View>
         </GestureDetector>
@@ -135,14 +147,6 @@ const styles = StyleSheet.create({
     top: SCREEN_HEIGHT,
     borderRadius: 25,
     zIndex: 100,
-  },
-  line: {
-    width: 75,
-    height: 4,
-    backgroundColor: "grey",
-    alignSelf: "center",
-    marginVertical: 15,
-    borderRadius: 2,
   },
 });
 

@@ -57,6 +57,7 @@ const StationCarousel = forwardRef<BottomSheetRefProps, { station: Station }>(
           style={{
             fontSize: 20,
             marginLeft: 10,
+            marginTop: 0,
           }}
         >
           {station.name}
@@ -550,157 +551,155 @@ export default function RestaurantView({
         skeletonValue,
       }}
     >
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <ParallaxScrollView
-          headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
-          headerImage={
-            <Image source={config.image} style={{ width, height: 300 }} />
-          }
-        >
-          <Calendar date={date} setDate={setDate} />
-          {isFetching || !data ? (
-            <LoadIndicator />
-          ) : (
-            <>
-              <ScrollView
-                horizontal
-                contentContainerStyle={{
-                  flex: 1,
-                  width: "auto",
-                }}
-              >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 5,
-                  }}
-                >
-                  {(config.data?.menus ?? []).map((menu) => (
-                    <MenuButton
-                      key={menu.period.name}
-                      menu={menu}
-                      setSelectedMenu={setSelectedMenu}
-                      active={menu === selectedMenu}
-                    />
-                  ))}
-                </View>
-              </ScrollView>
-              {(selectedMenu?.stations ?? []).map((station) => (
-                <StationCarousel
-                  key={station.name}
-                  station={station}
-                  ref={sheetRef}
-                />
-              ))}
-              <ThemedText
-                type="defaultSemiBold"
-                style={{
-                  fontSize: 20,
-                  marginLeft: 10,
-                }}
-              >
-                Events
-              </ThemedText>
+      <ParallaxScrollView
+        headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
+        headerImage={
+          <Image source={config.image} style={{ width, height: 300 }} />
+        }
+      >
+        <Calendar date={date} setDate={setDate} />
+        {isFetching || !data ? (
+          <LoadIndicator />
+        ) : (
+          <>
+            <ScrollView
+              horizontal
+              contentContainerStyle={{
+                flex: 1,
+                width: "auto",
+              }}
+            >
               <View
                 style={{
                   flexDirection: "row",
-                  flexWrap: "wrap",
-                  gap: 10,
-                  paddingHorizontal: 10,
+                  alignItems: "center",
+                  gap: 5,
                 }}
               >
-                {config.data?.events.map((event) => (
-                  <TouchableOpacity
-                    key={event.title}
-                    onPress={() => {
-                      setSelectedItem(event);
-                      if (!sheetRef.current) return;
-                      if (sheetRef.current.isActive()) {
-                        sheetRef.current.scrollTo(0);
-                      } else {
-                        sheetRef.current.scrollTo(-height / 2.25);
-                      }
-                    }}
-                  >
-                    <ImageBackground
-                      source={{ uri: event.image! }}
-                      blurRadius={50}
-                      style={{
-                        width: width / 2.5,
-                        aspectRatio: 1,
-                        justifyContent: "center",
-                        padding: 6,
-                        borderRadius: 6,
-                        overflow: "hidden",
-                      }}
-                    >
-                      <View
-                        style={{
-                          backgroundColor: "#11111155",
-                          borderRadius: 5,
-                          paddingHorizontal: 8,
-                          paddingVertical: 5,
-                        }}
-                      >
-                        <ThemedText
-                          type="defaultSemiBold"
-                          style={{
-                            width: "90%",
-                            color: "white",
-                            fontSize: 12,
-                            textAlign: "left",
-                            marginTop: 5,
-                          }}
-                        >
-                          {event.title}
-                        </ThemedText>
-                        <View
-                          style={{
-                            width: "90%",
-                            height: 1,
-                            marginVertical: 4,
-                            backgroundColor: "white",
-                          }}
-                        />
-                        <ThemedText
-                          style={{
-                            width: "90%",
-                            color: "white",
-                            marginTop: 0,
-                            fontSize: 9,
-                            textAlign: "left",
-                          }}
-                        >
-                          {formatEventDateRange(event)}
-                        </ThemedText>
-                      </View>
-                      <ImageBackground
-                        source={{ uri: event.image! }}
-                        resizeMode="contain"
-                        imageStyle={{
-                          borderRadius: 10,
-                          width: "100%",
-                        }}
-                        style={{
-                          marginTop: 10,
-                          width: "90%",
-                          height: "70%",
-                          margin: "auto",
-                        }}
-                      />
-                    </ImageBackground>
-                  </TouchableOpacity>
+                {(config.data?.menus ?? []).map((menu) => (
+                  <MenuButton
+                    key={menu.period.name}
+                    menu={menu}
+                    setSelectedMenu={setSelectedMenu}
+                    active={menu === selectedMenu}
+                  />
                 ))}
               </View>
-            </>
-          )}
-        </ParallaxScrollView>
-        <BottomSheet ref={sheetRef}>
-          <DishDetails />
-          <EventDetails />
-        </BottomSheet>
-      </GestureHandlerRootView>
+            </ScrollView>
+            {(selectedMenu?.stations ?? []).map((station) => (
+              <StationCarousel
+                key={station.name}
+                station={station}
+                ref={sheetRef}
+              />
+            ))}
+            <ThemedText
+              type="defaultSemiBold"
+              style={{
+                fontSize: 20,
+                marginLeft: 10,
+              }}
+            >
+              Events
+            </ThemedText>
+            <View
+              style={{
+                flexDirection: "row",
+                flexWrap: "wrap",
+                gap: 10,
+                paddingHorizontal: 10,
+              }}
+            >
+              {config.data?.events.map((event) => (
+                <TouchableOpacity
+                  key={event.title}
+                  onPress={() => {
+                    setSelectedItem(event);
+                    if (!sheetRef.current) return;
+                    if (sheetRef.current.isActive()) {
+                      sheetRef.current.scrollTo(0);
+                    } else {
+                      sheetRef.current.scrollTo(-height / 2.25);
+                    }
+                  }}
+                >
+                  <ImageBackground
+                    source={{ uri: event.image! }}
+                    blurRadius={50}
+                    style={{
+                      width: width / 2.5,
+                      aspectRatio: 1,
+                      justifyContent: "center",
+                      padding: 6,
+                      borderRadius: 6,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <View
+                      style={{
+                        backgroundColor: "#11111155",
+                        borderRadius: 5,
+                        paddingHorizontal: 8,
+                        paddingVertical: 5,
+                      }}
+                    >
+                      <ThemedText
+                        type="defaultSemiBold"
+                        style={{
+                          width: "90%",
+                          color: "white",
+                          fontSize: 12,
+                          textAlign: "left",
+                          marginTop: 5,
+                        }}
+                      >
+                        {event.title}
+                      </ThemedText>
+                      <View
+                        style={{
+                          width: "90%",
+                          height: 1,
+                          marginVertical: 4,
+                          backgroundColor: "white",
+                        }}
+                      />
+                      <ThemedText
+                        style={{
+                          width: "90%",
+                          color: "white",
+                          marginTop: 0,
+                          fontSize: 9,
+                          textAlign: "left",
+                        }}
+                      >
+                        {formatEventDateRange(event)}
+                      </ThemedText>
+                    </View>
+                    <ImageBackground
+                      source={{ uri: event.image! }}
+                      resizeMode="contain"
+                      imageStyle={{
+                        borderRadius: 10,
+                        width: "100%",
+                      }}
+                      style={{
+                        marginTop: 10,
+                        width: "90%",
+                        height: "70%",
+                        margin: "auto",
+                      }}
+                    />
+                  </ImageBackground>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </>
+        )}
+      </ParallaxScrollView>
+      <BottomSheet ref={sheetRef}>
+        <DishDetails />
+        <EventDetails />
+      </BottomSheet>
     </RestaurantContext.Provider>
   );
 }

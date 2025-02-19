@@ -13,8 +13,10 @@ import "react-native-reanimated";
 
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SheetProvider } from "react-native-sheet-transitions";
-import { ClerkLoaded, ClerkProvider } from "@clerk/clerk-expo";
+import { ClerkLoaded, ClerkLoading, ClerkProvider } from "@clerk/clerk-expo";
 
+import { ThemedText } from "../components/ThemedText";
+import { ThemedView } from "../components/ThemedView";
 import { useColorScheme } from "../hooks/useColorScheme";
 import { TRPCProvider } from "../utils/api";
 import { tokenCache } from "../utils/cache";
@@ -22,6 +24,11 @@ import { env } from "../utils/env";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+SplashScreen.setOptions({
+  duration: 1000,
+  fade: true,
+});
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -67,6 +74,25 @@ export default function RootLayout() {
           </ThemeProvider>
         </TRPCProvider>
       </ClerkLoaded>
+      <ClerkLoading>
+        <ThemedView
+          style={{
+            flex: 1,
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <ThemedText
+            style={{
+              fontSize: 40,
+            }}
+          >
+            ZotMeal
+          </ThemedText>
+        </ThemedView>
+      </ClerkLoading>
     </ClerkProvider>
   );
 }
