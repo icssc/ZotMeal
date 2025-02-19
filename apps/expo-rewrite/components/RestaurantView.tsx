@@ -12,6 +12,13 @@ import {
   GestureHandlerRootView,
   ScrollView,
 } from "react-native-gesture-handler";
+import Animated, {
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
 
 import { useThemeColor } from "../hooks/useThemeColor";
@@ -75,12 +82,14 @@ const StationCarousel = forwardRef<BottomSheetRefProps, { station: Station }>(
   },
 );
 
+const AnimatedImageBackground =
+  Animated.createAnimatedComponent(ImageBackground);
+
 const DishButton = forwardRef<BottomSheetRefProps, { dish: Dish }>(
   ({ dish }, ref) => {
     const { setSelectedItem } = useZotmealStore();
     const { height } = useWindowDimensions();
-
-    const { image } = useContext(RestaurantContext)!;
+    const { image, skeletonValue } = useContext(RestaurantContext)!;
 
     const handlePress = useCallback(() => {
       setSelectedItem(dish);
@@ -100,10 +109,19 @@ const DishButton = forwardRef<BottomSheetRefProps, { dish: Dish }>(
     const rating =
       dish.numRatings === 0 ? 0 : dish.totalRating! / dish.numRatings!;
 
+    const animatedStyle = useAnimatedStyle(() => {
+      return {
+        backgroundColor: interpolateColor(
+          skeletonValue.value,
+          [0, 1],
+          [`${color}55`, "#00000000"],
+        ),
+      };
+    });
+
     return (
       <TouchableOpacity onPress={handlePress}>
         <View
-          key={dish.name}
           style={{
             width: dishButtonWidth,
             alignItems: "center",
@@ -111,19 +129,25 @@ const DishButton = forwardRef<BottomSheetRefProps, { dish: Dish }>(
             borderRadius: 5,
           }}
         >
-          <ImageBackground
+          <AnimatedImageBackground
             source={image}
-            imageStyle={{
-              width: dishButtonWidth,
-            }}
-            style={{
-              height: dishButtonWidth * 0.9,
-              aspectRatio: 1,
-              borderRadius: 5,
-              marginHorizontal: 5,
-              justifyContent: "flex-end",
-              overflow: "hidden",
-            }}
+            imageStyle={[
+              {
+                width: dishButtonWidth,
+              },
+              animatedStyle,
+            ]}
+            style={[
+              {
+                height: dishButtonWidth * 0.9,
+                aspectRatio: 1,
+                borderRadius: 5,
+                marginHorizontal: 5,
+                justifyContent: "flex-end",
+                overflow: "hidden",
+              },
+              animatedStyle,
+            ]}
           >
             <View style={{ flexDirection: "row" }}>
               <View
@@ -145,7 +169,7 @@ const DishButton = forwardRef<BottomSheetRefProps, { dish: Dish }>(
               </ThemedText>
             </View>
             <View style={{ backgroundColor: color, height: 5, marginTop: 2 }} />
-          </ImageBackground>
+          </AnimatedImageBackground>
           <View
             style={{
               width: "90%",
@@ -442,6 +466,16 @@ export default function RestaurantView({
   const { setSelectedItem } = useZotmealStore();
   const { data, error, isFetching } = useZotmealQuery(date);
 
+  const skeletonValue = useSharedValue(0);
+
+  React.useEffect(() => {
+    skeletonValue.value = withRepeat(
+      withTiming(1, { duration: 700 }),
+      -1,
+      true,
+    );
+  }, []);
+
   React.useEffect(() => {
     if (!data) return;
     const restaurant =
@@ -449,6 +483,7 @@ export default function RestaurantView({
     setSelectedMenu(restaurant.menus[0]);
   }, [data]);
 
+  // TODO: better error handling & retry functionality
   if (error)
     return (
       <View
@@ -479,7 +514,12 @@ export default function RestaurantView({
     restaurantName === "anteatery" ? anteateryConfig : brandywineConfig;
 
   return (
-    <RestaurantContext.Provider value={config}>
+    <RestaurantContext.Provider
+      value={{
+        ...config,
+        skeletonValue,
+      }}
+    >
       <GestureHandlerRootView style={{ flex: 1 }}>
         <ParallaxScrollView
           headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
