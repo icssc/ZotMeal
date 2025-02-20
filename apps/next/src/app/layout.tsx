@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from 'next/font/google'
 import "./globals.css";
+import Toolbar from "@/components/ui/toolbar";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -19,6 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.className}>
+      <Toolbar></Toolbar>
       <body>
         {children}
       </body>
