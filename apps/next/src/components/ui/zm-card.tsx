@@ -1,32 +1,55 @@
 import Image from "next/image"
-import { AspectRatio } from "./aspect-ratio"
-import { Card, CardContent, CardHeader } from "./card"
+import { Card, CardContent} from "./card"
 import { Star } from "lucide-react"
 
-export default function ZotMealCard() {
+interface ZotMealCardProps {
+  title: string;
+  calories: number;
+  imgSrc: string;
+  alt: string;
+  rating: number;
+  numRatings: number;
+}
+
+
+export default function ZotMealCard({ 
+  title, 
+  calories, 
+  imgSrc, 
+  alt, 
+  rating, 
+  numRatings
+} : ZotMealCardProps) {
     return (
-        <Card>
-            <CardContent>
-            <div className="flex items-center gap-6 h-full pt-6">
-                <Image 
-                  src="/next.svg"
-                  alt="food image"
-                  width={32}
-                  height={32}
-                  className="rounded-sm"
-                />
-                    <div className="flex flex-col">
-                        <strong>Food Name</strong>
-                        <div className="flex gap-2 items-center">
-                            <span>110 cal</span>
-                            <div className="flex gap-1 items-center">
-                                <Star className="w-4 stroke-slate-400 stroke-2"></Star>
-                                <span className="text-slate-400 text-sm text-center"> 4.5 (1231)</span>
-                            </div>
-                        </div>
-                    </div>
+      <Card>
+        <CardContent>
+          <div className="flex justify-between h-full pt-6">
+            <div className="flex items-center gap-6">
+              <Image 
+                src={imgSrc}
+                alt={alt}
+                width={84}
+                height={84}
+                className="rounded-sm"
+              />
+              <div className="flex flex-col">
+                <strong>{title}</strong>
+                  <div className="flex gap-2 items-center">
+                    <span>{calories} cal</span>
+                      <div className="flex gap-1 items-center">
+                        <Star className="w-4 stroke-slate-400 stroke-2"></Star>
+                        <span className="text-slate-400 text-sm text-center"> 
+                          {rating} ({numRatings})
+                        </span>
+                      </div>
+                  </div>
+              </div>
             </div>
-            </CardContent>
-        </Card> 
+            <div className="flex flex-col justify-center">
+              <Star className="w-8 h-8 stroke-slate-400"></Star>
+            </div>
+          </div>
+        </CardContent>
+      </Card> 
     )
 }
