@@ -2,7 +2,7 @@ import Image from "next/image"
 import { Card, CardContent} from "./card"
 import { Star } from "lucide-react"
 
-interface ZotMealCardProps {
+interface FoodCardProps {
   title: string;
   calories: number;
   imgSrc: string;
@@ -12,14 +12,14 @@ interface ZotMealCardProps {
 }
 
 
-export default function ZotMealCard({ 
+export default function FoodCard({ 
   title, 
   calories, 
   imgSrc, 
   alt, 
   rating, 
   numRatings
-} : ZotMealCardProps) {
+} : FoodCardProps) {
     return (
       <Card>
         <CardContent>

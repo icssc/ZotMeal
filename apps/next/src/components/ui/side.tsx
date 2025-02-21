@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Tabs, TabsList, TabsTrigger } from "./tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select";
 import { HallStatusEnum, DiningHallStatus } from "./status";
-import ZotMealCard from "./zm-card";
+import FoodCard from "./food-card";
 import MealDivider from "./meal-divider";
 
 export default function Side() {
@@ -48,7 +48,7 @@ export default function Side() {
           </div>
           <div className="flex flex-col gap-6 mt-10">
             <MealDivider title="Entree"/>
-            <ZotMealCard
+            <FoodCard
               title="Meal"
               calories={121}
               imgSrc="/ZotMeal-Logo.webp"
@@ -56,7 +56,7 @@ export default function Side() {
               rating={4.7}
               numRatings={8558}
             />
-            <ZotMealCard
+            <FoodCard
               title="Meal"
               calories={121}
               imgSrc="/ZotMeal-Logo.webp"
@@ -65,7 +65,7 @@ export default function Side() {
               numRatings={8558}
             />
             <MealDivider title="Sides"/>
-            <ZotMealCard
+            <FoodCard
               title="Meal"
               calories={121}
               imgSrc="/ZotMeal-Logo.webp"
@@ -73,7 +73,7 @@ export default function Side() {
               rating={4.7}
               numRatings={8558}
             />
-            <ZotMealCard
+            <FoodCard
               title="Meal"
               calories={121}
               imgSrc="/ZotMeal-Logo.webp"
