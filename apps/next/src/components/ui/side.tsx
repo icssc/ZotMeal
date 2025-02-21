@@ -5,44 +5,64 @@ import { HallStatusEnum, DiningHallStatus } from "./status";
 import FoodCard from "./food-card";
 import MealDivider from "./meal-divider";
 
-export default function Side() {
+interface SideProps {
+  heroImageSrc: string;
+  heroImageAlt: string;
+  mealTimes: string[];
+  openTime: string;
+  closeTime: string;
+  stations: string[];
+}
+
+export default function Side({
+  heroImageSrc,
+  heroImageAlt,
+  mealTimes,
+  openTime,
+  closeTime,
+  stations,
+}: SideProps ) {
     return (
       <div className="z-0 flex flex-col h-full overflow-x-hidden">
         <Image 
-          className="object-cover object-bottom w-full max-h-80"
-          src="/brandywine.webp"
-          alt="An image of brandywine"
+          className="object-cover object-bottom w-full min-h-80 max-h-80"
+          src={heroImageSrc}
+          alt={heroImageAlt}
           width={2000}
           height={2000}
         />
         <div className="p-5 flex flex-col h-full" id="side-content">
           <div className="flex flex-col gap-6 items-center">
             <div className="flex gap-4 w-full">
-              <Select defaultValue="breakfast">
+              <Select defaultValue={mealTimes[0].toLowerCase()}>
                 <SelectTrigger className="w-40">
                   <SelectValue/>
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="breakfast">Breakfast</SelectItem>
-                  <SelectItem value="lunch">Lunch</SelectItem>
-                  <SelectItem value="dinner">Dinner</SelectItem>
-                  <SelectItem value="latenite">Latenite</SelectItem>
+                  {mealTimes.map((time) => {
+                    return (
+                      <SelectItem key={time} value={time.toLowerCase()}>
+                        {time}
+                      </SelectItem>
+                    )
+                  })}
                 </SelectContent>
               </Select>
               <DiningHallStatus
                 status={HallStatusEnum.OPEN}
-                openTime="8:00a"
-                closeTime="8:00p"
+                openTime={openTime}
+                closeTime={closeTime}
               />
             </div>
-            <Tabs defaultValue="grubb" className="w-full min-h-full">
+            <Tabs defaultValue={stations[0].toLowerCase()} className="w-full min-h-full">
                 <TabsList className="flex flex-wrap w-full ">
-                    <TabsTrigger value="grubb">Grubb</TabsTrigger>
-                    <TabsTrigger value="crossroads">The Crossroads</TabsTrigger>
-                    <TabsTrigger value="twisted-root">The Twisted Root</TabsTrigger>
-                    <TabsTrigger value="ember">Ember</TabsTrigger>
-                    <TabsTrigger value="hearth">Hearth</TabsTrigger>
-                    <TabsTrigger value="farm-stand">The Farm Stand</TabsTrigger>
+                    {stations.map((station => {
+                      return (
+                        <TabsTrigger key={station} value={station.toLowerCase()}>
+                          {station}
+                        </TabsTrigger>
+                      )
+                    }))}
                 </TabsList>
             </Tabs>
           </div>
