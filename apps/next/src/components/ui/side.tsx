@@ -3,7 +3,9 @@ import { Tabs, TabsList, TabsTrigger } from "./tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select";
 import { HallStatusEnum, DiningHallStatus } from "./status";
 import FoodCard from "./food-card";
+import FoodCardSkeleton from "./food-card-skeleton";
 import MealDivider from "./meal-divider";
+import MealDividerSkeleton from "./meal-divider-skeleton";
 
 interface SideProps {
   heroImageSrc: string;
@@ -69,32 +71,13 @@ export default function Side({
           <div className="flex flex-col gap-6 mt-10 px-2 overflow-y-auto 
             flex-grow h-1" 
             id="food-scroll">
-            <MealDivider title="Entree"/>
-            <FoodCard
-              title="Meal"
-              calories={121}
-              imgSrc="/ZotMeal-Logo.webp"
-              alt="Image of meal"
-              rating={4.7}
-              numRatings={8558}
-            />
-            <FoodCard
-              title="Meal"
-              calories={121}
-              imgSrc="/ZotMeal-Logo.webp"
-              alt="Image of meal"
-              rating={4.7}
-              numRatings={8558}
-            />
-            <MealDivider title="Side"/>
-            <FoodCard
-              title="Meal"
-              calories={121}
-              imgSrc="/ZotMeal-Logo.webp"
-              alt="Image of meal"
-              rating={4.7}
-              numRatings={8558}
-            />
+              <MealDividerSkeleton/>
+              <FoodCardSkeleton/>
+              <FoodCardSkeleton/>
+              <MealDividerSkeleton/>
+              <FoodCardSkeleton/>
+              <FoodCardSkeleton/>
+              <FoodCardSkeleton/>
           </div>
         </div>
       </div>
