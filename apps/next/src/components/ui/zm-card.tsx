@@ -32,7 +32,7 @@ export default function ZotMealCard({
                 height={84}
                 className="rounded-sm"
               />
-              <div className="flex flex-col">
+              <div className="flex flex-col h-full">
                 <strong>{title}</strong>
                   <div className="flex gap-2 items-center">
                     <span>{calories} cal</span>
