@@ -15,7 +15,7 @@ export default function Side() {
           width={2000}
           height={2000}
         />
-        <div className="p-5">
+        <div className="p-5" id="side-content">
           <div className="flex flex-col gap-6 items-center">
             <div className="flex gap-4 w-full">
               <Select defaultValue="breakfast">
@@ -46,7 +46,8 @@ export default function Side() {
                 </TabsList>
             </Tabs>
           </div>
-          <div className="flex flex-col gap-6 mt-10">
+          <div className="flex flex-col gap-6 mt-10 px-2 overflow-y-auto max-h-[700px]" 
+            id="food-scroll">
             <MealDivider title="Entree"/>
             <FoodCard
               title="Meal"
