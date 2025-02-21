@@ -76,7 +76,11 @@ const StationCarousel = forwardRef<BottomSheetRefProps, { station: Station }>(
             gestureChain.activeOffsetX([-10, 10])
           }
           renderItem={({ index }) => (
-            <DishButton key={index} dish={sortedDishes[index]} ref={ref} />
+            <DishButton
+              key={sortedDishes[index].id}
+              dish={sortedDishes[index]}
+              ref={ref}
+            />
           )}
         />
       </View>
@@ -189,14 +193,7 @@ const DishButton = forwardRef<BottomSheetRefProps, { dish: Dish }>(
                 gap: 1,
               }}
             >
-              <IconSymbol
-                name="star.fill"
-                color={textColor}
-                style={{
-                  height: 11,
-                  marginHorizontal: -5,
-                }}
-              />
+              <IconSymbol name="star.fill" color={textColor} size={13} />
               <ThemedText
                 type="default"
                 style={{
@@ -286,20 +283,15 @@ function DishDetails() {
             <TouchableOpacity
               style={{
                 padding: 5,
-                paddingRight: 10,
+                paddingHorizontal: 10,
                 borderRadius: 25,
                 backgroundColor: colorShade(categoryColor, -20),
                 flexDirection: "row",
                 alignItems: "center",
+                gap: 5,
               }}
             >
-              <IconSymbol
-                name="star.fill"
-                color={textColor}
-                style={{
-                  height: 15,
-                }}
-              />
+              <IconSymbol name="star.fill" color={textColor} size={15} />
               <ThemedText type="defaultSemiBold" style={{ color: textColor }}>
                 {rating}
               </ThemedText>
@@ -312,13 +304,7 @@ function DishDetails() {
                 backgroundColor: colorShade(categoryColor, -20),
               }}
             >
-              <IconSymbol
-                name="pin.fill"
-                color={textColor}
-                style={{
-                  height: 18,
-                }}
-              />
+              <IconSymbol name="pin.fill" color={textColor} size={18} />
             </TouchableOpacity>
           </View>
         </View>
@@ -393,7 +379,7 @@ function EventDetails() {
           width: "90%",
           height: 1,
           marginVertical: 4,
-          backgroundColor: "white",
+          backgroundColor: secondaryBackgroundColor,
         }}
       />
       <ThemedText
@@ -460,7 +446,7 @@ function MenuButton({
           },
         ]}
       >
-        <ThemedText key={menu.period.name}>{menu.period.name}</ThemedText>
+        <ThemedText>{menu.period.name}</ThemedText>
       </View>
     </TouchableOpacity>
   );
@@ -578,7 +564,7 @@ export default function RestaurantView({
               >
                 {(config.data?.menus ?? []).map((menu) => (
                   <MenuButton
-                    key={menu.period.name}
+                    key={menu.id}
                     menu={menu}
                     setSelectedMenu={setSelectedMenu}
                     active={menu === selectedMenu}
@@ -588,7 +574,7 @@ export default function RestaurantView({
             </ScrollView>
             {(selectedMenu?.stations ?? []).map((station) => (
               <StationCarousel
-                key={station.name}
+                key={station.id}
                 station={station}
                 ref={sheetRef}
               />
