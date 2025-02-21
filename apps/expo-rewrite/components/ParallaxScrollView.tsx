@@ -1,6 +1,6 @@
 import type { PropsWithChildren, ReactElement } from "react";
 import React, { useContext } from "react";
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import Animated, {
   interpolate,
   useAnimatedRef,
@@ -11,6 +11,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BlurView } from "expo-blur";
 
 import { useColorScheme } from "../hooks/useColorScheme";
+import { RestaurantName } from "../hooks/useZotmealStore";
 import { RestaurantContext } from "./RestaurantContext";
 import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
@@ -23,12 +24,67 @@ type Props = PropsWithChildren<{
   headerBackgroundColor: { dark: string; light: string };
 }>;
 
+function Header({ restaurantName }: { restaurantName: RestaurantName }) {
+  const insets = useSafeAreaInsets();
+
+  // BlurView doesn't look good in Android
+  if (Platform.OS === "android") {
+    return (
+      <ThemedView
+        style={{
+          width: "100%",
+          height: "auto",
+          position: "absolute",
+          paddingHorizontal: 20,
+          paddingTop: insets.top,
+          paddingBottom: 10,
+          zIndex: 100,
+          justifyContent: "flex-end",
+        }}
+      >
+        <ThemedText
+          type="default"
+          style={{
+            fontSize: 22,
+          }}
+        >
+          {restaurantName.charAt(0).toUpperCase() + restaurantName.slice(1)}
+        </ThemedText>
+      </ThemedView>
+    );
+  }
+
+  return (
+    <BlurView
+      intensity={100}
+      style={{
+        width: "100%",
+        height: "auto",
+        position: "absolute",
+        paddingHorizontal: 20,
+        paddingTop: insets.top,
+        paddingBottom: 10,
+        zIndex: 100,
+        justifyContent: "flex-end",
+      }}
+    >
+      <ThemedText
+        type="default"
+        style={{
+          fontSize: 22,
+        }}
+      >
+        {restaurantName.charAt(0).toUpperCase() + restaurantName.slice(1)}
+      </ThemedText>
+    </BlurView>
+  );
+}
+
 export default function ParallaxScrollView({
   children,
   headerImage,
   headerBackgroundColor,
 }: Props) {
-  const insets = useSafeAreaInsets();
   const { restaurantName } = useContext(RestaurantContext)!;
   const colorScheme = useColorScheme() ?? "light";
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
@@ -62,28 +118,7 @@ export default function ParallaxScrollView({
 
   return (
     <ThemedView style={styles.container}>
-      <BlurView
-        intensity={100}
-        style={{
-          width: "100%",
-          height: "auto",
-          position: "absolute",
-          paddingHorizontal: 20,
-          paddingTop: insets.top,
-          paddingBottom: 10,
-          zIndex: 100,
-          justifyContent: "flex-end",
-        }}
-      >
-        <ThemedText
-          type="default"
-          style={{
-            fontSize: 22,
-          }}
-        >
-          {restaurantName.charAt(0).toUpperCase() + restaurantName.slice(1)}
-        </ThemedText>
-      </BlurView>
+      <Header restaurantName={restaurantName} />
       <Animated.ScrollView
         ref={scrollRef}
         scrollEventThrottle={16}

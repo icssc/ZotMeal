@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Platform } from "react-native";
 import Constants from "expo-constants";
+import * as Device from "expo-device";
 import { useAuth } from "@clerk/clerk-expo";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink, loggerLink } from "@trpc/client";
@@ -23,7 +24,8 @@ export { type RouterInputs, type RouterOutputs } from "@zotmeal/api";
  */
 export const getBaseUrl = () => {
   if (Platform.OS === "web") return "http://localhost:3000";
-  if (Platform.OS === "android") return `http://10.0.2.2:3000`;
+  if (Platform.OS === "android" && !Device.isDevice)
+    return "http://10.0.2.2:3000";
 
   /**
    * Gets the IP address of your host-machine. If it cannot automatically find it,
