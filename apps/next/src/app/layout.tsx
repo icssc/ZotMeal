@@ -20,9 +20,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.className}>
-      <Toolbar></Toolbar>
       <body>
-        {children}
+        <Toolbar></Toolbar>
+        <div className="grid grid-cols-2 max-w-full">
+          {children}
+        </div>
       </body>
     </html>
   );

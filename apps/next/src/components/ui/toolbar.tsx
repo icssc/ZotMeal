@@ -7,7 +7,7 @@ export default function Toolbar() {
     return (
       <div 
         className="w-full h-18 absolute flex items-center justify-between px-4 py-2 
-          bg-slate-50 bg-opacity-45 backdrop-blur-md">
+          bg-slate-50 bg-opacity-45 backdrop-blur-md z-10">
         <Image
           className="rounded-full"
           src="/Zotmeal-Logo.webp" 
