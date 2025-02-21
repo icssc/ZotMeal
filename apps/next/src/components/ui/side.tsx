@@ -35,8 +35,8 @@ export default function Side() {
                 closeTime="8:00p"
               />
             </div>
-            <Tabs defaultValue="grubb" className="w-full">
-                <TabsList className="flex w-full">
+            <Tabs defaultValue="grubb" className="w-full min-h-full">
+                <TabsList className="flex flex-wrap w-full ">
                     <TabsTrigger value="grubb">Grubb</TabsTrigger>
                     <TabsTrigger value="crossroads">The Crossroads</TabsTrigger>
                     <TabsTrigger value="twisted-root">The Twisted Root</TabsTrigger>
