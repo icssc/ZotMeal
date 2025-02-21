@@ -7,7 +7,7 @@ import MealDivider from "./meal-divider";
 
 export default function Side() {
     return (
-      <div className="z-0">
+      <div className="z-0 flex flex-col h-full overflow-x-hidden">
         <Image 
           className="object-cover object-bottom w-full max-h-80"
           src="/brandywine.webp"
@@ -15,7 +15,7 @@ export default function Side() {
           width={2000}
           height={2000}
         />
-        <div className="p-5" id="side-content">
+        <div className="p-5 flex flex-col h-full" id="side-content">
           <div className="flex flex-col gap-6 items-center">
             <div className="flex gap-4 w-full">
               <Select defaultValue="breakfast">
@@ -46,7 +46,8 @@ export default function Side() {
                 </TabsList>
             </Tabs>
           </div>
-          <div className="flex flex-col gap-6 mt-10 px-2 overflow-y-auto max-h-[700px]" 
+          <div className="flex flex-col gap-6 mt-10 px-2 overflow-y-auto 
+            flex-grow h-1" 
             id="food-scroll">
             <MealDivider title="Entree"/>
             <FoodCard
@@ -65,15 +66,7 @@ export default function Side() {
               rating={4.7}
               numRatings={8558}
             />
-            <MealDivider title="Sides"/>
-            <FoodCard
-              title="Meal"
-              calories={121}
-              imgSrc="/ZotMeal-Logo.webp"
-              alt="Image of meal"
-              rating={4.7}
-              numRatings={8558}
-            />
+            <MealDivider title="Side"/>
             <FoodCard
               title="Meal"
               calories={121}
