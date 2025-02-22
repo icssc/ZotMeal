@@ -2,10 +2,10 @@ import { logger } from "@api/logger";
 import { upsertRestaurant } from "@api/restaurants/services";
 import { upsert } from "@api/utils";
 
-import type { Drizzle, Event } from "@zotmeal/db";
+import type { Drizzle, InsertEvent } from "@zotmeal/db";
 import { events, getRestaurantNameById, restaurantIds } from "@zotmeal/db";
 
-export const upsertEvent = async (db: Drizzle, event: Event) =>
+export const upsertEvent = async (db: Drizzle, event: InsertEvent) =>
   await upsert(db, events, event, {
     target: [events.title, events.start, events.restaurantId],
     set: event,
@@ -13,8 +13,8 @@ export const upsertEvent = async (db: Drizzle, event: Event) =>
 
 export async function upsertEvents(
   db: Drizzle,
-  events: Event[],
-): Promise<Event[]> {
+  events: InsertEvent[],
+): Promise<InsertEvent[]> {
   // Upsert restaurants first
   const upsertRestaurantsResult = await Promise.allSettled(
     restaurantIds.map(
@@ -32,7 +32,7 @@ export async function upsertEvents(
     events.map(async (event) => upsertEvent(db, event)),
   );
 
-  const upsertedEvents: Event[] = [];
+  const upsertedEvents: InsertEvent[] = [];
 
   upsertEventsResults.forEach((result) => {
     if (result.status === "rejected")

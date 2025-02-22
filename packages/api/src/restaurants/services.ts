@@ -3,37 +3,41 @@ import { TRPCError } from "@trpc/server";
 import { format } from "date-fns";
 
 import type {
-  DietRestriction,
-  Dish,
   Drizzle,
-  Event,
-  Menu,
-  NutritionInfo,
-  Period,
-  Restaurant,
-  Station,
+  InsertRestaurant,
+  SelectDietRestriction,
+  SelectDish,
+  SelectEvent,
+  SelectMenu,
+  SelectNutritionInfo,
+  SelectPeriod,
+  SelectRestaurant,
+  SelectStation,
 } from "@zotmeal/db";
 import { restaurants } from "@zotmeal/db";
 
-export const upsertRestaurant = async (db: Drizzle, restaurant: Restaurant) =>
+export const upsertRestaurant = async (
+  db: Drizzle,
+  restaurant: InsertRestaurant,
+) =>
   await upsert(db, restaurants, restaurant, {
     target: restaurants.id,
     set: restaurant,
   });
 
 /** Restaurant information for a given date. */
-interface RestaurantInfo extends Restaurant {
+interface RestaurantInfo extends SelectRestaurant {
   /** Events that are happening today or later. */
-  events: Event[];
+  events: SelectEvent[];
   /** List of menus for each period. */
-  menus: (Menu & {
-    period: Period;
-    stations: (Station & {
-      dishes: (Dish & {
-        menuId: Menu["id"];
-        restaurant: Restaurant["name"];
-        dietRestriction: DietRestriction;
-        nutritionInfo: NutritionInfo;
+  menus: (SelectMenu & {
+    period: SelectPeriod;
+    stations: (SelectStation & {
+      dishes: (SelectDish & {
+        menuId: SelectMenu["id"];
+        restaurant: SelectRestaurant["name"];
+        dietRestriction: SelectDietRestriction;
+        nutritionInfo: SelectNutritionInfo;
       })[];
     })[];
   })[];

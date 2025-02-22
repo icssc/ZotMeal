@@ -14,6 +14,8 @@ const MAPPING = {
   "chevron.left.forwardslash.chevron.right": "code",
   "chevron.right": "chevron-right",
   "star.fill": "star",
+  checkmark: "check",
+  star: "star-border",
   "pin.fill": "push-pin",
   gear: "settings",
 } as Partial<

@@ -8,10 +8,7 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import {
-  GestureHandlerRootView,
-  ScrollView,
-} from "react-native-gesture-handler";
+import { ScrollView } from "react-native-gesture-handler";
 import Animated, {
   interpolateColor,
   useAnimatedStyle,
@@ -20,6 +17,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";
+import { FlashList } from "@shopify/flash-list";
 
 import { useThemeColor } from "../hooks/useThemeColor";
 import {
@@ -30,11 +28,12 @@ import {
   useZotmealQuery,
   useZotmealStore,
 } from "../hooks/useZotmealStore";
-import { colorShade, getContrastText, stringToColor } from "../utils/color";
+import { stringToColor } from "../utils/color";
 import { formatEventDateRange } from "../utils/date";
+import { getDishRating } from "../utils/dish";
 import BottomSheet, { BottomSheetRefProps } from "./BottomSheet";
 import { Calendar } from "./Calendar";
-import { NutritionFacts } from "./NutritionFacts";
+import { DishDetails } from "./DishDetails";
 import ParallaxScrollView from "./ParallaxScrollView";
 import { RestaurantContext } from "./RestaurantContext";
 import { ThemedText } from "./ThemedText";
@@ -45,9 +44,8 @@ const dishButtonWidth = 120;
 
 const StationCarousel = forwardRef<BottomSheetRefProps, { station: Station }>(
   ({ station }, ref) => {
-    // TODO: use Select type instead of bangs
     const sortedDishes = station.dishes.sort((a, b) =>
-      a.category!.localeCompare(b.category!),
+      a.category.localeCompare(b.category),
     );
 
     return (
@@ -99,7 +97,7 @@ const DishButton = forwardRef<BottomSheetRefProps, { dish: Dish }>(
     const textColor = useThemeColor({}, "text");
 
     const handlePress = useCallback(() => {
-      setSelectedItem(dish);
+      setSelectedItem({ ...dish, type: "Dish" });
       const currentRef = typeof ref === "function" ? null : ref?.current;
       if (!currentRef) return;
       if (currentRef.isActive()) {
@@ -109,12 +107,7 @@ const DishButton = forwardRef<BottomSheetRefProps, { dish: Dish }>(
       }
     }, []);
 
-    // TODO: use Select type
-    const color = stringToColor(dish.category!);
-
-    // TODO: use Select type instead of bangs
-    const rating =
-      dish.numRatings === 0 ? 0 : dish.totalRating! / dish.numRatings!;
+    const color = stringToColor(dish.category);
 
     const animatedStyle = useAnimatedStyle(() => {
       return {
@@ -200,7 +193,7 @@ const DishButton = forwardRef<BottomSheetRefProps, { dish: Dish }>(
                   fontSize: 11,
                 }}
               >
-                {rating}
+                {getDishRating(dish)}
               </ThemedText>
             </View>
             <ThemedText
@@ -239,124 +232,12 @@ const DishButton = forwardRef<BottomSheetRefProps, { dish: Dish }>(
   },
 );
 
-function DishDetails() {
-  const { selectedItem: dish } = useZotmealStore();
-
-  // ! Brittle typeguard
-  if (!dish || "start" in dish) return null;
-  const categoryColor = stringToColor(dish?.category!);
-  const textColor = getContrastText(categoryColor);
-
-  // TODO: use Select type instead of bangs
-  const rating =
-    dish.numRatings === 0 ? 0 : dish.totalRating! / dish.numRatings!;
-
-  return (
-    <>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: categoryColor,
-          borderRadius: 25,
-          padding: 20,
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <ThemedText
-            type="defaultSemiBold"
-            style={{
-              color: getContrastText(categoryColor),
-              fontSize: 20,
-              width: "50%",
-              lineHeight: 24,
-            }}
-          >
-            {dish.name}
-          </ThemedText>
-          <View style={{ flexDirection: "row", gap: 10 }}>
-            <TouchableOpacity
-              style={{
-                padding: 5,
-                paddingHorizontal: 10,
-                borderRadius: 25,
-                backgroundColor: colorShade(categoryColor, -20),
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 5,
-              }}
-            >
-              <IconSymbol name="star.fill" color={textColor} size={15} />
-              <ThemedText type="defaultSemiBold" style={{ color: textColor }}>
-                {rating}
-              </ThemedText>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                padding: 5,
-                paddingHorizontal: 10,
-                borderRadius: 25,
-                backgroundColor: colorShade(categoryColor, -20),
-              }}
-            >
-              <IconSymbol name="pin.fill" color={textColor} size={18} />
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View
-          style={{
-            height: 2,
-            backgroundColor: colorShade(categoryColor, -20),
-            borderRadius: 25,
-            marginVertical: 5,
-          }}
-        />
-        <ThemedText
-          style={{
-            fontSize: 13,
-            color: textColor,
-            backgroundColor: colorShade(categoryColor, -20),
-            marginTop: 10,
-            padding: 10,
-            borderRadius: 10,
-            lineHeight: 20,
-          }}
-        >
-          {dish.description.trim() === ""
-            ? "No description available."
-            : dish.description}
-        </ThemedText>
-        <ScrollView
-          contentContainerStyle={{
-            width: 250,
-            alignItems: "center",
-            margin: "auto",
-            marginTop: 20,
-          }}
-        >
-          <NutritionFacts
-            nutritionInfo={dish.nutritionInfo}
-            color={textColor}
-          />
-        </ScrollView>
-      </View>
-    </>
-  );
-}
-
 function EventDetails() {
   const { selectedItem: event } = useZotmealStore();
-
   const secondaryBackgroundColor = useThemeColor({}, "secondaryBackground");
   const { width, height } = useWindowDimensions();
 
-  // ! Brittle typeguard
-  if (!event || "stationId" in event) return null;
+  if (!event || event.type !== "Event") return null;
 
   return (
     <ThemedView
@@ -376,7 +257,7 @@ function EventDetails() {
       </ThemedText>
       <View
         style={{
-          width: "90%",
+          width: "100%",
           height: 1,
           marginVertical: 4,
           backgroundColor: secondaryBackgroundColor,
@@ -564,7 +445,6 @@ export default function RestaurantView({
               >
                 {(config.data?.menus ?? []).map((menu) => (
                   <MenuButton
-                    key={menu.id}
                     menu={menu}
                     setSelectedMenu={setSelectedMenu}
                     active={menu === selectedMenu}
@@ -572,13 +452,13 @@ export default function RestaurantView({
                 ))}
               </View>
             </ScrollView>
-            {(selectedMenu?.stations ?? []).map((station) => (
-              <StationCarousel
-                key={station.id}
-                station={station}
-                ref={sheetRef}
-              />
-            ))}
+            <FlashList
+              data={selectedMenu?.stations ?? []}
+              estimatedItemSize={209}
+              renderItem={({ item }) => (
+                <StationCarousel station={item} ref={sheetRef} />
+              )}
+            />
             <ThemedText
               type="defaultSemiBold"
               style={{
@@ -600,7 +480,7 @@ export default function RestaurantView({
                 <TouchableOpacity
                   key={event.title}
                   onPress={() => {
-                    setSelectedItem(event);
+                    setSelectedItem({ ...event, type: "Event" });
                     if (!sheetRef.current) return;
                     if (sheetRef.current.isActive()) {
                       sheetRef.current.scrollTo(0);

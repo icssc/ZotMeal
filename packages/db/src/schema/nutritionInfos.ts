@@ -30,4 +30,5 @@ export const nutritionInfos = pgTable("nutrition_infos", {
 });
 
 /** The nutrition information of a dish. */
-export type NutritionInfo = typeof nutritionInfos.$inferInsert;
+export type InsertNutritionInfo = typeof nutritionInfos.$inferInsert;
+export type SelectNutritionInfo = typeof nutritionInfos.$inferSelect;
