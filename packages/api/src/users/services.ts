@@ -1,16 +1,22 @@
 import { upsert } from "@api/utils";
 import { TRPCError } from "@trpc/server";
 
-import type { Drizzle, InsertPin, InsertRating, InsertUser } from "@zotmeal/db";
+import type {
+  Drizzle,
+  InsertUser,
+  SelectPin,
+  SelectRating,
+  SelectUser,
+} from "@zotmeal/db";
 import { users } from "@zotmeal/db";
 
 export async function getUser(
   db: Drizzle,
   id: string,
 ): Promise<
-  InsertUser & {
-    pins: InsertPin[];
-    ratings: InsertRating[];
+  SelectUser & {
+    pins: SelectPin[];
+    ratings: SelectRating[];
   }
 > {
   const fetchedUser = await db.query.users.findFirst({
