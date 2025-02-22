@@ -9,7 +9,7 @@ export default function Home() {
         mealTimes={["Breakfast", "Lunch", "Dinner", "Latenite"]}
         openTime="8:00a"
         closeTime="8:00p"
-        stations={["Grubb", "The Crossroads", "The Twisted Root", "Emnber", "Hearth", "The Farm Stand"]}
+        stations={["Grubb", "The Crossroads", "The Twisted Root", "Ember", "Hearth", "The Farm Stand"]}
       />
       <Side
         heroImageSrc="/anteatery.webp"

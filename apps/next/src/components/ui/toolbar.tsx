@@ -2,7 +2,6 @@ import Image from "next/image";
 import { CalendarSearch, Cog } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar"
 
-
 export default function Toolbar() {
     return (
       <div 
