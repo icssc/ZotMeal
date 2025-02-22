@@ -78,7 +78,7 @@ A summary of the libraries we use are listed below.
 
 8. Run `pnpm db:push` to push the schema to the docker database.
 
-9. Start local development by running `pnpm dev` in `/apps/expo` and `pnpm dev` in `/apps/server` (or `turbo dev` in the root directory).
+9. Start local development by running `pnpm dev` in `/apps/expo-rewrite` and `pnpm dev` in `/apps/server` (or `turbo dev` in the root directory).
    The tRPC procedures are available on <http://localhost:3000/><router.procedure\>?input={field: value}
 
    ```sh
