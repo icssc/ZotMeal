@@ -2,9 +2,11 @@ import React from "react";
 import { TouchableOpacity, View } from "react-native";
 import { Pressable, ScrollView } from "react-native-gesture-handler";
 import Animated, {
+  interpolateColor,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
+  withSequence,
   withSpring,
   withTiming,
 } from "react-native-reanimated";
@@ -24,6 +26,17 @@ function DishRatingButton({ dish }: { dish: Dish }) {
   const open = useSharedValue(false);
   const selectedRating = useSharedValue(0);
   const rating = getDishRating(dish);
+  const triggerSuccessAmount = useSharedValue(0);
+  const triggerColor = colorShade(categoryColor, -20);
+  const triggerColorSuccess = colorShade(categoryColor, 40);
+
+  const triggerStyles = useAnimatedStyle(() => ({
+    backgroundColor: interpolateColor(
+      triggerSuccessAmount.value,
+      [0, 1],
+      [triggerColor, triggerColorSuccess],
+    ),
+  }));
 
   const confirmButtonStyles = useAnimatedStyle(() => ({
     display: withDelay(
@@ -75,7 +88,14 @@ function DishRatingButton({ dish }: { dish: Dish }) {
         onPress={() => {
           // TODO: do optimistic rate dish mutation
           // see: https://stackoverflow.com/questions/74671735/optimistic-updates-with-react-query-trpc
-          open.value = !open.value;
+          triggerSuccessAmount.value = withSequence(
+            withDelay(
+              100,
+              withSpring(1, { ...defaultSpringConfig, duration: 50 }),
+            ),
+            withDelay(400, withTiming(0, { duration: 600 })),
+          );
+          open.value = false;
           selectedRating.value = 0;
         }}
       >
@@ -154,15 +174,17 @@ function DishRatingButton({ dish }: { dish: Dish }) {
         }}
       >
         <Animated.View
-          style={{
-            padding: 5,
-            paddingHorizontal: 10,
-            borderRadius: 25,
-            backgroundColor: colorShade(categoryColor, -20),
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 5,
-          }}
+          style={[
+            triggerStyles,
+            {
+              padding: 5,
+              paddingHorizontal: 10,
+              borderRadius: 25,
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 5,
+            },
+          ]}
         >
           <IconSymbol name="star.fill" color={textColor} size={15} />
           <ThemedText type="defaultSemiBold" style={{ color: textColor }}>
