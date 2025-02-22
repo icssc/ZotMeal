@@ -30,4 +30,5 @@ export const dietRestrictions = pgTable("diet_restrictions", {
 });
 
 /** The diet restrictions of a dish. */
-export type DietRestriction = typeof dietRestrictions.$inferInsert;
+export type InsertDietRestriction = typeof dietRestrictions.$inferInsert;
+export type SelectDietRestriction = typeof dietRestrictions.$inferSelect;

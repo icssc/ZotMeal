@@ -45,9 +45,8 @@ const dishButtonWidth = 120;
 
 const StationCarousel = forwardRef<BottomSheetRefProps, { station: Station }>(
   ({ station }, ref) => {
-    // TODO: use Select type instead of bangs
     const sortedDishes = station.dishes.sort((a, b) =>
-      a.category!.localeCompare(b.category!),
+      a.category.localeCompare(b.category),
     );
 
     return (
@@ -109,12 +108,10 @@ const DishButton = forwardRef<BottomSheetRefProps, { dish: Dish }>(
       }
     }, []);
 
-    // TODO: use Select type
-    const color = stringToColor(dish.category!);
+    const color = stringToColor(dish.category);
 
-    // TODO: use Select type instead of bangs
     const rating =
-      dish.numRatings === 0 ? 0 : dish.totalRating! / dish.numRatings!;
+      dish.numRatings === 0 ? 0 : dish.totalRating / dish.numRatings;
 
     const animatedStyle = useAnimatedStyle(() => {
       return {
@@ -244,12 +241,10 @@ function DishDetails() {
 
   // ! Brittle typeguard
   if (!dish || "start" in dish) return null;
-  const categoryColor = stringToColor(dish?.category!);
+  const categoryColor = stringToColor(dish.category);
   const textColor = getContrastText(categoryColor);
 
-  // TODO: use Select type instead of bangs
-  const rating =
-    dish.numRatings === 0 ? 0 : dish.totalRating! / dish.numRatings!;
+  const rating = dish.numRatings === 0 ? 0 : dish.totalRating / dish.numRatings;
 
   return (
     <>

@@ -44,7 +44,6 @@ export function Calendar({
     };
   });
 
-  // TODO: mindate maxdate
   return (
     <>
       <TouchableOpacity

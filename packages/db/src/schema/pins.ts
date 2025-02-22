@@ -50,4 +50,5 @@ export const pinsRelations = relations(pins, ({ one }) => ({
  * {@linkcode dishes}
  * {@linkcode users}
  */
-export type Pin = typeof pins.$inferInsert;
+export type InsertPin = typeof pins.$inferInsert;
+export type SelectPin = typeof pins.$inferSelect;
