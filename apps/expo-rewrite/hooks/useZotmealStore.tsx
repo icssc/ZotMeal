@@ -23,11 +23,13 @@ export const useZotmealQuery = (date: Date) =>
     },
   );
 
+type SelectedItem = (Dish & { type: "Dish" }) | (Event & { type: "Event" });
+
 interface ZotmealState {
   zotmeal: ZotmealData | null;
   setZotmeal: (zotmeal: ZotmealData) => void;
-  selectedItem: Dish | Event | null;
-  setSelectedItem: (item: Dish | Event) => void;
+  selectedItem: SelectedItem | null;
+  setSelectedItem: (item: SelectedItem) => void;
 }
 
 export const useZotmealStore = create<ZotmealState>((set) => ({

@@ -9,6 +9,7 @@ import Animated, {
 import DateTimePicker, { getDefaultStyles } from "react-native-ui-datepicker";
 import { endOfWeek, startOfWeek } from "date-fns";
 
+import { defaultSpringConfig } from "../constants/Animation";
 import { formatDate } from "../utils/date";
 import { ThemedText } from "./ThemedText";
 
@@ -23,24 +24,14 @@ export function Calendar({
 
   const open = useSharedValue(false);
 
-  const springConfig = {
-    duration: 750,
-    dampingRatio: 1.2,
-    stiffness: 109,
-    overshootClamping: false,
-    restDisplacementThreshold: 0.01,
-    restSpeedThreshold: 2,
-    reduceMotion: ReduceMotion.System,
-  };
-
   const animatedStyles = useAnimatedStyle(() => {
     return {
       opacity: withSpring(open.value ? 1 : 0, {
-        ...springConfig,
+        ...defaultSpringConfig,
         duration: 100,
       }),
-      height: withSpring(open.value ? 300 : 0, springConfig),
-      marginBottom: withSpring(open.value ? 0 : -50, springConfig),
+      height: withSpring(open.value ? 300 : 0, defaultSpringConfig),
+      marginBottom: withSpring(open.value ? 0 : -50, defaultSpringConfig),
     };
   });
 
