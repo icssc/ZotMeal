@@ -1,16 +1,16 @@
 import { upsert } from "@api/utils";
 import { TRPCError } from "@trpc/server";
 
-import type { Drizzle, Pin, Rating, User } from "@zotmeal/db";
+import type { Drizzle, InsertPin, InsertRating, InsertUser } from "@zotmeal/db";
 import { users } from "@zotmeal/db";
 
 export async function getUser(
   db: Drizzle,
   id: string,
 ): Promise<
-  User & {
-    pins: Pin[];
-    ratings: Rating[];
+  InsertUser & {
+    pins: InsertPin[];
+    ratings: InsertRating[];
   }
 > {
   const fetchedUser = await db.query.users.findFirst({
@@ -27,7 +27,7 @@ export async function getUser(
   return fetchedUser;
 }
 
-export const upsertUser = async (db: Drizzle, user: User) =>
+export const upsertUser = async (db: Drizzle, user: InsertUser) =>
   await upsert(db, users, user, {
     target: users.id,
     set: user,

@@ -21,9 +21,9 @@ export const restaurantsRelations = relations(restaurants, ({ many }) => ({
 
 /**
  * A restaurant has many:
- *
  * {@linkcode stations}
  * {@linkcode menus}
  * {@linkcode events}
  */
-export type Restaurant = typeof restaurants.$inferInsert;
+export type InsertRestaurant = typeof restaurants.$inferInsert;
+export type SelectRestaurant = typeof restaurants.$inferSelect;
