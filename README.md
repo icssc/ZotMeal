@@ -106,7 +106,7 @@ Clear expo cache
 
 ### Testing
 
-Run `turbo test` at the root of the project.
+Run `npx turbo test` at the root of the project.
 
 **Database**
 
