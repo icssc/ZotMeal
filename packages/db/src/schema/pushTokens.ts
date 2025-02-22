@@ -6,4 +6,5 @@ export const pushTokens = pgTable("push_tokens", {
 });
 
 export const PushTokenSchema = createInsertSchema(pushTokens);
-export type PushToken = typeof pushTokens.$inferInsert;
+export type InsertPushToken = typeof pushTokens.$inferInsert;
+export type SelectPushToken = typeof pushTokens.$inferSelect;

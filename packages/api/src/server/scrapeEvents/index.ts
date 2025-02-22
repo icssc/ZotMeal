@@ -3,7 +3,7 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import { setYear } from "date-fns";
 
-import type { Event } from "@zotmeal/db";
+import type { InsertEvent } from "@zotmeal/db";
 import { EventSchema, getRestaurantId } from "@zotmeal/db";
 
 /**
@@ -26,7 +26,7 @@ export async function getHTML(url: string): Promise<string> {
   }
 }
 
-export async function scrapeEvents(html: string): Promise<Event[]> {
+export async function scrapeEvents(html: string): Promise<InsertEvent[]> {
   try {
     logger.info(`scrapeEvents: Scraping events...`);
     const $ = cheerio.load(html);
@@ -88,7 +88,7 @@ export async function scrapeEvents(html: string): Promise<Event[]> {
           longDescription,
           start,
           end,
-        } satisfies Event);
+        } satisfies InsertEvent);
 
         logger.debug(event);
         return event;

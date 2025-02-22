@@ -26,5 +26,6 @@ export const usersRelations = relations(users, ({ many }) => ({
  * {@linkcode ratings}
  *
  */
-export type User = typeof users.$inferInsert;
+export type InputUser = typeof users.$inferInsert;
+export type SelectUser = typeof users.$inferSelect;
 export const UserSchema = createInsertSchema(users);

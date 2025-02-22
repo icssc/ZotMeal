@@ -33,4 +33,5 @@ export const stationsRelations = relations(stations, ({ one, many }) => ({
  *
  * {@linkcode dishes}
  */
-export type Station = typeof stations.$inferInsert;
+export type InsertStation = typeof stations.$inferInsert;
+export type SelectStation = typeof stations.$inferSelect;

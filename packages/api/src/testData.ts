@@ -2,14 +2,14 @@ import { addDays, format } from "date-fns";
 
 import type {
   DishToMenu,
-  DishWithRelations,
-  Event,
-  Menu,
-  Period,
-  Rating,
-  Restaurant,
-  Station,
-  User,
+  InputUser,
+  InsertDishWithRelations,
+  InsertEvent,
+  InsertMenu,
+  InsertPeriod,
+  InsertRating,
+  InsertRestaurant,
+  InsertStation,
 } from "@zotmeal/db";
 import { restaurantIds } from "@zotmeal/db";
 
@@ -24,18 +24,18 @@ const periodId = "period1";
 const brandywine = {
   id: brandywineId,
   name: "brandywine",
-} as const satisfies Restaurant;
+} as const satisfies InsertRestaurant;
 
 const anteatery = {
   id: anteateryId,
   name: "anteatery",
-} as const satisfies Restaurant;
+} as const satisfies InsertRestaurant;
 
 const station = {
   id: stationId,
   restaurantId: brandywineId,
   name: "grill",
-} as const satisfies Station;
+} as const satisfies InsertStation;
 
 const dish = {
   id: dishId,
@@ -82,7 +82,7 @@ const dish = {
     calciumMg: "4%",
     ironMg: "15%",
   },
-} as const satisfies DishWithRelations;
+} as const satisfies InsertDishWithRelations;
 
 const menu = {
   id: menuId,
@@ -90,14 +90,14 @@ const menu = {
   date: format(new Date(), "yyyy-MM-dd"),
   periodId,
   price: "13",
-} as const satisfies Menu;
+} as const satisfies InsertMenu;
 
 const period = {
   id: periodId,
   name: "breakfast",
   startTime: "08:00:00",
   endTime: "10:00:00",
-} as const satisfies Period;
+} as const satisfies InsertPeriod;
 
 const dishToMenu = {
   dishId,
@@ -107,13 +107,13 @@ const dishToMenu = {
 const user = {
   id: userId,
   name: "Peter",
-} as const satisfies User;
+} as const satisfies InputUser;
 
 const rating = {
   dishId,
   userId,
   rating: 1,
-} as const satisfies Rating;
+} as const satisfies InsertRating;
 
 const event = {
   title: "Dinner",
@@ -124,7 +124,7 @@ const event = {
   shortDescription: "Enjoy our cream puffs",
   longDescription:
     "For this week, we're hosting a special event. We're going to be serving cream puffs. Come and join us for a fun and festive evening!",
-} as const satisfies Event;
+} as const satisfies InsertEvent;
 
 export const testData = {
   brandywine,
