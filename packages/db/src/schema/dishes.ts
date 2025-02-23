@@ -1,9 +1,9 @@
 import { relations } from "drizzle-orm";
 import { integer, pgTable, text } from "drizzle-orm/pg-core";
 
-import { DietRestriction, dietRestrictions } from "./dietRestrictions";
+import { dietRestrictions, InsertDietRestriction } from "./dietRestrictions";
 import { dishesToMenus } from "./menus";
-import { NutritionInfo, nutritionInfos } from "./nutritionInfos";
+import { InsertNutritionInfo, nutritionInfos } from "./nutritionInfos";
 import { stations } from "./stations";
 import { metadataColumns } from "./utils";
 
@@ -41,8 +41,9 @@ export const dishRelations = relations(dishes, ({ one, many }) => ({
 }));
 
 /** A dish at a restaurant. */
-export type Dish = typeof dishes.$inferInsert;
-export interface DishWithRelations extends Dish {
-  dietRestriction: DietRestriction;
-  nutritionInfo: NutritionInfo;
+export type InsertDish = typeof dishes.$inferInsert;
+export type SelectDish = typeof dishes.$inferSelect;
+export interface InsertDishWithRelations extends InsertDish {
+  dietRestriction: InsertDietRestriction;
+  nutritionInfo: InsertNutritionInfo;
 }

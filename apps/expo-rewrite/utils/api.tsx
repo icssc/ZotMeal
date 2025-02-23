@@ -9,14 +9,28 @@ import { createTRPCReact } from "@trpc/react-query";
 import superjson from "superjson";
 
 import type { AppRouter } from "@zotmeal/api";
+import { type RouterInputs, type RouterOutputs } from "@zotmeal/api";
 
 import { env } from "./env";
+
+export type ZotmealData = RouterOutputs["zotmeal"];
+export type RestaurantName = keyof ZotmealData;
+export type RestaurantInfo = ZotmealData[RestaurantName];
+export type Event = RestaurantInfo["events"][number];
+export type Menu = RestaurantInfo["menus"][number];
+export type Station = Menu["stations"][number];
+export type Dish = Station["dishes"][number];
+export type DietRestriction = Dish["dietRestriction"];
+export type NutritionInfo = Dish["nutritionInfo"];
+
+export type User = RouterOutputs["user"]["get"];
+export type Pin = User["pins"][number];
+export type Rating = User["ratings"][number];
 
 /**
  * A set of typesafe hooks for consuming your API.
  */
 export const api = createTRPCReact<AppRouter>();
-export { type RouterInputs, type RouterOutputs } from "@zotmeal/api";
 
 /**
  * Extend this function when going to production by

@@ -14,8 +14,12 @@ const MAPPING = {
   "chevron.left.forwardslash.chevron.right": "code",
   "chevron.right": "chevron-right",
   "star.fill": "star",
+  checkmark: "check",
+  star: "star-border",
   "pin.fill": "push-pin",
   gear: "settings",
+  "sun.max": "light-mode",
+  moon: "dark-mode",
 } as Partial<
   Record<
     import("expo-symbols").SymbolViewProps["name"],

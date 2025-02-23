@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useImperativeHandle } from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import React, { useCallback, useImperativeHandle } from "react";
+import { Dimensions, StyleSheet, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
-  Extrapolate,
+  Extrapolation,
   interpolate,
-  ReduceMotion,
   useAnimatedProps,
   useAnimatedStyle,
   useSharedValue,
@@ -12,6 +11,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
+import { defaultSpringConfig } from "../constants/Animation";
 import { useThemeColor } from "../hooks/useThemeColor";
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
@@ -37,20 +37,10 @@ const BottomSheet = React.forwardRef<BottomSheetRefProps, BottomSheetProps>(
       "worklet";
       active.value = destination !== 0;
 
-      translateY.value = withSpring(destination, {
-        duration: 750,
-        dampingRatio: 1.2,
-        stiffness: 109,
-        overshootClamping: false,
-        restDisplacementThreshold: 0.01,
-        restSpeedThreshold: 2,
-        reduceMotion: ReduceMotion.System,
-      });
+      translateY.value = withSpring(destination, defaultSpringConfig);
     }, []);
 
-    const isActive = useCallback(() => {
-      return active.value;
-    }, []);
+    const isActive = useCallback(() => active.value, []);
 
     useImperativeHandle(ref, () => ({ scrollTo, isActive }), [
       scrollTo,
@@ -79,7 +69,7 @@ const BottomSheet = React.forwardRef<BottomSheetRefProps, BottomSheetProps>(
         translateY.value,
         [MAX_TRANSLATE_Y + 50, MAX_TRANSLATE_Y],
         [25, 5],
-        Extrapolate.CLAMP,
+        Extrapolation.CLAMP,
       );
 
       return {
@@ -88,11 +78,12 @@ const BottomSheet = React.forwardRef<BottomSheetRefProps, BottomSheetProps>(
       };
     });
 
-    const rBackdropStyle = useAnimatedStyle(() => {
-      return {
+    const rBackdropStyle = useAnimatedStyle(
+      () => ({
         opacity: withTiming(active.value ? 1 : 0),
-      };
-    }, []);
+      }),
+      [],
+    );
 
     const rBackdropProps = useAnimatedProps(() => {
       return {
