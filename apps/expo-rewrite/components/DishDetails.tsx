@@ -12,7 +12,8 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { defaultSpringConfig } from "../constants/Animation";
-import { Dish, useZotmealStore } from "../hooks/useZotmealStore";
+import { useZotmealStore } from "../hooks/useZotmealStore";
+import { Dish } from "../utils/api";
 import { colorShade, getContrastText, stringToColor } from "../utils/color";
 import { getDishRating } from "../utils/dish";
 import { NutritionFacts } from "./NutritionFacts";

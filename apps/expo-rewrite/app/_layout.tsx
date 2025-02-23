@@ -17,7 +17,7 @@ import { ClerkLoaded, ClerkLoading, ClerkProvider } from "@clerk/clerk-expo";
 
 import { ThemedText } from "../components/ThemedText";
 import { ThemedView } from "../components/ThemedView";
-import { useColorScheme } from "../hooks/useColorScheme";
+import { useZotmealColorScheme } from "../hooks/useZotmealColorScheme";
 import { TRPCProvider } from "../utils/api";
 import { tokenCache } from "../utils/cache";
 import { env } from "../utils/env";
@@ -31,7 +31,7 @@ SplashScreen.setOptions({
 });
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const colorScheme = useZotmealColorScheme();
   const [loaded] = useFonts({
     Default: require("../assets/fonts/Nohemi-Regular.ttf"),
     DefaultSemiBold: require("../assets/fonts/Nohemi-Medium.ttf"),
@@ -68,7 +68,7 @@ export default function RootLayout() {
                   />
                   <Stack.Screen name="+not-found" />
                 </Stack>
-                <StatusBar style="auto" />
+                <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
               </SheetProvider>
             </GestureHandlerRootView>
           </ThemeProvider>

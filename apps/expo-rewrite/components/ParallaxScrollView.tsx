@@ -10,8 +10,8 @@ import Animated, {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BlurView } from "expo-blur";
 
-import { useColorScheme } from "../hooks/useColorScheme";
-import { RestaurantName } from "../hooks/useZotmealStore";
+import { useZotmealColorScheme } from "../hooks/useZotmealColorScheme";
+import { RestaurantName } from "../utils/api";
 import { RestaurantContext } from "./RestaurantContext";
 import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
@@ -86,7 +86,7 @@ export default function ParallaxScrollView({
   headerBackgroundColor,
 }: Props) {
   const { restaurantName } = useContext(RestaurantContext)!;
-  const colorScheme = useColorScheme() ?? "light";
+  const colorScheme = useZotmealColorScheme();
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(scrollRef);
   const bottom = useBottomTabOverflow();
