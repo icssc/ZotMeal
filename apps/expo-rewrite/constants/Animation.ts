@@ -1,4 +1,4 @@
-import { ReduceMotion } from "react-native-reanimated";
+import { ReduceMotion, WithSpringConfig } from "react-native-reanimated";
 
 export const defaultSpringConfig = {
   duration: 750,
@@ -8,4 +8,4 @@ export const defaultSpringConfig = {
   restDisplacementThreshold: 0.01,
   restSpeedThreshold: 2,
   reduceMotion: ReduceMotion.System,
-};
+} as const satisfies WithSpringConfig;

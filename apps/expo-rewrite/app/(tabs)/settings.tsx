@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { WebView } from "react-native-webview";
 import * as AuthSession from "expo-auth-session";
 import * as WebBrowser from "expo-web-browser";
-import { SignedIn, SignedOut, useSSO } from "@clerk/clerk-expo";
+import { SignedIn, SignedOut, useClerk, useSSO } from "@clerk/clerk-expo";
 
 import { ThemedText } from "../../components/ThemedText";
 import { ThemedView } from "../../components/ThemedView";
@@ -34,6 +34,7 @@ function AuthButton() {
 
   // Use the `useSSO()` hook to access the `startSSOFlow()` method
   const { startSSOFlow } = useSSO();
+  const { signOut } = useClerk();
 
   const onPress = useCallback(async () => {
     try {
@@ -97,18 +98,25 @@ function AuthButton() {
       </SignedOut>
       <SignedIn>
         <ThemedText style={{ width: "50%" }}>You are signed in.</ThemedText>
-        <TouchableOpacity
-          // TODO: implement sign out
-          // onPress={}
+        <ThemedView
           style={{
-            backgroundColor: secondaryBackgroundColor,
-            padding: 5,
-            paddingHorizontal: 12,
-            borderRadius: 18,
+            width: "50%",
+            alignItems: "center",
           }}
         >
-          <ThemedText>Sign out</ThemedText>
-        </TouchableOpacity>
+          <TouchableOpacity
+            // TODO: implement sign out
+            onPress={signOut}
+            style={{
+              backgroundColor: secondaryBackgroundColor,
+              padding: 5,
+              paddingHorizontal: 12,
+              borderRadius: 18,
+            }}
+          >
+            <ThemedText>Sign out</ThemedText>
+          </TouchableOpacity>
+        </ThemedView>
       </SignedIn>
     </View>
   );
