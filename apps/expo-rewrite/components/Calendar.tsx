@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { TouchableOpacity } from "react-native";
 import Animated, {
-  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
   withSpring,

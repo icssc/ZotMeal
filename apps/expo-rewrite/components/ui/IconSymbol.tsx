@@ -18,6 +18,8 @@ const MAPPING = {
   star: "star-border",
   "pin.fill": "push-pin",
   gear: "settings",
+  "sun.max": "light-mode",
+  moon: "dark-mode",
 } as Partial<
   Record<
     import("expo-symbols").SymbolViewProps["name"],

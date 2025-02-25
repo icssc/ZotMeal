@@ -19,15 +19,10 @@ import Animated, {
 import Carousel from "react-native-reanimated-carousel";
 import { FlashList } from "@shopify/flash-list";
 
+import { useZotmealQuery } from "../hooks/apiHooks";
 import { useThemeColor } from "../hooks/useThemeColor";
-import {
-  Dish,
-  Menu,
-  RestaurantName,
-  Station,
-  useZotmealQuery,
-  useZotmealStore,
-} from "../hooks/useZotmealStore";
+import { useZotmealStore } from "../hooks/useZotmealStore";
+import { Dish, Menu, RestaurantName, Station } from "../utils/api";
 import { stringToColor } from "../utils/color";
 import { formatEventDateRange } from "../utils/date";
 import { getDishRating } from "../utils/dish";

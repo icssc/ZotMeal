@@ -1,6 +1,6 @@
 import { isSameDay } from "date-fns";
 
-import { Event } from "../hooks/useZotmealStore";
+import { Event } from "./api";
 
 export function formatDate(date: Date) {
   return date.toLocaleDateString(undefined, {

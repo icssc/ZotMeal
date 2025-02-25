@@ -1,7 +1,7 @@
 import React from "react";
 import { Platform, Text, TextProps, View } from "react-native";
 
-import { NutritionInfo } from "../hooks/useZotmealStore";
+import { NutritionInfo } from "../utils/api";
 
 const units = {
   calories: "cal",
