@@ -1,6 +1,6 @@
 import { upsert } from "@api/utils";
 
-import type { DishToMenu, DishWithRelations, Drizzle } from "@zotmeal/db";
+import type { DishToMenu, Drizzle, InsertDishWithRelations } from "@zotmeal/db";
 import {
   dietRestrictions,
   dishes,
@@ -10,8 +10,8 @@ import {
 
 export async function upsertDish(
   db: Drizzle,
-  { dietRestriction, nutritionInfo, ...dishData }: DishWithRelations,
-): Promise<Omit<DishWithRelations, "menuId" | "stationId">> {
+  { dietRestriction, nutritionInfo, ...dishData }: InsertDishWithRelations,
+): Promise<Omit<InsertDishWithRelations, "menuId" | "stationId">> {
   try {
     const upsertedDish = await upsert(db, dishes, dishData, {
       target: [dishes.id],

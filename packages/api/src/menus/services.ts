@@ -1,6 +1,6 @@
 import { upsert } from "@api/utils";
 
-import type { Drizzle, Menu } from "@zotmeal/db";
+import type { Drizzle, InsertMenu } from "@zotmeal/db";
 import { menus } from "@zotmeal/db";
 
 // export async function getMenu(
@@ -80,7 +80,7 @@ import { menus } from "@zotmeal/db";
 //   return menuResult;
 // }
 
-export const upsertMenu = async (db: Drizzle, menu: Menu) =>
+export const upsertMenu = async (db: Drizzle, menu: InsertMenu) =>
   await upsert(db, menus, menu, {
     target: menus.id,
     set: menu,

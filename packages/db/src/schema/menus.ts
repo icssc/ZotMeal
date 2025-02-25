@@ -73,6 +73,7 @@ export const dishesToMenusRelations = relations(dishesToMenus, ({ one }) => ({
 }));
 
 /** A restaurant menu for a given date and period. */
-export type Menu = typeof menus.$inferInsert;
+export type InsertMenu = typeof menus.$inferInsert;
+export type SelectMenu = typeof menus.$inferSelect;
 /** A join between a dish and a menu. */
 export type DishToMenu = typeof dishesToMenus.$inferInsert;
