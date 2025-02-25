@@ -1,5 +1,4 @@
 import { Platform } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
@@ -30,7 +29,10 @@ export const useSettingsStore = create<SettingsState>()(
       storage:
         Platform.OS === "web"
           ? undefined
-          : createJSONStorage(() => AsyncStorage),
+          : createJSONStorage(
+              () =>
+                require("@react-native-async-storage/async-storage").default,
+            ),
     },
   ),
 );
