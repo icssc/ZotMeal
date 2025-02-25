@@ -71,9 +71,15 @@ export default function Side({
           <div className="flex flex-col gap-6 mt-10 px-2 overflow-y-auto 
             flex-grow h-1" 
             id="food-scroll">
-              <MealDividerSkeleton/>
-              <FoodCardSkeleton/>
-              <FoodCardSkeleton/>
+              <MealDivider title="Entree"/>
+              <FoodCard
+                title="Chicken Teriyaki"
+                calories={200}
+                imgSrc="/Zotmeal-Logo.webp"
+                alt="Image of food."
+                rating={4.5}
+                numRatings={12}
+              />
               <MealDividerSkeleton/>
               <FoodCardSkeleton/>
               <FoodCardSkeleton/>

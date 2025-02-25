@@ -6,7 +6,7 @@ export default function Toolbar() {
     return (
       <div 
         className="w-full h-18 absolute flex items-center justify-between px-4 py-2 
-          bg-slate-50 bg-opacity-45 backdrop-blur-md z-10">
+          bg-zinc-50 bg-opacity-45 backdrop-blur-md z-10">
         <Image
           className="rounded-full"
           src="/Zotmeal-Logo.webp" 
@@ -15,8 +15,8 @@ export default function Toolbar() {
           height={40}
         />
         <div className="flex gap-4 items-center">
-          <Cog className="stroke-slate-500 w-8"/>
-          <CalendarSearch className="stroke-slate-500 w-8"/>
+          <Cog className="stroke-zinc-600 w-8"/>
+          <CalendarSearch className="stroke-zinc-600 w-8"/>
           <Avatar>
             <AvatarImage src="peter.webp"/>
             <AvatarFallback>PA</AvatarFallback>
