@@ -1,19 +1,12 @@
 import Image from "next/image"
 import { Card, CardContent} from "./card"
 import { Star } from "lucide-react"
-
-interface FoodCardProps {
-  title: string;
-  calories: number;
-  imgSrc: string;
-  alt: string;
-  rating: number;
-  numRatings: number;
-}
+import { FoodCardProps } from "./food-card"
 
 export default function FoodCardContent({
   title, 
-  calories, 
+  info, 
+  hallInfo,
   imgSrc, 
   alt, 
   rating, 
@@ -34,7 +27,7 @@ export default function FoodCardContent({
                   <div className="flex flex-col h-full">
                     <strong>{title}</strong>
                       <div className="flex gap-2 items-center">
-                        <span>{calories} cal</span>
+                        <span>{info.calories} cal</span>
                           <div className="flex gap-1 items-center">
                             <Star className="w-4 stroke-zinc-400 stroke-2"></Star>
                             <span className="text-zinc-400 text-sm text-center"> 

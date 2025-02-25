@@ -74,7 +74,28 @@ export default function Side({
               <MealDivider title="Entree"/>
               <FoodCard
                 title="Chicken Teriyaki"
-                calories={200}
+                description={`Savory grilled chicken glazed in a rich teriyaki 
+                  sauce, served with steamed rice.`}
+                info={{
+                  calories: 450,
+                  totalFat: 12,
+                  transFat: 0,
+                  saturatedFat: 3,
+                  cholesterol: 60,
+                  sodium: 900,
+                  carbs: 55,
+                  fiber: 3,
+                  sugar: 12,
+                  protein: 35,
+                  vitaminA: 10,
+                  vitaminC: 15,
+                  calcium: 8,
+                  iron: 20
+                }}
+                hallInfo={{
+                  hall: "Brandywine",
+                  station: "The Crossroads"
+                }}
                 imgSrc="/Zotmeal-Logo.webp"
                 alt="Image of food."
                 rating={4.5}
