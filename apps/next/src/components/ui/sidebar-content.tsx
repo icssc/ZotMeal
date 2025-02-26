@@ -25,12 +25,12 @@ export default function SidebarContent() {
               </SheetTitle>
             </div>
             <SheetDivider title="Dining Hall Info"/>
-            <SheetButton Icon={House} title="Home"/>
-            <SheetButton Icon={CalendarFold} title="Events"/>
-            <SheetButton Icon={Pin} title="My Favorites"/>
+            <SheetButton Icon={House} title="Home" href="/"/>
+            <SheetButton Icon={CalendarFold} title="Events" href="/"/>
+            <SheetButton Icon={Pin} title="My Favorites" href="/"/>
             <SheetDivider title="Miscellaneous"/>
-            <SheetButton Icon={Settings2} title="Settings"/>
-            <SheetButton Icon={Info} title="About"/>
+            <SheetButton Icon={Settings2} title="Settings" href="/"/>
+            <SheetButton Icon={Info} title="About" href="/about"/>
           </div>
           <div className="flex p-2 items-center justify-between rounded-md hover:bg-zinc-100 transition-colors" id="sheet-bottom">
             <div className="flex gap-3 items-center">

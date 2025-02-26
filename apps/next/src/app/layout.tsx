@@ -24,9 +24,7 @@ export default function RootLayout({
     <html lang="en" className={inter.className}>
       <body>
         <Toolbar></Toolbar>
-        <div className="grid grid-cols-2 grid-rows-1 max-w-full h-screen">
-          {children}
-        </div>
+        {children}
       </body>
     </html>
   );
