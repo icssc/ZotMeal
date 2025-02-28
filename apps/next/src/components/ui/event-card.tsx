@@ -1,0 +1,26 @@
+import { DialogContent } from "@radix-ui/react-dialog";
+import { Dialog, DialogTrigger } from "./dialog";
+import EventCardContent from "./event-card-content";
+import EventDialogContent from "./event-dialog-content";
+
+export interface EventInfo {
+    name: string;
+    description: string;
+    imgSrc: string;
+    alt: string;
+    time: Date;
+    location: boolean;  // Whether it is at Anteatery: 0, Bwine: 1.
+}
+
+export default function EventCard(props : EventInfo) {
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+            <EventCardContent {... props}/>
+        </DialogTrigger>
+        <DialogContent>
+          <EventDialogContent {... props}/>
+        </DialogContent>
+      </Dialog>
+    )
+}

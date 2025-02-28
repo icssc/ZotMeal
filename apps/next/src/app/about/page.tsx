@@ -1,6 +1,4 @@
-import { AvatarImage } from "@/components/ui/avatar"
 import Contributor from "@/components/ui/contributor"
-import { Avatar } from "@radix-ui/react-avatar"
 import Image from "next/image"
 
 export default function About() {
