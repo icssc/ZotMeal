@@ -1,5 +1,5 @@
 import { DialogContent } from "@radix-ui/react-dialog";
-import { Dialog, DialogTrigger } from "./dialog";
+import { Dialog, DialogTrigger, DialogTitle } from "./dialog";
 import EventCardContent from "./event-card-content";
 import EventDialogContent from "./event-dialog-content";
 
@@ -24,9 +24,7 @@ export default function EventCard(props : EventInfo) {
         <DialogTrigger asChild>
             <EventCardContent {... props}/>
         </DialogTrigger>
-        <DialogContent>
-          <EventDialogContent {... props}/>
-        </DialogContent>
+        <EventDialogContent {... props}/>
       </Dialog>
     )
 }
