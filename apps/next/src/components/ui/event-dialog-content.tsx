@@ -3,6 +3,7 @@ import { EventInfo, EventLocation } from "./event-card";
 import { DialogHeader, DialogTitle, DialogDescription } from "./dialog";
 import Image from "next/image";
 import { Clock, MapPinned } from "lucide-react";
+import { Button } from "./button"
 
 const numToMonth : {[num: number]: string} = {
   0:  "Jan.",
@@ -51,7 +52,7 @@ export default function EventDialogContent(props: EventInfo) {
         </DialogHeader>
         <div className="px-6">
           <DialogTitle className="mb-1">{props.name}</DialogTitle>
-          <div className="flex gap-2 text-zinc-400 items-center" id="event-card-subheader">
+          <div className="flex gap-2 text-zinc-400 items-center mb-2" id="event-card-subheader">
             <Clock className="stroke-zinc-400" size={20}/>
             <p>{dateToString(props.time)}</p>
             <MapPinned className="stroke-zinc-400" size={20}/>
@@ -60,7 +61,10 @@ export default function EventDialogContent(props: EventInfo) {
               : "Anteatery"}
             </p>
           </div>
-          <DialogDescription>{props.description}</DialogDescription>
+          <DialogDescription className="mb-8">{props.longDesc}</DialogDescription>
+          <div className="w-full flex items-center justify-center">
+            <Button>Add to Calendar</Button>
+          </div>
         </div>
       </DialogContent>
     )

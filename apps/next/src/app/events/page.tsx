@@ -16,7 +16,8 @@ export default function Events() {
           <MealDivider title="This Week"/>
           <EventCard
              name="Nashville Hot Chicken"
-             description="Turn up the heat with our bold Nashville specialty! Each crispy, spicy bite brings Southern fire to your taste buds."
+             shortDesc="Turn up the heat with our bold Nashville specialty! Each crispy, spicy bite brings Southern fire to your taste buds."
+             longDesc="The Anteatery drops the heat with our Nashville Hot Chicken Sandwich! Savor our perfectly crispy chicken, seasoned with fiery Nashville-style spices, served on a soft bun and accompanied by classic Southern sides. Experience the bold, spicy flavors that made Nashville famous."
              imgSrc="/Zotmeal-Logo.webp"
              alt="Zotmeal logo."
              time={new Date(2025, 0, 3, 13, 0, 0, 0)}

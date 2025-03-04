@@ -2,6 +2,7 @@ import { EventInfo, EventLocation } from "./event-card";
 import { Card, CardContent } from "./card";
 import Image from "next/image";
 import { Clock, MapPinned } from "lucide-react";
+import { Button } from "./button";
 
 export default function EventCardContent(props: EventInfo) {
     return (
@@ -26,7 +27,7 @@ export default function EventCardContent(props: EventInfo) {
               </p>
           </div>
           <p className="max-w-xl">
-              {props.description}
+              {props.shortDesc}
           </p>
           </div>
         </CardContent>

@@ -10,7 +10,8 @@ export enum EventLocation {
 
 export interface EventInfo {
     name: string;
-    description: string;
+    shortDesc: string;
+    longDesc: string;
     imgSrc: string;
     alt: string;
     time: Date;
