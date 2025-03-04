@@ -1,11 +1,11 @@
-import { EventInfo } from "./event-card";
+import { EventInfo, EventLocation } from "./event-card";
 import { Card, CardContent } from "./card";
 import Image from "next/image";
 import { Clock, MapPinned } from "lucide-react";
 
 export default function EventCardContent(props: EventInfo) {
     return (
-      <Card>
+      <Card className="cursor-pointer hover:shadow-lg transition">
         <CardContent className="flex items-center h-full pt-6 gap-6">
           <Image 
             src={props.imgSrc}
@@ -20,7 +20,10 @@ export default function EventCardContent(props: EventInfo) {
               <Clock className="stroke-zinc-400"/>
               <p>Mar. 11 11:00am</p>
               <MapPinned/>
-              <p>Anteatery</p>
+              <p>
+                {props.location == EventLocation.BRANDYWINE ? "Brandywine" 
+                  : "Anteatery"}
+              </p>
           </div>
           <p className="max-w-xl">
               {props.description}

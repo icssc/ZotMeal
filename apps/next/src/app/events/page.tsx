@@ -1,4 +1,4 @@
-import EventCard from "@/components/ui/event-card"
+import EventCard, { EventLocation } from "@/components/ui/event-card"
 import MealDivider from "@/components/ui/meal-divider"
 import Image from "next/image"
 
@@ -19,8 +19,8 @@ export default function Events() {
              description="Turn up the heat with our bold Nashville specialty! Each crispy, spicy bite brings Southern fire to your taste buds."
              imgSrc="/Zotmeal-Logo.webp"
              alt="Zotmeal logo."
-             time={new Date()}
-             location={true}
+             time={new Date(2025, 0, 3, 13, 0, 0, 0)}
+             location={EventLocation.ANTEATERY}
           />
         </div>
       </div>

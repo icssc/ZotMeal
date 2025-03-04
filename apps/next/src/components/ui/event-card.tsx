@@ -3,13 +3,18 @@ import { Dialog, DialogTrigger } from "./dialog";
 import EventCardContent from "./event-card-content";
 import EventDialogContent from "./event-dialog-content";
 
+export enum EventLocation {
+  BRANDYWINE,
+  ANTEATERY
+}
+
 export interface EventInfo {
     name: string;
     description: string;
     imgSrc: string;
     alt: string;
     time: Date;
-    location: boolean;  // Whether it is at Anteatery: 0, Bwine: 1.
+    location: EventLocation; 
 }
 
 export default function EventCard(props : EventInfo) {
