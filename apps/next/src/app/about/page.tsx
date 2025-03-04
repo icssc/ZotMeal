@@ -13,7 +13,7 @@ export default function About() {
           width={2000}
           height={2000}
         />
-        <div className="flex p-8 gap-6 justify-between" id="about-content">
+        <div className="flex p-8 gap-6 justify-around" id="about-content">
           <div className="flex flex-col" id="about-text">
             <div className="flex gap-4 items-center mb-2" id="about-header">
               <h1 className="text-3xl font-bold" id="about-title">About ZotMeal</h1>
