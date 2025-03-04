@@ -26,10 +26,10 @@ export default function SidebarContent() {
             </div>
             <SheetDivider title="Dining Hall Info"/>
             <SheetButton Icon={House} title="Home" href="/"/>
-            <SheetButton Icon={CalendarFold} title="Events" href="/"/>
-            <SheetButton Icon={Pin} title="My Favorites" href="/"/>
+            <SheetButton Icon={CalendarFold} title="Events" href="/events"/>
+            <SheetButton Icon={Pin} title="My Favorites" href="/my-favs"/>
             <SheetDivider title="Miscellaneous"/>
-            <SheetButton Icon={Settings2} title="Settings" href="/"/>
+            <SheetButton Icon={Settings2} title="Settings" href="/settings"/>
             <SheetButton Icon={Info} title="About" href="/about"/>
           </div>
           <div className="flex p-2 items-center justify-between rounded-md hover:bg-zinc-100 transition-colors" id="sheet-bottom">

@@ -1,6 +1,4 @@
-import { AvatarImage } from "@/components/ui/avatar"
 import Contributor from "@/components/ui/contributor"
-import { Avatar } from "@radix-ui/react-avatar"
 import Image from "next/image"
 
 export default function About() {
@@ -25,7 +23,7 @@ export default function About() {
                 className="rounded-full"
               />
             </div>
-            <div id="about-paragraph" className="grid gap-4 max-w-3xl">
+            <div id="about-paragraph" className="grid gap-4 max-w-3xl max-md:max-w-2xl">
               <p>
                 ZotMeal is your go-to app for everything dining at UCI! From 
                 up-to-date menus and nutritional information to dining hall 
@@ -54,8 +52,8 @@ export default function About() {
             </div>
           </div>
           <div className="flex flex-col items-center gap-4" id="contributors">
-            <h1 className="text-xl font-bold">Our Lovely Contributors</h1>
-            <div className="flex flex-wrap gap-2 max-w-xs" id="contributor-grid">
+            <h1 className="text-xl max-md:text-base max-sm:text-sm font-bold">Our Lovely Contributors</h1>
+            <div className="flex flex-wrap justify-center gap-2 max-w-xs" id="contributor-grid">
               {[...Array(20)].map((_, index) => (
                 <Contributor 
                   key={"contributor-" + index}
