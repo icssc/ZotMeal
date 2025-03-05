@@ -80,7 +80,7 @@ export default function EventDialogContent(props: EventInfo) {
           <DialogDescription className="mb-8">{props.longDesc}</DialogDescription>
           <div className="w-full flex items-center justify-center">
             <a href={generateGCalLink(props.name, props.longDesc, props.location, props.time)} rel="noreferrer" target="_blank">
-              <Button className="[&_svg]:size-5 [&_svg]:shrink-0">
+              <Button className="[&_svg]:size-5">
                 <CalendarPlus/>
                 Add to Google Calendar
               </Button>
