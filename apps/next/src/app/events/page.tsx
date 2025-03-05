@@ -1,10 +1,11 @@
 import EventCard, { EventLocation } from "@/components/ui/event-card"
+import EventCardSkeleton from "@/components/ui/event-card-skeleton"
 import MealDivider from "@/components/ui/meal-divider"
 import Image from "next/image"
 
 export default function Events() {
     return (
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center h-screen">
         <Image
         className="object-cover w-full min-h-80 max-h-80"
         src="/uci.webp"
@@ -12,7 +13,7 @@ export default function Events() {
         width={2000}
         height={2000}
         />
-        <div className="flex flex-col gap-4 justify-center w-full px-12 py-8">
+        <div className="flex flex-col gap-4 justify-center w-full px-12 py-8 overflow-y-scroll">
           <MealDivider title="This Week"/>
           <EventCard
              name="Nashville Hot Chicken"
@@ -23,6 +24,10 @@ export default function Events() {
              time={new Date(2025, 0, 3, 13, 0, 0, 0)}
              location={EventLocation.ANTEATERY}
           />
+          <MealDivider title="Coming Up"/>
+          <EventCardSkeleton/>
+          <EventCardSkeleton/>
+          {/* NOTE: This div doesn't play nice with more skeletons.. Need help debugging! */}
         </div>
       </div>
     )

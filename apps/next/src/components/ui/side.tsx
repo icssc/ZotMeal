@@ -56,7 +56,7 @@ export default function Side({
                 closeTime={closeTime}
               />
             </div>
-            <Tabs defaultValue={stations[0].toLowerCase()} className="w-full min-h-full">
+            <Tabs defaultValue={stations[0].toLowerCase()} className="min-h-full">
                 <TabsList className="flex flex-wrap w-full ">
                     {stations.map((station => {
                       return (
