@@ -4,7 +4,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "./avatar";
 import { Button } from "./button";
 import SheetButton from "./sheet-button";
 import SheetDivider from "./sheet-divider";
-import { Settings2, CalendarFold, LogOut, House, Info, Pin } from "lucide-react";
+import { Settings2, CalendarFold, LogOut, House, Info, Pin, Trophy } from "lucide-react";
 
 export default function SidebarContent() {
     return (
@@ -27,9 +27,10 @@ export default function SidebarContent() {
             <SheetDivider title="Dining Hall Info"/>
             <SheetButton Icon={House} title="Home" href="/"/>
             <SheetButton Icon={CalendarFold} title="Events" href="/events"/>
-            <SheetButton Icon={Pin} title="My Favorites" href="/my-favs"/>
+            <SheetButton Icon={Pin} title="My Favorites" href="/my-favs" deactivated/>
+            <SheetButton Icon={Trophy} title="Most Liked" href="/leaderboard" deactivated/>
             <SheetDivider title="Miscellaneous"/>
-            <SheetButton Icon={Settings2} title="Settings" href="/settings"/>
+            <SheetButton Icon={Settings2} title="Settings" href="/settings" deactivated/>
             <SheetButton Icon={Info} title="About" href="/about"/>
           </div>
           <div className="flex p-2 items-center justify-between rounded-md hover:bg-zinc-100 transition-colors" id="sheet-bottom">
