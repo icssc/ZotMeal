@@ -1,5 +1,4 @@
-import { DialogContent } from "@radix-ui/react-dialog";
-import { Dialog, DialogTrigger, DialogTitle } from "./dialog";
+import { Dialog, DialogTrigger } from "./dialog";
 import EventCardContent from "./event-card-content";
 import EventDialogContent from "./event-dialog-content";
 
