@@ -1,9 +1,9 @@
 import { upsert } from "@api/utils";
 
-import type { Drizzle, Period } from "@zotmeal/db";
+import type { Drizzle, InsertPeriod } from "@zotmeal/db";
 import { periods } from "@zotmeal/db";
 
-export const upsertPeriod = async (db: Drizzle, period: Period) =>
+export const upsertPeriod = async (db: Drizzle, period: InsertPeriod) =>
   await upsert(db, periods, period, {
     target: periods.id,
     set: period,

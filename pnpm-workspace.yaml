@@ -20,7 +20,6 @@ catalog:
   "@babel/preset-env": ^7.24.0
   "@babel/preset-typescript": ^7.24.6
   "@babel/runtime": ^7.24.0
-  "@clerk/clerk-expo": ^1.1.4
   "@expo/metro-config": ~0.18.11
   "@ianvs/prettier-plugin-sort-imports": ^4.2.1
   "@jest/globals": ^29.7.0

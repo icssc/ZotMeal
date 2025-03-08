@@ -11,4 +11,5 @@ export const periods = pgTable("periods", {
 });
 
 /** A meal period, e.g. breakfast. */
-export type Period = typeof periods.$inferInsert;
+export type InsertPeriod = typeof periods.$inferInsert;
+export type SelectPeriod = typeof periods.$inferSelect;
