@@ -61,9 +61,13 @@ Reinstall packages
 Ensure Node is correct version
 - Node v20 (latest of that version)
 - Check by running `node -v`
+- If not, download/switch to v20, by running:
+   - `fnm install v20` or `nvm install v20`
+   - `fnm use 20` or `nvm use 20`
 
 Clear expo cache
 - Run `npx expo start -c` to clear the expo cache. This usually helps when `pnpm dev` gives an expo related error 
+
 ### Structure Overview
 
 The following directory tree outlines the major folders in the ZotMeal repository:
@@ -73,6 +77,7 @@ The following directory tree outlines the major folders in the ZotMeal repositor
  ┣ 📂node_modules
  ┣ 📂apps
  ┃ ┣ 📂expo
+ ┃ ┣ 📂next
  ┃ ┗ 📂server
  ┣ 📂packages
  ┃ ┣ 📂api
@@ -86,6 +91,7 @@ The `node_modules` folder contains all ***Node.js*** packages that the repositor
 
 The `apps` folder contains major endpoints that ZotMeal uses
 - `apps/expo` contains all the frontend scripts used to build the mobile app, written in **React Native**.
+- `apps/next` contains all of the frontend components and scripts used to build the web app, written in **Next.js**.
 - `apps/server` contains the scripts used to connect backend functions to AWS Lambda Serverless procedures.
 
 The `packages` folder contains all the functionality of the backend of ZotMeal.

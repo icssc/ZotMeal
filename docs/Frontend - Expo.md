@@ -1,6 +1,6 @@
 # Frontend Structure
 
-All of ZotMeal's frontend is contained within the `apps/expo` folder, which looks something like this.
+ZotMeal's mobile-app frontend is contained within the `apps/expo` folder, which looks something like this.
 
 ```
 📦apps/expo
