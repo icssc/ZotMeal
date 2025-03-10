@@ -9,4 +9,5 @@ export const RestaurantContext = createContext<{
   image: ImageSourcePropType;
   data?: RestaurantInfo;
   skeletonValue: SharedValue<number>;
+  isFetching: boolean;
 } | null>(null);
