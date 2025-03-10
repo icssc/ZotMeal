@@ -11,7 +11,9 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BlurView } from "expo-blur";
 
 import { useColorScheme } from "../hooks/useColorScheme";
+import { useThemeColor } from "../hooks/useThemeColor";
 import { RestaurantName } from "../hooks/useZotmealStore";
+import { Calendar } from "./Calendar";
 import { RestaurantContext } from "./RestaurantContext";
 import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
@@ -20,6 +22,8 @@ import { useBottomTabOverflow } from "./ui/TabBarBackground";
 const HEADER_HEIGHT = 250;
 
 type Props = PropsWithChildren<{
+  date: Date;
+  setDate: (date: Date) => void;
   headerImage: ReactElement;
   headerBackgroundColor: { dark: string; light: string };
 }>;
@@ -81,6 +85,8 @@ function Header({ restaurantName }: { restaurantName: RestaurantName }) {
 }
 
 export default function ParallaxScrollView({
+  date,
+  setDate,
   children,
   headerImage,
   headerBackgroundColor,
@@ -90,6 +96,7 @@ export default function ParallaxScrollView({
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollViewOffset(scrollRef);
   const bottom = useBottomTabOverflow();
+  const backgroundColor = useThemeColor({}, "background");
   const headerAnimatedStyle = useAnimatedStyle(() => {
     return {
       opacity: interpolate(
@@ -117,7 +124,7 @@ export default function ParallaxScrollView({
   });
 
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView style={{ flex: 1, backgroundColor }}>
       <Header restaurantName={restaurantName} />
       <Animated.ScrollView
         ref={scrollRef}
@@ -134,6 +141,7 @@ export default function ParallaxScrollView({
         >
           {headerImage}
         </Animated.View>
+        <Calendar date={date} setDate={setDate} />
         <ThemedView style={styles.content}>{children}</ThemedView>
       </Animated.ScrollView>
     </ThemedView>
@@ -141,16 +149,14 @@ export default function ParallaxScrollView({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   header: {
     height: HEADER_HEIGHT,
     overflow: "hidden",
   },
   content: {
+    marginTop: -10,
+    paddingTop: 0,
     flex: 1,
-    borderTopWidth: 2,
     borderColor: "#309CFF",
     paddingVertical: 20,
     paddingHorizontal: 10,
