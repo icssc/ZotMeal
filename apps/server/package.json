@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "@aws-sdk/client-scheduler": "catalog:",
+    "@serverless/typescript": "catalog:",
     "@zotmeal/api": "workspace:*",
     "@zotmeal/db": "workspace:*",
     "@zotmeal/validators": "workspace:*",
@@ -23,7 +24,6 @@
     "serverless-offline": "catalog:"
   },
   "devDependencies": {
-    "@serverless/typescript": "catalog:",
     "@types/aws-lambda": "catalog:",
     "@types/node": "catalog:",
     "@zotmeal/eslint-config": "workspace:*",
