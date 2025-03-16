@@ -32,7 +32,6 @@ import { stringToColor } from "../utils/color";
 import { formatEventDateRange } from "../utils/date";
 import { getDishRating } from "../utils/dish";
 import BottomSheet, { BottomSheetRefProps } from "./BottomSheet";
-import { Calendar } from "./Calendar";
 import { DishDetails } from "./DishDetails";
 import ParallaxScrollView from "./ParallaxScrollView";
 import { RestaurantContext } from "./RestaurantContext";
@@ -416,15 +415,17 @@ export default function RestaurantView({
       value={{
         ...config,
         skeletonValue,
+        isFetching,
       }}
     >
       <ParallaxScrollView
+        date={date}
+        setDate={setDate}
         headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
         headerImage={
           <Image source={config.image} style={{ width, height: 300 }} />
         }
       >
-        <Calendar date={date} setDate={setDate} />
         {isFetching || !data ? (
           <LoadIndicator />
         ) : (
@@ -459,106 +460,110 @@ export default function RestaurantView({
                 <StationCarousel station={item} ref={sheetRef} />
               )}
             />
-            <ThemedText
-              type="defaultSemiBold"
-              style={{
-                fontSize: 20,
-                marginLeft: 10,
-              }}
-            >
-              Events
-            </ThemedText>
-            <View
-              style={{
-                flexDirection: "row",
-                flexWrap: "wrap",
-                gap: 10,
-                paddingHorizontal: 10,
-              }}
-            >
-              {config.data?.events.map((event) => (
-                <TouchableOpacity
-                  key={event.title}
-                  onPress={() => {
-                    setSelectedItem({ ...event, type: "Event" });
-                    if (!sheetRef.current) return;
-                    if (sheetRef.current.isActive()) {
-                      sheetRef.current.scrollTo(0);
-                    } else {
-                      sheetRef.current.scrollTo(-height / 2.25);
-                    }
+            {(config.data?.events.length ?? 0 > 0) ? (
+              <>
+                <ThemedText
+                  type="defaultSemiBold"
+                  style={{
+                    fontSize: 20,
+                    marginLeft: 10,
                   }}
                 >
-                  <ImageBackground
-                    source={{ uri: event.image! }}
-                    blurRadius={50}
-                    style={{
-                      width: width / 2.5,
-                      aspectRatio: 1,
-                      justifyContent: "center",
-                      padding: 6,
-                      borderRadius: 6,
-                      overflow: "hidden",
-                    }}
-                  >
-                    <View
-                      style={{
-                        backgroundColor: "#11111155",
-                        borderRadius: 5,
-                        paddingHorizontal: 8,
-                        paddingVertical: 5,
+                  Events
+                </ThemedText>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    gap: 10,
+                    paddingHorizontal: 10,
+                  }}
+                >
+                  {config.data?.events.map((event) => (
+                    <TouchableOpacity
+                      key={event.title}
+                      onPress={() => {
+                        setSelectedItem({ ...event, type: "Event" });
+                        if (!sheetRef.current) return;
+                        if (sheetRef.current.isActive()) {
+                          sheetRef.current.scrollTo(0);
+                        } else {
+                          sheetRef.current.scrollTo(-height / 2.25);
+                        }
                       }}
                     >
-                      <ThemedText
-                        type="defaultSemiBold"
+                      <ImageBackground
+                        source={{ uri: event.image! }}
+                        blurRadius={50}
                         style={{
-                          width: "90%",
-                          color: "white",
-                          fontSize: 12,
-                          textAlign: "left",
-                          marginTop: 5,
+                          width: width / 2.5,
+                          aspectRatio: 1,
+                          justifyContent: "center",
+                          padding: 6,
+                          borderRadius: 6,
+                          overflow: "hidden",
                         }}
                       >
-                        {event.title}
-                      </ThemedText>
-                      <View
-                        style={{
-                          width: "90%",
-                          height: 1,
-                          marginVertical: 4,
-                          backgroundColor: "white",
-                        }}
-                      />
-                      <ThemedText
-                        style={{
-                          width: "90%",
-                          color: "white",
-                          marginTop: 0,
-                          fontSize: 9,
-                          textAlign: "left",
-                        }}
-                      >
-                        {formatEventDateRange(event)}
-                      </ThemedText>
-                    </View>
-                    <ImageBackground
-                      source={{ uri: event.image! }}
-                      resizeMode="contain"
-                      imageStyle={{
-                        borderRadius: 10,
-                        width: "100%",
-                      }}
-                      style={{
-                        marginTop: 10,
-                        width: "90%",
-                        height: "70%",
-                        margin: "auto",
-                      }}
-                    />
-                  </ImageBackground>
-                </TouchableOpacity>
-              ))}
-            </View>
+                        <View
+                          style={{
+                            backgroundColor: "#11111155",
+                            borderRadius: 5,
+                            paddingHorizontal: 8,
+                            paddingVertical: 5,
+                          }}
+                        >
+                          <ThemedText
+                            type="defaultSemiBold"
+                            style={{
+                              width: "90%",
+                              color: "white",
+                              fontSize: 12,
+                              textAlign: "left",
+                              marginTop: 5,
+                            }}
+                          >
+                            {event.title}
+                          </ThemedText>
+                          <View
+                            style={{
+                              width: "90%",
+                              height: 1,
+                              marginVertical: 4,
+                              backgroundColor: "white",
+                            }}
+                          />
+                          <ThemedText
+                            style={{
+                              width: "90%",
+                              color: "white",
+                              marginTop: 0,
+                              fontSize: 9,
+                              textAlign: "left",
+                            }}
+                          >
+                            {formatEventDateRange(event)}
+                          </ThemedText>
+                        </View>
+                        <ImageBackground
+                          source={{ uri: event.image! }}
+                          resizeMode="contain"
+                          imageStyle={{
+                            borderRadius: 10,
+                            width: "100%",
+                          }}
+                          style={{
+                            marginTop: 10,
+                            width: "90%",
+                            height: "70%",
+                            margin: "auto",
+                          }}
+                        />
+                      </ImageBackground>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </>
+            ) : null}
           </>
         )}
       </ParallaxScrollView>
