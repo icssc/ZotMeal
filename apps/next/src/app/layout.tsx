@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from 'next/font/google';
 import "./globals.css";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { trpc } from '../utils/trpc';
-import { getBaseUrl } from "../../../expo-rewrite/utils/api";
-import superjson from "superjson";
 import { RootClient } from './layout-client';
 
 const inter = Inter({
