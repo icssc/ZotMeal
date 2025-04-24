@@ -1,11 +1,21 @@
+'use client';
+
 import EventCard, { EventLocation } from "@/components/ui/event-card"
 import EventCardSkeleton from "@/components/ui/event-card-skeleton"
 import MealDivider from "@/components/ui/meal-divider"
 import Image from "next/image"
+import { trpc } from "@/utils/trpc"
+import { useMemo } from 'react';
 
 export default function Events() {
-  const today = new Date();
+  const today = useMemo(() => new Date(), []);
+  const response = trpc.zotmeal.useQuery({date: today},{
+    staleTime: 60 * 1000,
+    cacheTime: 120 * 1000,
+    enabled: true
+  });
 
+  console.log(response.data);
 
   return (
     <div className="max-w-full h-screen">
@@ -17,6 +27,7 @@ export default function Events() {
         width={2000}
         height={2000}
         />
+        <p>{!response.isLoading && response.data}</p>
         <div className="flex flex-col gap-4 justify-center w-full px-12 py-8 h-full relative" id="event-scroll">
           <MealDivider title="This Week"/>
           <EventCard

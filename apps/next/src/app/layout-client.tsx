@@ -12,7 +12,7 @@ export function RootClient({ children }: { children: React.ReactNode }) {
     trpc.createClient({
       links: [
         httpBatchLink({
-          url: 'http://localhost:3000/trpc',
+          url: 'http://localhost:3000',
           transformer: superjson,
           async headers() {
             return {
