@@ -1,5 +1,4 @@
 import { createTRPCReact } from '@trpc/react-query';
-import type { AppRouter } from '../../../../packages/api/src';
-// TODO: This import ^ makes me wanna barf. Need help shortening it somehow.
+import type { AppRouter } from '@zotmeal/api';
 
 export const trpc = createTRPCReact<AppRouter>();
