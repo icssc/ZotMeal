@@ -2,10 +2,7 @@ import Image from "next/image";
 import { Tabs, TabsList, TabsTrigger } from "./tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select";
 import { HallStatusEnum, DiningHallStatus } from "./status";
-import FoodCard from "./food-card";
-import FoodCardSkeleton from "./food-card-skeleton";
-import MealDivider from "./meal-divider";
-import MealDividerSkeleton from "./meal-divider-skeleton";
+import DishesInfo from "./dishes-info";
 
 interface SideProps {
   heroImageSrc: string;
@@ -68,44 +65,7 @@ export default function Side({
                 </TabsList>
             </Tabs>
           </div>
-          <div className="flex flex-col gap-6 mt-10 px-2 overflow-y-auto 
-            flex-grow h-1" 
-            id="food-scroll">
-              <MealDivider title="Entree"/>
-              <FoodCard
-                title="Chicken Teriyaki"
-                description={`Savory grilled chicken glazed in a rich teriyaki 
-                  sauce, served with steamed rice.`}
-                info={{
-                  calories: 450,
-                  totalFat: 12,
-                  transFat: 0,
-                  saturatedFat: 3,
-                  cholesterol: 60,
-                  sodium: 900,
-                  carbs: 55,
-                  fiber: 3,
-                  sugar: 12,
-                  protein: 35,
-                  vitaminA: 10,
-                  vitaminC: 15,
-                  calcium: 8,
-                  iron: 20
-                }}
-                hallInfo={{
-                  hall: "Brandywine",
-                  station: "The Crossroads"
-                }}
-                imgSrc="/Zotmeal-Logo.webp"
-                alt="Image of food."
-                rating={4.5}
-                numRatings={12}
-              />
-              <MealDividerSkeleton/>
-              <FoodCardSkeleton/>
-              <FoodCardSkeleton/>
-              <FoodCardSkeleton/>
-          </div>
+          <DishesInfo hall={"ae"} station={"grubb"}/>
         </div>
       </div>
     )
