@@ -1,8 +1,12 @@
+"use client"; // Need state for toggling nutrient visibility
+
 import { Pin, Star } from "lucide-react";
 import { DialogHeader, DialogTitle, DialogDescription, DialogContent } from "./dialog";
 import Image from "next/image";
 import { FoodCardProps } from "./food-card";
-import React from "react";
+import React, { useState } from "react"; // Import useState
+import { Button } from "./button"; // Import Button
+import { cn } from "@/utils/tw"; // Import cn utility
 
 const formatNutrientLabel = (nutrient: string) => {
   return nutrient
@@ -38,6 +42,10 @@ export default function FoodDialogContent({
   rating,
   numRatings
 }: FoodCardProps) {
+  // State to control nutrient visibility
+  const [showAllNutrients, setShowAllNutrients] = useState(false);
+  const initialNutrients = ['calories', 'totalFat', 'carbs', 'protein', 'sugar']; // Define which nutrients to show initially
+
   return (
     <DialogContent>
       <DialogHeader>
@@ -70,13 +78,37 @@ export default function FoodDialogContent({
             <DialogDescription className="text-black px-4">{description}</DialogDescription>
             <div>
               <h1 className="px-4 text-2xl font-bold">Nutrients</h1>
-              <div className="grid grid-cols-2 gap-y-1 w-full px-4 text-black" id="nutrient-content">
-                {Object.entries(info).map(([nutrient, value]) => (
-                  <React.Fragment key={nutrient}>
-                    <strong>{formatNutrientLabel(nutrient)}</strong>
-                    <span className="text-right">{value}{nutrientToUnit[nutrient]}</span> 
-                  </React.Fragment>
-                ))}
+              {/* Nutrient Grid */}
+              <div className="grid grid-cols-2 gap-x-4 w-full px-4 text-black mb-4" id="nutrient-content">
+                {Object.entries(info)
+                  .map(([nutrient, value]) => {
+                    const isInitial = initialNutrients.includes(nutrient);
+                    return (
+                      // Wrapper div for applying transitions to non-initial items
+                      <div
+                        key={nutrient}
+                        className={cn(
+                          "grid grid-cols-subgrid col-span-2 transition-all duration-500 ease-in-out overflow-hidden", // Base styles for transition
+                          !isInitial && !showAllNutrients ? "max-h-0 opacity-0 py-0" : "max-h-8 opacity-100 py-0.5" // Conditional styles for collapse/expand
+                        )}
+                      >
+                        {/* Use col-span-1 for label and value within the subgrid */}
+                        <strong className="col-span-1">{formatNutrientLabel(nutrient)}</strong>
+                        <span className="col-span-1 text-right">{value}{nutrientToUnit[nutrient]}</span>
+                      </div>
+                    );
+                  })}
+              </div>
+              {/* Button to toggle nutrient visibility */}
+              <div className="px-4">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full"
+                  onClick={() => setShowAllNutrients(!showAllNutrients)}
+                >
+                  {showAllNutrients ? "Show Less" : "Show More Nutrients"}
+                </Button>
               </div>
             </div>
           </div>
