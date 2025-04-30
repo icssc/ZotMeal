@@ -78,7 +78,6 @@ export default function FoodDialogContent({
             <DialogDescription className="text-black px-4">{description}</DialogDescription>
             <div>
               <h1 className="px-4 text-2xl font-bold">Nutrients</h1>
-              {/* Nutrient Grid */}
               <div className="grid grid-cols-2 gap-x-4 w-full px-4 text-black mb-4" id="nutrient-content">
                 {Object.entries(info)
                   .map(([nutrient, value]) => {
@@ -92,14 +91,12 @@ export default function FoodDialogContent({
                           !isInitial && !showAllNutrients ? "max-h-0 opacity-0 py-0" : "max-h-8 opacity-100 py-0.5" // Conditional styles for collapse/expand
                         )}
                       >
-                        {/* Use col-span-1 for label and value within the subgrid */}
                         <strong className="col-span-1">{formatNutrientLabel(nutrient)}</strong>
                         <span className="col-span-1 text-right">{value}{nutrientToUnit[nutrient]}</span>
                       </div>
                     );
                   })}
               </div>
-              {/* Button to toggle nutrient visibility */}
               <div className="px-4">
                 <Button
                   variant="outline"
