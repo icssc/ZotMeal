@@ -1,3 +1,6 @@
+"use client";
+
+import { Button } from "./button";
 import { Dialog, DialogTrigger } from "./dialog"
 import FoodCardContent from "./food-card-content";
 import FoodDialogContent from "./food-dialog-content"

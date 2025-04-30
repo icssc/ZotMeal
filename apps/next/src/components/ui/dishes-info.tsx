@@ -1,4 +1,5 @@
 'use client';
+
 import MealDivider from "./meal-divider"
 import FoodCard from "./food-card"
 import FoodCardSkeleton from "./food-card-skeleton"
