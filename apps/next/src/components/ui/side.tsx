@@ -18,7 +18,7 @@ export default function Side({hall} : {hall : HallEnum}) {
       case HallEnum.ANTEATERY:
         heroImageSrc = "/anteatery.webp";
         heroImageAlt = "An image of the front of the Anteatery dining hall at UCI.";
-        mealTimes = ["Breakfast", "Lunch", "Dinner", "Latenite"];
+        mealTimes = ["Breakfast", "Lunch", "Dinner", "Latenight"];
         openTime = "8:00a";
         closeTime = "8:00p";
         stations = ["Home", "Fire & Ice", "Noodle Bar", "The Twisted Root", "Sizzle Grill", "The Oven"];
@@ -26,7 +26,7 @@ export default function Side({hall} : {hall : HallEnum}) {
       case HallEnum.BRANDYWINE:
         heroImageSrc = "/brandywine.webp";
         heroImageAlt = "An image of the front of the Brandywine dining hall at UCI.";
-        mealTimes = ["Breakfast", "Lunch", "Dinner", "Latenite"];
+        mealTimes = ["Breakfast", "Lunch", "Dinner", "Latenight"];
         openTime = "8:00a";
         closeTime = "8:00p";
         stations = ["Grubb", "The Crossroads", "The Twisted Root", "Ember", "Hearth", "The Farm Stand"];
