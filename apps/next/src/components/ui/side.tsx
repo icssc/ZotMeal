@@ -1,44 +1,89 @@
 "use client"; 
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Tabs, TabsList, TabsTrigger } from "./tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select";
 import { DiningHallStatus } from "./status";
 import DishesInfo from "./dishes-info";
-import { HallEnum, HallStatusEnum, mealTimeToEnum } from "@/utils/types";
+import { HallEnum, HallStatusEnum, MealTimeEnum, mealTimeToEnum } from "@/utils/types";
+import { trpc } from "@/utils/trpc"; // Import tRPC hook
+import { RestaurantInfo } from "@zotmeal/api"; // Import types
+import { toTitleCase } from "@/utils/funcs";
+import MealDividerSkeleton from "./meal-divider-skeleton"; // For loading state
+import FoodCardSkeleton from "./food-card-skeleton"; // For loading state
 
 export default function Side({hall} : {hall : HallEnum}) {
     // TODO: Determine status dynamically based on open/close times and current time
     const currentStatus = HallStatusEnum.OPEN;
 
-    let heroImageSrc, heroImageAlt, mealTimes, openTime, closeTime, stations;
+    // Fetch data using tRPC
+    const [queryDate] = useState(() => new Date());
+    const { data: queryResponse, isLoading, isError, error } = trpc.zotmeal.useQuery(
+      {date: queryDate},
+      {staleTime: 2 * 60 * 60 * 1000} // 2 hour stale time
+    );
+
+    // Static info (could eventually come from API too)
+    let heroImageSrc, heroImageAlt, openTime, closeTime;
+    const mealTimes = Object.keys(MealTimeEnum).filter(k => isNaN(Number(k))); 
 
     switch (hall) {
       case HallEnum.ANTEATERY:
         heroImageSrc = "/anteatery.webp";
         heroImageAlt = "An image of the front of the Anteatery dining hall at UCI.";
-        mealTimes = ["Breakfast", "Lunch", "Dinner", "Latenight"];
         openTime = "8:00a";
         closeTime = "8:00p";
-        stations = ["Home", "Fire & Ice", "Noodle Bar", "The Twisted Root", "Sizzle Grill", "The Oven"];
         break;
       case HallEnum.BRANDYWINE:
         heroImageSrc = "/brandywine.webp";
         heroImageAlt = "An image of the front of the Brandywine dining hall at UCI.";
-        mealTimes = ["Breakfast", "Lunch", "Dinner", "Latenight"];
         openTime = "8:00a";
         closeTime = "8:00p";
-        stations = ["Grubb", "The Crossroads", "The Twisted Root", "Ember", "Hearth", "The Farm Stand"];
         break;
     }
 
+    // State for user selections
     const [selectedMealTime, setSelectedMealTime] = useState(
       () => (mealTimes[0] || '').toLowerCase()
     );
-    const [selectedStation, setSelectedStation] = useState(
-      () => (stations[0] || '').toLowerCase()
+    const [selectedStation, setSelectedStation] = useState<string>(''); // Start empty
+
+    // --- Derived Data ---
+    const hallData: RestaurantInfo | undefined = !isLoading && !isError && queryResponse
+      ? (hall === HallEnum.ANTEATERY ? queryResponse.anteatery : queryResponse.brandywine)
+      : undefined;
+
+    const currentMenu = hallData?.menus.find(menu =>
+      menu.period.name.toLowerCase() === selectedMealTime.toLowerCase()
     );
+
+    const dynamicStations = currentMenu?.stations ?? [];
+
+    const currentStation = dynamicStations.find(stationEntry =>
+      stationEntry.name.toLowerCase() === selectedStation.toLowerCase()
+    );
+
+    const dishesForSelectedStation = currentStation?.dishes ?? [];
+    // --- End Derived Data ---
+
+    // Effect to update selected station when stations change 
+    // (e.g., mealtime change or data load)
+    useEffect(() => {
+      if (dynamicStations.length > 0) {
+        const firstStationNameLower = dynamicStations[0].name.toLowerCase();
+        // Check if current selection is valid, if not, reset to first
+        const currentSelectionIsValid = dynamicStations.some(s => s.name.toLowerCase() === selectedStation);
+        if (!currentSelectionIsValid || !selectedStation) {
+           setSelectedStation(firstStationNameLower);
+        }
+      } else {
+        setSelectedStation('');
+      }
+      // Dependency array: Run when the list of stations changes or the hall changes
+      // Note: Adding selectedStation here would cause infinite loop if resetting.
+      // We only want to reset based on the *availability* of stations.
+    }, [dynamicStations, hall]); // Re-run when dynamicStations array identity changes
 
     return (
       <div className="z-0 flex flex-col h-full overflow-x-hidden">
@@ -50,7 +95,7 @@ export default function Side({hall} : {hall : HallEnum}) {
           height={2000}
           priority 
         />
-        <div className="p-5 flex flex-col h-full" id="side-content">
+        <div className="p-5 flex flex-col flex-grow h-1" id="side-content"> {/* Added flex-grow and h-1 */}
           <div className="flex flex-col gap-6 items-center">
             <div className="flex gap-4 w-full">
               {/* Meal Time Select - Controlled Component */}
@@ -63,44 +108,51 @@ export default function Side({hall} : {hall : HallEnum}) {
                 </SelectTrigger>
                 <SelectContent>
                   {mealTimes.map((time) => {
-                    return (
+                    return ( 
                       <SelectItem key={time} value={time.toLowerCase()}>
-                        {time}
+                        {toTitleCase(time)}
                       </SelectItem>
                     )
                   })}
                 </SelectContent>
               </Select>
-              {/* Dining Hall Status */}
               <DiningHallStatus
                 status={currentStatus} // Use dynamic status eventually
                 openTime={openTime}
                 closeTime={closeTime}
               />
             </div>
-            {/* Station Tabs - Controlled Component, only render if stations exist */}
-            {stations.length > 0 && (
+            {/* Render Tabs only if stations are available */}
+            {!isLoading && !isError && dynamicStations.length > 0 && (
               <Tabs
                 value={selectedStation}
                 onValueChange={(value) => setSelectedStation(value || '')}
-                className="min-h-full w-full" // Ensure Tabs takes full width
+                className="w-full" // Ensure Tabs takes full width
               >
                   <TabsList className="flex flex-wrap w-full">
-                      {stations.map((station => {
+                      {dynamicStations.map((station => {
                         return (
-                          <TabsTrigger key={station} value={station.toLowerCase()}>
-                            {station} 
+                          <TabsTrigger key={station.name} value={station.name.toLowerCase()}>
+                            {toTitleCase(station.name)}
                           </TabsTrigger>
                         )
                       }))}
                   </TabsList>
               </Tabs>
             )}
+            {/* Show skeleton/message if loading or no stations */}
+            {isLoading && <div className="h-10 w-full bg-gray-200 animate-pulse rounded-md"></div> /* Tab Skeleton */}
+            {!isLoading && !isError && dynamicStations.length === 0 && (
+                 <p className="text-center text-gray-500 py-2">No stations found for {toTitleCase(selectedMealTime)}.</p>
+            )}
           </div>
+
+          {/* Pass necessary data down to DishesInfo */}
           <DishesInfo 
-            hall={hall} 
-            station={selectedStation} 
-            mealTime={mealTimeToEnum[selectedMealTime]}
+            dishes={dishesForSelectedStation}
+            isLoading={isLoading} // Pass loading state
+            isError={isError || (!isLoading && !hallData)} // Pass error state (fetch error or missing hall data)
+            errorMessage={error?.message ?? (!isLoading && !hallData ? `Data not available for ${HallEnum[hall]}.` : undefined)}
           />
         </div>
       </div>

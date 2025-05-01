@@ -34,3 +34,4 @@ export { createTRPCContext, appRouter, createCaller };
 export type { AppRouter, RouterInputs, RouterOutputs };
 export * from "./server";
 export type { RestaurantInfo };
+export type DishInfo = RestaurantInfo["menus"][number]["stations"][number]["dishes"][number];
