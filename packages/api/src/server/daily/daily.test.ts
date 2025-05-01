@@ -3,6 +3,8 @@ import { describe } from "vitest";
 
 import { daily } from ".";
 
+// TODO: Tests should not fail when campusdish is down (timeout handling)
+
 describe("daily", () => {
   apiTest(
     "should populate db with daily menu",
