@@ -1,15 +1,9 @@
-import { RestaurantInfo } from "@zotmeal/api";
-
-function getStationsFromData(data : RestaurantInfo): string[] {
-  let stations: string[] = [];
-
-  data.menus.forEach(menu => {
-    menu.stations.forEach(station => {
-      stations.push(station.name);
-    })
-  })
-
-  return stations;
+function toTitleCase(str: string): string {
+  return str
+    .toLowerCase()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
 
-export { getStationsFromData };
+export { toTitleCase }
