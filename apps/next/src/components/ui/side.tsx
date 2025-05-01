@@ -6,7 +6,7 @@ import { Tabs, TabsList, TabsTrigger } from "./tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select";
 import { DiningHallStatus } from "./status";
 import DishesInfo from "./dishes-info";
-import { HallEnum, HallStatusEnum, MealTimeEnum, mealTimeToEnum } from "@/utils/types";
+import { HallEnum, HallStatusEnum, MealTimeEnum} from "@/utils/types";
 import { trpc } from "@/utils/trpc"; // Import tRPC hook
 import { RestaurantInfo } from "@zotmeal/api"; // Import types
 import { toTitleCase } from "@/utils/funcs";
@@ -24,7 +24,6 @@ export default function Side({hall} : {hall : HallEnum}) {
       {staleTime: 2 * 60 * 60 * 1000} // 2 hour stale time
     );
 
-    // Static info (could eventually come from API too)
     let heroImageSrc, heroImageAlt, openTime, closeTime;
     const mealTimes = Object.keys(MealTimeEnum).filter(k => isNaN(Number(k))); 
 
@@ -54,6 +53,7 @@ export default function Side({hall} : {hall : HallEnum}) {
       ? (hall === HallEnum.ANTEATERY ? queryResponse.anteatery : queryResponse.brandywine)
       : undefined;
 
+    //TODO: Grey-out the menus that have no stations 
     const currentMenu = hallData?.menus.find(menu =>
       menu.period.name.toLowerCase() === selectedMealTime.toLowerCase()
     );
@@ -95,10 +95,9 @@ export default function Side({hall} : {hall : HallEnum}) {
           height={2000}
           priority 
         />
-        <div className="p-5 flex flex-col flex-grow h-1" id="side-content"> {/* Added flex-grow and h-1 */}
+        <div className="p-5 flex flex-col flex-grow h-1" id="side-content"> 
           <div className="flex flex-col gap-6 items-center">
             <div className="flex gap-4 w-full">
-              {/* Meal Time Select - Controlled Component */}
               <Select
                 value={selectedMealTime}
                 onValueChange={(value) => setSelectedMealTime(value || '')}
@@ -117,17 +116,16 @@ export default function Side({hall} : {hall : HallEnum}) {
                 </SelectContent>
               </Select>
               <DiningHallStatus
-                status={currentStatus} // Use dynamic status eventually
+                status={currentStatus} 
                 openTime={openTime}
                 closeTime={closeTime}
               />
             </div>
-            {/* Render Tabs only if stations are available */}
             {!isLoading && !isError && dynamicStations.length > 0 && (
               <Tabs
                 value={selectedStation}
                 onValueChange={(value) => setSelectedStation(value || '')}
-                className="w-full" // Ensure Tabs takes full width
+                className="w-full" 
               >
                   <TabsList className="flex flex-wrap w-full">
                       {dynamicStations.map((station => {
@@ -140,8 +138,7 @@ export default function Side({hall} : {hall : HallEnum}) {
                   </TabsList>
               </Tabs>
             )}
-            {/* Show skeleton/message if loading or no stations */}
-            {isLoading && <div className="h-10 w-full bg-gray-200 animate-pulse rounded-md"></div> /* Tab Skeleton */}
+            {isLoading && <div className="h-9 w-full bg-gray-200 animate-pulse rounded-md"></div> /* Tab Skeleton */}
             {!isLoading && !isError && dynamicStations.length === 0 && (
                  <p className="text-center text-gray-500 py-2">No stations found for {toTitleCase(selectedMealTime)}.</p>
             )}

@@ -1,3 +1,5 @@
+import { toTitleCase } from "./funcs"; 
+
 enum StatusColors {
     OPEN = "bg-emerald-500",
     CLOSED = "bg-red-500",
@@ -23,34 +25,37 @@ enum MealTimeEnum {
 }
 
 const formatNutrientLabel = (nutrient: string) => {
-  return nutrient
-    .replace(/([A-Z])/g, " $1") // Adds a space before uppercase letters
-    .replace(/^./, (char) => char.toUpperCase())  // Capitalize first letter
+    const label = nutrient.replace(/(Mg|G)$/, ""); // Remove units
+    return label.replace(/([A-Z])/g, " $1")        // Adds a space before uppercase letters
+    .replace(/^./, (char) => char.toUpperCase())   // Capitalize first letter
     .trim();
+};
+
+const formatFoodName = (name: string): string => {
+  if (!name) return "";
+
+  let formattedName = name.replace(/(®)([a-zA-Z])/g, '$1 $2');
+  formattedName = formattedName.replace(/-(\w)/g, (match, char) => '-' + char.toUpperCase());
+  formattedName = toTitleCase(formattedName);
+
+  return formattedName;
 };
 
 const nutrientToUnit : { [nutrient: string]: string } = {
   "calories": "cal",
-  "totalFat": "g",
-  "transFat": "g",
-  "saturatedFat": "g",
-  "cholesterol": "mg",
-  "sodium": "mg",
-  "carbs": "g",
-  "fiber": "g",
-  "sugar": "g",
-  "protein": "g",
-  "vitaminA": "% DV",
-  "vitaminC": "% DV",
-  "calcium": "mg",
-  "iron": "mg",
-}
-
-const mealTimeToEnum : { [mealTime: string]: MealTimeEnum } = {
-  "breakfast": MealTimeEnum.BREAKFAST,
-  "lunch": MealTimeEnum.LUNCH,
-  "dinner": MealTimeEnum.DINNER,
-  "latenight": MealTimeEnum.LATENIGHT
+  "totalFatG": "g",
+  "transFatG": "g",
+  "saturatedFatG": "g",
+  "cholesterolMg": "mg",
+  "sodiumMg": "mg",
+  "totalCarbsG": "g",
+  "dietaryFiberG": "g",
+  "sugarsMg": "mg",
+  "proteinG": "g",
+  "vitaminAIU": "% DV",
+  "vitaminCIU": "% DV",
+  "calciumMg": "mg",
+  "ironMg": "mg",
 }
 
 export { StatusColors, 
@@ -58,5 +63,6 @@ export { StatusColors,
          HallEnum, 
          MealTimeEnum, 
          formatNutrientLabel, 
-         nutrientToUnit,
-         mealTimeToEnum };
+         formatFoodName,
+         nutrientToUnit
+};
