@@ -1,9 +1,11 @@
 'use client';
 
+import React, { useState } from "react";
 import MealDivider from "./meal-divider"
-import FoodCard from "./food-card"
+import FoodCard, { FoodCardProps } from "./food-card" // Import FoodCardProps type
 import FoodCardSkeleton from "./food-card-skeleton"
 import MealDividerSkeleton from "./meal-divider-skeleton"
+import { trpc } from "@/utils/trpc"; // Import tRPC hook
 
 interface DishesInfoProps {
   hall: string,
@@ -11,44 +13,56 @@ interface DishesInfoProps {
 }
 
 export default function DishesInfo({hall, station} : DishesInfoProps) { 
+  const [queryDate] = useState(() => new Date())
+
+  const { data: queryResponse, isLoading, isError, error } = trpc.zotmeal.useQuery(
+    {date: queryDate},
+    {staleTime: 5 * 60 * 1000} // 5 minute stale time
+  );
+
+  // Placeholder for actual data processing - remove this line
+  const zotMealData = queryResponse?.anteatery?.menus!
+
   return (
     <div className="flex flex-col gap-6 mt-10 px-2 overflow-y-auto 
     flex-grow h-1" 
     id="food-scroll">
-      <MealDivider title="Entree"/>
-      <FoodCard
-      title="Chicken Teriyaki"
-      description={`Savory grilled chicken glazed in a rich teriyaki 
-          sauce, served with steamed rice.`}
-      info={{
-        calories: 450,
-        totalFat: 12,
-        transFat: 0,
-        saturatedFat: 3,
-        cholesterol: 60,
-        sodium: 900,
-        carbs: 55,
-        fiber: 3,
-        sugar: 12,
-        protein: 35,
-        vitaminA: 10,
-        vitaminC: 15,
-        calcium: 8,
-        iron: 20
-      }}
-      hallInfo={{
-        hall: "Brandywine",
-        station: "The Crossroads"
-      }}
-      imgSrc="/Zotmeal-Logo.webp"
-      alt="Image of food."
-      rating={4.5}
-      numRatings={12}
-      />
-      <MealDividerSkeleton/>
-      <FoodCardSkeleton/>
-      <FoodCardSkeleton/>
-      <FoodCardSkeleton/>
+      {isLoading && (
+        // Show skeletons while loading
+        <>
+          <MealDividerSkeleton/>
+          <FoodCardSkeleton/>
+          <FoodCardSkeleton/>
+          <FoodCardSkeleton/>
+          <MealDividerSkeleton/>
+          <FoodCardSkeleton/>
+        </>
+      )}
+
+      {isError && (
+        <p className="text-red-500">Error loading data: {error?.message}</p>
+      )}
+
+      {/* Only try to access and render data if not loading and no error */}
+      {!isLoading && !isError && queryResponse && (
+        <pre className="text-xs whitespace-pre-wrap break-words">
+          {zotMealData[0].stations.flatMap(station => {
+            return (
+              <div key={station.name}>
+                <h3 className='font-bold text-xl'>{station.name}</h3>
+                <ul>
+                  {station.dishes.map(dish => {
+                    return(
+                      <li key={dish.name}>{dish.name}</li>
+                    )
+                  })}
+                </ul>
+              </div>
+            )
+          })}
+        </pre>
+      )}
+
     </div>
   )
 }
