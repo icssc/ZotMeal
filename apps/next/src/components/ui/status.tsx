@@ -1,14 +1,4 @@
-enum StatusColors {
-    OPEN = "bg-emerald-500",
-    CLOSED = "bg-red-500",
-    ERROR = "bg-amber-500"
-};
-
-enum HallStatusEnum {
-    OPEN,
-    CLOSED,
-    ERROR
-}
+import { StatusColors, HallStatusEnum } from "@/utils/types";
 
 function StatusDot({ statusColor } : { statusColor: StatusColors }) {
     return (
@@ -56,4 +46,4 @@ function DiningHallStatus({
     )
 }
 
-export { HallStatusEnum, DiningHallStatus }
+export { DiningHallStatus }

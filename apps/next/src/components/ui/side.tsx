@@ -4,36 +4,41 @@ import { useState } from "react";
 import Image from "next/image";
 import { Tabs, TabsList, TabsTrigger } from "./tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select";
-import { HallStatusEnum, DiningHallStatus } from "./status";
+import { DiningHallStatus } from "./status";
 import DishesInfo from "./dishes-info";
+import { HallEnum, HallStatusEnum, mealTimeToEnum } from "@/utils/types";
 
-interface SideProps {
-  heroImageSrc: string;
-  heroImageAlt: string;
-  mealTimes: string[];
-  openTime: string;
-  closeTime: string;
-  stations: string[];
-}
+export default function Side({hall} : {hall : HallEnum}) {
+    // TODO: Determine status dynamically based on open/close times and current time
+    const currentStatus = HallStatusEnum.OPEN;
 
-export default function Side({
-  heroImageSrc,
-  heroImageAlt,
-  mealTimes,
-  openTime,
-  closeTime,
-  stations = [], // Default to empty array if stations aren't provided
-}: SideProps ) {
+    let heroImageSrc, heroImageAlt, mealTimes, openTime, closeTime, stations;
+
+    switch (hall) {
+      case HallEnum.ANTEATERY:
+        heroImageSrc = "/anteatery.webp";
+        heroImageAlt = "An image of the front of the Anteatery dining hall at UCI.";
+        mealTimes = ["Breakfast", "Lunch", "Dinner", "Latenite"];
+        openTime = "8:00a";
+        closeTime = "8:00p";
+        stations = ["Home", "Fire & Ice", "Noodle Bar", "The Twisted Root", "Sizzle Grill", "The Oven"];
+        break;
+      case HallEnum.BRANDYWINE:
+        heroImageSrc = "/brandywine.webp";
+        heroImageAlt = "An image of the front of the Brandywine dining hall at UCI.";
+        mealTimes = ["Breakfast", "Lunch", "Dinner", "Latenite"];
+        openTime = "8:00a";
+        closeTime = "8:00p";
+        stations = ["Grubb", "The Crossroads", "The Twisted Root", "Ember", "Hearth", "The Farm Stand"];
+        break;
+    }
+
     const [selectedMealTime, setSelectedMealTime] = useState(
       () => (mealTimes[0] || '').toLowerCase()
     );
     const [selectedStation, setSelectedStation] = useState(
       () => (stations[0] || '').toLowerCase()
     );
-
-    // Placeholder for dynamic status calculation
-    // TODO: Determine status dynamically based on open/close times and current time
-    const currentStatus = HallStatusEnum.OPEN;
 
     return (
       <div className="z-0 flex flex-col h-full overflow-x-hidden">
@@ -92,7 +97,11 @@ export default function Side({
               </Tabs>
             )}
           </div>
-          <DishesInfo hall={"ae"} station={selectedStation}/>
+          <DishesInfo 
+            hall={hall} 
+            station={selectedStation} 
+            mealTime={mealTimeToEnum[selectedMealTime]}
+          />
         </div>
       </div>
     )

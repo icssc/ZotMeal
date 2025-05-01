@@ -7,30 +7,8 @@ import { FoodCardProps } from "./food-card";
 import React, { useState } from "react"; // Import useState
 import { Button } from "./button"; // Import Button
 import { cn } from "@/utils/tw"; // Import cn utility
+import { nutrientToUnit, formatNutrientLabel } from "@/utils/types";
 
-const formatNutrientLabel = (nutrient: string) => {
-  return nutrient
-    .replace(/([A-Z])/g, " $1") // Adds a space before uppercase letters
-    .replace(/^./, (char) => char.toUpperCase())  // Capitalize first letter
-    .trim();
-};
-
-const nutrientToUnit : { [nutrient: string]: string } = {
-  "calories": "cal",
-  "totalFat": "g",
-  "transFat": "g",
-  "saturatedFat": "g",
-  "cholesterol": "mg",
-  "sodium": "mg",
-  "carbs": "g",
-  "fiber": "g",
-  "sugar": "g",
-  "protein": "g",
-  "vitaminA": "% DV",
-  "vitaminC": "% DV",
-  "calcium": "mg",
-  "iron": "mg",
-}
 
 export default function FoodDialogContent({
   title,

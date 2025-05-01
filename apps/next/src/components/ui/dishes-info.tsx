@@ -6,22 +6,24 @@ import FoodCard, { FoodCardProps } from "./food-card" // Import FoodCardProps ty
 import FoodCardSkeleton from "./food-card-skeleton"
 import MealDividerSkeleton from "./meal-divider-skeleton"
 import { trpc } from "@/utils/trpc"; // Import tRPC hook
+import { HallEnum, MealTimeEnum } from "@/utils/types";
 
 interface DishesInfoProps {
-  hall: string,
+  hall: HallEnum,
   station: string,
+  mealTime: MealTimeEnum
 }
 
-export default function DishesInfo({hall, station} : DishesInfoProps) { 
+export default function DishesInfo({hall, station, mealTime} : DishesInfoProps) { 
   const [queryDate] = useState(() => new Date())
 
   const { data: queryResponse, isLoading, isError, error } = trpc.zotmeal.useQuery(
     {date: queryDate},
-    {staleTime: 5 * 60 * 1000} // 5 minute stale time
+    {staleTime: 2 * 60 * 60 * 1000} // 2 hour stale time
   );
 
-  // Placeholder for actual data processing - remove this line
-  const zotMealData = queryResponse?.anteatery?.menus!
+  let hallData = hall == HallEnum.ANTEATERY ? queryResponse?.anteatery.menus
+                              : queryResponse?.brandywine.menus;
 
   return (
     <div className="flex flex-col gap-6 mt-10 px-2 overflow-y-auto 
@@ -46,7 +48,10 @@ export default function DishesInfo({hall, station} : DishesInfoProps) {
       {/* Only try to access and render data if not loading and no error */}
       {!isLoading && !isError && queryResponse && (
         <pre className="text-xs whitespace-pre-wrap break-words">
-          {zotMealData[0].stations.flatMap(station => {
+          {hallData![0].period.name}<br/>
+          {station}<br/>
+          {mealTime}<br/>
+          {hallData![0].stations.flatMap(station => {
             return (
               <div key={station.name}>
                 <h3 className='font-bold text-xl'>{station.name}</h3>
