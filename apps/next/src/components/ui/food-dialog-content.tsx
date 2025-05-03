@@ -9,6 +9,7 @@ import { cn } from "@/utils/tw"; // Import cn utility
 import { nutrientToUnit, formatNutrientLabel, formatFoodName } from "@/utils/types";
 import { DishInfo } from "@zotmeal/api";
 import { toTitleCase, enhanceDescription } from "@/utils/funcs";
+import { AllergenBadge } from "./allergen-badge";
 
 
 export default function FoodDialogContent(dish: DishInfo) {
@@ -42,8 +43,12 @@ export default function FoodDialogContent(dish: DishInfo) {
                 <Star className="stroke-zinc-500" size={26}/>
               </div>
             </div>
-            <div className="px-4 text-zinc-500">
+            <div className="px-4 flex items-center gap-2 text-zinc-500">
               <span>{dish.nutritionInfo.calories == null ? "-" : `${dish.nutritionInfo.calories} cal`} • {toTitleCase(dish.restaurant)}</span>
+              <AllergenBadge variant={"vegetarian"}/>
+              <AllergenBadge variant={"vegan"}/>
+              <AllergenBadge variant={"gluten_free"}/>
+              <AllergenBadge variant={"kosher"}/>
             </div>
             <DialogDescription className="text-black px-4">{enhanceDescription(dish.name, dish.description)}</DialogDescription>
             <div>
