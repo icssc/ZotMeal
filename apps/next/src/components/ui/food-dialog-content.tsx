@@ -8,7 +8,7 @@ import { Button } from "./button"; // Import Button
 import { cn } from "@/utils/tw"; // Import cn utility
 import { nutrientToUnit, formatNutrientLabel, formatFoodName } from "@/utils/types";
 import { DishInfo } from "@zotmeal/api";
-import { toTitleCase } from "@/utils/funcs";
+import { toTitleCase, enhanceDescription } from "@/utils/funcs";
 
 
 export default function FoodDialogContent(dish: DishInfo) {
@@ -45,7 +45,7 @@ export default function FoodDialogContent(dish: DishInfo) {
             <div className="px-4 text-zinc-500">
               <span>{dish.nutritionInfo.calories == null ? "-" : `${dish.nutritionInfo.calories} cal`} • {toTitleCase(dish.restaurant)}</span>
             </div>
-            <DialogDescription className="text-black px-4">{dish.description}</DialogDescription>
+            <DialogDescription className="text-black px-4">{enhanceDescription(dish.name, dish.description)}</DialogDescription>
             <div>
               <h1 className="px-4 text-2xl font-bold">Nutrients</h1>
               <div className="grid grid-cols-2 gap-x-4 w-full px-4 text-black mb-4" id="nutrient-content">

@@ -35,8 +35,15 @@ const formatFoodName = (name: string): string => {
   if (!name) return "";
 
   let formattedName = name.replace(/(®)([a-zA-Z])/g, '$1 $2');
-  formattedName = formattedName.replace(/-(\w)/g, (match, char) => '-' + char.toUpperCase());
   formattedName = toTitleCase(formattedName);
+  formattedName = formattedName.replace(/-(\w)/g, (match, char) => '-' + char.toUpperCase()); // Example: Quick-Serve -> Quick-Serve
+  formattedName = formattedName.replace(/'(\w)/g, (match, char) => {
+    if (char.toLowerCase() === 's') return match;
+    return '\'' + char.toUpperCase(); 
+  });
+  formattedName = formattedName.replace(/Ozw/g, 'Oz');
+  formattedName = formattedName.replace(/\(\s+/g, '(');
+  formattedName = formattedName.replace(/\s+\)/g, ')');
 
   return formattedName;
 };
