@@ -45,10 +45,10 @@ export default function FoodDialogContent(dish: DishInfo) {
             </div>
             <div className="px-4 flex items-center gap-2 text-zinc-500">
               <span>{dish.nutritionInfo.calories == null ? "-" : `${dish.nutritionInfo.calories} cal`} • {toTitleCase(dish.restaurant)}</span>
-              <AllergenBadge variant={"vegetarian"}/>
-              <AllergenBadge variant={"vegan"}/>
-              <AllergenBadge variant={"gluten_free"}/>
-              <AllergenBadge variant={"kosher"}/>
+              {dish.dietRestriction.isVegetarian && <AllergenBadge variant={"vegetarian"}/>}
+              {dish.dietRestriction.isVegan && <AllergenBadge variant={"vegan"}/>}
+              {dish.dietRestriction.isGlutenFree && <AllergenBadge variant={"gluten_free"}/>}
+              {dish.dietRestriction.isKosher && <AllergenBadge variant={"kosher"}/>}
             </div>
             <DialogDescription className="text-black px-4">{enhanceDescription(dish.name, dish.description)}</DialogDescription>
             <div>
