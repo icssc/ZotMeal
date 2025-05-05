@@ -5,7 +5,6 @@ import Image from "next/image"
 import { Card, CardContent} from "./card"
 import { Star } from "lucide-react"
 import { DishInfo } from "@zotmeal/api";
-import { toTitleCase } from "@/utils/funcs";
 import { formatFoodName } from "@/utils/types";
 
 interface FoodCardContentProps extends React.HTMLAttributes<HTMLDivElement> {

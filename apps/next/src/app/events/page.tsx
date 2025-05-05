@@ -1,9 +1,17 @@
-import EventCard, { EventLocation } from "@/components/ui/event-card"
+"use client";
+
+import EventCard from "@/components/ui/event-card"
 import EventCardSkeleton from "@/components/ui/event-card-skeleton"
 import MealDivider from "@/components/ui/meal-divider"
+import MealDividerSkeleton from "@/components/ui/meal-divider-skeleton";
+import { trpc } from "@/utils/trpc";
+import { HallEnum } from "@/utils/types";
 import Image from "next/image"
 
 export default function Events() {
+  // Destructure the result from useQuery
+  const { data: upcomingEvents, isLoading, error } = trpc.event.upcoming.useQuery();
+
   return (
     <div className="max-w-full h-screen">
       <div className="z-0 flex flex-col h-full overflow-x-hidden">
@@ -14,20 +22,30 @@ export default function Events() {
         width={2000}
         height={2000}
         />
-        <div className="flex flex-col gap-4 justify-center w-full px-12 py-8 h-full relative" id="event-scroll">
-          <MealDivider title="This Week"/>
-          <EventCard
-            name="Nashville Hot Chicken"
-            shortDesc="Turn up the heat with our bold Nashville specialty! Each crispy, spicy bite brings Southern fire to your taste buds."
-            longDesc="The Anteatery drops the heat with our Nashville Hot Chicken Sandwich! Savor our perfectly crispy chicken, seasoned with fiery Nashville-style spices, served on a soft bun and accompanied by classic Southern sides. Experience the bold, spicy flavors that made Nashville famous."
-            imgSrc="/Zotmeal-Logo.webp"
-            alt="Zotmeal logo."
-            time={new Date(2025, 0, 3, 13, 0, 0, 0)}
-            location={EventLocation.ANTEATERY}
-          />
-          <MealDivider title="Coming Up"/>
-          <EventCardSkeleton/>
-          <EventCardSkeleton/>
+        <div className="flex flex-col gap-4 justify-center w-full px-12 py-8" id="event-scroll">
+          {/* Show skeletons while loading */}
+          {isLoading && (
+            <>
+              <MealDividerSkeleton/>
+              <EventCardSkeleton/>
+              <EventCardSkeleton/>
+              <MealDividerSkeleton/>
+              <EventCardSkeleton/>
+            </>
+          )}
+          {/* Map over the fetched events once loaded */}
+          {!isLoading && upcomingEvents.map((event : any) => (
+            <EventCard
+              key={`${event.title}|${event.start.toISOString()}|${event.restaurantId}`}
+              name={event.title}
+              imgSrc={event.image}
+              alt={`${event.title} promotion image.`}
+              time={event.start}
+              location={event.restaurantId == 3056 ? HallEnum.ANTEATERY : HallEnum.BRANDYWINE}
+              shortDesc={event.shortDescription}
+              longDesc={event.longDescription}
+            />
+          ))}
         </div>
       </div>
     </div>
