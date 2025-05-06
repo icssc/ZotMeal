@@ -9,7 +9,8 @@ export interface EventInfo {
     longDesc: string;
     imgSrc: string;
     alt: string;
-    time: Date;
+    startTime: Date;
+    endTime: Date;
     location: HallEnum; 
 }
 

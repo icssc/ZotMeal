@@ -1,3 +1,8 @@
+import { HallEnum } from "./types";
+
+const BWINE_ADDY: string = "557+E+Peltason Dr%2C+Irvine%2C+CA%2C+92617";
+const ANTEAT_ADDY: string = "4001+Mesa+Rd%2C+Irvine%2C+CA%2C+92617";
+
 function toTitleCase(str: string): string {
   return str
     .toLowerCase()
@@ -62,4 +67,65 @@ function enhanceDescription(dish: string, description: string | null | undefined
   return description.endsWith('.') ? description : (description + '.');
 }
 
-export { toTitleCase, enhanceDescription }
+const numToMonth : {[num: number]: string} = {
+  0:  "Jan.",
+  1:  "Feb.",
+  2:  "Mar.",
+  3:  "Apr.",
+  4:  "May",
+  5:  "Jun.",
+  6:  "Jul.",
+  7:  "Aug.",
+  8:  "Sep.",
+  9:  "Oct.",
+  10: "Nov.",
+  11: "Dec."
+};
+
+function getDayWithSuffix(day: number): string {
+  if (day > 3 && day < 21) return `${day}th`; // for 4th to 20th
+  switch (day % 10) {
+    case 1:  return `${day}st`;
+    case 2:  return `${day}nd`;
+    case 3:  return `${day}rd`;
+    default: return `${day}th`;
+  }
+}
+
+function dateToString(startDate: Date, endDate: Date): string {
+  const dayWithSuffix = getDayWithSuffix(startDate.getDate());
+  return `${numToMonth[startDate.getMonth()]} ${dayWithSuffix}, ${timeToString(startDate)}-${timeToString(endDate)}`;
+}
+
+function padMinutes(minutes: number): string {
+  let str: string = minutes+"";
+  while (str.length < 2)
+    str = "0" + str
+  return str;
+}
+
+function timeToString(date: Date): string {
+  let hours: number = date.getHours();
+  let isAfterNoon: boolean = hours > 12;
+
+  return `${isAfterNoon ? hours - 12 : hours}:${padMinutes(date.getMinutes())}${isAfterNoon ? "pm" : "am"}`
+}
+
+function generateGCalLink(title: string, desc: string, location: HallEnum, time: Date): string {
+  let date: string = `${time.getFullYear()}${(time.getUTCMonth() + 1).toString().padStart(2, '0')}${time.getUTCDate().toString().padStart(2, '0')}T${time.getUTCHours().toString().padStart(2, '0')}${time.getUTCMinutes().toString().padStart(2, '0')}${time.getUTCSeconds().toString().padStart(2, '0')}Z`;
+
+  
+  let link: string = `https://www.google.com/calendar/render?action=TEMPLATE` +
+  `&text=${location == HallEnum.ANTEATERY ? "Anteatery" : "Brandywine"}:+${title.replace(/\s+/g, "+")}` +
+  `&details=${desc.replace(/\s+/g, "+")}` +
+  `&location=${location == HallEnum.ANTEATERY ? ANTEAT_ADDY : BWINE_ADDY}` +
+  `&dates=${date}/${date}`;
+
+  return link;
+}
+
+export { toTitleCase, 
+         dateToString, 
+         generateGCalLink, 
+         timeToString, 
+         enhanceDescription }

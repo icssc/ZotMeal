@@ -7,6 +7,7 @@ import { Clock, MapPinned } from "lucide-react";
 import { HallEnum } from "@/utils/types";
 import { toTitleCase } from "@/utils/funcs";
 import React from "react";
+import { dateToString } from "@/utils/funcs";
 
 interface EventCardContentProps extends React.HTMLAttributes<HTMLDivElement> {
   props: EventInfo;
@@ -33,7 +34,7 @@ const EventCardContent = React.forwardRef<
             <strong className="text-2xl">{props.name}</strong>
             <div className="text-zinc-400 flex gap-1" id="event-card-subheader">
                 <Clock className="stroke-zinc-400"/>
-                <p>{`${props.time.toDateString()} ${props.time.toLocaleTimeString()}`}</p>
+                <p>{dateToString(props.startTime, props.endTime)}</p>
                 <MapPinned/>
                 <p>
                   {toTitleCase(HallEnum[props.location])}
