@@ -1,16 +1,23 @@
-import React, { useState } from "react";
-import { TouchableOpacity } from "react-native";
+import React, { useContext } from "react";
+import { Pressable } from "react-native";
 import Animated, {
-  ReduceMotion,
+  interpolateColor,
   useAnimatedStyle,
+  useDerivedValue,
   useSharedValue,
+  withRepeat,
   withSpring,
+  withTiming,
 } from "react-native-reanimated";
 import DateTimePicker, { getDefaultStyles } from "react-native-ui-datepicker";
 import { endOfWeek, startOfWeek } from "date-fns";
 
 import { defaultSpringConfig } from "../constants/Animation";
+import { useThemeColor } from "../hooks/useThemeColor";
+import { colorShade } from "../utils/color";
 import { formatDate } from "../utils/date";
+import { triggerHaptic } from "../utils/haptic";
+import { RestaurantContext } from "./RestaurantContext";
 import { ThemedText } from "./ThemedText";
 
 export function Calendar({
@@ -21,44 +28,111 @@ export function Calendar({
   setDate: (date: Date) => void;
 }) {
   const defaultStyles = getDefaultStyles();
-
+  const activityIndicatorValue = useSharedValue(0);
   const open = useSharedValue(false);
+  const isPressed = useSharedValue(false);
+  const backgroundColor = useThemeColor({}, "background");
+  const { isFetching } = useContext(RestaurantContext)!;
 
-  const animatedStyles = useAnimatedStyle(() => {
+  const datePickerStyles = useAnimatedStyle(() => {
     return {
       opacity: withSpring(open.value ? 1 : 0, {
         ...defaultSpringConfig,
         duration: 100,
       }),
-      height: withSpring(open.value ? 300 : 0, defaultSpringConfig),
+      height: withSpring(open.value ? 300 : 50, defaultSpringConfig),
       marginBottom: withSpring(open.value ? 0 : -50, defaultSpringConfig),
     };
   });
 
+  React.useEffect(() => {
+    if (isFetching) {
+      activityIndicatorValue.value = withRepeat(
+        withTiming(1, { duration: 250 }),
+        -1,
+        true,
+      );
+    } else {
+      activityIndicatorValue.value = withTiming(0, { duration: 250 });
+    }
+  }, [isFetching]);
+
+  const darkerAccent = colorShade("#309CFF", -60);
+
+  const activityIndicatorColor = useDerivedValue(() => {
+    return interpolateColor(
+      activityIndicatorValue.value,
+      [0, 1],
+      ["#309CFF", darkerAccent],
+    );
+  });
+
+  const buttonStyle = useAnimatedStyle(() => {
+    return {
+      backgroundColor: activityIndicatorColor.value,
+      transform: [
+        {
+          scale: withTiming(isPressed.value ? 0.95 : 1, {
+            duration: 100,
+          }),
+        },
+        {
+          translateY: -15,
+        },
+      ],
+    };
+  });
+  const borderStyle = useAnimatedStyle(() => {
+    return {
+      borderColor: activityIndicatorColor.value,
+    };
+  });
+
   return (
-    <>
-      <TouchableOpacity
+    <Animated.View
+      style={[
+        {
+          borderWidth: 3,
+          width: "102%",
+          marginLeft: "-1%",
+          backgroundColor,
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          marginTop: -10,
+        },
+        borderStyle,
+      ]}
+    >
+      <Pressable
+        onPressIn={() => {
+          isPressed.value = true;
+        }}
+        onPressOut={() => {
+          isPressed.value = false;
+        }}
         onPress={() => {
+          triggerHaptic();
           open.value = !open.value;
         }}
-        style={{
-          margin: "auto",
-          paddingHorizontal: 10,
-          paddingVertical: 3,
-          borderRadius: 25,
-          backgroundColor: "#309CFF",
-          transform: [{ translateY: -33 }],
-        }}
       >
-        <ThemedText style={{ fontWeight: 600 }}>{formatDate(date)}</ThemedText>
-      </TouchableOpacity>
+        <Animated.View
+          style={[
+            {
+              margin: "auto",
+              paddingHorizontal: 10,
+              paddingVertical: 3,
+              borderRadius: 25,
+            },
+            buttonStyle,
+          ]}
+        >
+          <ThemedText style={{ fontWeight: 600 }}>
+            {formatDate(date)}
+          </ThemedText>
+        </Animated.View>
+      </Pressable>
       <Animated.View
-        style={[
-          {
-            transform: [{ translateY: -33 }],
-          },
-          animatedStyles,
-        ]}
+        style={[{ width: "90%", margin: "auto" }, datePickerStyles]}
       >
         <DateTimePicker
           mode="single"
@@ -99,6 +173,6 @@ export function Calendar({
           }}
         />
       </Animated.View>
-    </>
+    </Animated.View>
   );
 }
