@@ -59,15 +59,3 @@ export default function DishesInfo({dishes, isLoading, isError, errorMessage} : 
     </div>
   );
 }
-
-/*
-// Previous attempt with IIFE directly returning a div, causing type issues:
-      {!isLoading && !isError && queryResponse && (
-        (() => {
-          return (
-            <div>
-            </div>
-          )
-        })
-      )}
-*/

@@ -10,8 +10,7 @@ import { HallEnum, HallStatusEnum, MealTimeEnum} from "@/utils/types";
 import { trpc } from "@/utils/trpc"; // Import tRPC hook
 import { RestaurantInfo } from "@zotmeal/api"; // Import types
 import { toTitleCase } from "@/utils/funcs";
-import MealDividerSkeleton from "./meal-divider-skeleton"; // For loading state
-import FoodCardSkeleton from "./food-card-skeleton"; // For loading state
+import { parse } from "date-fns";
 
 export default function Side({hall} : {hall : HallEnum}) {
     // TODO: Determine status dynamically based on open/close times and current time
@@ -24,21 +23,18 @@ export default function Side({hall} : {hall : HallEnum}) {
       {staleTime: 2 * 60 * 60 * 1000} // 2 hour stale time
     );
 
-    let heroImageSrc, heroImageAlt, openTime, closeTime;
+    let heroImageSrc: string | undefined, heroImageAlt: string | undefined;
+    let openTime: Date | undefined, closeTime: Date | undefined;
     const mealTimes = Object.keys(MealTimeEnum).filter(k => isNaN(Number(k))); 
 
     switch (hall) {
       case HallEnum.ANTEATERY:
         heroImageSrc = "/anteatery.webp";
         heroImageAlt = "An image of the front of the Anteatery dining hall at UCI.";
-        openTime = "8:00a";
-        closeTime = "8:00p";
         break;
       case HallEnum.BRANDYWINE:
         heroImageSrc = "/brandywine.webp";
         heroImageAlt = "An image of the front of the Brandywine dining hall at UCI.";
-        openTime = "8:00a";
-        closeTime = "8:00p";
         break;
     }
 
@@ -65,6 +61,33 @@ export default function Side({hall} : {hall : HallEnum}) {
     );
 
     const dishesForSelectedStation = currentStation?.dishes ?? [];
+
+    if (hallData?.menus && hallData.menus.length > 0) {
+      const timeFormat = "HH:mm:ss"; 
+      let earliestOpen: Date | null = null;
+      let latestClose: Date | null = null;
+
+      hallData.menus.forEach(menu => {
+        try {
+          const currentOpen = parse(menu.period.startTime, timeFormat, new Date());
+          const currentClose = parse(menu.period.endTime, timeFormat, new Date());
+
+          console.log("Current Open:", currentOpen, menu.period.name);
+          console.log("Current Close:", currentClose, menu.period.name);
+
+          if (!earliestOpen || currentOpen < earliestOpen) {
+            earliestOpen = currentOpen;
+          }
+          if (!latestClose || currentClose > latestClose) {
+            latestClose = currentClose;
+          }
+        } catch (e) {
+          console.error("Error parsing time:", e);
+        }
+      });
+      openTime = earliestOpen ?? undefined;
+      closeTime = latestClose ?? undefined;
+    }
     // --- End Derived Data ---
 
     // Effect to update selected station when stations change 
@@ -115,11 +138,12 @@ export default function Side({hall} : {hall : HallEnum}) {
                   })}
                 </SelectContent>
               </Select>
+              {!isLoading && !isError && 
               <DiningHallStatus
                 status={currentStatus} 
-                openTime={openTime}
-                closeTime={closeTime}
-              />
+                openTime={openTime!.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})}
+                closeTime={closeTime!.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})}
+              />}
             </div>
             {!isLoading && !isError && dynamicStations.length > 0 && (
               <Tabs

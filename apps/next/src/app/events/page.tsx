@@ -76,6 +76,7 @@ export default function Events() {
                 location={event.restaurantId == 3056 ? HallEnum.ANTEATERY : HallEnum.BRANDYWINE}
                 shortDesc={event.shortDescription}
                 longDesc={event.longDescription}
+                isOngoing={event.start <= now && event.end >= now}
               />
               ))}
               <MealDivider title="Upcoming Events"/>
@@ -90,6 +91,7 @@ export default function Events() {
                 location={event.restaurantId == 3056 ? HallEnum.ANTEATERY : HallEnum.BRANDYWINE}
                 shortDesc={event.shortDescription}
                 longDesc={event.longDescription}
+                isOngoing={event.start <= now && event.end >= now}
               />
               ))}
             </>

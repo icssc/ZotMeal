@@ -8,6 +8,7 @@ import { HallEnum } from "@/utils/types";
 import { toTitleCase } from "@/utils/funcs";
 import React from "react";
 import { dateToString } from "@/utils/funcs";
+import OngoingBadge from "./ongoing-badge";
 
 interface EventCardContentProps extends React.HTMLAttributes<HTMLDivElement> {
   props: EventInfo;
@@ -31,18 +32,17 @@ const EventCardContent = React.forwardRef<
               className="rounded-sm"
             />
             <div className="flex flex-col gap-1 h-full" id="event-card-content">
-            <strong className="text-2xl">{props.name}</strong>
+            <div className="flex flex-row gap-2">
+              <strong className="text-2xl">{props.name}</strong>
+              {props.isOngoing && <OngoingBadge/>}
+            </div>
             <div className="text-zinc-400 flex gap-1" id="event-card-subheader">
                 <Clock className="stroke-zinc-400"/>
                 <p>{dateToString(props.startTime, props.endTime)}</p>
                 <MapPinned/>
-                <p>
-                  {toTitleCase(HallEnum[props.location])}
-                </p>
+                <p>{toTitleCase(HallEnum[props.location])}</p>
             </div>
-            <p className="max-w-xl">
-                {props.shortDesc}
-            </p>
+            <p className="max-w-xl">{props.shortDesc}</p>
             </div>
           </CardContent>
         </Card>

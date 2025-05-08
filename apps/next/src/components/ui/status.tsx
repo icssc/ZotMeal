@@ -23,7 +23,7 @@ function DiningHallStatus({
     switch (status) {
         case HallStatusEnum.OPEN:
             statusDotColor = StatusColors.OPEN;
-            statusMessage = `Open (${openTime}-${closeTime})`
+            statusMessage = `Open (${openTime} - ${closeTime})`
             break;
         case HallStatusEnum.CLOSED:
             statusDotColor = StatusColors.CLOSED;

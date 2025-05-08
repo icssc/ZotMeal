@@ -12,13 +12,14 @@ export interface EventInfo {
     startTime: Date;
     endTime: Date;
     location: HallEnum; 
+    isOngoing: boolean;
 }
 
 export default function EventCard(props : EventInfo) {
     return (
       <Dialog>
         <DialogTrigger asChild>
-            <EventCardContent props={props}/>
+          <EventCardContent props={props}/>
         </DialogTrigger>
         <EventDialogContent {... props}/>
       </Dialog>
