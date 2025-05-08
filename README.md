@@ -52,8 +52,8 @@ erDiagram
    }
 
    ratings {
-      user_id text PK
-      dish_id text PK
+      user_id text PK,FK
+      dish_id text PK,FK
       rating smallint
       created_at timestamp
       updated_at timestamp
@@ -61,7 +61,7 @@ erDiagram
 
    dishes {
       id text PK
-      station_id text
+      station_id text FK
       name text
       description text
       category text
@@ -80,7 +80,7 @@ erDiagram
 
    menus {
       id text PK
-      period_id text
+      period_id text FK
       date date
       restaurant_id restaurant_id_enum
       price text
@@ -89,7 +89,7 @@ erDiagram
    }
 
    diet_restrictions {
-      dish_id text PK
+      dish_id text PK,FK
       contains_eggs boolean
       contains_fish boolean
       contains_milk boolean
@@ -111,7 +111,7 @@ erDiagram
    }
 
    nutrition_infos {
-      dish_id text PK
+      dish_id text PK,FK
       serving_size text
       serving_unit text
       calories text
@@ -142,7 +142,7 @@ erDiagram
 
    events {
       title text PK
-      restaurant_id restaurant_id_enum PK
+      restaurant_id restaurant_id_enum PK,FK
       short_description text
       long_description text
       start timestamp PK
