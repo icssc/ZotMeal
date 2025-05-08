@@ -122,6 +122,12 @@ pnpm test:daily
 pnpm test:weekly
 ```
 
+If you want to check the contents of the database, run the following command (while the server is not running)
+
+```sh
+pnpm db:studio
+```
+
 ### Adding Workspaces
 
 To add a new package run `turbo gen workspace` and follow the prompts
