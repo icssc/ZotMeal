@@ -22,7 +22,6 @@ A summary of the libraries we use are listed below.
 ### Frontend
 
 - [Expo](https://expo.dev) - Universal framework for React Native.
-- [Tamagui](https://tamagui.dev/) - Universal UI component library for React Native.
 
 ### Backend
 
