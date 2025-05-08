@@ -132,6 +132,14 @@ erDiagram
       updated_at timestamp
    }
 
+   stations {
+      id text PK
+      name text
+      restaurant_id restaurant_id_enum
+      created_at timestamp
+      updated_at timestamp
+   }
+
    events {
       title text PK
       restaurant_id restaurant_id_enum PK
