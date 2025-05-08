@@ -103,6 +103,26 @@ The `packages` folder contains all the functionality of the backend of ZotMeal.
 
 Run `turbo test` at the root of the project.
 
+**Database**
+
+Run the following commands to pull data into your local database. 
+
+```sh
+cd apps/server
+
+# For daily test
+pnpm test:daily
+
+# For weekly test
+pnpm test:weekly
+```
+
+If you want to check the contents of the database, run the following command (while the server is not running)
+
+```sh
+pnpm db:studio
+```
+
 ### Adding Workspaces
 
 To add a new package run `turbo gen workspace` and follow the prompts
