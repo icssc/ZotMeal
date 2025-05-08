@@ -1,4 +1,4 @@
-x`### Pre-requisites
+### Pre-requisites
 
 1. Install `Node.js`. This allows you to run JavaScript on your computer (outside of a browser).
    This is best done with a version manager that allows you to easily switch between
