@@ -9,8 +9,7 @@ import DishesInfo from "./dishes-info";
 import { HallEnum, HallStatusEnum, MealTimeEnum} from "@/utils/types";
 import { trpc } from "@/utils/trpc"; // Import tRPC hook
 import { RestaurantInfo } from "@zotmeal/api"; // Import types
-import { toTitleCase } from "@/utils/funcs";
-import { parse } from "date-fns";
+import { toTitleCase, utcToPacificTime } from "@/utils/funcs";
 
 export default function Side({hall} : {hall : HallEnum}) {
     // TODO: Determine status dynamically based on open/close times and current time
@@ -63,22 +62,28 @@ export default function Side({hall} : {hall : HallEnum}) {
     const dishesForSelectedStation = currentStation?.dishes ?? [];
 
     if (hallData?.menus && hallData.menus.length > 0) {
-      const timeFormat = "HH:mm:ss"; 
       let earliestOpen: Date | null = null;
       let latestClose: Date | null = null;
 
       hallData.menus.forEach(menu => {
         try {
-          const currentOpen = parse(menu.period.startTime, timeFormat, new Date());
-          const currentClose = parse(menu.period.endTime, timeFormat, new Date());
+          const currentOpen = utcToPacificTime(menu.period.startTime);
+          const currentClose = utcToPacificTime(menu.period.endTime);
+
+          if (menu.period.name == 'Latenight') {
+            currentOpen.setDate(currentOpen.getDate() + 1);
+            currentClose.setDate(currentClose.getDate() + 1);
+          }
 
           console.log("Current Open:", currentOpen, menu.period.name);
           console.log("Current Close:", currentClose, menu.period.name);
 
           if (!earliestOpen || currentOpen < earliestOpen) {
+            // console.log(`[${HallEnum[hall]}]`, 'Updating earliestOpen to ', currentOpen)
             earliestOpen = currentOpen;
           }
           if (!latestClose || currentClose > latestClose) {
+            // console.log(`[${HallEnum[hall]}]`, 'Updating latestClose to ', latestClose)
             latestClose = currentClose;
           }
         } catch (e) {

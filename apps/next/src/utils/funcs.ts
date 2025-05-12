@@ -128,8 +128,22 @@ function generateGCalLink(title: string, desc: string, location: HallEnum, time:
   return link;
 }
 
+function utcToPacificTime(utcTimeString: string): Date {
+  const [hours, minutes, seconds] = utcTimeString.split(':').map(Number);
+  const utcDate = new Date()
+  utcDate.setUTCHours(hours);
+  utcDate.setUTCMinutes(minutes);
+  utcDate.setUTCSeconds(seconds);
+  utcDate.setMilliseconds(0);
+
+  const pacificDate = new Date(utcDate.toLocaleString('en-US', { timeZone: 'America/Los_Angeles'}))
+
+  return pacificDate
+}
+
 export { toTitleCase, 
          dateToString, 
          generateGCalLink, 
          timeToString, 
-         enhanceDescription }
+         enhanceDescription,
+         utcToPacificTime }
