@@ -9,7 +9,7 @@ import DishesInfo from "./dishes-info";
 import { HallEnum, HallStatusEnum, MealTimeEnum} from "@/utils/types";
 import { trpc } from "@/utils/trpc"; // Import tRPC hook
 import { RestaurantInfo } from "@zotmeal/api"; // Import types
-import { toTitleCase, utcToPacificTime } from "@/utils/funcs";
+import { toTitleCase, utcToPacificTime, formatOpenCloseTime } from "@/utils/funcs";
 
 export default function Side({hall} : {hall : HallEnum}) {
     // TODO: Determine status dynamically based on open/close times and current time
@@ -24,6 +24,7 @@ export default function Side({hall} : {hall : HallEnum}) {
 
     let heroImageSrc: string | undefined, heroImageAlt: string | undefined;
     let openTime: Date | undefined, closeTime: Date | undefined;
+    // TODO: Fetch meal times dynamically without relying upon enum and sort
     const mealTimes = Object.keys(MealTimeEnum).filter(k => isNaN(Number(k))); 
 
     switch (hall) {
@@ -61,6 +62,8 @@ export default function Side({hall} : {hall : HallEnum}) {
 
     const dishesForSelectedStation = currentStation?.dishes ?? [];
 
+    let availableMealTimes: { [mealName: string]: [Date, Date]} = {};
+
     if (hallData?.menus && hallData.menus.length > 0) {
       let earliestOpen: Date | null = null;
       let latestClose: Date | null = null;
@@ -75,15 +78,12 @@ export default function Side({hall} : {hall : HallEnum}) {
             currentClose.setDate(currentClose.getDate() + 1);
           }
 
-          console.log("Current Open:", currentOpen, menu.period.name);
-          console.log("Current Close:", currentClose, menu.period.name);
+          availableMealTimes[menu.period.name.toLowerCase()] = [currentOpen, currentClose];
 
           if (!earliestOpen || currentOpen < earliestOpen) {
-            // console.log(`[${HallEnum[hall]}]`, 'Updating earliestOpen to ', currentOpen)
             earliestOpen = currentOpen;
           }
           if (!latestClose || currentClose > latestClose) {
-            // console.log(`[${HallEnum[hall]}]`, 'Updating latestClose to ', latestClose)
             latestClose = currentClose;
           }
         } catch (e) {
@@ -130,14 +130,18 @@ export default function Side({hall} : {hall : HallEnum}) {
                 value={selectedMealTime}
                 onValueChange={(value) => setSelectedMealTime(value || '')}
               >
-                <SelectTrigger className="w-40">
+                <SelectTrigger className="w-52">
                   <SelectValue placeholder="Select Meal" />
                 </SelectTrigger>
                 <SelectContent>
-                  {mealTimes.map((time) => {
+                  {!isLoading && !isError &&
+                  mealTimes.map((time) => {
                     return ( 
                       <SelectItem key={time} value={time.toLowerCase()}>
-                        {toTitleCase(time)}
+                        {toTitleCase(time)}&nbsp;
+                        <span className="text-zinc-500 text-sm">
+                          ({formatOpenCloseTime(availableMealTimes[time.toLowerCase()][0], availableMealTimes[time.toLowerCase()][1])})
+                        </span>
                       </SelectItem>
                     )
                   })}

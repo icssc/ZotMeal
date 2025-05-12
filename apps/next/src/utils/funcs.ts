@@ -141,9 +141,22 @@ function utcToPacificTime(utcTimeString: string): Date {
   return pacificDate
 }
 
+function formatOpenCloseTime(openTime: Date, closeTime: Date): string {
+  let openTimeIsAfternoon: boolean = openTime.getHours() > 12;
+  let closeTimeIsAfternoon: boolean = closeTime.getHours() > 12;
+
+  let openTimeHours: number = openTimeIsAfternoon ? openTime.getHours() - 12 : openTime.getHours();
+  let closeTimeHours: number = closeTimeIsAfternoon ? closeTime.getHours() - 12 : closeTime.getHours();
+  let openTimeMinutes: string = padMinutes(openTime.getMinutes())
+  let closeTimeMinutes: string = padMinutes(closeTime.getMinutes())
+
+  return `${openTimeHours}:${openTimeMinutes}${openTimeIsAfternoon ? 'p' : 'a'}-${closeTimeHours}:${closeTimeMinutes}${closeTimeIsAfternoon ? 'p' : 'a'}`
+}
+
 export { toTitleCase, 
          dateToString, 
          generateGCalLink, 
          timeToString, 
          enhanceDescription,
-         utcToPacificTime }
+         utcToPacificTime,
+         formatOpenCloseTime}
