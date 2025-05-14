@@ -10,6 +10,8 @@ import { HallEnum, HallStatusEnum, MealTimeEnum} from "@/utils/types";
 import { trpc } from "@/utils/trpc"; // Import tRPC hook
 import { RestaurantInfo } from "@zotmeal/api"; // Import types
 import { toTitleCase, utcToPacificTime, formatOpenCloseTime } from "@/utils/funcs";
+import TabsSkeleton from "./tabs-skeleton";
+import SelectSkeleton from "./select-skeleton";
 
 export default function Side({hall} : {hall : HallEnum}) {
     // TODO: Determine status dynamically based on open/close times and current time
@@ -126,7 +128,8 @@ export default function Side({hall} : {hall : HallEnum}) {
         <div className="p-5 flex flex-col flex-grow h-1" id="side-content"> 
           <div className="flex flex-col gap-6 items-center">
             <div className="flex gap-4 w-full">
-              <Select
+              {isLoading && <SelectSkeleton/>}
+              {!isLoading && !isError && <Select
                 value={selectedMealTime}
                 onValueChange={(value) => setSelectedMealTime(value || '')}
               >
@@ -134,8 +137,7 @@ export default function Side({hall} : {hall : HallEnum}) {
                   <SelectValue placeholder="Select Meal" />
                 </SelectTrigger>
                 <SelectContent>
-                  {!isLoading && !isError &&
-                  mealTimes.map((time) => {
+                  {mealTimes.map((time) => {
                     return ( 
                       <SelectItem key={time} value={time.toLowerCase()}>
                         {toTitleCase(time)}&nbsp;
@@ -146,7 +148,7 @@ export default function Side({hall} : {hall : HallEnum}) {
                     )
                   })}
                 </SelectContent>
-              </Select>
+              </Select>}
               {!isLoading && !isError && 
               <DiningHallStatus
                 status={currentStatus} 
@@ -171,7 +173,7 @@ export default function Side({hall} : {hall : HallEnum}) {
                   </TabsList>
               </Tabs>
             )}
-            {isLoading && <div className="h-9 w-full bg-gray-200 animate-pulse rounded-md"></div> /* Tab Skeleton */}
+            {isLoading && <TabsSkeleton/> /* Tab Skeleton */}
             {!isLoading && !isError && dynamicStations.length === 0 && (
                  <p className="text-center text-gray-500 py-2">No stations found for {toTitleCase(selectedMealTime)}.</p>
             )}
