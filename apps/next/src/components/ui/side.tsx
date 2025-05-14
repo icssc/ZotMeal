@@ -10,8 +10,8 @@ import { HallEnum, HallStatusEnum, MealTimeEnum} from "@/utils/types";
 import { trpc } from "@/utils/trpc"; // Import tRPC hook
 import { RestaurantInfo } from "@zotmeal/api"; // Import types
 import { toTitleCase, utcToPacificTime, formatOpenCloseTime } from "@/utils/funcs";
-import TabsSkeleton from "./tabs-skeleton";
-import SelectSkeleton from "./select-skeleton";
+import TabsSkeleton from "./skeletons/tabs-skeleton";
+import SelectSkeleton from "./skeletons/select-skeleton";
 
 export default function Side({hall} : {hall : HallEnum}) {
     // TODO: Determine status dynamically based on open/close times and current time

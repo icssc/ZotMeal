@@ -1,4 +1,4 @@
-import { Card, CardContent } from "./card"
+import { Card, CardContent } from "../card"
 import { Skeleton } from "./skeleton"
 
 export default function FoodCardSkeleton() {
