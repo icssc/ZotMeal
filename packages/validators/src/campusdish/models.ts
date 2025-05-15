@@ -12,40 +12,43 @@ export const MenuProductSchema = z.object({
     MarketingName: z.string().min(1),
     Categories: z.array(z.object({ DisplayName: z.string().min(1) })).min(1),
     ShortDescription: z.string(),
-    // Diet Restrictions
-    ContainsEggs: z.boolean().nullable(),
-    ContainsFish: z.boolean().nullable(),
-    ContainsMilk: z.boolean().nullable(),
-    ContainsPeanuts: z.boolean().nullable(),
-    ContainsShellfish: z.boolean().nullable(),
-    ContainsSoy: z.boolean().nullable(),
-    ContainsTreeNuts: z.boolean().nullable(),
-    ContainsWheat: z.boolean().nullable(),
-    ContainsSesame: z.boolean().nullable(),
-    IsGlutenFree: z.boolean().nullable(),
-    IsHalal: z.boolean().nullable(),
-    IsKosher: z.boolean().nullable(),
-    IsLocallyGrown: z.boolean().nullable(),
-    IsOrganic: z.boolean().nullable(),
-    IsVegan: z.boolean().nullable(),
-    IsVegetarian: z.boolean().nullable(),
-    // Nutrition Info
+    DietaryInformation: z.array(
+      z.object({
+        IconUrl: z.string(),
+        Name: z.string(), 
+        isEnabled: z.boolean() 
+      })
+    ), 
+    // Dietary Restrictions
+    AvailableFilters: z.object({
+      ContainsEggs: z.boolean().nullable(),
+      ContainsFish: z.boolean().nullable(),
+      ContainsMilk: z.boolean().nullable(),
+      ContainsPeanuts: z.boolean().nullable(),
+      ContainsSesame: z.boolean().nullable(),
+      ContainsShellfish: z.boolean().nullable(),
+      ContainsSoy: z.boolean().nullable(),
+      ContainsTreeNuts: z.boolean().nullable(),
+      ContainsWheat: z.boolean().nullable(),
+    }),
+    // Nutrition Info object
+    NutritionalTree: z.array(
+      z.object({
+        Name: z.string(),
+        Value: z.string().nullable(),
+        Unit: z.string().nullable(),
+        SubList: z.array(
+          z.object({
+            Name: z.string(),
+            Value: z.string(),
+            Unit: z.string().nullable()
+          })
+        ) 
+      }),
+    ),
     ServingSize: z.string().nullable(),
     ServingUnit: z.string().nullable(),
     Calories: z.string().nullable(),
-    TotalFat: z.string().nullable(),
-    TransFat: z.string().nullable(),
-    Cholesterol: z.string().nullable(),
-    Sodium: z.string().nullable(),
-    TotalCarbohydrates: z.string().nullable(),
-    DietaryFiber: z.string().nullable(),
-    Sugars: z.string().nullable(),
-    Protein: z.string().nullable(),
-    VitaminA: z.string().nullable(),
-    VitaminC: z.string().nullable(),
-    Calcium: z.string().nullable(),
-    Iron: z.string().nullable(),
-    SaturatedFat: z.string().nullable(),
   }),
 });
 

@@ -85,13 +85,14 @@ export async function upsertMenusForDate(
       );
 
   // Upsert all periods and menus for the given date (e.g. breakfast, lunch, dinner)
+  // TODO: Get start and end times through separate query
   const menuResult = await Promise.allSettled(
     menuAtDate.Menu.MenuPeriods.map(async (period) => {
       await upsertPeriod(db, {
         id: period.PeriodId,
         name: period.Name,
-        startTime: period.UtcMealPeriodStartTime,
-        endTime: period.UtcMealPeriodEndTime,
+        // startTime: period.UtcMealPeriodStartTime,
+        // endTime: period.UtcMealPeriodEndTime,
       });
 
       const menuAtPeriod = await getCampusDishMenu(
@@ -123,24 +124,20 @@ export async function upsertMenusForDate(
             name: menuProduct.Product.MarketingName,
             description: menuProduct.Product.ShortDescription,
             category: menuProduct.Product.Categories?.[0]?.DisplayName,
+            dietaryInformation: {
+              
+            },
             dietRestriction: {
               dishId: menuProduct.ProductId,
-              containsEggs: menuProduct.Product.ContainsEggs,
-              containsFish: menuProduct.Product.ContainsFish,
-              containsMilk: menuProduct.Product.ContainsMilk,
-              containsPeanuts: menuProduct.Product.ContainsPeanuts,
-              containsShellfish: menuProduct.Product.ContainsShellfish,
-              containsSoy: menuProduct.Product.ContainsSoy,
-              containsTreeNuts: menuProduct.Product.ContainsTreeNuts,
-              containsWheat: menuProduct.Product.ContainsWheat,
-              containsSesame: menuProduct.Product.ContainsSesame,
-              isGlutenFree: menuProduct.Product.IsGlutenFree,
-              isHalal: menuProduct.Product.IsHalal,
-              isKosher: menuProduct.Product.IsKosher,
-              isLocallyGrown: menuProduct.Product.IsLocallyGrown,
-              isOrganic: menuProduct.Product.IsOrganic,
-              isVegan: menuProduct.Product.IsVegan,
-              isVegetarian: menuProduct.Product.IsVegetarian,
+              containsEggs: menuProduct.Product.AvailableFilters.ContainsEggs,
+              containsFish: menuProduct.Product.AvailableFilters.ContainsFish,
+              containsMilk: menuProduct.Product.AvailableFilters.ContainsMilk,
+              containsPeanuts: menuProduct.Product.AvailableFilters.ContainsPeanuts,
+              containsShellfish: menuProduct.Product.AvailableFilters.ContainsShellfish,
+              containsSoy: menuProduct.Product.AvailableFilters.ContainsSoy,
+              containsTreeNuts: menuProduct.Product.AvailableFilters.ContainsTreeNuts,
+              containsWheat: menuProduct.Product.AvailableFilters.ContainsWheat,
+              containsSesame: menuProduct.Product.AvailableFilters.ContainsSesame,
             },
             nutritionInfo: {
               dishId: menuProduct.ProductId,
