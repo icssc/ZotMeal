@@ -167,15 +167,6 @@ erDiagram
       update_at timestamp
    }
 
-   periods {
-      id text PK
-      start time
-      end time
-      name text
-      created_at timestamp
-      updated_at timestamp
-   }
-
    restaurant_id_enum
 
    restaurant_name_enum
