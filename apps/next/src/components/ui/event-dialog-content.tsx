@@ -1,5 +1,5 @@
 import { DialogContent } from "./shadcn/dialog";
-import { EventInfo } from "./cards/event-card";
+import { EventInfo } from "./card/event-card";
 import { DialogHeader, DialogTitle, DialogDescription } from "./shadcn/dialog";
 import Image from "next/image";
 import { CalendarPlus, Clock, MapPinned } from "lucide-react";

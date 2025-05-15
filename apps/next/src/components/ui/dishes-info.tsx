@@ -1,9 +1,9 @@
 'use client';
 
 import React from "react";
-import FoodCard from "./cards/food-card"
-import FoodCardSkeleton from "./skeletons/food-card-skeleton"
-import MealDividerSkeleton from "./skeletons/meal-divider-skeleton"
+import FoodCard from "./card/food-card"
+import FoodCardSkeleton from "./skeleton/food-card-skeleton"
+import MealDividerSkeleton from "./skeleton/meal-divider-skeleton"
 import { DishInfo } from "@zotmeal/api";
 
 interface DishesInfoProps {

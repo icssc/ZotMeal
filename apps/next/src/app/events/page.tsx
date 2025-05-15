@@ -1,9 +1,9 @@
 "use client";
 
-import EventCard from "@/components/ui/cards/event-card"
-import EventCardSkeleton from "@/components/ui/skeletons/event-card-skeleton"
+import EventCard from "@/components/ui/card/event-card"
+import EventCardSkeleton from "@/components/ui/skeleton/event-card-skeleton"
 import MealDivider from "@/components/ui/meal-divider"
-import MealDividerSkeleton from "@/components/ui/skeletons/meal-divider-skeleton";
+import MealDividerSkeleton from "@/components/ui/skeleton/meal-divider-skeleton";
 import { trpc } from "@/utils/trpc";
 import { HallEnum } from "@/utils/types";
 import Image from "next/image"
