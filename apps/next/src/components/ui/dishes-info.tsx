@@ -1,7 +1,7 @@
 'use client';
 
 import React from "react";
-import FoodCard from "./food-card" // Import FoodCardProps type
+import FoodCard from "./cards/food-card"
 import FoodCardSkeleton from "./skeletons/food-card-skeleton"
 import MealDividerSkeleton from "./skeletons/meal-divider-skeleton"
 import { DishInfo } from "@zotmeal/api";
@@ -31,7 +31,7 @@ export default function DishesInfo({dishes, isLoading, isError, errorMessage} : 
       )}
 
       {isError && (
-        <p className="text-red-500">Error loading data: {errorMessage}</p>
+        <p className="text-red-500 w-full text-center">Error loading data: {errorMessage}</p>
       )}
 
       {!isLoading && !isError && (

@@ -1,14 +1,26 @@
 "use client";
 
-import { EventInfo} from "./event-card";
-import { Card, CardContent } from "./card";
-import Image from "next/image";
-import { Clock, MapPinned } from "lucide-react";
-import { HallEnum } from "@/utils/types";
-import { toTitleCase } from "@/utils/funcs";
 import React from "react";
-import { dateToString } from "@/utils/funcs";
-import OngoingBadge from "./ongoing-badge";
+import { HallEnum } from "@/utils/types";
+import { dateToString, toTitleCase } from "@/utils/funcs";
+import { Dialog, DialogTrigger } from "../dialog";
+import { Card, CardContent } from "../card"
+import Image from "next/image";
+import EventDialogContent from "../event-dialog-content";
+import OngoingBadge from "../ongoing-badge";
+import { Clock, MapPinned } from "lucide-react";
+
+export interface EventInfo {
+    name: string;
+    shortDesc: string;
+    longDesc: string;
+    imgSrc: string;
+    alt: string;
+    startTime: Date;
+    endTime: Date;
+    location: HallEnum; 
+    isOngoing: boolean;
+}
 
 interface EventCardContentProps extends React.HTMLAttributes<HTMLDivElement> {
   props: EventInfo;
@@ -51,4 +63,15 @@ const EventCardContent = React.forwardRef<
 });
 
 EventCardContent.displayName = "EventCardContent";
-export default EventCardContent;
+
+export default function EventCard(props : EventInfo) {
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <EventCardContent props={props}/>
+        </DialogTrigger>
+        <EventDialogContent {... props}/>
+      </Dialog>
+    )
+}
+

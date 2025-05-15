@@ -1,5 +1,5 @@
 import { DialogContent } from "./dialog";
-import { EventInfo } from "./event-card";
+import { EventInfo } from "./cards/event-card";
 import { DialogHeader, DialogTitle, DialogDescription } from "./dialog";
 import Image from "next/image";
 import { CalendarPlus, Clock, MapPinned } from "lucide-react";

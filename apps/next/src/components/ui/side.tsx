@@ -64,7 +64,7 @@ export default function Side({hall} : {hall : HallEnum}) {
 
     const dishesForSelectedStation = currentStation?.dishes ?? [];
 
-    let availableMealTimes: { [mealName: string]: [Date, Date]} = {};
+    let availablePeriodTimes: { [mealName: string]: [Date, Date]} = {};
 
     if (hallData?.menus && hallData.menus.length > 0) {
       let earliestOpen: Date | null = null;
@@ -80,7 +80,7 @@ export default function Side({hall} : {hall : HallEnum}) {
             currentClose.setDate(currentClose.getDate() + 1);
           }
 
-          availableMealTimes[menu.period.name.toLowerCase()] = [currentOpen, currentClose];
+          availablePeriodTimes[menu.period.name.toLowerCase()] = [currentOpen, currentClose];
 
           if (!earliestOpen || currentOpen < earliestOpen) {
             earliestOpen = currentOpen;
@@ -138,22 +138,27 @@ export default function Side({hall} : {hall : HallEnum}) {
                 </SelectTrigger>
                 <SelectContent>
                   {mealTimes.map((time) => {
-                    return ( 
-                      <SelectItem key={time} value={time.toLowerCase()}>
+                    const mealTimeKey = time.toLowerCase();
+                    const periodTimes = availablePeriodTimes[mealTimeKey]; 
+
+                    return (
+                      <SelectItem key={time} value={mealTimeKey}>
                         {toTitleCase(time)}&nbsp;
-                        <span className="text-zinc-500 text-sm">
-                          ({formatOpenCloseTime(availableMealTimes[time.toLowerCase()][0], availableMealTimes[time.toLowerCase()][1])})
-                        </span>
+                        {periodTimes && (
+                          <span className="text-zinc-500 text-sm">
+                            &nbsp;({formatOpenCloseTime(periodTimes[0], periodTimes[1])})
+                          </span>
+                        )}
                       </SelectItem>
-                    )
+                    );
                   })}
                 </SelectContent>
               </Select>}
-              {!isLoading && !isError && 
+              {!isLoading && !isError && openTime && closeTime && // Ensure openTime and closeTime are defined
               <DiningHallStatus
                 status={currentStatus} 
-                openTime={openTime!.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})}
-                closeTime={closeTime!.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})}
+                openTime={openTime.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})}
+                closeTime={closeTime.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})}
               />}
             </div>
             {!isLoading && !isError && dynamicStations.length > 0 && (
@@ -179,11 +184,10 @@ export default function Side({hall} : {hall : HallEnum}) {
             )}
           </div>
 
-          {/* Pass necessary data down to DishesInfo */}
           <DishesInfo 
             dishes={dishesForSelectedStation}
-            isLoading={isLoading} // Pass loading state
-            isError={isError || (!isLoading && !hallData)} // Pass error state (fetch error or missing hall data)
+            isLoading={isLoading}
+            isError={isError || (!isLoading && !hallData)} 
             errorMessage={error?.message ?? (!isLoading && !hallData ? `Data not available for ${HallEnum[hall]}.` : undefined)}
           />
         </div>
