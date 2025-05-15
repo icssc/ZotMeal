@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { CalendarSearch, PanelRight } from "lucide-react";
-import { Button } from "./button";
-import { Sheet, SheetTrigger } from "./sheet";
-import SidebarContent from "./sidebar-content";
+import { Button } from "./shadcn/button";
+import { Sheet, SheetTrigger } from "./shadcn/sheet";
+import SidebarContent from "./sidebar/sidebar-content";
 
 export default function Toolbar() {
     return (

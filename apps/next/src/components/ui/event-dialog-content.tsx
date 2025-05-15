@@ -1,9 +1,9 @@
-import { DialogContent } from "./dialog";
+import { DialogContent } from "./shadcn/dialog";
 import { EventInfo } from "./cards/event-card";
-import { DialogHeader, DialogTitle, DialogDescription } from "./dialog";
+import { DialogHeader, DialogTitle, DialogDescription } from "./shadcn/dialog";
 import Image from "next/image";
 import { CalendarPlus, Clock, MapPinned } from "lucide-react";
-import { Button } from "./button"
+import { Button } from "./shadcn/button"
 import { HallEnum } from "@/utils/types";
 import { toTitleCase, dateToString, generateGCalLink } from "@/utils/funcs";
 

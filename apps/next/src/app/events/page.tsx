@@ -1,6 +1,6 @@
 "use client";
 
-import EventCard from "@/components/ui/event-card"
+import EventCard from "@/components/ui/cards/event-card"
 import EventCardSkeleton from "@/components/ui/skeletons/event-card-skeleton"
 import MealDivider from "@/components/ui/meal-divider"
 import MealDividerSkeleton from "@/components/ui/skeletons/meal-divider-skeleton";

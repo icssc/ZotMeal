@@ -1,19 +1,19 @@
-import { Button } from "./button"
+import { Button } from "../shadcn/button"
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { SheetClose } from "./sheet";
+import { SheetClose } from "../shadcn/sheet";
 
-interface SheetButtonProps {
+interface SidebarButtonProps {
     Icon: React.ElementType;
     title: string;
     href: string;
     deactivated?: boolean;
 } 
 
-export default function SheetButton({Icon, title, href, deactivated} : SheetButtonProps) {
+export default function SidebarButton({Icon, title, href, deactivated} : SidebarButtonProps) {
   const buttonContent = (
         <Button variant={deactivated ? "deactivated" : "ghost"} className="justify-between [&_svg]:size-5" asChild>
-          <Link href={deactivated ? "/" : href}>
+          <Link href={deactivated ? "#" : href}>
             <div className="flex gap-3 items-center">
                 <Icon className="stroke-1"/>
                 <span className="text-md">{title}</span>

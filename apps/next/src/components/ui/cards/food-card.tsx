@@ -2,12 +2,12 @@
 
 import React from "react";
 import { DishInfo } from "@zotmeal/api";
-import { Dialog, DialogTrigger } from "../dialog";
+import { Dialog, DialogTrigger } from "../shadcn/dialog";
 import FoodDialogContent from "../food-dialog-content"
 import Image from "next/image";
-import { Card, CardContent } from "../card"; 
+import { Card, CardContent } from "../shadcn/card"; 
 import { Star } from "lucide-react";
-import { formatFoodName } from "@/utils/types";
+import { formatFoodName } from "@/utils/funcs";
 
 interface FoodCardContentProps extends React.HTMLAttributes<HTMLDivElement> {
   dish: DishInfo;

@@ -1,4 +1,4 @@
-import { HallEnum } from "./types";
+import { HallEnum, numToMonth } from "./types";
 
 const BWINE_ADDY: string = "557+E+Peltason Dr%2C+Irvine%2C+CA%2C+92617";
 const ANTEAT_ADDY: string = "4001+Mesa+Rd%2C+Irvine%2C+CA%2C+92617";
@@ -71,21 +71,6 @@ function enhanceDescription(dish: string, description: string | null | undefined
   return description.endsWith('.') ? description : (description + '.');
 }
 
-const numToMonth : {[num: number]: string} = {
-  0:  "Jan.",
-  1:  "Feb.",
-  2:  "Mar.",
-  3:  "Apr.",
-  4:  "May",
-  5:  "Jun.",
-  6:  "Jul.",
-  7:  "Aug.",
-  8:  "Sep.",
-  9:  "Oct.",
-  10: "Nov.",
-  11: "Dec."
-};
-
 function getDayWithSuffix(day: number): string {
   if (day > 3 && day < 21) return `${day}th`; // for 4th to 20th
   switch (day % 10) {
@@ -153,10 +138,36 @@ function formatOpenCloseTime(openTime: Date, closeTime: Date): string {
   return `${openTimeHours}:${openTimeMinutes}${openTimeIsAfternoon ? 'p' : 'a'}-${closeTimeHours}:${closeTimeMinutes}${closeTimeIsAfternoon ? 'p' : 'a'}`
 }
 
+const formatNutrientLabel = (nutrient: string) => {
+    const label = nutrient.replace(/(Mg|G)$/, ""); 
+    return label.replace(/([A-Z])/g, " $1")
+    .replace(/^./, (char) => char.toUpperCase())
+    .trim();
+};
+
+const formatFoodName = (name: string): string => {
+  if (!name) return "";
+
+  let formattedName = name.replace(/(®)([a-zA-Z])/g, '$1 $2');
+  formattedName = toTitleCase(formattedName);
+  formattedName = formattedName.replace(/-(\w)/g, (match, char) => '-' + char.toUpperCase());
+  formattedName = formattedName.replace(/'(\w)/g, (match, char) => {
+    if (char.toLowerCase() === 's') return match;
+    return '\'' + char.toUpperCase(); 
+  });
+  formattedName = formattedName.replace(/Ozw/g, 'Oz');
+  formattedName = formattedName.replace(/\(\s+/g, '(');
+  formattedName = formattedName.replace(/\s+\)/g, ')');
+
+  return formattedName;
+};
+
 export { toTitleCase, 
          dateToString, 
          generateGCalLink, 
          timeToString, 
          enhanceDescription,
          utcToPacificTime,
-         formatOpenCloseTime}
+         formatOpenCloseTime,
+         formatNutrientLabel,
+         formatFoodName}

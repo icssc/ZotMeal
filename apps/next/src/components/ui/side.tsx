@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Tabs, TabsList, TabsTrigger } from "./tabs"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select";
+import { Tabs, TabsList, TabsTrigger } from "./shadcn/tabs"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./shadcn/select";
 import { DiningHallStatus } from "./status";
 import DishesInfo from "./dishes-info";
 import { HallEnum, HallStatusEnum, MealTimeEnum} from "@/utils/types";

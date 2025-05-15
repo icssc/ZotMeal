@@ -3,8 +3,8 @@
 import React from "react";
 import { HallEnum } from "@/utils/types";
 import { dateToString, toTitleCase } from "@/utils/funcs";
-import { Dialog, DialogTrigger } from "../dialog";
-import { Card, CardContent } from "../card"
+import { Dialog, DialogTrigger } from "../shadcn/dialog";
+import { Card, CardContent } from "../shadcn/card"
 import Image from "next/image";
 import EventDialogContent from "../event-dialog-content";
 import OngoingBadge from "../ongoing-badge";

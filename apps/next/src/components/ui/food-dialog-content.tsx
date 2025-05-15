@@ -1,12 +1,13 @@
 "use client"; // Need state for toggling nutrient visibility
 
 import { Pin, Star } from "lucide-react";
-import { DialogHeader, DialogTitle, DialogDescription, DialogContent } from "./dialog";
+import { DialogHeader, DialogTitle, DialogDescription, DialogContent } from "./shadcn/dialog";
 import Image from "next/image";
-import React, { useState } from "react"; // Import useState
-import { Button } from "./button"; // Import Button
-import { cn } from "@/utils/tw"; // Import cn utility
-import { nutrientToUnit, formatNutrientLabel, formatFoodName } from "@/utils/types";
+import React, { useState } from "react"; 
+import { Button } from "./shadcn/button";
+import { cn } from "@/utils/tw";
+import { nutrientToUnit,} from "@/utils/types";
+import { formatFoodName, formatNutrientLabel } from "@/utils/funcs";
 import { DishInfo } from "@zotmeal/api";
 import { toTitleCase, enhanceDescription } from "@/utils/funcs";
 import { AllergenBadge } from "./allergen-badge";

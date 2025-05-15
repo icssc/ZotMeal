@@ -24,29 +24,6 @@ enum MealTimeEnum {
     LATENIGHT
 }
 
-const formatNutrientLabel = (nutrient: string) => {
-    const label = nutrient.replace(/(Mg|G)$/, ""); // Remove units
-    return label.replace(/([A-Z])/g, " $1")        // Adds a space before uppercase letters
-    .replace(/^./, (char) => char.toUpperCase())   // Capitalize first letter
-    .trim();
-};
-
-const formatFoodName = (name: string): string => {
-  if (!name) return "";
-
-  let formattedName = name.replace(/(®)([a-zA-Z])/g, '$1 $2');
-  formattedName = toTitleCase(formattedName);
-  formattedName = formattedName.replace(/-(\w)/g, (match, char) => '-' + char.toUpperCase()); // Example: Quick-Serve -> Quick-Serve
-  formattedName = formattedName.replace(/'(\w)/g, (match, char) => {
-    if (char.toLowerCase() === 's') return match;
-    return '\'' + char.toUpperCase(); 
-  });
-  formattedName = formattedName.replace(/Ozw/g, 'Oz');
-  formattedName = formattedName.replace(/\(\s+/g, '(');
-  formattedName = formattedName.replace(/\s+\)/g, ')');
-
-  return formattedName;
-};
 
 const nutrientToUnit : { [nutrient: string]: string } = {
   "calories": "cal",
@@ -65,11 +42,26 @@ const nutrientToUnit : { [nutrient: string]: string } = {
   "ironMg": "mg",
 }
 
+const numToMonth : {[num: number]: string} = {
+  0:  "Jan.",
+  1:  "Feb.",
+  2:  "Mar.",
+  3:  "Apr.",
+  4:  "May",
+  5:  "Jun.",
+  6:  "Jul.",
+  7:  "Aug.",
+  8:  "Sep.",
+  9:  "Oct.",
+  10: "Nov.",
+  11: "Dec."
+};
+
+
 export { StatusColors, 
          HallStatusEnum, 
          HallEnum, 
          MealTimeEnum, 
-         formatNutrientLabel, 
-         formatFoodName,
-         nutrientToUnit
+         nutrientToUnit,
+         numToMonth
 };
