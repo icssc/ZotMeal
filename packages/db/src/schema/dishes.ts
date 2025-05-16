@@ -44,7 +44,6 @@ export const dishRelations = relations(dishes, ({ one, many }) => ({
 export type InsertDish = typeof dishes.$inferInsert;
 export type SelectDish = typeof dishes.$inferSelect;
 export interface InsertDishWithRelations extends InsertDish {
-  dietaryInformation: InsertDietaryInformation;
   dietRestriction: InsertDietRestriction;
   nutritionInfo: InsertNutritionInfo;
 }
