@@ -103,15 +103,29 @@ export async function upsertMenusForDate(
         `❌ Failed to insert station ${station.reason.value.name} for ${restaurantName}:`,
       );
 
+  // Fetch periods and map them by periodId
+  const periodsFetched = await getCampusDishPeriods(
+    date,
+    restaurantName
+  );
+
+  const periodsMap: {[periodId: number] : [string, string]} = {};
+
+  periodsFetched.Result.forEach(periodObj => {
+    periodsMap[periodObj.PeriodId] = 
+      [periodObj.UtcMealPeriodStartTime, periodObj.UtcMealPeriodEndTime];
+  });
+
   // Upsert all periods and menus for the given date (e.g. breakfast, lunch, dinner)
-  // TODO: Get start and end times through separate query
   const menuResult = await Promise.allSettled(
     menuAtDate.Menu.MenuPeriods.map(async (period) => {
+      let periodInfo = periodsMap[Number(period.PeriodId)];
+
       await upsertPeriod(db, {
         id: period.PeriodId,
         name: period.Name,
-        // startTime: period.UtcMealPeriodStartTime,
-        // endTime: period.UtcMealPeriodEndTime,
+        startTime: periodInfo![0],
+        endTime: periodInfo![1],
       });
 
       const menuAtPeriod = await getCampusDishMenu(
@@ -134,9 +148,23 @@ export async function upsertMenusForDate(
         restaurantId,
       });
 
+
       // Store all dishes to its table and join table
       await Promise.all(
         menuAtPeriod.Menu.MenuProducts.map(async (menuProduct) => {
+          // Get the nutritional information from the NutritionTree
+          let nutritionalInfo: {[nutrition : string] : string | null} = {};
+
+          menuProduct.Product.NutritionalTree.forEach(nutrition => {
+            nutritionalInfo[nutrition.Name] = nutrition.Value;
+
+            if (nutrition.SubList.length > 0) {
+              nutrition.SubList.forEach(subNutrition => {
+                nutritionalInfo[subNutrition.Name] = nutrition.Value;
+              })
+            }
+          });
+
           await upsertDish(db, {
             id: menuProduct.ProductId,
             stationId: menuProduct.StationId,
@@ -160,19 +188,21 @@ export async function upsertMenusForDate(
               servingSize: menuProduct.Product.ServingSize,
               servingUnit: menuProduct.Product.ServingUnit,
               calories: menuProduct.Product.Calories,
-              totalFatG: menuProduct.Product.TotalFat,
-              transFatG: menuProduct.Product.TransFat,
-              cholesterolMg: menuProduct.Product.Cholesterol,
-              sodiumMg: menuProduct.Product.Sodium,
-              totalCarbsG: menuProduct.Product.TotalCarbohydrates,
-              dietaryFiberG: menuProduct.Product.DietaryFiber,
-              sugarsMg: menuProduct.Product.Sugars,
-              proteinG: menuProduct.Product.Protein,
-              vitaminAIU: menuProduct.Product.VitaminA,
-              vitaminCIU: menuProduct.Product.VitaminC,
-              calciumMg: menuProduct.Product.Calcium,
-              ironMg: menuProduct.Product.Iron,
-              saturatedFatG: menuProduct.Product.SaturatedFat,
+              totalFatG: nutritionalInfo["Total Fat"],
+              transFatG: nutritionalInfo["Trans Fat"],
+              saturatedFatG: nutritionalInfo["Saturated Fat"],
+              cholesterolMg: nutritionalInfo["Cholesterol"],
+              sodiumMg: nutritionalInfo["Sodium"],
+              totalCarbsG: nutritionalInfo["Total Carbohydrates"],
+              dietaryFiberG: nutritionalInfo["Dietary Fiber"],
+              // TODO: Sugars are now listed in grams
+              sugarsMg: nutritionalInfo["Sugar"],
+              proteinG: nutritionalInfo["Protein"],
+              // TODO: The following dish information is no longer offered as of 5/15/2025
+              vitaminAIU: null,
+              vitaminCIU: null,
+              calciumMg: null,
+              ironMg: null,
             },
           });
 
