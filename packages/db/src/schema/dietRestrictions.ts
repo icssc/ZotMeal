@@ -19,6 +19,13 @@ export const dietRestrictions = pgTable("diet_restrictions", {
   containsSoy: boolean("contains_soy"),
   containsTreeNuts: boolean("contains_tree_nuts"),
   containsWheat: boolean("contains_wheat"),
+  isGlutenFree: boolean("is_gluten_free"),
+  isHalal: boolean("is_halal"),
+  isKosher: boolean("is_kosher"),
+  isLocallyGrown: boolean("is_locally_grown"),
+  isOrganic: boolean("is_organic"),
+  isVegan: boolean("is_vegan"),
+  isVegetarian: boolean("is_vegetarian"),
   ...metadataColumns,
 });
 
