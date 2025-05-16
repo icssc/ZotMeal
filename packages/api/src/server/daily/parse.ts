@@ -9,9 +9,9 @@ import axios from "axios";
 import { format } from "date-fns";
 
 import type { Drizzle, RestaurantName } from "@zotmeal/db";
-import type { CampusDishMenu } from "@zotmeal/validators";
+import type { CampusDishMenu, CampusDishPeriodResult } from "@zotmeal/validators";
 import { getRestaurantId } from "@zotmeal/db";
-import { CampusDishMenuSchema } from "@zotmeal/validators";
+import { CampusDishMenuSchema, PeriodSchema } from "@zotmeal/validators";
 
 /** Fetch the CampusDish menu for a given date. */
 export async function getCampusDishMenu(
@@ -35,6 +35,25 @@ export async function getCampusDishMenu(
     logger.info(`Wrote CampusDish response to ${outPath}.`);
   }
   return CampusDishMenuSchema.parse(res.data);
+}
+
+/** Fetch the CampusDish period times for a given date. */
+export async function getCampusDishPeriods(
+  date: Date,
+  restaurantName: RestaurantName
+): Promise<CampusDishPeriodResult> {
+  const res = await axios.get(
+    "https://uci.campusdish.com/api/menu/GetMenuPeriods?locationId=3056&storeId=&date=05/16/2025&mode=Daily",
+    {
+      params: {
+        locationId: getRestaurantId(restaurantName),
+        date: format(date, "MM/dd/yyyy"),
+        mode: "Daily"
+      }
+    }
+  );
+
+  return PeriodSchema.parse(res.data);
 }
 
 /** Upsert menus for a given date. */
@@ -124,9 +143,6 @@ export async function upsertMenusForDate(
             name: menuProduct.Product.MarketingName,
             description: menuProduct.Product.ShortDescription,
             category: menuProduct.Product.Categories?.[0]?.DisplayName,
-            dietaryInformation: {
-              
-            },
             dietRestriction: {
               dishId: menuProduct.ProductId,
               containsEggs: menuProduct.Product.AvailableFilters.ContainsEggs,

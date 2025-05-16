@@ -52,4 +52,19 @@ export const MenuProductSchema = z.object({
   }),
 });
 
+
+/* Represents the response returned from the GetMenuPeriods query. */
+export const PeriodSchema = z.object({
+  Time: z.string().datetime(),  // Time of request
+  Result: z.array(
+    z.object({
+      PeriodId: z.number(),
+      PeriodName: z.string(),
+      UtcMealPeriodStartTime: z.string().datetime(),
+      UtcMealPeriodEndTime: z.string().datetime()
+    })
+  )
+});
+
 export type CampusDishMenuProduct = z.infer<typeof MenuProductSchema>;
+export type CampusDishPeriodResult = z.infer<typeof PeriodSchema>;
