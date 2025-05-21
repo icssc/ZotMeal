@@ -1,4 +1,5 @@
-import { toTitleCase } from "./funcs"; 
+import { Drumstick, EggFried, LucideProps, Pizza, Salad, Soup, Sandwich, IceCreamBowl, Dessert, Cookie, Croissant, CakeSlice, Wheat, Apple, FishSymbol} from "lucide-react";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 enum StatusColors {
     OPEN = "bg-emerald-500",
@@ -79,13 +80,49 @@ let meatKeywords: Set<string> = new Set<string>([
   'ham',
   'beef',
   'pork',
-  'dog',      // meaning hot dog, trust 😵
-  'shawarma'
+  'shawarma',
+  'turkey',
+  'sausage',
+  'meat',
+  'bacon',
+  'salami',
+  'pepperoni'
+]);
+
+let pastryKeywords: Set<string> = new Set<string>([
+  'cinnamon',
+  'pastry',
+  'muffin'
+]);
+
+let fruitKeywords: Set<string> = new Set<string>([
+  'strawberr',
+  'orange',
+  'cranberr',
+  'pineapple',
+  'grape',
+  'cantaloupe',
+  'melon'
+])
+
+let cookieKeywords: Set<string> = new Set<string>([
+  'cookie'
+]);
+
+let croissantKeywords: Set<string> = new Set<string>([
+  'croissant'
+]);
+
+let cakeKeywords: Set<string> = new Set<string>([
+  'cake'
 ]);
 
 let sandwichKeywords: Set<string> = new Set<string>([
   'sandwich',
-  'burger'
+  'melt',
+  'burger',
+  'dog',      // meaning hot dog, trust 😵
+  'panini'
 ]);
 
 let pizzaKeywords: Set<string> = new Set<string>([
@@ -96,27 +133,106 @@ let pizzaKeywords: Set<string> = new Set<string>([
 
 let eggKeywords: Set<string> = new Set<string>([
   'egg',
-  'omlette'
+  'omelette'
 ]);
 
 let saladKeywords: Set<string> = new Set<string>([
   'tomato',
   'lettuce',
   'onion',
-  'greens'
+  'greens',
+  'coleslaw',
+  'kale',
+  'olive',
+  'pepper',
+  'kale',
+  'salad',
+  'cucumber',
+  'spinach',
+  'carrot',
+  'bean',
+  'lentil',
+  'tofu',
+  'vegetable',
+  'potato',
 ]);
 
-let soupKeywords: Set<string> = new Set<string>
+let grainAndBreadKeywords: Set<string> = new Set<string>([
+  'bread',
+  'farro',
+  'crouton',
+  'quinoa',
+  'oats',
+  'granola',
+  'bagel'
+]);
+
+let soupKeywords: Set<string> = new Set<string>([
+  'oatmeal',
+  'soup',
+  'cereal',
+  'mac',
+  'rice',
+  'noodle',
+  'penne',
+  'pasta',
+  'cavatappi'
+]);
+
+let iceCreamKeywords: Set<string> = new Set<string>([
+  'cream',
+  'yogurt',
+  'sorbet',
+  'parfait',
+]);
+
+let fishKeywords: Set<string> = new Set<string>([
+  'fish',
+  'tilapia',
+  'tuna',
+  'salmon'
+])
 
 // NOTE: Order matters! We want to go from specific to general, so that 
 // something like a "ham"burger, doesn't show up as a drumstick, when a 
 // burger icon is more appropriate.
 let foodIconKeywords: Set<string>[] = [
+  cakeKeywords,
+  croissantKeywords,
+  cookieKeywords,
+  pastryKeywords,
+  iceCreamKeywords,
+  fruitKeywords,
+  soupKeywords,
   eggKeywords,
   pizzaKeywords,
   sandwichKeywords,
-  meatKeywords
+  meatKeywords,
+  saladKeywords,
+  grainAndBreadKeywords,
+  fishKeywords,
 ]
+
+export type LucideIconComponent = 
+  ForwardRefExoticComponent<LucideProps & RefAttributes<SVGSVGElement>>;
+
+let foodIcons: LucideIconComponent[] = [
+  CakeSlice,
+  Croissant,
+  Cookie,
+  Dessert,
+  IceCreamBowl,
+  Apple,
+  Soup,
+  EggFried,
+  Pizza,
+  Sandwich,
+  Drumstick,
+  Salad,
+  Wheat,
+  FishSymbol
+];
+
 
 export {StatusColors, 
         HallStatusEnum, 
@@ -124,4 +240,7 @@ export {StatusColors,
         MealTimeEnum, 
         nutrientToUnit,
         numToMonth,
-        preferredCategoryOrder};
+        preferredCategoryOrder,
+        foodIconKeywords,
+        foodIcons,
+        };

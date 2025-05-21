@@ -1,4 +1,5 @@
-import { HallEnum, numToMonth, preferredCategoryOrder } from "./types";
+import { Utensils } from "lucide-react";
+import { foodIconKeywords, foodIcons, HallEnum, numToMonth, preferredCategoryOrder } from "./types";
 
 const BWINE_ADDY: string = "557+E+Peltason Dr%2C+Irvine%2C+CA%2C+92617";
 const ANTEAT_ADDY: string = "4001+Mesa+Rd%2C+Irvine%2C+CA%2C+92617";
@@ -183,6 +184,24 @@ function sortCategoryKeys(keys: string[]) : string[] {
 
 }
 
+/** Returns the proper Lucide food icon as per the dish name and category. */
+function getFoodIcon(dishName: string) {
+  let defaultFoodIcon = Utensils;
+
+  if (!dishName || dishName.trim() == '') {
+    return defaultFoodIcon;
+  }
+
+  const lowerDish = dishName.toLowerCase();
+
+  for (let i = 0; i < foodIconKeywords.length; ++i)
+    for (const keyword of foodIconKeywords[i])
+      if (lowerDish.includes(keyword))
+        return foodIcons[i];
+  
+  return defaultFoodIcon;
+}
+
 export {toTitleCase, 
         dateToString, 
         generateGCalLink, 
@@ -192,4 +211,5 @@ export {toTitleCase,
         formatOpenCloseTime,
         formatNutrientLabel,
         formatFoodName,
-        sortCategoryKeys}
+        sortCategoryKeys,
+        getFoodIcon}

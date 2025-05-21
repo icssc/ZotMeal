@@ -6,8 +6,8 @@ import { Dialog, DialogTrigger } from "../shadcn/dialog";
 import FoodDialogContent from "../food-dialog-content"
 import Image from "next/image";
 import { Card, CardContent } from "../shadcn/card"; 
-import { Star } from "lucide-react";
-import { formatFoodName } from "@/utils/funcs";
+import { Star, Utensils } from "lucide-react";
+import { formatFoodName, getFoodIcon } from "@/utils/funcs";
 
 interface FoodCardContentProps extends React.HTMLAttributes<HTMLDivElement> {
   dish: DishInfo;
@@ -17,19 +17,15 @@ const FoodCardContent = React.forwardRef<
   HTMLDivElement,
   FoodCardContentProps
 >(({ dish, ...divProps }, ref) => {
+  const IconComponent = getFoodIcon(dish.name) || Utensils;
+
   return (
     <div ref={ref} {...divProps} className="w-full"> 
       <Card className="cursor-pointer hover:shadow-lg transition w-full">
         <CardContent>
           <div className="flex justify-between h-full pt-6">
             <div className="flex items-center gap-6">
-              <Image
-                src={"/Zotmeal-Logo.webp"}
-                alt={"An image of zotmeal logo."}
-                width={84}
-                height={84}
-                className="rounded-sm"
-              />
+              {IconComponent && <IconComponent className="w-10 h-10 text-slate-700" />}
               <div className="flex flex-col h-full">
                 <strong>{formatFoodName(dish.name)}</strong>
                 <div className="flex gap-2 items-center">
