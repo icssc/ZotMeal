@@ -5,13 +5,15 @@ import { upsertMenu } from "@api/menus/services";
 import { upsertPeriod } from "@api/periods/services";
 import { upsertRestaurant } from "@api/restaurants/services";
 import { upsertStation } from "@api/stations/services";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { format } from "date-fns";
 
 import type { Drizzle, RestaurantName } from "@zotmeal/db";
 import type { CampusDishMenu, CampusDishPeriodResult } from "@zotmeal/validators";
 import { getRestaurantId } from "@zotmeal/db";
 import { CampusDishMenuSchema, PeriodSchema } from "@zotmeal/validators";
+import { isNotEmptyString } from "testcontainers/build/common";
+
 
 /** Fetch the CampusDish menu for a given date. */
 export async function getCampusDishMenu(
@@ -19,7 +21,7 @@ export async function getCampusDishMenu(
   restaurantName: RestaurantName,
   periodId?: string,
 ): Promise<CampusDishMenu> {
-  const res = await axios.get(
+  const res: AxiosResponse = await axios.get(
     `https://uci-campusdish-com.translate.goog/api/menu/GetMenus`,
     {
       params: {
@@ -29,12 +31,82 @@ export async function getCampusDishMenu(
       },
     },
   );
+
+  // Step 1: Transform all keys in the response to PascalCase.
+  let processedData: any = transformKeysToPascalCase(res.data);
+
+  // Step 2: Specifically unify filter names within each Product's 
+  // AvailableFilters object.
+  // The CampusDish API provides filter keys in various formats 
+  // (e.g., "Milk", "ContainsMilk").
+  // This ensures they are consistently prefixed with "Contains" 
+  // (e.g., "ContainsEggs").
+  if (processedData.Menu && processedData.Menu.MenuProducts && Array.isArray(processedData.Menu.MenuProducts)) {
+    processedData.Menu.MenuProducts.forEach((menuProduct: any) => {
+      if (menuProduct.Product && menuProduct.Product.AvailableFilters 
+          && typeof menuProduct.Product.AvailableFilters === 'object' 
+          && menuProduct.Product.AvailableFilters !== null) {
+        menuProduct.Product.AvailableFilters = 
+          unifyFilterNames(menuProduct.Product.AvailableFilters);
+      }
+    });
+  }
+
   if (process.env.IS_LOCAL) {
     const outPath = `./${restaurantName}-${format(date, "MM-dd-yyyy")}-${periodId}-res.json`;
-    writeFileSync(outPath, JSON.stringify(res.data), { flag: "w" });
+    writeFileSync(outPath, JSON.stringify(processedData), { flag: "w" });
     logger.info(`Wrote CampusDish response to ${outPath}.`);
   }
-  return CampusDishMenuSchema.parse(res.data);
+  return CampusDishMenuSchema.parse(processedData);
+}
+
+
+/** Transforms a string to PascalCase. */
+function toPascalCase(str: string): string {
+  return str
+    .replace(/_(\w)/g, (_, c) => c.toUpperCase())
+    .replace(/\s+(\w)/g, (_, c) => c.toUpperCase())
+    .replace(/^(.)/, (firstChar) => firstChar.toUpperCase());
+}
+
+
+/** Changes all of the keys from the API response to title case. */
+function transformKeysToPascalCase(data: any): any {
+  if (Array.isArray(data)) {
+    return data.map((item) => transformKeysToPascalCase(item));
+  }
+
+  if (typeof data === 'object' && data !== null) {
+    const newObject: { [key: string]: any } = {};
+    for (const key in data) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        const newKey = toPascalCase(key);
+        newObject[newKey] = transformKeysToPascalCase(data[key]);
+      }
+    }
+    return newObject;
+  }
+
+  return data;
+}
+
+
+/** Unifies the response data names for available filters. */
+function unifyFilterNames(filters: Record<string, any>): Record<string, any> {
+  const unifiedFilters: Record<string, any> = {};
+  for (const key in filters) {
+    if (Object.prototype.hasOwnProperty.call(filters, key)) {
+      let newKey = key;
+      // If the key doesn't start with "Contains" (case-insensitive)
+      if (!/^Contains/i.test(key)) {
+        // Convert to PascalCase (e.g., "eggs" -> "Eggs") first, then prepend "Contains"
+        const pascalKey = toPascalCase(key);
+        newKey = `Contains${pascalKey}`;
+      }
+      unifiedFilters[newKey] = filters[key];
+    }
+  }
+  return unifiedFilters;
 }
 
 /** Fetch the CampusDish period times for a given date. */
@@ -43,7 +115,7 @@ export async function getCampusDishPeriods(
   restaurantName: RestaurantName
 ): Promise<CampusDishPeriodResult> {
   const res = await axios.get(
-    "https://uci.campusdish.com/api/menu/GetMenuPeriods?locationId=3056&storeId=&date=05/16/2025&mode=Daily",
+    "https://uci.campusdish.com/api/menu/GetMenuPeriods",
     {
       params: {
         locationId: getRestaurantId(restaurantName),
@@ -52,9 +124,17 @@ export async function getCampusDishPeriods(
       }
     }
   );
+  
+  //Normalize the timestamps by removing the milliseconds.
+  res.data.Time = res.data.Time.split('T')[1].split('.')[0];
+  res.data.Result.forEach((period: any) => {
+    period.UtcMealPeriodStartTime = period.UtcMealPeriodStartTime.split('T')[1].split('.')[0];
+    period.UtcMealPeriodEndTime = period.UtcMealPeriodEndTime.split('T')[1].split('.')[0];
+  });
 
   return PeriodSchema.parse(res.data);
 }
+
 
 /** Upsert menus for a given date. */
 export async function upsertMenusForDate(
@@ -84,7 +164,8 @@ export async function upsertMenusForDate(
     name: restaurantName,
   });
 
-  // Insert all stations. CampusDish returns a station for each period even though the station is the same for all periods.
+  // Insert all stations. CampusDish returns a station for each period even 
+  // though the station is the same for all periods.
   // Right now we're just going to insert the station once for each period.
   const stationResult = await Promise.allSettled(
     menuAtDate.Menu.MenuStations.map((station) =>
@@ -97,17 +178,40 @@ export async function upsertMenusForDate(
   );
 
   for (const station of stationResult)
-    if (station.status === "rejected")
+    if (station.status === "rejected") {
+      const reason = station.reason;
+      let stationDetail = "unknown station";
+      if (reason && typeof reason === 'object' && 'value' in reason && reason.value && typeof reason.value === 'object' && 'name' in reason.value && typeof reason.value.name === 'string') {
+        stationDetail = `station '${reason.value.name}'`;
+      } else if (reason instanceof Error) {
+        stationDetail = `Error: ${reason.message}`;
+      } else {
+        stationDetail = `Reason: ${JSON.stringify(reason)}`;
+      }
       logger.error(
-        station.reason,
-        `❌ Failed to insert station ${station.reason.value.name} for ${restaurantName}:`,
+        `Failed to insert ${stationDetail} for ${restaurantName}.`,
+        reason,
       );
+    }
 
   // Fetch periods and map them by periodId
   const periodsFetched = await getCampusDishPeriods(
     date,
     restaurantName
+  ).catch(
+    (e) => {
+      logger.error(`[ERR] Failed to parse CampusDish periods for ${restaurantName}.`);
+      if (process.env.IS_LOCAL) {
+        const outPath = `./${restaurantName}-${format(date, "MM-dd-yyyy")}-error.json`;
+        writeFileSync(outPath, JSON.stringify(e), { flag: "w" });
+        throw new Error(
+          `Failed to parse CampusDish periods. Wrote validation error to ${outPath}.`,
+        );
+      }
+      throw e;
+    },
   );
+;
 
   const periodsMap: {[periodId: number] : [string, string]} = {};
 
@@ -116,7 +220,9 @@ export async function upsertMenusForDate(
       [periodObj.UtcMealPeriodStartTime, periodObj.UtcMealPeriodEndTime];
   });
 
-  // Upsert all periods and menus for the given date (e.g. breakfast, lunch, dinner)
+
+  // Upsert all periods and menus for the given date 
+  // (e.g. breakfast, lunch, dinner)
   const menuResult = await Promise.allSettled(
     menuAtDate.Menu.MenuPeriods.map(async (period) => {
       let periodInfo = periodsMap[Number(period.PeriodId)];
@@ -138,7 +244,8 @@ export async function upsertMenusForDate(
         throw new Error("SelectedPeriodId should match periodId");
 
       // e.g. "3314|2022-01-01|107"
-      const menuIdHash = `${menuAtPeriod.LocationId}|${menuAtPeriod.Date}|${period.PeriodId}`;
+      const menuIdHash = 
+        `${menuAtPeriod.LocationId}|${menuAtPeriod.Date}|${period.PeriodId}`;
 
       await upsertMenu(db, {
         id: menuIdHash,
@@ -158,9 +265,9 @@ export async function upsertMenusForDate(
           menuProduct.Product.NutritionalTree.forEach(nutrition => {
             nutritionalInfo[nutrition.Name] = nutrition.Value;
 
-            if (nutrition.SubList.length > 0) {
+            if (nutrition.SubList != null && nutrition.SubList.length > 0) {
               nutrition.SubList.forEach(subNutrition => {
-                nutritionalInfo[subNutrition.Name] = nutrition.Value;
+                nutritionalInfo[subNutrition!.Name] = nutrition.Value;
               })
             }
           });
@@ -198,7 +305,8 @@ export async function upsertMenusForDate(
               // TODO: Sugars are now listed in grams
               sugarsMg: nutritionalInfo["Sugar"],
               proteinG: nutritionalInfo["Protein"],
-              // TODO: The following dish information is no longer offered as of 5/15/2025
+              // TODO: The following dish information is no longer offered 
+              // as of 5/15/2025
               vitaminAIU: null,
               vitaminCIU: null,
               calciumMg: null,
@@ -215,10 +323,21 @@ export async function upsertMenusForDate(
     }),
   );
 
-  for (const menu of menuResult)
-    if (menu.status === "rejected")
+  for (const menu of menuResult) { 
+    if (menu.status === "rejected") {
+      const reason = menu.reason;
+      let errorDetails = "";
+      if (reason instanceof Error) {
+        errorDetails = reason.message; 
+      } else if (reason && typeof reason === 'object' && 'value' in reason && reason.value && typeof reason.value === 'object' && 'name' in reason.value && typeof reason.value.name === 'string') {
+        errorDetails = `for item '${reason.value.name}'`;
+      } else {
+        errorDetails = `Reason: ${JSON.stringify(reason)}`;
+      }
       logger.error(
-        menu.reason,
-        `❌ Failed to insert menu ${menu.reason.value.name} for ${restaurantName}:`,
+        `Failed during period processing for ${restaurantName}: ${errorDetails}`,
+        reason,
       );
+    }
+  }
 }

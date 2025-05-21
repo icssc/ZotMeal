@@ -16,20 +16,20 @@ export const MenuProductSchema = z.object({
       z.object({
         IconUrl: z.string(),
         Name: z.string(), 
-        isEnabled: z.boolean() 
+        isEnabled: z.boolean().optional()
       })
     ), 
     // Dietary Restrictions
     AvailableFilters: z.object({
-      ContainsEggs: z.boolean().nullable(),
-      ContainsFish: z.boolean().nullable(),
-      ContainsMilk: z.boolean().nullable(),
-      ContainsPeanuts: z.boolean().nullable(),
-      ContainsSesame: z.boolean().nullable(),
-      ContainsShellfish: z.boolean().nullable(),
-      ContainsSoy: z.boolean().nullable(),
-      ContainsTreeNuts: z.boolean().nullable(),
-      ContainsWheat: z.boolean().nullable(),
+      ContainsEggs: z.boolean().nullable().optional(),
+      ContainsFish: z.boolean().nullable().optional(),
+      ContainsMilk: z.boolean().nullable().optional(),
+      ContainsPeanuts: z.boolean().nullable().optional(),
+      ContainsSesame: z.boolean().nullable().optional(),
+      ContainsShellfish: z.boolean().nullable().optional(),
+      ContainsSoy: z.boolean().nullable().optional(),
+      ContainsTreeNuts: z.boolean().nullable().optional(),
+      ContainsWheat: z.boolean().nullable().optional(),
     }),
     // Nutrition Info object
     NutritionalTree: z.array(
@@ -40,10 +40,10 @@ export const MenuProductSchema = z.object({
         SubList: z.array(
           z.object({
             Name: z.string(),
-            Value: z.string(),
+            Value: z.string().nullable(),
             Unit: z.string().nullable()
           })
-        ) 
+        ).nullable()
       }),
     ),
     ServingSize: z.string().nullable(),
@@ -55,13 +55,13 @@ export const MenuProductSchema = z.object({
 
 /* Represents the response returned from the GetMenuPeriods query. */
 export const PeriodSchema = z.object({
-  Time: z.string().datetime(),  // Time of request
+  Time: z.string().time(),  // Time of request
   Result: z.array(
     z.object({
       PeriodId: z.number(),
       PeriodName: z.string(),
-      UtcMealPeriodStartTime: z.string().datetime(),
-      UtcMealPeriodEndTime: z.string().datetime()
+      UtcMealPeriodStartTime: z.string().time(),
+      UtcMealPeriodEndTime: z.string().time()
     })
   )
 });
