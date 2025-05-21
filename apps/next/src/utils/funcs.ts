@@ -1,9 +1,14 @@
 import { Utensils } from "lucide-react";
-import { foodIconKeywords, foodIcons, HallEnum, numToMonth, preferredCategoryOrder } from "./types";
+import { foodIconKeywords, foodIcons, HallEnum, LucideIconComponent, numToMonth, preferredCategoryOrder } from "./types";
 
 const BWINE_ADDY: string = "557+E+Peltason Dr%2C+Irvine%2C+CA%2C+92617";
 const ANTEAT_ADDY: string = "4001+Mesa+Rd%2C+Irvine%2C+CA%2C+92617";
 
+/**
+ * Converts a string to title case (e.g., "hello world" -> "Hello World").
+ * @param str The string to convert.
+ * @returns The title-cased string.
+ */
 function toTitleCase(str: string): string {
   return str
     .toLowerCase()
@@ -12,22 +17,30 @@ function toTitleCase(str: string): string {
     .join(' ');
 }
 
-const fruitKeywords = ["strawberry", "strawberries", "banana", "apple", 
-  "orange", "grapes", "melon", "berries", "cantaloupe", "pineapple", "peach", 
+// Internal keyword lists for enhanceDescription function.
+const fruitKeywords = ["strawberry", "strawberries", "banana", "apple",
+  "orange", "grapes", "melon", "berries", "cantaloupe", "pineapple", "peach",
   "pear"];
 const preparedFruitKeywords = ["cubed", "sliced", "diced fruit", "medley"];
-const healthyKeywords = ["oats", "chia", "yogurt", "quinoa", "salad", 
+const healthyKeywords = ["oats", "chia", "yogurt", "quinoa", "salad",
   "vegetable", "tofu", "bean", "lentil", "oatmeal", "cream of wheat", "kale",
   "farro"];
-const comfortingKeywords = ["soup", "stew", "pasta", "rice bowl", 
-  "mashed potatoes", "casserole", "curry", "chicken", "bacon", "sausage", 
+const comfortingKeywords = ["soup", "stew", "pasta", "rice bowl",
+  "mashed potatoes", "casserole", "curry", "chicken", "bacon", "sausage",
   "egg roll", "burger"];
-const bakeryKeywords = ["muffin", "croissant", "scone", "bagel", "bread", 
+const bakeryKeywords = ["muffin", "croissant", "scone", "bagel", "bread",
   "fries", "pizza", "cake", "cookie", "pastry"];
-const toppingKeywords = ["lettuce", "carrots", "croutons", "spinach", 
-  "bell peppers", "cucumbers", "beans", "tomato", "cheese", "onion", "pickle", 
-  "olive", "mushroom"]
+const toppingKeywords = ["lettuce", "carrots", "croutons", "spinach",
+  "bell peppers", "cucumbers", "beans", "tomato", "cheese", "onion", "pickle",
+  "olive", "mushroom"];
 
+/**
+ * Enhances a dish description with more engaging text based on keywords.
+ * If the provided description is empty, it defaults to the dish name.
+ * @param dish The name of the dish.
+ * @param description The original description of the dish (can be null or undefined).
+ * @returns An enhanced description string.
+ */
 function enhanceDescription(dish: string, description: string | null | undefined): string {
   if (!description || description.trim() === "") {
     description = dish;
@@ -72,6 +85,11 @@ function enhanceDescription(dish: string, description: string | null | undefined
   return description.endsWith('.') ? description : (description + '.');
 }
 
+/**
+ * Appends the correct ordinal suffix to a day number (e.g., 1 -> "1st", 2 -> "2nd").
+ * @param day The day of the month (1-31).
+ * @returns The day number with its ordinal suffix.
+ */
 function getDayWithSuffix(day: number): string {
   if (day > 3 && day < 21) return `${day}th`; // for 4th to 20th
   switch (day % 10) {
@@ -82,11 +100,23 @@ function getDayWithSuffix(day: number): string {
   }
 }
 
+/**
+ * Formats a date range into a string like "Jan. 1st, 10:00am-2:00pm".
+ * @param startDate The start date and time.
+ * @param endDate The end date and time.
+ * @returns A formatted string representing the date and time range.
+ */
 function dateToString(startDate: Date, endDate: Date): string {
   const dayWithSuffix = getDayWithSuffix(startDate.getDate());
   return `${numToMonth[startDate.getMonth()]} ${dayWithSuffix}, ${timeToString(startDate)}-${timeToString(endDate)}`;
 }
 
+/**
+ * Pads a number with a leading zero if it's less than 10.
+ * Used for formatting minutes.
+ * @param minutes The number of minutes.
+ * @returns A string representation of the minutes, padded with a zero if needed.
+ */
 function padMinutes(minutes: number): string {
   let str: string = minutes+"";
   while (str.length < 2)
@@ -94,6 +124,11 @@ function padMinutes(minutes: number): string {
   return str;
 }
 
+/**
+ * Converts a Date object to a time string in "h:mma" or "h:mmam" format (e.g., "10:00am", "1:30pm").
+ * @param date The Date object.
+ * @returns A formatted time string.
+ */
 function timeToString(date: Date): string {
   let hours: number = date.getHours();
   let isAfterNoon: boolean = hours > 12;
@@ -101,6 +136,14 @@ function timeToString(date: Date): string {
   return `${isAfterNoon ? hours - 12 : hours}:${padMinutes(date.getMinutes())}${isAfterNoon ? "pm" : "am"}`
 }
 
+/**
+ * Generates a Google Calendar event link.
+ * @param title The title of the event (usually the dish name).
+ * @param desc The description for the event.
+ * @param location The dining hall location (Anteatery or Brandywine).
+ * @param time The date and time of the event.
+ * @returns A URL string for creating a Google Calendar event.
+ */
 function generateGCalLink(title: string, desc: string, location: HallEnum, time: Date): string {
   let date: string = `${time.getFullYear()}${(time.getUTCMonth() + 1).toString().padStart(2, '0')}${time.getUTCDate().toString().padStart(2, '0')}T${time.getUTCHours().toString().padStart(2, '0')}${time.getUTCMinutes().toString().padStart(2, '0')}${time.getUTCSeconds().toString().padStart(2, '0')}Z`;
 
@@ -114,6 +157,12 @@ function generateGCalLink(title: string, desc: string, location: HallEnum, time:
   return link;
 }
 
+/**
+ * Converts a UTC time string (HH:MM:SS) to a Date object in Pacific Time.
+ * The date part of the returned Date object will be the current date.
+ * @param utcTimeString The UTC time string in "HH:MM:SS" format.
+ * @returns A Date object representing the converted time in America/Los_Angeles timezone.
+ */
 function utcToPacificTime(utcTimeString: string): Date {
   const [hours, minutes, seconds] = utcTimeString.split(':').map(Number);
   const utcDate = new Date()
@@ -127,6 +176,12 @@ function utcToPacificTime(utcTimeString: string): Date {
   return pacificDate
 }
 
+/**
+ * Formats a time range from two Date objects into a string like "10:00a-2:30p".
+ * @param openTime The start time.
+ * @param closeTime The end time.
+ * @returns A formatted string representing the time range.
+ */
 function formatOpenCloseTime(openTime: Date, closeTime: Date): string {
   let openTimeIsAfternoon: boolean = openTime.getHours() > 12;
   let closeTimeIsAfternoon: boolean = closeTime.getHours() > 12;
@@ -139,6 +194,11 @@ function formatOpenCloseTime(openTime: Date, closeTime: Date): string {
   return `${openTimeHours}:${openTimeMinutes}${openTimeIsAfternoon ? 'p' : 'a'}-${closeTimeHours}:${closeTimeMinutes}${closeTimeIsAfternoon ? 'p' : 'a'}`
 }
 
+/**
+ * Formats a nutrient key (e.g., "totalFatG", "vitaminAIU") into a human-readable label (e.g., "Total Fat", "Vitamin A").
+ * @param nutrient The nutrient key string.
+ * @returns A formatted, human-readable nutrient label.
+ */
 const formatNutrientLabel = (nutrient: string) => {
     const label = nutrient.replace(/(Mg|G)$/, ""); 
     return label.replace(/([A-Z])/g, " $1")
@@ -146,6 +206,13 @@ const formatNutrientLabel = (nutrient: string) => {
     .trim();
 };
 
+/**
+ * Formats a food name for display.
+ * This includes converting to title case, handling hyphens, apostrophes,
+ * and specific abbreviations like "Ozw" to "Oz".
+ * @param name The raw food name string.
+ * @returns A formatted food name string.
+ */
 const formatFoodName = (name: string): string => {
   if (!name) return "";
 
@@ -163,6 +230,12 @@ const formatFoodName = (name: string): string => {
   return formattedName;
 };
 
+/**
+ * Sorts an array of category keys based on a predefined preferred order.
+ * Categories not in the preferred order are sorted alphabetically at the end.
+ * @param keys An array of category name strings.
+ * @returns A new array with category keys sorted according to the preferred order and then alphabetically.
+ */
 function sortCategoryKeys(keys: string[]) : string[] {
   return keys.sort((a, b) => {
     const aLower = a.toLowerCase().trim()
@@ -184,9 +257,15 @@ function sortCategoryKeys(keys: string[]) : string[] {
 
 }
 
-/** Returns the proper Lucide food icon as per the dish name and category. */
-function getFoodIcon(dishName: string) {
-  let defaultFoodIcon = Utensils;
+/**
+ * Returns a Lucide food icon component based on the dish name.
+ * It iterates through predefined keyword sets to find the most appropriate icon.
+ * The order of `foodIconKeywords` in `types.ts` is important for specificity.
+ * @param dishName The name of the dish.
+ * @returns A LucideIconComponent (e.g., Soup, Pizza) or a default icon component (Utensils).
+ */
+function getFoodIcon(dishName: string): LucideIconComponent {
+  const defaultFoodIcon: LucideIconComponent = Utensils;
 
   if (!dishName || dishName.trim() == '') {
     return defaultFoodIcon;
