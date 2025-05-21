@@ -1,4 +1,4 @@
-import { HallEnum, numToMonth } from "./types";
+import { HallEnum, numToMonth, preferredCategoryOrder } from "./types";
 
 const BWINE_ADDY: string = "557+E+Peltason Dr%2C+Irvine%2C+CA%2C+92617";
 const ANTEAT_ADDY: string = "4001+Mesa+Rd%2C+Irvine%2C+CA%2C+92617";
@@ -162,12 +162,34 @@ const formatFoodName = (name: string): string => {
   return formattedName;
 };
 
-export { toTitleCase, 
-         dateToString, 
-         generateGCalLink, 
-         timeToString, 
-         enhanceDescription,
-         utcToPacificTime,
-         formatOpenCloseTime,
-         formatNutrientLabel,
-         formatFoodName}
+function sortCategoryKeys(keys: string[]) : string[] {
+  return keys.sort((a, b) => {
+    const aLower = a.toLowerCase().trim()
+    const bLower = b.toLowerCase().trim()
+
+    const aIdx = preferredCategoryOrder.indexOf(aLower)
+    const bIdx = preferredCategoryOrder.indexOf(bLower)
+
+    if (aIdx !== -1 && bIdx !== -1)
+      return aIdx - bIdx;
+    if (aIdx !== -1)
+      return aIdx;
+    if (bIdx !== -1)
+      return bIdx;
+
+    // If neither in order, use alphabetic order
+    return aLower.localeCompare(bLower)
+  })
+
+}
+
+export {toTitleCase, 
+        dateToString, 
+        generateGCalLink, 
+        timeToString, 
+        enhanceDescription,
+        utcToPacificTime,
+        formatOpenCloseTime,
+        formatNutrientLabel,
+        formatFoodName,
+        sortCategoryKeys}

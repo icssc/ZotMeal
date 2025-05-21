@@ -6,6 +6,7 @@ import FoodCardSkeleton from "./skeleton/food-card-skeleton"
 import MealDividerSkeleton from "./skeleton/meal-divider-skeleton"
 import { DishInfo } from "@zotmeal/api";
 import MealDivider from "./meal-divider";
+import { sortCategoryKeys } from "@/utils/funcs";
 
 interface DishesInfoProps {
   dishes: DishInfo[],
@@ -51,13 +52,13 @@ export default function DishesInfo({dishes, isLoading, isError, errorMessage} : 
               No dishes available for this selection.
             </p>
           ) : (
-                Object.keys(categoryMap).map(categoryString => 
-                  <>
-                    <MealDivider title={categoryString} key={`${categoryString}+${categoryMap[categoryString][0].stationId}`}/>
+                sortCategoryKeys(Object.keys(categoryMap)).map(categoryString => 
+                  <React.Fragment key={`${categoryString}`}>
+                    <MealDivider title={categoryString} />
                     {categoryMap[categoryString].map(dish => 
                       <FoodCard key={dish.id} {... dish}/>
                     )}
-                  </>
+                  </React.Fragment>
                 )
             )}
         </>

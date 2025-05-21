@@ -57,11 +57,71 @@ const numToMonth : {[num: number]: string} = {
   11: "Dec."
 };
 
+// NOTE: Be sure to keep these lowercase.
+const preferredCategoryOrder: string[] = [
+  'entrées', 
+  'hot sandwiches', 
+  'cold sandwiches', 
+  'pizza',
+  'soups',
+  'salads', 
+  'sides', 
+  'protein',
+  'cereals',
+  'breads',
+  'grains',
+  'condiments',
+  'desserts',
+]
 
-export { StatusColors, 
-         HallStatusEnum, 
-         HallEnum, 
-         MealTimeEnum, 
-         nutrientToUnit,
-         numToMonth
-};
+let meatKeywords: Set<string> = new Set<string>([
+  'chicken',
+  'ham',
+  'beef',
+  'pork',
+  'dog',      // meaning hot dog, trust 😵
+  'shawarma'
+]);
+
+let sandwichKeywords: Set<string> = new Set<string>([
+  'sandwich',
+  'burger'
+]);
+
+let pizzaKeywords: Set<string> = new Set<string>([
+  'pizza',
+  'flatbread',
+  'stromboli'
+]);
+
+let eggKeywords: Set<string> = new Set<string>([
+  'egg',
+  'omlette'
+]);
+
+let saladKeywords: Set<string> = new Set<string>([
+  'tomato',
+  'lettuce',
+  'onion',
+  'greens'
+]);
+
+let soupKeywords: Set<string> = new Set<string>
+
+// NOTE: Order matters! We want to go from specific to general, so that 
+// something like a "ham"burger, doesn't show up as a drumstick, when a 
+// burger icon is more appropriate.
+let foodIconKeywords: Set<string>[] = [
+  eggKeywords,
+  pizzaKeywords,
+  sandwichKeywords,
+  meatKeywords
+]
+
+export {StatusColors, 
+        HallStatusEnum, 
+        HallEnum, 
+        MealTimeEnum, 
+        nutrientToUnit,
+        numToMonth,
+        preferredCategoryOrder};
