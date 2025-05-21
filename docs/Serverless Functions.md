@@ -1,6 +1,6 @@
 ## Cron Jobs
 
-Inside the `./apps/server` you will something like this
+Inside the `./apps/server` you will see something like this:
 
 ```
 📦apps/server  
@@ -22,13 +22,18 @@ Inside the `src/functions/cron` we can find:
  ┗ 📜weekly.ts
 ```
 
-Each of these `.ts` functions corresponds to a specific ****cron**** job that our app performs.
+Each of these `.ts` functions corresponds to a specific **cron** job that 
+our app performs.
 
-- **Daily**: Fetches the menu from CampusDishAPI for the current day and inserts it into the database. Runs every day at midnight to ensure the most up to date menu information.
+- **Daily**: Fetches the menu from CampusDishAPI for the current day and inserts
+it into the database. Runs every day at midnight to ensure the most up to date 
+menu information.
 
-- **Weekly**: Fetches all menus from CampusDishAPI for all days at most 2 week away from today. Allows users to see future menus for up to 2 week away.
+- **Weekly**: Fetches all menus from CampusDishAPI for all days at most 2 week 
+away from today. Allows users to see future menus for up to 2 week away.
 
-- **BroadcastNotification**: Broadcasts a notification using expo notifications when special events are occurring on the given day.
+- **BroadcastNotification**: Broadcasts a notification using expo notifications 
+when special events are occurring on the given day.
 
 ## Server Functions
 
@@ -36,7 +41,7 @@ The main functionality of these jobs can be found in the `./packages/api/src/ser
 
 #### server/daily
 
-Functions in `parse.ts`
+Functions in `parse.ts`:
 
 `getCampusDishMenu`
 	Fetches and parses the CampusDish menu for a given date.

@@ -30,6 +30,6 @@ export const main = async (_event, _context) => {
     logger.info("Closing connection pool...");
     await pool({ connectionString }).end();
     logger.info("Closed connection pool.");
-    logger.info("✅ Finished update daily job.");
+    logger.info("Finished update daily job.");
   }
 };

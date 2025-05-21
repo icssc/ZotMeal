@@ -10,18 +10,18 @@ export async function daily(
   restaurantName: RestaurantName,
 ): Promise<void> {
   logger.info(
-    `daily: Updating ${restaurantName} menu for (${date.toLocaleDateString()})...`,
+    `[daily] Updating ${restaurantName} menu for (${date.toLocaleDateString()})...`,
   );
 
   await upsertMenusForDate(db, date, restaurantName).catch((e) => {
     logger.error(
       e,
-      `daily: ❌ Failed to update ${restaurantName} menu for (${date.toLocaleDateString()}):`,
+      `[daily] Failed to update ${restaurantName} menu for (${date.toLocaleDateString()}):`,
     );
     throw e;
   });
 
   logger.info(
-    `daily: ✅ Updated ${restaurantName} menu for (${date.toLocaleDateString()}).`,
+    `[daily] Updated ${restaurantName} menu for (${date.toLocaleDateString()}).`,
   );
 }

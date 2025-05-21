@@ -147,7 +147,7 @@ export async function upsertMenusForDate(
   // Get the menu for the given date to first get all the periods and stations.
   const menuAtDate = await getCampusDishMenu(date, restaurantName).catch(
     (e) => {
-      logger.error(`❌ Failed to parse CampusDish menu for ${restaurantName}.`);
+      logger.error(`Failed to parse CampusDish menu for ${restaurantName}.`);
       if (process.env.IS_LOCAL) {
         const outPath = `./${restaurantName}-${format(date, "MM-dd-yyyy")}-error.json`;
         writeFileSync(outPath, JSON.stringify(e), { flag: "w" });
@@ -200,7 +200,7 @@ export async function upsertMenusForDate(
     restaurantName
   ).catch(
     (e) => {
-      logger.error(`[ERR] Failed to parse CampusDish periods for ${restaurantName}.`);
+      logger.error(`Failed to parse CampusDish periods for ${restaurantName}.`);
       if (process.env.IS_LOCAL) {
         const outPath = `./${restaurantName}-${format(date, "MM-dd-yyyy")}-error.json`;
         writeFileSync(outPath, JSON.stringify(e), { flag: "w" });
