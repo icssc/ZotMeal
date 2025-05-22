@@ -65,7 +65,7 @@ export default function Events() {
           {!isLoading && !error && (
             <>
               <MealDivider title="This Week's Events"/>
-              {eventsThisWeek.map((event : any) => (
+              {eventsThisWeek.length > 0 && eventsThisWeek.map((event : any) => (
               <EventCard
                 key={`${event.title}|${event.start.toISOString()}|${event.restaurantId}`}
                 name={event.title}
@@ -79,8 +79,11 @@ export default function Events() {
                 isOngoing={event.start <= now && event.end >= now}
               />
               ))}
+              {eventsThisWeek.length == 0 && (
+                <p className="text-center text-zinc-700 py-5">No events scheduled for this week :(</p>
+              )}
               <MealDivider title="Upcoming Events"/>
-              {futureEvents.map((event : any) => (
+              {futureEvents.length >0 && futureEvents.map((event : any) => (
               <EventCard
                 key={`${event.title}|${event.start.toISOString()}|${event.restaurantId}`}
                 name={event.title}
@@ -94,6 +97,9 @@ export default function Events() {
                 isOngoing={event.start <= now && event.end >= now}
               />
               ))}
+              {futureEvents.length == 0 && (
+                <p className="text-center text-zinc-700 py-5">No upcoming events found :(</p>
+              )}
             </>
           )}
         </div>
