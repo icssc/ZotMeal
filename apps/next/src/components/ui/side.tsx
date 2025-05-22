@@ -14,7 +14,6 @@ import TabsSkeleton from "./skeleton/tabs-skeleton";
 import SelectSkeleton from "./skeleton/select-skeleton";
 
 export default function Side({hall} : {hall : HallEnum}) {
-
     // Fetch data using tRPC
     const [queryDate] = useState(() => new Date());
     const { data: queryResponse, isLoading, isError, error } = trpc.zotmeal.useQuery(

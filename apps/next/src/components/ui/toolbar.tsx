@@ -4,6 +4,7 @@ import { CalendarSearch, PanelRight } from "lucide-react";
 import { Button } from "./shadcn/button";
 import { Sheet, SheetTrigger } from "./shadcn/sheet";
 import SidebarContent from "./sidebar/sidebar-content";
+import { DatePicker } from "./shadcn/date-picker";
 
 export default function Toolbar() {
     return (
@@ -21,9 +22,7 @@ export default function Toolbar() {
         </Link>
         <Sheet>
           <div className="flex gap-4 items-center">
-            <Button variant="ghost" size="icon">
-              <CalendarSearch />
-            </Button>
+            <DatePicker/>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <PanelRight />
