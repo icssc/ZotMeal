@@ -1,1867 +1,2145 @@
 {
-  "Mode": 1,
-  "Date": "01/17/2024",
-  "LocationId": "3314",
-  "StoreIds": null,
-  "StoreId": null,
-  "SelectedPeriodId": "108",
+  "AllergensTitle": "Allergens & Intolerances",
+  "CartUrl": "/Cart",
+  "Date": "05/20/2025",
+  "DisplayDailyMenu": true,
+  "DisplayFoodOrderMenu": false,
+  "DisplayOnlyCurrentDayMenu": false,
+  "DisplayPriceOnTheMenu": false,
+  "DisplayProductImages": false,
+  "DisplayWeeklyMenu": true,
+  "EnableAllergenFiltering": false,
+  "FulfillmentDelivery": false,
+  "FulfillmentPickup": false,
+  "HideEatWellIconsFromMenu": false,
+  "HideProductsCalorie": false,
+  "HideProductsNutritional": false,
+  "HideProductsShortDescription": false,
+  "IsCheckoutAndCartEnabled": false,
+  "IsDaily": true,
+  "IsFavorites": false,
+  "IsFoodOrder": false,
+  "IsWeekly": false,
+  "LinkToLoginPageWithReturnUrl": "/Login?ReturnUrl=http%3a%2f%2fuci.campusdish.com%2fapi%2fmenu%2fGetMenus%3flocationId%3d3056%26date%3d05%2f20%2f2025",
+  "LocationId": "3056",
   "Menu": {
-    "MenuId": "{2fe4030c-70e9-4583-9eff-86d4ad67ad03}",
-    "Name": "FALL 2023",
-    "LocationId": "3314",
-    "LocationName": null,
-    "StartDate": "/Date(1705449600000)/",
-    "EndDate": "/Date(1705449600000)/",
     "Allergens": [
       {
         "Id": "ContainsEggs",
+        "IsActive": false,
         "Name": "Eggs",
-        "IsActive": false
+        "SecondaryName": null
       },
       {
         "Id": "ContainsFish",
+        "IsActive": false,
         "Name": "Fish",
-        "IsActive": false
+        "SecondaryName": null
       },
       {
         "Id": "ContainsMilk",
+        "IsActive": false,
         "Name": "Milk",
-        "IsActive": false
+        "SecondaryName": null
       },
       {
         "Id": "ContainsPeanuts",
+        "IsActive": false,
         "Name": "Peanuts",
-        "IsActive": false
+        "SecondaryName": null
       },
       {
         "Id": "ContainsSesame",
+        "IsActive": false,
         "Name": "Sesame",
-        "IsActive": false
+        "SecondaryName": null
       },
       {
         "Id": "ContainsShellfish",
+        "IsActive": false,
         "Name": "Shellfish",
-        "IsActive": false
+        "SecondaryName": null
       },
       {
         "Id": "ContainsSoy",
+        "IsActive": false,
         "Name": "Soy",
-        "IsActive": false
+        "SecondaryName": null
       },
       {
         "Id": "ContainsTreeNuts",
+        "IsActive": false,
         "Name": "Tree Nuts",
-        "IsActive": false
+        "SecondaryName": null
       },
       {
         "Id": "ContainsWheat",
+        "IsActive": false,
         "Name": "Wheat",
-        "IsActive": false
+        "SecondaryName": null
       }
     ],
-    "SpecialDiets": [],
+    "Categories": [
+      {
+        "CategoryId": "Entrées_3056",
+        "DisplayName": "Entrées"
+      },
+      {
+        "CategoryId": "Cereals_3056",
+        "DisplayName": "Cereals"
+      },
+      {
+        "CategoryId": "Pizza_3056",
+        "DisplayName": "Pizza"
+      },
+      {
+        "CategoryId": "Hot_Sandwiches_3056",
+        "DisplayName": "Hot Sandwiches"
+      },
+      {
+        "CategoryId": "Cold_Sandwiches_3056",
+        "DisplayName": "Cold Sandwiches"
+      },
+      {
+        "CategoryId": "Sides_3056",
+        "DisplayName": "Sides"
+      },
+      {
+        "CategoryId": "Soups_3056",
+        "DisplayName": "Soups"
+      },
+      {
+        "CategoryId": "Breads_3056",
+        "DisplayName": "Breads"
+      },
+      {
+        "CategoryId": "Desserts_3056",
+        "DisplayName": "Desserts"
+      },
+      {
+        "CategoryId": "Salads_3056",
+        "DisplayName": "Salads"
+      },
+      {
+        "CategoryId": "Grains_3056",
+        "DisplayName": "Grains "
+      },
+      {
+        "CategoryId": "Condiments_3056",
+        "DisplayName": "Condiments"
+      },
+      {
+        "CategoryId": "Protein_3056",
+        "DisplayName": "Protein"
+      }
+    ],
+    "DisplayFoodPreferenceFilter": true,
+    "ImportPrimaIngredients": true,
     "MenuPeriods": [
       {
-        "PeriodId": "49",
         "Name": "Breakfast",
-        "IsActive": false,
-        "UtcMealPeriodStartTime": "2024-01-17 15:15:00Z",
-        "UtcMealPeriodEndTime": "2024-01-17 19:00:00Z"
+        "PeriodId": "49"
       },
       {
-        "PeriodId": "106",
         "Name": "Lunch",
-        "IsActive": false,
-        "UtcMealPeriodStartTime": "2024-01-17 19:00:00Z",
-        "UtcMealPeriodEndTime": "2024-01-18 00:30:00Z"
+        "PeriodId": "106"
       },
       {
-        "PeriodId": "107",
         "Name": "Dinner",
-        "IsActive": false,
-        "UtcMealPeriodStartTime": "2024-01-18 00:30:00Z",
-        "UtcMealPeriodEndTime": "2024-01-18 04:00:00Z"
+        "PeriodId": "107"
       },
       {
-        "PeriodId": "108",
         "Name": "Latenight",
-        "IsActive": true,
-        "UtcMealPeriodStartTime": "2024-01-18 04:00:00Z",
-        "UtcMealPeriodEndTime": "2024-01-18 07:00:00Z"
+        "PeriodId": "108"
       }
     ],
     "MenuProducts": [
       {
-        "MenuProductId": "{9aa5ab19-20f2-4943-9072-672c4a996485}",
-        "PeriodId": "108",
-        "StationId": "32804",
-        "StationRank": 0,
-        "MenuId": null,
-        "AssignedDate": "2024-01-17T00:00:00",
-        "IsTopPurchased": false,
-        "ProductId": "M40078_3314",
+        "AssignedDate": "2025-05-20T00:00:00",
         "CatalogId": "HE Catalog Set 1_Location",
+        "HasDeliverySlotInSchedule": false,
+        "IsDeemphasized": false,
+        "IsTopPurchased": false,
+        "IsUserFavorite": false,
+        "MenuProductId": "{e52b1733-bc63-4487-bd4f-57c6dd7a22a7}",
         "Product": {
-          "ProductId": "M40078_3314",
-          "DisplayName": null,
-          "MarketingName": "Chocolate Chip Cookie",
-          "Description": "",
-          "ShortDescription": "Freshly baked chewy cookie with semisweet chocolate chips",
-          "ImageUrl": "/-/media/Food_Images/CulinaryMaster/M40078",
-          "CurrentPrice": 0,
-          "CurrentPriceCulture": "$0.00",
-          "CurrencyCulture": "en-us",
+          "AllergenStatement": "<BR><B>Contains: </B>Milk, Wheat",
+          "AvailableFilters": {
+            "ContainsEggs": false,
+            "ContainsFish": false,
+            "ContainsMilk": true,
+            "ContainsPeanuts": false,
+            "ContainsSesame": false,
+            "ContainsShellfish": false,
+            "ContainsSoy": false,
+            "ContainsTreeNuts": false,
+            "ContainsWheat": true
+          },
+          "Calories": "340",
           "Categories": [
             {
-              "CategoryId": "Desserts_3314",
-              "DisplayName": "Desserts",
-              "ImageUrl": null,
-              "Description": null,
-              "MenuRanking": 24
+              "CategoryId": "Pizza_3056",
+              "DisplayName": "Pizza"
             }
           ],
-          "DietaryInformation": [],
-          "BrandId": null,
-          "LocationId": "3314",
-          "IsBulkProduct": false,
-          "Variants": [],
+          "CurrentPrice": null,
+          "CurrentPriceCulture": null,
+          "Description": "",
+          "DietaryInformation": [
+            {
+              "IconUrl": "/-/media/Global/All Divisions/Dietary Information/CoolFood",
+              "IsEnabled": true,
+              "Name": "Coolfood Meal – Low Carbon Certified"
+            }
+          ],
+          "DisplayName": null,
           "HasNutritionalInformation": true,
-          "AvailableFilters": {
-            "ContainsEggs": null,
-            "ContainsFish": null,
-            "ContainsMilk": null,
-            "ContainsPeanuts": null,
-            "ContainsSesame": null,
-            "ContainsShellfish": null,
-            "ContainsSoy": null,
-            "ContainsTreeNuts": null,
-            "ContainsWheat": null,
-            "IsGlutenFree": false,
-            "IsHalal": false,
-            "IsKosher": true,
-            "IsLocallyGrown": false,
-            "IsOrganic": false,
-            "IsVegan": false,
-            "IsVegetarian": false
-          },
-          "ContainsEggs": null,
-          "ContainsFish": null,
-          "ContainsMilk": null,
-          "ContainsPeanuts": null,
-          "ContainsShellfish": null,
-          "ContainsSoy": null,
-          "ContainsTreeNuts": null,
-          "ContainsWheat": null,
-          "ContainsSesame": null,
-          "IsGlutenFree": false,
-          "IsHalal": false,
-          "IsKosher": true,
-          "IsLocallyGrown": false,
-          "IsOrganic": false,
-          "IsVegan": false,
-          "IsVegetarian": false,
-          "ProductSummaries": [],
-          "PrimaRecipeType": "Drop/Shaped Cookie",
-          "AllergenStatement": "<BR><B>Complete allergen information is not available. Please contact the on-site manager for assistance.</B>",
-          "IngredientStatement": "Ingredient Statement Not Available",
-          "CatalogId": "HE Catalog Set 1_Location",
-          "MinPickupTime": "/Date(1706718536774)/",
-          "MinDeliveryTime": "/Date(1706722136774)/",
-          "StoreId": null,
-          "DeliveryLeadTime": null,
-          "DeliveryLeadTimeFrame": null,
-          "Modifiers": [],
+          "ImageUrl": "/-/media/Food_Images/CulinaryMaster/M19799",
+          "IngredientStatement": "Dough ( ENRICHED UNBLEACHED WHEAT FLOUR (WHEAT FLOUR, NIACIN, IRON  AS FERROUS SULFATE, THIAMINE MONONITRATE, ENZYME, RIBOFLAVIN, FOLIC ACID),  WATER, YEAST, CONTAINS LESS THAN 2% OF THE FOLLOWING: SUGAR, SOYBEAN OIL,  HYDROGENATED SOYBEAN OIL, LEAVENING (BAKING SODA, SODIUM ALUMINUM PHOSPHATE),  SALT, BUTTERMILK, WHEAT GLUTEN, LOW-MOISTURE PART-SKIM MOZZARELLA CHEESE  (PASTEURIZED PART SKIM MILK, CHEESE CULTURE, SALT, CALCIUM CHLORIDE, ENZYME),  CHEDDAR CHEESE (MILK, CHEESE CULTURES, SALT, ENZYMES), WHEY POWDER (A MILK  DERIVATIVE), GUAR GUM, XANTHAN GUM, SOYBEAN OIL, GARLIC POWDER, DATEM, MALTED  BARLEY FLOUR, DEXTROSE, ENZYME, ASCORBIC ACID, SODIUM PHOSPHATE, LACTIC ACID.), Mozzarella Cheese (Low-Moisture Part-Skim Mozzarella Cheese (Pasteurized Part-Skim Milk, Cheese Culture, Salt, Enzymes). Anti-Caking Blend (Potato Starch, Powdered Cellulose).), Carrots, Squash Zucchini, Onion, Red Bell Pepper, Green Pepper, Vegetable Oil Blend (May contain one or more of the following: Soybean, Canola, Corn, Sunflower Oil; Olive Oil; Colorant: Beta-Carotene E160a(i)), Asiago Cheese (Parmesan Cheese (Pasteurized Part-Skim Milk, Cheese Culture, Salt, Enzymes). Anti-Caking Blend (Potato Starch, Powdered Cellulose).), Montreal Steak Seasoning (COARSE SALT, SPICES (INCLUDING BLACK PEPPER AND RED PEPPER), GARLIC, ONION, SUNFLOWER OIL, NATURAL FLAVOR AND EXTRACTIVES OF PAPRIKA.)",
+          "IsBulkProduct": false,
+          "MarketingName": "Grilled Vegetable Stromboli",
+          "NutritionalTree": [
+            {
+              "Name": "Calories",
+              "SubList": null,
+              "Unit": null,
+              "Value": "340"
+            },
+            {
+              "Name": "Total Fat",
+              "SubList": [
+                {
+                  "Name": "Saturated Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "5"
+                },
+                {
+                  "Name": "Trans Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "0"
+                }
+              ],
+              "Unit": "g",
+              "Value": "10"
+            },
+            {
+              "Name": "Cholesterol",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": "15"
+            },
+            {
+              "Name": "Sodium",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": "740"
+            },
+            {
+              "Name": "Total Carbohydrates",
+              "SubList": [
+                {
+                  "Name": "Dietary Fiber",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "2"
+                },
+                {
+                  "Name": "Total Sugars",
+                  "SubList": [
+                    {
+                      "Name": "Includes Added Sugars",
+                      "SubList": null,
+                      "Unit": "g",
+                      "Value": "2"
+                    }
+                  ],
+                  "Unit": "g",
+                  "Value": "4"
+                }
+              ],
+              "Unit": "g",
+              "Value": "48"
+            },
+            {
+              "Name": "Protein",
+              "SubList": null,
+              "Unit": "g",
+              "Value": "14"
+            }
+          ],
           "PayPalEnabled": false,
+          "ProductId": "M19799_3056",
           "ServingSize": "1",
-          "ServingUnit": "cookie",
-          "Calories": "120",
-          "CaloriesFromFat": "50",
-          "TotalFat": "6",
-          "TransFat": "0",
-          "Cholesterol": "less than 5",
-          "Sodium": "95",
-          "TotalCarbohydrates": "16",
-          "DietaryFiber": "0",
-          "Sugars": "9",
-          "Protein": "1",
-          "VitaminA": null,
-          "VitaminC": "0.00",
-          "Calcium": "3.56",
-          "Iron": "0.97",
-          "SaturatedFat": "3"
+          "ServingUnit": "/8 cut",
+          "ShortDescription": "Grilled bell peppers, zucchini, carrots, onion & mozzarella wrapped in a golden crust"
         },
-        "IsDeemphasized": false,
-        "HasDeliverySlotInSchedule": false,
-        "IsUserFavorite": false
+        "ProductId": "M19799_3056",
+        "StationId": "23991"
       },
       {
-        "MenuProductId": "{e12dfa89-7929-4227-aabd-a5c55225c99f}",
-        "PeriodId": "108",
-        "StationId": "32804",
-        "StationRank": 0,
-        "MenuId": null,
-        "AssignedDate": "2024-01-17T00:00:00",
-        "IsTopPurchased": false,
-        "ProductId": "M40079_3314",
+        "AssignedDate": "2025-05-20T00:00:00",
         "CatalogId": "HE Catalog Set 1_Location",
+        "HasDeliverySlotInSchedule": false,
+        "IsDeemphasized": false,
+        "IsTopPurchased": false,
+        "IsUserFavorite": false,
+        "MenuProductId": "{e1ea8043-4140-470c-bc20-fe205a544057}",
         "Product": {
-          "ProductId": "M40079_3314",
-          "DisplayName": null,
-          "MarketingName": "Oatmeal Raisin Cookie",
-          "Description": "",
-          "ShortDescription": "Freshly baked chewy oatmeal cookie with raisins",
-          "ImageUrl": "/-/media/Food_Images/CulinaryMaster/M40079",
-          "CurrentPrice": 0,
-          "CurrentPriceCulture": "$0.00",
-          "CurrencyCulture": "en-us",
+          "AllergenStatement": "<BR><B>Contains: </B>Milk, Wheat",
+          "AvailableFilters": {
+            "ContainsEggs": false,
+            "ContainsFish": false,
+            "ContainsMilk": true,
+            "ContainsPeanuts": false,
+            "ContainsSesame": false,
+            "ContainsShellfish": false,
+            "ContainsSoy": false,
+            "ContainsTreeNuts": false,
+            "ContainsWheat": true
+          },
+          "Calories": "430",
           "Categories": [
             {
-              "CategoryId": "Desserts_3314",
-              "DisplayName": "Desserts",
-              "ImageUrl": null,
-              "Description": null,
-              "MenuRanking": 27
+              "CategoryId": "Pizza_3056",
+              "DisplayName": "Pizza"
             }
           ],
+          "CurrentPrice": null,
+          "CurrentPriceCulture": null,
+          "Description": "",
           "DietaryInformation": [],
-          "BrandId": null,
-          "LocationId": "3314",
-          "IsBulkProduct": false,
-          "Variants": [],
+          "DisplayName": null,
           "HasNutritionalInformation": true,
-          "AvailableFilters": {
-            "ContainsEggs": null,
-            "ContainsFish": null,
-            "ContainsMilk": null,
-            "ContainsPeanuts": null,
-            "ContainsSesame": null,
-            "ContainsShellfish": null,
-            "ContainsSoy": null,
-            "ContainsTreeNuts": null,
-            "ContainsWheat": null,
-            "IsGlutenFree": false,
-            "IsHalal": false,
-            "IsKosher": true,
-            "IsLocallyGrown": false,
-            "IsOrganic": false,
-            "IsVegan": false,
-            "IsVegetarian": false
-          },
-          "ContainsEggs": null,
-          "ContainsFish": null,
-          "ContainsMilk": null,
-          "ContainsPeanuts": null,
-          "ContainsShellfish": null,
-          "ContainsSoy": null,
-          "ContainsTreeNuts": null,
-          "ContainsWheat": null,
-          "ContainsSesame": null,
-          "IsGlutenFree": false,
-          "IsHalal": false,
-          "IsKosher": true,
-          "IsLocallyGrown": false,
-          "IsOrganic": false,
-          "IsVegan": false,
-          "IsVegetarian": false,
-          "ProductSummaries": [],
-          "PrimaRecipeType": "Drop/Shaped Cookie",
-          "AllergenStatement": "<BR><B>Complete allergen information is not available. Please contact the on-site manager for assistance.</B>",
-          "IngredientStatement": "Ingredient Statement Not Available",
-          "CatalogId": "HE Catalog Set 1_Location",
-          "MinPickupTime": "/Date(1706718536789)/",
-          "MinDeliveryTime": "/Date(1706722136789)/",
-          "StoreId": null,
-          "DeliveryLeadTime": null,
-          "DeliveryLeadTimeFrame": null,
-          "Modifiers": [],
+          "ImageUrl": "/-/media/Food_Images/CulinaryMaster/M20885",
+          "IngredientStatement": "Dough ( ENRICHED UNBLEACHED WHEAT FLOUR (WHEAT FLOUR, NIACIN, IRON  AS FERROUS SULFATE, THIAMINE MONONITRATE, ENZYME, RIBOFLAVIN, FOLIC ACID),  WATER, YEAST, CONTAINS LESS THAN 2% OF THE FOLLOWING: SUGAR, SOYBEAN OIL,  HYDROGENATED SOYBEAN OIL, LEAVENING (BAKING SODA, SODIUM ALUMINUM PHOSPHATE),  SALT, BUTTERMILK, WHEAT GLUTEN, LOW-MOISTURE PART-SKIM MOZZARELLA CHEESE  (PASTEURIZED PART SKIM MILK, CHEESE CULTURE, SALT, CALCIUM CHLORIDE, ENZYME),  CHEDDAR CHEESE (MILK, CHEESE CULTURES, SALT, ENZYMES), WHEY POWDER (A MILK  DERIVATIVE), GUAR GUM, XANTHAN GUM, SOYBEAN OIL, GARLIC POWDER, DATEM, MALTED  BARLEY FLOUR, DEXTROSE, ENZYME, ASCORBIC ACID, SODIUM PHOSPHATE, LACTIC ACID.), Cheddar Cheese (Monterey Jack Cheese (Pasteurized Milk, Cheese Culture, Salt, Enzymes), Cheddar Cheese (Pasteurized Milk, Cheese Culture, Salt, Enzymes, Annatto [Color] If Colored). Potato Starch And Powdered Cellulose Added To Prevent Caking.), Pizza Sauce (TOMATOES, SEA SALT, DRIED LEAF BASIL.), Onion, Pork Sausage Topping (Pork, water, spices, salt, sugar, flavoring.), Jalapeno Chili Peppers, Vegetable Oil Blend (May contain one or more of the following: Soybean, Canola, Corn, Sunflower Oil; Olive Oil; Colorant: Beta-Carotene E160a(i)), Black Pepper",
+          "IsBulkProduct": false,
+          "MarketingName": "Onion, Jalapeno & Sausage Pizza",
+          "NutritionalTree": [
+            {
+              "Name": "Calories",
+              "SubList": null,
+              "Unit": null,
+              "Value": "430"
+            },
+            {
+              "Name": "Total Fat",
+              "SubList": [
+                {
+                  "Name": "Saturated Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "9"
+                },
+                {
+                  "Name": "Trans Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "0"
+                }
+              ],
+              "Unit": "g",
+              "Value": "19"
+            },
+            {
+              "Name": "Cholesterol",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": "35"
+            },
+            {
+              "Name": "Sodium",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": "1070"
+            },
+            {
+              "Name": "Total Carbohydrates",
+              "SubList": [
+                {
+                  "Name": "Dietary Fiber",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "3"
+                },
+                {
+                  "Name": "Total Sugars",
+                  "SubList": [
+                    {
+                      "Name": "Includes Added Sugars",
+                      "SubList": null,
+                      "Unit": "g",
+                      "Value": "2"
+                    }
+                  ],
+                  "Unit": "g",
+                  "Value": "5"
+                }
+              ],
+              "Unit": "g",
+              "Value": "49"
+            },
+            {
+              "Name": "Protein",
+              "SubList": null,
+              "Unit": "g",
+              "Value": "17"
+            }
+          ],
           "PayPalEnabled": false,
+          "ProductId": "M20885_3056",
           "ServingSize": "1",
-          "ServingUnit": "cookie",
-          "Calories": "120",
-          "CaloriesFromFat": "40",
-          "TotalFat": "4.5",
-          "TransFat": "0",
-          "Cholesterol": "less than 5",
-          "Sodium": "115",
-          "TotalCarbohydrates": "18",
-          "DietaryFiber": "less than 1",
-          "Sugars": "10",
-          "Protein": "1",
-          "VitaminA": null,
-          "VitaminC": "0.08",
-          "Calcium": "7.78",
-          "Iron": "1.20",
-          "SaturatedFat": "2"
+          "ServingUnit": "/8 cut",
+          "ShortDescription": "Caramelized onions, jalapenos, sausage, cheddar and pizza sauce on a golden brown crust"
         },
-        "IsDeemphasized": false,
-        "HasDeliverySlotInSchedule": false,
-        "IsUserFavorite": false
+        "ProductId": "M20885_3056",
+        "StationId": "23991"
       },
       {
-        "MenuProductId": "{61f618bb-11e8-454d-bcd7-b6114aed39c1}",
-        "PeriodId": "108",
-        "StationId": "32804",
-        "StationRank": 0,
-        "MenuId": null,
-        "AssignedDate": "2024-01-17T00:00:00",
-        "IsTopPurchased": false,
-        "ProductId": "M41561_3314",
+        "AssignedDate": "2025-05-20T00:00:00",
         "CatalogId": "HE Catalog Set 1_Location",
+        "HasDeliverySlotInSchedule": false,
+        "IsDeemphasized": false,
+        "IsTopPurchased": false,
+        "IsUserFavorite": false,
+        "MenuProductId": "{66fa3acf-faf2-4f50-b2ea-3beaced0adf1}",
         "Product": {
-          "ProductId": "M41561_3314",
-          "DisplayName": null,
-          "MarketingName": "Sugar Cookie",
-          "Description": "",
-          "ShortDescription": "Sugar cookie made with plant-based butter & made-without-gluten flour",
-          "ImageUrl": "/-/media/Food_Images/CulinaryMaster/M41561",
-          "CurrentPrice": 0,
-          "CurrentPriceCulture": "$0.00",
-          "CurrencyCulture": "en-us",
+          "AllergenStatement": "<BR><B>Contains: </B>Milk, Wheat",
+          "AvailableFilters": {
+            "ContainsEggs": false,
+            "ContainsFish": false,
+            "ContainsMilk": true,
+            "ContainsPeanuts": false,
+            "ContainsSesame": false,
+            "ContainsShellfish": false,
+            "ContainsSoy": false,
+            "ContainsTreeNuts": false,
+            "ContainsWheat": true
+          },
+          "Calories": "370",
           "Categories": [
             {
-              "CategoryId": "Desserts_3314",
-              "DisplayName": "Desserts",
-              "ImageUrl": null,
-              "Description": null,
-              "MenuRanking": 30
+              "CategoryId": "Pizza_3056",
+              "DisplayName": "Pizza"
             }
           ],
+          "CurrentPrice": null,
+          "CurrentPriceCulture": null,
+          "Description": "",
           "DietaryInformation": [],
-          "BrandId": null,
-          "LocationId": "3314",
-          "IsBulkProduct": false,
-          "Variants": [],
+          "DisplayName": null,
           "HasNutritionalInformation": true,
-          "AvailableFilters": {
-            "ContainsEggs": null,
-            "ContainsFish": null,
-            "ContainsMilk": null,
-            "ContainsPeanuts": null,
-            "ContainsSesame": null,
-            "ContainsShellfish": null,
-            "ContainsSoy": null,
-            "ContainsTreeNuts": null,
-            "ContainsWheat": null,
-            "IsGlutenFree": null,
-            "IsHalal": null,
-            "IsKosher": null,
-            "IsLocallyGrown": false,
-            "IsOrganic": false,
-            "IsVegan": false,
-            "IsVegetarian": false
-          },
-          "ContainsEggs": null,
-          "ContainsFish": null,
-          "ContainsMilk": null,
-          "ContainsPeanuts": null,
-          "ContainsShellfish": null,
-          "ContainsSoy": null,
-          "ContainsTreeNuts": null,
-          "ContainsWheat": null,
-          "ContainsSesame": null,
-          "IsGlutenFree": null,
-          "IsHalal": null,
-          "IsKosher": null,
-          "IsLocallyGrown": false,
-          "IsOrganic": false,
-          "IsVegan": false,
-          "IsVegetarian": false,
-          "ProductSummaries": [],
-          "PrimaRecipeType": "Drop/Shaped Cookie",
-          "AllergenStatement": "<BR><B>Complete allergen information is not available. Please contact the on-site manager for assistance.</B>",
-          "IngredientStatement": "Ingredient Statement Not Available",
-          "CatalogId": "HE Catalog Set 1_Location",
-          "MinPickupTime": "/Date(1706718536789)/",
-          "MinDeliveryTime": "/Date(1706722136789)/",
-          "StoreId": null,
-          "DeliveryLeadTime": null,
-          "DeliveryLeadTimeFrame": null,
-          "Modifiers": [],
+          "ImageUrl": "/-/media/Food_Images/CulinaryMaster/M5644",
+          "IngredientStatement": "Dough ( ENRICHED UNBLEACHED WHEAT FLOUR (WHEAT FLOUR, NIACIN, IRON  AS FERROUS SULFATE, THIAMINE MONONITRATE, ENZYME, RIBOFLAVIN, FOLIC ACID),  WATER, YEAST, CONTAINS LESS THAN 2% OF THE FOLLOWING: SUGAR, SOYBEAN OIL,  HYDROGENATED SOYBEAN OIL, LEAVENING (BAKING SODA, SODIUM ALUMINUM PHOSPHATE),  SALT, BUTTERMILK, WHEAT GLUTEN, LOW-MOISTURE PART-SKIM MOZZARELLA CHEESE  (PASTEURIZED PART SKIM MILK, CHEESE CULTURE, SALT, CALCIUM CHLORIDE, ENZYME),  CHEDDAR CHEESE (MILK, CHEESE CULTURES, SALT, ENZYMES), WHEY POWDER (A MILK  DERIVATIVE), GUAR GUM, XANTHAN GUM, SOYBEAN OIL, GARLIC POWDER, DATEM, MALTED  BARLEY FLOUR, DEXTROSE, ENZYME, ASCORBIC ACID, SODIUM PHOSPHATE, LACTIC ACID.), Mozzarella Cheese (Low-Moisture Part-Skim Mozzarella Cheese (Pasteurized Part-Skim Milk, Cheese Culture, Salt, Enzymes). Anti-Caking Blend (Potato Starch, Powdered Cellulose).), Pizza Sauce (TOMATOES, SEA SALT, DRIED LEAF BASIL.), Deli Pepperoni (Pork, Beef, Salt, Contains 2% or Less of Dextrose, Flavorings, Lactic Acid Starter Culture, Oleoresin of Paprika, Sodium Nitrite, Spices, BHA, BHT, Citric Acid.)",
+          "IsBulkProduct": false,
+          "MarketingName": "Pepperoni Pizza",
+          "NutritionalTree": [
+            {
+              "Name": "Calories",
+              "SubList": null,
+              "Unit": null,
+              "Value": "370"
+            },
+            {
+              "Name": "Total Fat",
+              "SubList": [
+                {
+                  "Name": "Saturated Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "6"
+                },
+                {
+                  "Name": "Trans Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "0"
+                }
+              ],
+              "Unit": "g",
+              "Value": "12"
+            },
+            {
+              "Name": "Cholesterol",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": "25"
+            },
+            {
+              "Name": "Sodium",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": "930"
+            },
+            {
+              "Name": "Total Carbohydrates",
+              "SubList": [
+                {
+                  "Name": "Dietary Fiber",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "2"
+                },
+                {
+                  "Name": "Total Sugars",
+                  "SubList": [
+                    {
+                      "Name": "Includes Added Sugars",
+                      "SubList": null,
+                      "Unit": "g",
+                      "Value": "2"
+                    }
+                  ],
+                  "Unit": "g",
+                  "Value": "5"
+                }
+              ],
+              "Unit": "g",
+              "Value": "48"
+            },
+            {
+              "Name": "Protein",
+              "SubList": null,
+              "Unit": "g",
+              "Value": "17"
+            }
+          ],
           "PayPalEnabled": false,
+          "ProductId": "M5644_3056",
           "ServingSize": "1",
-          "ServingUnit": "cookie",
+          "ServingUnit": "/8 cut",
+          "ShortDescription": "Generous layer of crispy pepperoni slices atop a rich tomato sauce and melted mozzarella cheese"
+        },
+        "ProductId": "M5644_3056",
+        "StationId": "23991"
+      },
+      {
+        "AssignedDate": "2025-05-20T00:00:00",
+        "CatalogId": "HE Catalog Set 1_Location",
+        "HasDeliverySlotInSchedule": false,
+        "IsDeemphasized": false,
+        "IsTopPurchased": false,
+        "IsUserFavorite": false,
+        "MenuProductId": "{2514b981-6b69-4d73-99e9-fe4533090212}",
+        "Product": {
+          "AllergenStatement": "<BR><B>Contains: </B>Eggs, Milk",
+          "AvailableFilters": {
+            "ContainsEggs": true,
+            "ContainsFish": false,
+            "ContainsMilk": true,
+            "ContainsPeanuts": false,
+            "ContainsSesame": false,
+            "ContainsShellfish": false,
+            "ContainsSoy": false,
+            "ContainsTreeNuts": false,
+            "ContainsWheat": false
+          },
+          "Calories": "200",
+          "Categories": [
+            {
+              "CategoryId": "Cold_Sandwiches_3056",
+              "DisplayName": "Cold Sandwiches"
+            }
+          ],
+          "CurrentPrice": 0.0000,
+          "CurrentPriceCulture": "$0.00",
+          "Description": "",
+          "DietaryInformation": [
+            {
+              "IconUrl": "/-/media/Global/All Divisions/Dietary Information/GlutenFree",
+              "IsEnabled": true,
+              "Name": "Made Without Gluten"
+            }
+          ],
+          "DisplayName": null,
+          "HasNutritionalInformation": true,
+          "ImageUrl": "/-/media/Food_Images/CulinaryMaster/M39852",
+          "IngredientStatement": "Turkey Breast (Turkey Breast, Turkey Broth, Cultured Sugar, Contains 2% or less of Dextrose, Salt, Carrageenan, Potassium Lactate, Vinegar, Potassium Phosphate, Sodium Diacetate, Sodium Erythorbate, Sodium Nitrite.), Whole Wheat Bread (Water, Pea Starch, Modified Tapioca Starch, Rice Starch, Canola Oil, Rice Flour, Sorghum Flour, Tapioca Starch, Invert Cane Syrup, Cane Sugar, Dried Egg Whites,Less Than 2% Of: Modified Cellulose, Salt, Cultured Brown Rice, Yeast, Guar Gum, Xanthan Gum, Brown Rice Flour, Enzymes.), Tomato, Lettuce, American Cheese (American Cheese (Milk, Cheese Culture, Salt, Enzymes), Water, Cream, Potassium Citrate, Sodium Citrate, Sorbic Acid As A Preservative, Color Added, Sunflower Lecithin (Release Agent).)",
+          "IsBulkProduct": false,
+          "MarketingName": "Turkey & American Sandwich",
+          "NutritionalTree": [
+            {
+              "Name": "Calories",
+              "SubList": null,
+              "Unit": null,
+              "Value": "200"
+            },
+            {
+              "Name": "Total Fat",
+              "SubList": [
+                {
+                  "Name": "Saturated Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "2"
+                },
+                {
+                  "Name": "Trans Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "0"
+                }
+              ],
+              "Unit": "g",
+              "Value": "7"
+            },
+            {
+              "Name": "Cholesterol",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": "20"
+            },
+            {
+              "Name": "Sodium",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": "540"
+            },
+            {
+              "Name": "Total Carbohydrates",
+              "SubList": [
+                {
+                  "Name": "Dietary Fiber",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "2"
+                },
+                {
+                  "Name": "Total Sugars",
+                  "SubList": [
+                    {
+                      "Name": "Includes Added Sugars",
+                      "SubList": null,
+                      "Unit": "g",
+                      "Value": "3"
+                    }
+                  ],
+                  "Unit": "g",
+                  "Value": "4"
+                }
+              ],
+              "Unit": "g",
+              "Value": "25"
+            },
+            {
+              "Name": "Protein",
+              "SubList": null,
+              "Unit": "g",
+              "Value": "10"
+            }
+          ],
+          "PayPalEnabled": false,
+          "ProductId": "M39852_3056",
+          "ServingSize": "1",
+          "ServingUnit": "/2 each",
+          "ShortDescription": "Turkey, American, lettuce and tomato on whole wheat"
+        },
+        "ProductId": "M39852_3056",
+        "StationId": "23990"
+      },
+      {
+        "AssignedDate": "2025-05-20T00:00:00",
+        "CatalogId": "HE Catalog Set 1_Location",
+        "HasDeliverySlotInSchedule": false,
+        "IsDeemphasized": false,
+        "IsTopPurchased": false,
+        "IsUserFavorite": false,
+        "MenuProductId": "{feb572ec-8fc3-4549-a7d6-68853b82ee1b}",
+        "Product": {
+          "AllergenStatement": "<BR><B>Contains: </B>",
+          "AvailableFilters": {
+            "ContainsEggs": false,
+            "ContainsFish": false,
+            "ContainsMilk": false,
+            "ContainsPeanuts": false,
+            "ContainsSesame": false,
+            "ContainsShellfish": false,
+            "ContainsSoy": false,
+            "ContainsTreeNuts": false,
+            "ContainsWheat": false
+          },
+          "Calories": "70",
+          "Categories": [
+            {
+              "CategoryId": "Sides_3056",
+              "DisplayName": "Sides"
+            }
+          ],
+          "CurrentPrice": null,
+          "CurrentPriceCulture": null,
+          "Description": "",
+          "DietaryInformation": [
+            {
+              "IconUrl": "/-/media/Global/All Divisions/Dietary Information/Vegan",
+              "IsEnabled": true,
+              "Name": "Vegan"
+            },
+            {
+              "IconUrl": "/-/media/Global/All Divisions/Dietary Information/GlutenFree",
+              "IsEnabled": true,
+              "Name": "Made Without Gluten"
+            }
+          ],
+          "DisplayName": null,
+          "HasNutritionalInformation": true,
+          "ImageUrl": "/-/media/Food_Images/CulinaryMaster/M10579",
+          "IngredientStatement": "French Fries (Potatoes, Vegetable Oil (Contains One Or More Of The Following Oils: Canola, Soybean, Cottonseed, Sunflower, Corn), Potato Starch - Modified. Contains 2% or less of Dextrin, Dextrose, Leavening (Sodium Acid Pyrophosphate, Sodium Bicarbonate), Pea Fiber, Pea Protein, Rice Flour, Salt, Sodium Acid Pyrophosphate Added To Maintain Color, Xanthan Gum)",
+          "IsBulkProduct": false,
+          "MarketingName": "Crispy Shoestring French Fries",
+          "NutritionalTree": [
+            {
+              "Name": "Calories",
+              "SubList": null,
+              "Unit": null,
+              "Value": "70"
+            },
+            {
+              "Name": "Total Fat",
+              "SubList": [
+                {
+                  "Name": "Saturated Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "0"
+                },
+                {
+                  "Name": "Trans Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "0"
+                }
+              ],
+              "Unit": "g",
+              "Value": "2"
+            },
+            {
+              "Name": "Cholesterol",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": "0"
+            },
+            {
+              "Name": "Sodium",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": "240"
+            },
+            {
+              "Name": "Total Carbohydrates",
+              "SubList": [
+                {
+                  "Name": "Dietary Fiber",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "less than 1"
+                },
+                {
+                  "Name": "Total Sugars",
+                  "SubList": [
+                    {
+                      "Name": "Includes Added Sugars",
+                      "SubList": null,
+                      "Unit": "g",
+                      "Value": "0"
+                    }
+                  ],
+                  "Unit": "g",
+                  "Value": "0"
+                }
+              ],
+              "Unit": "g",
+              "Value": "13"
+            },
+            {
+              "Name": "Protein",
+              "SubList": null,
+              "Unit": "g",
+              "Value": "1"
+            }
+          ],
+          "PayPalEnabled": false,
+          "ProductId": "M10579_3056",
+          "ServingSize": "3",
+          "ServingUnit": "/4 ozw",
+          "ShortDescription": "Piping hot crispy shoestring French fries"
+        },
+        "ProductId": "M10579_3056",
+        "StationId": "23990"
+      },
+      {
+        "AssignedDate": "2025-05-20T00:00:00",
+        "CatalogId": "HE Catalog Set 1_Location",
+        "HasDeliverySlotInSchedule": false,
+        "IsDeemphasized": true,
+        "IsTopPurchased": false,
+        "IsUserFavorite": false,
+        "MenuProductId": "{a2eb82bc-9db1-47a6-826e-de391d435083}",
+        "Product": {
+          "AllergenStatement": "<BR><B>Contains: </B>Eggs",
+          "AvailableFilters": {
+            "ContainsEggs": true,
+            "ContainsFish": false,
+            "ContainsMilk": false,
+            "ContainsPeanuts": false,
+            "ContainsSesame": false,
+            "ContainsShellfish": false,
+            "ContainsSoy": false,
+            "ContainsTreeNuts": false,
+            "ContainsWheat": false
+          },
+          "Calories": "130",
+          "Categories": [
+            {
+              "CategoryId": "Grains_3056",
+              "DisplayName": "Grains "
+            }
+          ],
+          "CurrentPrice": null,
+          "CurrentPriceCulture": null,
+          "Description": "",
+          "DietaryInformation": [
+            {
+              "IconUrl": "/-/media/Global/All Divisions/Dietary Information/Vegetarian",
+              "IsEnabled": true,
+              "Name": "Vegetarian"
+            },
+            {
+              "IconUrl": "/-/media/Global/All Divisions/Dietary Information/GlutenFree",
+              "IsEnabled": true,
+              "Name": "Made Without Gluten"
+            }
+          ],
+          "DisplayName": null,
+          "HasNutritionalInformation": true,
+          "ImageUrl": "/-/media/Food_Images/CulinaryMaster/M14632",
+          "IngredientStatement": "Bread (Water, Pea Starch, Modified Tapioca Starch, Rice Starch, Canola Oil, Rice Flour, Sorghum Flour, Tapioca Starch, Invert Cane Syrup, Cane Sugar, Dried Egg Whites,Less Than 2% Of: Modified Cellulose, Salt, Cultured Brown Rice, Yeast, Guar Gum, Xanthan Gum, Brown Rice Flour, Enzymes.)",
+          "IsBulkProduct": false,
+          "MarketingName": "White Bread (1  slice)",
+          "NutritionalTree": [
+            {
+              "Name": "Calories",
+              "SubList": null,
+              "Unit": null,
+              "Value": "130"
+            },
+            {
+              "Name": "Total Fat",
+              "SubList": [
+                {
+                  "Name": "Saturated Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "0"
+                },
+                {
+                  "Name": "Trans Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "0"
+                }
+              ],
+              "Unit": "g",
+              "Value": "4"
+            },
+            {
+              "Name": "Cholesterol",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": "0"
+            },
+            {
+              "Name": "Sodium",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": "240"
+            },
+            {
+              "Name": "Total Carbohydrates",
+              "SubList": [
+                {
+                  "Name": "Dietary Fiber",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "less than 1"
+                },
+                {
+                  "Name": "Total Sugars",
+                  "SubList": [
+                    {
+                      "Name": "Includes Added Sugars",
+                      "SubList": null,
+                      "Unit": "g",
+                      "Value": "2"
+                    }
+                  ],
+                  "Unit": "g",
+                  "Value": "2"
+                }
+              ],
+              "Unit": "g",
+              "Value": "21"
+            },
+            {
+              "Name": "Protein",
+              "SubList": null,
+              "Unit": "g",
+              "Value": "1"
+            }
+          ],
+          "PayPalEnabled": false,
+          "ProductId": "M14632_3056",
+          "ServingSize": "1",
+          "ServingUnit": "slice",
+          "ShortDescription": "White sandwich bread"
+        },
+        "ProductId": "M14632_3056",
+        "StationId": "23992"
+      },
+      {
+        "AssignedDate": "2025-05-20T00:00:00",
+        "CatalogId": "HE Catalog Set 1_Location",
+        "HasDeliverySlotInSchedule": false,
+        "IsDeemphasized": true,
+        "IsTopPurchased": false,
+        "IsUserFavorite": false,
+        "MenuProductId": "{53b50e4c-1def-4107-a837-ac3d6fc36979}",
+        "Product": {
+          "AllergenStatement": "<BR><B>Contains: </B>Eggs",
+          "AvailableFilters": {
+            "ContainsEggs": true,
+            "ContainsFish": false,
+            "ContainsMilk": false,
+            "ContainsPeanuts": false,
+            "ContainsSesame": false,
+            "ContainsShellfish": false,
+            "ContainsSoy": false,
+            "ContainsTreeNuts": false,
+            "ContainsWheat": false
+          },
+          "Calories": "130",
+          "Categories": [
+            {
+              "CategoryId": "Grains_3056",
+              "DisplayName": "Grains "
+            }
+          ],
+          "CurrentPrice": null,
+          "CurrentPriceCulture": null,
+          "Description": "",
+          "DietaryInformation": [
+            {
+              "IconUrl": "/-/media/Global/All Divisions/Dietary Information/Vegetarian",
+              "IsEnabled": true,
+              "Name": "Vegetarian"
+            },
+            {
+              "IconUrl": "/-/media/Global/All Divisions/Dietary Information/GlutenFree",
+              "IsEnabled": true,
+              "Name": "Made Without Gluten"
+            }
+          ],
+          "DisplayName": null,
+          "HasNutritionalInformation": true,
+          "ImageUrl": "/-/media/Food_Images/CulinaryMaster/M14633",
+          "IngredientStatement": "Whole Wheat Bread (Water, Pea Starch, Modified Tapioca Starch, Rice Starch, Canola Oil, Rice Flour, Sorghum Flour, Tapioca Starch, Invert Cane Syrup, Cane Sugar, Dried Egg Whites,Less Than 2% Of: Modified Cellulose, Salt, Cultured Brown Rice, Yeast, Guar Gum, Xanthan Gum, Brown Rice Flour, Enzymes.)",
+          "IsBulkProduct": false,
+          "MarketingName": "Whole Wheat Bread (1  slice)",
+          "NutritionalTree": [
+            {
+              "Name": "Calories",
+              "SubList": null,
+              "Unit": null,
+              "Value": "130"
+            },
+            {
+              "Name": "Total Fat",
+              "SubList": [
+                {
+                  "Name": "Saturated Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "0"
+                },
+                {
+                  "Name": "Trans Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "0"
+                }
+              ],
+              "Unit": "g",
+              "Value": "4"
+            },
+            {
+              "Name": "Cholesterol",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": "0"
+            },
+            {
+              "Name": "Sodium",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": "240"
+            },
+            {
+              "Name": "Total Carbohydrates",
+              "SubList": [
+                {
+                  "Name": "Dietary Fiber",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "less than 1"
+                },
+                {
+                  "Name": "Total Sugars",
+                  "SubList": [
+                    {
+                      "Name": "Includes Added Sugars",
+                      "SubList": null,
+                      "Unit": "g",
+                      "Value": "2"
+                    }
+                  ],
+                  "Unit": "g",
+                  "Value": "2"
+                }
+              ],
+              "Unit": "g",
+              "Value": "21"
+            },
+            {
+              "Name": "Protein",
+              "SubList": null,
+              "Unit": "g",
+              "Value": "1"
+            }
+          ],
+          "PayPalEnabled": false,
+          "ProductId": "M14633_3056",
+          "ServingSize": "1",
+          "ServingUnit": "slice",
+          "ShortDescription": "Whole wheat sandwich bread"
+        },
+        "ProductId": "M14633_3056",
+        "StationId": "23992"
+      },
+      {
+        "AssignedDate": "2025-05-20T00:00:00",
+        "CatalogId": "HE Catalog Set 1_Location",
+        "HasDeliverySlotInSchedule": false,
+        "IsDeemphasized": true,
+        "IsTopPurchased": false,
+        "IsUserFavorite": false,
+        "MenuProductId": "{cf77adf3-6406-4119-affd-33a082c162b3}",
+        "Product": {
+          "AllergenStatement": "<BR><B>Complete allergen information is not available. Please contact the on-site manager for assistance.</B>",
+          "AvailableFilters": {
+            "Eggs": null,
+            "Fish": null,
+            "Milk": null,
+            "Peanuts": null,
+            "Sesame": null,
+            "Shellfish": null,
+            "Soy": null,
+            "Tree Nuts": null,
+            "Wheat": null
+          },
+          "Calories": null,
+          "Categories": [
+            {
+              "CategoryId": "Condiments_3056",
+              "DisplayName": "Condiments"
+            }
+          ],
+          "CurrentPrice": null,
+          "CurrentPriceCulture": null,
+          "Description": "",
+          "DietaryInformation": [],
+          "DisplayName": null,
+          "HasNutritionalInformation": false,
+          "ImageUrl": "/-/media/Food_Images/CulinaryMaster/M19240",
+          "IngredientStatement": "Jelly",
+          "IsBulkProduct": false,
+          "MarketingName": "Grape Jelly",
+          "NutritionalTree": [
+            {
+              "Name": "Calories",
+              "SubList": null,
+              "Unit": null,
+              "Value": null
+            },
+            {
+              "Name": "Total Fat",
+              "SubList": [
+                {
+                  "Name": "Saturated Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": null
+                },
+                {
+                  "Name": "Trans Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": null
+                }
+              ],
+              "Unit": "g",
+              "Value": null
+            },
+            {
+              "Name": "Cholesterol",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": null
+            },
+            {
+              "Name": "Sodium",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": null
+            },
+            {
+              "Name": "Total Carbohydrates",
+              "SubList": [
+                {
+                  "Name": "Dietary Fiber",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": null
+                },
+                {
+                  "Name": "Total Sugars",
+                  "SubList": [
+                    {
+                      "Name": "Includes Added Sugars",
+                      "SubList": null,
+                      "Unit": "g",
+                      "Value": null
+                    }
+                  ],
+                  "Unit": "g",
+                  "Value": null
+                }
+              ],
+              "Unit": "g",
+              "Value": null
+            },
+            {
+              "Name": "Protein",
+              "SubList": null,
+              "Unit": "g",
+              "Value": null
+            }
+          ],
+          "PayPalEnabled": false,
+          "ProductId": "M19240_3056",
+          "ServingSize": null,
+          "ServingUnit": null,
+          "ShortDescription": "Grape jelly"
+        },
+        "ProductId": "M19240_3056",
+        "StationId": "23993"
+      },
+      {
+        "AssignedDate": "2025-05-20T00:00:00",
+        "CatalogId": "HE Catalog Set 1_Location",
+        "HasDeliverySlotInSchedule": false,
+        "IsDeemphasized": true,
+        "IsTopPurchased": false,
+        "IsUserFavorite": false,
+        "MenuProductId": "{98a06591-0bed-4396-9abe-cc5afb63f565}",
+        "Product": {
+          "AllergenStatement": "<BR><B>Complete allergen information is not available. Please contact the on-site manager for assistance.</B>",
+          "AvailableFilters": {
+            "ContainsEggs": false,
+            "ContainsFish": false,
+            "ContainsMilk": false,
+            "ContainsPeanuts": false,
+            "ContainsShellfish": false,
+            "ContainsSoy": false,
+            "ContainsTreeNuts": false,
+            "ContainsWheat": false,
+            "Sesame": null
+          },
+          "Calories": null,
+          "Categories": [
+            {
+              "CategoryId": "Condiments_3056",
+              "DisplayName": "Condiments"
+            }
+          ],
+          "CurrentPrice": 0.0000,
+          "CurrentPriceCulture": "$0.00",
+          "Description": "",
+          "DietaryInformation": [
+            {
+              "IconUrl": "/-/media/Global/All Divisions/Dietary Information/Vegan",
+              "IsEnabled": true,
+              "Name": "Vegan"
+            }
+          ],
+          "DisplayName": null,
+          "HasNutritionalInformation": false,
+          "ImageUrl": "/-/media/Food_Images/CulinaryMaster/M35323",
+          "IngredientStatement": "Sunflower Butter (ROASTED SUNFLOWER SEEDS, SUGAR, MONO-DIGLYCERIDES, SALT)",
+          "IsBulkProduct": false,
+          "MarketingName": "SunButter®",
+          "NutritionalTree": [
+            {
+              "Name": "Calories",
+              "SubList": null,
+              "Unit": null,
+              "Value": null
+            },
+            {
+              "Name": "Total Fat",
+              "SubList": [
+                {
+                  "Name": "Saturated Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": null
+                },
+                {
+                  "Name": "Trans Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": null
+                }
+              ],
+              "Unit": "g",
+              "Value": null
+            },
+            {
+              "Name": "Cholesterol",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": null
+            },
+            {
+              "Name": "Sodium",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": null
+            },
+            {
+              "Name": "Total Carbohydrates",
+              "SubList": [
+                {
+                  "Name": "Dietary Fiber",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": null
+                },
+                {
+                  "Name": "Total Sugars",
+                  "SubList": [
+                    {
+                      "Name": "Includes Added Sugars",
+                      "SubList": null,
+                      "Unit": "g",
+                      "Value": null
+                    }
+                  ],
+                  "Unit": "g",
+                  "Value": null
+                }
+              ],
+              "Unit": "g",
+              "Value": null
+            },
+            {
+              "Name": "Protein",
+              "SubList": null,
+              "Unit": "g",
+              "Value": null
+            }
+          ],
+          "PayPalEnabled": false,
+          "ProductId": "M35323_3056",
+          "ServingSize": null,
+          "ServingUnit": null,
+          "ShortDescription": "Sunflower seed spread"
+        },
+        "ProductId": "M35323_3056",
+        "StationId": "23993"
+      },
+      {
+        "AssignedDate": "2025-05-20T00:00:00",
+        "CatalogId": "HE Catalog Set 1_Location",
+        "HasDeliverySlotInSchedule": false,
+        "IsDeemphasized": true,
+        "IsTopPurchased": false,
+        "IsUserFavorite": false,
+        "MenuProductId": "{31d76523-0371-40cf-a852-2ffd2a3cfb91}",
+        "Product": {
+          "AllergenStatement": "<BR><B>Complete allergen information is not available. Please contact the on-site manager for assistance.</B>",
+          "AvailableFilters": {
+            "Eggs": null,
+            "Fish": null,
+            "Milk": null,
+            "Peanuts": null,
+            "Sesame": null,
+            "Shellfish": null,
+            "Soy": null,
+            "Tree Nuts": null,
+            "Wheat": null
+          },
+          "Calories": null,
+          "Categories": [
+            {
+              "CategoryId": "Condiments_3056",
+              "DisplayName": "Condiments"
+            }
+          ],
+          "CurrentPrice": null,
+          "CurrentPriceCulture": null,
+          "Description": "",
+          "DietaryInformation": [],
+          "DisplayName": null,
+          "HasNutritionalInformation": false,
+          "ImageUrl": "/-/media/Food_Images/CulinaryMaster/M1461",
+          "IngredientStatement": "Cream Cheese, Water",
+          "IsBulkProduct": false,
+          "MarketingName": "Whipped Cream Cheese",
+          "NutritionalTree": [
+            {
+              "Name": "Calories",
+              "SubList": null,
+              "Unit": null,
+              "Value": null
+            },
+            {
+              "Name": "Total Fat",
+              "SubList": [
+                {
+                  "Name": "Saturated Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": null
+                },
+                {
+                  "Name": "Trans Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": null
+                }
+              ],
+              "Unit": "g",
+              "Value": null
+            },
+            {
+              "Name": "Cholesterol",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": null
+            },
+            {
+              "Name": "Sodium",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": null
+            },
+            {
+              "Name": "Total Carbohydrates",
+              "SubList": [
+                {
+                  "Name": "Dietary Fiber",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": null
+                },
+                {
+                  "Name": "Total Sugars",
+                  "SubList": [
+                    {
+                      "Name": "Includes Added Sugars",
+                      "SubList": null,
+                      "Unit": "g",
+                      "Value": null
+                    }
+                  ],
+                  "Unit": "g",
+                  "Value": null
+                }
+              ],
+              "Unit": "g",
+              "Value": null
+            },
+            {
+              "Name": "Protein",
+              "SubList": null,
+              "Unit": "g",
+              "Value": null
+            }
+          ],
+          "PayPalEnabled": false,
+          "ProductId": "M1461_3056",
+          "ServingSize": null,
+          "ServingUnit": null,
+          "ShortDescription": "Fluffy whipped cream cheese"
+        },
+        "ProductId": "M1461_3056",
+        "StationId": "23993"
+      },
+      {
+        "AssignedDate": "2025-05-20T00:00:00",
+        "CatalogId": "HE Catalog Set 1_Location",
+        "HasDeliverySlotInSchedule": false,
+        "IsDeemphasized": false,
+        "IsTopPurchased": false,
+        "IsUserFavorite": false,
+        "MenuProductId": "{432c4aa8-a51e-4b10-8cce-155386d64f4b}",
+        "Product": {
+          "AllergenStatement": "<BR><B>Complete allergen information is not available. Please contact the on-site manager for assistance.</B>",
+          "AvailableFilters": {
+            "Eggs": null,
+            "Fish": null,
+            "Milk": null,
+            "Peanuts": null,
+            "Sesame": null,
+            "Shellfish": null,
+            "Soy": null,
+            "Tree Nuts": null,
+            "Wheat": null
+          },
+          "Calories": "330",
+          "Categories": [
+            {
+              "CategoryId": "Entrées_3056",
+              "DisplayName": "Entrées"
+            }
+          ],
+          "CurrentPrice": 0.0000,
+          "CurrentPriceCulture": "$0.00",
+          "Description": "",
+          "DietaryInformation": [],
+          "DisplayName": null,
+          "HasNutritionalInformation": true,
+          "ImageUrl": "/-/media/Food_Images/CulinaryMaster/L365738",
+          "IngredientStatement": "Ingredient Statement Not Available",
+          "IsBulkProduct": false,
+          "MarketingName": "Popcorn Chicken",
+          "NutritionalTree": [
+            {
+              "Name": "Calories",
+              "SubList": null,
+              "Unit": null,
+              "Value": "330"
+            },
+            {
+              "Name": "Total Fat",
+              "SubList": [
+                {
+                  "Name": "Saturated Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "3"
+                },
+                {
+                  "Name": "Trans Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "0"
+                }
+              ],
+              "Unit": "g",
+              "Value": "17"
+            },
+            {
+              "Name": "Cholesterol",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": "55"
+            },
+            {
+              "Name": "Sodium",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": "1120"
+            },
+            {
+              "Name": "Total Carbohydrates",
+              "SubList": [
+                {
+                  "Name": "Dietary Fiber",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "less than 1"
+                },
+                {
+                  "Name": "Total Sugars",
+                  "SubList": [
+                    {
+                      "Name": "Includes Added Sugars",
+                      "SubList": null,
+                      "Unit": "g",
+                      "Value": null
+                    }
+                  ],
+                  "Unit": "g",
+                  "Value": "0"
+                }
+              ],
+              "Unit": "g",
+              "Value": "24"
+            },
+            {
+              "Name": "Protein",
+              "SubList": null,
+              "Unit": "g",
+              "Value": "20"
+            }
+          ],
+          "PayPalEnabled": false,
+          "ProductId": "L365738_3056",
+          "ServingSize": "5",
+          "ServingUnit": "ozw",
+          "ShortDescription": "Fried popcorn chicken bites"
+        },
+        "ProductId": "L365738_3056",
+        "StationId": "23990"
+      },
+      {
+        "AssignedDate": "2025-05-20T00:00:00",
+        "CatalogId": "HE Catalog Set 1_Location",
+        "HasDeliverySlotInSchedule": false,
+        "IsDeemphasized": false,
+        "IsTopPurchased": false,
+        "IsUserFavorite": false,
+        "MenuProductId": "{7d8cf7a5-cdfa-4748-b08e-8cd6d7dc7fd6}",
+        "Product": {
+          "AllergenStatement": "<BR><B>Complete allergen information is not available. Please contact the on-site manager for assistance.</B>",
+          "AvailableFilters": {
+            "Eggs": null,
+            "Fish": null,
+            "Milk": null,
+            "Peanuts": null,
+            "Sesame": null,
+            "Shellfish": null,
+            "Soy": null,
+            "Tree Nuts": null,
+            "Wheat": null
+          },
           "Calories": "180",
-          "CaloriesFromFat": "60",
-          "TotalFat": "7",
-          "TransFat": "0",
-          "Cholesterol": "0",
-          "Sodium": "45",
-          "TotalCarbohydrates": "15",
-          "DietaryFiber": "0",
-          "Sugars": "13",
-          "Protein": "1",
-          "VitaminA": null,
-          "VitaminC": "0.00",
-          "Calcium": "23.06",
-          "Iron": "0.21",
-          "SaturatedFat": "4.5"
+          "Categories": [
+            {
+              "CategoryId": "Desserts_3056",
+              "DisplayName": "Desserts"
+            }
+          ],
+          "CurrentPrice": 0.0000,
+          "CurrentPriceCulture": "$0.00",
+          "Description": "",
+          "DietaryInformation": [],
+          "DisplayName": null,
+          "HasNutritionalInformation": true,
+          "ImageUrl": "/-/media/Food_Images/CulinaryMaster/M41561",
+          "IngredientStatement": "Rice Flour, Plant Based Butter Spread, Granulated Sugar, Brown Sugar, Plant Based Egg, Water, Pure Vanilla Extract, Baking Soda, Kosher Salt, Baking Powder",
+          "IsBulkProduct": false,
+          "MarketingName": "Sugar Cookie",
+          "NutritionalTree": [
+            {
+              "Name": "Calories",
+              "SubList": null,
+              "Unit": null,
+              "Value": "180"
+            },
+            {
+              "Name": "Total Fat",
+              "SubList": [
+                {
+                  "Name": "Saturated Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "4.5"
+                },
+                {
+                  "Name": "Trans Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "0"
+                }
+              ],
+              "Unit": "g",
+              "Value": "7"
+            },
+            {
+              "Name": "Cholesterol",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": "0"
+            },
+            {
+              "Name": "Sodium",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": "50"
+            },
+            {
+              "Name": "Total Carbohydrates",
+              "SubList": [
+                {
+                  "Name": "Dietary Fiber",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "less than 1"
+                },
+                {
+                  "Name": "Total Sugars",
+                  "SubList": [
+                    {
+                      "Name": "Includes Added Sugars",
+                      "SubList": null,
+                      "Unit": "g",
+                      "Value": "0"
+                    }
+                  ],
+                  "Unit": "g",
+                  "Value": "13"
+                }
+              ],
+              "Unit": "g",
+              "Value": "26"
+            },
+            {
+              "Name": "Protein",
+              "SubList": null,
+              "Unit": "g",
+              "Value": "2"
+            }
+          ],
+          "PayPalEnabled": false,
+          "ProductId": "M41561_3056",
+          "ServingSize": "1",
+          "ServingUnit": "cookie",
+          "ShortDescription": "Sugar cookie made with plant-based butter & made-without-gluten flour"
         },
-        "IsDeemphasized": false,
+        "ProductId": "M41561_3056",
+        "StationId": "23994"
+      },
+      {
+        "AssignedDate": "2025-05-20T00:00:00",
+        "CatalogId": "HE Catalog Set 1_Location",
         "HasDeliverySlotInSchedule": false,
-        "IsUserFavorite": false
+        "IsDeemphasized": false,
+        "IsTopPurchased": false,
+        "IsUserFavorite": false,
+        "MenuProductId": "{c3c53eef-47fa-4cfe-ba23-cddd069582c7}",
+        "Product": {
+          "AllergenStatement": "<BR><B>Complete allergen information is not available. Please contact the on-site manager for assistance.</B>",
+          "AvailableFilters": {
+            "Eggs": null,
+            "Fish": null,
+            "Milk": null,
+            "Peanuts": null,
+            "Sesame": null,
+            "Shellfish": null,
+            "Soy": null,
+            "Tree Nuts": null,
+            "Wheat": null
+          },
+          "Calories": "310",
+          "Categories": [
+            {
+              "CategoryId": "Breads_3056",
+              "DisplayName": "Breads"
+            }
+          ],
+          "CurrentPrice": 0.0000,
+          "CurrentPriceCulture": "$0.00",
+          "Description": "",
+          "DietaryInformation": [],
+          "DisplayName": null,
+          "HasNutritionalInformation": true,
+          "ImageUrl": "/-/media/Food_Images/CulinaryMaster/M33040",
+          "IngredientStatement": "Gluten Free Bagel",
+          "IsBulkProduct": false,
+          "MarketingName": "Plain Bagel",
+          "NutritionalTree": [
+            {
+              "Name": "Calories",
+              "SubList": null,
+              "Unit": null,
+              "Value": "310"
+            },
+            {
+              "Name": "Total Fat",
+              "SubList": [
+                {
+                  "Name": "Saturated Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "0.5"
+                },
+                {
+                  "Name": "Trans Fat",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "0"
+                }
+              ],
+              "Unit": "g",
+              "Value": "9"
+            },
+            {
+              "Name": "Cholesterol",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": "0"
+            },
+            {
+              "Name": "Sodium",
+              "SubList": null,
+              "Unit": "mg",
+              "Value": "480"
+            },
+            {
+              "Name": "Total Carbohydrates",
+              "SubList": [
+                {
+                  "Name": "Dietary Fiber",
+                  "SubList": null,
+                  "Unit": "g",
+                  "Value": "less than 1"
+                },
+                {
+                  "Name": "Total Sugars",
+                  "SubList": [
+                    {
+                      "Name": "Includes Added Sugars",
+                      "SubList": null,
+                      "Unit": "g",
+                      "Value": "5"
+                    }
+                  ],
+                  "Unit": "g",
+                  "Value": "6"
+                }
+              ],
+              "Unit": "g",
+              "Value": "47"
+            },
+            {
+              "Name": "Protein",
+              "SubList": null,
+              "Unit": "g",
+              "Value": "8"
+            }
+          ],
+          "PayPalEnabled": false,
+          "ProductId": "M33040_3056",
+          "ServingSize": "1",
+          "ServingUnit": "each",
+          "ShortDescription": "Plain bagel"
+        },
+        "ProductId": "M33040_3056",
+        "StationId": "23992"
       }
     ],
     "MenuStations": [
       {
-        "StationId": "32802",
-        "StationRank": 1,
-        "Name": "Ember/Grill",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
+        "Name": "Home",
         "PeriodId": "49",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "23989",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 1
       },
       {
-        "StationId": "32802",
-        "StationRank": 1,
-        "Name": "Ember/Grill",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
+        "Name": "Home",
         "PeriodId": "106",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "23989",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 1
       },
       {
-        "StationId": "32802",
-        "StationRank": 1,
-        "Name": "Ember/Grill",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
+        "Name": "Home",
         "PeriodId": "107",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "23989",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 1
       },
       {
-        "StationId": "32802",
-        "StationRank": 1,
-        "Name": "Ember/Grill",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
-        "PeriodId": "1180",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32802",
-        "StationRank": 1,
-        "Name": "Ember/Grill",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "2651",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32802",
-        "StationRank": 1,
-        "Name": "Ember/Grill",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "3818",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32802",
-        "StationRank": 1,
-        "Name": "Ember/Grill",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "3819",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32801",
-        "StationRank": 2,
-        "Name": "Grubb/ Mainline",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "49",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32801",
-        "StationRank": 2,
-        "Name": "Grubb/ Mainline",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "106",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32801",
-        "StationRank": 2,
-        "Name": "Grubb/ Mainline",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "107",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32801",
-        "StationRank": 2,
-        "Name": "Grubb/ Mainline",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
+        "Name": "Home",
         "PeriodId": "108",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "23989",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 1
       },
       {
-        "StationId": "32801",
-        "StationRank": 2,
-        "Name": "Grubb/ Mainline",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
-        "PeriodId": "1180",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32801",
-        "StationRank": 2,
-        "Name": "Grubb/ Mainline",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
+        "Name": "Home",
         "PeriodId": "2651",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "23989",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 1
       },
       {
-        "StationId": "32801",
-        "StationRank": 2,
-        "Name": "Grubb/ Mainline",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
-        "PeriodId": "3818",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32801",
-        "StationRank": 2,
-        "Name": "Grubb/ Mainline",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "3819",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32806",
-        "StationRank": 3,
-        "Name": "Hearth/Pizza",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "49",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32806",
-        "StationRank": 3,
-        "Name": "Hearth/Pizza",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
+        "Name": "Fire & Ice",
         "PeriodId": "106",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "23997",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 5
       },
       {
-        "StationId": "32806",
-        "StationRank": 3,
-        "Name": "Hearth/Pizza",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
+        "Name": "Fire & Ice",
         "PeriodId": "107",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "23997",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 5
       },
       {
-        "StationId": "32806",
-        "StationRank": 3,
-        "Name": "Hearth/Pizza",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
-        "PeriodId": "1180",
+        "Name": "Noodle Bar",
+        "PeriodId": "49",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "23995",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 6
       },
       {
-        "StationId": "32806",
-        "StationRank": 3,
-        "Name": "Hearth/Pizza",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
+        "Name": "Noodle Bar",
+        "PeriodId": "106",
+        "StationDescription": "",
+        "StationId": "23995",
+        "StationImagePath": null,
+        "StationRank": 6
+      },
+      {
+        "CollapseDeemphasized": false,
+        "DisplayDeemphasizedType": 1,
+        "Name": "Noodle Bar",
+        "PeriodId": "107",
+        "StationDescription": "",
+        "StationId": "23995",
+        "StationImagePath": null,
+        "StationRank": 6
+      },
+      {
+        "CollapseDeemphasized": false,
+        "DisplayDeemphasizedType": 1,
+        "Name": "The Twisted Root",
+        "PeriodId": "49",
+        "StationDescription": "",
+        "StationId": "23996",
+        "StationImagePath": null,
+        "StationRank": 7
+      },
+      {
+        "CollapseDeemphasized": false,
+        "DisplayDeemphasizedType": 1,
+        "Name": "The Twisted Root",
+        "PeriodId": "106",
+        "StationDescription": "",
+        "StationId": "23996",
+        "StationImagePath": null,
+        "StationRank": 7
+      },
+      {
+        "CollapseDeemphasized": false,
+        "DisplayDeemphasizedType": 1,
+        "Name": "The Twisted Root",
+        "PeriodId": "107",
+        "StationDescription": "",
+        "StationId": "23996",
+        "StationImagePath": null,
+        "StationRank": 7
+      },
+      {
+        "CollapseDeemphasized": false,
+        "DisplayDeemphasizedType": 1,
+        "Name": "The Twisted Root",
         "PeriodId": "2651",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "23996",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 7
       },
       {
-        "StationId": "32806",
-        "StationRank": 3,
-        "Name": "Hearth/Pizza",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
-        "PeriodId": "3818",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32806",
-        "StationRank": 3,
-        "Name": "Hearth/Pizza",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "3819",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32808",
-        "StationRank": 5,
-        "Name": "Soups",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "49",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32808",
-        "StationRank": 5,
-        "Name": "Soups",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
+        "Name": "The Farmer's Market (Deli)",
         "PeriodId": "106",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "23992",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 9
       },
       {
-        "StationId": "32808",
-        "StationRank": 5,
-        "Name": "Soups",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
-        "PeriodId": "107",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32808",
-        "StationRank": 5,
-        "Name": "Soups",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
+        "Name": "The Farmer's Market (Deli)",
         "PeriodId": "108",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "23992",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 9
       },
       {
-        "StationId": "32808",
-        "StationRank": 5,
-        "Name": "Soups",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
-        "PeriodId": "1180",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32808",
-        "StationRank": 5,
-        "Name": "Soups",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "2651",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32808",
-        "StationRank": 5,
-        "Name": "Soups",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "3818",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32808",
-        "StationRank": 5,
-        "Name": "Soups",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "3819",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32809",
-        "StationRank": 6,
-        "Name": "The Farm Stand/ Deli",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "106",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32809",
-        "StationRank": 6,
-        "Name": "The Farm Stand/ Deli",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "107",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32809",
-        "StationRank": 6,
-        "Name": "The Farm Stand/ Deli",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "1180",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32809",
-        "StationRank": 6,
-        "Name": "The Farm Stand/ Deli",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "3819",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32805",
-        "StationRank": 7,
-        "Name": "The Farm Stand/ Salad Bar",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
+        "Name": "Sizzle Grill",
         "PeriodId": "49",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "23990",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 16
       },
       {
-        "StationId": "32805",
-        "StationRank": 7,
-        "Name": "The Farm Stand/ Salad Bar",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
+        "Name": "Sizzle Grill",
         "PeriodId": "106",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "23990",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 16
       },
       {
-        "StationId": "32805",
-        "StationRank": 7,
-        "Name": "The Farm Stand/ Salad Bar",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
+        "Name": "Sizzle Grill",
         "PeriodId": "107",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "23990",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 16
       },
       {
-        "StationId": "32805",
-        "StationRank": 7,
-        "Name": "The Farm Stand/ Salad Bar",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
+        "Name": "Sizzle Grill",
         "PeriodId": "108",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "23990",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 16
       },
       {
-        "StationId": "32805",
-        "StationRank": 7,
-        "Name": "The Farm Stand/ Salad Bar",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
-        "PeriodId": "1180",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32805",
-        "StationRank": 7,
-        "Name": "The Farm Stand/ Salad Bar",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "3818",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32805",
-        "StationRank": 7,
-        "Name": "The Farm Stand/ Salad Bar",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "3819",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32810",
-        "StationRank": 8,
-        "Name": "Vegan",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "106",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32810",
-        "StationRank": 8,
-        "Name": "Vegan",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "107",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32810",
-        "StationRank": 8,
-        "Name": "Vegan",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "1180",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32810",
-        "StationRank": 8,
-        "Name": "Vegan",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "3819",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32803",
-        "StationRank": 9,
-        "Name": "Crossroads",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "49",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32803",
-        "StationRank": 9,
-        "Name": "Crossroads",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "106",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32803",
-        "StationRank": 9,
-        "Name": "Crossroads",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "107",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32803",
-        "StationRank": 9,
-        "Name": "Crossroads",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "1180",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32803",
-        "StationRank": 9,
-        "Name": "Crossroads",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
+        "Name": "Sizzle Grill",
         "PeriodId": "2651",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "23990",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 16
       },
       {
-        "StationId": "32803",
-        "StationRank": 9,
-        "Name": "Crossroads",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
-        "PeriodId": "3818",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32803",
-        "StationRank": 9,
-        "Name": "Crossroads",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "3819",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32811",
-        "StationRank": 10,
-        "Name": "Compass",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "106",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32811",
-        "StationRank": 10,
-        "Name": "Compass",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "107",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32811",
-        "StationRank": 10,
-        "Name": "Compass",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "1180",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32811",
-        "StationRank": 10,
-        "Name": "Compass",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
-        "PeriodId": "3819",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32804",
-        "StationRank": 11,
-        "Name": "Honeycakes/Bakery",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
+        "Name": "The Oven",
         "PeriodId": "49",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "23991",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 17
       },
       {
-        "StationId": "32804",
-        "StationRank": 11,
-        "Name": "Honeycakes/Bakery",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
+        "Name": "The Oven",
         "PeriodId": "106",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "23991",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 17
       },
       {
-        "StationId": "32804",
-        "StationRank": 11,
-        "Name": "Honeycakes/Bakery",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
+        "Name": "The Oven",
         "PeriodId": "107",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "23991",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 17
       },
       {
-        "StationId": "32804",
-        "StationRank": 11,
-        "Name": "Honeycakes/Bakery",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
+        "Name": "The Oven",
         "PeriodId": "108",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "23991",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 17
       },
       {
-        "StationId": "32804",
-        "StationRank": 11,
-        "Name": "Honeycakes/Bakery",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
-        "PeriodId": "1180",
-        "StationDescription": "",
-        "StationImageSitecorePath": "",
-        "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
-      },
-      {
-        "StationId": "32804",
-        "StationRank": 11,
-        "Name": "Honeycakes/Bakery",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
-        "CollapseDeemphasized": false,
-        "DisplayDeemphasizedType": 1,
+        "Name": "The Oven",
         "PeriodId": "2651",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "23991",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 17
       },
       {
-        "StationId": "32804",
-        "StationRank": 11,
-        "Name": "Honeycakes/Bakery",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
-        "PeriodId": "3818",
+        "Name": "Farmer's Market (Soups)",
+        "PeriodId": "49",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "30079",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 20
       },
       {
-        "StationId": "32804",
-        "StationRank": 11,
-        "Name": "Honeycakes/Bakery",
-        "Description": null,
-        "ImageUrl": null,
-        "BrandId": null,
-        "BrandName": null,
         "CollapseDeemphasized": false,
         "DisplayDeemphasizedType": 1,
-        "PeriodId": "3819",
+        "Name": "Farmer's Market (Soups)",
+        "PeriodId": "106",
         "StationDescription": "",
-        "StationImageSitecorePath": "",
+        "StationId": "30079",
         "StationImagePath": null,
-        "StationImageSitecorePathExntensionless": ""
+        "StationRank": 20
+      },
+      {
+        "CollapseDeemphasized": false,
+        "DisplayDeemphasizedType": 1,
+        "Name": "Farmer's Market (Soups)",
+        "PeriodId": "107",
+        "StationDescription": "",
+        "StationId": "30079",
+        "StationImagePath": null,
+        "StationRank": 20
+      },
+      {
+        "CollapseDeemphasized": false,
+        "DisplayDeemphasizedType": 1,
+        "Name": "The Bakery",
+        "PeriodId": "49",
+        "StationDescription": "",
+        "StationId": "23994",
+        "StationImagePath": null,
+        "StationRank": 22
+      },
+      {
+        "CollapseDeemphasized": false,
+        "DisplayDeemphasizedType": 1,
+        "Name": "The Bakery",
+        "PeriodId": "106",
+        "StationDescription": "",
+        "StationId": "23994",
+        "StationImagePath": null,
+        "StationRank": 22
+      },
+      {
+        "CollapseDeemphasized": false,
+        "DisplayDeemphasizedType": 1,
+        "Name": "The Bakery",
+        "PeriodId": "107",
+        "StationDescription": "",
+        "StationId": "23994",
+        "StationImagePath": null,
+        "StationRank": 22
+      },
+      {
+        "CollapseDeemphasized": false,
+        "DisplayDeemphasizedType": 1,
+        "Name": "The Bakery",
+        "PeriodId": "108",
+        "StationDescription": "",
+        "StationId": "23994",
+        "StationImagePath": null,
+        "StationRank": 22
+      },
+      {
+        "CollapseDeemphasized": false,
+        "DisplayDeemphasizedType": 1,
+        "Name": "Farmer's Market",
+        "PeriodId": "49",
+        "StationDescription": "",
+        "StationId": "23993",
+        "StationImagePath": null,
+        "StationRank": 34
+      },
+      {
+        "CollapseDeemphasized": false,
+        "DisplayDeemphasizedType": 1,
+        "Name": "Farmer's Market",
+        "PeriodId": "106",
+        "StationDescription": "",
+        "StationId": "23993",
+        "StationImagePath": null,
+        "StationRank": 34
+      },
+      {
+        "CollapseDeemphasized": false,
+        "DisplayDeemphasizedType": 1,
+        "Name": "Farmer's Market",
+        "PeriodId": "107",
+        "StationDescription": "",
+        "StationId": "23993",
+        "StationImagePath": null,
+        "StationRank": 34
+      },
+      {
+        "CollapseDeemphasized": false,
+        "DisplayDeemphasizedType": 1,
+        "Name": "Farmer's Market",
+        "PeriodId": "108",
+        "StationDescription": "",
+        "StationId": "23993",
+        "StationImagePath": null,
+        "StationRank": 34
+      },
+      {
+        "CollapseDeemphasized": false,
+        "DisplayDeemphasizedType": 1,
+        "Name": "PROMOTIONS",
+        "PeriodId": "49",
+        "StationDescription": "",
+        "StationId": "34024",
+        "StationImagePath": null,
+        "StationRank": 37
+      },
+      {
+        "CollapseDeemphasized": false,
+        "DisplayDeemphasizedType": 1,
+        "Name": "PROMOTIONS",
+        "PeriodId": "108",
+        "StationDescription": "",
+        "StationId": "34024",
+        "StationImagePath": null,
+        "StationRank": 37
       }
     ],
-    "ShowCategories": true,
-    "Categories": [
-      {
-        "CategoryId": "Breads_3314",
-        "DisplayName": "Breads",
-        "ImageUrl": null,
-        "Description": null,
-        "MenuRanking": 1
-      },
-      {
-        "CategoryId": "Cereals_3314",
-        "DisplayName": "Cereals",
-        "ImageUrl": null,
-        "Description": null,
-        "MenuRanking": 5
-      },
-      {
-        "CategoryId": "Cold_Beverages_3314",
-        "DisplayName": "Cold Beverages",
-        "ImageUrl": null,
-        "Description": null,
-        "MenuRanking": 7
-      },
-      {
-        "CategoryId": "Condiments_3314",
-        "DisplayName": "Condiments",
-        "ImageUrl": null,
-        "Description": null,
-        "MenuRanking": 8
-      },
-      {
-        "CategoryId": "Dessert_Toppings_3314",
-        "DisplayName": "Dessert Toppings",
-        "ImageUrl": null,
-        "Description": null,
-        "MenuRanking": 18
-      },
-      {
-        "CategoryId": "Desserts_3314",
-        "DisplayName": "Desserts",
-        "ImageUrl": null,
-        "Description": null,
-        "MenuRanking": 20
-      },
-      {
-        "CategoryId": "Grains_3314",
-        "DisplayName": "Grains",
-        "ImageUrl": null,
-        "Description": null,
-        "MenuRanking": 33
-      },
-      {
-        "CategoryId": "Pizza_3314",
-        "DisplayName": "Pizza",
-        "ImageUrl": null,
-        "Description": null,
-        "MenuRanking": 36
-      },
-      {
-        "CategoryId": "Protein_3314",
-        "DisplayName": "Protein",
-        "ImageUrl": null,
-        "Description": null,
-        "MenuRanking": 43
-      },
-      {
-        "CategoryId": "Salads_3314",
-        "DisplayName": "Salads",
-        "ImageUrl": null,
-        "Description": null,
-        "MenuRanking": 58
-      },
-      {
-        "CategoryId": "Sides_3314",
-        "DisplayName": "Sides",
-        "ImageUrl": null,
-        "Description": null,
-        "MenuRanking": 83
-      },
-      {
-        "CategoryId": "Soups_3314",
-        "DisplayName": "Soups",
-        "ImageUrl": null,
-        "Description": null,
-        "MenuRanking": 100
-      },
-      {
-        "CategoryId": "Hot_Sandwiches_3314",
-        "DisplayName": "Hot Sandwiches ",
-        "ImageUrl": null,
-        "Description": null,
-        "MenuRanking": 105
-      },
-      {
-        "CategoryId": "Entrées_3314",
-        "DisplayName": "Entrées",
-        "ImageUrl": null,
-        "Description": null,
-        "MenuRanking": 115
-      }
-    ],
-    "DisplayPriceOnTheMenu": false,
-    "DisplayOnlyCurrentDayMenu": false,
-    "OnlyShowCurrentDaysOnlineOrdering": false,
-    "HideEatWellIconsFromMenu": false,
-    "ImportPrimaIngredients": true,
-    "DisplayFoodPreferenceFilter": true,
-    "MenuSourceSystem": 1,
-    "ShowLegend": true,
-    "DisplayProductImageInFoodOrderingMenu": false,
-    "DisplayProductImageInDailyMenu": false
+    "ShowCategories": false,
+    "SpecialDiets": []
   },
-  "DefaultMenuView": 1,
-  "DisplayOnlyCurrentDayMenu": false,
-  "DisplayWeeklyMenu": true,
-  "DisplayDailyMenu": true,
-  "DisplayFoodOrderMenu": false,
-  "SelectedPeriodName": "Latenight",
-  "DisplayPriceOnTheMenu": false,
-  "HideProductsCalorie": false,
-  "HideProductsNutritional": false,
-  "HideEatWellIconsFromMenu": false,
-  "BottomOfNutritionalAttributes": "Aramark relies on our vendors' allergy warnings and ingredient listings. Because we operate a commercial kitchen where ingredient substitutions, recipe revisions and cross-contact with allergens is possible, Aramark cannot guarantee that any food item will be completely free of allergens.",
-  "CaloriesAdvice": "2,000 calories a day is used for general nutrition advice, but calorie needs vary. Additional nutrition information available upon request.",
-  "EnableAllergenFiltering": false,
-  "AllergensTitle": "Allergens & Intolerances",
-  "SpecialDietsTitle": "Food Preferences",
-  "MenuConfigured": true,
-  "SeeMenuLink": null,
-  "Target": null,
-  "CategoriesTitle": "Categories",
-  "IsCheckoutAndCartEnabled": false,
-  "HideProductsShortDescription": false,
-  "OnlyShowCurrentDaysOnlineOrdering": false,
   "OnlyAllowFutureDaysOnlineOrdering": false,
-  "MinDate": "01/31/2024",
-  "FavoriteProductsModel": null,
-  "LinkToLoginPageWithReturnUrl": "/Login?ReturnUrl=http%3a%2f%2fuci.campusdish.com%2fapi%2fmenu%2fGetMenus%3flocationId%3d3314%26mode%3dDaily%26date%3d1%2f17%2f2024",
-  "MenuFoodOrderingProducts": null,
-  "Legend": {
-    "Items": [],
-    "Link": null,
-    "LinkText": null,
-    "HeaderLinkUrl": null,
-    "TextBeforeLink": null,
-    "TextAfterLink": null
-  },
-  "IsFavorites": false,
-  "IsDaily": true,
-  "IsWeekly": false,
-  "IsFoodOrder": false,
-  "DisplayProductImages": false,
+  "OnlyShowCurrentDaysOnlineOrdering": false,
+  "SelectedPeriodId": "108",
   "ShowAddToCalculatorButton": true,
-  "UserFavoritiesEnabled": false,
-  "CacheKey": "en_GetMenu_l:3314|s:|p:|d:1/17/2024|m:Daily|fm:",
-  "IsCached": false,
-  "Location": {
-    "Contacts": null,
-    "PaymentMethods": null,
-    "PickupTimeLookup": null,
-    "Id": "3314",
-    "ModelName": "Location",
-    "Properties": [
-      {
-        "Key": "Id",
-        "Value": "3314"
-      },
-      {
-        "Key": "Name",
-        "Value": "BRANDYWINE BOARD"
-      },
-      {
-        "Key": "MarketingName",
-        "Value": null
-      },
-      {
-        "Key": "HideProductsCalorie",
-        "Value": false
-      },
-      {
-        "Key": "HideProductsIngredients",
-        "Value": false
-      },
-      {
-        "Key": "HideProductsNutritional",
-        "Value": false
-      },
-      {
-        "Key": "ChannelGroupName",
-        "Value": "Residential"
-      },
-      {
-        "Key": "MenuLabel",
-        "Value": "2,000 calories a day is used for general nutrition advice, but calorie needs vary. Additional nutrition information available upon request."
-      },
-      {
-        "Key": "MenuLabelingOption",
-        "Value": 2
-      },
-      {
-        "Key": "EnableAllergenFiltering",
-        "Value": false
-      },
-      {
-        "Key": "AllergensTitle",
-        "Value": "Allergens & Intolerances"
-      },
-      {
-        "Key": "SpecialDietsTitle",
-        "Value": "Food Preferences"
-      },
-      {
-        "Key": "UnderAllergensHeading",
-        "Value": "Select one or more items below. Items that apply to your selections will be crossed out on the menu. If any items have incomplete or unknown ingredient or allergen information, they will be marked with an asterisk."
-      },
-      {
-        "Key": "UnderSpecialDietsHeading",
-        "Value": "Select one or more options below. Items that match your preferences will be highlighted on the menu."
-      },
-      {
-        "Key": "BottomOfNutritionalAttributes",
-        "Value": "Aramark relies on our vendors' allergy warnings and ingredient listings. Because we operate a commercial kitchen where ingredient substitutions, recipe revisions and cross-contact with allergens is possible, Aramark cannot guarantee that any food item will be completely free of allergens."
-      },
-      {
-        "Key": "CategoriesTitle",
-        "Value": "Categories"
-      },
-      {
-        "Key": "MenuSourceSystem",
-        "Value": 1
-      },
-      {
-        "Key": "OnlyShowCurrentDaysOnlineOrdering",
-        "Value": false
-      },
-      {
-        "Key": "OnlyAllowFutureDaysOnlineOrdering",
-        "Value": false
-      },
-      {
-        "Key": "OnlineOrdering",
-        "Value": false
-      },
-      {
-        "Key": "HideEatWellIconsOnMenus",
-        "Value": false
-      },
-      {
-        "Key": "ImportPrimaIngredients",
-        "Value": null
-      },
-      {
-        "Key": "DisplayFoodPreferenceFilter",
-        "Value": null
-      },
-      {
-        "Key": "DisplayProductImageInDailyMenu",
-        "Value": false
-      },
-      {
-        "Key": "DisplayProductImageInFoodOrderingMenu",
-        "Value": false
-      },
-      {
-        "Key": "FulfillmentPickup",
-        "Value": false
-      },
-      {
-        "Key": "FulfillmentDelivery",
-        "Value": false
-      },
-      {
-        "Key": "ShowEatToExcel",
-        "Value": false
-      },
-      {
-        "Key": "Contacts",
-        "Value": null
-      },
-      {
-        "Key": "PaymentMethods",
-        "Value": null
-      },
-      {
-        "Key": "TimeZoneInformation",
-        "Value": {
-          "Target": {
-            "ModelName": "TimeZoneInformation",
-            "Properties": [
-              {
-                "Key": "DaylightOffset",
-                "Value": 1
-              },
-              {
-                "Key": "DaylightSavingTime",
-                "Value": true
-              },
-              {
-                "Key": "UTCEndDateTime",
-                "Value": "/Date(1730628000000)/"
-              },
-              {
-                "Key": "UTCOffset",
-                "Value": -8
-              },
-              {
-                "Key": "UTCStartDateTime",
-                "Value": "/Date(1710064800000)/"
-              },
-              {
-                "Key": "TZAbbrev",
-                "Value": "PST"
-              }
-            ]
-          },
-          "ModelName": "Microsoft.Commerce.CommerceEntities.Relationship",
-          "Properties": []
-        }
-      },
-      {
-        "Key": "HolidayDates",
-        "Value": []
-      }
-    ],
-    "HideEatWellIconsOnMenus": false,
-    "MerchantId": null,
-    "Email": null,
-    "Phone": null,
-    "GeoCode": null,
-    "Name": "BRANDYWINE BOARD",
-    "MarketingName": null,
-    "ShortName": null,
-    "Line1": null,
-    "Line2": null,
-    "Line3": null,
-    "City": null,
-    "RegionCode": "",
-    "PostalCode": "",
-    "CountryCode": "",
-    "ChannelGroupName": "Residential",
-    "ChannelGroupId": "",
-    "HideProductsNutritional": false,
-    "HideProductsCalorie": false,
-    "HideProductsIngredients": false,
-    "CreditCardProviderVersion": 0,
-    "CreditCardPaymentForm": null,
-    "HostedPaymentRedirectUrl": null,
-    "SessionToken": null,
-    "CreditCardProviderUrl": null,
-    "CreditCardProviderRequestErrorMessage": null,
-    "ClientId": null,
-    "TimeZoneInformation": {
-      "Target": {
-        "ModelName": "TimeZoneInformation",
-        "Properties": [
-          {
-            "Key": "DaylightOffset",
-            "Value": 1
-          },
-          {
-            "Key": "DaylightSavingTime",
-            "Value": true
-          },
-          {
-            "Key": "UTCEndDateTime",
-            "Value": "/Date(1730628000000)/"
-          },
-          {
-            "Key": "UTCOffset",
-            "Value": -8
-          },
-          {
-            "Key": "UTCStartDateTime",
-            "Value": "/Date(1710064800000)/"
-          },
-          {
-            "Key": "TZAbbrev",
-            "Value": "PST"
-          }
-        ]
-      },
-      "ModelName": "Microsoft.Commerce.CommerceEntities.Relationship",
-      "Properties": []
-    },
-    "HolidayDates": [],
-    "DisplayOnlyCurrentDayMenu": false,
-    "DisplayPriceOnTheMenu": false,
-    "ShowPickupDate": false,
-    "ShowPickupTime": false,
-    "ShowRecipientEmail": false,
-    "ShowRecipientPhone": false,
-    "ShowSpecialInstructions": false,
-    "IsPickupTimeForEachMealPeriod": false,
-    "PickupTimeIncrement": 0,
-    "DisplayDailyMenu": null,
-    "DisplayWeeklyMenu": null,
-    "DefaultMenuView": null,
-    "MenuLabel": "2,000 calories a day is used for general nutrition advice, but calorie needs vary. Additional nutrition information available upon request.",
-    "MenuLabelingOption": 2,
-    "EnableAllergenFiltering": false,
-    "UnderSpecialDietsHeading": "Select one or more options below. Items that match your preferences will be highlighted on the menu.",
-    "UnderAllergensHeading": "Select one or more items below. Items that apply to your selections will be crossed out on the menu. If any items have incomplete or unknown ingredient or allergen information, they will be marked with an asterisk.",
-    "AllergensTitle": "Allergens & Intolerances",
-    "SpecialDietsTitle": "Food Preferences",
-    "BottomOfNutritionalAttributes": "Aramark relies on our vendors' allergy warnings and ingredient listings. Because we operate a commercial kitchen where ingredient substitutions, recipe revisions and cross-contact with allergens is possible, Aramark cannot guarantee that any food item will be completely free of allergens.",
-    "PatronManagementSystemID": 0,
-    "LastMenuUpdatedDate": null,
-    "CategoriesTitle": "Categories",
-    "LocationMarketingType": 1,
-    "OrderEmailList": null,
-    "SendOrderEmails": false,
-    "SmsOrderNotifyEnabled": false,
-    "RealTimeOrderNotifyEnabled": false,
-    "MenuSourceSystem": 1,
-    "OnlyShowCurrentDaysOnlineOrdering": false,
-    "OnlyAllowFutureDaysOnlineOrdering": false,
-    "OnlineOrdering": false,
-    "HideProductsShortDescription": false,
-    "ScheduledPaymentNotificationEmailList": null,
-    "SendScheduledPaymentNotifications": false,
-    "DeliveryLeadTime": null,
-    "DeliveryLeadTimeFrame": null,
-    "InternationalShipping": false,
-    "DisplayProductImageInDailyMenu": false,
-    "DisplayProductImageInFoodOrderingMenu": false,
-    "OutletCode": null,
-    "IsOutletCodeActive": false,
-    "DisplayProductImageInEmail": false,
-    "FulfillmentPickup": false,
-    "FulfillmentDelivery": false,
-    "RequestShortBillingAddress": false,
-    "ShowEatToExcel": false
-  },
-  "FulfillmentDelivery": false,
-  "FulfillmentPickup": false,
-  "CartUrl": "/Cart",
-  "PaypalClientId": null
+  "SpecialDietsTitle": "Food Preferences",
+  "StoreIds": null,
+  "UserFavoritiesEnabled": false
 }

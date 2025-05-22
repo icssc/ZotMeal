@@ -10,6 +10,8 @@ describe("parse campus dish", () => {
     expect(() => CampusDishMenuSchema.parse(campusDishResponse)).not.toThrow();
   });
 
+  // TODO: This test will likely always fail, because the schema has changed
+  //       *a lot* since this test was written. 
   it("correctly fails when restaurant is closed", ({ expect }) =>
     expect(() => CampusDishMenuSchema.parse(restaurantClosed)).toThrow());
 });

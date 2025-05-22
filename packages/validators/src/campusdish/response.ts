@@ -13,13 +13,10 @@ export const CampusDishMenuSchema = z.object({
     })
     .min(1),
   Menu: z.object({
-    MenuId: z.string().min(1),
     MenuPeriods: z.array(
       z.object({
         PeriodId: z.string().min(1),
         Name: z.string().min(1),
-        UtcMealPeriodStartTime: z.string().min(1),
-        UtcMealPeriodEndTime: z.string().min(1),
       }),
     ),
     MenuProducts: z.array(MenuProductSchema),
