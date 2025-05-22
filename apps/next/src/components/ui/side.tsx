@@ -14,8 +14,6 @@ import TabsSkeleton from "./skeleton/tabs-skeleton";
 import SelectSkeleton from "./skeleton/select-skeleton";
 
 export default function Side({hall} : {hall : HallEnum}) {
-    // TODO: Determine status dynamically based on open/close times and current time
-    const currentStatus = HallStatusEnum.OPEN;
 
     // Fetch data using tRPC
     const [queryDate] = useState(() => new Date());
@@ -51,59 +49,70 @@ export default function Side({hall} : {hall : HallEnum}) {
       ? (hall === HallEnum.ANTEATERY ? queryResponse.anteatery : queryResponse.brandywine)
       : undefined;
 
-    //TODO: Grey-out the menus that have no stations 
+    //TODO: Grey-out the menus that have no stations
     const currentMenu = hallData?.menus.find(menu =>
       menu.period.name.toLowerCase() === selectedMealTime.toLowerCase()
     );
 
-    const dynamicStations = currentMenu?.stations ?? [];
+    const fetchedStations = currentMenu?.stations ?? [];
 
-    const currentStation = dynamicStations.find(stationEntry =>
+    const currentStation = fetchedStations.find(stationEntry =>
       stationEntry.name.toLowerCase() === selectedStation.toLowerCase()
     );
 
     const dishesForSelectedStation = currentStation?.dishes ?? [];
 
     let availablePeriodTimes: { [mealName: string]: [Date, Date]} = {};
+    let derivedHallStatus: HallStatusEnum = HallStatusEnum.CLOSED; // Default status
 
-    if (hallData?.menus && hallData.menus.length > 0) {
+    if (!isLoading && !isError && hallData?.menus && hallData.menus.length > 0) {
       let earliestOpen: Date | null = null;
       let latestClose: Date | null = null;
 
       hallData.menus.forEach(menu => {
         try {
-          const currentOpen = utcToPacificTime(menu.period.startTime);
-          const currentClose = utcToPacificTime(menu.period.endTime);
+          const periodNameLower = menu.period.name.toLowerCase();
+          const currentPeriodOpenTime = utcToPacificTime(menu.period.startTime);
+          const currentPeriodCloseTime = utcToPacificTime(menu.period.endTime);
 
-          if (menu.period.name == 'Latenight') {
-            currentOpen.setDate(currentOpen.getDate() + 1);
-            currentClose.setDate(currentClose.getDate() + 1);
+          if (periodNameLower === 'latenight') {
+            currentPeriodOpenTime.setDate(currentPeriodOpenTime.getDate() + 1);
+            currentPeriodCloseTime.setDate(currentPeriodCloseTime.getDate() + 1);
           }
 
-          availablePeriodTimes[menu.period.name.toLowerCase()] = [currentOpen, currentClose];
+          availablePeriodTimes[periodNameLower] = [currentPeriodOpenTime, currentPeriodCloseTime];
 
-          if (!earliestOpen || currentOpen < earliestOpen) {
-            earliestOpen = currentOpen;
+          if (!earliestOpen || currentPeriodOpenTime < earliestOpen) {
+            earliestOpen = currentPeriodOpenTime;
           }
-          if (!latestClose || currentClose > latestClose) {
-            latestClose = currentClose;
+          if (!latestClose || currentPeriodCloseTime > latestClose) {
+            latestClose = currentPeriodCloseTime;
           }
         } catch (e) {
           console.error("Error parsing time:", e);
         }
       });
+
       openTime = earliestOpen ?? undefined;
       closeTime = latestClose ?? undefined;
+
+      if (openTime === undefined &&  closeTime === undefined)
+        derivedHallStatus = HallStatusEnum.ERROR;
+      else if (queryDate >= openTime! && queryDate < closeTime!)
+        derivedHallStatus = HallStatusEnum.OPEN;
+      else 
+        derivedHallStatus = HallStatusEnum.CLOSED;
     }
     // --- End Derived Data ---
+
 
     // Effect to update selected station when stations change 
     // (e.g., mealtime change or data load)
     useEffect(() => {
-      if (dynamicStations.length > 0) {
-        const firstStationNameLower = dynamicStations[0].name.toLowerCase();
+      if (fetchedStations.length > 0) {
+        const firstStationNameLower = fetchedStations[0].name.toLowerCase();
         // Check if current selection is valid, if not, reset to first
-        const currentSelectionIsValid = dynamicStations.some(s => s.name.toLowerCase() === selectedStation);
+        const currentSelectionIsValid = fetchedStations.some(s => s.name.toLowerCase() === selectedStation);
         if (!currentSelectionIsValid || !selectedStation) {
            setSelectedStation(firstStationNameLower);
         }
@@ -113,7 +122,7 @@ export default function Side({hall} : {hall : HallEnum}) {
       // Dependency array: Run when the list of stations changes or the hall changes
       // Note: Adding selectedStation here would cause infinite loop if resetting.
       // We only want to reset based on the *availability* of stations.
-    }, [dynamicStations, hall]); // Re-run when dynamicStations array identity changes
+    }, [fetchedStations, hall]); // Re-run when dynamicStations array identity changes
 
     return (
       <div className="z-0 flex flex-col h-full overflow-x-hidden">
@@ -156,19 +165,19 @@ export default function Side({hall} : {hall : HallEnum}) {
               </Select>}
               {!isLoading && !isError && openTime && closeTime && // Ensure openTime and closeTime are defined
               <DiningHallStatus
-                status={currentStatus} 
+                status={derivedHallStatus}
                 openTime={openTime.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})}
                 closeTime={closeTime.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})}
               />}
             </div>
-            {!isLoading && !isError && dynamicStations.length > 0 && (
+            {!isLoading && !isError && fetchedStations.length > 0 && (
               <Tabs
                 value={selectedStation}
                 onValueChange={(value) => setSelectedStation(value || '')}
                 className="w-full" 
               >
                   <TabsList className="flex flex-wrap w-full">
-                      {dynamicStations.map((station => {
+                      {fetchedStations.map((station => {
                         return (
                           <TabsTrigger key={station.name} value={station.name.toLowerCase()}>
                             {toTitleCase(station.name)}
@@ -179,7 +188,7 @@ export default function Side({hall} : {hall : HallEnum}) {
               </Tabs>
             )}
             {isLoading && <TabsSkeleton/> /* Tab Skeleton */}
-            {!isLoading && !isError && dynamicStations.length === 0 && (
+            {!isLoading && !isError && fetchedStations.length === 0 && (
                  <p className="text-center text-gray-500 py-2">No stations found for {toTitleCase(selectedMealTime)}.</p>
             )}
           </div>
