@@ -24,10 +24,10 @@ export default function FoodDialogContent(dish: DishInfo) {
       <DialogHeader>
         <div className="flex flex-col gap-6">
           <Image
-            src={"/Zotmeal-Logo.webp"}
+            src={"/zm-card-header.webp"}
             alt={"An image of zotmeal logo."}
-            width={600}
-            height={600}
+            width={1200}
+            height={700}
             className="w-full h-48 object-cover"
           />
           <div className="flex flex-col gap-2">
