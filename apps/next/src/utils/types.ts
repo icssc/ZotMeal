@@ -113,7 +113,8 @@ let meatKeywords: Set<string> = new Set<string>([
   'meat',
   'bacon',
   'salami',
-  'pepperoni'
+  'pepperoni',
+  'carne'
 ]);
 
 /**
@@ -136,7 +137,8 @@ let fruitKeywords: Set<string> = new Set<string>([
   'pineapple',
   'grape',
   'cantaloupe',
-  'melon'
+  'melon',
+  'lemon'
 ]);
 
 /**
@@ -275,8 +277,8 @@ let foodIconKeywords: Set<string>[] = [
   eggKeywords,
   pizzaKeywords,
   sandwichKeywords,
-  meatKeywords,
   saladKeywords,
+  meatKeywords,
   grainAndBreadKeywords,
   fishKeywords,
 ]
@@ -304,8 +306,8 @@ let foodIcons: LucideIconComponent[] = [
   EggFried,
   Pizza,
   Sandwich,
-  Drumstick,
   Salad,
+  Drumstick,
   Wheat,
   FishSymbol
 ];
