@@ -24,8 +24,7 @@ export default function Side({hall} : {hall : HallEnum}) {
 
     let heroImageSrc: string | undefined, heroImageAlt: string | undefined;
     let openTime: Date | undefined, closeTime: Date | undefined;
-    // TODO: Fetch meal times dynamically without relying upon enum and sort
-    const mealTimes = Object.keys(MealTimeEnum).filter(k => isNaN(Number(k))); 
+    let periods: string[] | null = [];
 
     switch (hall) {
       case HallEnum.ANTEATERY:
@@ -38,29 +37,11 @@ export default function Side({hall} : {hall : HallEnum}) {
         break;
     }
 
-    // State for user selections
-    const [selectedMealTime, setSelectedMealTime] = useState(
-      () => (mealTimes[0] || '').toLowerCase()
-    );
-    const [selectedStation, setSelectedStation] = useState<string>(''); // Start empty
 
     // --- Derived Data ---
     const hallData: RestaurantInfo | undefined = !isLoading && !isError && queryResponse
       ? (hall === HallEnum.ANTEATERY ? queryResponse.anteatery : queryResponse.brandywine)
       : undefined;
-
-    //TODO: Grey-out the menus that have no stations
-    const currentMenu = hallData?.menus.find(menu =>
-      menu.period.name.toLowerCase() === selectedMealTime.toLowerCase()
-    );
-
-    const fetchedStations = currentMenu?.stations ?? [];
-
-    const currentStation = fetchedStations.find(stationEntry =>
-      stationEntry.name.toLowerCase() === selectedStation.toLowerCase()
-    );
-
-    const dishesForSelectedStation = currentStation?.dishes ?? [];
 
     let availablePeriodTimes: { [mealName: string]: [Date, Date]} = {};
     let derivedHallStatus: HallStatusEnum = HallStatusEnum.CLOSED; // Default status
@@ -105,24 +86,65 @@ export default function Side({hall} : {hall : HallEnum}) {
     }
     // --- End Derived Data ---
 
+    // Sorts the period keys by time (earliest to latest)
+    periods = Object.keys(availablePeriodTimes).sort((a, b) => {
+      let aOpenTime: Date = availablePeriodTimes[a][0]
+      let bOpenTime: Date = availablePeriodTimes[b][0]
+
+      if (aOpenTime <= bOpenTime)
+        return -1
+      else 
+        return 1
+    });
+
+    const [selectedPeriod, setSelectedPeriod] = useState<string>('');
+    const [selectedStation, setSelectedStation] = useState<string>('');
+
+
+    // Effect to update selectedPeriod when periods data changes
+    useEffect(() => {
+      if (periods.length > 0) {
+        const currentPeriodIsValid = periods.some(p => p.toLowerCase() === selectedPeriod.toLowerCase());
+        if (!currentPeriodIsValid) {
+          setSelectedPeriod(getCurrentPeriod(queryDate, availablePeriodTimes));
+        }
+      } else {
+        setSelectedPeriod('');
+      }
+    }, [periods]); // Rerun when the `periods` array identity changes.
+
+
+    //TODO: Grey-out the menus that have no stations
+    const currentMenu = hallData?.menus.find(menu =>
+      menu.period.name.toLowerCase() === selectedPeriod.toLowerCase()
+    );
+
+    const fetchedStations: RestaurantInfo['menus'][number]['stations'] 
+    = currentMenu?.stations ?? [];
+
+    const currentStation = fetchedStations.find(stationEntry =>
+      stationEntry.name.toLowerCase() === selectedStation.toLowerCase()
+    );
+
+    const dishesForSelectedStation = currentStation?.dishes ?? [];
+
 
     // Effect to update selected station when stations change 
-    // (e.g., mealtime change or data load)
     useEffect(() => {
       if (fetchedStations.length > 0) {
+        // Ensure fetchedStations[0] and its name property exist before accessing
         const firstStationNameLower = fetchedStations[0].name.toLowerCase();
         // Check if current selection is valid, if not, reset to first
         const currentSelectionIsValid = fetchedStations.some(s => s.name.toLowerCase() === selectedStation);
         if (!currentSelectionIsValid || !selectedStation) {
-           setSelectedStation(firstStationNameLower);
+            setSelectedStation(firstStationNameLower);
         }
       } else {
         setSelectedStation('');
       }
-      // Dependency array: Run when the list of stations changes or the hall changes
       // Note: Adding selectedStation here would cause infinite loop if resetting.
       // We only want to reset based on the *availability* of stations.
-    }, [fetchedStations, hall]); // Re-run when dynamicStations array identity changes
+    }, [fetchedStations, hall]); // Re-run when fetchedStations array identity changes
 
     return (
       <div className="z-0 flex flex-col h-full overflow-x-hidden">
@@ -139,14 +161,14 @@ export default function Side({hall} : {hall : HallEnum}) {
             <div className="flex gap-4 w-full">
               {isLoading && <SelectSkeleton/>}
               {!isLoading && !isError && <Select
-                value={selectedMealTime}
-                onValueChange={(value) => setSelectedMealTime(value || '')}
+                value={selectedPeriod}
+                onValueChange={(value) => setSelectedPeriod(value || '')}
               >
                 <SelectTrigger className="w-52">
                   <SelectValue placeholder="Select Meal" />
                 </SelectTrigger>
                 <SelectContent>
-                  {mealTimes.map((time) => {
+                  {periods.map((time) => {
                     const mealTimeKey = time.toLowerCase();
                     const periodTimes = availablePeriodTimes[mealTimeKey]; 
 
@@ -189,7 +211,7 @@ export default function Side({hall} : {hall : HallEnum}) {
             )}
             {isLoading && <TabsSkeleton/> /* Tab Skeleton */}
             {!isLoading && !isError && fetchedStations.length === 0 && (
-                 <p className="text-center text-gray-500 py-2">No stations found for {toTitleCase(selectedMealTime)}.</p>
+                 <p className="text-center text-gray-500 py-2">No stations found for {toTitleCase(selectedPeriod)}.</p>
             )}
           </div>
 
@@ -202,4 +224,16 @@ export default function Side({hall} : {hall : HallEnum}) {
         </div>
       </div>
     )
+}
+
+function getCurrentPeriod(now: Date, periods: { [periodName: string]: [Date, Date] }): string {
+  for (let key in periods) {
+    if (now >= periods[key][0] && now <= periods[key][1])
+      return key
+  }
+
+  return Object.keys(periods)[0]
+}
+
+function selectStationUseEffect(fetchedStations: RestaurantInfo['menus'][number]['stations']) {
 }
