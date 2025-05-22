@@ -149,7 +149,7 @@ export default function Side({hall} : {hall : HallEnum}) {
     return (
       <div className="z-0 flex flex-col h-full overflow-x-hidden">
         <Image 
-          className="object-cover object-bottom w-full min-h-80 max-h-80"
+          className="object-cover object-bottom w-full min-h-[20vh] max-h-[30vh] h-2/5"
           src={heroImageSrc}
           alt={heroImageAlt}
           width={2000}
