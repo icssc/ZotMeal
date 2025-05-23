@@ -12,12 +12,20 @@ import { RestaurantInfo } from "@zotmeal/api"; // Import types
 import { toTitleCase, utcToPacificTime, formatOpenCloseTime } from "@/utils/funcs";
 import TabsSkeleton from "./skeleton/tabs-skeleton";
 import SelectSkeleton from "./skeleton/select-skeleton";
+import { useDate } from "@/context/DateContext";
+import { date } from "zod";
 
-export default function Side({hall} : {hall : HallEnum}) {
+
+export default function Side({hall} : {hall: HallEnum}) {
+    const { selectedDate } = useDate();
+    const today = new Date();
+    const testDate = new Date(2025, 5, 22, 8, 0, 0, 0);
+    
+    console.log(`Selected Date: ${selectedDate}`);
+
     // Fetch data using tRPC
-    const [queryDate] = useState(() => new Date());
     const { data: queryResponse, isLoading, isError, error } = trpc.zotmeal.useQuery(
-      {date: queryDate},
+      {date: testDate},
       {staleTime: 2 * 60 * 60 * 1000} // 2 hour stale time
     );
 
@@ -76,9 +84,11 @@ export default function Side({hall} : {hall : HallEnum}) {
       openTime = earliestOpen ?? undefined;
       closeTime = latestClose ?? undefined;
 
-      if (openTime === undefined &&  closeTime === undefined)
+      if (openTime === undefined && closeTime === undefined)
         derivedHallStatus = HallStatusEnum.ERROR;
-      else if (queryDate >= openTime! && queryDate < closeTime!)
+      else if (today.getDay() != openTime!.getDay())
+        derivedHallStatus = HallStatusEnum.PREVIEW
+      else if (selectedDate! >= openTime! && selectedDate! < closeTime!)
         derivedHallStatus = HallStatusEnum.OPEN;
       else 
         derivedHallStatus = HallStatusEnum.CLOSED;
@@ -99,13 +109,12 @@ export default function Side({hall} : {hall : HallEnum}) {
     const [selectedPeriod, setSelectedPeriod] = useState<string>('');
     const [selectedStation, setSelectedStation] = useState<string>('');
 
-
     // Effect to update selectedPeriod when periods data changes
     useEffect(() => {
       if (periods.length > 0) {
         const currentPeriodIsValid = periods.some(p => p.toLowerCase() === selectedPeriod.toLowerCase());
         if (!currentPeriodIsValid) {
-          setSelectedPeriod(getCurrentPeriod(queryDate, availablePeriodTimes));
+          setSelectedPeriod(getCurrentPeriod(selectedDate!, availablePeriodTimes));
         }
       } else {
         setSelectedPeriod('');
@@ -209,8 +218,11 @@ export default function Side({hall} : {hall : HallEnum}) {
               </Tabs>
             )}
             {isLoading && <TabsSkeleton/> /* Tab Skeleton */}
-            {!isLoading && !isError && fetchedStations.length === 0 && (
+            {!isLoading && !isError && fetchedStations.length === 0 && selectedPeriod && (
                  <p className="text-center text-gray-500 py-2">No stations found for {toTitleCase(selectedPeriod)}.</p>
+            )}
+            {!isLoading && !isError && fetchedStations.length === 0 && !selectedPeriod && (
+                 <p className="text-center text-gray-500 py-2">No stations found.</p>
             )}
           </div>
 
@@ -225,9 +237,14 @@ export default function Side({hall} : {hall : HallEnum}) {
     )
 }
 
-function getCurrentPeriod(now: Date, periods: { [periodName: string]: [Date, Date] }): string {
+function getCurrentPeriod(selectedDate: Date, periods: { [periodName: string]: [Date, Date] }): string {
   for (let key in periods) {
-    if (now >= periods[key][0] && now <= periods[key][1])
+    let periodBegin: Date = periods[key][0];
+    let periodEnd: Date = periods[key][1];
+    let isInRange: boolean = selectedDate >= periods[key][0] && selectedDate <= periods[key][1];
+
+    console.log(`selectedDate: ${selectedDate}\nperiod: ${key}\nperiodBegin: ${periodBegin}\nperiodEnd: ${periodEnd}\ninRange: ${isInRange}`)
+    if (isInRange)
       return key
   }
 

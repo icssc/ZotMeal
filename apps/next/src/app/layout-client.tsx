@@ -5,6 +5,7 @@ import { httpBatchLink } from '@trpc/client';
 import { trpc } from '../utils/trpc';
 import superjson from "superjson";
 import Toolbar from "@/components/ui/toolbar";
+import { DateProvider } from '@/context/DateContext'; 
 
 export function RootClient({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
@@ -12,7 +13,7 @@ export function RootClient({ children }: { children: React.ReactNode }) {
     trpc.createClient({
       links: [
         httpBatchLink({
-          url: 'http://localhost:3000',
+          url: process.env.POSTGRES_DB_URL || 'http://localhost:3000',
           transformer: superjson,
           async headers() {
             return {
@@ -27,8 +28,10 @@ export function RootClient({ children }: { children: React.ReactNode }) {
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <Toolbar />
-        {children}
+        <DateProvider>
+          <Toolbar />
+          {children}
+        </DateProvider>
       </QueryClientProvider>
     </trpc.Provider>
   );

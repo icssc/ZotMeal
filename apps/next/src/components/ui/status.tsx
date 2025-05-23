@@ -8,6 +8,8 @@ function StatusDot({ status } : { status: HallStatusEnum }) {
             return (<div className={`w-2 h-2 rounded-full bg-red-500`}/>)
         case HallStatusEnum.ERROR:
             return (<div className={`w-2 h-2 rounded-full bg-amber-500`}/>)
+        case HallStatusEnum.PREVIEW:
+            return (<div className={`w-2 h-2 rounded-full bg-sky-500`}/>)
     }
 }
 
@@ -34,6 +36,8 @@ function DiningHallStatus({
         case HallStatusEnum.ERROR:
             statusMessage = `Error (Cannot obtain scheduling info)`
             break;
+        case HallStatusEnum.PREVIEW:
+            statusMessage = `Preview`
         default:
             break;
     }

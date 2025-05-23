@@ -16,7 +16,8 @@ enum StatusColors {
 enum HallStatusEnum {
     OPEN,
     CLOSED,
-    ERROR
+    ERROR,
+    PREVIEW
 };
 
 /**
