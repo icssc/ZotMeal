@@ -15,7 +15,7 @@ import SelectSkeleton from "./skeleton/select-skeleton";
 import { useDate } from "@/context/DateContext";
 
 
-export default function Side({hall} : {hall: HallEnum}) {
+export default function Side({hall, isMobile = false} : {hall: HallEnum, isMobile: boolean}) {
     const { selectedDate } = useDate();
     const today = new Date();
 
