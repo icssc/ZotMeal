@@ -9,23 +9,19 @@ import DishesInfo from "./dishes-info";
 import { HallEnum, HallStatusEnum, MealTimeEnum} from "@/utils/types";
 import { trpc } from "@/utils/trpc"; // Import tRPC hook
 import { RestaurantInfo } from "@zotmeal/api"; // Import types
-import { toTitleCase, utcToPacificTime, formatOpenCloseTime } from "@/utils/funcs";
+import { toTitleCase, utcToPacificTime, formatOpenCloseTime, isSameDay } from "@/utils/funcs";
 import TabsSkeleton from "./skeleton/tabs-skeleton";
 import SelectSkeleton from "./skeleton/select-skeleton";
 import { useDate } from "@/context/DateContext";
-import { date } from "zod";
 
 
 export default function Side({hall} : {hall: HallEnum}) {
     const { selectedDate } = useDate();
     const today = new Date();
-    const testDate = new Date(2025, 5, 22, 8, 0, 0, 0);
-    
-    console.log(`Selected Date: ${selectedDate}`);
 
     // Fetch data using tRPC
     const { data: queryResponse, isLoading, isError, error } = trpc.zotmeal.useQuery(
-      {date: testDate},
+      {date: selectedDate!},
       {staleTime: 2 * 60 * 60 * 1000} // 2 hour stale time
     );
 
@@ -66,6 +62,9 @@ export default function Side({hall} : {hall: HallEnum}) {
           if (periodNameLower === 'latenight') {
             currentPeriodOpenTime.setDate(currentPeriodOpenTime.getDate() + 1);
             currentPeriodCloseTime.setDate(currentPeriodCloseTime.getDate() + 1);
+          } else if (selectedDate?.getDay() == today.getDay() && selectedDate.getMonth() == today.getMonth() && selectedDate.getFullYear() == today.getFullYear()) {
+            currentPeriodOpenTime.setDate(today.getDate())
+            currentPeriodCloseTime.setDate(today.getDate())
           }
 
           availablePeriodTimes[periodNameLower] = [currentPeriodOpenTime, currentPeriodCloseTime];
@@ -111,10 +110,13 @@ export default function Side({hall} : {hall: HallEnum}) {
 
     // Effect to update selectedPeriod when periods data changes
     useEffect(() => {
-      if (periods.length > 0) {
+      // Ensure selectedDate is defined and periods are available
+      if (selectedDate && periods.length > 0 && Object.keys(availablePeriodTimes).length > 0) {
         const currentPeriodIsValid = periods.some(p => p.toLowerCase() === selectedPeriod.toLowerCase());
-        if (!currentPeriodIsValid) {
-          setSelectedPeriod(getCurrentPeriod(selectedDate!, availablePeriodTimes));
+        if (!isSameDay(selectedDate, today))
+          setSelectedPeriod(periods[0])
+        else if (!currentPeriodIsValid) {
+          setSelectedPeriod(getCurrentPeriod(selectedDate, availablePeriodTimes));
         }
       } else {
         setSelectedPeriod('');
@@ -241,15 +243,11 @@ function getCurrentPeriod(selectedDate: Date, periods: { [periodName: string]: [
   for (let key in periods) {
     let periodBegin: Date = periods[key][0];
     let periodEnd: Date = periods[key][1];
-    let isInRange: boolean = selectedDate >= periods[key][0] && selectedDate <= periods[key][1];
 
-    console.log(`selectedDate: ${selectedDate}\nperiod: ${key}\nperiodBegin: ${periodBegin}\nperiodEnd: ${periodEnd}\ninRange: ${isInRange}`)
-    if (isInRange)
-      return key
+    if (selectedDate >= periodBegin && selectedDate <= periodEnd)
+      return key;
+
   }
 
-  return Object.keys(periods)[0]
-}
-
-function selectStationUseEffect(fetchedStations: RestaurantInfo['menus'][number]['stations']) {
+  return Object.keys(periods)[0];
 }

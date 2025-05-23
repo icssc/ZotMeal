@@ -165,7 +165,7 @@ function generateGCalLink(title: string, desc: string, location: HallEnum, time:
  */
 function utcToPacificTime(utcTimeString: string): Date {
   const [hours, minutes, seconds] = utcTimeString.split(':').map(Number);
-  const utcDate = new Date()
+  const utcDate = new Date();
   utcDate.setUTCHours(hours);
   utcDate.setUTCMinutes(minutes);
   utcDate.setUTCSeconds(seconds);
@@ -281,6 +281,18 @@ function getFoodIcon(dishName: string): LucideIconComponent {
   return defaultFoodIcon;
 }
 
+/**
+ *  Returns whether or not a and b fall on the same calendar day. 
+ * @param a a date to compare
+ * @param b the other date to compare
+ * @returns a boolean
+ */
+function isSameDay(a: Date, b: Date): boolean {
+  return a.getFullYear() == b.getFullYear()
+         && a.getMonth() == b.getMonth()
+         && a.getDay() == b.getDay()
+}
+
 export {toTitleCase, 
         dateToString, 
         generateGCalLink, 
@@ -291,4 +303,5 @@ export {toTitleCase,
         formatNutrientLabel,
         formatFoodName,
         sortCategoryKeys,
-        getFoodIcon}
+        getFoodIcon,
+        isSameDay}
