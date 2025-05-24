@@ -5,7 +5,7 @@ import { httpBatchLink } from '@trpc/client';
 import { trpc } from '../utils/trpc';
 import superjson from "superjson";
 import Toolbar from "@/components/ui/toolbar";
-import { DateProvider } from '@/context/DateContext'; 
+import { DateProvider } from '@/context/date-context'; 
 
 export function RootClient({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());

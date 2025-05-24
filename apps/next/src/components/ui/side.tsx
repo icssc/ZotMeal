@@ -12,7 +12,7 @@ import { RestaurantInfo } from "@zotmeal/api"; // Import types
 import { toTitleCase, utcToPacificTime, formatOpenCloseTime, isSameDay } from "@/utils/funcs";
 import TabsSkeleton from "./skeleton/tabs-skeleton";
 import SelectSkeleton from "./skeleton/select-skeleton";
-import { useDate } from "@/context/DateContext";
+import { useDate } from "@/context/date-context";
 
 
 export default function Side({hall, isMobile = false} : {hall: HallEnum, isMobile: boolean}) {

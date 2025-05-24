@@ -5,7 +5,7 @@ import { Button } from "./shadcn/button";
 import { Sheet, SheetTrigger } from "./shadcn/sheet";
 import SidebarContent from "./sidebar/sidebar-content";
 import { DatePicker } from "./shadcn/date-picker";
-import { useDate } from "@/context/DateContext";
+import { useDate } from "@/context/date-context";
 
 export default function Toolbar() {
   const { selectedDate, setSelectedDate } = useDate();
