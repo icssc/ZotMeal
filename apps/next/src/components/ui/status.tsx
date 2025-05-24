@@ -1,19 +1,16 @@
-enum StatusColors {
-    OPEN = "bg-emerald-500",
-    CLOSED = "bg-red-500",
-    ERROR = "bg-amber-500"
-};
+import { StatusColors, HallStatusEnum } from "@/utils/types";
 
-enum HallStatusEnum {
-    OPEN,
-    CLOSED,
-    ERROR
-}
-
-function StatusDot({ statusColor } : { statusColor: StatusColors }) {
-    return (
-        <div className={`w-2 h-2 rounded-full ${statusColor}`}/>
-    )
+function StatusDot({ status } : { status: HallStatusEnum }) {
+    switch (status) {
+        case HallStatusEnum.OPEN:
+            return (<div className={`w-2 h-2 rounded-full bg-emerald-500`}/>)
+        case HallStatusEnum.CLOSED:
+            return (<div className={`w-2 h-2 rounded-full bg-red-500`}/>)
+        case HallStatusEnum.ERROR:
+            return (<div className={`w-2 h-2 rounded-full bg-amber-500`}/>)
+        case HallStatusEnum.PREVIEW:
+            return (<div className={`w-2 h-2 rounded-full bg-sky-500`}/>)
+    }
 }
 
 interface StatusProps {
@@ -27,33 +24,30 @@ function DiningHallStatus({
     openTime, 
     closeTime
 } : StatusProps) {
-    let statusDotColor: StatusColors;
     let statusMessage: string = "";
 
     switch (status) {
         case HallStatusEnum.OPEN:
-            statusDotColor = StatusColors.OPEN;
-            statusMessage = `Open (${openTime}-${closeTime})`
+            statusMessage = `Open (${openTime} - ${closeTime})`
             break;
         case HallStatusEnum.CLOSED:
-            statusDotColor = StatusColors.CLOSED;
             statusMessage = `Closed`
             break;
         case HallStatusEnum.ERROR:
-            statusDotColor = StatusColors.ERROR;
             statusMessage = `Error (Cannot obtain scheduling info)`
             break;
+        case HallStatusEnum.PREVIEW:
+            statusMessage = `Preview`
         default:
-            statusDotColor = StatusColors.OPEN;
             break;
     }
 
     return (
         <div className="flex items-center gap-2">
-            <StatusDot statusColor={statusDotColor}/>
+            <StatusDot status={status}/>
             <span>{statusMessage}</span>
         </div>
     )
 }
 
-export { HallStatusEnum, DiningHallStatus }
+export { DiningHallStatus }
