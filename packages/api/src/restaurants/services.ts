@@ -26,7 +26,7 @@ export const upsertRestaurant = async (
   });
 
 /** Restaurant information for a given date. */
-interface RestaurantInfo extends SelectRestaurant {
+export interface RestaurantInfo extends SelectRestaurant {
   /** Events that are happening today or later. */
   events: SelectEvent[];
   /** List of menus for each period. */

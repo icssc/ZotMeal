@@ -1,6 +1,6 @@
 import { User } from "lucide-react";
-import { Avatar, AvatarImage, AvatarFallback } from "./avatar";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card"
+import { Avatar, AvatarImage, AvatarFallback } from "./shadcn/avatar";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "./shadcn/hover-card"
 
 
 interface ContributorProps {
