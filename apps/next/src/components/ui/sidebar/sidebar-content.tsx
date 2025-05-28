@@ -6,7 +6,17 @@ import SidebarButton from "./sidebar-button";
 import SidebarDivider from "./sidebar-divider";
 import { Settings2, CalendarFold, LogOut, House, Info, Pin, Trophy } from "lucide-react";
 
-export default function SidebarContent() {
+/**
+ * `SidebarContent` is a presentational component that renders the main content
+ * displayed within the application's sidebar.
+ *
+ * It includes:
+ * - A header section with the application logo and title.
+ * - Navigation links using {@link SidebarButton} and section separators using {@link SidebarDivider}.
+ * - A user profile section at the bottom with an avatar, user details, and a logout button.
+ * @returns {JSX.Element} The rendered content for the sidebar.
+ */
+export default function SidebarContent(): JSX.Element {
     return (
       <SheetContent>
         <div className="flex flex-col h-full justify-between">

@@ -15,7 +15,25 @@ import SelectSkeleton from "./skeleton/select-skeleton";
 import { useDate } from "@/context/date-context";
 
 
-export default function Side({hall, isMobile = false} : {hall: HallEnum, isMobile: boolean}) {
+/**
+ * Props for the {@link Side} component.
+ */
+interface SideProps {
+  /** The specific dining hall to display information for. */
+  hall: HallEnum;
+  /** Optional flag indicating if the component is being rendered in a mobile view. Defaults to false. */
+  isMobile?: boolean;
+}
+
+/**
+ * `Side` is a client component that displays detailed information for a specific dining hall.
+ * It fetches data using tRPC, manages loading and error states, and allows users to select
+ * meal periods and stations to view available dishes. It also displays the dining hall's
+ * current status (open/closed/preview) and a hero image.
+ * @param {SideProps} props - The properties for the Side component.
+ * @returns {JSX.Element} The rendered side panel for the specified dining hall.
+ */
+export default function Side({hall, isMobile = false} : SideProps): JSX.Element {
     const { selectedDate } = useDate();
     const today = new Date();
 
@@ -239,6 +257,15 @@ export default function Side({hall, isMobile = false} : {hall: HallEnum, isMobil
     )
 }
 
+/**
+ * Determines the current meal period based on the selected date and a list of available meal periods with their start and end times.
+ * If the selected date falls within a meal period, that period's key (name) is returned.
+ * If no period matches, it defaults to the first period in the provided list.
+ * @param {Date} selectedDate - The date/time to check against the meal periods.
+ * @param {{ [periodName: string]: [Date, Date] }} periods - An object where keys are period names (e.g., "breakfast")
+ *                                                            and values are tuples containing the start and end Date objects for that period.
+ * @returns {string} The key/name of the current or default meal period.
+ */
 function getCurrentPeriod(selectedDate: Date, periods: { [periodName: string]: [Date, Date] }): string {
   for (let key in periods) {
     let periodBegin: Date = periods[key][0];

@@ -4,20 +4,30 @@ import React from "react";
 import { DishInfo } from "@zotmeal/api";
 import { Dialog, DialogTrigger } from "../shadcn/dialog";
 import FoodDialogContent from "../food-dialog-content"
-import Image from "next/image";
 import { Card, CardContent } from "../shadcn/card"; 
 import { Star, Utensils } from "lucide-react";
 import { formatFoodName, getFoodIcon } from "@/utils/funcs";
 
+/**
+ * Props for the FoodCardContent component.
+ */
 interface FoodCardContentProps extends React.HTMLAttributes<HTMLDivElement> {
+  /**
+   * The dish information to display.
+   */
   dish: DishInfo;
 }
 
+/**
+ * FoodCardContent component displays the visual representation of a food item within a card.
+ * It shows the food's name, icon, calories, and a placeholder for rating.
+ * This component is intended to be used as a trigger for a dialog showing more details.
+ */
 const FoodCardContent = React.forwardRef<
   HTMLDivElement,
   FoodCardContentProps
 >(({ dish, ...divProps }, ref) => {
-  const IconComponent = getFoodIcon(dish.name) || Utensils;
+  const IconComponent = getFoodIcon(dish.name) ?? Utensils;
 
   return (
     <div ref={ref} {...divProps} className="w-full"> 
@@ -50,7 +60,17 @@ const FoodCardContent = React.forwardRef<
 });
 FoodCardContent.displayName = "FoodCardContent";
 
-export default function FoodCard(dish: DishInfo) {
+/**
+ * A Client Component that renders an interactive food card.
+ * Clicking the card opens a dialog with full dish details.
+ * 
+ * This component combines an `FoodCardContent` (the visual card) with a
+ * `Dialog` and {@link FoodDialogContent} (the full dish details dialog).
+ * 
+ * @param {DishInfo} dish - The dish information to display and pass to the dialog.
+ * @returns {JSX.Element} A React component representing a food card.
+ */
+export default function FoodCard(dish: DishInfo): JSX.Element {
     return (
       <Dialog>
         <DialogTrigger asChild>

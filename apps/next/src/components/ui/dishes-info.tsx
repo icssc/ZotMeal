@@ -8,14 +8,43 @@ import { DishInfo } from "@zotmeal/api";
 import MealDivider from "./meal-divider";
 import { sortCategoryKeys } from "@/utils/funcs";
 
+/**
+ * Props for the {@link DishesInfo} component.
+ */
 interface DishesInfoProps {
+  /**
+   * An array of `DishInfo` objects to be displayed.
+   */
   dishes: DishInfo[],
+  /**
+   * A boolean indicating whether the data is currently being loaded.
+   * If true, skeleton loaders will be displayed.
+   */
   isLoading: boolean,
+  /**
+   * A boolean indicating whether an error occurred while fetching data.
+   * If true, an error message will be displayed.
+   */
   isError: boolean,
+  /**
+   * An optional error message string to display if `isError` is true.
+   */
   errorMessage?: string
 }
 
-export default function DishesInfo({dishes, isLoading, isError, errorMessage} : DishesInfoProps) { 
+/**
+ * `DishesInfo` is a client component responsible for rendering a list of dishes,
+ * grouped by category. It handles loading states by showing skeletons, error states
+ * by displaying an error message, and an empty state if no dishes are available.
+ * @param {DishesInfoProps} props - The properties for the DishesInfo component.
+ * @returns {JSX.Element} The rendered list of dishes, or corresponding state UI (loading, error, empty).
+ */
+export default function DishesInfo({
+  dishes, 
+  isLoading, 
+  isError, 
+  errorMessage
+} : DishesInfoProps): JSX.Element { 
   // Sort the dishes by category string
   let categoryMap: {[dishCategory : string]: DishInfo[]} = {};
   dishes.forEach((dish) => {
@@ -30,7 +59,6 @@ export default function DishesInfo({dishes, isLoading, isError, errorMessage} : 
       flex-grow h-1" 
       id="food-scroll">
       {isLoading && (
-        // Show skeletons while loading
         <>
           <MealDividerSkeleton/>
           <FoodCardSkeleton/>
