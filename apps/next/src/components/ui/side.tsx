@@ -113,9 +113,9 @@ export default function Side({hall, isMobile = false} : {hall: HallEnum, isMobil
       // Ensure selectedDate is defined and periods are available
       if (selectedDate && periods.length > 0 && Object.keys(availablePeriodTimes).length > 0) {
         const currentPeriodIsValid = periods.some(p => p.toLowerCase() === selectedPeriod.toLowerCase());
-        if (!isSameDay(selectedDate, today))
+        if (!isSameDay(selectedDate, today) && !selectedPeriod) {
           setSelectedPeriod(periods[0])
-        else if (!currentPeriodIsValid) {
+        } else if (!currentPeriodIsValid) {
           setSelectedPeriod(getCurrentPeriod(selectedDate, availablePeriodTimes));
         }
       } else {
