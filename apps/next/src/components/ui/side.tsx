@@ -13,11 +13,15 @@ import { toTitleCase, utcToPacificTime, formatOpenCloseTime, isSameDay } from "@
 import TabsSkeleton from "./skeleton/tabs-skeleton";
 import SelectSkeleton from "./skeleton/select-skeleton";
 import { useDate } from "@/context/date-context";
+import { RefreshCw } from "lucide-react";
+import { Button } from "./shadcn/button";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 
-export default function Side({hall, isMobile = false} : {hall: HallEnum, isMobile: boolean}) {
+export default function Side({hall, toggleHall} : {hall: HallEnum, toggleHall: Function}) {
     const { selectedDate } = useDate();
     const today = new Date();
+    const isDesktop = useMediaQuery('(min-width: 768px)'); // Tailwind's `md` breakpoint
 
     // Fetch data using tRPC
     const { data: queryResponse, isLoading, isError, error } = trpc.zotmeal.useQuery(
@@ -158,14 +162,26 @@ export default function Side({hall, isMobile = false} : {hall: HallEnum, isMobil
 
     return (
       <div className="z-0 flex flex-col h-full overflow-x-hidden">
-        <Image 
-          className="object-cover object-bottom w-full min-h-[20vh] max-h-[30vh] h-2/5"
-          src={heroImageSrc}
-          alt={heroImageAlt}
-          width={2000}
-          height={2000}
-          priority 
-        />
+        <div className="relative w-full min-h-[20vh] max-h-[30vh] h-2/5">
+          <Image 
+            className="object-cover object-bottom"
+            src={heroImageSrc}
+            alt={heroImageAlt}
+            // width={2000}
+            // height={2000}
+            fill
+            priority 
+          />
+          {!isDesktop && <Button
+            variant="outline"
+            size="icon"
+            className="absolute top-[68px] right-3 rounded-full bg-white shadow-md"
+            onClick={() => toggleHall()}
+          >
+            <RefreshCw className="text-black-500 w-5 h-5" />
+          </Button>}
+        </div>
+        
         <div className="p-5 flex flex-col flex-grow h-1" id="side-content"> 
           <div className="flex flex-col gap-6 items-center">
             <div className="flex gap-4 w-full">
