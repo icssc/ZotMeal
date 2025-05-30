@@ -95,6 +95,7 @@ const menu = {
 const period = {
   id: periodId,
   name: "breakfast",
+  date: "2025-05-29",
   startTime: "08:00:00",
   endTime: "10:00:00",
 } as const satisfies InsertPeriod;
