@@ -13,7 +13,7 @@ import { toTitleCase, utcToPacificTime, formatOpenCloseTime, isSameDay } from "@
 import TabsSkeleton from "./skeleton/tabs-skeleton";
 import SelectSkeleton from "./skeleton/select-skeleton";
 import { useDate } from "@/context/date-context";
-import { RefreshCw } from "lucide-react";
+import { ArrowRightLeft, RefreshCw } from "lucide-react";
 import { Button } from "./shadcn/button";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
@@ -178,7 +178,7 @@ export default function Side({hall, toggleHall} : {hall: HallEnum, toggleHall: F
             className="absolute top-[68px] right-3 rounded-full bg-white shadow-md"
             onClick={() => toggleHall()}
           >
-            <RefreshCw className="text-black-500 w-5 h-5" />
+            <ArrowRightLeft className="text-black-500 w-5 h-5" />
           </Button>}
         </div>
         
