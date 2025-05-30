@@ -219,6 +219,8 @@ export async function upsertMenusForDate(
     periodsMap[periodObj.PeriodId] = 
       [periodObj.UtcMealPeriodStartTime, periodObj.UtcMealPeriodEndTime];
   });
+  
+  const formattedDateForDb = format(date, "yyyy-MM-dd");
 
 
   // Upsert all periods and menus for the given date 
@@ -229,6 +231,7 @@ export async function upsertMenusForDate(
 
       await upsertPeriod(db, {
         id: period.PeriodId,
+        date: formattedDateForDb,
         name: period.Name,
         startTime: periodInfo![0],
         endTime: periodInfo![1],
@@ -250,7 +253,7 @@ export async function upsertMenusForDate(
       await upsertMenu(db, {
         id: menuIdHash,
         periodId: period.PeriodId,
-        date: menuAtDate.Date,
+        date: formattedDateForDb,
         price: "13.75", // TODO: add menu price to response
         restaurantId,
       });

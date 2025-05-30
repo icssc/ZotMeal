@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { date, pgTable, primaryKey, text } from "drizzle-orm/pg-core";
+import { date, foreignKey, pgTable, primaryKey, text } from "drizzle-orm/pg-core";
 
 import { dishes } from "./dishes";
 import { restaurantIdEnum } from "./enums";
@@ -10,11 +10,7 @@ import { metadataColumns } from "./utils";
 export const menus = pgTable("menus", {
   id: text("id").primaryKey(),
   periodId: text("period_id")
-    .notNull()
-    .references(() => periods.id, {
-      onDelete: "restrict",
-      onUpdate: "cascade",
-    }),
+    .notNull(),
   date: date("date", { mode: "string" }).notNull(),
   restaurantId: restaurantIdEnum("restaurant_id")
     .notNull()
@@ -24,7 +20,12 @@ export const menus = pgTable("menus", {
     }),
   price: text("price").notNull(),
   ...metadataColumns,
-});
+}, (table) => ({
+  periodFk: foreignKey({
+    columns: [table.periodId, table.date],
+    foreignColumns: [periods.id, periods.date]
+  }).onDelete("restrict").onUpdate("cascade"),
+}));
 
 export const menusRelations = relations(menus, ({ one, many }) => ({
   restaurant: one(restaurants, {
@@ -32,8 +33,8 @@ export const menusRelations = relations(menus, ({ one, many }) => ({
     references: [restaurants.id],
   }),
   period: one(periods, {
-    fields: [menus.periodId],
-    references: [periods.id],
+    fields: [menus.periodId, menus.date],
+    references: [periods.id, periods.date],
   }),
   dishesToMenus: many(dishesToMenus),
 }));
