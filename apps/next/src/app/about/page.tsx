@@ -59,24 +59,30 @@ export default function About() {
               </p>
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button className="w-fit">Privacy</Button>
+                  <Button className="w-fit">Privacy Policy</Button>
                 </DialogTrigger>
-                <DialogContent className="w-md h-md">
+                <DialogContent className="w-md h-auto">
                   <DialogHeader>
                     <DialogTitle className="p-4 text-center">Privacy Policy</DialogTitle>
-                    <DialogDescription className="flex-col gap-4 p-4">
-                      ZotMeal is a cross-platform mobile application designed to help users view 
-                      dining hall menus at the University of California, Irvine (UCI). We value 
-                      your privacy and are committed to protecting any personal information you 
-                      may share with us.
-                      
-                      ZotMeal does not collect or store any personally identifiable information. 
-                      The app does not require login or account creation. We do not track 
-                      or monitor user behavior within the app.
-
-                      ZotMeal fetches dining hall menu data from publicly available or authorized 
-                      UCI resources. This data is used solely to display daily menus within the app 
-                      and is not shared or stored beyond your device.
+                    <DialogDescription asChild className="p-4">
+                      <div>
+                        <p className="mb-4">
+                          ZotMeal is a cross-platform mobile application designed to help users view 
+                          dining hall menus at the University of California, Irvine (UCI). We value 
+                          your privacy and are committed to protecting any personal information you 
+                          may share with us.
+                        </p>
+                        <p className="mb-4">
+                          ZotMeal does not collect or store any personally identifiable information. 
+                          The app does not require login or account creation. We do not track 
+                          or monitor user behavior within the app.
+                        </p>
+                        <p className="mb-4">
+                          ZotMeal fetches dining hall menu data from publicly available or authorized 
+                          UCI resources. This data is used solely to display daily menus within the app 
+                          and is not shared or stored beyond your device.
+                        </p>
+                      </div>
                     </DialogDescription>
                   </DialogHeader>
                 </DialogContent>
