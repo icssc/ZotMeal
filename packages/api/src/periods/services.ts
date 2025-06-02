@@ -5,6 +5,6 @@ import { periods } from "@zotmeal/db";
 
 export const upsertPeriod = async (db: Drizzle, period: InsertPeriod) =>
   await upsert(db, periods, period, {
-    target: periods.id,
+    target: [periods.id, periods.date],
     set: period,
   });
