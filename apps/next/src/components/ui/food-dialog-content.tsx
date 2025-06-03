@@ -18,7 +18,7 @@ import IngredientsDialog from "../ingredients-dialog";
 export default function FoodDialogContent(dish: DishInfo) {
   // State to control nutrient visibility
   const [showAllNutrients, setShowAllNutrients] = useState(false);
-  const initialNutrients = ['calories', 'totalFatG', 'totalCarbsG', 'proteinG', 'sugarsMg']; // Define which nutrients to show initially
+  const initialNutrients = ['calories', 'totalFatG', 'totalCarbsG', 'proteinG', 'sugarsG']; // Define which nutrients to show initially
   const recognizedNutrients = initialNutrients.concat(['transFatG', 'saturatedFatG', 'cholesterolMg', 'sodiumMg', 'calciumMg', 'ironMg'])
 
   const ingredientsAvailable: boolean = dish.ingredients != "Ingredient Statement Not Available";

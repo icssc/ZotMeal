@@ -52,7 +52,7 @@ const nutrientToUnit : { [nutrient: string]: string } = {
   "sodiumMg": "mg",
   "totalCarbsG": "g",
   "dietaryFiberG": "g",
-  "sugarsMg": "mg",
+  "sugarsG": "g",
   "proteinG": "g",
   "vitaminAIU": "% DV",
   "vitaminCIU": "% DV",
