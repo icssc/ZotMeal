@@ -31,6 +31,7 @@ export const MenuProductSchema = z.object({
       ContainsTreeNuts: z.boolean().nullable().optional(),
       ContainsWheat: z.boolean().nullable().optional(),
     }),
+    IngredientStatement: z.string(),
     // Nutrition Info object
     NutritionalTree: z.array(
       z.object({

@@ -293,6 +293,7 @@ export async function upsertMenusForDate(
               containsWheat: menuProduct.Product.AvailableFilters.ContainsWheat,
               containsSesame: menuProduct.Product.AvailableFilters.ContainsSesame,
             },
+            ingredients: menuProduct.Product.IngredientStatement,
             nutritionInfo: {
               dishId: menuProduct.ProductId,
               servingSize: menuProduct.Product.ServingSize,
