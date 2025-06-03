@@ -11,6 +11,8 @@ import { formatFoodName, formatNutrientLabel } from "@/utils/funcs";
 import { DishInfo } from "@zotmeal/api";
 import { toTitleCase, enhanceDescription } from "@/utils/funcs";
 import { AllergenBadge } from "./allergen-badge";
+import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
+import IngredientsDialog from "../ingredients-dialog";
 
 
 export default function FoodDialogContent(dish: DishInfo) {
@@ -18,6 +20,8 @@ export default function FoodDialogContent(dish: DishInfo) {
   const [showAllNutrients, setShowAllNutrients] = useState(false);
   const initialNutrients = ['calories', 'totalFatG', 'totalCarbsG', 'proteinG', 'sugarsMg']; // Define which nutrients to show initially
   const recognizedNutrients = initialNutrients.concat(['transFatG', 'saturatedFatG', 'cholesterolMg', 'sodiumMg', 'calciumMg', 'ironMg'])
+
+  const ingredientsAvailable: boolean = dish.ingredients != "Ingredient Statement Not Available";
 
   return (
     <DialogContent>
@@ -34,15 +38,15 @@ export default function FoodDialogContent(dish: DishInfo) {
             <div className="flex gap-12 px-4 items-center" id="food-header-info">
               <div className="flex gap-3 items-center">
                 <DialogTitle className="text-3xl">{formatFoodName(dish.name)}</DialogTitle>
-                <Pin className="stroke-zinc-500"/>
+                {/* <Pin className="stroke-zinc-500"/> */}
               </div>
-              <div className="flex gap-2">
+              {/* <div className="flex gap-2">
                 <Star className="stroke-zinc-500" size={26}/>
                 <Star className="stroke-zinc-500" size={26}/>
                 <Star className="stroke-zinc-500" size={26}/>
                 <Star className="stroke-zinc-500" size={26}/>
                 <Star className="stroke-zinc-500" size={26}/>
-              </div>
+              </div> */}
             </div>
             <div className="px-4 flex items-center gap-2 text-zinc-500">
               <span>{dish.nutritionInfo.calories == null ? "-" : `${dish.nutritionInfo.calories} cal`} • {toTitleCase(dish.restaurant)}</span>
@@ -78,7 +82,7 @@ export default function FoodDialogContent(dish: DishInfo) {
                     );
                   })}
               </div>
-              <div className="px-4">
+              <div className="px-4 flex flex-col gap-2">
                 <Button
                   variant="outline"
                   size="sm"
@@ -87,6 +91,12 @@ export default function FoodDialogContent(dish: DishInfo) {
                 >
                   {showAllNutrients ? "Show Less" : "Show More Nutrients"}
                 </Button>
+                {ingredientsAvailable &&
+                  <IngredientsDialog name={dish.name} ingredients={dish.ingredients!}/>
+                }
+                {!ingredientsAvailable &&
+                  <Button variant="deactivated">Ingredients Not Available</Button>
+                }
               </div>
             </div>
           </div>
