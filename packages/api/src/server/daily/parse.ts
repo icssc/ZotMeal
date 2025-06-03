@@ -306,15 +306,8 @@ export async function upsertMenusForDate(
               sodiumMg: nutritionalInfo["Sodium"],
               totalCarbsG: nutritionalInfo["Total Carbohydrates"],
               dietaryFiberG: nutritionalInfo["Dietary Fiber"],
-              // TODO: Sugars are now listed in grams
-              sugarsMg: nutritionalInfo["Sugar"],
+              sugarsG: nutritionalInfo["Total Sugars"],
               proteinG: nutritionalInfo["Protein"],
-              // TODO: The following dish information is no longer offered 
-              // as of 5/15/2025
-              vitaminAIU: null,
-              vitaminCIU: null,
-              calciumMg: null,
-              ironMg: null,
             },
           });
 
