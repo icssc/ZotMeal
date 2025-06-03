@@ -270,7 +270,7 @@ export async function upsertMenusForDate(
 
             if (nutrition.SubList != null && nutrition.SubList.length > 0) {
               nutrition.SubList.forEach(subNutrition => {
-                nutritionalInfo[subNutrition!.Name] = nutrition.Value;
+                nutritionalInfo[subNutrition!.Name] = subNutrition.Value;
               })
             }
           });
