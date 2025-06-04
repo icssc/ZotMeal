@@ -26,7 +26,7 @@ export default function DishesInfo({dishes, isLoading, isError, errorMessage} : 
   })
 
   return (
-    <div className="flex flex-col gap-6 mt-10 px-2 overflow-y-auto 
+    <div className="flex flex-col gap-6 mt-6 px-2 overflow-y-auto 
       flex-grow h-1" 
       id="food-scroll">
       {isLoading && (

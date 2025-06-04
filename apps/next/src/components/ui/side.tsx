@@ -183,40 +183,45 @@ export default function Side({hall, toggleHall} : {hall: HallEnum, toggleHall: F
         </div>
         
         <div className="p-5 flex flex-col flex-grow h-1" id="side-content"> 
-          <div className="flex flex-col gap-6 items-center">
-            <div className="flex gap-4 w-full">
+          <div className="flex flex-col gap-4 sm:gap-6 items-center">
+            <div className="flex flex-col-reverse sm:flex-row gap-2 sm:gap-4 w-full">
               {isLoading && <SelectSkeleton/>}
-              {!isLoading && !isError && <Select
-                value={selectedPeriod}
-                onValueChange={(value) => setSelectedPeriod(value || '')}
-              >
-                <SelectTrigger className="w-52">
-                  <SelectValue placeholder="Select Meal" />
-                </SelectTrigger>
-                <SelectContent>
-                  {periods.map((time) => {
-                    const mealTimeKey = time.toLowerCase();
-                    const periodTimes = availablePeriodTimes[mealTimeKey]; 
+              {!isLoading && !isError && 
+              <div className="flex-1">
+                <Select
+                  value={selectedPeriod}
+                  onValueChange={(value) => setSelectedPeriod(value || '')}
+                >
+                  <SelectTrigger className=" w-full">
+                    <SelectValue placeholder="Select Meal" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {periods.map((time) => {
+                      const mealTimeKey = time.toLowerCase();
+                      const periodTimes = availablePeriodTimes[mealTimeKey]; 
 
-                    return (
-                      <SelectItem key={time} value={mealTimeKey}>
-                        {toTitleCase(time)}&nbsp;
-                        {periodTimes && (
-                          <span className="text-zinc-500 text-sm">
-                            &nbsp;({formatOpenCloseTime(periodTimes[0], periodTimes[1])})
-                          </span>
-                        )}
-                      </SelectItem>
-                    );
-                  })}
-                </SelectContent>
-              </Select>}
+                      return (
+                        <SelectItem key={time} value={mealTimeKey}>
+                          {toTitleCase(time)}&nbsp;
+                          {periodTimes && (
+                            <span className="text-zinc-500 text-sm">
+                              &nbsp;({formatOpenCloseTime(periodTimes[0], periodTimes[1])})
+                            </span>
+                          )}
+                        </SelectItem>
+                      );
+                    })}
+                  </SelectContent>
+                </Select>
+              </div>}
               {!isLoading && !isError && openTime && closeTime && // Ensure openTime and closeTime are defined
-              <DiningHallStatus
-                status={derivedHallStatus}
-                openTime={openTime.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})}
-                closeTime={closeTime.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})}
-              />}
+              <div className="flex-1 flex justify-center sm:justify-start">
+                <DiningHallStatus
+                  status={derivedHallStatus}
+                  openTime={openTime.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})}
+                  closeTime={closeTime.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})}
+                />
+              </div>}
             </div>
             {!isLoading && !isError && fetchedStations.length > 0 && (
               <Tabs
