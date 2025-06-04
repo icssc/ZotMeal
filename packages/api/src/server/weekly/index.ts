@@ -53,13 +53,7 @@ export async function restaurantJob(
       );
   });
 }
-interface ContributorType {
-  login: string;
-  avatar_url: string;
-  contributions: number;
-  name: string;
-  bio: string;
-}
+
 
 export async function contributorsJob(db: Drizzle) {
   const octokit = new Octokit();
@@ -87,7 +81,7 @@ export async function contributorsJob(db: Drizzle) {
   );
 
   // Fetch detailed info for each contributor
-  let detailedContributors: ContributorType[] = await Promise.all(
+  let detailedContributors: InsertContributor[] = await Promise.all(
     filteredContributors.map(async (contributor) => {
       const { data: userDetails } = await octokit.rest.users.getByUsername({
         username: contributor.login,
@@ -105,7 +99,7 @@ export async function contributorsJob(db: Drizzle) {
       return -1;
     else if (a.contributions < b.contributions)
       return 1;
-    else if (a.name < b.name)
+    else if (a.login < b.login)
       return -1;
 
     return 1;
@@ -113,13 +107,13 @@ export async function contributorsJob(db: Drizzle) {
 
   logger.info(`[weekly] Upserting ${detailedContributors.length} contributors...`)
   const upsertedContributors = await upsertContributors(db, detailedContributors);
-  logger.info(`[weekly] Upserted ${upsertedContributors} contributors.`)
+  logger.info(`[weekly] Upserted ${upsertedContributors.length} contributors.`)
 }
 
 export async function upsertContributors(
   db: Drizzle,
   contributorsArray : InsertContributor[]
-) : Promise<number> {
+) {
   const upsertContributorsResult = await Promise.allSettled(
     contributorsArray.map(
       async (contributor) =>
@@ -130,12 +124,19 @@ export async function upsertContributors(
     )
   )
 
+  upsertContributorsResult.forEach((result) => {
+    if (result.status === "rejected")
+      logger.error(result, "upsertContributors(): ");
+  });
+
   return upsertContributorsResult;
 }
 
 
 export async function weekly(db: Drizzle): Promise<void> {
   await eventJob(db);
+
+  await contributorsJob(db);
 
   const results = await Promise.allSettled(
     restaurantNames.map(async (restaurant) =>

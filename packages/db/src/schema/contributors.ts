@@ -5,8 +5,8 @@ export const contributors = pgTable("contributors", {
     login: text("login").primaryKey(),
     avatar_url: text("avatar_url").notNull(),
     contributions: integer("contributions").notNull(),
-    name: text("name").notNull(),
-    bio: text("bio").notNull(),
+    name: text("name"),
+    bio: text("bio").default("ZotMeal Contributor"),
     ...metadataColumns,
 });
 
