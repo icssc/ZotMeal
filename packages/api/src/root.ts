@@ -7,6 +7,7 @@ import { notificationRouter } from "./notifications/router";
 import { getRestaurantsByDate } from "./restaurants/services";
 import { createTRPCRouter, publicProcedure } from "./trpc";
 import { userRouter } from "./users/router";
+import { getContributors } from "./contributors/services";
 
 export const appRouter = createTRPCRouter({
   event: eventRouter,
@@ -26,6 +27,16 @@ export const appRouter = createTRPCRouter({
         });
       }),
   ),
+  zotmeal_contributors: publicProcedure.query(
+    async ({ctx: { db }}) => 
+      await getContributors(db).catch((error) => {
+        if (error instanceof TRPCError) throw error;
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "An error occurred while fetching contributors."
+        });
+      }),
+  )
 });
 
 // export type definition of API
