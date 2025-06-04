@@ -94,17 +94,6 @@ export async function contributorsJob(db: Drizzle) {
     })
   );
 
-  detailedContributors.sort((a, b) => {
-    if (a.contributions > b.contributions)
-      return -1;
-    else if (a.contributions < b.contributions)
-      return 1;
-    else if (a.login < b.login)
-      return -1;
-
-    return 1;
-  })
-
   logger.info(`[weekly] Upserting ${detailedContributors.length} contributors...`)
   const upsertedContributors = await upsertContributors(db, detailedContributors);
   logger.info(`[weekly] Upserted ${upsertedContributors.length} contributors.`)

@@ -9,23 +9,11 @@ import { Dialog,
   DialogTitle,
   DialogTrigger,
  } from "@/components/ui/shadcn/dialog";
+import { trpc } from "@/utils/trpc";
 import Image from "next/image";
-import { fetchContributors, ContributorType } from "@/utils/fetchContributors";
-import { useEffect, useState } from "react";
-
 
 export default function About() {
-  const [contributors, setContributors] = useState<ContributorType[]>([]);
-
-  useEffect(() => {
-    const loadContributors = async () => {
-      const data = await fetchContributors("icssc", "ZotMeal");
-      setContributors(data);
-    };
-    loadContributors();
-  }, []);
-
-  console.log(contributors)
+  const {data: queryResponse, isLoading, isError, error } = trpc.zotmeal_contributors.useQuery();
 
   return (
     <div className="flex flex-col">
@@ -109,8 +97,14 @@ export default function About() {
         <div className="flex flex-col items-center gap-4" id="contributors">
           <h1 className="text-xl max-md:text-base max-sm:text-sm font-bold">Our Lovely Contributors</h1>
           <div className="flex flex-wrap justify-center gap-2 max-w-xs" id="contributor-grid">
-            {contributors.length > 0 ? (
-              contributors.map((contributor) => (
+            {isLoading && ( 
+              <p className="text-sm text-zinc-400">Loading contributors...</p>
+            )}
+            {!isLoading && isError && (
+              <p className="text-sm text-red-500 text-center">Error occurred while fetching contributors: {error?.message}</p>
+            )}
+            {!isLoading && !isError && queryResponse &&
+              queryResponse.map((contributor) => (
                 <Contributor
                   key={`${contributor.login}`}
                   name={contributor.name || contributor.login}
@@ -120,9 +114,7 @@ export default function About() {
                   contributions={contributor.contributions}
                 />
               ))
-            ) : (
-              <p>Loading contributors...</p> // Or some loading skeleton
-            )}
+            } 
           </div>
           <p className="text-sm italic font-light text-zinc-500">.. you could be here!</p>
         </div>
