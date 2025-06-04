@@ -17,6 +17,7 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
+    "@octokit/rest": "^22.0.0",
     "@trpc/server": "catalog:",
     "@zotmeal/db": "workspace:*",
     "@zotmeal/validators": "workspace:*",

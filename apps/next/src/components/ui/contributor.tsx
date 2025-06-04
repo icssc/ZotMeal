@@ -8,13 +8,15 @@ interface ContributorProps {
     username: string;
     profileSrc: string;
     bio: string;
+    contributions: number;
 }
 
 export default function Contributor({
   name,
   username, 
   profileSrc, 
-  bio
+  bio,
+  contributions
 } : ContributorProps) {
   return (
     <HoverCard>
@@ -42,7 +44,10 @@ export default function Contributor({
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
-              <p className="font-bold hover:underline">{name}</p>
+              <div className="flex flex-row items-center gap-2">
+                <p className="font-bold hover:underline">{name}</p>
+                <p className="text-sm text-green-500">+{contributions}</p>
+              </div>
               <p className="flex gap-1 text-sm items-center text-zinc-500"><User size={18}/>{username}</p>
             </div>
           </div>

@@ -11,3 +11,4 @@ export * from "./ratings";
 export * from "./restaurants";
 export * from "./stations";
 export * from "./users";
+export * from "./contributors";

@@ -7,6 +7,9 @@ import { restaurantNames } from "@zotmeal/db";
 
 import { daily } from "../daily";
 import { getHTML, scrapeEvents } from "../scrapeEvents";
+import { Octokit } from "@octokit/rest";
+import { upsert } from "@api/utils";
+import { contributors, InsertContributor } from "@zotmeal/db";
 
 const NUM_DAYS_UPDATE = 14;
 
@@ -20,9 +23,9 @@ export async function eventJob(db: Drizzle): Promise<void> {
   );
   const events = await scrapeEvents(html);
 
-  logger.info(`weekly: Upserting ${events.length} events...`);
+  logger.info(`[weekly] Upserting ${events.length} events...`);
   const upsertedEvents = await upsertEvents(db, events);
-  logger.info(`weekly: Upserted ${upsertedEvents.length} events.`);
+  logger.info(`[weekly] Upserted ${upsertedEvents.length} events.`);
 }
 
 /**
@@ -50,6 +53,86 @@ export async function restaurantJob(
       );
   });
 }
+interface ContributorType {
+  login: string;
+  avatar_url: string;
+  contributions: number;
+  name: string;
+  bio: string;
+}
+
+export async function contributorsJob(db: Drizzle) {
+  const octokit = new Octokit();
+  let page = 1;
+  let hasNextPage = true;
+  let baseContributors: any[] = [];
+
+  while (hasNextPage) {
+    const { data } = await octokit.rest.repos.listContributors({
+      owner: "icssc",
+      repo: "ZotMeal",
+      per_page: 100,
+      page,
+    });
+
+    baseContributors = baseContributors.concat(data);
+    hasNextPage = data.length === 100;
+    page++;
+  }
+
+  // Filter out bots 
+  const filteredContributors = baseContributors.filter(
+    (contributor) =>
+      contributor.type !== "Bot"
+  );
+
+  // Fetch detailed info for each contributor
+  let detailedContributors: ContributorType[] = await Promise.all(
+    filteredContributors.map(async (contributor) => {
+      const { data: userDetails } = await octokit.rest.users.getByUsername({
+        username: contributor.login,
+      });
+      return {
+        ...contributor,
+        name: userDetails.name,
+        bio: userDetails.bio,
+      };
+    })
+  );
+
+  detailedContributors.sort((a, b) => {
+    if (a.contributions > b.contributions)
+      return -1;
+    else if (a.contributions < b.contributions)
+      return 1;
+    else if (a.name < b.name)
+      return -1;
+
+    return 1;
+  })
+
+  logger.info(`[weekly] Upserting ${detailedContributors.length} contributors...`)
+  const upsertedContributors = await upsertContributors(db, detailedContributors);
+  logger.info(`[weekly] Upserted ${upsertedContributors} contributors.`)
+}
+
+export async function upsertContributors(
+  db: Drizzle,
+  contributorsArray : InsertContributor[]
+) : Promise<number> {
+  const upsertContributorsResult = await Promise.allSettled(
+    contributorsArray.map(
+      async (contributor) =>
+        upsert(db, contributors, contributor, {
+          target: contributors.login,
+          set: contributor
+        })
+    )
+  )
+
+  return upsertContributorsResult;
+}
+
 
 export async function weekly(db: Drizzle): Promise<void> {
   await eventJob(db);
