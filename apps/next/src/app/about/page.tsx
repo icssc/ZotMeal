@@ -19,7 +19,7 @@ export default function About() {
           width={2000}
           height={2000}
         />
-        <div className="flex p-8 gap-6 justify-around" id="about-content">
+        <div className="flex flex-col md:flex-row p-8 gap-6 justify-around" id="about-content">
           <div className="flex flex-col" id="about-text">
             <div className="flex gap-4 items-center mb-2" id="about-header">
               <h1 className="text-3xl font-bold" id="about-title">About ZotMeal</h1>
@@ -90,7 +90,7 @@ export default function About() {
             </div>
           </div>
           <div className="flex flex-col items-center gap-4" id="contributors">
-            <h1 className="text-xl max-md:text-base max-sm:text-sm font-bold">Our Lovely Contributors</h1>
+            <h1 className="text-xl font-bold">Our Lovely Contributors</h1>
             <div className="flex flex-wrap justify-center gap-2 max-w-xs" id="contributor-grid">
               {[...Array(20)].map((_, index) => (
                 <Contributor 

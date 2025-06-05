@@ -8,6 +8,9 @@ import Image from "next/image";
 import { Card, CardContent } from "../shadcn/card"; 
 import { Star, Utensils } from "lucide-react";
 import { formatFoodName, getFoodIcon } from "@/utils/funcs";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { Drawer, DrawerTrigger } from "../shadcn/drawer";
+import FoodDrawerContent from "../food-drawer-content";
 
 interface FoodCardContentProps extends React.HTMLAttributes<HTMLDivElement> {
   dish: DishInfo;
@@ -51,6 +54,9 @@ const FoodCardContent = React.forwardRef<
 FoodCardContent.displayName = "FoodCardContent";
 
 export default function FoodCard(dish: DishInfo) {
+  const isDesktop = useMediaQuery('(min-width: 768px)');
+
+  if (isDesktop)
     return (
       <Dialog>
         <DialogTrigger asChild>
@@ -58,5 +64,14 @@ export default function FoodCard(dish: DishInfo) {
         </DialogTrigger>
         <FoodDialogContent {... dish}/>
       </Dialog>
-    )
+    );
+    
+  return (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <FoodCardContent dish={dish}/>
+      </DrawerTrigger>
+      <FoodDrawerContent {... dish}/>
+    </Drawer>
+  );
 }

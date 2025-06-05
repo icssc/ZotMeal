@@ -19,10 +19,17 @@ export default function Home() {
     );
   }
 
+  const toggleHall = () => {
+    if (activeHall === HallEnum.BRANDYWINE)
+      setActiveHall(HallEnum.ANTEATERY);
+    else
+      setActiveHall(HallEnum.BRANDYWINE);
+  };
+
   // Mobile layout: one Side component at a time with switcher
   return (
     <div className="flex flex-col h-screen">
-      <div className="flex-shrink-0 p-3 flex justify-center gap-3 bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700 ">
+      {/* <div className="flex-shrink-0 p-3 flex justify-center gap-3 bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700 ">
         <button
           onClick={() => setActiveHall(HallEnum.BRANDYWINE)}
           className={`px-4 py-2 rounded-md text-sm font-medium transition-colors
@@ -43,10 +50,12 @@ export default function Home() {
         >
           Anteatery
         </button>
-      </div>
+      </div> */}
       <div className="flex-grow overflow-y-auto">
-        {activeHall === HallEnum.BRANDYWINE && <Side hall={HallEnum.BRANDYWINE} />}
-        {activeHall === HallEnum.ANTEATERY && <Side hall={HallEnum.ANTEATERY} />}
+        {activeHall === HallEnum.BRANDYWINE 
+          && <Side hall={HallEnum.BRANDYWINE} toggleHall={toggleHall} />}
+        {activeHall === HallEnum.ANTEATERY 
+          && <Side hall={HallEnum.ANTEATERY} toggleHall={toggleHall} />}
       </div>
     </div>
   );
