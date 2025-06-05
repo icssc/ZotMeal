@@ -187,12 +187,12 @@ export default function Side({hall, toggleHall} : {hall: HallEnum, toggleHall: F
             <div className="flex flex-col-reverse sm:flex-row gap-2 sm:gap-4 w-full">
               {isLoading && <SelectSkeleton/>}
               {!isLoading && !isError && 
-              <div className="flex-1">
+              <div>
                 <Select
                   value={selectedPeriod}
                   onValueChange={(value) => setSelectedPeriod(value || '')}
                 >
-                  <SelectTrigger className=" w-full">
+                  <SelectTrigger className=" w-full sm:w-52">
                     <SelectValue placeholder="Select Meal" />
                   </SelectTrigger>
                   <SelectContent>
@@ -215,7 +215,7 @@ export default function Side({hall, toggleHall} : {hall: HallEnum, toggleHall: F
                 </Select>
               </div>}
               {!isLoading && !isError && openTime && closeTime && // Ensure openTime and closeTime are defined
-              <div className="flex-1 flex justify-center sm:justify-start">
+              <div className="flex justify-center sm:justify-start">
                 <DiningHallStatus
                   status={derivedHallStatus}
                   openTime={openTime.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})}
