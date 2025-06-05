@@ -1,6 +1,7 @@
 import { cn } from "@/utils/tw";
 import { HallStatusEnum } from "@/utils/types";
 
+
 /**
  * Props for the StatusDot component.
  */
@@ -24,6 +25,7 @@ function StatusDot({ status }: StatusDotProps) {
     )} />)
 }
 
+
 /**
  * Props for the DiningHallStatus component.
  */
@@ -36,16 +38,16 @@ interface StatusProps {
     closeTime: string;
 }
 
+/**
+* Renders the status of a dining hall, including a status dot and a descriptive message.
+* @param {StatusProps} props - The props for the component.
+* @returns A JSX element representing the dining hall status.
+*/
 function DiningHallStatus({
     status, 
     openTime, 
     closeTime
-}: StatusProps) {
-    /**
-     * Renders the status of a dining hall, including a status dot and a descriptive message.
-     * @param {StatusProps} props - The props for the component.
-     * @returns A JSX element representing the dining hall status.
-     */
+}: StatusProps): JSX.Element {
     let statusMessage: string = "";
 
     switch (status) {
@@ -72,4 +74,4 @@ function DiningHallStatus({
     )
 }
 
-export { DiningHallStatus }
+export { DiningHallStatus };

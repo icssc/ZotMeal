@@ -47,7 +47,7 @@ export default function Events() {
         width={2000}
         height={2000}
         />
-        <div className="flex flex-col gap-4 justify-center w-full px-12 py-8" id="event-scroll">
+        <div className="flex flex-col gap-4 justify-center w-full p-5 sm:px-12 sm:py-8" id="event-scroll">
           {/* Show skeletons while loading */}
           {isLoading && (
             <>

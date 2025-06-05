@@ -7,6 +7,9 @@ import FoodDialogContent from "../food-dialog-content"
 import { Card, CardContent } from "../shadcn/card"; 
 import { Star, Utensils } from "lucide-react";
 import { formatFoodName, getFoodIcon } from "@/utils/funcs";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { Drawer, DrawerTrigger } from "../shadcn/drawer";
+import FoodDrawerContent from "../food-drawer-content";
 
 /**
  * Props for the FoodCardContent component.
@@ -60,6 +63,7 @@ const FoodCardContent = React.forwardRef<
 });
 FoodCardContent.displayName = "FoodCardContent";
 
+
 /**
  * A Client Component that renders an interactive food card.
  * Clicking the card opens a dialog with full dish details.
@@ -71,6 +75,9 @@ FoodCardContent.displayName = "FoodCardContent";
  * @returns {JSX.Element} A React component representing a food card.
  */
 export default function FoodCard(dish: DishInfo): JSX.Element {
+  const isDesktop = useMediaQuery('(min-width: 768px)');
+
+  if (isDesktop)
     return (
       <Dialog>
         <DialogTrigger asChild>
@@ -78,5 +85,14 @@ export default function FoodCard(dish: DishInfo): JSX.Element {
         </DialogTrigger>
         <FoodDialogContent {... dish}/>
       </Dialog>
-    )
+    );
+  else 
+    return (
+      <Drawer>
+        <DrawerTrigger asChild>
+          <FoodCardContent dish={dish}/>
+        </DrawerTrigger>
+        <FoodDrawerContent {... dish}/>
+      </Drawer>
+    );
 }

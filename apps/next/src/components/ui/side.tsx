@@ -13,6 +13,9 @@ import { toTitleCase, utcToPacificTime, formatOpenCloseTime, isSameDay } from "@
 import TabsSkeleton from "./skeleton/tabs-skeleton";
 import SelectSkeleton from "./skeleton/select-skeleton";
 import { useDate } from "@/context/date-context";
+import { ArrowRightLeft, RefreshCw } from "lucide-react";
+import { Button } from "./shadcn/button";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 
 /**
@@ -21,8 +24,8 @@ import { useDate } from "@/context/date-context";
 interface SideProps {
   /** The specific dining hall to display information for. */
   hall: HallEnum;
-  /** Optional flag indicating if the component is being rendered in a mobile view. Defaults to false. */
-  isMobile?: boolean;
+  /** A function for toggling between sides on mobile. */
+  toggleHall: Function;
 }
 
 /**
@@ -33,9 +36,10 @@ interface SideProps {
  * @param {SideProps} props - The properties for the Side component.
  * @returns {JSX.Element} The rendered side panel for the specified dining hall.
  */
-export default function Side({hall, isMobile = false} : SideProps): JSX.Element {
+export default function Side({hall, toggleHall} : SideProps): JSX.Element {
     const { selectedDate } = useDate();
     const today = new Date();
+    const isDesktop = useMediaQuery('(min-width: 768px)'); // Tailwind's `md` breakpoint
 
     // Fetch data using tRPC
     const { data: queryResponse, isLoading, isError, error } = trpc.zotmeal.useQuery(
@@ -131,9 +135,9 @@ export default function Side({hall, isMobile = false} : SideProps): JSX.Element 
       // Ensure selectedDate is defined and periods are available
       if (selectedDate && periods.length > 0 && Object.keys(availablePeriodTimes).length > 0) {
         const currentPeriodIsValid = periods.some(p => p.toLowerCase() === selectedPeriod.toLowerCase());
-        if (!isSameDay(selectedDate, today))
+        if (!isSameDay(selectedDate, today) && !selectedPeriod) {
           setSelectedPeriod(periods[0])
-        else if (!currentPeriodIsValid) {
+        } else if (!currentPeriodIsValid) {
           setSelectedPeriod(getCurrentPeriod(selectedDate, availablePeriodTimes));
         }
       } else {
@@ -176,49 +180,66 @@ export default function Side({hall, isMobile = false} : SideProps): JSX.Element 
 
     return (
       <div className="z-0 flex flex-col h-full overflow-x-hidden">
-        <Image 
-          className="object-cover object-bottom w-full min-h-[20vh] max-h-[30vh] h-2/5"
-          src={heroImageSrc}
-          alt={heroImageAlt}
-          width={2000}
-          height={2000}
-          priority 
-        />
+        <div className="relative w-full min-h-[20vh] max-h-[30vh] h-2/5">
+          <Image 
+            className="object-cover object-bottom"
+            src={heroImageSrc}
+            alt={heroImageAlt}
+            // width={2000}
+            // height={2000}
+            fill
+            priority 
+          />
+          {!isDesktop && <Button
+            variant="outline"
+            size="icon"
+            className="absolute top-[68px] right-3 rounded-full bg-white shadow-md"
+            onClick={() => toggleHall()}
+          >
+            <ArrowRightLeft className="text-black-500 w-5 h-5" />
+          </Button>}
+        </div>
+        
         <div className="p-5 flex flex-col flex-grow h-1" id="side-content"> 
-          <div className="flex flex-col gap-6 items-center">
-            <div className="flex gap-4 w-full">
+          <div className="flex flex-col gap-4 sm:gap-6 items-center">
+            <div className="flex flex-col-reverse sm:flex-row gap-2 sm:gap-4 w-full">
               {isLoading && <SelectSkeleton/>}
-              {!isLoading && !isError && <Select
-                value={selectedPeriod}
-                onValueChange={(value) => setSelectedPeriod(value || '')}
-              >
-                <SelectTrigger className="w-52">
-                  <SelectValue placeholder="Select Meal" />
-                </SelectTrigger>
-                <SelectContent>
-                  {periods.map((time) => {
-                    const mealTimeKey = time.toLowerCase();
-                    const periodTimes = availablePeriodTimes[mealTimeKey]; 
+              {!isLoading && !isError && 
+              <div>
+                <Select
+                  value={selectedPeriod}
+                  onValueChange={(value) => setSelectedPeriod(value || '')}
+                >
+                  <SelectTrigger className=" w-full sm:w-52">
+                    <SelectValue placeholder="Select Meal" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {periods.map((time) => {
+                      const mealTimeKey = time.toLowerCase();
+                      const periodTimes = availablePeriodTimes[mealTimeKey]; 
 
-                    return (
-                      <SelectItem key={time} value={mealTimeKey}>
-                        {toTitleCase(time)}&nbsp;
-                        {periodTimes && (
-                          <span className="text-zinc-500 text-sm">
-                            &nbsp;({formatOpenCloseTime(periodTimes[0], periodTimes[1])})
-                          </span>
-                        )}
-                      </SelectItem>
-                    );
-                  })}
-                </SelectContent>
-              </Select>}
+                      return (
+                        <SelectItem key={time} value={mealTimeKey}>
+                          {toTitleCase(time)}&nbsp;
+                          {periodTimes && (
+                            <span className="text-zinc-500 text-sm">
+                              &nbsp;({formatOpenCloseTime(periodTimes[0], periodTimes[1])})
+                            </span>
+                          )}
+                        </SelectItem>
+                      );
+                    })}
+                  </SelectContent>
+                </Select>
+              </div>}
               {!isLoading && !isError && openTime && closeTime && // Ensure openTime and closeTime are defined
-              <DiningHallStatus
-                status={derivedHallStatus}
-                openTime={openTime.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})}
-                closeTime={closeTime.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})}
-              />}
+              <div className="flex justify-center sm:justify-start">
+                <DiningHallStatus
+                  status={derivedHallStatus}
+                  openTime={openTime.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})}
+                  closeTime={closeTime.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})}
+                />
+              </div>}
             </div>
             {!isLoading && !isError && fetchedStations.length > 0 && (
               <Tabs
