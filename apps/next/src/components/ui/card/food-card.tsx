@@ -43,18 +43,18 @@ const FoodCardContent = React.forwardRef<
                 <strong>{formatFoodName(dish.name)}</strong>
                 <div className="flex gap-2 items-center">
                   <span>{dish.nutritionInfo.calories == null ? "-" : `${dish.nutritionInfo.calories} cal`}</span>
-                  <div className="flex gap-1 items-center">
+                  {/* <div className="flex gap-1 items-center">
                     <Star className="w-4 stroke-zinc-400 stroke-2"></Star>
                     <span className="text-zinc-400 text-sm text-center">
                       {4.5} ({100})
                     </span>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
-            <div className="flex flex-col justify-center">
+            {/* <div className="flex flex-col justify-center">
               <Star className="w-8 h-8 stroke-zinc-400"></Star>
-            </div>
+            </div> */}
           </div>
         </CardContent>
       </Card>

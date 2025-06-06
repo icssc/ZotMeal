@@ -20,12 +20,8 @@ export const nutritionInfos = pgTable("nutrition_infos", {
   sodiumMg: text("sodium_mg"),
   totalCarbsG: text("total_carbs_g"),
   dietaryFiberG: text("dietary_fiber_g"),
-  sugarsMg: text("sugars_mg"),
+  sugarsG: text("sugars_g"),
   proteinG: text("protein_g"),
-  vitaminAIU: text("vitamin_a_iu"),
-  vitaminCIU: text("vitamin_c_iu"),
-  calciumMg: text("calcium_mg"),
-  ironMg: text("iron_mg"),
   ...metadataColumns,
 });
 
