@@ -1,5 +1,3 @@
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/utils/tw";
 import React from "react";
 
 export default function OngoingBadge() {

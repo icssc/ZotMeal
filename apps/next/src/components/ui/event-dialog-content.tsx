@@ -7,8 +7,16 @@ import { Button } from "./shadcn/button"
 import { HallEnum } from "@/utils/types";
 import { toTitleCase, dateToString, generateGCalLink } from "@/utils/funcs";
 
-
-export default function EventDialogContent(props: EventInfo) {
+/**
+ * `EventDialogContent` renders the detailed view of an event within a dialog.
+ * It displays the event's image, name, date/time, location, a long description,
+ * and a button to add the event to Google Calendar.
+ *
+ * This component is typically used as the content for a `Dialog` triggered by an {@link EventCard}.
+ * @param {EventInfo} props - The event data to display. See {@link EventInfo} for detailed property descriptions.
+ * @returns {JSX.Element} The rendered content for the event dialog.
+ */
+export default function EventDialogContent(props: EventInfo): JSX.Element {
     return (
       <DialogContent>
         <DialogHeader>

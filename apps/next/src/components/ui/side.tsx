@@ -18,7 +18,25 @@ import { Button } from "./shadcn/button";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 
-export default function Side({hall, toggleHall} : {hall: HallEnum, toggleHall: Function}) {
+/**
+ * Props for the {@link Side} component.
+ */
+interface SideProps {
+  /** The specific dining hall to display information for. */
+  hall: HallEnum;
+  /** A function for toggling between sides on mobile. */
+  toggleHall: Function;
+}
+
+/**
+ * `Side` is a client component that displays detailed information for a specific dining hall.
+ * It fetches data using tRPC, manages loading and error states, and allows users to select
+ * meal periods and stations to view available dishes. It also displays the dining hall's
+ * current status (open/closed/preview) and a hero image.
+ * @param {SideProps} props - The properties for the Side component.
+ * @returns {JSX.Element} The rendered side panel for the specified dining hall.
+ */
+export default function Side({hall, toggleHall} : SideProps): JSX.Element {
     const { selectedDate } = useDate();
     const today = new Date();
     const isDesktop = useMediaQuery('(min-width: 768px)'); // Tailwind's `md` breakpoint
@@ -260,6 +278,15 @@ export default function Side({hall, toggleHall} : {hall: HallEnum, toggleHall: F
     )
 }
 
+/**
+ * Determines the current meal period based on the selected date and a list of available meal periods with their start and end times.
+ * If the selected date falls within a meal period, that period's key (name) is returned.
+ * If no period matches, it defaults to the first period in the provided list.
+ * @param {Date} selectedDate - The date/time to check against the meal periods.
+ * @param {{ [periodName: string]: [Date, Date] }} periods - An object where keys are period names (e.g., "breakfast")
+ *                                                            and values are tuples containing the start and end Date objects for that period.
+ * @returns {string} The key/name of the current or default meal period.
+ */
 function getCurrentPeriod(selectedDate: Date, periods: { [periodName: string]: [Date, Date] }): string {
   for (let key in periods) {
     let periodBegin: Date = periods[key][0];

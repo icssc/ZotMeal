@@ -1,16 +1,39 @@
+## About
 
-ZotMeal is a cross-platform React Native Expo application for viewing the UCI dining hall menus.
-A summary of the libraries we use are listed below.
+Navigating UCI's dining options at Brandywine and the Anteatery is now simpler and more informed with ZotMeal. This comprehensive menu viewer, available as a website and mobile app, is designed to enhance your campus dining experience.
+
+Key features of ZotMeal include:
+
+- **_Detailed Menu Viewer_**: Browse current and upcoming menus, allowing you 
+to strategically plan your meal swipes and never miss your favorite dishes.
+- **_Allergen and Dietary Information_**: Make informed choices with easy 
+access to comprehensive ingredient and allergen details for every meal.
+- **_Event Calendar_**: Stay updated on special dining hall events and limited-time offerings.
+- **_Dish Ratings_**: Contribute your own feedback to help fellow Anteaters discover the best of campus dining.
+
+![A screenshot of the ZotMeal website homepage.](./zotmeal-screenshot.jpg)
 
 ## Technology
 
+ZotMeal consists of a Next.js front end application with a serverless, tRPC backend. 
+A summary of the libraries used in each are listed below.
+
 ### Frontend
 
-- [Expo](https://expo.dev) - Universal framework for React Native.
+- [Next.js](https://nextjs.org) - Full-stack React framework used for the website.
 
 ### Backend
-
 - [Drizzle](https://drizzle.dev/) - ORM for Postgres.
 - [AWS](https://aws.amazon.com/) - RDS and Lambda.
 - [Serverless Framework](https://www.serverless.com/) - Framework for cloud resources such as AWS Lambda.
-- [tRPC](https://trpc.io/) - Typesafe RPCs.
+- [tRPC](https://trpc.io/) - Typesafe remote procedure calls to access the underlying Postgres database.
+
+### Tooling
+
+- [Turborepo](https://turborepo.com) - High-performance build system for monorepo scaling.
+- [Tailwind](https://tailwindcss.com) - A utility-first CSS framework.
+- [TypeScript](https://www.typescriptlang.org) - JavaScript with type-checking.
+
+## Contributing
+
+We'd be happy to have your contributions to ZotMeal -- we're always looking to grow and change! Please see [Getting Started](/docs/contributor/zotmeal/getting-started) to learn how to contribute effectively.

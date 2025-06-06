@@ -12,9 +12,20 @@ import { DishInfo } from "@zotmeal/api";
 import { toTitleCase, enhanceDescription } from "@/utils/funcs";
 import { AllergenBadge } from "./allergen-badge";
 
-
-export default function FoodDialogContent(dish: DishInfo) {
-  // State to control nutrient visibility
+/**
+ * `FoodDialogContent` renders the detailed view of a food item (dish) within a dialog.
+ * It displays the dish's image (placeholder for now), name, calories, restaurant,
+ * dietary restriction badges (e.g., vegetarian, vegan), a description,
+ * and a collapsible list of nutritional information.
+ *
+ * Users can toggle the visibility of the full nutrient list.
+ *
+ * This component is typically used as the content for a `Dialog` triggered by a {@link FoodCard}.
+ *
+ * @param {DishInfo} dish - The dish data to display. See {@link DishInfo} (from `@zotmeal/api`) for detailed property descriptions.
+ * @returns {JSX.Element} The rendered content for the food item dialog.
+ */
+export default function FoodDialogContent(dish: DishInfo): JSX.Element {
   const [showAllNutrients, setShowAllNutrients] = useState(false);
   const initialNutrients = ['calories', 'totalFatG', 'totalCarbsG', 'proteinG', 'sugarsMg']; // Define which nutrients to show initially
   const recognizedNutrients = initialNutrients.concat(['transFatG', 'saturatedFatG', 'cholesterolMg', 'sodiumMg', 'calciumMg', 'ironMg'])

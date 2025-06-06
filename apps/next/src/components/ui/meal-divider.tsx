@@ -1,9 +1,12 @@
-
-interface MealDividerProps {
-    title: string
-}
-
-export default function MealDivider({title} : MealDividerProps) {
+/**
+ * Renders a prominent divider with a title, typically used to separate
+ * different meal categories or sections in a list of food items.
+ * @param {object} props - The properties for the meal divider.
+ * @param {string} props.title - The title text to display for the meal section.
+ *                               This will be rendered as a large heading above a horizontal rule.
+ * @returns {JSX.Element} A div element containing a heading and a bottom border.
+ */
+export default function MealDivider({title} : {title: string}): JSX.Element {
     return (
         <div className="border-b-2">
             <h1 className="font-bold text-3xl">{title}</h1>

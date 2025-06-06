@@ -7,9 +7,40 @@ import SidebarContent from "./sidebar/sidebar-content";
 import { DatePicker } from "./shadcn/date-picker";
 import { useDate } from "@/context/date-context";
 
-export default function Toolbar() {
+/**
+ * Renders the main toolbar for the application.
+ *
+ * The toolbar includes:
+ * - A clickable application logo (`Image`) wrapped in a `Link` that navigates to the homepage ("/").
+ * - A `DatePicker` component to allow users to select a specific date. The selected date
+ *   is managed via the `useDate` context.
+ * - A `SheetTrigger` (styled as a `Button` with an icon) to open a `Sheet`
+ *   which contains the `SidebarContent`.
+ *
+ * It leverages the `useDate` custom hook to access and update the globally selected date.
+ * @returns {JSX.Element} The rendered toolbar component.
+ */
+export default function Toolbar(): JSX.Element {
   const { selectedDate, setSelectedDate } = useDate();
 
+  /**
+   * Handles the date selection event from the `DatePicker` component.
+   *
+   * This function updates the `selectedDate` in the `DateContext`.
+   * - If the `newDateFromPicker` is the current calendar day ("today"),
+   *   `selectedDate` is set to the current date *and time* (i.e., `new Date()`).
+   *   This ensures that any application logic relying on the current time of day
+   *   (e.g., determining if a dining hall is currently open) operates correctly.
+   * - If `newDateFromPicker` is a day other than today (past or future),
+   *   `selectedDate` is set to `newDateFromPicker` directly. Typically, date pickers
+   *   return a date set to the beginning of the day (00:00:00), which is suitable
+   *   for viewing schedules or data for an entire specific day.
+   * - If `newDateFromPicker` is `undefined` (e.g., the date selection was cleared),
+   *   `selectedDate` is set to `undefined`.
+   *
+   * @param {Date | undefined} newDateFromPicker - The date selected by the user in the
+   *   `DatePicker`, or `undefined` if the selection was cleared.
+   */
   const handleDateSelect = (newDateFromPicker: Date | undefined) => {
     if (newDateFromPicker) {
       const today = new Date();
