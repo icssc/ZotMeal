@@ -44,7 +44,7 @@ export async function scrapeEvents(html: string): Promise<InsertEvent[]> {
         // do an inner fetch on the event's page for restaurant association
         const href = eventItem.find("a").attr("href");
         if (!href) throw new Error("unable to find event page link");
-        logger.debug(href);
+        // logger.debug(href);
         const eventPageHtml = await getHTML(href);
 
         // skip if unable to fetch event page
@@ -90,7 +90,7 @@ export async function scrapeEvents(html: string): Promise<InsertEvent[]> {
           end,
         } satisfies InsertEvent);
 
-        logger.debug(event);
+        // logger.debug(event);
         return event;
       }),
     );
