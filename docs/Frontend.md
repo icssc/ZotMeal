@@ -1,13 +1,16 @@
-# The Nextjs Frontend
+# The Frontend
 
-The other half of ZotMeal's frontend -- written in the [Next.js](https://nextjs.org) framework.
+ZotMeal's frontend -- written in the [Next.js](https://nextjs.org) framework.
 
 ## Table of Contents
 1. [App Structure](#app-structure)
     a. [📂 App](#-app)
     b. [📂 Components](#-components)
-    c. [📂 Lib](#-lib)
-3. [Backend Integration](#backend-integration)
+    c. [📂 Context](#-context)
+    d. [📂 Hooks](#-hooks)
+    e. [📂 Utils](#-utils)
+2. [Components Breakdown](#components)
+2. [Backend Integration](#backend-integration)
 
 # App Structure
 
@@ -21,15 +24,22 @@ The web app is contained in apps/next, which should look something like:
  ┣ 📂src
  ┃ ┣ 📂app
  ┃ ┣ 📂components
- ┃ ┣ 📂lib
- ┃ ...
+ ┃ ┣ 📂context
+ ┃ ┣ 📂hooks
+ ┃ ┗ 📂utils
  ...
 ```
 
-We will now go into detail about each subdirectory of `📂src`, where most of the work is done.
+> A quick aside about `📂node_modules` and `📂public`: 
+> - `📂public` is for static data that needs serving, like images.
+> - `📂node_modules` is a folder that Node.js automatically generates for the packages used in development.
+
+We will now go into detail about each subdirectory of `📂src`, which 
+comprise the whole of the frontend.
 
 ## 📂 App
-In `📂app`, we use Next.js file router to establish **pages**, which are web pages rendered individually from one another, each with a unique URL.
+In `📂app`, we use Next.js file router to establish **pages**, which are web 
+pages rendered individually from one another, each with a unique URL.
 
 ```
 📂app
@@ -41,27 +51,55 @@ In `📂app`, we use Next.js file router to establish **pages**, which are web p
  ┣ page.tsx
 ```
 
-Without going too far into the weeds of the [Next.js page router](https://nextjs.org/docs/pages/building-your-application/routing/pages-and-layouts), let's breakdown each element:
+Without going too far into the weeds of the [Next.js page router](https://nextjs.org/docs/pages/building-your-application/routing/pages-and-layouts), 
+let's breakdown each element:
 
-- `📂about` & `📂events`: Each folder in Next (if containing a `page.tsx`) represents a page. In this case, `/about` and `/events`.
-- `favicon.ico`: The favicon of the website (the little image that appears next to the tab name).
+- `📂about` & `📂events`: Each folder in Next (if containing a `page.tsx`) 
+represents a page. In this case, `/about` and `/events`.
+- `favicon.ico`: The favicon of the website (the little image that appears 
+next to the tab name).
 - `globals.css`: The global stylesheet for all pages, used by tailwindcss.
 - `page.tsx`: The homepage for the web app.
 
 ## 📂 Components
 
-All of the Next components used in ZotMeal's Nextjs web app are defined in `📂components`.
+All of the components used in ZotMeal's web app are defined in 
+`📂components`.
 
-ZotMeal extends a lot of the [shad/cn](https://ui.shadcn.com/) library's components. As such, you may be better off looking at their documentation to implement your own component for ZotMeal.
+ZotMeal extends a lot of the [shad/cn](https://ui.shadcn.com/) library's 
+components. As such, you may be better off looking at their documentation to 
+implement your own component for ZotMeal.
 
 See [Components](#components) for more details on each unique component.
 
-## 📂 Lib
+## 📂 Context
 
-`📂lib` is largely empty (as of `v0.1 preview`), but there are plans to implement the backend integration functions (such as fetching with tRPC) in this folder.
+All of the [contexts](https://react.dev/learn/passing-data-deeply-with-context)
+used in ZotMeal's webapp are defined in `📂context`.
+
+Essentially, a context is a method of passing information between components
+without having to **prop drill**, or pass props deeply into children that may
+or may not use those props. See the link above for React context information.
+
+## 📂 Hooks
+
+All of the [hooks](https://react.dev/reference/react/hooks) used in ZotMeal's
+webapp are defined in `📂hooks`.
+
+See the link above for more information on React hooks.
+
+## 📂 Utils
+
+Functions, types, constants, and other static information/tools used across
+ZotMeal's webapp are defined in `📂utils`.
+
+## Defining Your Own Folder
+
+If for some reason you find yourself writing a file that doesn't fit within the
+predefined folders above, please reach out to a current ZotMeal lead to figure
+out whether a new folder needs to be created for organization. 
 
 # Components
-
 ## Contributor
 
 | ![Image of contributor.](./component-images/contributor.png) |
@@ -174,5 +212,7 @@ Not yet implemented.
 
 # Backend Integration
 
-| :bangbang: Backend Integration is not yet complete, so this section is constantly under revision.|
-| - |
+ZotMeal leverages a tRPC backend, which queries a local Postgres database. 
+This database has cron jobs run on it that pull CampusDish data daily and weekly for dishes and events.
+
+Most of the tRPC calls in the frontend (as of writing) are performed in the `side.tsx` file (Side component). For more information on the tRPC functions, check out `docs/Serverless Functions.md`, `docs/tRPC Procedures`, and the `packages/api/src` folder.

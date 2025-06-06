@@ -18,8 +18,8 @@
    `npm install --global pnpm`
 
 3. Make sure to have `docker` installed, which can be installed from [the official website](https://www.docker.com/get-started/). It will allow you to
-   - run the local postgres database required for backend functions.
-   - run backend tests that rely on Testcontainers.
+   - Run the local postgres database required for backend functions
+   - Run backend tests that rely on test containers
 
 ### Developing
 
@@ -39,15 +39,12 @@
 
 8. Run `pnpm db:push` to push the schema to the docker database.
 
-9. Start local development by running `pnpm dev` in the root directory. `/apps/expo` and `pnpm dev` in `/apps/server` (or `pnpm dev` in the root directory).
+9. Start local development by running `pnpm dev:next` in the root directory.
    The tRPC procedures are available on <http://localhost:3000/><router.procedure\>?input={field: value}
+   (e.g. http://localhost:3000/events.get/)
 
-```sh
-   # example
-   http://localhost:3000/events.get
-```
 
-10. View the local website at <http://localhost:8081> and/or with the [Expo Go mobile app](https://expo.dev/client).
+10. View the local website at <http://localhost:8080>.
    As you make changes to the Expo application, those changes will be automatically
    reflected on the local website as well as the mobile app.
 
@@ -65,9 +62,6 @@ Ensure Node is correct version
    - `fnm install v20` or `nvm install v20`
    - `fnm use 20` or `nvm use 20`
 
-Clear expo cache
-- Run `npx expo start -c` to clear the expo cache. This usually helps when `pnpm dev` gives an expo related error 
-
 ### Structure Overview
 
 The following directory tree outlines the major folders in the ZotMeal repository:
@@ -76,7 +70,6 @@ The following directory tree outlines the major folders in the ZotMeal repositor
 📦ZotMeal
  ┣ 📂node_modules
  ┣ 📂apps
- ┃ ┣ 📂expo
  ┃ ┣ 📂next
  ┃ ┗ 📂server
  ┣ 📂packages
@@ -90,20 +83,22 @@ The following directory tree outlines the major folders in the ZotMeal repositor
 The `node_modules` folder contains all ***Node.js*** packages that the repository uses
 
 The `apps` folder contains major endpoints that ZotMeal uses
-- `apps/expo` contains all the frontend scripts used to build the mobile app, written in **React Native**.
-- `apps/next` contains all of the frontend components and scripts used to build the web app, written in **Next.js**.
-- `apps/server` contains the scripts used to connect backend functions to AWS Lambda Serverless procedures.
+- `apps/next` contains all of the frontend components and scripts used to build 
+  the web app, written in **Next.js**.
+- `apps/server` contains the scripts used to connect backend functions to AWS 
+  Lambda Serverless procedures.
 
 The `packages` folder contains all the functionality of the backend of ZotMeal.
 - `packages/api` contains all the ***tRPC** procedures used
 - `packages/db` contains the database schema (written using ***DrizzleORM***)
-- `packages/validators` contains information used for type verification of API schemas used in the backend (written using ***Zod***)
+- `packages/validators` contains information used for type verification of 
+  API schemas used in the backend (written using ***Zod***)
 
 ### Testing
 
 Run `turbo test` at the root of the project.
 
-**Database**
+**Database (IMPORTANT FOR NON-STATIC DATA)**
 
 Run the following commands to pull data into your local database. 
 

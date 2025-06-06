@@ -17,7 +17,6 @@ Inside the `src/functions/cron` we can find:
 
 ```
 📂cron  
- ┣ 📜broadcastNotification.ts  
  ┣ 📜daily.ts    
  ┗ 📜weekly.ts
 ```
@@ -31,9 +30,6 @@ menu information.
 
 - **Weekly**: Fetches all menus from CampusDishAPI for all days at most 2 week 
 away from today. Allows users to see future menus for up to 2 week away.
-
-- **BroadcastNotification**: Broadcasts a notification using expo notifications 
-when special events are occurring on the given day.
 
 ## Server Functions
 
