@@ -115,9 +115,10 @@ export default function About() {
                 />
               ))
             } 
-          <p className="text-sm italic font-light text-zinc-500">.. you could be here!</p>
         </div>
+        <p className="text-sm italic font-light text-zinc-500">.. you could be here!</p>
       </div>
+    </div>
     </div>
   )
 }
