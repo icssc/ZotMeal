@@ -264,9 +264,6 @@ Ensure Node is correct version
 - Node v20 (latest of that version)
 - Check by running `node -v`
 
-Clear expo cache
-- Run `npx expo start -c` to clear the expo cache. This usually helps when `pnpm dev` gives an expo related error 
-
 ### Testing
 
 Run `npx turbo test` at the root of the project.
