@@ -14,14 +14,15 @@ __/\\\\\\\\\\\\\\\______________________________/\\\\____________/\\\\__________
 
 ## About
 
-ZotMeal is a cross-platform React Native Expo application.
-A summary of the libraries we use are listed below.
+ZotMeal is a cross-platform Next.js application that provides nutritional information about meals available at Brandywine and the Anteatery. Students use ZotMeal to plan their daily meals and track progress toward their nutritional goals. ZotMeal features up-to-date menus, dining hall events, meal ratings, and more -- all with the goal of making campus dining more accessible and user-friendly.
+
+At a high-level, we use .
 
 ## Technology
 
 ### Frontend
 
-- [Expo](https://expo.dev) - Universal framework for React Native.
+- [Next](https://nextjs.org/) - React framework for buidling fast and scalable web applications.
 
 ### Backend
 
@@ -242,7 +243,7 @@ erDiagram
 
 8. Run `pnpm db:push` to push the schema to the docker database.
 
-9. Start local development by running `pnpm dev` in `/apps/expo-rewrite` and `pnpm dev` in `/apps/server` (or `turbo dev` in the root directory).
+9. Start local development by running `pnpm dev:next` in the root directory. This will start the server in `apps/server` and the client in `apps/next`.
    The tRPC procedures are available on <http://localhost:3000/><router.procedure\>?input={field: value}
 
    ```sh
@@ -250,9 +251,7 @@ erDiagram
    http://localhost:3000/events.get
    ```
 
-10. View the local website at <http://localhost:8081> and/or with the [Expo Go mobile app](https://expo.dev/client).
-   As you make changes to the Expo application, those changes will be automatically
-   reflected on the local website as well as the mobile app.
+10. View the local website at <http://localhost:8081>. If no data is displayed, make sure there is data in you local DB (scroll down to see how to pull data).
 
 ### Troubleshooting
 
@@ -286,7 +285,7 @@ pnpm test:daily
 pnpm test:weekly
 ```
 
-If you want to check the contents of the database, run the following command (while the server is not running)
+If you want to check the contents of the database, run the following command in the root directory (while the server is not running).
 
 ```sh
 pnpm db:studio
@@ -294,4 +293,4 @@ pnpm db:studio
 
 ### Adding Workspaces
 
-To add a new package run `turbo gen workspace` and follow the prompts
+To add a new package run `turbo gen workspace` and follow the prompts.
