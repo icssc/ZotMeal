@@ -11,7 +11,7 @@ Inside the `./apps/server` you will see something like this:
  ...
 ```
 
-The `src/functions/trpc` directory is used for creating API endpoints for our tRPC functions (for future work)
+The `src/functions/trpc` directory is used for creating API endpoints for our tRPC functions (for future work). tRPC helps us write APIs with autocomplete and type checking.
 
 Inside the `src/functions/cron` we can find:
 

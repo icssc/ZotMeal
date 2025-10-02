@@ -14,22 +14,40 @@ __/\\\\\\\\\\\\\\\______________________________/\\\\____________/\\\\__________
 
 ## About
 
-ZotMeal is a cross-platform Next.js application that provides nutritional information about meals available at Brandywine and the Anteatery. Students use ZotMeal to plan their daily meals and track progress toward their nutritional goals. ZotMeal features up-to-date menus, dining hall events, meal ratings, and more -- all with the goal of making campus dining more accessible and user-friendly.
+Navigating UCI's dining options at Brandywine and the Anteatery is now simpler and more informed with ZotMeal. This comprehensive menu viewer, available as a website and mobile app, is designed to enhance your campus dining experience. UCI students use ZotMeal to plan their daily meals and track progress toward their nutritional goals.
 
-At a high-level, we use .
+Key features of ZotMeal include:
+
+- **_Detailed Menu Viewer_**: Browse current and upcoming menus, allowing you 
+to strategically plan your meal swipes and never miss your favorite dishes.
+- **_Allergen and Dietary Information_**: Make informed choices with easy 
+access to comprehensive ingredient and allergen details for every meal.
+- **_Event Calendar_**: Stay updated on special dining hall events and limited-time offerings.
+- **_Dish Ratings_**: Contribute your own feedback to help fellow Anteaters discover the best of campus dining.
+
+![A screenshot of the ZotMeal website homepage.](./zotmeal-screenshot.jpg)
 
 ## Technology
 
+ZotMeal consists of a Next.JS frontend with a shared backend. A summary of the libraries used in each are listed below.
+
 ### Frontend
 
-- [Next](https://nextjs.org/) - React framework for buidling fast and scalable web applications.
+- [Next.js](https://nextjs.org) - Full-stack React framework used for the website.
+- [shad/cn](https://ui.shadcn.com/) - A library of fully customizable, plug-n-play components for use with React.
+- [Zustand](https://github.com/pmndrs/zustand) - State management library for React apps. 
 
 ### Backend
-
 - [Drizzle](https://drizzle.dev/) - ORM for Postgres.
 - [AWS](https://aws.amazon.com/) - RDS and Lambda.
 - [Serverless Framework](https://www.serverless.com/) - Framework for cloud resources such as AWS Lambda.
-- [tRPC](https://trpc.io/) - Typesafe RPCs.
+- [tRPC](https://trpc.io/) - Typesafe remote procedure calls to access the underlying Postgres database.
+
+### Tooling
+
+- [Turborepo](https://turborepo.com) - High-performance build system for monorepo scaling.
+- [Tailwind](https://tailwindcss.com) - A utility-first CSS framework.
+- [TypeScript](https://www.typescriptlang.org) - JavaScript with type-checking.
 
 ### Schema ER Diagram
 
@@ -227,23 +245,23 @@ erDiagram
 
 ### Developing
 
-1. Clone the ZotMeal repository or your fork.
+1. Clone the ZotMeal repository from GitHub.
    `git clone https://github.com/icssc/ZotMeal.git`
 
-3. Change your node version to the one specified in the .nvmrc
+2. Navigate to the root directory and change your node version to the one specified in the .nvmrc by running 
    `nvm use` or `fnm use`. In particular, we will be using Node v20.
    
-5. Navigate to the root directory and install the dependencies.
+3. While still in the root directory and install the dependencies by running
    `cd ZotMeal && pnpm install`
 
-6. To start a local Postgres container database run the `docker compose up` in the root directory.
+4. To start a local Postgres container database run the `docker compose up` in the root directory.
    This will automatically set up and run a test database using docker.
 
-7. Create a new file called `.env` based on the example given in `.env.development`
+5. Create a new file called `.env` based on the example given in `.env.development`
 
-8. Run `pnpm db:push` to push the schema to the docker database.
+6. Run `pnpm db:push` to push the schema to the docker database.
 
-9. Start local development by running `pnpm dev:next` in the root directory. This will start the server in `apps/server` and the client in `apps/next`.
+7. Start local development by running `pnpm dev:next` in the root directory. This will start the server in `apps/server` and the client in `apps/next`.
    The tRPC procedures are available on <http://localhost:3000/><router.procedure\>?input={field: value}
 
    ```sh
@@ -251,7 +269,10 @@ erDiagram
    http://localhost:3000/events.get
    ```
 
-10. View the local website at <http://localhost:8081>. If no data is displayed, make sure there is data in you local DB (scroll down to see how to pull data).
+8.  Pull the latest CampusDish data into your local database by `cd`'ing into the `apps/server` directory and running `pnpm run test:daily` or `pnpm run test:weekly`.
+
+9.  View the local website at [http://localhost:8080](http://localhost:8080). As you make changes to the Next.js application, those changes will be automatically
+reflected on the local website.
 
 ### Troubleshooting
 
@@ -263,6 +284,9 @@ Reinstall packages
 Ensure Node is correct version
 - Node v20 (latest of that version)
 - Check by running `node -v`
+- If not, download/switch to v20, by running:
+   - `fnm install v20` or `nvm install v20`
+   - `fnm use 20` or `nvm use 20`
 
 ### Testing
 

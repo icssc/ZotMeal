@@ -23,30 +23,34 @@
 
 ### Developing
 
-1. Clone the ZotMeal repository or your fork.
+1. Clone the ZotMeal repository from GitHub.
    `git clone https://github.com/icssc/ZotMeal.git`
 
-3. Change your node version to the one specified in the .nvmrc
-   `nvm use` or `fnm use`
+2. Navigate to the root directory and change your node version to the one specified in the .nvmrc by running 
+   `nvm use` or `fnm use`. In particular, we will be using Node v20.
    
-5. Navigate to the root directory and install the dependencies.
+3. While still in the root directory and install the dependencies by running
    `cd ZotMeal && pnpm install`
 
-6. To start a local Postgres container database run the `docker compose up` in the root directory.
+4. To start a local Postgres container database run the `docker compose up` in the root directory.
    This will automatically set up and run a test database using docker.
 
-7. Create a .env based on the example given in `.env.development`
+5. Create a new file called `.env` based on the example given in `.env.development`
 
-8. Run `pnpm db:push` to push the schema to the docker database.
+6. Run `pnpm db:push` to push the schema to the docker database.
 
-9. Start local development by running `pnpm dev:next` in the root directory.
+7. Start local development by running `pnpm dev:next` in the root directory. This will start the server in `apps/server` and the client in `apps/next`.
    The tRPC procedures are available on <http://localhost:3000/><router.procedure\>?input={field: value}
-   (e.g. http://localhost:3000/events.get/)
 
+   ```sh
+   # example
+   http://localhost:3000/events.get
+   ```
 
-10. View the local website at <http://localhost:8080>.
-   As you make changes to the Expo application, those changes will be automatically
-   reflected on the local website as well as the mobile app.
+8.  Pull the latest CampusDish data into your local database by `cd`'ing into the `apps/server` directory and running `pnpm run test:daily` or `pnpm run test:weekly`.
+
+9.  View the local website at [http://localhost:8080](http://localhost:8080). As you make changes to the Next.js application, those changes will be automatically
+reflected on the local website.
 
 ### Troubleshooting
 
