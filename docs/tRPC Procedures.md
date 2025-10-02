@@ -29,6 +29,7 @@ Within each subfolder, we find 2-4 `.ts` files that looks something like this:
 - The `router.ts` file contains tRPC procedures that exported via the tRPC router.
 - The `services.ts` file contains helper functions that are used in the tRPC procedures mentioned above
 - The files with extension `.test.ts` contain tests that run when running `turbo test`. See ***creating tests*** for more information.
+- For our tRPC functions, we use Zod to define and validate schemas for input variables at runtime.
 
 We will now go into detail about each individual tRPC procedure.
 
