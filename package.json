@@ -36,8 +36,5 @@
     "overrides": {
       "@auth/core": "0.20.0"
     }
-  },
-  "dependencies": {
-    "vaul": "^1.1.2"
   }
 }

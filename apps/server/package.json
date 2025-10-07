@@ -20,6 +20,7 @@
     "axios": "catalog:",
     "date-fns": "catalog:",
     "expo-server-sdk": "catalog:",
+    "serverless": "^3.40.0",
     "serverless-esbuild": "catalog:",
     "serverless-offline": "catalog:"
   },
