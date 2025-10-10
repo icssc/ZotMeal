@@ -261,7 +261,7 @@ erDiagram
 
 6. Run `pnpm db:push` to push the schema to the docker database.
 
-7. Start local development by running `pnpm dev:next` in the root directory. This will start the server in `apps/server` and the client in `apps/next`.
+7. Start local development by running `pnpm dev` in the root directory. This will start the server in `apps/server` and the client in `apps/next`.
    The tRPC procedures are available on <http://localhost:3000/><router.procedure\>?input={field: value}
 
    ```sh
