@@ -15,4 +15,34 @@ export const AEMEventListSchema = z.array(
   })
 );
 
+/* Represents the schema of the return data from query getLocationRecipes */
+export const GetLocationRecipesSchema = z.object({
+  locationRecipesMap: z.object({
+    stationSkuMap: z.array(
+      z.object({
+        id: z.number(),
+        skus: z.array(z.string()).nonempty()
+      })
+    )
+  }),
+  products: z.object({
+    items: z.array(
+      z.object({
+        productView: z.object({
+          sku: z.string(),
+          name: z.string(),
+          images: z.array(
+            z.object({
+              label: z.string(),
+              roles: z.array(z.string()),
+              url: z.string()
+            })
+          )
+          // TODO: attributes
+        })
+      })
+    )
+  })
+});
+
 export type EventList = z.infer<typeof AEMEventListSchema>;
