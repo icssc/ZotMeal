@@ -94,7 +94,9 @@ export const GetLocationSchema = z.object({
                 meal_period: z.string(),
                 opening_hours: z.string(),
               })
-            )
+            ),
+            start_date: z.string().date(),
+            end_date: z.string().date(),
           })
         )
       })
@@ -107,7 +109,12 @@ export type LocationRecipes = z.infer<typeof GetLocationRecipesSchema>;
 export type LocationInfo = z.infer<typeof GetLocationSchema>;
 export type MealPeriod = LocationInfo["Commerce_mealPeriods"][0]
 
-type MealPeriodWithHours = MealPeriod & {open: Date, close: Date};
+// Indexed starting with Monday-Sunday
+export type WeekTimes = [string, string, string, string, string, string, string]
+export type MealPeriodWithHours = MealPeriod & {
+  openHours: WeekTimes, 
+  closeHours: WeekTimes
+};
 export type DiningHallInformation = {
   mealPeriods: MealPeriodWithHours[],
   allergenIntoleranceCodes: {
@@ -121,5 +128,6 @@ export type DiningHallInformation = {
   stationsInfo: {
     uid: string,
     name: string,   // e.g. Fire and Ice
+    position: number,
   } [],
 }
