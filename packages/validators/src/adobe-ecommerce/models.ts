@@ -50,5 +50,76 @@ export const GetLocationRecipesSchema = z.object({
   })
 });
 
+export const GetLocationSchema = z.object({
+  Commerce_mealPeriods: z.array(
+    z.object({
+      name: z.string(),
+      id: z.number(),
+      position: z.number(),
+    })
+  ),
+  Commerce_attributesList: z.object({
+    items: z.array(
+      z.object({
+        code: z.string(),
+        options: z.array(
+          z.object({
+            value: z.string(),
+            label: z.string(),
+          })
+        )
+      })
+    )
+  }),
+  getLocation: z.object({
+    commerceAttributes: z.object({
+      maxMenusDate: z.date(),
+      children: z.array(
+        z.object({
+          uid: z.string(),
+          name: z.string(),
+          position: z.number()
+        })
+      )
+    }),
+    aemAttributes: z.object({
+      hoursOfOperation: z.object({
+        schedule: z.array(
+          z.object({
+            id: z.string(),
+            name: z.string(),
+            type: z.string(),
+            meal_periods: z.array(
+              z.object({
+                meal_period: z.string(),
+                opening_hours: z.string(),
+              })
+            )
+          })
+        )
+      })
+    })
+  })
+})
+
 export type EventList = z.infer<typeof AEMEventListSchema>;
 export type LocationRecipes = z.infer<typeof GetLocationRecipesSchema>;
+export type LocationInfo = z.infer<typeof GetLocationSchema>;
+export type MealPeriod = LocationInfo["Commerce_mealPeriods"][0]
+
+type MealPeriodWithHours = MealPeriod & {open: Date, close: Date};
+export type DiningHallInformation = {
+  mealPeriods: MealPeriodWithHours[],
+  allergenIntoleranceCodes: {
+    code: number,
+    label: string   // e.g. Eggs
+  } [],
+  menuPreferenceCodes: {
+    code: number,
+    label: string   // e.g. Gluten Free
+  } [],
+  stationsInfo: {
+    uid: string,
+    name: string,   // e.g. Fire and Ice
+  } [],
+}
