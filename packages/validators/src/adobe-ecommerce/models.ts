@@ -37,8 +37,13 @@ export const GetLocationRecipesSchema = z.object({
               roles: z.array(z.string()),
               url: z.string()
             })
+          ),
+          attributes: z.array(
+            z.object({
+              name: z.string(),
+              value: z.string()
+            })
           )
-          // TODO: attributes
         })
       })
     )
@@ -46,3 +51,4 @@ export const GetLocationRecipesSchema = z.object({
 });
 
 export type EventList = z.infer<typeof AEMEventListSchema>;
+export type LocationRecipes = z.infer<typeof GetLocationRecipesSchema>;
