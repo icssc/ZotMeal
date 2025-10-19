@@ -1,0 +1,16 @@
+{
+  "name": "@zotmeal/graphql",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx index.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.6",
+    "typescript": "latest"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "ts-node": "^10.9.2"
+  }
+}
