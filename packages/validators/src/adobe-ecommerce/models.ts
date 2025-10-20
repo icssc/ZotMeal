@@ -1,19 +1,25 @@
 import { z } from "zod";
 
 /* Represents the schema of the return data from query AEM_eventList */
-export const AEMEventListSchema = z.array(
-  z.object({
-    title: z.string().min(1),
-    subtitle: z.string().min(1),
-    description: z.object({
-      markdown: z.string().min(1)
-    }),
-    startDate: z.string().date(),
-    endDate: z.string().date().nullable(),
-    startTime: z.string().time(),
-    endTime: z.string().time().nullable(),
+export const AEMEventListSchema = z.object({
+  data: z.object({
+    AEM_eventList: z.object({
+      items: z.array(
+        z.object({
+          title: z.string().min(1),
+          subtitle: z.string().min(1),
+          description: z.object({
+            markdown: z.string().min(1)
+          }),
+          startDate: z.string().date(),
+          endDate: z.string().date().nullable(),
+          startTime: z.string().time(),
+          endTime: z.string().time().nullable(),
+        })
+      )
+    })
   })
-);
+});
 
 /* Represents the schema of the return data from query getLocationRecipes */
 export const GetLocationRecipesSchema = z.object({
@@ -41,7 +47,10 @@ export const GetLocationRecipesSchema = z.object({
           attributes: z.array(
             z.object({
               name: z.string(),
-              value: z.string()
+              value: z.union([
+                z.string(), 
+                z.array(z.string())
+              ])
             })
           )
         })
@@ -73,7 +82,7 @@ export const GetLocationSchema = z.object({
   }),
   getLocation: z.object({
     commerceAttributes: z.object({
-      maxMenusDate: z.date(),
+      maxMenusDate: z.string().date(),
       children: z.array(
         z.object({
           uid: z.string(),
@@ -95,8 +104,8 @@ export const GetLocationSchema = z.object({
                 opening_hours: z.string(),
               })
             ),
-            start_date: z.string().date(),
-            end_date: z.string().date(),
+            start_date: z.string().date().optional(),
+            end_date: z.string().date().optional(),
           })
         )
       })
@@ -128,6 +137,5 @@ export type DiningHallInformation = {
   stationsInfo: {
     uid: string,
     name: string,   // e.g. Fire and Ice
-    position: number,
   } [],
 }
