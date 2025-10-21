@@ -227,9 +227,9 @@ function parseOpeningHours(hoursString : string): [WeekTimes, WeekTimes] {
 
 /** 
  * Fetches list of events for a given location 
- * and upserts events into DB
+ * Returns list of InsertEvent objects to be upserted into DB
 */
-export async function getAndUpsertAEMEvents(
+export async function getAEMEvents(
   location: keyof typeof restaurantMap
 ): Promise<InsertEvent[]> {
   const queryFilter = {
