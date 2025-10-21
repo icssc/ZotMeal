@@ -1,16 +1,19 @@
-import { RestaurantName } from "@zotmeal/db";
+import { getRestaurantId, InsertEvent, RestaurantName } from "@zotmeal/db";
 import { 
   type LocationRecipes, 
   type LocationInfo, 
   GetLocationSchema, 
   DiningHallInformation, 
   type MealPeriodWithHours,
-  type WeekTimes
+  type WeekTimes,
+  AEMEventListSchema,
+  type EventList
 } from "@zotmeal/validators";
 import { 
   graphQLEndpoint,
   graphQLHeaders,
-  getLocationQuery, 
+  getLocationQuery,
+  AEMEventListQuery
 } from "./queries";
 import axios, { AxiosResponse } from "axios";
 import { logger } from "@api/logger";
@@ -43,7 +46,7 @@ export async function getLocationInformation(
     sortOrder: sortOrder
   }
 
-  let response = 
+  let response = await
     queryAdobeECommerce(getLocationQuery, getLocationVariables);
   
   let data: LocationInfo = 
@@ -219,4 +222,69 @@ function parseOpeningHours(hoursString : string): [WeekTimes, WeekTimes] {
         openingTime as WeekTimes,
         closingTime as WeekTimes
     ];
+}
+
+
+/** 
+ * Fetches list of events for a given location 
+ * and upserts events into DB
+*/
+export async function getAndUpsertAEMEvents(
+  location: keyof typeof restaurantMap
+): Promise<InsertEvent[]> {
+  const queryFilter = {
+    "filter": {
+      "campus": {
+        "_expressions": [
+          {
+            "_operator": "EQUALS",
+            "value": "campus"
+          }
+        ]
+      },
+      "location": {
+        "name": {
+          "_expressions": [
+            {
+              "value": location,
+              "_operator": "EQUALS"
+            }
+          ]
+        }
+      }
+    },
+  }
+
+  let response = await
+    queryAdobeECommerce(AEMEventListQuery, queryFilter);
+  let data: EventList = 
+    AEMEventListSchema.parse(response);
+  let events = data.data.AEM_eventList.items
+  const restaurantID = getRestaurantId(restaurantMap[location])
+
+  return events.map(e => {
+    let startDate = parseEventDate(e.startDate, e.startTime)
+    let endDate = e.endTime
+      ? parseEventDate(e.endDate ?? e.startDate, e.endTime)
+      : null
+
+    return {
+      title: e.title,
+      image: null,
+      restaurantId: restaurantID,
+      shortDescription: null,
+      longDescription: e.description.markdown,
+      start: startDate,
+      end: endDate 
+    }
+  })
+}
+
+const restaurantMap = {
+  "The Anteatery": "anteatery",
+  "Brandywine": "brandywine"
+} as const
+
+const parseEventDate = (dateStr: string, time: string) => {
+  return new Date(`${dateStr}T${time}`)
 }

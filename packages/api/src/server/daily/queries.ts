@@ -50,3 +50,21 @@ export const getLocationQuery = `
     }
   }
 `
+
+export const AEMEventListQuery = `
+  query AEM_eventList($filter: AEM_EventModelFilter) {
+    AEM_eventList(filter: $filter) {
+      items {
+        title
+        subtitle
+        description {
+          markdown
+        }
+        startDate
+        endDate
+        startTime
+        endTime
+      }
+    }
+  }
+`
