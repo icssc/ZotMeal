@@ -173,6 +173,7 @@ export const GetLocationSchema = z.object({
 
 export type EventList = z.infer<typeof AEMEventListSchema>;
 export type LocationRecipesDaily = z.infer<typeof GetLocationRecipesDailySchema>;
+export type LocationRecipesWeekly = z.infer<typeof GetLocationRecipesWeeklySchema>;
 export type LocationInfo = z.infer<typeof GetLocationSchema>;
 export type MealPeriod = LocationInfo["data"]["Commerce_mealPeriods"][0]
 

@@ -18,17 +18,22 @@ import {
   type WeekTimes,
   AEMEventListSchema,
   type EventList,
-  GetLocationRecipesDailySchema
+  GetLocationRecipesDailySchema,
+  LocationRecipesWeekly,
+  GetLocationRecipesWeeklySchema
 } from "@zotmeal/validators";
 import { 
   graphQLEndpoint,
   graphQLHeaders,
   getLocationQuery,
   AEMEventListQuery,
-  GetLocationRecipesQuery,
+  GetLocationRecipesDailyQuery,
   GetLocationQueryVariables,
   AEMEventListQueryVariables,
-  AEMEventListQueryRestaurant
+  AEMEventListQueryRestaurant,
+  GetLocationRecipesWeeklyVariables,
+  GetLocationRecipesDailyVariables,
+  GetLocationRecipesWeeklyQuery
 } from "./queries";
 import axios, { AxiosResponse } from "axios";
 import { logger } from "@api/logger";
@@ -150,10 +155,10 @@ export async function getAdobeEcommerceMenuDaily(
     locationUrlKey: restaurantUrlMap[restaurantName],
     mealPeriod: periodId,
     viewType: "DAILY",
-  }
+  } as GetLocationRecipesDailyVariables;
 
   const res = await 
-    queryAdobeECommerce(GetLocationRecipesQuery, getLocationRecipesVariables);
+    queryAdobeECommerce(GetLocationRecipesDailyQuery, getLocationRecipesVariables);
   
   const parsedData: LocationRecipesDaily
     = GetLocationRecipesDailySchema.parse(res);
@@ -164,7 +169,7 @@ export async function getAdobeEcommerceMenuDaily(
   const products =
     parsedData.data.getLocationRecipes.products.items;
 
-  let dishes: InsertDish[] = stationSkuMap.flatMap(station => 
+  return stationSkuMap.flatMap(station => 
     station.skus.map(sku => {
       // NOTE: This may be.. majorly majorly inefficient. I can't think of any 
       // way to structure the data such that we can reformat like this.
@@ -181,17 +186,78 @@ export async function getAdobeEcommerceMenuDaily(
       const category = item?.productView.attributes
         .find(attr => attr.name == "master_recipe_type"); // Cereal, Fruit, etc.
 
+      const recipeIngredients = item?.productView.attributes
+        .find(attr => attr.name == "recipe_ingredients"); 
+
       return {
         id: sku,
         name: item?.productView.name ?? "UNIDENTIFIED",
         stationId: station.id.toString(),
         description: itemDescription?.value ?? "",
         category: category?.value ?? "",
+        ingredients: recipeIngredients?.value ?? "",
       } as InsertDish;
     })
   );
+}
 
-  return dishes;
+type DateDish = {date: Date} & InsertDish;
+// TODO: Reorg into separate file? Or just overhaul the 
+//       server function organization entirely?
+export async function getAdobeEcommerceMenuWeekly(
+  date: Date,
+  restaurantName: RestaurantName,
+  periodId: string,
+): Promise<DateDish[]> {
+  const getLocationRecipesWeeklyVariables = {
+    date: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+    locationUrlKey: restaurantUrlMap[restaurantName],
+    mealPeriod: periodId,
+    viewType: "WEEKLY",
+  } as GetLocationRecipesWeeklyVariables;
+
+  const res
+    = queryAdobeECommerce(GetLocationRecipesWeeklyQuery, getLocationRecipesWeeklyVariables);
+  
+  const parsedData: LocationRecipesWeekly
+    = GetLocationRecipesWeeklySchema.parse(res);
+  const products 
+    = parsedData.data.getLocationRecipes.products.items;
+  const dateSkuMap 
+    = parsedData.data.getLocationRecipes.locationRecipesMap.dateSkuMap;
+ 
+  return dateSkuMap.flatMap(dateMap =>
+    dateMap.stations.flatMap(stationMap =>
+      stationMap.skus.simple.map(sku => {
+
+      const item = products.find(value => value.productView.sku == sku);
+
+      if (item == undefined) {
+        logger.error({msg: `Unable to find product with sku ${sku}.`})
+      }
+
+      const itemDescription = item?.productView.attributes
+        .find(attr => attr.name == "marketing_description");
+
+      const category = item?.productView.attributes
+        .find(attr => attr.name == "master_recipe_type"); // Cereal, Fruit, etc.
+
+
+      const recipeIngredients = item?.productView.attributes
+        .find(attr => attr.name == "recipe_ingredients"); 
+
+        return {
+          date: new Date(dateMap.date),
+          id: sku,
+          name: item?.productView.name ?? "UNIDENTIFIED",
+          description: itemDescription?.value ?? "",
+          category: category?.value ?? "",
+          ingredients: recipeIngredients?.value ?? "",
+          stationId: stationMap.id.toString(),
+        } as DateDish;
+      })
+    )
+  );
 }
 
 /**

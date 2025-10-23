@@ -97,7 +97,7 @@ export type AEMEventListQueryVariables = {
 export type AEMEventListQueryRestaurant = 
   AEMEventListQueryVariables["location"]["name"]["_expressions"]["value"];
 
-export const GetLocationRecipesQuery = `
+export const GetLocationRecipesDailyQuery = `
   query getLocationRecipes(
     $locationUrlKey: String!
     $date: String!
@@ -166,3 +166,90 @@ export const GetLocationRecipesQuery = `
     }
   }
 `
+export type GetLocationRecipesDailyVariables = {
+  date: string,
+  locationUrlKey: "brandywine" | "the-anteatery",
+  mealPeriod: string,
+  viewType: "DAILY",
+};
+
+export const GetLocationRecipesWeeklyQuery = `
+  query getLocationRecipes(
+    $locationUrlKey: String!
+    $date: String!
+    $mealPeriod: Int
+    $viewType: Commerce_MenuViewType!
+  ) {
+    getLocationRecipes(
+      campusUrlKey: "campus"
+      locationUrlKey: $locationUrlKey
+      date: $date
+      mealPeriod: $mealPeriod
+      viewType: $viewType
+    ) {
+      locationRecipesMap {
+        dateSkuMap {
+          date
+          stations {
+            id
+            skus {
+              simple
+            }
+          }
+        }
+      }
+      products {
+        items {
+          productView {
+            sku
+            name
+            images {
+              label
+              roles
+              url
+            }
+            attributes {
+              name
+              value
+            }
+            ... on Search_ComplexProductView {
+              attributes {
+                name
+                value
+              }
+              options {
+                title
+                values {
+                  id
+                  title
+                  ... on Search_ProductViewOptionValueProduct {
+                    product {
+                      name
+                      sku
+                      attributes {
+                        name
+                        value
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        page_info {
+          current_page
+          page_size
+          total_pages
+        }
+        total_count
+      }
+    }
+  }
+`
+export type GetLocationRecipesWeeklyVariables = {
+  date: string,
+  locationUrlKey: "brandywine" | "the-anteatery",
+  mealPeriod: string,
+  viewType: "WEEKLY",
+};
