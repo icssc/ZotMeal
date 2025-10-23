@@ -1,12 +1,14 @@
 import { 
   GetLocationSchema, 
-  GetLocationRecipesSchema,
+  GetLocationRecipesDailySchema,
+  GetLocationRecipesWeeklySchema,
   AEMEventListSchema,
 } from "@zotmeal/validators";
 import { describe, it } from "vitest";
 
 import getLocation from "./testData/getLocation.json";
-import getLocationRecipes from "./testData/getLocationRecipes.json"
+import getLocationRecipesDaily from "./testData/getLocationRecipesDaily.json"
+import getLocationRecipesWeekly from "./testData/getLocationRecipesWeekly.json"
 import AEMEventList from "./testData/AEM_eventList.json"
 
 describe("Parse AdobeECommerce Responses", () => {
@@ -14,8 +16,12 @@ describe("Parse AdobeECommerce Responses", () => {
     expect(() => GetLocationSchema.parse(getLocation)).not.toThrow();
   });
 
-  it("parses getLocationRecipes response", ({ expect }) => {
-    expect(() => GetLocationRecipesSchema.parse(getLocationRecipes)).not.toThrow();
+  it("parses getLocationRecipesDaily response", ({ expect }) => {
+    expect(() => GetLocationRecipesDailySchema.parse(getLocationRecipesDaily)).not.toThrow();
+  });
+
+  it("parses getLocationRecipesWeekly response", ({expect}) => {
+    expect(() => GetLocationRecipesWeeklySchema.parse(getLocationRecipesWeekly)).not.toThrow();
   });
 
   it("parses AEMEventList response", ({ expect }) => {

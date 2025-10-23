@@ -1,23 +1,37 @@
-import { getRestaurantId, InsertEvent, RestaurantName } from "@zotmeal/db";
+// new-parse.ts
+//
+// This file contains all of the functions related to querying and processing
+// data received from the UCI Dining GraphQL endpoint.
+
 import { 
-  type LocationRecipes, 
+  getRestaurantId, 
+  type InsertEvent, 
+  type InsertDish,
+  RestaurantName 
+} from "@zotmeal/db";
+import { 
+  type LocationRecipesDaily, 
   type LocationInfo, 
   GetLocationSchema, 
   DiningHallInformation, 
   type MealPeriodWithHours,
   type WeekTimes,
   AEMEventListSchema,
-  type EventList
+  type EventList,
+  GetLocationRecipesDailySchema
 } from "@zotmeal/validators";
 import { 
   graphQLEndpoint,
   graphQLHeaders,
   getLocationQuery,
-  AEMEventListQuery
+  AEMEventListQuery,
+  GetLocationRecipesQuery,
+  GetLocationQueryVariables,
+  AEMEventListQueryVariables,
+  AEMEventListQueryRestaurant
 } from "./queries";
 import axios, { AxiosResponse } from "axios";
 import { logger } from "@api/logger";
-import { number } from "zod";
 
 export async function queryAdobeECommerce(
   query: string, 
@@ -38,23 +52,27 @@ export async function queryAdobeECommerce(
 
 /** Fetches the information about a given dining hall. */
 export async function getLocationInformation(
-  location: "the-anteatery" | "brandywine",
-  sortOrder: "ASC" | "DESC"
+  location: GetLocationQueryVariables["locationUrlKey"],
+  sortOrder: GetLocationQueryVariables["sortOrder"],
 ): Promise<DiningHallInformation> {
   const getLocationVariables = {
     locationUrlKey: location,
     sortOrder: sortOrder
-  }
+  } as GetLocationQueryVariables;
 
-  let response = await
+  const response = await
     queryAdobeECommerce(getLocationQuery, getLocationVariables);
   
-  let data: LocationInfo = 
+  const parsedData: LocationInfo = 
     GetLocationSchema.parse(response);
+
+  const getLocation = parsedData.data.getLocation;
+  const commerceMealPeriods = parsedData.data.Commerce_mealPeriods;
+  const commerceAttributesList = parsedData.data.Commerce_attributesList;
 
   // Find the current schedule, if a special one is occurring
   let currentSchedule = 
-    data.getLocation.aemAttributes.hoursOfOperation.schedule.find(schedule => {
+    getLocation.aemAttributes.hoursOfOperation.schedule.find(schedule => {
       const today = new Date();
       const startDate = new Date(`${schedule.start_date}T00:00:00`);
       const endDate = new Date(`${schedule.end_date}T00:00:00`);
@@ -65,13 +83,13 @@ export async function getLocationInformation(
   // If no special schedule found, default to standard
   if (currentSchedule === undefined) {
     currentSchedule = 
-      data.getLocation.aemAttributes.hoursOfOperation.schedule.find(schedule =>
+      getLocation.aemAttributes.hoursOfOperation.schedule.find(schedule =>
        schedule.name == "Standard"
     );
   }
 
   let mealPeriods: MealPeriodWithHours[] =
-    data.Commerce_mealPeriods.map(mealPeriod => {
+    commerceMealPeriods.map(mealPeriod => {
       let currentMealPeriod = currentSchedule!.meal_periods.find(period => 
         period.meal_period == mealPeriod.name
       );
@@ -87,7 +105,7 @@ export async function getLocationInformation(
   });
 
   const allergenIntoleranceCodes =
-    data.Commerce_attributesList.items
+    commerceAttributesList.items
     .find(item => 
       item.code == "allergens_intolerances"
     )!.options
@@ -97,7 +115,7 @@ export async function getLocationInformation(
     }));
 
   const menuPreferenceCodes =
-    data.Commerce_attributesList.items
+    commerceAttributesList.items
     .find(item =>
       item.code == "menu_preferences"
     )!.options
@@ -107,7 +125,7 @@ export async function getLocationInformation(
     }));
 
   const stationsInfo =
-    data.getLocation.commerceAttributes.children
+    getLocation.commerceAttributes.children
     .map(station => ({
       uid: station.uid,
       name: station.name
@@ -121,14 +139,60 @@ export async function getLocationInformation(
   };
 }
 
-/**  Fetches the Adobe ECommerce Menu specified. */
-// export async function getAdobeEcommerceMenu(
-//   date: Date,
-//   restaurantName: RestaurantName,
-//   periodId: string,
-// ): Promise<LocationRecipes> {
-//   ;
-// }
+/**  Fetches the Adobe ECommerce Menu specified for the date. */
+export async function getAdobeEcommerceMenuDaily(
+  date: Date,
+  restaurantName: RestaurantName,
+  periodId: string,
+): Promise<InsertDish[]> {
+  const getLocationRecipesVariables = {
+    date: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+    locationUrlKey: restaurantUrlMap[restaurantName],
+    mealPeriod: periodId,
+    viewType: "DAILY",
+  }
+
+  const res = await 
+    queryAdobeECommerce(GetLocationRecipesQuery, getLocationRecipesVariables);
+  
+  const parsedData: LocationRecipesDaily
+    = GetLocationRecipesDailySchema.parse(res);
+
+  const stationSkuMap = 
+    parsedData.data.getLocationRecipes.locationRecipesMap.stationSkuMap;
+
+  const products =
+    parsedData.data.getLocationRecipes.products.items;
+
+  let dishes: InsertDish[] = stationSkuMap.flatMap(station => 
+    station.skus.map(sku => {
+      // NOTE: This may be.. majorly majorly inefficient. I can't think of any 
+      // way to structure the data such that we can reformat like this.
+      // `products` may be quite long.
+      const item = products.find(value => value.productView.sku == sku);
+
+      if (item == undefined) {
+        logger.error({msg: `Unable to find product with sku ${sku}.`})
+      }
+
+      const itemDescription = item?.productView.attributes
+        .find(attr => attr.name == "marketing_description");
+
+      const category = item?.productView.attributes
+        .find(attr => attr.name == "master_recipe_type"); // Cereal, Fruit, etc.
+
+      return {
+        id: sku,
+        name: item?.productView.name ?? "UNIDENTIFIED",
+        stationId: station.id.toString(),
+        description: itemDescription?.value ?? "",
+        category: category?.value ?? "",
+      } as InsertDish;
+    })
+  );
+
+  return dishes;
+}
 
 /**
  * Takes in data in the form "Mo-Fr 07:15-11:00; Sa-Su 09:00-11:00"
@@ -230,29 +294,25 @@ function parseOpeningHours(hoursString : string): [WeekTimes, WeekTimes] {
  * Returns list of InsertEvent objects to be upserted into DB
 */
 export async function getAEMEvents(
-  location: keyof typeof restaurantMap
+  location: AEMEventListQueryRestaurant
 ): Promise<InsertEvent[]> {
   const queryFilter = {
-    "filter": {
-      "campus": {
-        "_expressions": [
-          {
-            "_operator": "EQUALS",
-            "value": "campus"
-          }
-        ]
-      },
-      "location": {
-        "name": {
-          "_expressions": [
-            {
-              "value": location,
-              "_operator": "EQUALS"
-            }
-          ]
+    filter: {
+      campus: {
+        _expressions: {
+          _operator: "EQUALS",
+          value: "campus"
         }
-      }
-    },
+      },
+      location: {
+        name: {
+          _expressions: {
+            _operator: "EQUALS",
+            value: location,
+          }
+        }
+      } 
+    } as AEMEventListQueryVariables,
   }
 
   let response = await
@@ -283,7 +343,12 @@ export async function getAEMEvents(
 const restaurantMap = {
   "The Anteatery": "anteatery",
   "Brandywine": "brandywine"
-} as const
+} as const;
+
+const restaurantUrlMap = {
+  "anteatery": "the-anteatery",
+  "brandywine": "brandywine",
+} as const;
 
 const parseEventDate = (dateStr: string, time: string) => {
   return new Date(`${dateStr}T${time}`)
