@@ -162,40 +162,23 @@ export async function getAdobeEcommerceMenuDaily(
   
   const parsedData: LocationRecipesDaily
     = GetLocationRecipesDailySchema.parse(res);
-
+  const parsedProducts = 
+    parseProducts(parsedData.data.getLocationRecipes.products.items);
   const stationSkuMap = 
     parsedData.data.getLocationRecipes.locationRecipesMap.stationSkuMap;
 
-  const products =
-    parsedData.data.getLocationRecipes.products.items;
 
   return stationSkuMap.flatMap(station => 
     station.skus.map(sku => {
-      // NOTE: This may be.. majorly majorly inefficient. I can't think of any 
-      // way to structure the data such that we can reformat like this.
-      // `products` may be quite long.
-      const item = products.find(value => value.productView.sku == sku);
-
-      if (item == undefined) {
-        logger.error({msg: `Unable to find product with sku ${sku}.`})
-      }
-
-      const itemDescription = item?.productView.attributes
-        .find(attr => attr.name == "marketing_description");
-
-      const category = item?.productView.attributes
-        .find(attr => attr.name == "master_recipe_type"); // Cereal, Fruit, etc.
-
-      const recipeIngredients = item?.productView.attributes
-        .find(attr => attr.name == "recipe_ingredients"); 
+      let item = parsedProducts[sku];
 
       return {
         id: sku,
-        name: item?.productView.name ?? "UNIDENTIFIED",
+        name: item?.name ?? "UNIDENTIFIED",
         stationId: station.id.toString(),
-        description: itemDescription?.value ?? "",
-        category: category?.value ?? "",
-        ingredients: recipeIngredients?.value ?? "",
+        description: item?.description ?? "",
+        category: item?.category ?? "",
+        ingredients: item?.ingredients ?? "",
       } as InsertDish;
     })
   );
@@ -221,43 +204,60 @@ export async function getAdobeEcommerceMenuWeekly(
   
   const parsedData: LocationRecipesWeekly
     = GetLocationRecipesWeeklySchema.parse(res);
-  const products 
-    = parsedData.data.getLocationRecipes.products.items;
+  const parsedProducts = 
+    parseProducts(parsedData.data.getLocationRecipes.products.items);
   const dateSkuMap 
     = parsedData.data.getLocationRecipes.locationRecipesMap.dateSkuMap;
+
  
   return dateSkuMap.flatMap(dateMap =>
     dateMap.stations.flatMap(stationMap =>
       stationMap.skus.simple.map(sku => {
-
-      const item = products.find(value => value.productView.sku == sku);
-
-      if (item == undefined) {
-        logger.error({msg: `Unable to find product with sku ${sku}.`})
-      }
-
-      const itemDescription = item?.productView.attributes
-        .find(attr => attr.name == "marketing_description");
-
-      const category = item?.productView.attributes
-        .find(attr => attr.name == "master_recipe_type"); // Cereal, Fruit, etc.
-
-
-      const recipeIngredients = item?.productView.attributes
-        .find(attr => attr.name == "recipe_ingredients"); 
+        let item = parsedProducts[sku];
 
         return {
           date: new Date(dateMap.date),
           id: sku,
-          name: item?.productView.name ?? "UNIDENTIFIED",
-          description: itemDescription?.value ?? "",
-          category: category?.value ?? "",
-          ingredients: recipeIngredients?.value ?? "",
+          name: item?.name ?? "UNIDENTIFIED",
+          description: item?.description ?? "",
+          category: item?.category ??  "",
+          ingredients: item?.ingredients ?? "",
           stationId: stationMap.id.toString(),
         } as DateDish;
       })
     )
   );
+}
+
+type WeeklyProducts = 
+  LocationRecipesWeekly["data"]["getLocationRecipes"]["products"]["items"];
+
+type ProductAttributes = {
+  name: string,
+  description: string,
+  category: string,
+  ingredients: string
+};
+
+type ProductDictionary = {[sku: string] : ProductAttributes};
+
+function parseProducts(products: WeeklyProducts): ProductDictionary {
+  let parsedProducts: ProductDictionary = {};
+
+  products.forEach(product => {
+    const attributesMap =  new Map(
+      product.productView.attributes.map(attr => [attr.name, attr.value])
+    );
+
+    parsedProducts[product.productView.sku] = { 
+      name: product.productView.name,
+      description: (attributesMap.get("marketing_description") as string) ?? "",
+      category: (attributesMap.get("master_recipe_type") as string) ?? "",
+      ingredients: (attributesMap.get("recipe_ingredients") as string) ?? "",
+    };
+  });
+
+  return parsedProducts;
 }
 
 /**
