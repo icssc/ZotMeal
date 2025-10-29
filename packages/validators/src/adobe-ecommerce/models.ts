@@ -192,7 +192,7 @@ export type DiningHallInformation = {
   stationsInfo: {[uid: string]: string}, 
 }
 
-export const AvailableIntoleranceLabels = [
+export const AllergenKeys = [
   "Eggs",
   "Fish",
   "Milk",
@@ -202,4 +202,4 @@ export const AvailableIntoleranceLabels = [
   "Soy",
   "Tree Nuts",
   "Wheat",
-]
+] as const;
