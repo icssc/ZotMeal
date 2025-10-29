@@ -185,16 +185,21 @@ export type MealPeriodWithHours = MealPeriod & {
 };
 export type DiningHallInformation = {
   mealPeriods: MealPeriodWithHours[],
-  allergenIntoleranceCodes: {
-    code: number,
-    label: string   // e.g. Eggs
-  } [],
-  menuPreferenceCodes: {
-    code: number,
-    label: string   // e.g. Gluten Free
-  } [],
-  stationsInfo: {
-    uid: string,
-    name: string,   // e.g. Fire and Ice
-  } [],
+  // Maps the allergen (e.g. "Eggs") to its code (39)
+  allergenIntoleranceCodes: {[allergen: string]: number}, 
+  // Maps the preference (e.g. "Gluten Free") to its code (78)
+  menuPreferenceCodes: {[preference: string]: number}, 
+  stationsInfo: {[uid: string]: string}, 
 }
+
+export const AvailableIntoleranceLabels = [
+  "Eggs",
+  "Fish",
+  "Milk",
+  "Peanuts",
+  "Sesame",
+  "Shellfish",
+  "Soy",
+  "Tree Nuts",
+  "Wheat",
+]

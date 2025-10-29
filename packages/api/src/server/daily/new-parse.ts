@@ -7,7 +7,8 @@ import {
   getRestaurantId, 
   type InsertEvent, 
   type InsertDish,
-  RestaurantName 
+  RestaurantName, 
+  InsertDishWithRelations
 } from "@zotmeal/db";
 import { 
   type LocationRecipesDaily, 
@@ -109,32 +110,29 @@ export async function getLocationInformation(
       }
   });
 
-  const allergenIntoleranceCodes =
-    commerceAttributesList.items
+  let allergenIntoleranceCodes: DiningHallInformation["allergenIntoleranceCodes"] = {};
+  commerceAttributesList.items
     .find(item => 
       item.code == "allergens_intolerances"
     )!.options
-    .map(item => ({
-      code: Number.parseInt(item.value),
-      label: item.label
-    }));
+    .forEach(item => {
+      allergenIntoleranceCodes[item.label] = Number.parseInt(item.value);
+    });
 
-  const menuPreferenceCodes =
-    commerceAttributesList.items
+  let menuPreferenceCodes: DiningHallInformation["menuPreferenceCodes"] = {};
+  commerceAttributesList.items
     .find(item =>
       item.code == "menu_preferences"
     )!.options
-    .map(item => ({
-      code: Number.parseInt(item.value),
-      label: item.label
-    }));
+    .forEach(item => {
+      menuPreferenceCodes[item.label] = Number.parseInt(item.value);
+    });
 
-  const stationsInfo =
+  let stationsInfo: {[uid: string]: string} = {};
     getLocation.commerceAttributes.children
-    .map(station => ({
-      uid: station.uid,
-      name: station.name
-    }));
+    .forEach(station => {
+      stationsInfo[station.uid] = station.name;
+    });
 
   return {
     mealPeriods,
@@ -144,12 +142,16 @@ export async function getLocationInformation(
   };
 }
 
+type InsertDishWithModifiedRelations = InsertDish & {
+  nutritionInfo: InsertDishWithRelations["nutritionInfo"],
+  allergenIntoleranceCodes: Set<number>,
+}
 /**  Fetches the Adobe ECommerce Menu specified for the date. */
 export async function getAdobeEcommerceMenuDaily(
   date: Date,
   restaurantName: RestaurantName,
   periodId: string,
-): Promise<InsertDish[]> {
+): Promise<InsertDishWithModifiedRelations[]> {
   const getLocationRecipesVariables = {
     date: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
     locationUrlKey: restaurantUrlMap[restaurantName],
@@ -167,7 +169,6 @@ export async function getAdobeEcommerceMenuDaily(
   const stationSkuMap = 
     parsedData.data.getLocationRecipes.locationRecipesMap.stationSkuMap;
 
-
   return stationSkuMap.flatMap(station => 
     station.skus.map(sku => {
       let item = parsedProducts[sku];
@@ -179,7 +180,8 @@ export async function getAdobeEcommerceMenuDaily(
         description: item?.description ?? "",
         category: item?.category ?? "",
         ingredients: item?.ingredients ?? "",
-      } as InsertDish;
+        nutritionInfo: item?.nutritionInfo,
+      } as InsertDishWithModifiedRelations;
     })
   );
 }
@@ -209,7 +211,6 @@ export async function getAdobeEcommerceMenuWeekly(
   const dateSkuMap 
     = parsedData.data.getLocationRecipes.locationRecipesMap.dateSkuMap;
 
- 
   return dateSkuMap.flatMap(dateMap =>
     dateMap.stations.flatMap(stationMap =>
       stationMap.skus.simple.map(sku => {
@@ -236,7 +237,9 @@ type ProductAttributes = {
   name: string,
   description: string,
   category: string,
-  ingredients: string
+  ingredients: string,
+  allergenIntolerances: Set<number>,
+  nutritionInfo: InsertDishWithRelations["nutritionInfo"],
 };
 
 type ProductDictionary = {[sku: string] : ProductAttributes};
@@ -249,11 +252,39 @@ function parseProducts(products: WeeklyProducts): ProductDictionary {
       product.productView.attributes.map(attr => [attr.name, attr.value])
     );
 
+    let unparsedIntolerances = attributesMap.get("allergens_intolerances");
+    let allergenIntolerances: Set<number> = new Set<number>();
+
+    // Allergen intolerances can either be one singular value or an array.
+    if (Array.isArray(unparsedIntolerances)) {
+      unparsedIntolerances.forEach(
+        code => allergenIntolerances.add(Number.parseInt(code))
+      );
+    } else {
+      allergenIntolerances.add(Number.parseInt(
+        (unparsedIntolerances as string) ?? "0"
+      ));
+    }
+
+    const nutritionInfo = {
+      dishId: product.productView.sku,
+      calories: (attributesMap.get("calories") as string) ?? "",
+      totalFatG: (attributesMap.get("total_fat") as string) ?? "",
+      transFatG: (attributesMap.get("trans_fat") as string) ?? "",
+      sugarsG: (attributesMap.get("sugar") as string) ?? "",
+      cholesterolMg: (attributesMap.get("cholesterol") as string) ?? "",
+      totalCarbsG: (attributesMap.get("total_carbohydrates") as string) ?? "",
+      dietaryFiberG: (attributesMap.get("dietary_fiber") as string) ?? "",
+      proteinG: (attributesMap.get("protein") as string) ?? "",
+    } as InsertDishWithRelations["nutritionInfo"];
+
     parsedProducts[product.productView.sku] = { 
       name: product.productView.name,
       description: (attributesMap.get("marketing_description") as string) ?? "",
       category: (attributesMap.get("master_recipe_type") as string) ?? "",
       ingredients: (attributesMap.get("recipe_ingredients") as string) ?? "",
+      allergenIntolerances,
+      nutritionInfo
     };
   });
 
@@ -265,7 +296,7 @@ function parseProducts(products: WeeklyProducts): ProductDictionary {
  */
 function parseOpeningHours(hoursString : string): [WeekTimes, WeekTimes] {
   const DAY_MAP: { [key: string]: number } = {
-    'Mo': 0, 'Tu': 1, 'We': 2, 'Th': 3, 'Fr': 4, 'Sa': 5, 'Su': 6
+    'Su': 0, 'Mo': 1, 'Tu': 2, 'We': 3, 'Th': 4, 'Fr': 5, 'Sa': 6
   };
 
   const openingTime: string[] = new Array(7).fill("");
@@ -411,7 +442,7 @@ const restaurantMap = {
   "Brandywine": "brandywine"
 } as const;
 
-const restaurantUrlMap = {
+export const restaurantUrlMap = {
   "anteatery": "the-anteatery",
   "brandywine": "brandywine",
 } as const;
