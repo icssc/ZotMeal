@@ -49,17 +49,15 @@ import { logger } from "@api/logger";
 export async function queryAdobeECommerce(
   query: string, 
   variables: object
-): Promise<void | AxiosResponse> {
+): Promise<AxiosResponse> {
   return axios({
-    method: "post",
+    method: "get",
     url: graphQLEndpoint,
     headers: graphQLHeaders,
-    data: {
+    params: {
       query: query,
-      variables: variables
+      variables: JSON.stringify(variables)
     }
-  }).catch(error => {
-    logger.error(`Error with query ${query.split(' ')[1]?.replace('(', '')}: ${error}`);
   })
 }
 
