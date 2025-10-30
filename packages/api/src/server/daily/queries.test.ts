@@ -13,6 +13,7 @@ import {
 } from "./queries";
 
 import {
+  AxiosError,
   type AxiosResponse
 } from "axios";
 
@@ -41,7 +42,7 @@ const allApiQueries: TestCase<any>[] = [
     variables: {
       date: new Date().toLocaleString("fr-CA", {year: "numeric", month: "2-digit", day: "2-digit"}),
       locationUrlKey: "the-anteatery",
-      mealPeriod: "",
+      mealPeriod: null,
       viewType: "DAILY"
     } as GetLocationRecipesDailyVariables,
     schema: GetLocationRecipesDailySchema,
@@ -52,7 +53,7 @@ const allApiQueries: TestCase<any>[] = [
     variables: {
       date: new Date().toLocaleString("fr-CA", {year: "numeric", month: "2-digit", day: "2-digit"}),
       locationUrlKey: "brandywine",
-      mealPeriod: "",
+      mealPeriod: null,
       viewType: "WEEKLY"
     } as GetLocationRecipesWeeklyVariables,
     schema: GetLocationRecipesWeeklySchema,
@@ -93,6 +94,7 @@ describe("AdobeECommerce API Integration Tests", () => {
           response = await queryAdobeECommerce(query, variables);
         } catch (error) {
           caughtError = error;
+          console.error(caughtError);
         }
 
         expect(caughtError).toBeNull();

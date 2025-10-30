@@ -38,6 +38,7 @@ import {
 } from "./queries";
 import axios, { AxiosResponse } from "axios";
 import { logger } from "@api/logger";
+import { writeFileSync } from "node:fs";
 
 /**
  * Queries the Adobe ECommerce endpoint for restaurant information, dishes, etc.
@@ -50,7 +51,7 @@ export async function queryAdobeECommerce(
   query: string, 
   variables: object
 ): Promise<AxiosResponse> {
-  return axios({
+  let response = await axios({
     method: "get",
     url: graphQLEndpoint,
     headers: graphQLHeaders,
@@ -59,6 +60,14 @@ export async function queryAdobeECommerce(
       variables: JSON.stringify(variables)
     }
   })
+
+  if (process.env.IS_LOCAL) {
+    const outPath = `./query-${new Date().toLocaleDateString('fr-CA', {year: "numeric", month: "2-digit", day: "2-digit"})}-response.json`;
+    writeFileSync(outPath, JSON.stringify(response.data), { flag: "w" });
+    logger.info(`Wrote AdobeEcommerce response to ${outPath}.`);
+  }
+
+  return response;
 }
 
 /**
