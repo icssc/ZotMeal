@@ -39,6 +39,13 @@ import {
 import axios, { AxiosResponse } from "axios";
 import { logger } from "@api/logger";
 
+/**
+ * Queries the Adobe ECommerce endpoint for restaurant information, dishes, etc.
+ * with the appropriate headers and POST method.
+ * @param query the graphQL query string
+ * @param variables the variables for the GraphQL query
+ * @returns an AxiosResponse from the query
+ */
 export async function queryAdobeECommerce(
   query: string, 
   variables: object
@@ -56,7 +63,13 @@ export async function queryAdobeECommerce(
   })
 }
 
-/** Fetches the information about a given dining hall. */
+/**
+ * Gets the information associated with a restaurant location, such as 
+ * hours of operation, allergen intolerance codes, etc.
+ * @param location the restaurant to get info for ("brandywine" | "anteatery")
+ * @param sortOrder the order in which to sort the info ("ASC" | "DESC")
+ * @returns @see{@link DiningHallInformation}
+ */
 export async function getLocationInformation(
   location: GetLocationQueryVariables["locationUrlKey"],
   sortOrder: GetLocationQueryVariables["sortOrder"],
@@ -146,7 +159,14 @@ type InsertDishWithModifiedRelations = InsertDish & {
   nutritionInfo: InsertDishWithRelations["nutritionInfo"],
   allergenIntoleranceCodes: Set<number>,
 }
-/**  Fetches the Adobe ECommerce Menu specified for the date. */
+
+/**
+ * Fetches the Adobe ECommerce Menu specified for the date. 
+ * @param date the date for which to get the menu
+ * @param restaurantName the restaurant for which to get the menu
+ * @param periodId the id of the period to query for
+ * @returns a list of dishes + their nutrition info
+ */
 export async function getAdobeEcommerceMenuDaily(
   date: Date,
   restaurantName: RestaurantName,
@@ -169,6 +189,7 @@ export async function getAdobeEcommerceMenuDaily(
   const stationSkuMap = 
     parsedData.data.getLocationRecipes.locationRecipesMap.stationSkuMap;
 
+  // Map all of the items from each station into a list of dishes
   return stationSkuMap.flatMap(station => 
     station.skus.map(sku => {
       let item = parsedProducts[sku];
@@ -189,6 +210,13 @@ export async function getAdobeEcommerceMenuDaily(
 type DateDish = {date: Date} & InsertDish;
 // TODO: Reorg into separate file? Or just overhaul the 
 //       server function organization entirely?
+/**
+ * Fetches the Adobe ECommerce Menu specified for a week, starting at the date. 
+ * @param date the date for which to start getting the menus
+ * @param restaurantName the restaurant for which to get the dishes
+ * @param periodId the meal period to get the menus for
+ * @returns returns a list of objects for each date (@see {@link DateDish})
+ */
 export async function getAdobeEcommerceMenuWeekly(
   date: Date,
   restaurantName: RestaurantName,
@@ -244,6 +272,12 @@ type ProductAttributes = {
 
 type ProductDictionary = {[sku: string] : ProductAttributes};
 
+/**
+ * Parses the product attributes found in {@link WeeklyProducts} into a 
+ * more-conveniently accessible {@link ProductDictionary}
+ * @param products An array of weekly products
+ * @returns a dictionary associating the SKU of the product to its attributes
+ */
 function parseProducts(products: WeeklyProducts): ProductDictionary {
   let parsedProducts: ProductDictionary = {};
 

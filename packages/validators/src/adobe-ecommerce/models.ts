@@ -171,16 +171,19 @@ export const GetLocationSchema = z.object({
   })
 })
 
+// Inferred types from zod
 export type EventList = z.infer<typeof AEMEventListSchema>;
 export type LocationRecipesDaily = z.infer<typeof GetLocationRecipesDailySchema>;
 export type LocationRecipesWeekly = z.infer<typeof GetLocationRecipesWeeklySchema>;
 export type LocationInfo = z.infer<typeof GetLocationSchema>;
 export type MealPeriod = LocationInfo["data"]["Commerce_mealPeriods"][0]
 
-// Indexed starting with Monday-Sunday
+// Indexed starting with Sunday-Saturday
 export type WeekTimes = [string, string, string, string, string, string, string]
 export type MealPeriodWithHours = MealPeriod & {
+  // The hours for which the meal period opens (e.g. openHours[day] = "11:00")
   openHours: WeekTimes, 
+  // The hours for which the meal period occurs (e.g. openHours[day] = "14:00")
   closeHours: WeekTimes
 };
 export type DiningHallInformation = {
@@ -189,9 +192,11 @@ export type DiningHallInformation = {
   allergenIntoleranceCodes: {[allergen: string]: number}, 
   // Maps the preference (e.g. "Gluten Free") to its code (78)
   menuPreferenceCodes: {[preference: string]: number}, 
+  // Maps the id of the station to station name
   stationsInfo: {[uid: string]: string}, 
 }
 
+// The keys for reading allergen intolerances from the API response's attributes
 export const AllergenKeys = [
   "Eggs",
   "Fish",

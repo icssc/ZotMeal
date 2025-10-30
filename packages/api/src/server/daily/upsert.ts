@@ -9,6 +9,12 @@ import { format } from "date-fns";
 import { upsertMenu } from "@api/menus/services";
 import { upsertDish } from "@api/dishes/services";
 
+/**
+ * Upserts the menu for the date `date` for a restaurant.
+ * @param db the Drizzle database instance
+ * @param date the date for which to upsert the menu
+ * @param restaurantName the restaurant to upsert the menu for ("brandywine", "anteatery")
+ */
 export async function upsertMenusForDate(
   db: Drizzle,
   date: Date,
