@@ -1,6 +1,6 @@
 import { dietRestrictions, getRestaurantId, InsertDishWithRelations, type Drizzle, type RestaurantName } from "@zotmeal/db";
 import { getAdobeEcommerceMenuDaily, getLocationInformation, restaurantUrlMap } from "./new-parse";
-import { AllergenKeys, DiningHallInformation, WeekTimes } from "@zotmeal/validators";
+import { AllergenKeys, DiningHallInformation, PreferenceKeys, WeekTimes } from "@zotmeal/validators";
 import { upsertRestaurant } from "@api/restaurants/services";
 import { upsertStation } from "@api/stations/services";
 import { logger } from "@api/logger";
@@ -95,18 +95,26 @@ export async function upsertMenusForDate(
         restaurantId
       });
 
-      // TODO: Add meal preferences (Halal, Vegetarian, etc.)
       await Promise.all(
         currentPeriodMenu.map(dish => {
           let baseDietRestriction = {} as Omit<InsertDishWithRelations["dietRestriction"], "dishId" | "createdAt" | "updatedAt">;
 
           AllergenKeys.forEach(key => {
             const containsKey = 
-              `contains${key.replaceAll(" ", "")}` as keyof typeof baseDietRestriction;
+              `contains_${key.replaceAll(" ", "_").toLowerCase()}` as keyof typeof baseDietRestriction;
             const allergenCode: number 
               = restaurantInfo.allergenIntoleranceCodes[key] ?? -1;
 
-            baseDietRestriction[containsKey] = dish.allergenIntoleranceCodes.has(allergenCode);
+            baseDietRestriction[containsKey] = dish.recipeAllergenCodes.has(allergenCode);
+          });
+
+          PreferenceKeys.forEach(key => {
+            const isKey = 
+              `is_${key.replaceAll(" ", "_").toLowerCase()}` as keyof typeof baseDietRestriction;
+            const preferenceCode: number 
+              = restaurantInfo.menuPreferenceCodes[key] ?? -1;
+
+            baseDietRestriction[isKey] = dish.recipePreferenceCodes.has(preferenceCode);
           });
 
           let dietRestriction: InsertDishWithRelations["dietRestriction"] = {

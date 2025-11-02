@@ -208,3 +208,14 @@ export const AllergenKeys = [
   "Tree Nuts",
   "Wheat",
 ] as const;
+
+// The keys for reading preferences from the API response's attributes
+export const PreferenceKeys = [
+  "Gluten Free",
+  "Halal",
+  "Kosher",
+  "Locally Grown",
+  "Organic",  // in dietRestriction schema but not returned by API
+  "Vegan",
+  "Vegetarian"
+] as const

@@ -164,7 +164,8 @@ export async function getLocationInformation(
 
 type InsertDishWithModifiedRelations = InsertDish & {
   nutritionInfo: InsertDishWithRelations["nutritionInfo"],
-  allergenIntoleranceCodes: Set<number>,
+  recipeAllergenCodes: Set<number>,
+  recipePreferenceCodes: Set<number>
 }
 
 /**
@@ -209,10 +210,13 @@ export async function getAdobeEcommerceMenuDaily(
         category: item?.category ?? "",
         ingredients: item?.ingredients ?? "",
         nutritionInfo: item?.nutritionInfo,
+        recipeAllergenCodes: item?.allergenIntolerances,
+        recipePreferenceCodes: item?.recipePreferences
       } as InsertDishWithModifiedRelations;
     })
   );
 }
+
 
 type DateDish = {date: Date} & InsertDish;
 // TODO: Reorg into separate file? Or just overhaul the 
@@ -274,6 +278,7 @@ type ProductAttributes = {
   category: string,
   ingredients: string,
   allergenIntolerances: Set<number>,
+  recipePreferences: Set<number>,
   nutritionInfo: InsertDishWithRelations["nutritionInfo"],
 };
 
@@ -289,7 +294,7 @@ function parseProducts(products: WeeklyProducts): ProductDictionary {
   let parsedProducts: ProductDictionary = {};
 
   products.forEach(product => {
-    const attributesMap =  new Map(
+    const attributesMap = new Map(
       product.productView.attributes.map(attr => [attr.name, attr.value])
     );
 
@@ -304,6 +309,19 @@ function parseProducts(products: WeeklyProducts): ProductDictionary {
     } else {
       allergenIntolerances.add(Number.parseInt(
         (unparsedIntolerances as string) ?? "0"
+      ));
+    }
+
+    let unparsedPreferences = attributesMap.get("recipe_attributes");
+    let recipePreferences: Set<number> = new Set<number>();
+
+    if (Array.isArray(unparsedPreferences)) {
+      unparsedPreferences.forEach(
+        code => recipePreferences.add(Number.parseInt(code))
+      );
+    } else {
+      recipePreferences.add(Number.parseInt(
+        (unparsedPreferences as string) ?? "0"
       ));
     }
 
@@ -325,6 +343,7 @@ function parseProducts(products: WeeklyProducts): ProductDictionary {
       category: (attributesMap.get("master_recipe_type") as string) ?? "",
       ingredients: (attributesMap.get("recipe_ingredients") as string) ?? "",
       allergenIntolerances,
+      recipePreferences,
       nutritionInfo
     };
   });
@@ -427,6 +446,9 @@ function parseOpeningHours(hoursString : string): [WeekTimes, WeekTimes] {
 }
 
 
+function parseEventDate(dateStr: string, time: string) {
+  return new Date(`${dateStr}T${time}`)
+}
 /** 
  * Fetches list of events for a given location 
  * Returns list of InsertEvent objects to be upserted into DB
@@ -487,7 +509,3 @@ export const restaurantUrlMap = {
   "anteatery": "the-anteatery",
   "brandywine": "brandywine",
 } as const;
-
-const parseEventDate = (dateStr: string, time: string) => {
-  return new Date(`${dateStr}T${time}`)
-}
