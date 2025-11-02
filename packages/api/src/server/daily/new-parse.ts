@@ -446,8 +446,9 @@ function parseOpeningHours(hoursString : string): [WeekTimes, WeekTimes] {
 }
 
 
-function parseEventDate(dateStr: string, time: string) {
-  return new Date(`${dateStr}T${time}`)
+function parseEventDate(dateStr: string | null, time: string | null): Date | null {
+  if (!dateStr || !time) return null;
+  return new Date(`${dateStr}T${time}`);
 }
 /** 
  * Fetches list of events for a given location 
