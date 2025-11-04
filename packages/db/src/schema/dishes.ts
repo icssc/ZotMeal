@@ -2,7 +2,7 @@ import { relations } from "drizzle-orm";
 import { integer, pgTable, text } from "drizzle-orm/pg-core";
 
 import { dietRestrictions, InsertDietRestriction } from "./dietRestrictions";
-import { dishesToMenus } from "./menus";
+import { dishesToMenus, menus } from "./menus";
 import { InsertNutritionInfo, nutritionInfos } from "./nutritionInfos";
 import { stations } from "./stations";
 import { metadataColumns } from "./utils";
@@ -14,7 +14,13 @@ export const dishes = pgTable("dishes", {
     .references(() => stations.id, {
       onDelete: "restrict",
       onUpdate: "cascade",
-    }),
+  }),
+  menuId: text("menu_id")
+    .notNull()
+    .references(() => menus.id, {
+      onDelete: "restrict",
+      onUpdate: "cascade",
+  }),
   name: text("name").notNull(),
   description: text("description").notNull(),
   ingredients: text("ingredients").default("Ingredient Statement Not Available"),

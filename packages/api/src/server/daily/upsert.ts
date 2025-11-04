@@ -124,6 +124,7 @@ export async function upsertMenusForDate(
 
           upsertDish(db, {
             ...dish,
+            menuId: menuIdHash,
             dietRestriction,
             nutritionInfo: dish.nutritionInfo,
           })

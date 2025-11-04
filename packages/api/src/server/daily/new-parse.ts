@@ -328,13 +328,21 @@ function parseProducts(products: WeeklyProducts): ProductDictionary {
     const nutritionInfo = {
       dishId: product.productView.sku,
       calories: (attributesMap.get("calories") as string) ?? "",
+      sodiumMg: (attributesMap.get("sodium") as string) ?? "",
       totalFatG: (attributesMap.get("total_fat") as string) ?? "",
       transFatG: (attributesMap.get("trans_fat") as string) ?? "",
+      saturatedFatG: (attributesMap.get("saturated_fat") as string) ?? "",
       sugarsG: (attributesMap.get("sugar") as string) ?? "",
+      iron: (attributesMap.get("iron") as string) ?? "",
       cholesterolMg: (attributesMap.get("cholesterol") as string) ?? "",
       totalCarbsG: (attributesMap.get("total_carbohydrates") as string) ?? "",
       dietaryFiberG: (attributesMap.get("dietary_fiber") as string) ?? "",
       proteinG: (attributesMap.get("protein") as string) ?? "",
+      calciumMg: (attributesMap.get("calcium") as string) ?? "",
+      vitaminAIU: (attributesMap.get("vitamin_a") as string) ?? "",
+      vitaminCIU: (attributesMap.get("vitamin_c") as string) ?? "",
+      // possible to get vitamins B and D and potassium in
+      // attributes["recipe_additional_data"]
     } as InsertDishWithRelations["nutritionInfo"];
 
     parsedProducts[product.productView.sku] = { 
