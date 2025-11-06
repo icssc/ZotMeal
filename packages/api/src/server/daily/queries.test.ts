@@ -12,11 +12,6 @@ import {
   type GetLocationQueryVariables
 } from "./queries";
 
-import {
-  AxiosError,
-  type AxiosResponse
-} from "axios";
-
 import { describe, it, expect } from "vitest";
 
 interface TestCase<T> {
