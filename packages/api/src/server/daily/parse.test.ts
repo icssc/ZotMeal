@@ -10,8 +10,8 @@ import {
     getAdobeEcommerceMenuDaily,
     getAdobeEcommerceMenuWeekly,
     getAEMEvents,
-} from "./new-parse";
-import * as parser from "./new-parse"
+} from "./parse";
+import * as parser from "./parse"
 import getLocationResponse from "./testData/getLocation.json";
 import getLocationRecipesDailyResponse from "./testData/getLocationRecipesDaily.json";
 import getLocationRecipesWeeklyResponse from "./testData/getLocationRecipesWeekly.json";

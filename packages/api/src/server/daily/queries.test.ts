@@ -1,5 +1,5 @@
 import { AEMEventListSchema, GetLocationRecipesDailySchema, GetLocationRecipesWeeklySchema, GetLocationSchema } from "@zotmeal/validators";
-import { queryAdobeECommerce } from "./new-parse";
+import { queryAdobeECommerce } from "./parse";
 
 import {
   AEMEventListQuery,

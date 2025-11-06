@@ -1,5 +1,5 @@
 import { dietRestrictions, getRestaurantId, InsertDishWithRelations, type Drizzle, type RestaurantName } from "@zotmeal/db";
-import { getAdobeEcommerceMenuDaily, getLocationInformation, restaurantUrlMap } from "./new-parse";
+import { getAdobeEcommerceMenuDaily, getLocationInformation, restaurantUrlMap } from "./parse";
 import { AllergenKeys, DiningHallInformation, PreferenceKeys, WeekTimes } from "@zotmeal/validators";
 import { upsertRestaurant } from "@api/restaurants/services";
 import { upsertStation } from "@api/stations/services";
