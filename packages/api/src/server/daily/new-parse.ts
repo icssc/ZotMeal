@@ -1,3 +1,4 @@
+import { integer } from 'drizzle-orm/pg-core';
 // new-parse.ts
 //
 // This file contains all of the functions related to querying and processing
@@ -90,7 +91,7 @@ export async function getLocationInformation(
     queryAdobeECommerce(getLocationQuery, getLocationVariables);
   
   const parsedData: LocationInfo = 
-    GetLocationSchema.parse(response);
+    GetLocationSchema.parse(response.data);
 
   const getLocation = parsedData.data.getLocation;
   const commerceMealPeriods = parsedData.data.Commerce_mealPeriods;
@@ -178,20 +179,20 @@ type InsertDishWithModifiedRelations = InsertDish & {
 export async function getAdobeEcommerceMenuDaily(
   date: Date,
   restaurantName: RestaurantName,
-  periodId: string,
+  periodId: number,
 ): Promise<InsertDishWithModifiedRelations[]> {
   const getLocationRecipesVariables = {
-    date: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+    date: `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
     locationUrlKey: restaurantUrlMap[restaurantName],
     mealPeriod: periodId,
     viewType: "DAILY",
   } as GetLocationRecipesDailyVariables;
 
-  const res = await 
+  const res = await
     queryAdobeECommerce(GetLocationRecipesDailyQuery, getLocationRecipesVariables);
   
   const parsedData: LocationRecipesDaily
-    = GetLocationRecipesDailySchema.parse(res);
+    = GetLocationRecipesDailySchema.parse(res.data);
   const parsedProducts = 
     parseProducts(parsedData.data.getLocationRecipes.products.items);
   const stationSkuMap = 
@@ -231,20 +232,20 @@ type DateDish = {date: Date} & InsertDish;
 export async function getAdobeEcommerceMenuWeekly(
   date: Date,
   restaurantName: RestaurantName,
-  periodId: string,
+  periodId: number,
 ): Promise<DateDish[]> {
   const getLocationRecipesWeeklyVariables = {
-    date: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+    date: `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
     locationUrlKey: restaurantUrlMap[restaurantName],
     mealPeriod: periodId,
     viewType: "WEEKLY",
   } as GetLocationRecipesWeeklyVariables;
 
   const res
-    = queryAdobeECommerce(GetLocationRecipesWeeklyQuery, getLocationRecipesWeeklyVariables);
+    = await queryAdobeECommerce(GetLocationRecipesWeeklyQuery, getLocationRecipesWeeklyVariables);
   
   const parsedData: LocationRecipesWeekly
-    = GetLocationRecipesWeeklySchema.parse(res);
+    = GetLocationRecipesWeeklySchema.parse(res.data);
   const parsedProducts = 
     parseProducts(parsedData.data.getLocationRecipes.products.items);
   const dateSkuMap 
@@ -487,7 +488,7 @@ export async function getAEMEvents(
   let response = await
     queryAdobeECommerce(AEMEventListQuery, queryFilter);
   let data: EventList = 
-    AEMEventListSchema.parse(response);
+    AEMEventListSchema.parse(response.data);
   let events = data.data.AEM_eventList.items
   const restaurantID = getRestaurantId(restaurantMap[location])
 

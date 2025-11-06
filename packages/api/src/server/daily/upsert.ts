@@ -81,7 +81,7 @@ export async function upsertMenusForDate(
       const currentPeriodMenu = await getAdobeEcommerceMenuDaily(
         date,
         restaurantName,
-        period.id.toString(),
+        period.id,
       );
 
       const menuIdHash = 

@@ -169,7 +169,7 @@ export const GetLocationRecipesDailyQuery = `
 export type GetLocationRecipesDailyVariables = {
   date: string,
   locationUrlKey: "brandywine" | "the-anteatery",
-  mealPeriod: string | null,
+  mealPeriod: number | null,
   viewType: "DAILY",
 };
 
@@ -250,6 +250,6 @@ export const GetLocationRecipesWeeklyQuery = `
 export type GetLocationRecipesWeeklyVariables = {
   date: string,
   locationUrlKey: "brandywine" | "the-anteatery",
-  mealPeriod: string | null,
+  mealPeriod: number | null,
   viewType: "WEEKLY",
 };
