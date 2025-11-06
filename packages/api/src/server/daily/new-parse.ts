@@ -37,7 +37,7 @@ import {
   GetLocationRecipesDailyVariables,
   GetLocationRecipesWeeklyQuery
 } from "./queries";
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { logger } from "@api/logger";
 import { writeFileSync } from "node:fs";
 
@@ -52,23 +52,41 @@ export async function queryAdobeECommerce(
   query: string, 
   variables: object
 ): Promise<AxiosResponse> {
-  let response = await axios({
-    method: "get",
-    url: graphQLEndpoint,
-    headers: graphQLHeaders,
-    params: {
-      query: query,
-      variables: JSON.stringify(variables)
+  try {
+    let response = await axios({
+      method: "get",
+      url: graphQLEndpoint,
+      headers: graphQLHeaders,
+      params: {
+        query: query,
+        variables: JSON.stringify(variables)
+      }
+    })
+
+    if (process.env.IS_LOCAL) {
+      const outPath = `./query-${new Date().toLocaleDateString('fr-CA', {year: "numeric", month: "2-digit", day: "2-digit"})}-response.json`;
+      writeFileSync(outPath, JSON.stringify(response.data), { flag: "w" });
+      logger.info(`Wrote AdobeEcommerce response to ${outPath}.`);
     }
-  })
 
-  if (process.env.IS_LOCAL) {
-    const outPath = `./query-${new Date().toLocaleDateString('fr-CA', {year: "numeric", month: "2-digit", day: "2-digit"})}-response.json`;
-    writeFileSync(outPath, JSON.stringify(response.data), { flag: "w" });
-    logger.info(`Wrote AdobeEcommerce response to ${outPath}.`);
+    return response;
+  } catch (err: unknown) {
+    console.error("GraphQL ERROR in queryAdobeECommerce:")
+
+    if (axios.isAxiosError(err)) {
+      const aErr = err as AxiosError;
+      console.error("Axios message:", aErr.message);
+      if ((aErr as any).code) console.error("Error code:", (aErr as any).code);
+      console.error("HTTP status:", aErr.response?.status);
+      console.error("Response body:", aErr.response?.data);
+      // If no response, show the request info
+      if (!aErr.response) console.error("No response received. Request:", aErr.request);
+    } else {
+      console.error(err)
+    }
+
+    throw err;
   }
-
-  return response;
 }
 
 /**
