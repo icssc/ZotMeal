@@ -7,7 +7,7 @@ import { logger } from "@api/logger";
 import { upsertPeriod } from "@api/periods/services";
 import { format } from "date-fns";
 import { upsertMenu } from "@api/menus/services";
-import { upsertDish } from "@api/dishes/services";
+import { upsertDish, upsertDishToMenu } from "@api/dishes/services";
 
 /**
  * Upserts the menu for the date `date` for a restaurant.
@@ -127,6 +127,11 @@ export async function upsertMenusForDate(
             menuId: menuIdHash,
             dietRestriction,
             nutritionInfo: dish.nutritionInfo,
+          })
+
+          upsertDishToMenu(db, {
+            dishId: dish.id,
+            menuId: menuIdHash
           })
         })
       )
