@@ -439,11 +439,12 @@ function parseOpeningHours(hoursString : string): [WeekTimes, WeekTimes] {
           continue;
         }
         
-        // Generate indices for the range (handles Mo-Su wrap around implicitly 
-        // if structured this way, but for standard day names it's a simple 
-        // loop).
-        for (let i = startIndex; i <= endIndex; i++) {
-            dayIndices.push(i);
+        // handles if date range wraps around (i.e. Mo-Su)
+        if (startIndex <= endIndex) {
+          for (let i = startIndex; i <= endIndex; i++) dayIndices.push(i);
+        } else {
+          for (let i = startIndex; i < 7; i++) dayIndices.push(i);
+          for (let i = 0; i <= endIndex; i++) dayIndices.push(i);
         }
 
     // Case: Single Day (e.g., "Mo")

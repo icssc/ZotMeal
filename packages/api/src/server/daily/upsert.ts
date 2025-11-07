@@ -58,14 +58,14 @@ export async function upsertMenusForDate(
         stationDetail = `Reason: ${JSON.stringify(reason)}`;
       }
       logger.error(
-        `Failed to insert ${stationDetail} for ${restaurantName}.`,
+        `Failed to insert station ${stationDetail} for ${restaurantName}.`,
         reason,
       );
     }
-
+    
   // Upsert all periods present today.
   const periodsResult = await Promise.allSettled(
-    restaurantInfo.mealPeriods.map(period =>
+    restaurantInfo.mealPeriods.map(period => {
       upsertPeriod(db, {
         id: period.id.toString(),
         date: dateString,
@@ -73,7 +73,7 @@ export async function upsertMenusForDate(
         startTime: period.openHours[dayOfWeek]!,
         endTime: period.closeHours[dayOfWeek]!
       })
-    )
+    })
   );
 
   for (const period of periodsResult)
@@ -88,7 +88,7 @@ export async function upsertMenusForDate(
         periodDetail = `Reason: ${JSON.stringify(reason)}`;
       }
       logger.error(
-        `Failed to insert ${periodDetail} for ${restaurantName}.`,
+        `Failed to insert period ${periodDetail} for ${restaurantName}.`,
         reason,
       );
     }
@@ -167,7 +167,7 @@ export async function upsertMenusForDate(
         menuDetail = `Reason: ${JSON.stringify(reason)}`;
       }
       logger.error(
-        `Failed to insert ${menuDetail} for ${restaurantName}.`,
+        `Failed to insert menu ${menuDetail} for ${restaurantName}.`,
         reason,
       );
     }
