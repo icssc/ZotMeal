@@ -1,5 +1,5 @@
 import { AEMEventListSchema, GetLocationRecipesDailySchema, GetLocationRecipesWeeklySchema, GetLocationSchema } from "@zotmeal/validators";
-import { queryAdobeECommerce } from "./new-parse";
+import { queryAdobeECommerce } from "./parse";
 
 import {
   AEMEventListQuery,
@@ -11,11 +11,6 @@ import {
   GetLocationRecipesWeeklyVariables,
   type GetLocationQueryVariables
 } from "./queries";
-
-import {
-  AxiosError,
-  type AxiosResponse
-} from "axios";
 
 import { describe, it, expect } from "vitest";
 

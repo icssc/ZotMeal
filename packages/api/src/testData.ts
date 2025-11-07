@@ -39,7 +39,7 @@ const station = {
 
 const dish = {
   id: dishId,
-  menuId,
+  menuId: menuId,
   name: "Grilled Salmon with Quinoa",
   description:
     "A heart-healthy dish featuring omega-3 rich salmon, served over a bed of fluffy quinoa with a side of steamed asparagus.",

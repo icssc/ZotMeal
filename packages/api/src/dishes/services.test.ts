@@ -4,6 +4,8 @@ import { upsertStation } from "@api/stations/services";
 import { describe } from "vitest";
 
 import { upsertDish } from "./services";
+import { upsertPeriod } from "@api/periods/services";
+import { upsertMenu } from "@api/menus/services";
 
 describe("upsertDish", () => {
   apiTest("inserts a dish", async ({ db, expect, testData }) => {
@@ -11,6 +13,8 @@ describe("upsertDish", () => {
       db.transaction(async (trx) => {
         await upsertRestaurant(trx, testData.brandywine);
         await upsertStation(trx, testData.station);
+        await upsertPeriod(trx, testData.period);
+        await upsertMenu(trx, testData.menu);
         const result = await upsertDish(trx, testData.dish);
         expect(result.id).toEqual(testData.dish.id);
         expect(result.dietRestriction).toBeDefined();
@@ -25,6 +29,8 @@ describe("upsertDish", () => {
       db.transaction(async (trx) => {
         await upsertRestaurant(trx, testData.brandywine);
         await upsertStation(trx, testData.station);
+        await upsertPeriod(trx, testData.period);
+        await upsertMenu(trx, testData.menu);
         const insertResult = await upsertDish(trx, testData.dish);
         const updateResult = await upsertDish(trx, {
           ...testData.dish,

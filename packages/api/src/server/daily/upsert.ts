@@ -1,5 +1,5 @@
 import { dietRestrictions, getRestaurantId, InsertDishWithRelations, type Drizzle, type RestaurantName } from "@zotmeal/db";
-import { getAdobeEcommerceMenuDaily, getLocationInformation, restaurantUrlMap } from "./new-parse";
+import { getAdobeEcommerceMenuDaily, getLocationInformation, restaurantUrlMap } from "./parse";
 import { AllergenKeys, DiningHallInformation, PreferenceKeys, WeekTimes } from "@zotmeal/validators";
 import { upsertRestaurant } from "@api/restaurants/services";
 import { upsertStation } from "@api/stations/services";
@@ -76,6 +76,23 @@ export async function upsertMenusForDate(
     )
   );
 
+  for (const period of periodsResult)
+    if (period.status === "rejected") {
+      const reason = period.reason;
+      let periodDetail = "unknown period";
+      if (reason && typeof reason === 'object' && 'value' in reason && reason.value && typeof reason.value === 'object' && 'name' in reason.value && typeof reason.value.name === 'string') {
+        periodDetail = `period '${reason.value.name}'`;
+      } else if (reason instanceof Error) {
+        periodDetail = `Error: ${reason.message}`;
+      } else {
+        periodDetail = `Reason: ${JSON.stringify(reason)}`;
+      }
+      logger.error(
+        `Failed to insert ${periodDetail} for ${restaurantName}.`,
+        reason,
+      );
+    }
+
   const menuResult = await Promise.allSettled(
     restaurantInfo.mealPeriods.map(async period => {
       const currentPeriodMenu = await getAdobeEcommerceMenuDaily(
@@ -136,5 +153,22 @@ export async function upsertMenusForDate(
         })
       )
     })
-  )
+  );
+
+  for (const menu of menuResult)
+    if (menu.status === "rejected") {
+      const reason = menu.reason;
+      let menuDetail = "unknown menu";
+      if (reason && typeof reason === 'object' && 'value' in reason && reason.value && typeof reason.value === 'object' && 'name' in reason.value && typeof reason.value.name === 'string') {
+        menuDetail = `menu '${reason.value.name}'`;
+      } else if (reason instanceof Error) {
+        menuDetail = `Error: ${reason.message}`;
+      } else {
+        menuDetail = `Reason: ${JSON.stringify(reason)}`;
+      }
+      logger.error(
+        `Failed to insert ${menuDetail} for ${restaurantName}.`,
+        reason,
+      );
+    }
 }
