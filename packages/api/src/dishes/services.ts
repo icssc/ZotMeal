@@ -13,36 +13,41 @@ export async function upsertDish(
   { dietRestriction, nutritionInfo, ...dishData }: InsertDishWithRelations,
 ): Promise<Omit<InsertDishWithRelations, "menuId" | "stationId">> {
   try {
-    const upsertedDish = await upsert(db, dishes, dishData, {
-      target: [dishes.id],
-      set: dishData,
-    });
+    const result = await db.transaction<Omit<InsertDishWithRelations, "menuId" | "stationId">>(
+      async (tx) => {
+      const upsertedDish = await upsert(tx, dishes, dishData, {
+        target: [dishes.id],
+        set: dishData,
+      });
 
-    const upsertedDietRestriction = await upsert(
-      db,
-      dietRestrictions,
-      dietRestriction,
-      {
-        target: dietRestrictions.dishId,
-        set: dietRestriction,
-      },
-    );
+      const upsertedDietRestriction = await upsert(
+        tx,
+        dietRestrictions,
+        dietRestriction,
+        {
+          target: dietRestrictions.dishId,
+          set: dietRestriction,
+        },
+      );
 
-    const upsertedNutritionInfo = await upsert(
-      db,
-      nutritionInfos,
-      nutritionInfo,
-      {
-        target: nutritionInfos.dishId,
-        set: nutritionInfo,
-      },
-    );
+      const upsertedNutritionInfo = await upsert(
+        tx,
+        nutritionInfos,
+        nutritionInfo,
+        {
+          target: nutritionInfos.dishId,
+          set: nutritionInfo,
+        },
+      );
 
-    return {
-      ...upsertedDish,
-      dietRestriction: upsertedDietRestriction,
-      nutritionInfo: upsertedNutritionInfo,
-    };
+      return {
+        ...upsertedDish,
+        dietRestriction: upsertedDietRestriction,
+        nutritionInfo: upsertedNutritionInfo,
+      };
+    })
+
+    return result;
   } catch (e) {
     console.error(e);
     throw e;

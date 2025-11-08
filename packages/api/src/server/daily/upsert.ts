@@ -119,7 +119,7 @@ export async function upsertMenusForDate(
       });
 
       await Promise.all(
-        currentPeriodMenu.map(dish => {
+        currentPeriodMenu.map(async dish => {
           let baseDietRestriction = {} as Omit<InsertDishWithRelations["dietRestriction"], "dishId" | "createdAt" | "updatedAt">;
 
           AllergenKeys.forEach(key => {
@@ -148,14 +148,14 @@ export async function upsertMenusForDate(
           // remove sets from dish before upserting
           const { recipeAllergenCodes, recipePreferenceCodes, ...currentDish } = dish;
           
-          upsertDish(db, {
+          await upsertDish(db, {
             ...currentDish,
             menuId: menuIdHash,
             dietRestriction,
             nutritionInfo: dish.nutritionInfo,
           })
 
-          upsertDishToMenu(db, {
+          await upsertDishToMenu(db, {
             dishId: dish.id,
             menuId: menuIdHash
           })
