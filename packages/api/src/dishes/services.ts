@@ -13,8 +13,9 @@ export async function upsertDish(
   { dietRestriction, nutritionInfo, ...dishData }: InsertDishWithRelations,
 ): Promise<Omit<InsertDishWithRelations, "menuId" | "stationId">> {
   try {
-    const result = await db.transaction<Omit<InsertDishWithRelations, "menuId" | "stationId">>(
-      async (tx) => {
+    const result = await db.transaction<
+      Omit<InsertDishWithRelations, "menuId" | "stationId">
+      >(async (tx) => {
       const upsertedDish = await upsert(tx, dishes, dishData, {
         target: [dishes.id],
         set: dishData,
@@ -45,7 +46,7 @@ export async function upsertDish(
         dietRestriction: upsertedDietRestriction,
         nutritionInfo: upsertedNutritionInfo,
       };
-    })
+    });
 
     return result;
   } catch (e) {
