@@ -37,13 +37,13 @@ export async function upsertMenusForDate(
 
   // Upsert all stations present today.
   const stationsResult = await Promise.allSettled(
-    Object.keys(restaurantInfo.stationsInfo).map(uid =>
+    Object.keys(restaurantInfo.stationsInfo).map(id => {
       upsertStation(db, {
-        id: uid,
+        id,
         restaurantId,
-        name: restaurantInfo.stationsInfo[uid]!,
+        name: restaurantInfo.stationsInfo[id]!,
       })
-    )
+})
   );
 
   for (const station of stationsResult)
@@ -62,17 +62,23 @@ export async function upsertMenusForDate(
         reason,
       );
     }
-    
+  
+  let relevantPeriods: number[] = []  // ids of periods available at this location today
+
   // Upsert all periods present today.
   const periodsResult = await Promise.allSettled(
     restaurantInfo.mealPeriods.map(period => {
-      upsertPeriod(db, {
-        id: period.id.toString(),
-        date: dateString,
-        name: period.name,
-        startTime: period.openHours[dayOfWeek]!,
-        endTime: period.closeHours[dayOfWeek]!
-      })
+      // only insert periods available at this location today
+      if (period.openHours[dayOfWeek] && period.closeHours[dayOfWeek]) {
+        relevantPeriods.push(period.id)
+        upsertPeriod(db, {
+          id: period.id.toString(),
+          date: dateString,
+          name: period.name,
+          startTime: period.openHours[dayOfWeek],
+          endTime: period.closeHours[dayOfWeek]
+        })
+      }
     })
   );
 
@@ -94,19 +100,19 @@ export async function upsertMenusForDate(
     }
 
   const menuResult = await Promise.allSettled(
-    restaurantInfo.mealPeriods.map(async period => {
+    relevantPeriods.map(async period => {
       const currentPeriodMenu = await getAdobeEcommerceMenuDaily(
         date,
         restaurantName,
-        period.id,
+        period,
       );
 
       const menuIdHash = 
-        `${restaurantId}|${dateString}|${period.id}`;
-      
+        `${restaurantId}|${dateString}|${period}`;
+
       await upsertMenu(db, {
         id: menuIdHash,
-        periodId: period.id.toString(),
+        periodId: period.toString(),
         date: dateString,
         price: "???", // NOTE: Not sure if this was ever provided in the API..
         restaurantId
@@ -139,8 +145,11 @@ export async function upsertMenusForDate(
             ...baseDietRestriction
           };
 
+          // remove sets from dish before upserting
+          const { recipeAllergenCodes, recipePreferenceCodes, ...currentDish } = dish;
+          
           upsertDish(db, {
-            ...dish,
+            ...currentDish,
             menuId: menuIdHash,
             dietRestriction,
             nutritionInfo: dish.nutritionInfo,

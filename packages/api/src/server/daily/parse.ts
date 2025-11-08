@@ -166,10 +166,10 @@ export async function getLocationInformation(
       menuPreferenceCodes[item.label] = Number.parseInt(item.value);
     });
 
-  let stationsInfo: {[uid: string]: string} = {};
+  let stationsInfo: {[id: string]: string} = {};
     getLocation.commerceAttributes.children
     .forEach(station => {
-      stationsInfo[station.uid] = station.name;
+      stationsInfo[station.id] = station.name;
     });
 
   return {
@@ -350,7 +350,7 @@ function parseProducts(products: WeeklyProducts): ProductDictionary {
       totalFatG: (attributesMap.get("total_fat") as string) ?? "",
       transFatG: (attributesMap.get("trans_fat") as string) ?? "",
       saturatedFatG: (attributesMap.get("saturated_fat") as string) ?? "",
-      sugarsG: (attributesMap.get("sugar") as string) ?? "",
+      sugarsG: (attributesMap.get("sugars") as string) ?? "",
       iron: (attributesMap.get("iron") as string) ?? "",
       cholesterolMg: (attributesMap.get("cholesterol") as string) ?? "",
       totalCarbsG: (attributesMap.get("total_carbohydrates") as string) ?? "",

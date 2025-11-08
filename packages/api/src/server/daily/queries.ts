@@ -27,6 +27,7 @@ export const getLocationQuery = `
       commerceAttributes {
         maxMenusDate
         children {
+          id
           uid
           name
           position

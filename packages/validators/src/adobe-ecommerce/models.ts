@@ -142,6 +142,7 @@ export const GetLocationSchema = z.object({
         maxMenusDate: z.string().date(),
         children: z.array(
           z.object({
+            id: z.number(),
             uid: z.string(),
             name: z.string(),
             position: z.number()
