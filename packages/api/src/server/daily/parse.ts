@@ -227,9 +227,9 @@ export async function getAdobeEcommerceMenuDaily(
         description: item?.description ?? "",
         category: item?.category ?? "",
         ingredients: item?.ingredients ?? "",
-        nutritionInfo: item?.nutritionInfo,
-        recipeAllergenCodes: item?.allergenIntolerances,
-        recipePreferenceCodes: item?.recipePreferences
+        nutritionInfo: item?.nutritionInfo ?? {},
+        recipeAllergenCodes: item?.allergenIntolerances ?? new Set<Number>(),
+        recipePreferenceCodes: item?.recipePreferences ?? new Set<Number>()
       } as InsertDishWithModifiedRelations;
     })
   );
@@ -351,7 +351,7 @@ function parseProducts(products: WeeklyProducts): ProductDictionary {
       transFatG: (attributesMap.get("trans_fat") as string) ?? "",
       saturatedFatG: (attributesMap.get("saturated_fat") as string) ?? "",
       sugarsG: (attributesMap.get("sugars") as string) ?? "",
-      iron: (attributesMap.get("iron") as string) ?? "",
+      ironMg: (attributesMap.get("iron") as string) ?? "",
       cholesterolMg: (attributesMap.get("cholesterol") as string) ?? "",
       totalCarbsG: (attributesMap.get("total_carbohydrates") as string) ?? "",
       dietaryFiberG: (attributesMap.get("dietary_fiber") as string) ?? "",

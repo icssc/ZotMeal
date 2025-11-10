@@ -120,11 +120,14 @@ export async function upsertMenusForDate(
 
       await Promise.all(
         currentPeriodMenu.map(async dish => {
+          if (dish.name == "UNIDENTIFIED")
+            return;
+
           let baseDietRestriction = {} as Omit<InsertDishWithRelations["dietRestriction"], "dishId" | "createdAt" | "updatedAt">;
 
           AllergenKeys.forEach(key => {
             const containsKey = 
-              `contains_${key.replaceAll(" ", "_").toLowerCase()}` as keyof typeof baseDietRestriction;
+              `contains${key.replaceAll(" ", "")}` as keyof typeof baseDietRestriction;
             const allergenCode: number 
               = restaurantInfo.allergenIntoleranceCodes[key] ?? -1;
 
@@ -133,7 +136,7 @@ export async function upsertMenusForDate(
 
           PreferenceKeys.forEach(key => {
             const isKey = 
-              `is_${key.replaceAll(" ", "_").toLowerCase()}` as keyof typeof baseDietRestriction;
+              `is${key.replaceAll(" ", "")}` as keyof typeof baseDietRestriction;
             const preferenceCode: number 
               = restaurantInfo.menuPreferenceCodes[key] ?? -1;
 
