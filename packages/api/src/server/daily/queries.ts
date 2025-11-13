@@ -19,42 +19,42 @@ export const graphQLHeaders = {
 };
 
 export const getLocationQuery = `
-  query getLocation(
-    $locationUrlKey: String!
-    $sortOrder: Commerce_SortOrderEnum
-  ) {
-    getLocation(campusUrlKey: "campus", locationUrlKey: $locationUrlKey) {
-      commerceAttributes {
-        maxMenusDate
-        children {
-          id
-          uid
-          name
-          position
-        }
-      }
-      aemAttributes {
-        hoursOfOperation {
-          schedule
-        }
+query getLocation(
+  $locationUrlKey: String!
+  $sortOrder: Commerce_SortOrderEnum
+) {
+  getLocation(campusUrlKey: "campus", locationUrlKey: $locationUrlKey) {
+    commerceAttributes {
+      maxMenusDate
+      children {
+        id
+        uid
         name
+        position
       }
     }
-    Commerce_mealPeriods(sort_order: $sortOrder) {
+    aemAttributes {
+      hoursOfOperation {
+        schedule
+      }
       name
-      id
-      position
     }
-    Commerce_attributesList(entityType: CATALOG_PRODUCT) {
-      items {
-        code
-        options {
-          value
-          label
-        }
+  }
+  Commerce_mealPeriods(sort_order: $sortOrder) {
+    name
+    id
+    position
+  }
+  Commerce_attributesList(entityType: CATALOG_PRODUCT) {
+    items {
+      code
+      options {
+        value
+        label
       }
     }
   }
+}
 `
 export type GetLocationQueryVariables = {
   locationUrlKey: "brandywine" | "the-anteatery",
@@ -62,21 +62,21 @@ export type GetLocationQueryVariables = {
 }
 
 export const AEMEventListQuery = `
-  query AEM_eventList($filter: AEM_EventModelFilter) {
-    AEM_eventList(filter: $filter) {
-      items {
-        title
-        subtitle
-        description {
-          markdown
-        }
-        startDate
-        endDate
-        startTime
-        endTime
+query AEM_eventList($filter: AEM_EventModelFilter) {
+  AEM_eventList(filter: $filter) {
+    items {
+      title
+      subtitle
+      description {
+        markdown
       }
+      startDate
+      endDate
+      startTime
+      endTime
     }
   }
+}
 `
 export type AEMEventListQueryVariables = {
   campus: {
@@ -99,57 +99,56 @@ export type AEMEventListQueryRestaurant =
   AEMEventListQueryVariables["location"]["name"]["_expressions"]["value"];
 
 export const GetLocationRecipesDailyQuery = `
-  query getLocationRecipes(
-    $locationUrlKey: String!
-    $date: String!
-    $mealPeriod: Int
-    $viewType: Commerce_MenuViewType!
+query getLocationRecipes(
+  $locationUrlKey: String!
+  $date: String!
+  $mealPeriod: Int
+  $viewType: Commerce_MenuViewType!
+) {
+  getLocationRecipes(
+    campusUrlKey: "campus"
+    locationUrlKey: $locationUrlKey
+    date: $date
+    mealPeriod: $mealPeriod
+    viewType: $viewType
   ) {
-    getLocationRecipes(
-      campusUrlKey: "campus"
-      locationUrlKey: $locationUrlKey
-      date: $date
-      mealPeriod: $mealPeriod
-      viewType: $viewType
-    ) {
-      locationRecipesMap {
-        stationSkuMap {
-          id
-          skus
-        }
+    locationRecipesMap {
+      stationSkuMap {
+        id
+        skus
       }
-      products {
-        items {
-          productView {
-            sku
+    }
+    products {
+      items {
+        productView {
+          sku
+          name
+          images {
+            label
+            roles
+            url
+          }
+          attributes {
             name
-            images {
-              label
-              roles
-              url
-            }
+            value
+          }
+          ... on Search_ComplexProductView {
             attributes {
               name
               value
             }
-            ... on Search_ComplexProductView {
-              attributes {
-                name
-                value
-              }
-              options {
+            options {
+              title
+              values {
+                id
                 title
-                values {
-                  id
-                  title
-                  ... on Search_ProductViewOptionValueProduct {
-                    product {
+                ... on Search_ProductViewOptionValueProduct {
+                  product {
+                    name
+                    sku
+                    attributes {
                       name
-                      sku
-                      attributes {
-                        name
-                        value
-                      }
+                      value
                     }
                   }
                 }
@@ -157,15 +156,16 @@ export const GetLocationRecipesDailyQuery = `
             }
           }
         }
-        page_info {
-          current_page
-          page_size
-          total_pages
-        }
-        total_count
       }
+      page_info {
+        current_page
+        page_size
+        total_pages
+      }
+      total_count
     }
   }
+}
 `
 export type GetLocationRecipesDailyVariables = {
   date: string,
@@ -175,62 +175,61 @@ export type GetLocationRecipesDailyVariables = {
 };
 
 export const GetLocationRecipesWeeklyQuery = `
-  query getLocationRecipes(
-    $locationUrlKey: String!
-    $date: String!
-    $mealPeriod: Int
-    $viewType: Commerce_MenuViewType!
+query getLocationRecipes(
+  $locationUrlKey: String!
+  $date: String!
+  $mealPeriod: Int
+  $viewType: Commerce_MenuViewType!
+) {
+  getLocationRecipes(
+    campusUrlKey: "campus"
+    locationUrlKey: $locationUrlKey
+    date: $date
+    mealPeriod: $mealPeriod
+    viewType: $viewType
   ) {
-    getLocationRecipes(
-      campusUrlKey: "campus"
-      locationUrlKey: $locationUrlKey
-      date: $date
-      mealPeriod: $mealPeriod
-      viewType: $viewType
-    ) {
-      locationRecipesMap {
-        dateSkuMap {
-          date
-          stations {
-            id
-            skus {
-              simple
-            }
+    locationRecipesMap {
+      dateSkuMap {
+        date
+        stations {
+          id
+          skus {
+            simple
           }
         }
       }
-      products {
-        items {
-          productView {
-            sku
+    }
+    products {
+      items {
+        productView {
+          sku
+          name
+          images {
+            label
+            roles
+            url
+          }
+          attributes {
             name
-            images {
-              label
-              roles
-              url
-            }
+            value
+          }
+          ... on Search_ComplexProductView {
             attributes {
               name
               value
             }
-            ... on Search_ComplexProductView {
-              attributes {
-                name
-                value
-              }
-              options {
+            options {
+              title
+              values {
+                id
                 title
-                values {
-                  id
-                  title
-                  ... on Search_ProductViewOptionValueProduct {
-                    product {
+                ... on Search_ProductViewOptionValueProduct {
+                  product {
+                    name
+                    sku
+                    attributes {
                       name
-                      sku
-                      attributes {
-                        name
-                        value
-                      }
+                      value
                     }
                   }
                 }
@@ -238,15 +237,16 @@ export const GetLocationRecipesWeeklyQuery = `
             }
           }
         }
-        page_info {
-          current_page
-          page_size
-          total_pages
-        }
-        total_count
       }
+      page_info {
+        current_page
+        page_size
+        total_pages
+      }
+      total_count
     }
   }
+}
 `
 export type GetLocationRecipesWeeklyVariables = {
   date: string,

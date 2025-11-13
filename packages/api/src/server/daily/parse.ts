@@ -62,10 +62,17 @@ export async function queryAdobeECommerce(
       }
     })
 
+    type ResponseWithQuery = AxiosResponse["data"] & {query: string, params: string};
+    let loggedResponse: ResponseWithQuery = {
+      ...(response.data),
+      query: query,
+      params: variables
+    };
+
     if (process.env.IS_LOCAL) {
-      const outPath = `./query-${new Date().toLocaleDateString('fr-CA', {year: "numeric", month: "2-digit", day: "2-digit"})}-response.json`;
-      writeFileSync(outPath, JSON.stringify(response.data), { flag: "w" });
-      logger.info(`Wrote AdobeEcommerce response to ${outPath}.`);
+      const outPath = `query-${new Date().toISOString()}-response.json`
+      writeFileSync(`./${outPath}`, JSON.stringify(loggedResponse), { flag: "w" });
+      logger.info(`Wrote AdobeEcommerce response to ${process.cwd()}/${outPath}.`);
     }
 
     return response;
