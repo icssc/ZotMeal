@@ -6,7 +6,6 @@ import type { Drizzle, RestaurantName } from "@zotmeal/db";
 import { restaurantNames } from "@zotmeal/db";
 
 import { daily } from "../daily";
-import { getHTML, scrapeEvents } from "../scrapeEvents";
 import { Octokit } from "@octokit/rest";
 import { upsert } from "@api/utils";
 import { contributors, InsertContributor } from "@zotmeal/db";
@@ -18,11 +17,6 @@ const NUM_DAYS_UPDATE = 14;
  * The endpoint contains events from both restaurants.
  */
 export async function eventJob(db: Drizzle): Promise<void> {
-  const html = await getHTML(
-    "https://uci-campusdish-com.translate.goog/api/events?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en&_x_tr_pto=wapp",
-  );
-  const events = await scrapeEvents(html);
-
   logger.info(`[weekly] Upserting ${events.length} events...`);
   const upsertedEvents = await upsertEvents(db, events);
   logger.info(`[weekly] Upserted ${upsertedEvents.length} events.`);
@@ -124,18 +118,17 @@ export async function upsertContributors(
 
 export async function weekly(db: Drizzle): Promise<void> {
   await eventJob(db);
-
   await contributorsJob(db);
 
-  const results = await Promise.allSettled(
-    restaurantNames.map(async (restaurant) =>
-      restaurantJob(db, new Date(), restaurant),
-    ),
-  );
+  // const results = await Promise.allSettled(
+  //   restaurantNames.map(async (restaurant) =>
+  //     restaurantJob(db, new Date(), restaurant),
+  //   ),
+  // );
 
   // Log errors.
-  results.forEach((result) => {
-    if (result.status === "rejected")
-      logger.error("weekly() failed:", result.reason);
-  });
+  // results.forEach((result) => {
+  //   if (result.status === "rejected")
+  //     logger.error("weekly() failed:", result.reason);
+  // });
 }

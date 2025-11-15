@@ -27,6 +27,7 @@ export const appRouter = createTRPCRouter({
         });
       }),
   ),
+  /** Get all current contributors to ZotMeal's GitHub repo. */
   zotmeal_contributors: publicProcedure.query(
     async ({ctx: { db }}) => 
       await getContributors(db).catch((error) => {
