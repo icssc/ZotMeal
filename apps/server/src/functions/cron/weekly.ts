@@ -10,7 +10,7 @@ const connectionString = env.DATABASE_URL;
 
 export const main = async (_event, _context) => {
   try {
-    logger.info(`Start get weekly job...`);
+    logger.info(`Starting weekly job...`);
     const db = createDrizzle({
       connectionString,
       ssl,
