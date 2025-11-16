@@ -151,40 +151,6 @@ export async function getLocationInformation(
     } as Schedule;
   })
 
-  // Find the current schedule, if a special one is occurring
-  // let currentSchedule = 
-  //   getLocation.aemAttributes.hoursOfOperation.schedule.find(schedule => {
-  //     const today = new Date();
-  //     const startDate = new Date(`${schedule.start_date}T00:00:00`);
-  //     const endDate = new Date(`${schedule.end_date}T00:00:00`);
-
-  //     return today >= startDate && today <= endDate;
-  // });
-
-  // // If no special schedule found, default to standard
-  // if (currentSchedule === undefined) {
-  //   currentSchedule = 
-  //     getLocation.aemAttributes.hoursOfOperation.schedule.find(schedule =>
-  //      schedule.name == "Standard"
-  //   );
-  // }
-
-  // let mealPeriods: MealPeriodWithHours[] =
-  //   commerceMealPeriods.map(mealPeriod => {
-  //     let currentMealPeriod = currentSchedule!.meal_periods.find(period => 
-  //       period.meal_period == mealPeriod.name
-  //     );
-
-  //     let [openHours, closeHours] = 
-  //       parseOpeningHours(currentMealPeriod!.opening_hours);
-
-  //     return {
-  //       openHours,
-  //       closeHours,
-  //       ...mealPeriod
-  //     }
-  // });
-
   let allergenIntoleranceCodes: DiningHallInformation["allergenIntoleranceCodes"] = {};
   commerceAttributesList.items
     .find(item => 
@@ -273,7 +239,7 @@ export async function getAdobeEcommerceMenuDaily(
 }
 
 
-type DateDish = {date: Date} & InsertDish;
+type DateDishMap = {[date: string]: Omit<InsertDish, "menuId">};
 // TODO: Reorg into separate file? Or just overhaul the 
 //       server function organization entirely?
 /**
@@ -287,7 +253,7 @@ export async function getAdobeEcommerceMenuWeekly(
   date: Date,
   restaurantName: RestaurantName,
   periodId: number,
-): Promise<DateDish[]> {
+): Promise<DateDishMap> {
   const getLocationRecipesWeeklyVariables = {
     date: `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
     locationUrlKey: restaurantUrlMap[restaurantName],
@@ -305,23 +271,26 @@ export async function getAdobeEcommerceMenuWeekly(
   const dateSkuMap 
     = parsedData.data.getLocationRecipes.locationRecipesMap.dateSkuMap;
 
-  return dateSkuMap.flatMap(dateMap =>
-    dateMap.stations.flatMap(stationMap =>
-      stationMap.skus.simple.map(sku => {
+  let dishes: DateDishMap = {};
+
+  dateSkuMap.forEach(dateMap =>
+    dateMap.stations.forEach(stationMap =>
+      stationMap.skus.simple.forEach(sku => {
         let item = parsedProducts[sku];
 
-        return {
-          date: new Date(dateMap.date),
-          id: sku,
+        dishes[dateMap.date] = {
           name: item?.name ?? "UNIDENTIFIED",
+          id: sku,
           description: item?.description ?? "",
           category: item?.category ??  "",
           ingredients: item?.ingredients ?? "",
           stationId: stationMap.id.toString(),
-        } as DateDish;
+        };
       })
     )
   );
+
+  return dishes;
 }
 
 type WeeklyProducts = 

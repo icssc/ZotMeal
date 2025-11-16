@@ -6,7 +6,7 @@ import { upsertAllStations } from "@api/stations/services";
 import { logger } from "@api/logger";
 import { format } from "date-fns";
 import { upsertMenu } from "@api/menus/services";
-import { upsertPeriods } from "../periods/services";
+import { getCurrentSchedule, upsertPeriods } from "../periods/services";
 import type { MealPeriodWithHours, Schedule } from "@zotmeal/validators";
 import { parseAndUpsertDish } from "../dishes/services";
 
@@ -38,19 +38,8 @@ export async function upsertMenusForDate(
 
   await upsertAllStations(db, restaurantId, restaurantInfo);
 
-  // Get current schedule -- if no special schedule exists, default to standard
-  let currentSchedule: Schedule | undefined = restaurantInfo.schedules.find(schedule => {
-    // If there is no start/end date, we're likely looking at the standard schedule, skip for now
-    if (!(schedule.startDate && schedule.endDate))  
-      return false;
-    else
-      return date >= schedule.startDate && date <= schedule.endDate
-  })
-
-  // NOTE: We will assert that a standard schedule will always be returned.. 
-  // if this no longer applies in the future, God help you.
-  if (currentSchedule == undefined)
-    currentSchedule = restaurantInfo.schedules.find(schedule => schedule.type == "standard")!
+  let currentSchedule: Schedule 
+    = getCurrentSchedule(restaurantInfo.schedules, date);
  
   // Get relevant periods from schedule that aligns with `date` 
   // and has hours that day
@@ -68,7 +57,7 @@ export async function upsertMenusForDate(
         period.id,
       );
 
-      const menuIdHash = `${restaurantId}|${dateString}|${period}`;
+      const menuIdHash = `${restaurantId}|${dateString}|${period.id}`;
 
       await upsertMenu(db, {
         id: menuIdHash,

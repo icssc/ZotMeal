@@ -1,4 +1,4 @@
-import type { DiningHallInformation } from "@zotmeal/validators";
+import type { DiningHallInformation, Schedule } from "@zotmeal/validators";
 import { upsertPeriod } from "@api/periods/services";
 import type { Drizzle } from "@zotmeal/db";
 import type { MealPeriodWithHours } from "@zotmeal/validators";
@@ -42,4 +42,25 @@ export async function upsertPeriods(
       );
     }
 
+}
+
+/**
+ * Returns the current schedule, if in a special meal schedule date/week. 
+ * Otherwise, defaults to standard schedule.
+ * @param schedules a list of schedules to search
+ * @param date the date of the schedule to get
+ */
+export function getCurrentSchedule(
+  schedules: Schedule[],
+  date: Date
+): Schedule {
+  return schedules.find(schedule => {
+    if (!(schedule.startDate && schedule.endDate))  
+      return false;
+    else
+      return date >= schedule.startDate && date <= schedule.endDate
+  }) ?? 
+    // NOTE: We will assert that a standard schedule will always be returned.. 
+    // if this no longer applies in the future, God help you.
+    schedules.find(schedule => schedule.type == "standard")!;
 }
