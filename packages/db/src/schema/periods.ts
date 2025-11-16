@@ -1,10 +1,18 @@
 import { pgTable, text, time, date, primaryKey } from "drizzle-orm/pg-core";
 
 import { metadataColumns } from "./utils";
+import { restaurantIdEnum } from "./enums";
+import { restaurants } from "./restaurants";
 
 export const periods = pgTable("periods", {
   id: text("id").notNull(),
   date: date("date").notNull(),
+  restaurantId: restaurantIdEnum("restaurant_id")
+    .notNull()
+    .references(() => restaurants.id, {
+      onDelete: "restrict",
+      onUpdate: "cascade",
+    }),
   startTime: time("start").notNull(),
   endTime: time("end").notNull(),
   name: text("name").notNull(),
