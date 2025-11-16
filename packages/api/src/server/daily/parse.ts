@@ -41,6 +41,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { logger } from "@api/logger";
 import { writeFileSync } from "node:fs";
 
+
 /**
  * Queries the Adobe ECommerce endpoint for restaurant information, dishes, etc.
  * with the appropriate headers and POST method.
@@ -202,7 +203,7 @@ export async function getAdobeEcommerceMenuDaily(
   periodId: number,
 ): Promise<InsertDishWithModifiedRelations[]> {
   const getLocationRecipesVariables = {
-    date: `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
+    date: toISODateString(date),
     locationUrlKey: restaurantUrlMap[restaurantName],
     mealPeriod: periodId,
     viewType: "DAILY",
@@ -239,7 +240,7 @@ export async function getAdobeEcommerceMenuDaily(
 }
 
 
-type DateDishMap = {[date: string]: Omit<InsertDish, "menuId">};
+type DateDishMap = Map<string, Omit<InsertDish, "menuId">[]>;
 // TODO: Reorg into separate file? Or just overhaul the 
 //       server function organization entirely?
 /**
@@ -255,7 +256,7 @@ export async function getAdobeEcommerceMenuWeekly(
   periodId: number,
 ): Promise<DateDishMap> {
   const getLocationRecipesWeeklyVariables = {
-    date: `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`,
+    date: toISODateString(date),
     locationUrlKey: restaurantUrlMap[restaurantName],
     mealPeriod: periodId,
     viewType: "WEEKLY",
@@ -271,24 +272,31 @@ export async function getAdobeEcommerceMenuWeekly(
   const dateSkuMap 
     = parsedData.data.getLocationRecipes.locationRecipesMap.dateSkuMap;
 
-  let dishes: DateDishMap = {};
+  let dishes: DateDishMap = new Map<string, Omit<InsertDish, "menuId">[]>();
 
-  dateSkuMap.forEach(dateMap =>
-    dateMap.stations.forEach(stationMap =>
-      stationMap.skus.simple.forEach(sku => {
-        let item = parsedProducts[sku];
+  for (const { date, stations } of dateSkuMap) {
+    for (const { id: stationId, skus } of stations) {
+      for (const sku of skus.simple) {
+        const item = parsedProducts[sku];
 
-        dishes[dateMap.date] = {
+        const dish = {
           name: item?.name ?? "UNIDENTIFIED",
           id: sku,
           description: item?.description ?? "",
           category: item?.category ??  "",
           ingredients: item?.ingredients ?? "",
-          stationId: stationMap.id.toString(),
+          stationId: stationId.toString(),
         };
-      })
-    )
-  );
+
+        const dishesForDate = dishes.get(date);
+        if (dishesForDate) {
+          dishesForDate.push(dish);
+        } else {
+          dishes.set(date, [dish]);
+        }
+      }
+    }
+  }
 
   return dishes;
 }
@@ -549,3 +557,11 @@ export const restaurantUrlMap = {
   "anteatery": "the-anteatery",
   "brandywine": "brandywine",
 } as const;
+
+// Helper to format date to YYYY-MM-DD, ensuring month and day are 2 digits.
+const toISODateString = (d: Date) => {
+  const year = d.getFullYear();
+  const month = (d.getMonth() + 1).toString().padStart(2, '0');
+  const day = d.getDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
