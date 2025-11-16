@@ -21,7 +21,8 @@ import {
   type EventList,
   GetLocationRecipesDailySchema,
   LocationRecipesWeekly,
-  GetLocationRecipesWeeklySchema
+  GetLocationRecipesWeeklySchema,
+  Schedule
 } from "@zotmeal/validators";
 import { 
   graphQLEndpoint,
@@ -72,7 +73,7 @@ export async function queryAdobeECommerce(
     if (process.env.IS_LOCAL) {
       const outPath = `query-${new Date().toISOString()}-response.json`
       writeFileSync(`./${outPath}`, JSON.stringify(loggedResponse), { flag: "w" });
-      logger.info(`Wrote AdobeEcommerce response to ${process.cwd()}/${outPath}.`);
+      logger.info(`[query] Wrote AdobeEcommerce response to ${process.cwd()}/${outPath}.`);
     }
 
     return response;
@@ -120,40 +121,69 @@ export async function getLocationInformation(
   const getLocation = parsedData.data.getLocation;
   const commerceMealPeriods = parsedData.data.Commerce_mealPeriods;
   const commerceAttributesList = parsedData.data.Commerce_attributesList;
+  const schedules = getLocation.aemAttributes.hoursOfOperation.schedule;
+
+  // Get all of the schedules
+  const parsedSchedules: Schedule[] = schedules.map(schedule => {
+    const scheduleMealPeriods: MealPeriodWithHours[] = 
+      schedule.meal_periods.map(mealPeriod => {
+        const mealPeriodInfo = 
+          commerceMealPeriods.find(cmp => cmp.name === mealPeriod.meal_period);
+
+        let [openHours, closeHours] = 
+          parseOpeningHours(mealPeriod.opening_hours);
+
+        return {
+          name: mealPeriod.meal_period,
+          id: mealPeriodInfo?.id ?? "UNIDENTIFIED",
+          position: mealPeriodInfo?.position ?? 0,  
+          openHours,
+          closeHours
+        } as MealPeriodWithHours;
+      })
+
+    return {
+      name: schedule.name,
+      type: schedule.type,
+      startDate: schedule.start_date,
+      endDate: schedule.end_date,
+      mealPeriods: scheduleMealPeriods,
+    } as Schedule;
+  })
 
   // Find the current schedule, if a special one is occurring
-  let currentSchedule = 
-    getLocation.aemAttributes.hoursOfOperation.schedule.find(schedule => {
-      const today = new Date();
-      const startDate = new Date(`${schedule.start_date}T00:00:00`);
-      const endDate = new Date(`${schedule.end_date}T00:00:00`);
+  // let currentSchedule = 
+  //   getLocation.aemAttributes.hoursOfOperation.schedule.find(schedule => {
+  //     const today = new Date();
+  //     const startDate = new Date(`${schedule.start_date}T00:00:00`);
+  //     const endDate = new Date(`${schedule.end_date}T00:00:00`);
 
-      return today >= startDate && today <= endDate;
-  });
+  //     return today >= startDate && today <= endDate;
+  // });
 
-  // If no special schedule found, default to standard
-  if (currentSchedule === undefined) {
-    currentSchedule = 
-      getLocation.aemAttributes.hoursOfOperation.schedule.find(schedule =>
-       schedule.name == "Standard"
-    );
-  }
+  // // If no special schedule found, default to standard
+  // if (currentSchedule === undefined) {
+  //   currentSchedule = 
+  //     getLocation.aemAttributes.hoursOfOperation.schedule.find(schedule =>
+  //      schedule.name == "Standard"
+  //   );
+  // }
 
-  let mealPeriods: MealPeriodWithHours[] =
-    commerceMealPeriods.map(mealPeriod => {
-      let currentMealPeriod = currentSchedule!.meal_periods.find(period => 
-        period.meal_period == mealPeriod.name
-      );
+  // let mealPeriods: MealPeriodWithHours[] =
+  //   commerceMealPeriods.map(mealPeriod => {
+  //     let currentMealPeriod = currentSchedule!.meal_periods.find(period => 
+  //       period.meal_period == mealPeriod.name
+  //     );
 
-      let [openHours, closeHours] = 
-        parseOpeningHours(currentMealPeriod!.opening_hours);
+  //     let [openHours, closeHours] = 
+  //       parseOpeningHours(currentMealPeriod!.opening_hours);
 
-      return {
-        openHours,
-        closeHours,
-        ...mealPeriod
-      }
-  });
+  //     return {
+  //       openHours,
+  //       closeHours,
+  //       ...mealPeriod
+  //     }
+  // });
 
   let allergenIntoleranceCodes: DiningHallInformation["allergenIntoleranceCodes"] = {};
   commerceAttributesList.items
@@ -180,10 +210,10 @@ export async function getLocationInformation(
     });
 
   return {
-    mealPeriods,
     allergenIntoleranceCodes,
     menuPreferenceCodes,
-    stationsInfo
+    stationsInfo,
+    schedules: parsedSchedules
   };
 }
 
@@ -412,7 +442,13 @@ function parseOpeningHours(hoursString : string): [WeekTimes, WeekTimes] {
     }
 
     const dayRangeStr = parts[0]!; // "Mo-Fr"
-    const timeRangeStr = parts[1]!; // "07:15-11:00"
+    const timeRangeStr = parts[1]!; // "07:15-11:00 OR off"
+
+    // If the timeRange is off, then we need not do anything (it is not open)
+    if (timeRangeStr == "off")
+      continue;
+
+
     const [openTime, closeTime] = timeRangeStr.split('-'); // "07:15", "11:00"
 
     if (!openTime || !closeTime) {

@@ -7,7 +7,7 @@ import { logger } from "@api/logger";
 import { format } from "date-fns";
 import { upsertMenu } from "@api/menus/services";
 import { upsertPeriods } from "../periods/services";
-import type { MealPeriodWithHours } from "@zotmeal/validators";
+import type { MealPeriodWithHours, Schedule } from "@zotmeal/validators";
 import { parseAndUpsertDish } from "../dishes/services";
 
 /**
@@ -37,10 +37,25 @@ export async function upsertMenusForDate(
   });
 
   await upsertAllStations(db, restaurantId, restaurantInfo);
+
+  // Get current schedule -- if no special schedule exists, default to standard
+  let currentSchedule: Schedule | undefined = restaurantInfo.schedules.find(schedule => {
+    // If there is no start/end date, we're likely looking at the standard schedule, skip for now
+    if (!(schedule.startDate && schedule.endDate))  
+      return false;
+    else
+      return date >= schedule.startDate && date <= schedule.endDate
+  })
+
+  // NOTE: We will assert that a standard schedule will always be returned.. 
+  // if this no longer applies in the future, God help you.
+  if (currentSchedule == undefined)
+    currentSchedule = restaurantInfo.schedules.find(schedule => schedule.type == "standard")!
  
-  // Filter relevant periods out as ones with open and close hours today.
-  let relevantPeriods: MealPeriodWithHours[] = restaurantInfo.mealPeriods
-      .filter(period => period.openHours[dayOfWeek] && period.closeHours[dayOfWeek]);
+  // Get relevant periods from schedule that aligns with `date` 
+  // and has hours that day
+  let relevantPeriods: MealPeriodWithHours[] = currentSchedule.mealPeriods
+    .filter(mealPeriod => mealPeriod.openHours[dayOfWeek] && mealPeriod.closeHours[dayOfWeek])
   
   logger.info(`[daily] Upserting ${relevantPeriods.length} periods...`);
   await upsertPeriods(db, restaurantId, dateString, dayOfWeek, relevantPeriods);
