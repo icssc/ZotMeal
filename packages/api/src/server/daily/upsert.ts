@@ -74,6 +74,7 @@ export async function upsertMenusForDate(
         upsertPeriod(db, {
           id: period.id.toString(),
           date: dateString,
+          restaurantId: restaurantId,
           name: period.name,
           startTime: period.openHours[dayOfWeek],
           endTime: period.closeHours[dayOfWeek]
