@@ -24,6 +24,7 @@ export async function upsertMenusForWeek(
   const dateString = format(date, "yyyy-MM-dd");
   const dayOfWeek = date.getDay();
 
+  // Get all the periods and stations available for the week.
   const restaurantInfo: DiningHallInformation = await getLocationInformation(
     restaurantUrlMap[restaurantName],
     "ASC",

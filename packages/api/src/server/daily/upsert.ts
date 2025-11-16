@@ -1,13 +1,14 @@
-import { dietRestrictions, getRestaurantId, InsertDishWithRelations, type Drizzle, type RestaurantName } from "@zotmeal/db";
+import { getRestaurantId, type Drizzle, type RestaurantName } from "@zotmeal/db";
 import { getAdobeEcommerceMenuDaily, getLocationInformation, restaurantUrlMap } from "./parse";
-import { AllergenKeys, DiningHallInformation, PreferenceKeys, WeekTimes } from "@zotmeal/validators";
+import { DiningHallInformation } from "@zotmeal/validators";
 import { upsertRestaurant } from "@api/restaurants/services";
-import { upsertStation } from "@api/stations/services";
+import { upsertAllStations } from "@api/stations/services";
 import { logger } from "@api/logger";
-import { upsertPeriod } from "@api/periods/services";
 import { format } from "date-fns";
 import { upsertMenu } from "@api/menus/services";
-import { upsertDish, upsertDishToMenu } from "@api/dishes/services";
+import { upsertPeriods } from "../periods/services";
+import type { MealPeriodWithHours } from "@zotmeal/validators";
+import { parseAndUpsertDish } from "../dishes/services";
 
 /**
  * Upserts the menu for the date `date` for a restaurant.
@@ -35,134 +36,40 @@ export async function upsertMenusForDate(
     name: restaurantName
   });
 
-  // Upsert all stations present today.
-  const stationsResult = await Promise.allSettled(
-    Object.keys(restaurantInfo.stationsInfo).map(id => {
-      upsertStation(db, {
-        id,
-        restaurantId,
-        name: restaurantInfo.stationsInfo[id]!,
-      })
-})
-  );
-
-  for (const station of stationsResult)
-    if (station.status === "rejected") {
-      const reason = station.reason;
-      let stationDetail = "unknown station";
-      if (reason && typeof reason === 'object' && 'value' in reason && reason.value && typeof reason.value === 'object' && 'name' in reason.value && typeof reason.value.name === 'string') {
-        stationDetail = `station '${reason.value.name}'`;
-      } else if (reason instanceof Error) {
-        stationDetail = `Error: ${reason.message}`;
-      } else {
-        stationDetail = `Reason: ${JSON.stringify(reason)}`;
-      }
-      logger.error(
-        `Failed to insert station ${stationDetail} for ${restaurantName}.`,
-        reason,
-      );
-    }
+  await upsertAllStations(db, restaurantId, restaurantInfo);
+ 
+  // Filter relevant periods out as ones with open and close hours today.
+  let relevantPeriods: MealPeriodWithHours[] = restaurantInfo.mealPeriods
+      .filter(period => period.openHours[dayOfWeek] && period.closeHours[dayOfWeek]);
   
-  let relevantPeriods: number[] = []  // ids of periods available at this location today
-
-  // Upsert all periods present today.
-  const periodsResult = await Promise.allSettled(
-    restaurantInfo.mealPeriods.map(period => {
-      // only insert periods available at this location today
-      if (period.openHours[dayOfWeek] && period.closeHours[dayOfWeek]) {
-        relevantPeriods.push(period.id)
-        upsertPeriod(db, {
-          id: period.id.toString(),
-          date: dateString,
-          restaurantId: restaurantId,
-          name: period.name,
-          startTime: period.openHours[dayOfWeek],
-          endTime: period.closeHours[dayOfWeek]
-        })
-      }
-    })
-  );
-
-  for (const period of periodsResult)
-    if (period.status === "rejected") {
-      const reason = period.reason;
-      let periodDetail = "unknown period";
-      if (reason && typeof reason === 'object' && 'value' in reason && reason.value && typeof reason.value === 'object' && 'name' in reason.value && typeof reason.value.name === 'string') {
-        periodDetail = `period '${reason.value.name}'`;
-      } else if (reason instanceof Error) {
-        periodDetail = `Error: ${reason.message}`;
-      } else {
-        periodDetail = `Reason: ${JSON.stringify(reason)}`;
-      }
-      logger.error(
-        `Failed to insert period ${periodDetail} for ${restaurantName}.`,
-        reason,
-      );
-    }
+  logger.info(`[daily] Upserting ${relevantPeriods.length} periods...`);
+  await upsertPeriods(db, restaurantId, dateString, dayOfWeek, relevantPeriods);
 
   const menuResult = await Promise.allSettled(
     relevantPeriods.map(async period => {
       const currentPeriodMenu = await getAdobeEcommerceMenuDaily(
         date,
         restaurantName,
-        period,
+        period.id,
       );
 
-      const menuIdHash = 
-        `${restaurantId}|${dateString}|${period}`;
+      const menuIdHash = `${restaurantId}|${dateString}|${period}`;
 
       await upsertMenu(db, {
         id: menuIdHash,
-        periodId: period.toString(),
+        periodId: period.id.toString(),
         date: dateString,
         price: "???", // NOTE: Not sure if this was ever provided in the API..
         restaurantId
       });
 
+      logger.info(`[daily] Upserting ${currentPeriodMenu.length} dishes...`);
       await Promise.all(
         currentPeriodMenu.map(async dish => {
           if (dish.name == "UNIDENTIFIED")
             return;
 
-          let baseDietRestriction = {} as Omit<InsertDishWithRelations["dietRestriction"], "dishId" | "createdAt" | "updatedAt">;
-
-          AllergenKeys.forEach(key => {
-            const containsKey = 
-              `contains${key.replaceAll(" ", "")}` as keyof typeof baseDietRestriction;
-            const allergenCode: number 
-              = restaurantInfo.allergenIntoleranceCodes[key] ?? -1;
-
-            baseDietRestriction[containsKey] = dish.recipeAllergenCodes.has(allergenCode);
-          });
-
-          PreferenceKeys.forEach(key => {
-            const isKey = 
-              `is${key.replaceAll(" ", "")}` as keyof typeof baseDietRestriction;
-            const preferenceCode: number 
-              = restaurantInfo.menuPreferenceCodes[key] ?? -1;
-
-            baseDietRestriction[isKey] = dish.recipePreferenceCodes.has(preferenceCode);
-          });
-
-          let dietRestriction: InsertDishWithRelations["dietRestriction"] = {
-            dishId: dish.id,
-            ...baseDietRestriction
-          };
-
-          // remove sets from dish before upserting
-          const { recipeAllergenCodes, recipePreferenceCodes, ...currentDish } = dish;
-          
-          await upsertDish(db, {
-            ...currentDish,
-            menuId: menuIdHash,
-            dietRestriction,
-            nutritionInfo: dish.nutritionInfo,
-          })
-
-          await upsertDishToMenu(db, {
-            dishId: dish.id,
-            menuId: menuIdHash
-          })
+          parseAndUpsertDish(db, restaurantInfo, dish, menuIdHash);
         })
       )
     })

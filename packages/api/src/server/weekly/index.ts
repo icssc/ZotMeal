@@ -94,19 +94,6 @@ export async function upsertContributors(
   return upsertContributorsResult;
 }
 
-/**
- * Finds the closest Sunday that occurred in the past relative to the given date.
- * If the input date is already a Sunday, it returns that date.
- *
- * @param {Date} date The starting date
- * @returns {Date} A new Date object representing the closest Sunday in the past
- */
-export function findClosestPastSunday(date: Date): Date {
-  const targetDate = new Date(date.getTime());
-  targetDate.setDate(targetDate.getDate() - targetDate.getDay());
-  return targetDate;
-}
-
 export async function weekly(db: Drizzle): Promise<void> {
   await eventJob(db);
   // await contributorsJob(db);

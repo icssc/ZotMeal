@@ -187,7 +187,7 @@ export async function getLocationInformation(
   };
 }
 
-type InsertDishWithModifiedRelations = InsertDish & {
+export type InsertDishWithModifiedRelations = InsertDish & {
   nutritionInfo: InsertDishWithRelations["nutritionInfo"],
   recipeAllergenCodes: Set<number>,
   recipePreferenceCodes: Set<number>
