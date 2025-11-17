@@ -84,7 +84,7 @@ export const GetLocationRecipesWeeklySchema = z.object({
             )
           })
         ),
-      }),
+      }).nullable(),
       products: z.object({
         items: z.array(
           z.object({
@@ -110,7 +110,7 @@ export const GetLocationRecipesWeeklySchema = z.object({
             })
           })
         )
-      })
+      }).nullable()
     })
   })
 });

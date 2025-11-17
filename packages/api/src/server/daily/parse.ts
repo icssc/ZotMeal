@@ -240,7 +240,7 @@ export async function getAdobeEcommerceMenuDaily(
 }
 
 
-type DateDishMap = Map<string, Omit<InsertDish, "menuId">[]>;
+type DateDishMap = Map<string, InsertDishWithModifiedRelations[]>;
 // TODO: Reorg into separate file? Or just overhaul the 
 //       server function organization entirely?
 /**
@@ -254,7 +254,7 @@ export async function getAdobeEcommerceMenuWeekly(
   date: Date,
   restaurantName: RestaurantName,
   periodId: number,
-): Promise<DateDishMap> {
+): Promise<DateDishMap | null> {
   const getLocationRecipesWeeklyVariables = {
     date: toISODateString(date),
     locationUrlKey: restaurantUrlMap[restaurantName],
@@ -267,12 +267,18 @@ export async function getAdobeEcommerceMenuWeekly(
   
   const parsedData: LocationRecipesWeekly
     = GetLocationRecipesWeeklySchema.parse(res.data);
-  const parsedProducts = 
-    parseProducts(parsedData.data.getLocationRecipes.products.items);
-  const dateSkuMap 
-    = parsedData.data.getLocationRecipes.locationRecipesMap.dateSkuMap;
+  const products = parsedData.data.getLocationRecipes.products;
+  const locationRecipesMap = parsedData.data.getLocationRecipes.locationRecipesMap;
 
-  let dishes: DateDishMap = new Map<string, Omit<InsertDish, "menuId">[]>();
+  if (products == null || locationRecipesMap == null)
+    return null;
+
+  const parsedProducts = 
+    parseProducts(products.items);
+  const dateSkuMap 
+    = locationRecipesMap.dateSkuMap;
+
+  let dishes: DateDishMap = new Map<string, InsertDishWithModifiedRelations[]>();
 
   for (const { date, stations } of dateSkuMap) {
     for (const { id: stationId, skus } of stations) {
@@ -280,13 +286,16 @@ export async function getAdobeEcommerceMenuWeekly(
         const item = parsedProducts[sku];
 
         const dish = {
-          name: item?.name ?? "UNIDENTIFIED",
           id: sku,
+          name: item?.name ?? "UNIDENTIFIED",
+          stationId: stationId.toString(),
           description: item?.description ?? "",
           category: item?.category ??  "",
           ingredients: item?.ingredients ?? "",
-          stationId: stationId.toString(),
-        };
+          nutritionInfo: item?.nutritionInfo ?? {},
+          recipeAllergenCodes: item?.allergenIntolerances ?? new Set<Number>(),
+          recipePreferenceCodes: item?.recipePreferences ?? new Set<Number>()
+        } as InsertDishWithModifiedRelations;
 
         const dishesForDate = dishes.get(date);
         if (dishesForDate) {
@@ -301,8 +310,8 @@ export async function getAdobeEcommerceMenuWeekly(
   return dishes;
 }
 
-type WeeklyProducts = 
-  LocationRecipesWeekly["data"]["getLocationRecipes"]["products"]["items"];
+type WeeklyProducts = NonNullable<
+  LocationRecipesWeekly["data"]["getLocationRecipes"]["products"]>["items"];
 
 type ProductAttributes = {
   name: string,
