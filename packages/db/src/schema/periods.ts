@@ -18,7 +18,7 @@ export const periods = pgTable("periods", {
   name: text("name").notNull(),
   ...metadataColumns,
 }, (table) => ({ 
-  pk: primaryKey({ columns: [table.id, table.date] })
+  pk: primaryKey({ columns: [table.id, table.date, table.restaurantId] })
 }));
 
 /** A meal period, e.g. breakfast. */
