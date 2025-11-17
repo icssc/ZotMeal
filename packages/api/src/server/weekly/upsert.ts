@@ -1,13 +1,13 @@
-import { dietRestrictions, getRestaurantId, InsertDishWithRelations, type Drizzle, type RestaurantName } from "@zotmeal/db";
-import { AllergenKeys, DiningHallInformation, PreferenceKeys, WeekTimes } from "@zotmeal/validators";
+import { getRestaurantId, type Drizzle, type RestaurantName } from "@zotmeal/db";
+import { DiningHallInformation } from "@zotmeal/validators";
 import { upsertRestaurant } from "@api/restaurants/services";
-import { upsertAllStations, upsertStation } from "@api/stations/services";
+import { upsertAllStations } from "@api/stations/services";
 import { logger } from "@api/logger";
-import { upsertPeriod } from "@api/periods/services";
 import { format } from "date-fns";
+import { restaurantUrlMap, getLocationInformation, getAdobeEcommerceMenuWeekly } from "../daily/parse";
+import { getCurrentSchedule, upsertPeriods } from "../periods/services";
 import { upsertMenu } from "@api/menus/services";
-import { upsertDish, upsertDishToMenu } from "@api/dishes/services";
-import { restaurantUrlMap, getLocationInformation } from "../daily/parse";
+import { parseAndUpsertDish } from "../dishes/services";
 
 /**
  * Upserts the menu for the week starting at `date` for a restaurant, up until 
@@ -22,7 +22,6 @@ export async function upsertMenusForWeek(
   restaurantName: RestaurantName,
 ): Promise<void> {
   const restaurantId = getRestaurantId(restaurantName);
-  const dateString = format(date, "yyyy-MM-dd");
   const dayOfWeek = date.getDay();
 
   // Get all the periods and stations available for the week.
@@ -38,14 +37,93 @@ export async function upsertMenusForWeek(
 
   await upsertAllStations(db, restaurantId, restaurantInfo);
 
-  // For each day between now and the next Sunday, get the relevant periods and 
-  // upsert them.
+  let upsertedDates: Date[] = [date];
   let daysUntilNextSunday = (7 - dayOfWeek) % 7 || 7;
-  for (let i = 0; i < daysUntilNextSunday; ++i) {
-    let currentDate = new Date(date).setDate(date.getDate() + i);
-    
+  for (let i = 0; i <= daysUntilNextSunday; ++i) {
+    let nextDate = new Date(date);
+    nextDate.setDate(date.getDate() + i);
+    upsertedDates.push(nextDate)    
   }
 
+  // Keep a set of all relevant meal periods (ones that were relevant throughout
+  // at least some days in the week) to query weekly on later
+  let periodSet: Set<number> = new Set<number>();
 
+  let dayPeriodMap = new Map<string, Set<number>>();
 
+  await Promise.all(
+    upsertedDates.map(async currentDate => {
+      const currentDayOfWeek = currentDate.getDay();
+      const currentSchedule = getCurrentSchedule(restaurantInfo.schedules, currentDate);
+      const dateString = format(currentDate, "yyyy-MM-dd");
+
+      // Get relevant meal periods for the day to upsert into periods table
+      const relevantMealPeriods = currentSchedule.mealPeriods
+        .filter(mealPeriod => mealPeriod.openHours[currentDayOfWeek] 
+          && mealPeriod.closeHours[currentDayOfWeek]);
+      
+      let dayPeriodSet = new Set<number>();
+      relevantMealPeriods.forEach(period => {
+        periodSet.add(period.id);
+        dayPeriodSet.add(period.id);
+      });
+
+      dayPeriodMap.set(dateString, dayPeriodSet);
+      
+      logger.info(`[weekly] Upserting ${relevantMealPeriods.length} periods...`);
+      await upsertPeriods(db, restaurantId, dateString, currentDayOfWeek, relevantMealPeriods);
+    })
+  );
+
+  await Promise.all(
+    Array.from(periodSet).map(async (periodId) => {
+      const currentPeriodWeekly = await getAdobeEcommerceMenuWeekly(
+        date,
+        restaurantName,
+        periodId,
+      );
+
+      if (!currentPeriodWeekly) {
+        logger.info(`[weekly] Skipping period ${periodId}, period is null.`);
+        return;
+      }
+
+      await Promise.all(
+        Array.from(currentPeriodWeekly.entries()).map(async ([dateString, dishes]) => {
+          // NOTE: For some head-scratching, infuriating reason, the API returns
+          // dishes for a non-existent period that it doesn't have listed at a
+          // certain day (i.e. No lunch on Saturdays, yet Lunch Meal period on
+          // Saturdays returns some dishes), this is an issue because we now have to
+          // make sure the period exists on the day for the returned data.
+
+          // If the current date has this period, upsert, otherwise, skip.
+          const periodsOfDay = dayPeriodMap.get(dateString);
+          if (periodsOfDay && !periodsOfDay.has(periodId)) {
+            return;
+          }
+
+          // Upsert menu for date/period combo
+          const menuIdHash = `${restaurantId}|${dateString}|${periodId}`;
+          await upsertMenu(db, {
+            id: menuIdHash,
+            periodId: periodId.toString(),
+            date: dateString,
+            price: "???", // NOTE: Not sure if this was ever provided in the API..
+            restaurantId,
+          });
+
+          // Upsert each dish into the menu
+          logger.info(`[weekly] Upserting ${dishes.length} dishes...`);
+          await Promise.all(
+            dishes.map(async (dish) => {
+              if (dish.name === "UNIDENTIFIED") {
+                return;
+              }
+              await parseAndUpsertDish(db, restaurantInfo, { ...dish, menuId: menuIdHash }, menuIdHash);
+            }),
+          );
+        }),
+      );
+    }),
+  );
 }
