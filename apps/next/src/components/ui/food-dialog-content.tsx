@@ -60,7 +60,7 @@ export default function FoodDialogContent(dish: DishInfo): JSX.Element {
               </div> */}
             </div>
             <div className="px-4 flex items-center gap-2 text-zinc-500">
-              <span>{dish.nutritionInfo.calories == null ? "-" : `${dish.nutritionInfo.calories} cal`} • {toTitleCase(dish.restaurant)}</span>
+              <span>{dish.nutritionInfo.calories == null ? "-" : `${Math.round(parseFloat(dish.nutritionInfo.calories))} cal`} • {toTitleCase(dish.restaurant)}</span>
               {dish.dietRestriction.isVegetarian && <AllergenBadge variant={"vegetarian"}/>}
               {dish.dietRestriction.isVegan && <AllergenBadge variant={"vegan"}/>}
               {dish.dietRestriction.isGlutenFree && <AllergenBadge variant={"gluten_free"}/>}
