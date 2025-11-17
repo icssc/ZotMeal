@@ -81,10 +81,6 @@ export default function Side({hall, toggleHall} : SideProps): JSX.Element {
           const currentPeriodOpenTime = militaryToStandard(menu.period.startTime);
           const currentPeriodCloseTime = militaryToStandard(menu.period.endTime);
 
-          console.log(periodNameLower)
-          console.log(menu.period.startTime)
-          console.log(currentPeriodOpenTime)
-
           if (periodNameLower === 'latenight') {
             currentPeriodOpenTime.setDate(currentPeriodOpenTime.getDate() + 1);
             currentPeriodCloseTime.setDate(currentPeriodCloseTime.getDate() + 1);

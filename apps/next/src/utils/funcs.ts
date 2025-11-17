@@ -222,6 +222,49 @@ const formatNutrientLabel = (nutrient: string) => {
 };
 
 /**
+ * Formats a nutrient value by rounding decimal places
+ * or returning "< #" for applicable nutrient fields
+ * @param field The nutrient key string.
+ * @param valueRaw The nutrient value as a string.
+ * @returns A formatted nutrient value.
+ */
+const formatNutrientValue = (field: string, valueRaw: string | Date | null) => {
+  if (valueRaw == null || valueRaw instanceof Date) return valueRaw;
+  const value = parseFloat(valueRaw);
+
+  switch (field) {
+    case "calories":
+      return Math.round(value);
+
+    case "totalFatG":
+    case "saturatedFatG":
+    case "transFatG":
+    case "totalCarbsG":
+    case "sugarsG":
+    case "dietaryFiberG":
+      return value < 0.5 ? "<0.5" : value.toFixed(1);
+
+    case "proteinG":
+      return value < 1 ? "<1" : value.toFixed(1);
+
+    case "sodiumMg":
+    case "cholesterolMg":
+      return value < 5 ? "<5" : Math.round(value);
+
+    case "vitaminAIU":
+    case "vitaminCIU":
+      return Math.round(value);
+
+    case "calciumMg":
+    case "ironMg":
+      return value < 0.1 ? "<0.1" : value.toFixed(1);
+
+    default:
+      return valueRaw;
+  }
+}
+
+/**
  * Formats a food name for display.
  * This includes converting to title case, handling hyphens, apostrophes,
  * and specific abbreviations like "Ozw" to "Oz".
@@ -317,6 +360,7 @@ export {toTitleCase,
         militaryToStandard,
         formatOpenCloseTime,
         formatNutrientLabel,
+        formatNutrientValue,
         formatFoodName,
         sortCategoryKeys,
         getFoodIcon,
