@@ -25,6 +25,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set timezone
+        run: sudo timedatectl set-timezone "America/Los_Angeles"
+
       - name: Setup
         uses: ./tooling/github/setup
 
