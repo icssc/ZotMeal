@@ -177,6 +177,21 @@ function utcToPacificTime(utcTimeString: string): Date {
 }
 
 /**
+ * Converts a military time string (HH:MM:SS) 
+ * in 24-hr clock format to a Date object in Pacific Time.
+ * The date part of the returned Date object will be the current date.
+ * @param militaryTime The 24-hr time string in "HH:MM:SS" format.
+ * @returns A Date object representing the converted time in America/Los_Angeles timezone.
+ */
+function militaryToStandard(militaryTime: string): Date {
+  const [hrs, mins, secs] = militaryTime.split(':').map(Number);
+  
+  const date = new Date();
+  date.setHours(hrs, mins, secs, 0);
+  return date;
+}
+
+/**
  * Formats a time range from two Date objects into a string like "10:00a-2:30p".
  * @param openTime The start time.
  * @param closeTime The end time.
@@ -299,6 +314,7 @@ export {toTitleCase,
         timeToString, 
         enhanceDescription,
         utcToPacificTime,
+        militaryToStandard,
         formatOpenCloseTime,
         formatNutrientLabel,
         formatFoodName,

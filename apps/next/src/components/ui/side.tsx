@@ -9,7 +9,7 @@ import DishesInfo from "./dishes-info";
 import { HallEnum, HallStatusEnum, MealTimeEnum} from "@/utils/types";
 import { trpc } from "@/utils/trpc"; // Import tRPC hook
 import { RestaurantInfo } from "@zotmeal/api"; // Import types
-import { toTitleCase, utcToPacificTime, formatOpenCloseTime, isSameDay } from "@/utils/funcs";
+import { toTitleCase, utcToPacificTime, formatOpenCloseTime, isSameDay, militaryToStandard } from "@/utils/funcs";
 import TabsSkeleton from "./skeleton/tabs-skeleton";
 import SelectSkeleton from "./skeleton/select-skeleton";
 import { useDate } from "@/context/date-context";
@@ -78,8 +78,12 @@ export default function Side({hall, toggleHall} : SideProps): JSX.Element {
       hallData.menus.forEach(menu => {
         try {
           const periodNameLower = menu.period.name.toLowerCase();
-          const currentPeriodOpenTime = utcToPacificTime(menu.period.startTime);
-          const currentPeriodCloseTime = utcToPacificTime(menu.period.endTime);
+          const currentPeriodOpenTime = militaryToStandard(menu.period.startTime);
+          const currentPeriodCloseTime = militaryToStandard(menu.period.endTime);
+
+          console.log(periodNameLower)
+          console.log(menu.period.startTime)
+          console.log(currentPeriodOpenTime)
 
           if (periodNameLower === 'latenight') {
             currentPeriodOpenTime.setDate(currentPeriodOpenTime.getDate() + 1);
