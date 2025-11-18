@@ -39,6 +39,7 @@ const station = {
 
 const dish = {
   id: dishId,
+  menuId: menuId,
   name: "Grilled Salmon with Quinoa",
   description:
     "A heart-healthy dish featuring omega-3 rich salmon, served over a bed of fluffy quinoa with a side of steamed asparagus.",
@@ -75,7 +76,7 @@ const dish = {
     sodiumMg: "650mg",
     totalCarbsG: "45g",
     dietaryFiberG: "6g",
-    sugarsMg: "5g",
+    sugarsG: "5g",
     proteinG: "45g",
     vitaminAIU: "25%",
     vitaminCIU: "30%",
@@ -96,6 +97,7 @@ const period = {
   id: periodId,
   name: "breakfast",
   date: format(new Date(), "yyyy-MM-dd"),
+  restaurantId: "3056",
   startTime: "08:00:00",
   endTime: "10:00:00",
 } as const satisfies InsertPeriod;

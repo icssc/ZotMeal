@@ -6,6 +6,8 @@ import { upsertUser } from "@api/users/services";
 import { describe } from "vitest";
 
 import { upsertRating } from "./services";
+import { upsertPeriod } from "@api/periods/services";
+import { upsertMenu } from "@api/menus/services";
 
 describe("upsertRating", () => {
   apiTest("inserts a rating", async ({ expect, db, testData }) => {
@@ -14,6 +16,8 @@ describe("upsertRating", () => {
         await db.transaction(async (trx) => {
           await upsertRestaurant(trx, testData.brandywine);
           await upsertStation(trx, testData.station);
+          await upsertPeriod(trx, testData.period);
+          await upsertMenu(trx, testData.menu);
           await upsertDish(trx, testData.dish);
           await upsertUser(trx, testData.user);
           const result = await upsertRating(trx, testData.rating);
@@ -29,6 +33,8 @@ describe("upsertRating", () => {
         await db.transaction(async (trx) => {
           await upsertRestaurant(trx, testData.brandywine);
           await upsertStation(trx, testData.station);
+          await upsertPeriod(trx, testData.period);
+          await upsertMenu(trx, testData.menu);
           await upsertDish(trx, testData.dish);
           await upsertUser(trx, testData.user);
           const insertedRating = await upsertRating(trx, testData.rating);

@@ -177,6 +177,21 @@ function utcToPacificTime(utcTimeString: string): Date {
 }
 
 /**
+ * Converts a military time string (HH:MM:SS) 
+ * in 24-hr clock format to a Date object in Pacific Time.
+ * The date part of the returned Date object will be the current date.
+ * @param militaryTime The 24-hr time string in "HH:MM:SS" format.
+ * @returns A Date object representing the converted time in America/Los_Angeles timezone.
+ */
+function militaryToStandard(militaryTime: string): Date {
+  const [hrs, mins, secs] = militaryTime.split(':').map(Number);
+  
+  const date = new Date();
+  date.setHours(hrs, mins, secs, 0);
+  return date;
+}
+
+/**
  * Formats a time range from two Date objects into a string like "10:00a-2:30p".
  * @param openTime The start time.
  * @param closeTime The end time.
@@ -205,6 +220,49 @@ const formatNutrientLabel = (nutrient: string) => {
     .replace(/^./, (char) => char.toUpperCase())
     .trim();
 };
+
+/**
+ * Formats a nutrient value by rounding decimal places
+ * or returning "< #" for applicable nutrient fields
+ * @param field The nutrient key string.
+ * @param valueRaw The nutrient value as a string.
+ * @returns A formatted nutrient value.
+ */
+const formatNutrientValue = (field: string, valueRaw: string | Date | null) => {
+  if (valueRaw == null || valueRaw instanceof Date) return valueRaw;
+  const value = parseFloat(valueRaw);
+
+  switch (field) {
+    case "calories":
+      return Math.round(value);
+
+    case "totalFatG":
+    case "saturatedFatG":
+    case "transFatG":
+    case "totalCarbsG":
+    case "sugarsG":
+    case "dietaryFiberG":
+      return value < 0.5 ? "<0.5" : value.toFixed(1);
+
+    case "proteinG":
+      return value < 1 ? "<1" : value.toFixed(1);
+
+    case "sodiumMg":
+    case "cholesterolMg":
+      return value < 5 ? "<5" : Math.round(value);
+
+    case "vitaminAIU":
+    case "vitaminCIU":
+      return Math.round(value);
+
+    case "calciumMg":
+    case "ironMg":
+      return value < 0.1 ? "<0.1" : value.toFixed(1);
+
+    default:
+      return valueRaw;
+  }
+}
 
 /**
  * Formats a food name for display.
@@ -299,8 +357,10 @@ export {toTitleCase,
         timeToString, 
         enhanceDescription,
         utcToPacificTime,
+        militaryToStandard,
         formatOpenCloseTime,
         formatNutrientLabel,
+        formatNutrientValue,
         formatFoodName,
         sortCategoryKeys,
         getFoodIcon,

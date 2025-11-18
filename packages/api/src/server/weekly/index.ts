@@ -1,60 +1,46 @@
 import { upsertEvents } from "@api/events/services";
 import { logger } from "@api/logger";
-import { addDays, format } from "date-fns";
 
-import type { Drizzle, RestaurantName } from "@zotmeal/db";
-import { restaurantNames } from "@zotmeal/db";
+import type { Drizzle } from "@zotmeal/db";
 
-import { daily } from "../daily";
-import { getHTML, scrapeEvents } from "../scrapeEvents";
 import { Octokit } from "@octokit/rest";
 import { upsert } from "@api/utils";
 import { contributors, InsertContributor } from "@zotmeal/db";
-
-const NUM_DAYS_UPDATE = 14;
+import { getAEMEvents } from "../daily/parse";
+import { upsertMenusForWeek } from "./upsert";
 
 /**
- * Scrape and upsert events from CampusDish.
- * The endpoint contains events from both restaurants.
+ * Query the GraphQL Events Endpoint for both restaurants and upsert them into 
+ * the database.
+ * @param db The Drizzle database instance to insert into.
  */
 export async function eventJob(db: Drizzle): Promise<void> {
-  const html = await getHTML(
-    "https://uci-campusdish-com.translate.goog/api/events?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en&_x_tr_pto=wapp",
-  );
-  const events = await scrapeEvents(html);
+  const brandywineEvents = await getAEMEvents("Brandywine");
+  const anteateryEvents = await getAEMEvents("The Anteatery");
 
-  logger.info(`[weekly] Upserting ${events.length} events...`);
-  const upsertedEvents = await upsertEvents(db, events);
-  logger.info(`[weekly] Upserted ${upsertedEvents.length} events.`);
+  logger.info(`[weekly] Upserting ${brandywineEvents.length + anteateryEvents.length} events...`)
+  const upsertedEvents = await upsertEvents(db, brandywineEvents.concat(anteateryEvents));
+  logger.info(`[weekly] Upserted ${upsertedEvents.length} events.`)
 }
+
+
+export async function weeklyJob(db: Drizzle): Promise<void> {
+  const today = new Date();
+
+
+  logger.info(`[weekly] Starting Brandywine Menu job...`)
+  await upsertMenusForWeek(db, today, "brandywine");
+  logger.info(`[weekly] Finished Brandywine Menu job.`)
+  logger.info(`[weekly] Starting Anteatery Menu job...`)
+  await upsertMenusForWeek(db, today, "anteatery");
+  logger.info(`[weekly] Finished Anteatery Menu job.`)
+}
+
 
 /**
- * Executes a {@link daily} job {@link NUM_DAYS_UPDATE} days out starting from the given date.
+ * Query the GitHub API to obtain the contributors to ZotMeal's GH Repo.
+ * @param db The Drizzle database instance to insert into.
  */
-export async function restaurantJob(
-  db: Drizzle,
-  date: Date,
-  restaurant: RestaurantName,
-): Promise<void> {
-  await eventJob(db);
-
-  const results = await Promise.allSettled(
-    Array.from({ length: NUM_DAYS_UPDATE }).map((_, i) =>
-      daily(db, addDays(date, i), restaurant),
-    ),
-  );
-
-  // Log errors.
-  results.forEach((result, i) => {
-    if (result.status === "rejected")
-      logger.error(
-        result,
-        `weekly: Error updating day ${format(addDays(date, i), "yyyy-MM-dd")}:`,
-      );
-  });
-}
-
-
 export async function contributorsJob(db: Drizzle) {
   const octokit = new Octokit();
   let page = 1;
@@ -99,6 +85,7 @@ export async function contributorsJob(db: Drizzle) {
   logger.info(`[weekly] Upserted ${upsertedContributors.length} contributors.`)
 }
 
+
 export async function upsertContributors(
   db: Drizzle,
   contributorsArray : InsertContributor[]
@@ -121,21 +108,8 @@ export async function upsertContributors(
   return upsertContributorsResult;
 }
 
-
 export async function weekly(db: Drizzle): Promise<void> {
   await eventJob(db);
-
-  await contributorsJob(db);
-
-  const results = await Promise.allSettled(
-    restaurantNames.map(async (restaurant) =>
-      restaurantJob(db, new Date(), restaurant),
-    ),
-  );
-
-  // Log errors.
-  results.forEach((result) => {
-    if (result.status === "rejected")
-      logger.error("weekly() failed:", result.reason);
-  });
+  // await contributorsJob(db);
+  await weeklyJob(db);
 }
