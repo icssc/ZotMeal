@@ -22,8 +22,8 @@ describe("AdobeECommerce Parsing Functions", () => {
     it("parses GetLocation response", async () => {
     const result = await getLocationInformation("the-anteatery", "ASC");
 
-    expect(result).toHaveProperty("mealPeriods");
-    expect(result.mealPeriods.length).toBeGreaterThan(0);
+    expect(result).toHaveProperty("schedules");
+    expect(result.schedules.length).toBeGreaterThan(0);
     expect(result).toHaveProperty("allergenIntoleranceCodes");
     expect(Object.keys(result.allergenIntoleranceCodes).length).toBeGreaterThan(0);
     expect(result).toHaveProperty("menuPreferenceCodes");
@@ -51,13 +51,20 @@ describe("AdobeECommerce Parsing Functions", () => {
     const date = new Date();
     const result = await getAdobeEcommerceMenuWeekly(date, "brandywine", 16);
 
-    expect(result.length).toBeGreaterThan(0);
-    expect(result[0]).toHaveProperty("name");
-    expect(result[0]).toHaveProperty("date");
-    expect(result[0]).toHaveProperty("stationId");
-    expect(result[0]).toHaveProperty("description");
-    expect(result[0]).toHaveProperty("category");
-    expect(result[0]).toHaveProperty("ingredients");
+    if (result == null) {
+      console.log("WARNING: GetLocationRecipesWeekly was null, which is possible if the period is not available, skipping...")
+      return;
+    }
+
+    const resultValues = Array.from(result.values());
+    const firstResult = resultValues[0]![0];
+
+    expect(resultValues.length).toBeGreaterThan(0);
+    expect(firstResult).toHaveProperty("name");
+    expect(firstResult).toHaveProperty("stationId");
+    expect(firstResult).toHaveProperty("description");
+    expect(firstResult).toHaveProperty("category");
+    expect(firstResult).toHaveProperty("ingredients");
   });
 
     it("parses AEMEventList response", async () => {

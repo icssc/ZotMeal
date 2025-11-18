@@ -97,6 +97,7 @@ const period = {
   id: periodId,
   name: "breakfast",
   date: format(new Date(), "yyyy-MM-dd"),
+  restaurantId: "3056",
   startTime: "08:00:00",
   endTime: "10:00:00",
 } as const satisfies InsertPeriod;
