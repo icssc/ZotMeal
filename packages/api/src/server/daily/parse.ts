@@ -366,6 +366,10 @@ function parseProducts(products: WeeklyProducts): ProductDictionary {
       ));
     }
 
+    const servingCombined = (attributesMap.get("serving_combined") as string).split(" ");
+    const servingSize = servingCombined[0]
+    const servingUnit = servingCombined[1]
+
     const nutritionInfo = {
       dishId: product.productView.sku,
       calories: (attributesMap.get("calories") as string) ?? "",
@@ -382,6 +386,8 @@ function parseProducts(products: WeeklyProducts): ProductDictionary {
       calciumMg: (attributesMap.get("calcium") as string) ?? "",
       vitaminAIU: (attributesMap.get("vitamin_a") as string) ?? "",
       vitaminCIU: (attributesMap.get("vitamin_c") as string) ?? "",
+      servingSize: servingSize ?? "",
+      servingUnit: servingUnit ?? "",
       // possible to get vitamins B and D and potassium in
       // attributes["recipe_additional_data"]
     } as InsertDishWithRelations["nutritionInfo"];
