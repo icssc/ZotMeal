@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { dishRouter } from "./dishes/router";
 import { eventRouter } from "./events/router";
+import { favoriteRouter } from "./favorites/router";
 import { notificationRouter } from "./notifications/router";
 import { getRestaurantsByDate } from "./restaurants/services";
 import { createTRPCRouter, publicProcedure } from "./trpc";
@@ -12,6 +13,7 @@ import { getContributors } from "./contributors/services";
 export const appRouter = createTRPCRouter({
   event: eventRouter,
   dish: dishRouter,
+  favorite: favoriteRouter,
   notification: notificationRouter,
   user: userRouter,
   /** Returns "Hello, world!" */
