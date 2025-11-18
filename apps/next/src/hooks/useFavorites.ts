@@ -30,9 +30,12 @@ export function useFavorites(userId: string = DEFAULT_USER_ID) {
       }),
   });
 
+  type FavoriteEntry = NonNullable<typeof favoritesQuery.data>[number];
+  const favorites: FavoriteEntry[] = favoritesQuery.data ?? [];
+
   const favoriteIds = useMemo(
-    () => new Set((favoritesQuery.data ?? []).map((favorite) => favorite.dishId)),
-    [favoritesQuery.data],
+    () => new Set(favorites.map((favorite) => favorite.dishId)),
+    [favorites],
   );
 
   const toggleFavorite = useCallback(
@@ -68,7 +71,7 @@ export function useFavorites(userId: string = DEFAULT_USER_ID) {
   );
 
   return {
-    favorites: favoritesQuery.data ?? [],
+    favorites,
     favoriteIds,
     isLoadingFavorites: favoritesQuery.isLoading,
     toggleFavorite,
