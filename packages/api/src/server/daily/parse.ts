@@ -72,7 +72,7 @@ export async function queryAdobeECommerce(
     };
 
     if (process.env.IS_LOCAL) {
-      const outPath = `query-${new Date().toISOString()}-response.json`
+      const outPath = `query-${new Date().toISOString().replace(/:/g, '-')}-response.json`;
       writeFileSync(`./${outPath}`, JSON.stringify(loggedResponse), { flag: "w" });
       logger.info(`[query] Wrote AdobeEcommerce response to ${process.cwd()}/${outPath}.`);
     }
