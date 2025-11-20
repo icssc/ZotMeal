@@ -245,9 +245,9 @@ export default function Side({hall, toggleHall} : SideProps): JSX.Element {
               <Tabs
                 value={selectedStation}
                 onValueChange={(value) => setSelectedStation(value || '')}
-                className="w-full overflow-x-scroll flex justify-center" 
+                className="w-full overflow-x-scroll" 
               >
-                  <TabsList>
+                  <TabsList className="mx-auto">
                       {fetchedStations.map((station => {
                         return (
                           <TabsTrigger key={station.name} value={station.name.toLowerCase()}>
