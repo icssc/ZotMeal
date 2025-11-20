@@ -2,6 +2,7 @@ import Image from "next/image";
 import { SheetContent, SheetTitle } from "../shadcn/sheet";
 import { Avatar, AvatarImage, AvatarFallback } from "../shadcn/avatar";
 import { Button } from "../shadcn/button";
+import { GoogleSignInButton } from "@/components/auth/google-sign-in";
 import SidebarButton from "./sidebar-button";
 import SidebarDivider from "./sidebar-divider";
 import { Settings2, CalendarFold, LogOut, House, Info, Pin, Trophy } from "lucide-react";
@@ -42,6 +43,7 @@ export default function SidebarContent(): JSX.Element {
             <SidebarDivider title="Miscellaneous"/>
             <SidebarButton Icon={Settings2} title="Settings" href="/settings" deactivated/>
             <SidebarButton Icon={Info} title="About" href="/about"/>
+            <GoogleSignInButton /> 
           </div>
           <div className="flex p-2 items-center justify-between rounded-md hover:bg-zinc-100 transition-colors" id="sheet-bottom">
             <div className="flex gap-3 items-center">
