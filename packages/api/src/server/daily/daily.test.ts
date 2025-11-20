@@ -8,6 +8,7 @@ import { daily } from ".";
 describe("daily", () => {
   apiTest(
     "should populate db with daily menu",
+    { timeout: 60_000 },
     async ({ expect, db }) => {
       await expect(
         db.transaction(async (trx) => {
@@ -17,7 +18,5 @@ describe("daily", () => {
           trx.rollback();
         }),
       ).rejects.toThrowError("Rollback");
-    },
-    { timeout: 60_000 },
-  );
+    });
 });

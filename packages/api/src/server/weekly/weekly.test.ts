@@ -7,6 +7,7 @@ import { weekly } from ".";
 describe("weekly", () => {
   apiTest.skip(
     "populates db with menus and events",
+    { timeout: 600_000 },
     async ({ expect, db }) => {
       await expect(
         db.transaction(async (trx) => {
@@ -18,7 +19,5 @@ describe("weekly", () => {
           trx.rollback();
         }),
       ).rejects.toThrowError("Rollback");
-    },
-    { timeout: 600_000 },
-  );
+    });
 });

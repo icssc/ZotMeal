@@ -7,11 +7,15 @@ import { TRPCError } from "@trpc/server";
 import { describe } from "vitest";
 
 import { upsertDish } from "./services";
+import { upsertMenu } from "@api/menus/services";
+import { upsertPeriod } from "@api/periods/services";
 
 describe("dish.get", () => {
   apiTest("gets a dish", async ({ api, expect, db, testData }) => {
     await upsertRestaurant(db, testData.brandywine);
     await upsertStation(db, testData.station);
+    await upsertPeriod(db, testData.period);
+    await upsertMenu(db, testData.menu);
     await upsertDish(db, testData.dish);
     const result = await api.dish.get({
       id: testData.dish.id,
@@ -35,6 +39,8 @@ describe("dish.rate", () => {
   apiTest("rates a dish", async ({ api, expect, testData, db }) => {
     // await upsertRestaurant(db, testData.brandywine);
     // await upsertStation(db, testData.station);
+    await upsertPeriod(db, testData.period);
+    await upsertMenu(db, testData.menu);
     await upsertDish(db, {
       ...testData.dish,
       id: dishId,
@@ -53,6 +59,8 @@ describe("dish.rate", () => {
   });
 
   apiTest("updates existing rating", async ({ api, expect, testData, db }) => {
+    await upsertPeriod(db, testData.period);
+    await upsertMenu(db, testData.menu);
     await upsertDish(db, {
       ...testData.dish,
       id: dishId,

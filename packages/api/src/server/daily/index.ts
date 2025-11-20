@@ -1,8 +1,8 @@
 import { logger } from "@api/logger";
 
 import type { Drizzle, RestaurantName } from "@zotmeal/db";
+import { upsertMenusForDate } from "./upsert";
 
-import { upsertMenusForDate } from "./parse";
 
 export async function daily(
   db: Drizzle,

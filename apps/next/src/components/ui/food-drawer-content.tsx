@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { Button } from "./shadcn/button";
 import { cn } from "@/utils/tw";
 import { nutrientToUnit,} from "@/utils/types";
-import { formatFoodName, formatNutrientLabel } from "@/utils/funcs";
+import { formatFoodName, formatNutrientLabel, formatNutrientValue } from "@/utils/funcs";
 import { DishInfo } from "@zotmeal/api";
 import { toTitleCase, enhanceDescription } from "@/utils/funcs";
 import { AllergenBadge } from "./allergen-badge";
@@ -39,7 +39,7 @@ export default function FoodDrawerContent(dish: DishInfo) {
               </div>
             </div>
             <div className="flex items-center gap-2 text-zinc-500 px-1">
-              <span>{dish.nutritionInfo.calories == null ? "-" : `${dish.nutritionInfo.calories} cal`} • {toTitleCase(dish.restaurant)}</span>
+              <span>{dish.nutritionInfo.calories == null ? "-" : `${Math.round(parseFloat(dish.nutritionInfo.calories))} cal`} • {toTitleCase(dish.restaurant)}</span>
               {dish.dietRestriction.isVegetarian && <AllergenBadge variant={"vegetarian"}/>}
               {dish.dietRestriction.isVegan && <AllergenBadge variant={"vegan"}/>}
               {dish.dietRestriction.isGlutenFree && <AllergenBadge variant={"gluten_free"}/>}
@@ -68,6 +68,7 @@ export default function FoodDrawerContent(dish: DishInfo) {
               // Assert that 'nutrient' is a valid key of nutritionInfo
               const nutrientKey = nutrient as keyof typeof dish.nutritionInfo;
               const value = dish.nutritionInfo[nutrientKey]; // Now correctly typed
+              const formattedValue = formatNutrientValue(nutrientKey, value);
               const isInitial = initialNutrients.includes(nutrientKey); // Use nutrientKey here too for consistency
               return (
                 <div
@@ -79,7 +80,7 @@ export default function FoodDrawerContent(dish: DishInfo) {
                 >
                   <strong className="col-span-1 text-left">{formatNutrientLabel(nutrientKey)}</strong>
                   <span className="col-span-1 text-right">
-                    {value == null ? "-" : `${String(value)}${nutrientToUnit[nutrientKey]}`}
+                    {value == null ? "-" : `${String(formattedValue)} ${nutrientToUnit[nutrientKey]}`}
                     </span>
                 </div>
               );

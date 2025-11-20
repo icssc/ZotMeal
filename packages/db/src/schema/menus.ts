@@ -22,8 +22,8 @@ export const menus = pgTable("menus", {
   ...metadataColumns,
 }, (table) => ({
   periodFk: foreignKey({
-    columns: [table.periodId, table.date],
-    foreignColumns: [periods.id, periods.date]
+    columns: [table.periodId, table.date, table.restaurantId],
+    foreignColumns: [periods.id, periods.date, periods.restaurantId]
   }).onDelete("restrict").onUpdate("cascade"),
 }));
 
