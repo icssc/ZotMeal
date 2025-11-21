@@ -71,7 +71,7 @@ export function useAverageRating(foodName: string) {
         setUserRating(stars);
       }
     } catch (error) {
-      console.error('Error submitting rating:', error);
+      console.error('There was an error in submitting rating:', error);
       // Even on error, keep the rating locally
       // should we add a retry mechanism here?  
     }

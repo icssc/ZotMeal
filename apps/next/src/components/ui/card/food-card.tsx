@@ -20,10 +20,6 @@ interface FoodCardContentProps extends React.HTMLAttributes<HTMLDivElement> {
    * The dish information to display.
    */
   dish: DishInfo;
-  /**
-   * Callback when opening the detail view
-   */
-  onOpenDetails?: () => void;
 }
 
 /**
