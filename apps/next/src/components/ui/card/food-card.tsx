@@ -53,6 +53,11 @@ const FoodCardContent = React.forwardRef<
   ) => {
     event.preventDefault();
     event.stopPropagation();
+    
+    // //log
+    // console.log("1. Heart Clicked:", dish.name, "ID:", dish.id);
+    // console.log("   Props check:", { favoriteDisabled, onToggleFavorite });
+    
     if (favoriteDisabled || !onToggleFavorite) return;
     onToggleFavorite(dish.id, Boolean(isFavorited));
   };
@@ -67,7 +72,7 @@ const FoodCardContent = React.forwardRef<
               <div className="flex flex-col h-full">
                 <strong>{formatFoodName(dish.name)}</strong>
                 <div className="flex gap-2 items-center">
-                  <span>{dish.nutritionInfo.calories == null ? "-" : `${dish.nutritionInfo.calories} cal`}</span>
+                  <span>{dish.nutritionInfo.calories == null ? "-" : `${Math.round(parseFloat(dish.nutritionInfo.calories))} cal`}</span>
                 </div>
               </div>
             </div>

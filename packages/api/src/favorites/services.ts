@@ -3,7 +3,7 @@ import { TRPCError } from "@trpc/server";
 import { eq, and } from "drizzle-orm";
 
 import type { Drizzle, InsertFavorite, SelectFavorite } from "@zotmeal/db";
-import { favorites, dishes } from "@zotmeal/db";
+import { favorites, dishes, users } from "@zotmeal/db";
 
 /**
  * Get all favorites for a given user ID.
@@ -38,6 +38,18 @@ export async function addFavorite(
   userId: string,
   dishId: string,
 ): Promise<SelectFavorite> {
+  await upsert(
+    db,
+    users,
+    {
+      id: userId,
+      name: "Demo User", // Placeholder name
+    },
+    {
+      target: [users.id],
+      set: { id: userId }, // No-op: keep existing data if found
+    },
+  );
   // Check if dish exists
   const dish = await db.query.dishes.findFirst({
     where: (dishes, { eq }) => eq(dishes.id, dishId),

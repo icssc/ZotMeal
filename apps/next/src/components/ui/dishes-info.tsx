@@ -33,7 +33,7 @@ interface DishesInfoProps {
   /**
    * Set of favorited dish IDs for the active user.
    */
-  favoriteDishIds?: Set<string>;
+  favoriteDishIds?: string[];
   /**
    * Callback to toggle a dish favorite.
    */
@@ -107,7 +107,7 @@ export default function DishesInfo({
                       <FoodCard
                         key={dish.id}
                         {... dish}
-                        isFavorited={favoriteDishIds?.has(dish.id)}
+                        isFavorited={favoriteDishIds?.includes(dish.id)}
                         favoriteIsLoading={
                           !!isFavoritesLoading || !!isFavoritePending?.(dish.id)
                         }

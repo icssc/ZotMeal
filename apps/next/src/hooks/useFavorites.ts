@@ -30,12 +30,20 @@ export function useFavorites(userId: string = DEFAULT_USER_ID) {
       }),
   });
 
+  // 1. Get the raw data
   type FavoriteEntry = NonNullable<typeof favoritesQuery.data>[number];
   const favorites: FavoriteEntry[] = favoritesQuery.data ?? [];
 
-  const favoriteIds = useMemo(
+  // 2. Create a Set internally for fast logic
+  const favoriteIdSet = useMemo(
     () => new Set(favorites.map((favorite) => favorite.dishId)),
     [favorites],
+  );
+
+  // 3. Convert Set to Array for the Return value
+  const favoriteIdsArray = useMemo(
+    () => Array.from(favoriteIdSet),
+    [favoriteIdSet]
   );
 
   const toggleFavorite = useCallback(
@@ -72,7 +80,7 @@ export function useFavorites(userId: string = DEFAULT_USER_ID) {
 
   return {
     favorites,
-    favoriteIds,
+    favoriteIds: favoriteIdsArray,
     isLoadingFavorites: favoritesQuery.isLoading,
     toggleFavorite,
     isFavoritePending,

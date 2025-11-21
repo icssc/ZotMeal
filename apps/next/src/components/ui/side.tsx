@@ -27,7 +27,7 @@ interface SideProps {
   /** A function for toggling between sides on mobile. */
   toggleHall?: () => void;
   /** Set of favorited dish IDs for the active user. */
-  favoriteDishIds?: Set<string>;
+  favoriteDishIds?: string[];
   /** Handler to toggle a favorite for a given dish. */
   onToggleFavorite?: (dishId: string, currentlyFavorite: boolean) => void;
   /** Loading state while favorites are fetched. */
@@ -289,7 +289,7 @@ export default function Side({
             isLoading={isLoading}
             isError={isError || (!isLoading && !hallData)} 
             errorMessage={error?.message ?? (!isLoading && !hallData ? `Data not available for ${HallEnum[hall]}.` : undefined)}
-            favoriteDishIds={favoriteDishIds}
+            favoriteDishIds={favoriteDishIds ?? []}
             onToggleFavorite={onToggleFavorite}
             isFavoritesLoading={isFavoritesLoading}
             isFavoritePending={isFavoritePending}
