@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "exports": {
+    "./auth": "./src/auth/index.ts",
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./src/index.ts"
