@@ -37,7 +37,7 @@ export default function SidebarContent(): JSX.Element {
             <SidebarDivider title="Dining Hall Info"/>
             <SidebarButton Icon={House} title="Home" href="/"/>
             <SidebarButton Icon={CalendarFold} title="Events" href="/events"/>
-            <SidebarButton Icon={Pin} title="My Favorites" href="/my-favs" deactivated/>
+            <SidebarButton Icon={Pin} title="My Favorites" href="/my-favs"/>
             <SidebarButton Icon={Trophy} title="Most Liked" href="/leaderboard" deactivated/>
             <SidebarDivider title="Miscellaneous"/>
             <SidebarButton Icon={Settings2} title="Settings" href="/settings" deactivated/>

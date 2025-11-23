@@ -2,7 +2,7 @@ import { relations } from "drizzle-orm";
 import { pgTable, text } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 
-import { pins } from "./pins";
+import { favorites } from "./favorites";
 import { ratings } from "./ratings";
 import { metadataColumns } from "./utils";
 
@@ -13,7 +13,7 @@ export const users = pgTable("users", {
 });
 
 export const usersRelations = relations(users, ({ many }) => ({
-  pins: many(pins),
+  favorites: many(favorites),
   ratings: many(ratings),
 }));
 
@@ -22,7 +22,7 @@ export const usersRelations = relations(users, ({ many }) => ({
  *
  * A user has many:
  *
- * {@linkcode pins}
+ * {@linkcode favorites}
  * {@linkcode ratings}
  *
  */

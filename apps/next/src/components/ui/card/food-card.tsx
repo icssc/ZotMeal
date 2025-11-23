@@ -1,15 +1,19 @@
 "use client";
 
 import React from "react";
+
 import { DishInfo } from "@zotmeal/api";
-import { Dialog, DialogTrigger } from "../shadcn/dialog";
-import FoodDialogContent from "../food-dialog-content"
-import { Card, CardContent } from "../shadcn/card"; 
-import { Star, Utensils } from "lucide-react";
-import { formatFoodName, getFoodIcon } from "@/utils/funcs";
+import { Heart, Utensils } from "lucide-react";
+
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { Drawer, DrawerTrigger } from "../shadcn/drawer";
+import { formatFoodName, getFoodIcon } from "@/utils/funcs";
+import { cn } from "@/utils/tw";
+
+import FoodDialogContent from "../food-dialog-content";
 import FoodDrawerContent from "../food-drawer-content";
+import { Card, CardContent } from "../shadcn/card";
+import { Dialog, DialogTrigger } from "../shadcn/dialog";
+import { Drawer, DrawerTrigger } from "../shadcn/drawer";
 
 /**
  * Props for the FoodCardContent component.
@@ -19,6 +23,18 @@ interface FoodCardContentProps extends React.HTMLAttributes<HTMLDivElement> {
    * The dish information to display.
    */
   dish: DishInfo;
+  /**
+   * Whether the dish is currently marked as favorite.
+   */
+  isFavorited?: boolean;
+  /**
+   * Whether the favorite toggle button should be disabled.
+   */
+  favoriteDisabled?: boolean;
+  /**
+   * Handler invoked when a user toggles the favorite button.
+   */
+  onToggleFavorite?: (dishId: string, currentlyFavorite: boolean) => void;
 }
 
 /**
@@ -29,11 +45,25 @@ interface FoodCardContentProps extends React.HTMLAttributes<HTMLDivElement> {
 const FoodCardContent = React.forwardRef<
   HTMLDivElement,
   FoodCardContentProps
->(({ dish, ...divProps }, ref) => {
+>(({ dish, isFavorited, favoriteDisabled, onToggleFavorite, className, ...divProps }, ref) => {
   const IconComponent = getFoodIcon(dish.name) ?? Utensils;
 
+  const handleFavoriteClick = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    // //log
+    // console.log("1. Heart Clicked:", dish.name, "ID:", dish.id);
+    // console.log("   Props check:", { favoriteDisabled, onToggleFavorite });
+    
+    if (favoriteDisabled || !onToggleFavorite) return;
+    onToggleFavorite(dish.id, Boolean(isFavorited));
+  };
+
   return (
-    <div ref={ref} {...divProps} className="w-full"> 
+    <div ref={ref} {...divProps} className={cn("w-full", className)}>
       <Card className="cursor-pointer hover:shadow-lg transition w-full">
         <CardContent>
           <div className="flex justify-between h-full pt-6">
@@ -42,22 +72,38 @@ const FoodCardContent = React.forwardRef<
               <div className="flex flex-col h-full">
                 <strong>{formatFoodName(dish.name)}</strong>
                 <div className="flex gap-2 items-center">
-                  <span>{dish.nutritionInfo.calories == null
-                    ? "-"
-                    :`${Math.round(parseFloat(dish.nutritionInfo.calories))} cal`}
-                  </span>
-                  {/* <div className="flex gap-1 items-center">
-                    <Star className="w-4 stroke-zinc-400 stroke-2"></Star>
-                    <span className="text-zinc-400 text-sm text-center">
-                      {4.5} ({100})
-                    </span>
-                  </div> */}
+                  <span>{dish.nutritionInfo.calories == null ? "-" : `${Math.round(parseFloat(dish.nutritionInfo.calories))} cal`}</span>
                 </div>
               </div>
             </div>
-            {/* <div className="flex flex-col justify-center">
-              <Star className="w-8 h-8 stroke-zinc-400"></Star>
-            </div> */}
+            <div className="flex items-start">
+              <button
+                type="button"
+                aria-label={
+                  isFavorited
+                    ? "Remove meal from favorites"
+                    : "Add meal to favorites"
+                }
+                aria-pressed={isFavorited}
+                disabled={favoriteDisabled}
+                onClick={handleFavoriteClick}
+                className={cn(
+                  "rounded-full p-2 transition",
+                  favoriteDisabled
+                    ? "opacity-60"
+                    : "hover:bg-rose-50 hover:text-rose-600",
+                )}
+              >
+                <Heart
+                  className={cn(
+                    "w-5 h-5",
+                    isFavorited
+                      ? "fill-rose-500 stroke-rose-500"
+                      : "stroke-zinc-500",
+                  )}
+                />
+              </button>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -77,14 +123,33 @@ FoodCardContent.displayName = "FoodCardContent";
  * @param {DishInfo} dish - The dish information to display and pass to the dialog.
  * @returns {JSX.Element} A React component representing a food card.
  */
-export default function FoodCard(dish: DishInfo): JSX.Element {
-  const isDesktop = useMediaQuery('(min-width: 768px)');
+interface FoodCardProps extends DishInfo {
+  /** Whether this dish is currently favorited. */
+  isFavorited?: boolean;
+  /** Loading state for favorite toggles. */
+  favoriteIsLoading?: boolean;
+  /** Handler to toggle the favorite state. */
+  onToggleFavorite?: (dishId: string, currentlyFavorite: boolean) => void;
+}
+
+export default function FoodCard({
+  isFavorited = false,
+  favoriteIsLoading = false,
+  onToggleFavorite,
+  ...dish
+}: FoodCardProps): JSX.Element {
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   if (isDesktop)
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <FoodCardContent dish={dish}/>
+          <FoodCardContent
+            dish={dish}
+            isFavorited={isFavorited}
+            favoriteDisabled={favoriteIsLoading}
+            onToggleFavorite={onToggleFavorite}
+          />
         </DialogTrigger>
         <FoodDialogContent {... dish}/>
       </Dialog>
@@ -93,7 +158,12 @@ export default function FoodCard(dish: DishInfo): JSX.Element {
     return (
       <Drawer>
         <DrawerTrigger asChild>
-          <FoodCardContent dish={dish}/>
+          <FoodCardContent
+            dish={dish}
+            isFavorited={isFavorited}
+            favoriteDisabled={favoriteIsLoading}
+            onToggleFavorite={onToggleFavorite}
+          />
         </DrawerTrigger>
         <FoodDrawerContent {... dish}/>
       </Drawer>
