@@ -170,7 +170,23 @@ export const GetLocationSchema = z.object({
       })
     })
   })
+});
+
+export const EventImageSchema = z.object({
+  data: z.object({
+    items: z.array(
+      z.object({
+        title: z.string().min(1),
+        image: z.object({
+          _dynamicUrl: z.string(),
+          height: z.number(),
+          width: z.number(),
+        }),
+      })
+    )
+  })
 })
+
 
 // Inferred types from zod
 export type EventList = z.infer<typeof AEMEventListSchema>;
@@ -178,6 +194,7 @@ export type LocationRecipesDaily = z.infer<typeof GetLocationRecipesDailySchema>
 export type LocationRecipesWeekly = z.infer<typeof GetLocationRecipesWeeklySchema>;
 export type LocationInfo = z.infer<typeof GetLocationSchema>;
 export type MealPeriod = LocationInfo["data"]["Commerce_mealPeriods"][0]
+export type EventImageData = z.infer<typeof EventImageSchema>;
 
 export type Schedule = {
   name: string,
