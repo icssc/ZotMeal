@@ -5,9 +5,9 @@ import axios from 'axios';
 import { EventImageSchema, type EventImageData } from "@zotmeal/validators";
 
 const imageGraphQLEndpoint: string = 
-  "uci.mydininghub.com/graphql/execute.json/elevate/events;root=/content/dam/cf/ch/uci/en/events/;campus=campus";
+  "https://uci.mydininghub.com/graphql/execute.json/elevate/events;root=/content/dam/cf/ch/uci/en/events/;campus=campus";
 const imageGraphQLHeaders = {
-  "Host": " uci.mydininghub.com",
+  "Host": "uci.mydininghub.com",
   "User-Agent": " Mozilla/5.0 (X11; Linux x86_64; rv:143.0) Gecko/20100101 Firefox/143.0",
   "Accept": "*/*",
   "Accept-Language": "en-US,en;q=0.5",
@@ -30,6 +30,7 @@ const imageGraphQLHeaders = {
 const imageURLPrefix: string = 
   "https://images.elevate-dxp.com/adobe/assets/urn:aaid:aem:";
 
+// Maps the event's title to its image URL.
 export type EventImageMap = Map<string, string>;
 
 /**
@@ -37,7 +38,7 @@ export type EventImageMap = Map<string, string>;
  */
 export async function queryEventImageEndpoint(): Promise<EventImageMap> {
   const response = await axios({
-    method: "get",
+    method: "GET",
     url: imageGraphQLEndpoint,
     headers: imageGraphQLHeaders,
   })
@@ -45,10 +46,10 @@ export async function queryEventImageEndpoint(): Promise<EventImageMap> {
   const parsedData: EventImageData = EventImageSchema.parse(response.data);
   let eventMap = new Map<string, string>();
 
-  parsedData.data.items.forEach(item => {
-    const imageID: string = item.image._dynamicUrl.slice(36)
+  parsedData.data.eventList.items.forEach(item => {
+    const imageID: string = item.image._dynamicUrl.slice(36).split('/')[0] ?? "";
 
-    eventMap.set(item.title, `${imageURLPrefix}`)
+    eventMap.set(item.title, `${imageURLPrefix}${imageID}`)
   });
 
   return eventMap;

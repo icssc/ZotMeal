@@ -174,16 +174,18 @@ export const GetLocationSchema = z.object({
 
 export const EventImageSchema = z.object({
   data: z.object({
-    items: z.array(
-      z.object({
-        title: z.string().min(1),
-        image: z.object({
-          _dynamicUrl: z.string(),
-          height: z.number(),
-          width: z.number(),
-        }),
-      })
-    )
+    eventList: z.object({
+      items: z.array(
+        z.object({
+          title: z.string().min(1),
+          image: z.object({
+            _dynamicUrl: z.string(),
+            height: z.number(),
+            width: z.number(),
+          }),
+        })
+      )
+    })
   })
 })
 
