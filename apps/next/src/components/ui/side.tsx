@@ -245,8 +245,9 @@ export default function Side({hall, toggleHall} : SideProps): JSX.Element {
               <Tabs
                 value={selectedStation}
                 onValueChange={(value) => setSelectedStation(value || '')}
-                className="w-full overflow-x-scroll" 
+                className="flex w-full justify-center" 
               >
+                <div className="overflow-x-auto">
                   <TabsList className="mx-auto">
                       {fetchedStations.map((station => {
                         return (
@@ -256,6 +257,7 @@ export default function Side({hall, toggleHall} : SideProps): JSX.Element {
                         )
                       }))}
                   </TabsList>
+                </div>
               </Tabs>
             )}
             {isLoading && <TabsSkeleton/> /* Tab Skeleton */}
