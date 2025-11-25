@@ -44,7 +44,9 @@ export default function FoodDrawerContent(dish: DishInfo) {
               </div>
             </div>
             <div className="flex items-center gap-2 text-zinc-500 px-1">
-              <span>{!caloricInformationAvailable ? "-" : `${Math.round(parseFloat(dish.nutritionInfo.calories ?? "0"))} cal`} • {toTitleCase(dish.restaurant)}</span>
+              <span>{caloricInformationAvailable &&
+                `${Math.round(parseFloat(dish.nutritionInfo.calories ?? "0"))} cal • `} {toTitleCase(dish.restaurant)}
+              </span>
               {dish.dietRestriction.isVegetarian && <AllergenBadge variant={"vegetarian"}/>}
               {dish.dietRestriction.isVegan && <AllergenBadge variant={"vegan"}/>}
               {dish.dietRestriction.isGlutenFree && <AllergenBadge variant={"gluten_free"}/>}
