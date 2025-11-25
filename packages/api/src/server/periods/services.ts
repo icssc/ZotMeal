@@ -1,8 +1,11 @@
-import type { DiningHallInformation, Schedule } from "@zotmeal/validators";
+import { logger } from "@api/logger";
 import { upsertPeriod } from "@api/periods/services";
 import type { Drizzle } from "@zotmeal/db";
-import type { MealPeriodWithHours } from "@zotmeal/validators";
-import { logger } from "@api/logger";
+import type {
+  DiningHallInformation,
+  MealPeriodWithHours,
+  Schedule,
+} from "@zotmeal/validators";
 
 export async function upsertPeriods(
   db: Drizzle,

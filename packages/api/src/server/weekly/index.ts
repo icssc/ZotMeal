@@ -1,11 +1,10 @@
 import { upsertEvents } from "@api/events/services";
 import { logger } from "@api/logger";
-
-import type { Drizzle } from "@zotmeal/db";
+import { upsert } from "@api/utils";
 
 import { Octokit } from "@octokit/rest";
-import { upsert } from "@api/utils";
-import { contributors, InsertContributor } from "@zotmeal/db";
+import type { Drizzle } from "@zotmeal/db";
+import { contributors, type InsertContributor } from "@zotmeal/db";
 import { getAEMEvents } from "../daily/parse";
 import { upsertMenusForWeek } from "./upsert";
 
@@ -68,7 +67,7 @@ export async function contributorsJob(db: Drizzle) {
   );
 
   // Fetch detailed info for each contributor
-  let detailedContributors: InsertContributor[] = await Promise.all(
+  const detailedContributors: InsertContributor[] = await Promise.all(
     filteredContributors.map(async (contributor) => {
       const { data: userDetails } = await octokit.rest.users.getByUsername({
         username: contributor.login,

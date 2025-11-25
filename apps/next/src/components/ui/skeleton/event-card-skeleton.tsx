@@ -1,5 +1,5 @@
-import { Skeleton } from "./skeleton";
 import { Card, CardContent } from "../shadcn/card";
+import { Skeleton } from "./skeleton";
 
 export default function EventCardSkeleton() {
   return (

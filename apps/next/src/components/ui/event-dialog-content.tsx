@@ -1,11 +1,15 @@
-import { DialogContent } from "./shadcn/dialog";
-import { EventInfo } from "./card/event-card";
-import { DialogHeader, DialogTitle, DialogDescription } from "./shadcn/dialog";
-import Image from "next/image";
 import { CalendarPlus, Clock, MapPinned } from "lucide-react";
-import { Button } from "./shadcn/button";
+import Image from "next/image";
+import { dateToString, generateGCalLink, toTitleCase } from "@/utils/funcs";
 import { HallEnum } from "@/utils/types";
-import { toTitleCase, dateToString, generateGCalLink } from "@/utils/funcs";
+import type { EventInfo } from "./card/event-card";
+import { Button } from "./shadcn/button";
+import {
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "./shadcn/dialog";
 
 /**
  * `EventDialogContent` renders the detailed view of an event within a dialog.

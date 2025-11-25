@@ -1,11 +1,11 @@
+import { PanelRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { PanelRight } from "lucide-react";
+import { useDate } from "@/context/date-context";
 import { Button } from "./shadcn/button";
+import { DatePicker } from "./shadcn/date-picker";
 import { Sheet, SheetTrigger } from "./shadcn/sheet";
 import SidebarContent from "./sidebar/sidebar-content";
-import { DatePicker } from "./shadcn/date-picker";
-import { useDate } from "@/context/date-context";
 
 /**
  * Renders the main toolbar for the application.

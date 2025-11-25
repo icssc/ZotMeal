@@ -1,17 +1,17 @@
 "use client";
 
-import React from "react";
-import { HallEnum } from "@/utils/types";
-import { dateToString, toTitleCase } from "@/utils/funcs";
-import { Dialog, DialogTrigger } from "../shadcn/dialog";
-import { Card, CardContent } from "../shadcn/card";
-import Image from "next/image";
-import EventDialogContent from "../event-dialog-content";
-import OngoingBadge from "../ongoing-badge";
 import { Clock, MapPinned } from "lucide-react";
+import Image from "next/image";
+import React from "react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { Drawer, DrawerTrigger } from "../shadcn/drawer";
+import { dateToString, toTitleCase } from "@/utils/funcs";
+import { HallEnum } from "@/utils/types";
+import EventDialogContent from "../event-dialog-content";
 import EventDrawerContent from "../event-drawer-content";
+import OngoingBadge from "../ongoing-badge";
+import { Card, CardContent } from "../shadcn/card";
+import { Dialog, DialogTrigger } from "../shadcn/dialog";
+import { Drawer, DrawerTrigger } from "../shadcn/drawer";
 
 /**
  * Defines the structure for event information used by event-related components.

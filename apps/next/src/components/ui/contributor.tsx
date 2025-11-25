@@ -1,17 +1,17 @@
 import { User } from "lucide-react";
-import { Avatar, AvatarImage, AvatarFallback } from "./shadcn/avatar";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { Avatar, AvatarFallback, AvatarImage } from "./shadcn/avatar";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "./shadcn/dialog";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "./shadcn/hover-card";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogTitle,
-} from "./shadcn/dialog";
 
 /**
  * Props for the {@link Contributor} component.

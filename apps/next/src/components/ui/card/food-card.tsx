@@ -1,15 +1,15 @@
 "use client";
 
-import React from "react";
-import { DishInfo } from "@zotmeal/api";
-import { Dialog, DialogTrigger } from "../shadcn/dialog";
-import FoodDialogContent from "../food-dialog-content";
-import { Card, CardContent } from "../shadcn/card";
+import type { DishInfo } from "@zotmeal/api";
 import { Star, Utensils } from "lucide-react";
-import { formatFoodName, getFoodIcon } from "@/utils/funcs";
+import React from "react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { Drawer, DrawerTrigger } from "../shadcn/drawer";
+import { formatFoodName, getFoodIcon } from "@/utils/funcs";
+import FoodDialogContent from "../food-dialog-content";
 import FoodDrawerContent from "../food-drawer-content";
+import { Card, CardContent } from "../shadcn/card";
+import { Dialog, DialogTrigger } from "../shadcn/dialog";
+import { Drawer, DrawerTrigger } from "../shadcn/drawer";
 
 /**
  * Props for the FoodCardContent component.

@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Side from "@/components/ui/side";
-import { HallEnum } from "@/utils/types";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { HallEnum } from "@/utils/types";
 
 export default function Home() {
   const [activeHall, setActiveHall] = useState<HallEnum>(HallEnum.BRANDYWINE);

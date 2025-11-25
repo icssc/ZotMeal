@@ -1,18 +1,18 @@
-import Image from "next/image";
-import { SheetContent, SheetTitle } from "../shadcn/sheet";
-import { Avatar, AvatarImage, AvatarFallback } from "../shadcn/avatar";
-import { Button } from "../shadcn/button";
-import SidebarButton from "./sidebar-button";
-import SidebarDivider from "./sidebar-divider";
 import {
-  Settings2,
   CalendarFold,
-  LogOut,
   House,
   Info,
+  LogOut,
   Pin,
+  Settings2,
   Trophy,
 } from "lucide-react";
+import Image from "next/image";
+import { Avatar, AvatarFallback, AvatarImage } from "../shadcn/avatar";
+import { Button } from "../shadcn/button";
+import { SheetContent, SheetTitle } from "../shadcn/sheet";
+import SidebarButton from "./sidebar-button";
+import SidebarDivider from "./sidebar-divider";
 
 /**
  * `SidebarContent` is a presentational component that renders the main content

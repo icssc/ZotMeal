@@ -1,26 +1,26 @@
 "use client"; // Need state for toggling nutrient visibility
 
-import { Pin, Star } from "lucide-react";
-import {
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogContent,
-} from "./shadcn/dialog";
+import type { DishInfo } from "@zotmeal/api";
 import Image from "next/image";
-import React, { useState } from "react";
-import { Button } from "./shadcn/button";
-import { cn } from "@/utils/tw";
-import { nutrientToUnit } from "@/utils/types";
+import { useState } from "react";
 import {
+  enhanceDescription,
   formatFoodName,
   formatNutrientLabel,
   formatNutrientValue,
+  toTitleCase,
 } from "@/utils/funcs";
-import { DishInfo } from "@zotmeal/api";
-import { toTitleCase, enhanceDescription } from "@/utils/funcs";
+import { cn } from "@/utils/tw";
+import { nutrientToUnit } from "@/utils/types";
 import { AllergenBadge } from "./allergen-badge";
 import IngredientsDialog from "./ingredients-dialog";
+import { Button } from "./shadcn/button";
+import {
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "./shadcn/dialog";
 
 /**
  * `FoodDialogContent` renders the detailed view of a food item (dish) within a dialog.
@@ -54,7 +54,7 @@ export default function FoodDialogContent(dish: DishInfo): JSX.Element {
   ]);
 
   const ingredientsAvailable: boolean =
-    dish.ingredients != "Ingredient Statement Not Available";
+    dish.ingredients !== "Ingredient Statement Not Available";
 
   return (
     <DialogContent>
@@ -161,7 +161,7 @@ export default function FoodDialogContent(dish: DishInfo): JSX.Element {
                 {ingredientsAvailable && (
                   <IngredientsDialog
                     name={dish.name}
-                    ingredients={dish.ingredients!}
+                    ingredients={dish.ingredients ?? ""}
                   />
                 )}
                 {!ingredientsAvailable && (

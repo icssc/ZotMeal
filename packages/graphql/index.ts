@@ -1,6 +1,6 @@
-import express, { Express, Request, Response } from "express";
 import cors from "cors";
-import fetch, { HeadersInit } from "node-fetch";
+import express, { type Express, type Request, type Response } from "express";
+import fetch, { type HeadersInit } from "node-fetch";
 
 const app: Express = express();
 const PORT = 4000;

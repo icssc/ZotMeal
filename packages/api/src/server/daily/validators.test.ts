@@ -4,17 +4,16 @@
  */
 
 import {
-  GetLocationSchema,
+  AEMEventListSchema,
   GetLocationRecipesDailySchema,
   GetLocationRecipesWeeklySchema,
-  AEMEventListSchema,
+  GetLocationSchema,
 } from "@zotmeal/validators";
 import { describe, it } from "vitest";
-
+import AEMEventList from "./testData/AEM_eventList.json";
 import getLocation from "./testData/getLocation.json";
 import getLocationRecipesDaily from "./testData/getLocationRecipesDaily.json";
 import getLocationRecipesWeekly from "./testData/getLocationRecipesWeekly.json";
-import AEMEventList from "./testData/AEM_eventList.json";
 
 describe("Validates AdobeECommerce Responses", () => {
   it("parses getLocation response", ({ expect }) => {

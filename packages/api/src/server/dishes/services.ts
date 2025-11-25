@@ -1,11 +1,11 @@
+import { upsertDish, upsertDishToMenu } from "@api/dishes/services";
 import type { Drizzle, InsertDishWithRelations } from "@zotmeal/db";
 import {
   AllergenKeys,
   type DiningHallInformation,
   PreferenceKeys,
 } from "@zotmeal/validators";
-import { InsertDishWithModifiedRelations } from "../daily/parse";
-import { upsertDish, upsertDishToMenu } from "@api/dishes/services";
+import type { InsertDishWithModifiedRelations } from "../daily/parse";
 
 type BaseDietRestriction = Omit<
   InsertDishWithRelations["dietRestriction"],
@@ -26,7 +26,7 @@ export async function parseAndUpsertDish(
   dish: InsertDishWithModifiedRelations,
   menuIdHash: string,
 ) {
-  let baseDietRestriction = {} as BaseDietRestriction;
+  const baseDietRestriction = {} as BaseDietRestriction;
 
   // Parse available allergens and add to diet restriction if present
   AllergenKeys.forEach((key) => {
@@ -50,7 +50,7 @@ export async function parseAndUpsertDish(
   });
 
   // Compile diet restriction with dish ID
-  let dietRestriction: InsertDishWithRelations["dietRestriction"] = {
+  const dietRestriction: InsertDishWithRelations["dietRestriction"] = {
     dishId: dish.id,
     ...baseDietRestriction,
   };

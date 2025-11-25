@@ -1,4 +1,8 @@
-import { contributors, Drizzle, SelectContributor } from "@zotmeal/db";
+import {
+  contributors,
+  type Drizzle,
+  type SelectContributor,
+} from "@zotmeal/db";
 
 /**
  * Gets all rows from the contributors table. Fetches all of the contributors

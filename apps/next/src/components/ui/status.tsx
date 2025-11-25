@@ -19,10 +19,10 @@ function StatusDot({ status }: StatusDotProps) {
     <div
       className={cn(
         "w-2 h-2 rounded-full",
-        status == HallStatusEnum.OPEN && "bg-emerald-500",
-        status == HallStatusEnum.CLOSED && "bg-red-500",
-        status == HallStatusEnum.PREVIEW && "bg-sky-500",
-        status == HallStatusEnum.ERROR && "bg-amber-500",
+        status === HallStatusEnum.OPEN && "bg-emerald-500",
+        status === HallStatusEnum.CLOSED && "bg-red-500",
+        status === HallStatusEnum.PREVIEW && "bg-sky-500",
+        status === HallStatusEnum.ERROR && "bg-amber-500",
       )}
     />
   );
@@ -64,6 +64,7 @@ function DiningHallStatus({
       break;
     case HallStatusEnum.PREVIEW:
       statusMessage = `Preview`;
+      break;
     default:
       break;
   }

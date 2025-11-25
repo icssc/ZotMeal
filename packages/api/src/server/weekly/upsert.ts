@@ -1,21 +1,21 @@
-import {
-  getRestaurantId,
-  type Drizzle,
-  type RestaurantName,
-} from "@zotmeal/db";
-import { DiningHallInformation } from "@zotmeal/validators";
+import { logger } from "@api/logger";
+import { upsertMenu } from "@api/menus/services";
 import { upsertRestaurant } from "@api/restaurants/services";
 import { upsertAllStations } from "@api/stations/services";
-import { logger } from "@api/logger";
+import {
+  type Drizzle,
+  getRestaurantId,
+  type RestaurantName,
+} from "@zotmeal/db";
+import type { DiningHallInformation } from "@zotmeal/validators";
 import { format } from "date-fns";
 import {
-  restaurantUrlMap,
-  getLocationInformation,
   getAdobeEcommerceMenuWeekly,
+  getLocationInformation,
+  restaurantUrlMap,
 } from "../daily/parse";
-import { getCurrentSchedule, upsertPeriods } from "../periods/services";
-import { upsertMenu } from "@api/menus/services";
 import { parseAndUpsertDish } from "../dishes/services";
+import { getCurrentSchedule, upsertPeriods } from "../periods/services";
 
 /**
  * Upserts the menu for the week starting at `date` for a restaurant, up until
@@ -45,19 +45,19 @@ export async function upsertMenusForWeek(
 
   await upsertAllStations(db, restaurantId, restaurantInfo);
 
-  let upsertedDates: Date[] = [date];
-  let daysUntilNextSunday = (7 - dayOfWeek) % 7 || 7;
+  const upsertedDates: Date[] = [date];
+  const daysUntilNextSunday = (7 - dayOfWeek) % 7 || 7;
   for (let i = 0; i <= daysUntilNextSunday; ++i) {
-    let nextDate = new Date(date);
+    const nextDate = new Date(date);
     nextDate.setDate(date.getDate() + i);
     upsertedDates.push(nextDate);
   }
 
   // Keep a set of all relevant meal periods (ones that were relevant throughout
   // at least some days in the week) to query weekly on later
-  let periodSet: Set<number> = new Set<number>();
+  const periodSet: Set<number> = new Set<number>();
 
-  let dayPeriodMap = new Map<string, Set<number>>();
+  const dayPeriodMap = new Map<string, Set<number>>();
 
   await Promise.all(
     upsertedDates.map(async (currentDate) => {
@@ -75,7 +75,7 @@ export async function upsertMenusForWeek(
           mealPeriod.closeHours[currentDayOfWeek],
       );
 
-      let dayPeriodSet = new Set<number>();
+      const dayPeriodSet = new Set<number>();
       relevantMealPeriods.forEach((period) => {
         periodSet.add(period.id);
         dayPeriodSet.add(period.id);

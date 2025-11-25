@@ -1,8 +1,22 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import type { RestaurantInfo } from "@zotmeal/api"; // Import types
+import { ArrowRightLeft, RefreshCw } from "lucide-react";
 import Image from "next/image";
-import { Tabs, TabsList, TabsTrigger } from "./shadcn/tabs";
+import { useEffect, useState } from "react";
+import { useDate } from "@/context/date-context";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import {
+  formatOpenCloseTime,
+  isSameDay,
+  militaryToStandard,
+  toTitleCase,
+  utcToPacificTime,
+} from "@/utils/funcs";
+import { trpc } from "@/utils/trpc"; // Import tRPC hook
+import { HallEnum, HallStatusEnum, MealTimeEnum } from "@/utils/types";
+import DishesInfo from "./dishes-info";
+import { Button } from "./shadcn/button";
 import {
   Select,
   SelectContent,
@@ -10,24 +24,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./shadcn/select";
-import { DiningHallStatus } from "./status";
-import DishesInfo from "./dishes-info";
-import { HallEnum, HallStatusEnum, MealTimeEnum } from "@/utils/types";
-import { trpc } from "@/utils/trpc"; // Import tRPC hook
-import { RestaurantInfo } from "@zotmeal/api"; // Import types
-import {
-  toTitleCase,
-  utcToPacificTime,
-  formatOpenCloseTime,
-  isSameDay,
-  militaryToStandard,
-} from "@/utils/funcs";
-import TabsSkeleton from "./skeleton/tabs-skeleton";
+import { Tabs, TabsList, TabsTrigger } from "./shadcn/tabs";
 import SelectSkeleton from "./skeleton/select-skeleton";
-import { useDate } from "@/context/date-context";
-import { ArrowRightLeft, RefreshCw } from "lucide-react";
-import { Button } from "./shadcn/button";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+import TabsSkeleton from "./skeleton/tabs-skeleton";
+import { DiningHallStatus } from "./status";
 
 /**
  * Props for the {@link Side} component.
@@ -88,7 +88,7 @@ export default function Side({ hall, toggleHall }: SideProps): JSX.Element {
         : queryResponse.brandywine
       : undefined;
 
-  let availablePeriodTimes: { [mealName: string]: [Date, Date] } = {};
+  const availablePeriodTimes: { [mealName: string]: [Date, Date] } = {};
   let derivedHallStatus: HallStatusEnum = HallStatusEnum.CLOSED; // Default status
 
   if (!isLoading && !isError && hallData?.menus && hallData.menus.length > 0) {
@@ -144,8 +144,8 @@ export default function Side({ hall, toggleHall }: SideProps): JSX.Element {
 
   // Sorts the period keys by time (earliest to latest)
   periods = Object.keys(availablePeriodTimes).sort((a, b) => {
-    let aOpenTime: Date = availablePeriodTimes[a][0];
-    let bOpenTime: Date = availablePeriodTimes[b][0];
+    const aOpenTime: Date = availablePeriodTimes[a][0];
+    const bOpenTime: Date = availablePeriodTimes[b][0];
 
     if (aOpenTime <= bOpenTime) return -1;
     else return 1;
@@ -358,9 +358,9 @@ function getCurrentPeriod(
   selectedDate: Date,
   periods: { [periodName: string]: [Date, Date] },
 ): string {
-  for (let key in periods) {
-    let periodBegin: Date = periods[key][0];
-    let periodEnd: Date = periods[key][1];
+  for (const key in periods) {
+    const periodBegin: Date = periods[key][0];
+    const periodEnd: Date = periods[key][1];
 
     if (selectedDate >= periodBegin && selectedDate <= periodEnd) return key;
   }

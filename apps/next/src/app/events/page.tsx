@@ -1,12 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import EventCard from "@/components/ui/card/event-card";
-import EventCardSkeleton from "@/components/ui/skeleton/event-card-skeleton";
 import MealDivider from "@/components/ui/meal-divider";
+import EventCardSkeleton from "@/components/ui/skeleton/event-card-skeleton";
 import MealDividerSkeleton from "@/components/ui/skeleton/meal-divider-skeleton";
 import { trpc } from "@/utils/trpc";
 import { HallEnum } from "@/utils/types";
-import Image from "next/image";
 
 export default function Events() {
   // Destructure the result from useQuery

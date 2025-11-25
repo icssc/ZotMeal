@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Contributor from "@/components/ui/contributor";
 import { Button } from "@/components/ui/shadcn/button";
 import {
@@ -11,7 +12,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/shadcn/dialog";
 import { trpc } from "@/utils/trpc";
-import Image from "next/image";
 
 export default function About() {
   const {

@@ -1,13 +1,12 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-
+import { getContributors } from "./contributors/services";
 import { dishRouter } from "./dishes/router";
 import { eventRouter } from "./events/router";
 import { notificationRouter } from "./notifications/router";
 import { getRestaurantsByDate } from "./restaurants/services";
 import { createTRPCRouter, publicProcedure } from "./trpc";
 import { userRouter } from "./users/router";
-import { getContributors } from "./contributors/services";
 
 export const appRouter = createTRPCRouter({
   event: eventRouter,

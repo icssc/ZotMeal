@@ -3,7 +3,7 @@ import {
   foodIconKeywords,
   foodIcons,
   HallEnum,
-  LucideIconComponent,
+  type LucideIconComponent,
   numToMonth,
   preferredCategoryOrder,
 } from "./types";
@@ -131,7 +131,7 @@ function enhanceDescription(
   }
 
   if (bakeryKeywords.some((keyword) => lowerDish.includes(keyword))) {
-    let addPrefix: boolean = !lowerDesc.includes("freshly baked");
+    const addPrefix: boolean = !lowerDesc.includes("freshly baked");
     if (addPrefix) lowerDesc = "Freshly prepared " + lowerDesc;
     else lowerDesc = lowerDesc[0].toUpperCase() + lowerDesc.slice(1);
 
@@ -206,8 +206,8 @@ function padMinutes(minutes: number): string {
  * @returns A formatted time string.
  */
 function timeToString(date: Date): string {
-  let hours: number = date.getHours();
-  let isAfterNoon: boolean = hours > 12;
+  const hours: number = date.getHours();
+  const isAfterNoon: boolean = hours > 12;
 
   return `${isAfterNoon ? hours - 12 : hours}:${padMinutes(date.getMinutes())}${isAfterNoon ? "pm" : "am"}`;
 }
@@ -226,9 +226,9 @@ function generateGCalLink(
   location: HallEnum,
   time: Date,
 ): string {
-  let date: string = `${time.getFullYear()}${(time.getUTCMonth() + 1).toString().padStart(2, "0")}${time.getUTCDate().toString().padStart(2, "0")}T${time.getUTCHours().toString().padStart(2, "0")}${time.getUTCMinutes().toString().padStart(2, "0")}${time.getUTCSeconds().toString().padStart(2, "0")}Z`;
+  const date: string = `${time.getFullYear()}${(time.getUTCMonth() + 1).toString().padStart(2, "0")}${time.getUTCDate().toString().padStart(2, "0")}T${time.getUTCHours().toString().padStart(2, "0")}${time.getUTCMinutes().toString().padStart(2, "0")}${time.getUTCSeconds().toString().padStart(2, "0")}Z`;
 
-  let link: string =
+  const link: string =
     `https://www.google.com/calendar/render?action=TEMPLATE` +
     `&text=${location == HallEnum.ANTEATERY ? "Anteatery" : "Brandywine"}:+${title.replace(/\s+/g, "+")}` +
     `&details=${desc.replace(/\s+/g, "+")}` +
@@ -281,17 +281,17 @@ function militaryToStandard(militaryTime: string): Date {
  * @returns A formatted string representing the time range.
  */
 function formatOpenCloseTime(openTime: Date, closeTime: Date): string {
-  let openTimeIsAfternoon: boolean = openTime.getHours() > 12;
-  let closeTimeIsAfternoon: boolean = closeTime.getHours() > 12;
+  const openTimeIsAfternoon: boolean = openTime.getHours() > 12;
+  const closeTimeIsAfternoon: boolean = closeTime.getHours() > 12;
 
-  let openTimeHours: number = openTimeIsAfternoon
+  const openTimeHours: number = openTimeIsAfternoon
     ? openTime.getHours() - 12
     : openTime.getHours();
-  let closeTimeHours: number = closeTimeIsAfternoon
+  const closeTimeHours: number = closeTimeIsAfternoon
     ? closeTime.getHours() - 12
     : closeTime.getHours();
-  let openTimeMinutes: string = padMinutes(openTime.getMinutes());
-  let closeTimeMinutes: string = padMinutes(closeTime.getMinutes());
+  const openTimeMinutes: string = padMinutes(openTime.getMinutes());
+  const closeTimeMinutes: string = padMinutes(closeTime.getMinutes());
 
   return `${openTimeHours}:${openTimeMinutes}${openTimeIsAfternoon ? "p" : "a"}-${closeTimeHours}:${closeTimeMinutes}${closeTimeIsAfternoon ? "p" : "a"}`;
 }

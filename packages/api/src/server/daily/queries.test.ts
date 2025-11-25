@@ -4,20 +4,18 @@ import {
   GetLocationRecipesWeeklySchema,
   GetLocationSchema,
 } from "@zotmeal/validators";
+import { describe, expect, it } from "vitest";
 import { queryAdobeECommerce } from "./parse";
-
 import {
   AEMEventListQuery,
-  AEMEventListQueryVariables,
-  getLocationQuery,
-  GetLocationRecipesDailyQuery,
-  GetLocationRecipesDailyVariables,
-  GetLocationRecipesWeeklyQuery,
-  GetLocationRecipesWeeklyVariables,
+  type AEMEventListQueryVariables,
   type GetLocationQueryVariables,
+  GetLocationRecipesDailyQuery,
+  type GetLocationRecipesDailyVariables,
+  GetLocationRecipesWeeklyQuery,
+  type GetLocationRecipesWeeklyVariables,
+  getLocationQuery,
 } from "./queries";
-
-import { describe, it, expect } from "vitest";
 
 interface TestCase<T> {
   name: string;

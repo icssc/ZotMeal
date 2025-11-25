@@ -1,7 +1,5 @@
 import { upsert } from "@api/utils";
 import { TRPCError } from "@trpc/server";
-import { format } from "date-fns";
-
 import type {
   Drizzle,
   InsertRestaurant,
@@ -15,6 +13,7 @@ import type {
   SelectStation,
 } from "@zotmeal/db";
 import { restaurants } from "@zotmeal/db";
+import { format } from "date-fns";
 
 export const upsertRestaurant = async (
   db: Drizzle,

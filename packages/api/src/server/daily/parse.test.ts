@@ -4,19 +4,19 @@
  * TODO: use testData instead of network calls with vitest mock
  */
 
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { AxiosResponse } from "axios";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import * as parser from "./parse";
 import {
-  getLocationInformation,
   getAdobeEcommerceMenuDaily,
   getAdobeEcommerceMenuWeekly,
   getAEMEvents,
+  getLocationInformation,
 } from "./parse";
-import * as parser from "./parse";
+import AEMEventListResponse from "./testData/AEM_eventList.json";
 import getLocationResponse from "./testData/getLocation.json";
 import getLocationRecipesDailyResponse from "./testData/getLocationRecipesDaily.json";
 import getLocationRecipesWeeklyResponse from "./testData/getLocationRecipesWeekly.json";
-import AEMEventListResponse from "./testData/AEM_eventList.json";
-import { AxiosResponse } from "axios";
 
 describe("AdobeECommerce Parsing Functions", () => {
   it("parses GetLocation response", async () => {

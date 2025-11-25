@@ -1,22 +1,25 @@
+import { logger } from "@api/logger";
+import { upsertMenu } from "@api/menus/services";
+import { upsertRestaurant } from "@api/restaurants/services";
+import { upsertAllStations } from "@api/stations/services";
 import {
-  getRestaurantId,
   type Drizzle,
+  getRestaurantId,
   type RestaurantName,
 } from "@zotmeal/db";
+import type {
+  DiningHallInformation,
+  MealPeriodWithHours,
+  Schedule,
+} from "@zotmeal/validators";
+import { format } from "date-fns";
+import { parseAndUpsertDish } from "../dishes/services";
+import { getCurrentSchedule, upsertPeriods } from "../periods/services";
 import {
   getAdobeEcommerceMenuDaily,
   getLocationInformation,
   restaurantUrlMap,
 } from "./parse";
-import { DiningHallInformation } from "@zotmeal/validators";
-import { upsertRestaurant } from "@api/restaurants/services";
-import { upsertAllStations } from "@api/stations/services";
-import { logger } from "@api/logger";
-import { format } from "date-fns";
-import { upsertMenu } from "@api/menus/services";
-import { getCurrentSchedule, upsertPeriods } from "../periods/services";
-import type { MealPeriodWithHours, Schedule } from "@zotmeal/validators";
-import { parseAndUpsertDish } from "../dishes/services";
 
 /**
  * Upserts the menu for the date `date` for a restaurant.
@@ -46,14 +49,14 @@ export async function upsertMenusForDate(
 
   await upsertAllStations(db, restaurantId, restaurantInfo);
 
-  let currentSchedule: Schedule = getCurrentSchedule(
+  const currentSchedule: Schedule = getCurrentSchedule(
     restaurantInfo.schedules,
     date,
   );
 
   // Get relevant periods from schedule that aligns with `date`
   // and has hours that day
-  let relevantPeriods: MealPeriodWithHours[] =
+  const relevantPeriods: MealPeriodWithHours[] =
     currentSchedule.mealPeriods.filter(
       (mealPeriod) =>
         mealPeriod.openHours[dayOfWeek] && mealPeriod.closeHours[dayOfWeek],

@@ -1,12 +1,12 @@
 "use client";
 
+import type { DishInfo } from "@zotmeal/api";
 import React from "react";
+import { sortCategoryKeys } from "@/utils/funcs";
 import FoodCard from "./card/food-card";
+import MealDivider from "./meal-divider";
 import FoodCardSkeleton from "./skeleton/food-card-skeleton";
 import MealDividerSkeleton from "./skeleton/meal-divider-skeleton";
-import { DishInfo } from "@zotmeal/api";
-import MealDivider from "./meal-divider";
-import { sortCategoryKeys } from "@/utils/funcs";
 
 /**
  * Props for the {@link DishesInfo} component.
@@ -46,7 +46,7 @@ export default function DishesInfo({
   errorMessage,
 }: DishesInfoProps): JSX.Element {
   // Sort the dishes by category string
-  let categoryMap: { [dishCategory: string]: DishInfo[] } = {};
+  const categoryMap: { [dishCategory: string]: DishInfo[] } = {};
   dishes.forEach((dish) => {
     if (dish.category in categoryMap) categoryMap[dish.category].push(dish);
     else categoryMap[dish.category] = [dish];
