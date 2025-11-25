@@ -29,15 +29,15 @@ export const appRouter = createTRPCRouter({
   ),
   /** Get all current contributors to ZotMeal's GitHub repo. */
   zotmeal_contributors: publicProcedure.query(
-    async ({ctx: { db }}) => 
+    async ({ ctx: { db } }) =>
       await getContributors(db).catch((error) => {
         if (error instanceof TRPCError) throw error;
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "An error occurred while fetching contributors."
+          message: "An error occurred while fetching contributors.",
         });
       }),
-  )
+  ),
 });
 
 // export type definition of API

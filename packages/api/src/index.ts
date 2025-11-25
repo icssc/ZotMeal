@@ -36,5 +36,5 @@ export * from "./server";
 
 // Next.js Exports
 export type { RestaurantInfo };
-export type DishInfo = 
-    RestaurantInfo["menus"][number]["stations"][number]["dishes"][number];
+export type DishInfo =
+  RestaurantInfo["menus"][number]["stations"][number]["dishes"][number];

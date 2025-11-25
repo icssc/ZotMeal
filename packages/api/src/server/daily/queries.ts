@@ -1,21 +1,22 @@
 // queries.ts
 //
-// This file contains the literals of various queries we've found useful on the 
+// This file contains the literals of various queries we've found useful on the
 // endpoint, as well as the endpiont and the headers.
 
-export const graphQLEndpoint: string = 
+export const graphQLEndpoint: string =
   "https://api.elevate-dxp.com/api/mesh/c087f756-cc72-4649-a36f-3a41b700c519/graphql?";
 
 export const graphQLHeaders = {
-  "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:141.0) Gecko/20100101 Firefox/141.0",
-  "Referer": "https://uci.mydininghub.com/",
+  "User-Agent":
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:141.0) Gecko/20100101 Firefox/141.0",
+  Referer: "https://uci.mydininghub.com/",
   "content-type": "application/json",
-  "store": "ch_uci_en",
+  store: "ch_uci_en",
   "magento-store-code": "ch_uci",
   "magento-website-code": "ch_uci",
   "magento-store-view-code": "ch_uci_en",
   "x-api-key": "ElevateAPIProd",
-  "Origin": "https://uci.mydininghub.com",
+  Origin: "https://uci.mydininghub.com",
 };
 
 export const getLocationQuery = `
@@ -55,11 +56,11 @@ query getLocation(
     }
   }
 }
-`
+`;
 export type GetLocationQueryVariables = {
-  locationUrlKey: "brandywine" | "the-anteatery",
+  locationUrlKey: "brandywine" | "the-anteatery";
   sortOrder: "ASC" | "DESC";
-}
+};
 
 export const AEMEventListQuery = `
 query AEM_eventList($filter: AEM_EventModelFilter) {
@@ -77,25 +78,25 @@ query AEM_eventList($filter: AEM_EventModelFilter) {
     }
   }
 }
-`
+`;
 export type AEMEventListQueryVariables = {
   campus: {
     _expressions: {
-      _operator: "EQUALS" | "EQUALS_NOT",
-      value: "campus",
-    }
-  },
+      _operator: "EQUALS" | "EQUALS_NOT";
+      value: "campus";
+    };
+  };
   location: {
     name: {
       _expressions: {
-        _operator: "EQUALS" | "EQUALS_NOT",
-        value: "The Anteatery" | "Brandywine",
-      }
-    }
-  }
+        _operator: "EQUALS" | "EQUALS_NOT";
+        value: "The Anteatery" | "Brandywine";
+      };
+    };
+  };
 };
 
-export type AEMEventListQueryRestaurant = 
+export type AEMEventListQueryRestaurant =
   AEMEventListQueryVariables["location"]["name"]["_expressions"]["value"];
 
 export const GetLocationRecipesDailyQuery = `
@@ -166,12 +167,12 @@ query getLocationRecipes(
     }
   }
 }
-`
+`;
 export type GetLocationRecipesDailyVariables = {
-  date: string,
-  locationUrlKey: "brandywine" | "the-anteatery",
-  mealPeriod: number | null,
-  viewType: "DAILY",
+  date: string;
+  locationUrlKey: "brandywine" | "the-anteatery";
+  mealPeriod: number | null;
+  viewType: "DAILY";
 };
 
 export const GetLocationRecipesWeeklyQuery = `
@@ -247,10 +248,10 @@ query getLocationRecipes(
     }
   }
 }
-`
+`;
 export type GetLocationRecipesWeeklyVariables = {
-  date: string,
-  locationUrlKey: "brandywine" | "the-anteatery",
-  mealPeriod: number | null,
-  viewType: "WEEKLY",
+  date: string;
+  locationUrlKey: "brandywine" | "the-anteatery";
+  mealPeriod: number | null;
+  viewType: "WEEKLY";
 };

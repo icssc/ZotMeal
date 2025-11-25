@@ -1,18 +1,20 @@
-"use client"
+"use client";
 
-import { format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
+import { format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
 
-import { cn } from "@/utils/tw"
-import { Button } from "@/components/ui/shadcn/button"
-import { Calendar } from "@/components/ui/shadcn/calendar"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "./popover"
+import { cn } from "@/utils/tw";
+import { Button } from "@/components/ui/shadcn/button";
+import { Calendar } from "@/components/ui/shadcn/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 
-export function DatePicker({date, onSelect} : {date: Date | undefined, onSelect: (newDateFromPicker : Date | undefined) => void}) {
+export function DatePicker({
+  date,
+  onSelect,
+}: {
+  date: Date | undefined;
+  onSelect: (newDateFromPicker: Date | undefined) => void;
+}) {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -20,7 +22,7 @@ export function DatePicker({date, onSelect} : {date: Date | undefined, onSelect:
           variant={"ghost"}
           className={cn(
             "w-[180px] justify-start text-left font-normal",
-            !date && "text-muted-foreground"
+            !date && "text-muted-foreground",
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
@@ -36,5 +38,5 @@ export function DatePicker({date, onSelect} : {date: Date | undefined, onSelect:
         />
       </PopoverContent>
     </Popover>
-  )
+  );
 }

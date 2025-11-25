@@ -1,21 +1,29 @@
-import { getRestaurantId, type Drizzle, type RestaurantName } from "@zotmeal/db";
+import {
+  getRestaurantId,
+  type Drizzle,
+  type RestaurantName,
+} from "@zotmeal/db";
 import { DiningHallInformation } from "@zotmeal/validators";
 import { upsertRestaurant } from "@api/restaurants/services";
 import { upsertAllStations } from "@api/stations/services";
 import { logger } from "@api/logger";
 import { format } from "date-fns";
-import { restaurantUrlMap, getLocationInformation, getAdobeEcommerceMenuWeekly } from "../daily/parse";
+import {
+  restaurantUrlMap,
+  getLocationInformation,
+  getAdobeEcommerceMenuWeekly,
+} from "../daily/parse";
 import { getCurrentSchedule, upsertPeriods } from "../periods/services";
 import { upsertMenu } from "@api/menus/services";
 import { parseAndUpsertDish } from "../dishes/services";
 
 /**
- * Upserts the menu for the week starting at `date` for a restaurant, up until 
+ * Upserts the menu for the week starting at `date` for a restaurant, up until
  * the next Sunday.
  * @param db the Drizzle database instance
  * @param date the date for which to upsert the menu
  * @param restaurantName the restaurant to upsert the menu for ("brandywine", "anteatery")
-*/
+ */
 export async function upsertMenusForWeek(
   db: Drizzle,
   date: Date,
@@ -32,7 +40,7 @@ export async function upsertMenusForWeek(
 
   await upsertRestaurant(db, {
     id: restaurantId,
-    name: restaurantName
+    name: restaurantName,
   });
 
   await upsertAllStations(db, restaurantId, restaurantInfo);
@@ -42,7 +50,7 @@ export async function upsertMenusForWeek(
   for (let i = 0; i <= daysUntilNextSunday; ++i) {
     let nextDate = new Date(date);
     nextDate.setDate(date.getDate() + i);
-    upsertedDates.push(nextDate)    
+    upsertedDates.push(nextDate);
   }
 
   // Keep a set of all relevant meal periods (ones that were relevant throughout
@@ -52,27 +60,40 @@ export async function upsertMenusForWeek(
   let dayPeriodMap = new Map<string, Set<number>>();
 
   await Promise.all(
-    upsertedDates.map(async currentDate => {
+    upsertedDates.map(async (currentDate) => {
       const currentDayOfWeek = currentDate.getDay();
-      const currentSchedule = getCurrentSchedule(restaurantInfo.schedules, currentDate);
+      const currentSchedule = getCurrentSchedule(
+        restaurantInfo.schedules,
+        currentDate,
+      );
       const dateString = format(currentDate, "yyyy-MM-dd");
 
       // Get relevant meal periods for the day to upsert into periods table
-      const relevantMealPeriods = currentSchedule.mealPeriods
-        .filter(mealPeriod => mealPeriod.openHours[currentDayOfWeek] 
-          && mealPeriod.closeHours[currentDayOfWeek]);
-      
+      const relevantMealPeriods = currentSchedule.mealPeriods.filter(
+        (mealPeriod) =>
+          mealPeriod.openHours[currentDayOfWeek] &&
+          mealPeriod.closeHours[currentDayOfWeek],
+      );
+
       let dayPeriodSet = new Set<number>();
-      relevantMealPeriods.forEach(period => {
+      relevantMealPeriods.forEach((period) => {
         periodSet.add(period.id);
         dayPeriodSet.add(period.id);
       });
 
       dayPeriodMap.set(dateString, dayPeriodSet);
-      
-      logger.info(`[weekly] Upserting ${relevantMealPeriods.length} periods...`);
-      await upsertPeriods(db, restaurantId, dateString, currentDayOfWeek, relevantMealPeriods);
-    })
+
+      logger.info(
+        `[weekly] Upserting ${relevantMealPeriods.length} periods...`,
+      );
+      await upsertPeriods(
+        db,
+        restaurantId,
+        dateString,
+        currentDayOfWeek,
+        relevantMealPeriods,
+      );
+    }),
   );
 
   await Promise.all(
@@ -89,40 +110,47 @@ export async function upsertMenusForWeek(
       }
 
       await Promise.all(
-        Array.from(currentPeriodWeekly.entries()).map(async ([dateString, dishes]) => {
-          // NOTE: For some head-scratching, infuriating reason, the API returns
-          // dishes for a non-existent period that it doesn't have listed at a
-          // certain day (i.e. No lunch on Saturdays, yet Lunch Meal period on
-          // Saturdays returns some dishes), this is an issue because we now have to
-          // make sure the period exists on the day for the returned data.
+        Array.from(currentPeriodWeekly.entries()).map(
+          async ([dateString, dishes]) => {
+            // NOTE: For some head-scratching, infuriating reason, the API returns
+            // dishes for a non-existent period that it doesn't have listed at a
+            // certain day (i.e. No lunch on Saturdays, yet Lunch Meal period on
+            // Saturdays returns some dishes), this is an issue because we now have to
+            // make sure the period exists on the day for the returned data.
 
-          // If the current date has this period, upsert, otherwise, skip.
-          const periodsOfDay = dayPeriodMap.get(dateString);
-          if (periodsOfDay && !periodsOfDay.has(periodId)) {
-            return;
-          }
+            // If the current date has this period, upsert, otherwise, skip.
+            const periodsOfDay = dayPeriodMap.get(dateString);
+            if (periodsOfDay && !periodsOfDay.has(periodId)) {
+              return;
+            }
 
-          // Upsert menu for date/period combo
-          const menuIdHash = `${restaurantId}|${dateString}|${periodId}`;
-          await upsertMenu(db, {
-            id: menuIdHash,
-            periodId: periodId.toString(),
-            date: dateString,
-            price: "???", // NOTE: Not sure if this was ever provided in the API..
-            restaurantId,
-          });
+            // Upsert menu for date/period combo
+            const menuIdHash = `${restaurantId}|${dateString}|${periodId}`;
+            await upsertMenu(db, {
+              id: menuIdHash,
+              periodId: periodId.toString(),
+              date: dateString,
+              price: "???", // NOTE: Not sure if this was ever provided in the API..
+              restaurantId,
+            });
 
-          // Upsert each dish into the menu
-          logger.info(`[weekly] Upserting ${dishes.length} dishes...`);
-          await Promise.all(
-            dishes.map(async (dish) => {
-              if (dish.name === "UNIDENTIFIED") {
-                return;
-              }
-              await parseAndUpsertDish(db, restaurantInfo, { ...dish, menuId: menuIdHash }, menuIdHash);
-            }),
-          );
-        }),
+            // Upsert each dish into the menu
+            logger.info(`[weekly] Upserting ${dishes.length} dishes...`);
+            await Promise.all(
+              dishes.map(async (dish) => {
+                if (dish.name === "UNIDENTIFIED") {
+                  return;
+                }
+                await parseAndUpsertDish(
+                  db,
+                  restaurantInfo,
+                  { ...dish, menuId: menuIdHash },
+                  menuIdHash,
+                );
+              }),
+            );
+          },
+        ),
       );
     }),
   );
