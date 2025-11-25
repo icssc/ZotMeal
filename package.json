@@ -42,5 +42,8 @@
     "overrides": {
       "@auth/core": "0.20.0"
     }
+  },
+  "dependencies": {
+    "devmoji": "^2.3.0"
   }
 }
