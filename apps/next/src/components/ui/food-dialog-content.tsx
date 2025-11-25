@@ -20,8 +20,7 @@ import {
 import { DishInfo } from "@zotmeal/api";
 import { toTitleCase, enhanceDescription } from "@/utils/funcs";
 import { AllergenBadge } from "./allergen-badge";
-import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
-import IngredientsDialog from "../ingredients-dialog";
+import IngredientsDialog from "./ingredients-dialog";
 
 /**
  * `FoodDialogContent` renders the detailed view of a food item (dish) within a dialog.

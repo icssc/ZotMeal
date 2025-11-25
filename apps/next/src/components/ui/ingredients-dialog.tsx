@@ -3,8 +3,8 @@ import {
   DialogTrigger,
   DialogContent,
   DialogTitle,
-} from "./ui/shadcn/dialog";
-import { Button } from "./ui/shadcn/button";
+} from "./shadcn/dialog";
+import { Button } from "./shadcn/button";
 
 interface IngredientsDialogProps {
   name: string;
