@@ -5,7 +5,7 @@ import { Star } from "lucide-react";
 import { useRatings } from "@/hooks/useRatings";
 import { trpc } from "@/utils/trpc";
 
-const DEFAULT_USER_ID = "default-user";
+const DEFAULT_USER_ID = "default-user"; // replace with real user ID when auth is set up
 
 interface InteractiveStarRatingProps {
   dishId: string;

@@ -31,10 +31,16 @@ const FoodCardContent = React.forwardRef<HTMLDivElement, FoodCardContentProps>(
   ({ dish, ...divProps }, ref) => {
     const IconComponent = getFoodIcon(dish.name) ?? Utensils;
 
+    /**
+     * Fetches the average rating and rating count for the dish.
+     */
     const { data: ratingData } = trpc.dish.getAverageRating.useQuery(
       { dishId: dish.id },
       { staleTime: 5 * 60 * 1000 },
     );
+    /**
+     * fetch above
+     */
 
     const averageRating = ratingData?.averageRating ?? 0;
     const ratingCount = ratingData?.ratingCount ?? 0;

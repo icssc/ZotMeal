@@ -1,4 +1,4 @@
-import { upsertRating, getAverageRating } from "@api/ratings/services";
+import { upsertRating, getAverageRating, getUserRating } from "@api/ratings/services";
 import { upsertUser } from "@api/users/services";
 import { createTRPCRouter, publicProcedure } from "@api/trpc";
 import { TRPCError } from "@trpc/server";
@@ -51,6 +51,7 @@ const getAverageRatingProcedure = publicProcedure
   .query(async ({ ctx: { db }, input }) => {
     return await getAverageRating(db, input.dishId);
   });
+
 
 export const dishRouter = createTRPCRouter({
   get: getDishProcedure,

@@ -3,7 +3,7 @@
 import { useCallback } from "react";
 import { trpc } from "@/utils/trpc";
 
-const DEFAULT_USER_ID = "default-user";
+const DEFAULT_USER_ID = "default-user"; // replace with real user ID when auth is set up 
 
 export function useRatings(userId: string = DEFAULT_USER_ID) {
   const utils = trpc.useUtils();
