@@ -129,6 +129,6 @@ export async function upsertContributors(
 
 export async function weekly(db: Drizzle): Promise<void> {
   await eventJob(db);
-  // await contributorsJob(db);
-  // await weeklyJob(db);
+  await contributorsJob(db);
+  await weeklyJob(db);
 }
