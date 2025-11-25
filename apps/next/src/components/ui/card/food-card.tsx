@@ -65,6 +65,20 @@ const FoodCardContent = React.forwardRef<HTMLDivElement, FoodCardContentProps>(
                   </div>
                 </div>
               </div>
+              {/* User rating star on far right (defaults to blank) */}
+              <div className="flex flex-col items-center justify-center pr-4">
+                <Star
+                  className="w-6 h-6 stroke-zinc-300"
+                  strokeWidth={1.5}
+                />
+                {/* Uncomment when userRating is implemented */}
+                {/*
+                <span className="text-sm text-zinc-700 mt-1">
+                  {dish.userRating != null ? dish.userRating.toFixed(1) : " "}
+                </span>
+                */}
+              </div>
+
             </div>
           </CardContent>
         </Card>
