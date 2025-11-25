@@ -25,6 +25,7 @@
     "typecheck": "turbo typecheck"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.3.7",
     "@turbo/gen": "catalog:",
     "@zotmeal/prettier-config": "workspace:*",
     "prettier": "catalog:",
