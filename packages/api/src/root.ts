@@ -13,7 +13,7 @@ export const appRouter = createTRPCRouter({
   event: eventRouter,
   dish: dishRouter,
   notification: notificationRouter,
-  user: userRouter,
+  users: userRouter,
   /** Returns "Hello, world!" */
   hello: publicProcedure.query(() => "Hello, world!"),
   /** Get all information about restaurants on a given date. */

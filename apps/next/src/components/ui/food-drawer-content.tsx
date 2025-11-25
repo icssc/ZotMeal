@@ -8,7 +8,7 @@ import {
   DialogContent,
 } from "./shadcn/dialog";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "./shadcn/button";
 import { cn } from "@/utils/tw";
 import { nutrientToUnit } from "@/utils/types";
@@ -27,28 +27,44 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "./shadcn/drawer";
-
+import { useRatings } from "@/hooks/useRatings";
+import { trpc } from "@/utils/trpc";
 /**
  * Interactive star rating component for rating food items
  */
-const InteractiveStarRating = ({ dishName }: { dishName: string }) => {
-  const [userRating, setUserRating] = useState<number>(0); // User's rating (0-5)
+
+const DEFAULT_USER_ID = "default-user";
+
+const InteractiveStarRating = ({ dishId }: { dishId: string }) => {
+  const [userRating, setUserRating] = useState<number | null>(null);
   const [hoverRating, setHoverRating] = useState<number | null>(null);
 
-  const handleStarClick = (stars: number) => {
-    setUserRating(stars);
-    // samika TODO: Call tRPC mutation when implemented
-    // await api.ratings.addRating.mutate({ foodName: dishName, rating: stars });
-    console.log(`Rated ${dishName} with ${stars} stars`);
-  };
+  const { rateDish } = useRatings();
 
-  const displayRating = hoverRating ?? userRating;
+  const { data: existingRating, isLoading } = trpc.user.getUserRating.useQuery(
+    { userId: DEFAULT_USER_ID, dishId },
+    { staleTime: 5 * 60 * 1000 },
+  );
+
+  useEffect(() => {
+    if (existingRating !== undefined && existingRating !== null) {
+      setUserRating(existingRating);
+    }
+  }, [existingRating]);
+
+  // 🟡 Loading OR no rating yet? Show empty stars until loaded
+  const displayRating = hoverRating ?? (userRating !== null ? userRating : 0);
+
+  const handleStarClick = (stars: number) => {
+    setUserRating(stars); // instant UI update
+    rateDish(dishId, stars); // backend update
+  };
 
   const getStarFillAmount = (starPosition: number): number => {
     const diff = displayRating - starPosition;
-    if (diff >= 0) return 1; // Full star
-    if (diff >= -0.5) return 0.5; // Half star
-    return 0; // Empty star
+    if (diff >= 0) return 1; // full
+    if (diff >= -0.5) return 0.5; // half
+    return 0; // empty
   };
 
   return (
@@ -62,13 +78,13 @@ const InteractiveStarRating = ({ dishName }: { dishName: string }) => {
             className="relative flex"
             onMouseLeave={() => setHoverRating(null)}
           >
-            {/* Left half - for 0.5 ratings */}
+            {/* Left half */}
             <div
               className="w-1/2 h-full absolute left-0 z-10 cursor-pointer"
               onClick={() => handleStarClick(starPosition - 0.5)}
               onMouseEnter={() => setHoverRating(starPosition - 0.5)}
             />
-            {/* Right half - for full ratings */}
+            {/* Right half */}
             <div
               className="w-1/2 h-full absolute right-0 z-10 cursor-pointer"
               onClick={() => handleStarClick(starPosition)}
@@ -76,10 +92,7 @@ const InteractiveStarRating = ({ dishName }: { dishName: string }) => {
             />
 
             {fillAmount === 0 && (
-              <Star
-                className="w-7 h-7 stroke-zinc-400 hover:stroke-amber-400 transition-colors"
-                strokeWidth={1}
-              />
+              <Star className="w-7 h-7 stroke-zinc-400" strokeWidth={1} />
             )}
             {fillAmount === 0.5 && (
               <>
@@ -170,7 +183,7 @@ export default function FoodDrawerContent(dish: DishInfo) {
             </div>
             {/* Interactive rating stars */}
             <div className="flex gap-2 ml-1 pt-0.5">
-              <InteractiveStarRating dishName={dish.name} />
+              <InteractiveStarRating dishId={dish.id} />
             </div>
             <DrawerDescription className="text-black text-left px-1 py-2 ">
               {enhanceDescription(dish.name, dish.description)}

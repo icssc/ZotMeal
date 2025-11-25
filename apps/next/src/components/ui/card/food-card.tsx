@@ -10,6 +10,7 @@ import { formatFoodName, getFoodIcon } from "@/utils/funcs";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Drawer, DrawerTrigger } from "../shadcn/drawer";
 import FoodDrawerContent from "../food-drawer-content";
+import { trpc } from "@/utils/trpc";
 
 /**
  * Props for the FoodCardContent component.
@@ -30,10 +31,13 @@ const FoodCardContent = React.forwardRef<HTMLDivElement, FoodCardContentProps>(
   ({ dish, ...divProps }, ref) => {
     const IconComponent = getFoodIcon(dish.name) ?? Utensils;
 
-    // TODO: Fetch average rating from tRPC when implemented
-    // const { averageRating, ratingCount } = api.ratings.getAverageRating.useQuery({ foodName: dish.name });
-    const averageRating = 4.5; // Placeholder
-    const ratingCount = 1021; // Placeholder
+    const { data: ratingData } = trpc.dish.getAverageRating.useQuery(
+      { dishId: dish.id },
+      { staleTime: 5 * 60 * 1000 },
+    );
+
+    const averageRating = ratingData?.averageRating ?? 0;
+    const ratingCount = ratingData?.ratingCount ?? 0;
 
     return (
       <div ref={ref} {...divProps} className="w-full">

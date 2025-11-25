@@ -1,8 +1,7 @@
-import { upsertRating } from "@api/ratings/services";
+import { upsertRating, getAverageRating } from "@api/ratings/services";
+import { upsertUser } from "@api/users/services";
 import { createTRPCRouter, publicProcedure } from "@api/trpc";
-import { getUser } from "@api/users/services";
 import { TRPCError } from "@trpc/server";
-import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { dishes, RatingSchema } from "@zotmeal/db";
@@ -26,6 +25,7 @@ const getDishProcedure = publicProcedure
 const rateDishProcedure = publicProcedure
   .input(RatingSchema)
   .mutation(async ({ ctx: { db }, input }) => {
+    // 1. Check dish exists
     const dish = await db.query.dishes.findFirst({
       where: (dishes, { eq }) => eq(dishes.id, input.dishId),
     });
@@ -36,40 +36,24 @@ const rateDishProcedure = publicProcedure
         message: "dish not found",
       });
 
-    const user = await getUser(db, input.userId);
+    // 2. Create user if they don't exist
+    await upsertUser(db, { id: input.userId, name: "Anonymous" });
 
-    const oldRating = user.ratings.find((rating) => rating.dishId === dish.id);
-
+    // 3. Upsert the rating
     await upsertRating(db, input);
 
-    const newNumRatings = dish.numRatings + (oldRating ? 0 : 1);
+    // 4. Return the new average
+    return await getAverageRating(db, input.dishId);
+  });
 
-    const newTotalRating =
-      dish.totalRating + (input.rating - (oldRating?.rating ?? 0));
-
-    const rating = await upsertRating(db, input);
-
-    const updateDishResult = await db
-      .update(dishes)
-      .set({
-        numRatings: newNumRatings,
-        totalRating: newTotalRating,
-      })
-      .where(eq(dishes.id, rating.dishId))
-      .returning();
-
-    if (!updateDishResult[0])
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: "failed to update dish",
-      });
-
-    return updateDishResult[0];
+const getAverageRatingProcedure = publicProcedure
+  .input(z.object({ dishId: z.string() }))
+  .query(async ({ ctx: { db }, input }) => {
+    return await getAverageRating(db, input.dishId);
   });
 
 export const dishRouter = createTRPCRouter({
-  /** Get a dish by its id. */
   get: getDishProcedure,
-  /** Rate a dish and return the updated dish. */
   rate: rateDishProcedure,
+  getAverageRating: getAverageRatingProcedure,
 });
