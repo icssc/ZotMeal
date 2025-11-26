@@ -1,9 +1,9 @@
 import { apiTest } from "@api/apiTest";
 import { upsertPeriod } from "@api/periods/services";
 import { upsertRestaurant } from "@api/restaurants/services";
-import { describe } from "vitest";
+import { describe, it } from "vitest";
 
-import { upsertMenu } from "./services";
+import { getDateRange, upsertMenu } from "./services";
 
 describe("upsertMenu", () => {
   apiTest("inserts valid menu into db", async ({ expect, db, testData }) => {
@@ -33,3 +33,15 @@ describe("upsertMenu", () => {
     ).rejects.toThrowError("Rollback");
   });
 });
+
+describe("getDateRange", () => {
+  apiTest("gets a date range from menus", async ({ expect, db }) => {
+    const res = await getDateRange(db);
+    if (res) {
+      expect(res.earliest instanceof Date).toBe(true);
+      expect(res.latest instanceof Date).toBe(true);
+      if (res.earliest && res.latest)
+        expect(res.earliest.getTime() <= res.latest.getTime()).toBe(true);
+    }
+  });
+})

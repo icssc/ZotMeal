@@ -24,13 +24,16 @@ export const upsertMenuBatch = async (db: Drizzle, menuBatch: InsertMenu[]) =>
  * Returns an object with the earliest
  * and latest dates present in the menus table.
 */
-export async function getDateRange(db: Drizzle): Promise<DateRange> {
+export async function getDateRange(db: Drizzle): Promise<DateRange | null> {
   const [res] = await db
     .select({
       earliest: min(menus.date),
       latest: max(menus.date)
     })
     .from(menus);
+  
+  if (!res?.earliest && !res?.latest)
+    return null
   
   return {
     earliest: res?.earliest ? new Date(res.earliest) : null,
