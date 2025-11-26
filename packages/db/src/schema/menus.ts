@@ -78,3 +78,8 @@ export type InsertMenu = typeof menus.$inferInsert;
 export type SelectMenu = typeof menus.$inferSelect;
 /** A join between a dish and a menu. */
 export type DishToMenu = typeof dishesToMenus.$inferInsert;
+/** Da */
+export type DateRange = {
+  earliest: Date | null,
+  latest: Date | null
+}
