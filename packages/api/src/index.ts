@@ -28,9 +28,11 @@ type RouterInputs = inferRouterInputs<AppRouter>;
  *      ^? Post[]
  **/
 type RouterOutputs = inferRouterOutputs<AppRouter>;
+type EventRouterOutputs = RouterOutputs["event"];
+
 
 export { createTRPCContext, appRouter, createCaller };
-export type { AppRouter, RouterInputs, RouterOutputs };
+export type { AppRouter, RouterInputs, RouterOutputs, EventRouterOutputs };
 export * from "./server";
 
 // Next.js Exports

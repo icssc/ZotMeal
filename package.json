@@ -31,8 +31,8 @@
     "@commitlint/config-conventional": "^20.0.0",
     "@turbo/gen": "catalog:",
     "@zotmeal/prettier-config": "workspace:*",
-    "husky": "^9.1.7",
-    "prettier": "catalog:",
+    "devmoji": "catalog:",
+    "husky": "catalog:",
     "ts-node": "catalog:",
     "turbo": "catalog:",
     "typescript": "catalog:"
@@ -42,8 +42,5 @@
     "overrides": {
       "@auth/core": "0.20.0"
     }
-  },
-  "dependencies": {
-    "devmoji": "^2.3.0"
   }
 }

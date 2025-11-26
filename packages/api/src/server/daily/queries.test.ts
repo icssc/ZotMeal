@@ -24,6 +24,7 @@ interface TestCase<T> {
   schema: Zod.ZodSchema;
 }
 
+// biome-ignore lint/suspicious/noExplicitAny: test cases may vary by variables
 const allApiQueries: TestCase<any>[] = [
   {
     name: "getLocation (Brandywine)",
@@ -110,7 +111,7 @@ describe("AdobeECommerce API Integration Tests", () => {
       expect(response).toBeDefined();
       expect(response).toHaveProperty("data");
 
-      if (response && response.data) {
+      if (response?.data) {
         const validationResult = schema.safeParse(response.data);
 
         if (!validationResult.success) {
