@@ -269,7 +269,34 @@ export default function Side({ hall, toggleHall }: SideProps): JSX.Element {
                     })}
                   </SelectContent>
                 </Select>
-              </div>
+              </div>}
+              {!isLoading && !isError && openTime && closeTime && // Ensure openTime and closeTime are defined
+              <div className="flex justify-center sm:justify-start">
+                <DiningHallStatus
+                  status={derivedHallStatus}
+                  openTime={openTime.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})}
+                  closeTime={closeTime.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})}
+                />
+              </div>}
+            </div>
+            {!isLoading && !isError && fetchedStations.length > 0 && (
+              <Tabs
+                value={selectedStation}
+                onValueChange={(value) => setSelectedStation(value || '')}
+                className="flex w-full justify-center" 
+              >
+                <div className="overflow-x-auto">
+                  <TabsList className="mx-auto">
+                      {fetchedStations.map((station => {
+                        return (
+                          <TabsTrigger key={station.name} value={station.name.toLowerCase()}>
+                            {toTitleCase(station.name)}
+                          </TabsTrigger>
+                        )
+                      }))}
+                  </TabsList>
+                </div>
+              </Tabs>
             )}
             {!isLoading &&
               !isError &&

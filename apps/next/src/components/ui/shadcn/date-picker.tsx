@@ -20,8 +20,8 @@ export function DatePicker({
         <Button
           variant={"ghost"}
           className={cn(
-            "w-[180px] justify-start text-left font-normal",
-            !date && "text-muted-foreground",
+            "justify-start text-left font-normal px-2",
+            !date && "text-muted-foreground"
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
