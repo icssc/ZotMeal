@@ -36,6 +36,7 @@ ZotMeal consists of a Next.JS frontend with a shared backend. A summary of the l
 - [Turborepo](https://turborepo.com) - High-performance build system for monorepo scaling.
 - [Tailwind](https://tailwindcss.com) - A utility-first CSS framework.
 - [TypeScript](https://www.typescriptlang.org) - JavaScript with type-checking.
+- [CommitLint](https://commitlint.js.org/) - A commit-message linter for conventional commits conformity.
 
 ## Contributing
 
