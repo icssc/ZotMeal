@@ -6,5 +6,5 @@ export default function OngoingBadge() {
       <div className="w-2 h-2 bg-cyan-500 rounded-md"></div>
       <strong className="text-cyan-500 font-medium">Ongoing</strong>
     </div>
-  );
+  )
 }

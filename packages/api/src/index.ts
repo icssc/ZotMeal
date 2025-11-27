@@ -1,8 +1,9 @@
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
-import type { RestaurantInfo } from "./restaurants/services";
+
 import type { AppRouter } from "./root";
 import { appRouter } from "./root";
 import { createCallerFactory, createTRPCContext } from "./trpc";
+import { RestaurantInfo } from "./restaurants/services";
 
 /**
  * Create a server-side caller for the tRPC API
@@ -28,14 +29,12 @@ type RouterInputs = inferRouterInputs<AppRouter>;
  *      ^? Post[]
  **/
 type RouterOutputs = inferRouterOutputs<AppRouter>;
-type EventRouterOutputs = RouterOutputs["event"];
-
 
 export { createTRPCContext, appRouter, createCaller };
-export type { AppRouter, RouterInputs, RouterOutputs, EventRouterOutputs };
+export type { AppRouter, RouterInputs, RouterOutputs };
 export * from "./server";
 
 // Next.js Exports
 export type { RestaurantInfo };
-export type DishInfo =
-  RestaurantInfo["menus"][number]["stations"][number]["dishes"][number];
+export type DishInfo = 
+    RestaurantInfo["menus"][number]["stations"][number]["dishes"][number];

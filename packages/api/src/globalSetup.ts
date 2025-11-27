@@ -1,8 +1,9 @@
-import { PostgreSqlContainer } from "@testcontainers/postgresql";
-import { pool } from "@zotmeal/db";
 import { exec } from "child_process";
-import { Wait } from "testcontainers";
 import { promisify } from "util";
+import { PostgreSqlContainer } from "@testcontainers/postgresql";
+import { Wait } from "testcontainers";
+
+import { pool } from "@zotmeal/db";
 
 import { logger } from "./logger";
 

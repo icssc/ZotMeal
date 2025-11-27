@@ -3,6 +3,7 @@ import { logger } from "@api/logger";
 import type { Drizzle, RestaurantName } from "@zotmeal/db";
 import { upsertMenusForDate } from "./upsert";
 
+
 export async function daily(
   db: Drizzle,
   date: Date,

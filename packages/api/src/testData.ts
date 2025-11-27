@@ -1,3 +1,5 @@
+import { addDays, format } from "date-fns";
+
 import type {
   DishToMenu,
   InsertDishWithRelations,
@@ -10,7 +12,6 @@ import type {
   InsertUser,
 } from "@zotmeal/db";
 import { restaurantIds } from "@zotmeal/db";
-import { addDays, format } from "date-fns";
 
 const brandywineId = restaurantIds[0];
 const anteateryId = restaurantIds[1];
