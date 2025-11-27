@@ -20,7 +20,7 @@ export function DatePicker({date, dateRange, onSelect} : {date: Date | undefined
         <Button
           variant={"ghost"}
           className={cn(
-            "w-[180px] justify-start text-left font-normal",
+            "w-full justify-start text-left font-normal",
             !date && "text-muted-foreground"
           )}
         >
