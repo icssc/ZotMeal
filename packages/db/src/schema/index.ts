@@ -1,3 +1,4 @@
+export * from "./contributors";
 export * from "./dietRestrictions";
 export * from "./dishes";
 export * from "./enums";
@@ -11,4 +12,3 @@ export * from "./ratings";
 export * from "./restaurants";
 export * from "./stations";
 export * from "./users";
-export * from "./contributors";

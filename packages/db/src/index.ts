@@ -1,5 +1,5 @@
-import type { PoolConfig } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
+import type { PoolConfig } from "pg";
 import { Pool } from "pg";
 
 import * as schema from "./schema";

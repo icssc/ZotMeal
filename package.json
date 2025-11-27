@@ -22,12 +22,17 @@
     "lint:fix": "turbo lint --continue -- --fix --cache --cache-location node_modules/.cache/.eslintcache",
     "lint:ws": "pnpm dlx sherif@latest",
     "postinstall": "pnpm lint:ws",
-    "typecheck": "turbo typecheck"
+    "typecheck": "turbo typecheck",
+    "prepare": "husky"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.3.7",
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
     "@turbo/gen": "catalog:",
     "@zotmeal/prettier-config": "workspace:*",
-    "prettier": "catalog:",
+    "devmoji": "catalog:",
+    "husky": "catalog:",
     "ts-node": "catalog:",
     "turbo": "catalog:",
     "typescript": "catalog:"
