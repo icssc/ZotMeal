@@ -6,6 +6,14 @@ import { Sheet, SheetTrigger } from "./shadcn/sheet";
 import SidebarContent from "./sidebar/sidebar-content";
 import { DatePicker } from "./shadcn/date-picker";
 import { useDate } from "@/context/date-context";
+import { trpc } from "@/utils/trpc"; // Import tRPC hook
+import { useEffect, useState } from "react";
+
+/** Dates to disable in the Calendar component within DatePicker. */
+export type DateRange = {
+  before: Date;
+  after: Date;
+};
 
 /**
  * Renders the main toolbar for the application.
@@ -22,6 +30,23 @@ import { useDate } from "@/context/date-context";
  */
 export default function Toolbar(): JSX.Element {
   const { selectedDate, setSelectedDate } = useDate();
+  const [dateRange, setDateRange] = useState<DateRange>(
+    // default: restrict date range to today
+    {
+      before: new Date(),
+      after: new Date()
+    }
+  );
+
+  const { data: dateRes, isLoading, isError, error} = trpc.dateRange.useQuery()
+  
+  useEffect(() => {
+    if (dateRes && dateRes.earliest)
+      setDateRange({
+        before: dateRes.earliest,
+        after: dateRes.latest
+      })
+  }, [dateRes])
 
   /**
    * Handles the date selection event from the `DatePicker` component.
@@ -80,6 +105,7 @@ export default function Toolbar(): JSX.Element {
             <DatePicker
               date={selectedDate}
               onSelect={handleDateSelect}
+              dateRange={dateRange}
             />
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">

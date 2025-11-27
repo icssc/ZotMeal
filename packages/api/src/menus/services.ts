@@ -34,9 +34,8 @@ export async function getDateRange(db: Drizzle): Promise<DateRange | null> {
   
   if (!res?.earliest && !res?.latest)
     return null
-  
   return {
-    earliest: res?.earliest ? new Date(res.earliest) : null,
+    earliest: res.earliest ? new Date(res.earliest) : null,
     latest: res?.latest ? new Date(res.latest) : null,
   }
 }

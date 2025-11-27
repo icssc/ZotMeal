@@ -11,8 +11,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "./popover"
+import type { DateRange } from "../toolbar"
 
-export function DatePicker({date, onSelect} : {date: Date | undefined, onSelect: (newDateFromPicker : Date | undefined) => void}) {
+export function DatePicker({date, dateRange, onSelect} : {date: Date | undefined, dateRange: DateRange, onSelect: (newDateFromPicker : Date | undefined) => void}) {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -33,6 +34,7 @@ export function DatePicker({date, onSelect} : {date: Date | undefined, onSelect:
           selected={date}
           onSelect={onSelect}
           initialFocus
+          disabled={dateRange}
         />
       </PopoverContent>
     </Popover>
