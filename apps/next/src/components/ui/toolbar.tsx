@@ -47,6 +47,7 @@ export default function Toolbar(): JSX.Element {
         after: dateRes.latest
       })
   }, [dateRes])
+  console.log(dateRange)
 
   /**
    * Handles the date selection event from the `DatePicker` component.

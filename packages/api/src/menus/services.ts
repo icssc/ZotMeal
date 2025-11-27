@@ -35,7 +35,19 @@ export async function getDateRange(db: Drizzle): Promise<DateRange | null> {
   if (!res?.earliest && !res?.latest)
     return null
   return {
-    earliest: res.earliest ? new Date(res.earliest) : null,
-    latest: res?.latest ? new Date(res.latest) : null,
+    earliest: toLocalDate(res.earliest) || null,
+    latest: toLocalDate(res.latest) || null,
   }
+}
+
+function toLocalDate(dateString: string | null): Date | null {
+  if (!dateString)
+    return null
+
+  const [y, m, d] = dateString.split("-").map(Number);
+
+  if (!y || !m || !d)
+    return null
+  
+  return new Date(y, m-1, d);
 }
