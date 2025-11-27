@@ -1,6 +1,7 @@
+import { test } from "vitest";
+
 import type { Drizzle } from "@zotmeal/db";
 import { createDrizzle } from "@zotmeal/db";
-import { test } from "vitest";
 
 import { createCaller, createTRPCContext } from ".";
 import { testData } from "./testData";

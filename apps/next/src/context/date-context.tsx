@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  type Dispatch,
-  type ReactNode,
-  type SetStateAction,
-  useContext,
-  useState,
-} from "react";
+import { createContext, useContext, useState, ReactNode, Dispatch, SetStateAction } from 'react';
 
 /**
  * Defines the shape of the context data for managing the selected date.
@@ -50,9 +43,7 @@ interface DateProviderProps {
  * @returns {JSX.Element} The provider component wrapping its children.
  */
 export function DateProvider({ children }: DateProviderProps): JSX.Element {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
-    new Date(),
-  );
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
 
   return (
     <DateContext.Provider value={{ selectedDate, setSelectedDate }}>
@@ -73,7 +64,7 @@ export function DateProvider({ children }: DateProviderProps): JSX.Element {
 export function useDate(): DateContextType {
   const context = useContext(DateContext);
   if (context === undefined) {
-    throw new Error("useDate must be used within a DateProvider");
+    throw new Error('useDate must be used within a DateProvider');
   }
   return context;
 }

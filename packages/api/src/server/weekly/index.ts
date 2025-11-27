@@ -1,16 +1,17 @@
 import { upsertEvents } from "@api/events/services";
 import { logger } from "@api/logger";
-import { upsert } from "@api/utils";
+
+import type { Drizzle } from "@zotmeal/db";
 
 import { Octokit } from "@octokit/rest";
-import type { Drizzle } from "@zotmeal/db";
-import { contributors, type InsertContributor } from "@zotmeal/db";
+import { upsert } from "@api/utils";
+import { contributors, InsertContributor } from "@zotmeal/db";
 import { getAEMEvents } from "../daily/parse";
 import { upsertMenusForWeek } from "./upsert";
 import { queryEventImageEndpoint } from "@api/events/images";
 
 /**
- * Query the GraphQL Events Endpoint for both restaurants and upsert them into
+ * Query the GraphQL Events Endpoint for both restaurants and upsert them into 
  * the database.
  * @param db The Drizzle database instance to insert into.
  */
@@ -41,16 +42,19 @@ export async function eventJob(db: Drizzle): Promise<void> {
   }
 }
 
+
 export async function weeklyJob(db: Drizzle): Promise<void> {
   const today = new Date();
 
-  logger.info(`[weekly] Starting Brandywine Menu job...`);
+
+  logger.info(`[weekly] Starting Brandywine Menu job...`)
   await upsertMenusForWeek(db, today, "brandywine");
-  logger.info(`[weekly] Finished Brandywine Menu job.`);
-  logger.info(`[weekly] Starting Anteatery Menu job...`);
+  logger.info(`[weekly] Finished Brandywine Menu job.`)
+  logger.info(`[weekly] Starting Anteatery Menu job...`)
   await upsertMenusForWeek(db, today, "anteatery");
-  logger.info(`[weekly] Finished Anteatery Menu job.`);
+  logger.info(`[weekly] Finished Anteatery Menu job.`)
 }
+
 
 /**
  * Query the GitHub API to obtain the contributors to ZotMeal's GH Repo.
@@ -75,13 +79,14 @@ export async function contributorsJob(db: Drizzle) {
     page++;
   }
 
-  // Filter out bots
+  // Filter out bots 
   const filteredContributors = baseContributors.filter(
-    (contributor) => contributor.type !== "Bot",
+    (contributor) =>
+      contributor.type !== "Bot"
   );
 
   // Fetch detailed info for each contributor
-  const detailedContributors: InsertContributor[] = await Promise.all(
+  let detailedContributors: InsertContributor[] = await Promise.all(
     filteredContributors.map(async (contributor) => {
       const { data: userDetails } = await octokit.rest.users.getByUsername({
         username: contributor.login,
@@ -91,31 +96,28 @@ export async function contributorsJob(db: Drizzle) {
         name: userDetails.name,
         bio: userDetails.bio,
       };
-    }),
+    })
   );
 
-  logger.info(
-    `[weekly] Upserting ${detailedContributors.length} contributors...`,
-  );
-  const upsertedContributors = await upsertContributors(
-    db,
-    detailedContributors,
-  );
-  logger.info(`[weekly] Upserted ${upsertedContributors.length} contributors.`);
+  logger.info(`[weekly] Upserting ${detailedContributors.length} contributors...`)
+  const upsertedContributors = await upsertContributors(db, detailedContributors);
+  logger.info(`[weekly] Upserted ${upsertedContributors.length} contributors.`)
 }
+
 
 export async function upsertContributors(
   db: Drizzle,
-  contributorsArray: InsertContributor[],
+  contributorsArray : InsertContributor[]
 ) {
   const upsertContributorsResult = await Promise.allSettled(
-    contributorsArray.map(async (contributor) =>
-      upsert(db, contributors, contributor, {
-        target: contributors.login,
-        set: contributor,
-      }),
-    ),
-  );
+    contributorsArray.map(
+      async (contributor) =>
+        upsert(db, contributors, contributor, {
+          target: contributors.login,
+          set: contributor
+        })
+    )
+  )
 
   upsertContributorsResult.forEach((result) => {
     if (result.status === "rejected")

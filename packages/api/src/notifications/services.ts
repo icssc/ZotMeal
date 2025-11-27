@@ -1,5 +1,3 @@
-import type { Drizzle } from "@zotmeal/db";
-import { pushTokens } from "@zotmeal/db";
 import type {
   ExpoPushErrorReceipt,
   ExpoPushMessage,
@@ -8,6 +6,9 @@ import type {
   ExpoPushToken,
 } from "expo-server-sdk";
 import { Expo } from "expo-server-sdk";
+
+import type { Drizzle } from "@zotmeal/db";
+import { pushTokens } from "@zotmeal/db";
 
 // Send Notification to all users which set up a notification id
 export interface Notification {
