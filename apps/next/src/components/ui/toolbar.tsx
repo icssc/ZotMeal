@@ -47,14 +47,13 @@ export default function Toolbar(): JSX.Element {
         after: dateRes.latest
       })
   }, [dateRes])
-  console.log(dateRange)
 
   /**
    * Handles the date selection event from the `DatePicker` component.
    *
    * This function updates the `selectedDate` in the `DateContext`.
    * - If the `newDateFromPicker` is the current calendar day ("today"),
-   *   `selectedDate` is set to the current date *and time* (i.e., `new Date()`).
+   *   `selectedDate` is set to the current date and time (i.e., `new Date()`).
    *   This ensures that any application logic relying on the current time of day
    *   (e.g., determining if a dining hall is currently open) operates correctly.
    * - If `newDateFromPicker` is a day other than today (past or future),

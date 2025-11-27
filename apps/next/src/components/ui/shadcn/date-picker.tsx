@@ -34,7 +34,7 @@ export function DatePicker({date, dateRange, onSelect} : {date: Date | undefined
           selected={date}
           onSelect={onSelect}
           initialFocus
-          disabled={dateRange}
+          disabled={[dateRange, date ? date : []]}
         />
       </PopoverContent>
     </Popover>
