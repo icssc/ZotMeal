@@ -1,49 +1,38 @@
-/* 
-FOR GOOGLE AUTH -> SETS UP GOOGLE AUTH PROVIDER FROM BETTERAUTH
-*/
-// import { betterAuth } from "better-auth";
-
-
-// export const auth = betterAuth({
-//   secret: process.env.BETTER_AUTH_SECRET!,
-//   baseURL: process.env.BASE_URL || "http://localhost:3000",
-//   socialProviders: {
-//     google: {
-//         clientId: process.env.GOOGLE_CLIENT_ID!,
-//         clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-//     },
-//   }
-// })
-
-
-// import { betterAuth } from "better-auth";
-
-
-// export const auth = betterAuth({
-//   secret: process.env.BETTER_AUTH_SECRET || "better-auth-secret-123456789-xxxx",
-//   baseURL: process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000",
-//   socialProviders: {
-//     google: {
-//       clientId: process.env.GOOGLE_CLIENT_ID || "55792718512-74qt5ig2kkjkb01tep06c84rmscepoab.apps.googleusercontent.com",
-//       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "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",
-//     },
-//   },
-// });
-
 import { betterAuth } from "better-auth";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { db } from "../../../db/src/index"
+import * as schema from "../../../db/src/schema/index";
 
+import { config } from "dotenv";
+import { join } from "path";
+
+
+
+
+
+config({ path: join(process.cwd(), ".env") });
+
+if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is not set");
+
+console.log("DATABASE_URL:", process.env.DATABASE_URL);
 
 export const auth = betterAuth({
   debug: true,
-  // secret: process.env.NEXT_PUBLIC_BETTER_AUTH_SECRET,
-  secret: "better-auth-secret",
+  secret: process.env.NEXT_PUBLIC_BETTER_AUTH_SECRET,
   baseURL: "http://localhost:8080",
   socialProviders: {
     google: {
-      // clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
-      clientId: "clientID",
-      clientSecret: "clientSecret",
-      // clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET!,
+      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET!,
     },
   },
+  database: drizzleAdapter(db, {
+    provider: "pg",
+    schema: {
+      user: schema.users,        
+      session: schema.session,
+      account: schema.account,
+      verification: schema.verification,
+    },
+  })
 });
