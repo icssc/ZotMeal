@@ -1,7 +1,7 @@
 "use client";
 
 import type { RestaurantInfo } from "@zotmeal/api"; // Import types
-import { ArrowRightLeft, RefreshCw } from "lucide-react";
+import { ArrowRightLeft } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDate } from "@/context/date-context";
@@ -11,10 +11,9 @@ import {
   isSameDay,
   militaryToStandard,
   toTitleCase,
-  utcToPacificTime,
 } from "@/utils/funcs";
 import { trpc } from "@/utils/trpc"; // Import tRPC hook
-import { HallEnum, HallStatusEnum, MealTimeEnum } from "@/utils/types";
+import { HallEnum, HallStatusEnum } from "@/utils/types";
 import DishesInfo from "./dishes-info";
 import { Button } from "./shadcn/button";
 import {
@@ -59,7 +58,7 @@ export default function Side({ hall, toggleHall }: SideProps): JSX.Element {
     isError,
     error,
   } = trpc.zotmeal.useQuery(
-    { date: selectedDate! },
+    { date: selectedDate ?? today },
     { staleTime: 2 * 60 * 60 * 1000 }, // 2 hour stale time
   );
 
@@ -105,9 +104,9 @@ export default function Side({ hall, toggleHall }: SideProps): JSX.Element {
           currentPeriodOpenTime.setDate(currentPeriodOpenTime.getDate() + 1);
           currentPeriodCloseTime.setDate(currentPeriodCloseTime.getDate() + 1);
         } else if (
-          selectedDate?.getDay() == today.getDay() &&
-          selectedDate.getMonth() == today.getMonth() &&
-          selectedDate.getFullYear() == today.getFullYear()
+          selectedDate?.getDay() === today.getDay() &&
+          selectedDate.getMonth() === today.getMonth() &&
+          selectedDate.getFullYear() === today.getFullYear()
         ) {
           currentPeriodOpenTime.setDate(today.getDate());
           currentPeriodCloseTime.setDate(today.getDate());
@@ -134,7 +133,7 @@ export default function Side({ hall, toggleHall }: SideProps): JSX.Element {
 
     if (openTime === undefined && closeTime === undefined)
       derivedHallStatus = HallStatusEnum.ERROR;
-    else if (today.getDay() != openTime!.getDay())
+    else if (today.getDay() !== openTime.getDay())
       derivedHallStatus = HallStatusEnum.PREVIEW;
     else if (selectedDate! >= openTime! && selectedDate! < closeTime!)
       derivedHallStatus = HallStatusEnum.OPEN;

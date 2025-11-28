@@ -166,8 +166,9 @@ export default function FoodDialogContent(dish: DishInfo): JSX.Element {
                     className="w-full"
                     onClick={() => setShowAllNutrients(!showAllNutrients)}
                   >
-                  {showAllNutrients ? "Show Less" : "Show More Nutrients"}
-                </Button>
+                    {showAllNutrients ? "Show Less" : "Show More Nutrients"}
+                  </Button>
+                }
                 {ingredientsAvailable && (
                   <IngredientsDialog
                     name={dish.name}

@@ -84,7 +84,7 @@ export default function Events() {
                     startTime={event.start}
                     endTime={event.end}
                     location={
-                      event.restaurantId == 3056
+                      event.restaurantId === 3056
                         ? HallEnum.ANTEATERY
                         : HallEnum.BRANDYWINE
                     }
@@ -93,9 +93,9 @@ export default function Events() {
                     isOngoing={event.start <= now && event.end >= now}
                   />
                 ))}
-              {eventsThisWeek.length == 0 && (
+              {eventsThisWeek.length === 0 && (
                 <p className="text-center text-zinc-700 py-5">
-                  No events scheduled for this week :(
+                  No events scheduled for this week 
                 </p>
               )}
               <MealDivider title="Upcoming Events" />
@@ -109,7 +109,7 @@ export default function Events() {
                     startTime={event.start}
                     endTime={event.end}
                     location={
-                      event.restaurantId == 3056
+                      event.restaurantId === 3056
                         ? HallEnum.ANTEATERY
                         : HallEnum.BRANDYWINE
                     }
@@ -118,7 +118,7 @@ export default function Events() {
                     isOngoing={event.start <= now && event.end >= now}
                   />
                 ))}
-              {futureEvents.length == 0 && (
+              {futureEvents.length === 0 && (
                 <p className="text-center text-zinc-700 py-5">
                   No upcoming events found :(
                 </p>

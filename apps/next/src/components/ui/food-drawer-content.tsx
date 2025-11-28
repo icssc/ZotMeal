@@ -3,7 +3,7 @@
 import type { DishInfo } from "@zotmeal/api";
 import { Pin, Star } from "lucide-react";
 import Image from "next/image";
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   enhanceDescription,
   formatFoodName,
@@ -16,12 +16,6 @@ import { nutrientToUnit } from "@/utils/types";
 import { AllergenBadge } from "./allergen-badge";
 import { Button } from "./shadcn/button";
 import {
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "./shadcn/dialog";
-import {
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -30,8 +24,6 @@ import {
 } from "./shadcn/drawer";
 
 export default function FoodDrawerContent(dish: DishInfo) {
-  const ingredientsAvailable: boolean = dish.ingredients != null 
-    && dish.ingredients.length > 0;
   const caloricInformationAvailable: boolean = dish.nutritionInfo.calories != null
     && dish.nutritionInfo.calories.length > 0;
 

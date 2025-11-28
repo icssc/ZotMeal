@@ -117,7 +117,7 @@ function enhanceDescription(
 
   if (
     fruitKeywords.some(
-      (keyword) => lowerDesc === keyword || lowerDesc === keyword + "s",
+      (keyword) => lowerDesc === keyword || lowerDesc === `${keyword}s`,
     )
   ) {
     return `Fresh and simple ${lowerDesc}. A light and healthy choice.`;
@@ -132,7 +132,7 @@ function enhanceDescription(
 
   if (bakeryKeywords.some((keyword) => lowerDish.includes(keyword))) {
     const addPrefix: boolean = !lowerDesc.includes("freshly baked");
-    if (addPrefix) lowerDesc = "Freshly prepared " + lowerDesc;
+    if (addPrefix) lowerDesc = `Freshly prepared ${lowerDesc}`;
     else lowerDesc = lowerDesc[0].toUpperCase() + lowerDesc.slice(1);
 
     return `${lowerDesc}. A perfect treat.`;
@@ -155,7 +155,7 @@ function enhanceDescription(
   }
 
   // Return original if no rules match or it's already reasonably descriptive
-  return description.endsWith(".") ? description : description + ".";
+  return description.endsWith(".") ? description : `${description}.`;
 }
 
 /**
@@ -195,8 +195,8 @@ function dateToString(startDate: Date, endDate: Date): string {
  * @returns A string representation of the minutes, padded with a zero if needed.
  */
 function padMinutes(minutes: number): string {
-  let str: string = minutes + "";
-  while (str.length < 2) str = "0" + str;
+  let str: string = `${minutes}`;
+  while (str.length < 2) str = `$0${str}`;
   return str;
 }
 
@@ -230,9 +230,9 @@ function generateGCalLink(
 
   const link: string =
     `https://www.google.com/calendar/render?action=TEMPLATE` +
-    `&text=${location == HallEnum.ANTEATERY ? "Anteatery" : "Brandywine"}:+${title.replace(/\s+/g, "+")}` +
+    `&text=${location === HallEnum.ANTEATERY ? "Anteatery" : "Brandywine"}:+${title.replace(/\s+/g, "+")}` +
     `&details=${desc.replace(/\s+/g, "+")}` +
-    `&location=${location == HallEnum.ANTEATERY ? ANTEAT_ADDY : BWINE_ADDY}` +
+    `&location=${location === HallEnum.ANTEATERY ? ANTEAT_ADDY : BWINE_ADDY}` +
     `&dates=${date}/${date}`;
 
   return link;
@@ -412,7 +412,7 @@ function sortCategoryKeys(keys: string[]): string[] {
 function getFoodIcon(dishName: string): LucideIconComponent {
   const defaultFoodIcon: LucideIconComponent = Utensils;
 
-  if (!dishName || dishName.trim() == "") {
+  if (!dishName || dishName.trim() === "") {
     return defaultFoodIcon;
   }
 
@@ -433,9 +433,9 @@ function getFoodIcon(dishName: string): LucideIconComponent {
  */
 function isSameDay(a: Date, b: Date): boolean {
   return (
-    a.getFullYear() == b.getFullYear() &&
-    a.getMonth() == b.getMonth() &&
-    a.getDay() == b.getDay()
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDay() === b.getDay()
   );
 }
 
