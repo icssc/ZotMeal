@@ -2,7 +2,7 @@
 
 export default function MyAccountPage() {
   return (
-    <div className="max-w-xl mx-auto px-4 py-8">
+    <div className="max-w-xl mx-auto px-4 py-8 pt-24">
       <h1 className="text-2xl font-semibold mb-4">My Account</h1>
       <p className="text-sm text-neutral-600 dark:text-neutral-300 mb-6">
         Manage your ZotMeal account details here.
