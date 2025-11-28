@@ -1,7 +1,7 @@
 import { upsert, upsertBatch } from "@api/utils";
 
 import { sql, min, max } from "drizzle-orm";
-import type { DateRange, Drizzle, InsertMenu } from "@zotmeal/db";
+import type { DateList, Drizzle, InsertMenu } from "@zotmeal/db";
 import { menus } from "@zotmeal/db";
 
 export const upsertMenu = async (db: Drizzle, menu: InsertMenu) =>
@@ -24,20 +24,23 @@ export const upsertMenuBatch = async (db: Drizzle, menuBatch: InsertMenu[]) =>
  * Returns an object with the earliest
  * and latest dates present in the menus table.
 */
-export async function getDateRange(db: Drizzle): Promise<DateRange | null> {
-  const [res] = await db
-    .select({
-      earliest: min(menus.date),
-      latest: max(menus.date)
-    })
+export async function getPickableDates(db: Drizzle): Promise<DateList> {
+  const rows = await db
+    .selectDistinct({ date: menus.date })
     .from(menus);
   
-  if (!res?.earliest && !res?.latest)
-    return null
-  return {
-    earliest: toLocalDate(res.earliest) || null,
-    latest: toLocalDate(res.latest) || null,
-  }
+  if (!rows.length)
+    return null;
+
+  let uniqueDates: Date[] = [];
+  
+  rows.forEach((r) => {
+    const d = toLocalDate(r.date);
+    if (d)
+      uniqueDates.push(d);
+  });
+
+  return uniqueDates;
 }
 
 function toLocalDate(dateString: string | null): Date | null {

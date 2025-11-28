@@ -3,7 +3,7 @@ import { upsertPeriod } from "@api/periods/services";
 import { upsertRestaurant } from "@api/restaurants/services";
 import { describe, it } from "vitest";
 
-import { getDateRange, upsertMenu } from "./services";
+import { getDateRange, getPickableDates, upsertMenu } from "./services";
 
 describe("upsertMenu", () => {
   apiTest("inserts valid menu into db", async ({ expect, db, testData }) => {
@@ -34,14 +34,13 @@ describe("upsertMenu", () => {
   });
 });
 
-describe("getDateRange", () => {
-  apiTest("gets a date range from menus", async ({ expect, db }) => {
-    const res = await getDateRange(db);
+describe("getDateList", () => {
+  apiTest("gets list of pickable dates", async ({ expect, db }) => {
+    const res = await getPickableDates(db);
     if (res) {
-      expect(res.earliest instanceof Date).toBe(true);
-      expect(res.latest instanceof Date).toBe(true);
-      if (res.earliest && res.latest)
-        expect(res.earliest.getTime() <= res.latest.getTime()).toBe(true);
+      res.forEach(d => {
+        expect(d).toBeInstanceOf(Date);
+      })
     }
   });
 })
