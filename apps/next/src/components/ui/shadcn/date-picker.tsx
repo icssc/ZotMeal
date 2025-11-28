@@ -11,9 +11,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "./popover"
-import type { DateRange } from "../toolbar"
+import type { DateList } from "../toolbar"
+import { isSameDay } from "@/utils/funcs"
 
-export function DatePicker({date, dateRange, onSelect} : {date: Date | undefined, dateRange: DateRange, onSelect: (newDateFromPicker : Date | undefined) => void}) {
+export function DatePicker({date, enabledDates, onSelect} : {
+    date: Date | undefined,
+    enabledDates: DateList,
+    onSelect: (newDateFromPicker : Date | undefined) => void
+}) {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -34,7 +39,11 @@ export function DatePicker({date, dateRange, onSelect} : {date: Date | undefined
           selected={date}
           onSelect={onSelect}
           initialFocus
-          disabled={[dateRange, date ? date : []]}
+          disabled={(d) => 
+            (date ? isSameDay(d, date) : true)
+            || !enabledDates?.some(
+              ed => ed.getTime() === d.getTime()
+          )}
         />
       </PopoverContent>
     </Popover>

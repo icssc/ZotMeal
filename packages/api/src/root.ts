@@ -8,7 +8,7 @@ import { getRestaurantsByDate } from "./restaurants/services";
 import { createTRPCRouter, publicProcedure } from "./trpc";
 import { userRouter } from "./users/router";
 import { getContributors } from "./contributors/services";
-import { getDateRange } from "./menus/services";
+import { getPickableDates } from "./menus/services";
 
 export const appRouter = createTRPCRouter({
   event: eventRouter,
@@ -29,9 +29,9 @@ export const appRouter = createTRPCRouter({
       }),
   ),
   /** Get earliest and latest days we currently have meal info for. */
-  dateRange: publicProcedure.query(
+  pickableDates: publicProcedure.query(
     async ({ctx: { db }}) => 
-      await getDateRange(db).catch((error) => {
+      await getPickableDates(db).catch((error) => {
         if (error instanceof TRPCError) throw error;
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",

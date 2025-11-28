@@ -3,7 +3,7 @@ import { upsertPeriod } from "@api/periods/services";
 import { upsertRestaurant } from "@api/restaurants/services";
 import { describe, it } from "vitest";
 
-import { getDateRange, getPickableDates, upsertMenu } from "./services";
+import { getPickableDates, upsertMenu } from "./services";
 
 describe("upsertMenu", () => {
   apiTest("inserts valid menu into db", async ({ expect, db, testData }) => {

@@ -9,11 +9,8 @@ import { useDate } from "@/context/date-context";
 import { trpc } from "@/utils/trpc"; // Import tRPC hook
 import { useEffect, useState } from "react";
 
-/** Dates to disable in the Calendar component within DatePicker. */
-export type DateRange = {
-  before: Date;
-  after: Date;
-};
+/** Dates to enable in the Calendar component within DatePicker. */
+export type DateList = Date[] | null;
 
 /**
  * Renders the main toolbar for the application.
@@ -30,22 +27,13 @@ export type DateRange = {
  */
 export default function Toolbar(): JSX.Element {
   const { selectedDate, setSelectedDate } = useDate();
-  const [dateRange, setDateRange] = useState<DateRange>(
-    // default: restrict date range to today
-    {
-      before: new Date(),
-      after: new Date()
-    }
-  );
+  const [enabledDates, setEnabledDates] = useState<DateList>([new Date()]);  // default: enable today
 
-  const { data: dateRes, isLoading, isError, error} = trpc.dateRange.useQuery()
+  const { data: dateRes, isLoading, isError, error} = trpc.pickableDates.useQuery()
   
   useEffect(() => {
-    if (dateRes && dateRes.earliest)
-      setDateRange({
-        before: dateRes.earliest,
-        after: dateRes.latest
-      })
+    if (dateRes)
+      setEnabledDates(dateRes)
   }, [dateRes])
 
   /**
@@ -105,7 +93,7 @@ export default function Toolbar(): JSX.Element {
             <DatePicker
               date={selectedDate}
               onSelect={handleDateSelect}
-              dateRange={dateRange}
+              enabledDates={enabledDates}
             />
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
