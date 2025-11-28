@@ -1,6 +1,6 @@
 import { upsert, upsertBatch } from "@api/utils";
 
-import { sql, min, max } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 import type { DateList, Drizzle, InsertMenu } from "@zotmeal/db";
 import { menus } from "@zotmeal/db";
 
@@ -40,7 +40,7 @@ export async function getPickableDates(db: Drizzle): Promise<DateList> {
       uniqueDates.push(d);
   });
 
-  return uniqueDates;
+  return uniqueDates.sort((a, b) => a.getTime() - b.getTime());
 }
 
 function toLocalDate(dateString: string | null): Date | null {

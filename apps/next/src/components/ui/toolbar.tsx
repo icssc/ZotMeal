@@ -11,6 +11,11 @@ import { useEffect, useState } from "react";
 
 /** Dates to enable in the Calendar component within DatePicker. */
 export type DateList = Date[] | null;
+/** Dates to restrict calendar navigation. */
+export type CalendarRange = {
+  earliest: Date,
+  latest: Date,
+}
 
 /**
  * Renders the main toolbar for the application.
@@ -28,12 +33,21 @@ export type DateList = Date[] | null;
 export default function Toolbar(): JSX.Element {
   const { selectedDate, setSelectedDate } = useDate();
   const [enabledDates, setEnabledDates] = useState<DateList>([new Date()]);  // default: enable today
+  const [calendarRange, setCalendarRange] = useState<CalendarRange>({
+    earliest: new Date(),
+    latest: new Date(),
+  });  // default: restrict to today
 
   const { data: dateRes, isLoading, isError, error} = trpc.pickableDates.useQuery()
   
   useEffect(() => {
-    if (dateRes)
-      setEnabledDates(dateRes)
+    if (dateRes) {
+      setEnabledDates(dateRes);
+      setCalendarRange({
+        earliest: dateRes[0],
+        latest: dateRes[dateRes.length-1]
+      });
+    }
   }, [dateRes])
 
   /**
@@ -94,6 +108,7 @@ export default function Toolbar(): JSX.Element {
               date={selectedDate}
               onSelect={handleDateSelect}
               enabledDates={enabledDates}
+              range={calendarRange}
             />
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">

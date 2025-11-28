@@ -11,12 +11,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "./popover"
-import type { DateList } from "../toolbar"
+import type { CalendarRange, DateList } from "../toolbar"
 import { isSameDay } from "@/utils/funcs"
 
-export function DatePicker({date, enabledDates, onSelect} : {
+export function DatePicker({date, enabledDates, range, onSelect} : {
     date: Date | undefined,
     enabledDates: DateList,
+    range: CalendarRange,
     onSelect: (newDateFromPicker : Date | undefined) => void
 }) {
   return (
@@ -39,6 +40,8 @@ export function DatePicker({date, enabledDates, onSelect} : {
           selected={date}
           onSelect={onSelect}
           initialFocus
+          fromDate={range.earliest}
+          toDate={range.latest}
           disabled={(d) => 
             (date ? isSameDay(d, date) : true)
             || !enabledDates?.some(

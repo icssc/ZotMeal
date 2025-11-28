@@ -41,6 +41,11 @@ describe("getDateList", () => {
       res.forEach(d => {
         expect(d).toBeInstanceOf(Date);
       })
+
+      // check dates are unique and asc
+      for (let i = 1; i < res.length; i++)
+        expect(res[i]!.getTime())
+          .toBeGreaterThan(res[i - 1]!.getTime());
     }
   });
 })
