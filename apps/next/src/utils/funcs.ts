@@ -196,7 +196,7 @@ function dateToString(startDate: Date, endDate: Date): string {
  */
 function padMinutes(minutes: number): string {
   let str: string = `${minutes}`;
-  while (str.length < 2) str = `$0${str}`;
+  while (str.length < 2) str = `0${str}`;
   return str;
 }
 
@@ -366,11 +366,11 @@ const formatFoodName = (name: string): string => {
   formattedName = toTitleCase(formattedName);
   formattedName = formattedName.replace(
     /-(\w)/g,
-    (match, char) => "-" + char.toUpperCase(),
+    (_, char) => `-${char.toUpperCase()}`,
   );
   formattedName = formattedName.replace(/'(\w)/g, (match, char) => {
     if (char.toLowerCase() === "s") return match;
-    return "'" + char.toUpperCase();
+    return `'${char.toUpperCase()}`;
   });
   formattedName = formattedName.replace(/Ozw/g, "Oz");
   formattedName = formattedName.replace(/\(\s+/g, "(");

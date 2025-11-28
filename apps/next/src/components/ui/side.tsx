@@ -1,13 +1,12 @@
 "use client";
 
-import type { RestaurantInfo } from "@zotmeal/api"; // Import types
+import type { RestaurantInfo } from "@zotmeal/api"; 
 import { ArrowRightLeft } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDate } from "@/context/date-context";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import {
-  formatOpenCloseTime,
   isSameDay,
   militaryToStandard,
   toTitleCase,
@@ -16,17 +15,11 @@ import { trpc } from "@/utils/trpc"; // Import tRPC hook
 import { HallEnum, HallStatusEnum } from "@/utils/types";
 import DishesInfo from "./dishes-info";
 import { Button } from "./shadcn/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./shadcn/select";
 import { Tabs, TabsList, TabsTrigger } from "./shadcn/tabs";
 import SelectSkeleton from "./skeleton/select-skeleton";
 import TabsSkeleton from "./skeleton/tabs-skeleton";
 import { DiningHallStatus } from "./status";
+import SideSelect from "./side-select";
 
 /**
  * Props for the {@link Side} component.
@@ -35,7 +28,7 @@ interface SideProps {
   /** The specific dining hall to display information for. */
   hall: HallEnum;
   /** A function for toggling between sides on mobile. */
-  toggleHall: Function;
+  toggleHall: () => void;
 }
 
 /**
@@ -91,9 +84,6 @@ export default function Side({ hall, toggleHall }: SideProps): JSX.Element {
   let derivedHallStatus: HallStatusEnum = HallStatusEnum.CLOSED; // Default status
 
   if (!isLoading && !isError && hallData?.menus && hallData.menus.length > 0) {
-    let earliestOpen: Date | null = null;
-    let latestClose: Date | null = null;
-
     hallData.menus.forEach((menu) => {
       try {
         const periodNameLower = menu.period.name.toLowerCase();
@@ -117,25 +107,20 @@ export default function Side({ hall, toggleHall }: SideProps): JSX.Element {
           currentPeriodCloseTime,
         ];
 
-        if (!earliestOpen || currentPeriodOpenTime < earliestOpen) {
-          earliestOpen = currentPeriodOpenTime;
-        }
-        if (!latestClose || currentPeriodCloseTime > latestClose) {
-          latestClose = currentPeriodCloseTime;
-        }
       } catch (e) {
         console.error("Error parsing time:", e);
       }
     });
 
-    openTime = earliestOpen ?? undefined;
-    closeTime = latestClose ?? undefined;
+    openTime = Object.values(availablePeriodTimes).reduce((current, min) => (current[0] < min[0] ? current : min))[0];
+    closeTime = Object.values(availablePeriodTimes).reduce((current, max) => (current[1] > max[1] ? current : max))[1];
+    const hallStatusDate = selectedDate ?? today;
 
     if (openTime === undefined && closeTime === undefined)
       derivedHallStatus = HallStatusEnum.ERROR;
     else if (today.getDay() !== openTime.getDay())
       derivedHallStatus = HallStatusEnum.PREVIEW;
-    else if (selectedDate! >= openTime! && selectedDate! < closeTime!)
+    else if (hallStatusDate >= openTime && hallStatusDate < closeTime)
       derivedHallStatus = HallStatusEnum.OPEN;
     else derivedHallStatus = HallStatusEnum.CLOSED;
   }
@@ -172,7 +157,7 @@ export default function Side({ hall, toggleHall }: SideProps): JSX.Element {
     } else {
       setSelectedPeriod("");
     }
-  }, [periods]); // Rerun when the `periods` array identity changes.
+  }, [selectedDate, periods[0], today, selectedPeriod]);
 
   //TODO: Grey-out the menus that have no stations
   const currentMenu = hallData?.menus.find(
@@ -190,7 +175,8 @@ export default function Side({ hall, toggleHall }: SideProps): JSX.Element {
   const dishesForSelectedStation = currentStation?.dishes ?? [];
 
   // Effect to update selected station when stations change
-  useEffect(() => {
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Adding selectedStation here would cause infinite loop if resetting.
+    useEffect(() => {
     if (fetchedStations.length > 0) {
       // Ensure fetchedStations[0] and its name property exist before accessing
       const firstStationNameLower = fetchedStations[0].name.toLowerCase();
@@ -204,9 +190,8 @@ export default function Side({ hall, toggleHall }: SideProps): JSX.Element {
     } else {
       setSelectedStation("");
     }
-    // Note: Adding selectedStation here would cause infinite loop if resetting.
-    // We only want to reset based on the *availability* of stations.
-  }, [fetchedStations, hall]); // Re-run when fetchedStations array identity changes
+    // NOTE: We only want to reset based on the *availability* of stations.
+  }, [fetchedStations]); // Re-run when fetchedStations array identity changes
 
   return (
     <div className="z-0 flex flex-col h-full overflow-x-hidden">
@@ -215,8 +200,6 @@ export default function Side({ hall, toggleHall }: SideProps): JSX.Element {
           className="object-cover object-bottom"
           src={heroImageSrc}
           alt={heroImageAlt}
-          // width={2000}
-          // height={2000}
           fill
           priority
         />
@@ -231,52 +214,27 @@ export default function Side({ hall, toggleHall }: SideProps): JSX.Element {
           </Button>
         )}
       </div>
-
-      <div className="p-5 flex flex-col flex-grow h-1" id="side-content">
+      <div className="p-5 flex flex-col" id="side-content">
         <div className="flex flex-col gap-4 sm:gap-6 items-center">
           <div className="flex flex-col-reverse sm:flex-row gap-2 sm:gap-4 w-full">
             {isLoading && <SelectSkeleton />}
-            {!isLoading && !isError && (
-              <div>
-                <Select
-                  value={selectedPeriod}
-                  onValueChange={(value) => setSelectedPeriod(value || "")}
-                >
-                  <SelectTrigger className=" w-full sm:w-52">
-                    <SelectValue placeholder="Select Meal" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {periods.map((time) => {
-                      const mealTimeKey = time.toLowerCase();
-                      const periodTimes = availablePeriodTimes[mealTimeKey];
-
-                      return (
-                        <SelectItem key={time} value={mealTimeKey}>
-                          {toTitleCase(time)}&nbsp;
-                          {periodTimes && (
-                            <span className="text-zinc-500 text-sm">
-                              &nbsp;(
-                              {formatOpenCloseTime(
-                                periodTimes[0],
-                                periodTimes[1],
-                              )}
-                              )
-                            </span>
-                          )}
-                        </SelectItem>
-                      );
-                    })}
-                  </SelectContent>
-                </Select>
-              </div>}
-              {!isLoading && !isError && openTime && closeTime && // Ensure openTime and closeTime are defined
+            {!isLoading && !isError && 
+              <SideSelect
+                selectedPeriod={selectedPeriod}
+                setSelectedPeriod={setSelectedPeriod}
+                periods={periods}
+                availablePeriodTimes={availablePeriodTimes}
+              />
+            }
+            {!isLoading && !isError && openTime && closeTime && // Ensure openTime and closeTime are defined
               <div className="flex justify-center sm:justify-start">
                 <DiningHallStatus
                   status={derivedHallStatus}
                   openTime={openTime.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})}
                   closeTime={closeTime.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit'})}
                 />
-              </div>}
+              </div>
+            }
             </div>
             {!isLoading && !isError && fetchedStations.length > 0 && (
               <Tabs
@@ -297,60 +255,14 @@ export default function Side({ hall, toggleHall }: SideProps): JSX.Element {
                 </div>
               </Tabs>
             )}
-            {!isLoading &&
-              !isError &&
-              openTime &&
-              closeTime && ( // Ensure openTime and closeTime are defined
-                <div className="flex justify-center sm:justify-start">
-                  <DiningHallStatus
-                    status={derivedHallStatus}
-                    openTime={openTime.toLocaleTimeString(undefined, {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                    closeTime={closeTime.toLocaleTimeString(undefined, {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  />
-                </div>
-              )}
+            {isLoading && <TabsSkeleton /> /* Tab Skeleton */}
           </div>
-          {!isLoading && !isError && fetchedStations.length > 0 && (
-            <Tabs
-              value={selectedStation}
-              onValueChange={(value) => setSelectedStation(value || "")}
-              className="w-full"
-            >
-              <TabsList className="flex flex-wrap w-full">
-                {fetchedStations.map((station) => {
-                  return (
-                    <TabsTrigger
-                      key={station.name}
-                      value={station.name.toLowerCase()}
-                    >
-                      {toTitleCase(station.name)}
-                    </TabsTrigger>
-                  );
-                })}
-              </TabsList>
-            </Tabs>
-          )}
-          {isLoading && <TabsSkeleton /> /* Tab Skeleton */}
           {!isLoading &&
             !isError &&
             fetchedStations.length === 0 &&
             selectedPeriod && (
               <p className="text-center text-gray-500 py-2">
                 No stations found for {toTitleCase(selectedPeriod)}.
-              </p>
-            )}
-          {!isLoading &&
-            !isError &&
-            fetchedStations.length === 0 &&
-            !selectedPeriod && (
-              <p className="text-center text-gray-500 py-2">
-                No stations found.
               </p>
             )}
         </div>
@@ -366,7 +278,6 @@ export default function Side({ hall, toggleHall }: SideProps): JSX.Element {
               : undefined)
           }
         />
-      </div>
     </div>
   );
 }

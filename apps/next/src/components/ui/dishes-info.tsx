@@ -54,7 +54,7 @@ export default function DishesInfo({
 
   return (
     <div
-      className="flex flex-col gap-6 mt-6 px-2 overflow-y-auto 
+      className="flex flex-col gap-6 mt-6 px-4 overflow-y-auto 
       flex-grow h-1"
       id="food-scroll"
     >
@@ -76,8 +76,7 @@ export default function DishesInfo({
       )}
 
       {!isLoading && !isError && (
-        <>
-          {dishes.length === 0 ? (
+        dishes.length === 0 ? (
             <p className="text-center text-gray-500 py-4">
               No dishes available for this selection.
             </p>
@@ -90,8 +89,7 @@ export default function DishesInfo({
                 ))}
               </React.Fragment>
             ))
-          )}
-        </>
+          )
       )}
     </div>
   );
