@@ -33,6 +33,7 @@
     "@zotmeal/prettier-config": "workspace:*",
     "devmoji": "catalog:",
     "husky": "catalog:",
+    "lint-staged": "^16.2.7",
     "ts-node": "catalog:",
     "turbo": "catalog:",
     "typescript": "catalog:"
@@ -42,5 +43,11 @@
     "overrides": {
       "@auth/core": "0.20.0"
     }
+  },
+  "lint-staged": {
+    "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
+      "biome check --files-ignore-unknown=true", 
+      "biome check --write --no-errors-on-unmatched"
+    ]
   }
 }
