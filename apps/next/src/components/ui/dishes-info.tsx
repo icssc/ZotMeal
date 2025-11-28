@@ -8,13 +8,9 @@ import MealDivider from "./meal-divider";
 import FoodCardSkeleton from "./skeleton/food-card-skeleton";
 import MealDividerSkeleton from "./skeleton/meal-divider-skeleton";
 
-/**
- * Props for the {@link DishesInfo} component.
- */
+/** Props for the {@link DishesInfo} component. */
 interface DishesInfoProps {
-  /**
-   * An array of `DishInfo` objects to be displayed.
-   */
+  /** An array of `DishInfo` objects to be displayed. */
   dishes: DishInfo[];
   /**
    * A boolean indicating whether the data is currently being loaded.
@@ -26,9 +22,7 @@ interface DishesInfoProps {
    * If true, an error message will be displayed.
    */
   isError: boolean;
-  /**
-   * An optional error message string to display if `isError` is true.
-   */
+  /** An optional error message string to display if `isError` is true. */
   errorMessage?: string;
 }
 
@@ -75,22 +69,22 @@ export default function DishesInfo({
         </p>
       )}
 
-      {!isLoading && !isError && (
-        dishes.length === 0 ? (
-            <p className="text-center text-gray-500 py-4">
-              No dishes available for this selection.
-            </p>
-          ) : (
-            sortCategoryKeys(Object.keys(categoryMap)).map((categoryString) => (
-              <React.Fragment key={`${categoryString}`}>
-                <MealDivider title={categoryString} />
-                {categoryMap[categoryString].map((dish) => (
-                  <FoodCard key={dish.id} {...dish} />
-                ))}
-              </React.Fragment>
-            ))
-          )
-      )}
+      {!isLoading &&
+        !isError &&
+        (dishes.length === 0 ? (
+          <p className="text-center text-gray-500 py-4">
+            No dishes available for this selection.
+          </p>
+        ) : (
+          sortCategoryKeys(Object.keys(categoryMap)).map((categoryString) => (
+            <React.Fragment key={`${categoryString}`}>
+              <MealDivider title={categoryString} />
+              {categoryMap[categoryString].map((dish) => (
+                <FoodCard key={dish.id} {...dish} />
+              ))}
+            </React.Fragment>
+          ))
+        ))}
     </div>
   );
 }

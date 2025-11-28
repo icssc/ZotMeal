@@ -30,7 +30,6 @@ type RouterInputs = inferRouterInputs<AppRouter>;
 type RouterOutputs = inferRouterOutputs<AppRouter>;
 type EventRouterOutputs = RouterOutputs["event"];
 
-
 export { createTRPCContext, appRouter, createCaller };
 export type { AppRouter, RouterInputs, RouterOutputs, EventRouterOutputs };
 export * from "./server";

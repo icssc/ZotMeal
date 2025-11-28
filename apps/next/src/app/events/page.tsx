@@ -95,7 +95,7 @@ export default function Events() {
                 ))}
               {eventsThisWeek.length === 0 && (
                 <p className="text-center text-zinc-700 py-5">
-                  No events scheduled for this week 
+                  No events scheduled for this week
                 </p>
               )}
               <MealDivider title="Upcoming Events" />

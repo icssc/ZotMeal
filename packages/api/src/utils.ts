@@ -44,19 +44,19 @@ export async function upsertBatch<T extends TableConfig>(
   if (values.length === 0) {
     return [];
   }
-  
+
   const result = await db
     .insert(table)
     .values(values)
     .onConflictDoUpdate(config)
     .returning();
-  
+
   if (!isNotQueryResultNever(result))
     throw new Error(
       `[upsertBatch > ${table._.name}]: unexpected result with config ${JSON.stringify(
         config,
       )}`,
     );
-  
+
   return result;
 }

@@ -24,8 +24,9 @@ import {
 } from "./shadcn/drawer";
 
 export default function FoodDrawerContent(dish: DishInfo) {
-  const caloricInformationAvailable: boolean = dish.nutritionInfo.calories != null
-    && dish.nutritionInfo.calories.length > 0;
+  const caloricInformationAvailable: boolean =
+    dish.nutritionInfo.calories != null &&
+    dish.nutritionInfo.calories.length > 0;
 
   // State to control nutrient visibility
   const [showAllNutrients, setShowAllNutrients] = useState(false);
@@ -136,14 +137,14 @@ export default function FoodDrawerContent(dish: DishInfo) {
             })}
         </div>
       </div>
-      {!caloricInformationAvailable &&
+      {!caloricInformationAvailable && (
         <h2 className="text-center w-full text-sm text-zinc-600">
           Nutritional information not available.
-        </h2> 
-      }
+        </h2>
+      )}
 
       <DrawerFooter>
-        {caloricInformationAvailable && 
+        {caloricInformationAvailable && (
           <div className="px-4">
             <Button
               variant="outline"
@@ -154,7 +155,7 @@ export default function FoodDrawerContent(dish: DishInfo) {
               {showAllNutrients ? "Show Less" : "Show More Nutrients"}
             </Button>
           </div>
-        }
+        )}
       </DrawerFooter>
     </DrawerContent>
   );

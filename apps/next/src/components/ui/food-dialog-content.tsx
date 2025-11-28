@@ -53,10 +53,11 @@ export default function FoodDialogContent(dish: DishInfo): JSX.Element {
     "ironMg",
   ]);
 
-  const ingredientsAvailable: boolean = dish.ingredients != null 
-    && dish.ingredients.length > 0;
-  const caloricInformationAvailable: boolean = dish.nutritionInfo.calories != null
-    && dish.nutritionInfo.calories.length > 0;
+  const ingredientsAvailable: boolean =
+    dish.ingredients != null && dish.ingredients.length > 0;
+  const caloricInformationAvailable: boolean =
+    dish.nutritionInfo.calories != null &&
+    dish.nutritionInfo.calories.length > 0;
 
   return (
     <DialogContent>
@@ -149,17 +150,15 @@ export default function FoodDialogContent(dish: DishInfo): JSX.Element {
                         </span>
                       </div>
                     );
-                  })
-                }
+                  })}
               </div>
-              {!caloricInformationAvailable &&
+              {!caloricInformationAvailable && (
                 <h2 className="text-center w-full my-10 text-sm text-zinc-600">
                   Nutritional information not available.
-                </h2> 
-              }
+                </h2>
+              )}
               <div className="px-4 flex flex-col gap-2">
-
-                {caloricInformationAvailable &&
+                {caloricInformationAvailable && (
                   <Button
                     variant="outline"
                     size="sm"
@@ -168,7 +167,7 @@ export default function FoodDialogContent(dish: DishInfo): JSX.Element {
                   >
                     {showAllNutrients ? "Show Less" : "Show More Nutrients"}
                   </Button>
-                }
+                )}
                 {ingredientsAvailable && (
                   <IngredientsDialog
                     name={dish.name}

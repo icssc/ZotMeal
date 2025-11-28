@@ -1,4 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
+import { formatOpenCloseTime, toTitleCase } from "@/utils/funcs";
 import {
   Select,
   SelectContent,
@@ -6,20 +7,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./shadcn/select";
-import { formatOpenCloseTime, toTitleCase } from "@/utils/funcs";
 
 interface SideSelectProps {
-  selectedPeriod: string,
-  setSelectedPeriod: Dispatch<SetStateAction<string>>,
-  periods: string[],
-  availablePeriodTimes: { [mealName: string]: [Date, Date] },
-};
+  selectedPeriod: string;
+  setSelectedPeriod: Dispatch<SetStateAction<string>>;
+  periods: string[];
+  availablePeriodTimes: { [mealName: string]: [Date, Date] };
+}
 
-export default function SideSelect({
+/**
+ * A client component that allows the user to set the selected period.
+ */
+export default function MealPeriodSelect({
   selectedPeriod,
   setSelectedPeriod,
   periods,
-  availablePeriodTimes
+  availablePeriodTimes,
 }: SideSelectProps) {
   return (
     <div>
@@ -41,11 +44,7 @@ export default function SideSelect({
                 {periodTimes && (
                   <span className="text-zinc-500 text-sm">
                     &nbsp;(
-                    {formatOpenCloseTime(
-                      periodTimes[0],
-                      periodTimes[1],
-                    )}
-                    )
+                    {formatOpenCloseTime(periodTimes[0], periodTimes[1])})
                   </span>
                 )}
               </SelectItem>
@@ -54,5 +53,5 @@ export default function SideSelect({
         </SelectContent>
       </Select>
     </div>
-  )
+  );
 }

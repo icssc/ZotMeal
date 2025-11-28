@@ -1,13 +1,12 @@
+import { queryEventImageEndpoint } from "@api/events/images";
 import { upsertEvents } from "@api/events/services";
 import { logger } from "@api/logger";
 import { upsert } from "@api/utils";
-
 import { Octokit } from "@octokit/rest";
 import type { Drizzle } from "@zotmeal/db";
 import { contributors, type InsertContributor } from "@zotmeal/db";
 import { getAEMEvents } from "../daily/parse";
 import { upsertMenusForWeek } from "./upsert";
-import { queryEventImageEndpoint } from "@api/events/images";
 
 /**
  * Query the GraphQL Events Endpoint for both restaurants and upsert them into
@@ -24,20 +23,24 @@ export async function eventJob(db: Drizzle): Promise<void> {
     const allEvents = [...brandywineEvents, ...anteateryEvents];
     const eventImages = await queryEventImageEndpoint();
 
-    logger.info(`[weekly] Found images for events ${Array.from(eventImages.keys())}`)
+    logger.info(
+      `[weekly] Found images for events ${Array.from(eventImages.keys())}`,
+    );
     for (const event of allEvents) {
       const imageURL = eventImages.get(event.title);
-      if (imageURL)
-        event.image = imageURL;
+      if (imageURL) event.image = imageURL;
       else
-        logger.info(`[weekly] Could not find image for event ${event.title}.`)
+        logger.info(`[weekly] Could not find image for event ${event.title}.`);
     }
 
     logger.info(`[weekly] Upserting ${allEvents.length} events...`);
     const upsertedEvents = await upsertEvents(db, allEvents);
     logger.info(`[weekly] Upserted ${upsertedEvents.length} events.`);
   } catch (error) {
-    logger.error(error, "[weekly] eventJob(): Failed to fetch or upsert events.");
+    logger.error(
+      error,
+      "[weekly] eventJob(): Failed to fetch or upsert events.",
+    );
   }
 }
 
