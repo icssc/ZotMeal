@@ -39,10 +39,10 @@ export default function SidebarContent(): JSX.Element {
             <SidebarButton Icon={CalendarFold} title="Events" href="/events"/>
             <SidebarButton Icon={Trophy} title="Most Liked" href="/leaderboard" deactivated/>
             <SidebarDivider title="Account"/>
-            <SidebarButton Icon={User} title="My Account" href="/my-favs" deactivated/>
-            <SidebarButton Icon={Star} title="My Ratings" href="/my-favs" deactivated/>
-            <SidebarButton Icon={Heart} title="My Favorites" href="/my-favs" deactivated/>
-            <SidebarButton Icon={NotebookPen} title="My Meal Tracker" href="/my-favs" deactivated/>
+            <SidebarButton Icon={User} title="My Account" href="/account"/>
+            <SidebarButton Icon={Star} title="My Ratings" href="/ratings" deactivated/>
+            <SidebarButton Icon={Heart} title="My Favorites" href="/favorites" deactivated/>
+            <SidebarButton Icon={NotebookPen} title="My Meal Tracker" href="/meal-tracker" deactivated/>
             <SidebarDivider title="Miscellaneous"/>
             <SidebarButton Icon={Settings2} title="Settings" href="/settings" deactivated/>
             <SidebarButton Icon={Info} title="About" href="/about"/>
