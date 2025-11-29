@@ -20,7 +20,7 @@ export const events = pgTable(
 
     shortDescription: text("short_description"),
     longDescription: text("long_description"),
-    start: timestamp("start"),
+    start: timestamp("start").notNull(),
     end: timestamp("end"),
     ...metadataColumns,
   },

@@ -12,3 +12,4 @@ export * from "./restaurants";
 export * from "./stations";
 export * from "./users";
 export * from "./contributors";
+export * from "./loggedMeals";
