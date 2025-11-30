@@ -69,7 +69,6 @@ export default function RatingsCard({ food }: RatingsCardProps) {
           dishId: food.id,
         });
       } catch (error) {
-        // Handled by onError callback
       }
     }
   };
@@ -106,17 +105,13 @@ export default function RatingsCard({ food }: RatingsCardProps) {
   return (
     <Card className="hover:shadow-lg transition w-full">
       <CardContent>
-        {/* Main Flex Container (aligns children to start vertically, justifies space between) */}
         <div className="flex justify-between items-start h-full pt-6">
           
-          {/* Left side - Icon and Content Container */}
           <div className="flex items-center gap-6">
-            {/* ... (existing left side content code) ... */}
             <IconComponent className="w-10 h-10 text-slate-700" />
             <div className="flex flex-col">
               <strong>{formatFoodName(food.name)}</strong>
               <div className="flex gap-2 items-center flex-wrap">
-                {/* ... (existing metadata spans) ... */}
               </div>
               <span className="text-zinc-400 text-xs mt-1">
                 Rated {new Date(food.ratedAt).toLocaleDateString()}
@@ -124,8 +119,6 @@ export default function RatingsCard({ food }: RatingsCardProps) {
             </div>
           </div>
 
-          {/* RIGHT SIDE CHANGE START */}
-          {/* Change this div from 'flex-col' to 'flex-row items-center' */}
           <div className="flex flex-row items-center ml-4 gap-4"> 
             
             {/* Stars Container */}
@@ -139,7 +132,6 @@ export default function RatingsCard({ food }: RatingsCardProps) {
                     className="relative cursor-pointer"
                     onMouseLeave={() => setHoverRating(null)}
                   >
-                    {/* ... (existing star rendering logic) ... */}
                      {fillType === "half" ? (
                       <>
                         <div className="absolute inset-0 overflow-hidden w-1/2">
@@ -193,7 +185,6 @@ export default function RatingsCard({ food }: RatingsCardProps) {
               <Trash2 className="w-4 h-4" />
             </Button>
           </div>
-          {/* RIGHT SIDE CHANGE END */}
 
         </div>
       </CardContent>
