@@ -1,8 +1,8 @@
 import { upsert } from "@api/utils";
-import { eq, avg, count, and } from "drizzle-orm";
+import { eq, avg, count, and, desc } from "drizzle-orm";
 
 import type { Drizzle, InsertRating } from "@zotmeal/db";
-import { ratings } from "@zotmeal/db";
+import { ratings, dishes } from "@zotmeal/db";
 
 export const upsertRating = async (db: Drizzle, rating: InsertRating) =>
   await upsert(db, ratings, rating, {
@@ -33,4 +33,41 @@ export const getUserRating = async (db: Drizzle, userId: string, dishId: string)
     .limit(1);
 
   return result[0]?.rating ?? null;
+};
+
+export const getUserRatedDishes = async (db: Drizzle, userId: string) => {
+  try {
+    const allRatings = await db.query.ratings.findMany({
+      where: (ratings, { eq }) => eq(ratings.userId, userId),
+      orderBy: (ratings, { desc }) => [desc(ratings.updatedAt)], // Changed from createdAt
+    });
+
+    const enrichedResults = await Promise.all(
+      allRatings.map(async (item) => {
+        const dish = await db.query.dishes.findFirst({
+          where: (dishes, { eq }) => eq(dishes.id, item.dishId),
+          with: {
+            station: {
+              with: {
+                restaurant: true,
+              },
+            },
+          },
+        });
+
+        if (!dish) return null;
+
+        return {
+          ...dish,
+          rating: item.rating,
+          ratedAt: item.updatedAt, // Changed from createdAt - shows last update time
+        };
+      })
+    );
+
+    return enrichedResults.filter((item) => item !== null);
+  } catch (error) {
+    console.error("Error fetching rated dishes:", error);
+    return [];
+  }
 };

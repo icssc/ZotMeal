@@ -1,4 +1,4 @@
-import { upsertRating, getAverageRating, getUserRating } from "@api/ratings/services";
+import { upsertRating, getAverageRating, getUserRating, getUserRatedDishes } from "@api/ratings/services";
 import { upsertUser } from "@api/users/services";
 import { createTRPCRouter, publicProcedure } from "@api/trpc";
 import { TRPCError } from "@trpc/server";
@@ -53,8 +53,26 @@ const getAverageRatingProcedure = publicProcedure
   });
 
 
+const getUserRatedDishesProcedure = publicProcedure
+  .input(z.object({ userId: z.string() }))
+  .query(async ({ ctx: { db }, input }) => {
+    try {
+      const result = await getUserRatedDishes(db, input.userId);
+      return result;
+    } catch (error) {
+      console.error("Error in getUserRatedDishesProcedure:", error);
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to fetch rated dishes",
+        cause: error,
+      });
+    }
+  });
+
+
 export const dishRouter = createTRPCRouter({
   get: getDishProcedure,
   rate: rateDishProcedure,
   getAverageRating: getAverageRatingProcedure,
+  rated: getUserRatedDishesProcedure,
 });

@@ -12,6 +12,8 @@ export function useRatings(userId: string = DEFAULT_USER_ID) {
     onSuccess: (_data: unknown, variables: { userId: string; dishId: string; rating: number }) => {
       utils.dish.getAverageRating.invalidate({ dishId: variables.dishId });
       utils.user.getUserRating.invalidate({ userId: variables.userId, dishId: variables.dishId });
+      utils.dish.rated.invalidate({ userId: variables.userId });
+
     },
   });
 
