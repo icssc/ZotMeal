@@ -35,6 +35,21 @@ export const getUserRating = async (db: Drizzle, userId: string, dishId: string)
   return result[0]?.rating ?? null;
 };
 
+export const deleteRating = async (db: Drizzle, userId: string, dishId: string) => {
+  const result = await db
+    .delete(ratings)
+    .where(and(eq(ratings.userId, userId), eq(ratings.dishId, dishId)))
+    .returning({ dishId: ratings.dishId }); // Returns [{ dishId: '...' }]
+
+  if (result.length === 0) {
+    console.warn(`No rating found to delete for dish ${dishId} by user ${userId}.`);
+  } else {
+    console.log(`Rating for dish ${dishId} by user ${userId} deleted.`);
+  }
+  
+  return { success: true, deletedDishId: dishId }; // Return a consistent object
+};
+
 export const getUserRatedDishes = async (db: Drizzle, userId: string) => {
   try {
     const allRatings = await db.query.ratings.findMany({

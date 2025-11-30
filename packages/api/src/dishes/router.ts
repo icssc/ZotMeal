@@ -1,4 +1,4 @@
-import { upsertRating, getAverageRating, getUserRating, getUserRatedDishes } from "@api/ratings/services";
+import { upsertRating, getAverageRating, getUserRating, getUserRatedDishes, deleteRating } from "@api/ratings/services";
 import { upsertUser } from "@api/users/services";
 import { createTRPCRouter, publicProcedure } from "@api/trpc";
 import { TRPCError } from "@trpc/server";
@@ -69,10 +69,22 @@ const getUserRatedDishesProcedure = publicProcedure
     }
   });
 
+const deleteRatingProcedure = publicProcedure
+  .input(z.object({ 
+    userId: z.string(), 
+    dishId: z.string() 
+  }))
+  .mutation(async ({ ctx: { db }, input }) => {
+    await deleteRating(db, input.userId, input.dishId);
+    return { success: true };
+  });
+
+
 
 export const dishRouter = createTRPCRouter({
   get: getDishProcedure,
   rate: rateDishProcedure,
   getAverageRating: getAverageRatingProcedure,
   rated: getUserRatedDishesProcedure,
+  deleteRating: deleteRatingProcedure,
 });
