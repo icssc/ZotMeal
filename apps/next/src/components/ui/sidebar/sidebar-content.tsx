@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { SheetContent, SheetTitle } from "../shadcn/sheet";
+import Link from "next/link";
+import { SheetContent, SheetTitle, SheetClose } from "../shadcn/sheet";
 import { Avatar, AvatarImage, AvatarFallback } from "../shadcn/avatar";
 import { Button } from "../shadcn/button";
 import SidebarButton from "./sidebar-button";
@@ -21,7 +22,7 @@ export default function SidebarContent(): JSX.Element {
       <SheetContent>
         <div className="flex flex-col h-full justify-between">
           <div className="flex flex-col gap-1" id="sheet-top">
-            <div className="flex gap-2 items-center" id="zotmeal-sheet-header">
+            <div className="flex gap-2 items-center" id="peterplate-sheet-header">
               <Image
                 src="/ZotMeal-Logo.webp"
                 width={32}
@@ -30,7 +31,7 @@ export default function SidebarContent(): JSX.Element {
                 className="rounded-sm"
               />
               <SheetTitle>
-                <span>ZotMeal </span>
+                <span>PeterPlate </span>
                 <span className="text-sm font-normal">v0.1 (preview)</span>
               </SheetTitle>
             </div>
@@ -47,21 +48,27 @@ export default function SidebarContent(): JSX.Element {
             <SidebarButton Icon={Settings2} title="Settings" href="/settings" deactivated/>
             <SidebarButton Icon={Info} title="About" href="/about"/>
           </div>
-          <div className="flex p-2 items-center justify-between rounded-md hover:bg-zinc-100 transition-colors" id="sheet-bottom">
-            <div className="flex gap-3 items-center">
-              <Avatar className="rounded-md">
-                <AvatarImage src="/peter.webp" alt="@peter_anteater"/>
-                <AvatarFallback>PA</AvatarFallback>
-              </Avatar>
-              <div className="flex flex-col" id="user-info">
-                <strong id="user-name">peter_anteater</strong>
-                <span className="text-sm" id="user-email">
-                  panteater@uci.edu
-                </span>
-              </div>
-            </div> 
+          <div
+            className="flex p-2 items-center justify-between rounded-md hover:bg-zinc-100 transition-colors"
+            id="sheet-bottom"
+          >
+            <SheetClose asChild>
+              <Link href="/account" className="flex gap-3 items-center">
+                <Avatar className="rounded-md">
+                  <AvatarImage src="/peter.webp" alt="@peter_anteater" />
+                  <AvatarFallback>PA</AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col" id="user-info">
+                  <strong id="user-name">peter_anteater</strong>
+                  <span className="text-sm" id="user-email">
+                    panteater@uci.edu
+                  </span>
+                </div>
+              </Link>
+            </SheetClose>
+
             <Button variant="ghost" size="icon">
-              <LogOut/>
+              <LogOut />
             </Button>
           </div>
         </div>
