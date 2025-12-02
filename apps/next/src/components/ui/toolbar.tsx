@@ -8,9 +8,8 @@ import { DatePicker } from "./shadcn/date-picker";
 import { useDate } from "@/context/date-context";
 import { trpc } from "@/utils/trpc"; // Import tRPC hook
 import { useEffect, useState } from "react";
+import { DateList } from "../../../../../packages/db/src/schema";
 
-/** Dates to enable in the Calendar component within DatePicker. */
-export type DateList = Date[] | null;
 /** Dates to restrict calendar navigation. */
 export type CalendarRange = {
   earliest: Date,
@@ -38,7 +37,7 @@ export default function Toolbar(): JSX.Element {
     latest: new Date(),
   });  // default: restrict to today
 
-  const { data: dateRes, isLoading, isError, error} = trpc.pickableDates.useQuery()
+  const { data: dateRes } = trpc.pickableDates.useQuery()
   
   useEffect(() => {
     if (dateRes) {

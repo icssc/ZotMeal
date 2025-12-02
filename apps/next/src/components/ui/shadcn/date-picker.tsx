@@ -11,8 +11,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "./popover"
-import type { CalendarRange, DateList } from "../toolbar"
+import type { CalendarRange } from "../toolbar"
 import { isSameDay } from "@/utils/funcs"
+import { DateList } from "../../../../../../packages/db/src/schema"
 
 export function DatePicker({date, enabledDates, range, onSelect} : {
     date: Date | undefined,
