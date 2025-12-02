@@ -3,7 +3,7 @@
 import { trpc } from "@/utils/trpc";
 import { useEffect, useMemo, useState } from "react";
 import NutritionBreakdown from "@/components/ui/nutrition-breakdown";
-import { SelectLoggedMeal } from "../../../../../packages/db/src/schema";
+import { SelectLoggedMeal } from "@zotmeal/db";
 
 const DUMMY_USER_ID = "TEST_USER";
 
