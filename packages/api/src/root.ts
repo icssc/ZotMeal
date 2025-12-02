@@ -35,7 +35,7 @@ export const appRouter = createTRPCRouter({
         if (error instanceof TRPCError) throw error;
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "An error occurred while fetching contributors."
+          message: "An error occurred while fetching dates with meal information."
         });
       }),
   ),

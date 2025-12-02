@@ -27,20 +27,15 @@ export const upsertMenuBatch = async (db: Drizzle, menuBatch: InsertMenu[]) =>
 export async function getPickableDates(db: Drizzle): Promise<DateList> {
   const rows = await db
     .selectDistinct({ date: menus.date })
-    .from(menus);
+    .from(menus)
+    .orderBy(menus.date);
   
   if (!rows.length)
     return null;
-
-  let uniqueDates: Date[] = [];
   
-  rows.forEach((r) => {
-    const d = toLocalDate(r.date);
-    if (d)
-      uniqueDates.push(d);
-  });
-
-  return uniqueDates.sort((a, b) => a.getTime() - b.getTime());
+  return rows
+    .map((r) => toLocalDate(r.date))
+    .filter((d) => d !== null);
 }
 
 function toLocalDate(dateString: string | null): Date | null {
