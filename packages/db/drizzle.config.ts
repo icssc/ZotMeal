@@ -7,7 +7,7 @@ config({ path: join(process.cwd(), ".env") });
 
 if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is not set");
 
-console.log("drizzle.config.ts: DATABASE_URL:", process.env.DATABASE_URL);
+// console.log("drizzle.config.ts: DATABASE_URL:", process.env.DATABASE_URL);
 
 export default defineConfig({
   dialect: "postgresql",
