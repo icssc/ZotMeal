@@ -18,7 +18,7 @@ export const loggedMeals = pgTable("logged_meals", {
     eatenAt: timestamp("eaten_at").defaultNow().notNull(),
   },
   (table) => ({
-    pk: primaryKey(table.userId, table.dishId),
+    pk: primaryKey({columns: [table.userId, table.dishId]}),
     servingsIsValid: check(
       "servings_is_valid",
       // Must be >= 0.5 AND a multiple of 0.5
