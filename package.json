@@ -1,5 +1,5 @@
 {
-  "name": "zotmeal",
+  "name": "peterplate",
   "type": "module",
   "private": true,
   "engines": {
@@ -13,7 +13,7 @@
     "clean:workspaces": "turbo clean",
     "db:push": "pnpm -F db db:push",
     "db:studio": "pnpm --filter db run db:studio",
-    "db:dump": "pg_dump -h icssc.cf3yrjegcna8.us-east-1.rds.amazonaws.com -U zotmeal_prod -W -O -x zotmeal > ./docker/db/zotmeal.sql",
+    "db:dump": "pg_dump -h icssc.cf3yrjegcna8.us-east-1.rds.amazonaws.com -U peterplate_prod -W -O -x peterplate > ./docker/db/peterplate.sql",
     "dev": "turbo dev --parallel --filter=./apps/next --filter=./apps/server",
     "dev:graphql": "turbo dev --filter=./packages/graphql",
     "format": "turbo format --continue -- --cache --cache-location node_modules/.cache/.prettiercache",
@@ -22,20 +22,31 @@
     "lint:fix": "turbo lint --continue -- --fix --cache --cache-location node_modules/.cache/.eslintcache",
     "lint:ws": "pnpm dlx sherif@latest",
     "postinstall": "pnpm lint:ws",
-    "typecheck": "turbo typecheck"
+    "typecheck": "turbo typecheck",
+    "prepare": "husky"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.3.7",
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@peterplate/prettier-config": "workspace:*",
     "@turbo/gen": "catalog:",
-    "@zotmeal/prettier-config": "workspace:*",
-    "prettier": "catalog:",
+    "devmoji": "catalog:",
+    "husky": "catalog:",
+    "lint-staged": "^16.2.7",
     "ts-node": "catalog:",
     "turbo": "catalog:",
     "typescript": "catalog:"
   },
-  "prettier": "@zotmeal/prettier-config",
+  "prettier": "@peterplate/prettier-config",
   "pnpm": {
     "overrides": {
       "@auth/core": "0.20.0"
     }
+  },
+  "lint-staged": {
+    "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
+      "biome check --write --no-errors-on-unmatched"
+    ]
   }
 }

@@ -7,15 +7,14 @@
  * The pieces you will need to use are documented accordingly near the end
  */
 
-// import type { Session } from "@zotmeal/auth";
-// import { auth } from "@zotmeal/auth";
+// import type { Session } from "@peterplate/auth";
+// import { auth } from "@peterplate/auth";
 
+import { createDrizzle } from "@peterplate/db";
 // import { Expo } from "expo-server-sdk";
 import { initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
-
-import { createDrizzle } from "@zotmeal/db";
 
 // const expo: Expo = new Expo({
 //   accessToken: process.env.EXPO_ACCESS_TOKEN,

@@ -1,7 +1,4 @@
 import { upsert } from "@api/utils";
-import { TRPCError } from "@trpc/server";
-import { format } from "date-fns";
-
 import type {
   Drizzle,
   InsertRestaurant,
@@ -13,8 +10,10 @@ import type {
   SelectPeriod,
   SelectRestaurant,
   SelectStation,
-} from "@zotmeal/db";
-import { restaurants } from "@zotmeal/db";
+} from "@peterplate/db";
+import { restaurants } from "@peterplate/db";
+import { TRPCError } from "@trpc/server";
+import { format } from "date-fns";
 
 export const upsertRestaurant = async (
   db: Drizzle,
@@ -44,7 +43,7 @@ export interface RestaurantInfo extends SelectRestaurant {
 }
 
 /** Data object to be given to the client. */
-interface ZotmealData {
+interface PeterplateData {
   anteatery: RestaurantInfo;
   brandywine: RestaurantInfo;
 }
@@ -56,7 +55,7 @@ interface ZotmealData {
 export async function getRestaurantsByDate(
   db: Drizzle,
   date: Date,
-): Promise<ZotmealData> {
+): Promise<PeterplateData> {
   const restaurants = await db.query.restaurants.findMany({
     with: {
       /** Get menus that correspond to the given date. */

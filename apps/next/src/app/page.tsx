@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import Side from "@/components/ui/side";
-import { HallEnum } from "@/utils/types";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { HallEnum } from "@/utils/types";
 
 export default function Home() {
   const [activeHall, setActiveHall] = useState<HallEnum>(HallEnum.BRANDYWINE);
-  const isDesktop = useMediaQuery('(min-width: 768px)'); // Tailwind's `md` breakpoint
+  const isDesktop = useMediaQuery("(min-width: 768px)"); // Tailwind's `md` breakpoint
 
   // Desktop layout: two Side components side-by-side
   if (isDesktop) {
@@ -20,10 +20,8 @@ export default function Home() {
   }
 
   const toggleHall = () => {
-    if (activeHall === HallEnum.BRANDYWINE)
-      setActiveHall(HallEnum.ANTEATERY);
-    else
-      setActiveHall(HallEnum.BRANDYWINE);
+    if (activeHall === HallEnum.BRANDYWINE) setActiveHall(HallEnum.ANTEATERY);
+    else setActiveHall(HallEnum.BRANDYWINE);
   };
 
   // Mobile layout: one Side component at a time with switcher
@@ -52,10 +50,12 @@ export default function Home() {
         </button>
       </div> */}
       <div className="flex-grow overflow-y-auto">
-        {activeHall === HallEnum.BRANDYWINE 
-          && <Side hall={HallEnum.BRANDYWINE} toggleHall={toggleHall} />}
-        {activeHall === HallEnum.ANTEATERY 
-          && <Side hall={HallEnum.ANTEATERY} toggleHall={toggleHall} />}
+        {activeHall === HallEnum.BRANDYWINE && (
+          <Side hall={HallEnum.BRANDYWINE} toggleHall={toggleHall} />
+        )}
+        {activeHall === HallEnum.ANTEATERY && (
+          <Side hall={HallEnum.ANTEATERY} toggleHall={toggleHall} />
+        )}
       </div>
     </div>
   );

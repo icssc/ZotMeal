@@ -4,14 +4,14 @@ import {
 } from "@trpc/server/adapters/aws-lambda";
 import { APIGatewayProxyEventV2 } from "aws-lambda";
 
-import { appRouter, createTRPCContext } from "@zotmeal/api";
+import { appRouter, createTRPCContext } from "@peterplate/api";
 
 const createContext = (
   _opts: CreateAWSLambdaContextOptions<APIGatewayProxyEventV2>,
 ) =>
   createTRPCContext({
     headers: new Headers({
-      "x-trpc-source": "zotmeal-lambda",
+      "x-trpc-source": "peterplate-lambda",
     }),
     connectionString: process.env.DATABASE_URL,
   });

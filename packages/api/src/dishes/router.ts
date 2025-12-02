@@ -1,11 +1,10 @@
 import { upsertRating } from "@api/ratings/services";
 import { createTRPCRouter, publicProcedure } from "@api/trpc";
 import { getUser } from "@api/users/services";
+import { dishes, RatingSchema } from "@peterplate/db";
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
-
-import { dishes, RatingSchema } from "@zotmeal/db";
 
 const getDishProcedure = publicProcedure
   .input(z.object({ id: z.string() }))

@@ -1,35 +1,29 @@
-'use client';
+"use client";
 
+import type { DishInfo } from "@peterplate/api";
 import React from "react";
-import FoodCard from "./card/food-card"
-import FoodCardSkeleton from "./skeleton/food-card-skeleton"
-import MealDividerSkeleton from "./skeleton/meal-divider-skeleton"
-import { DishInfo } from "@zotmeal/api";
-import MealDivider from "./meal-divider";
 import { sortCategoryKeys } from "@/utils/funcs";
+import FoodCard from "./card/food-card";
+import MealDivider from "./meal-divider";
+import FoodCardSkeleton from "./skeleton/food-card-skeleton";
+import MealDividerSkeleton from "./skeleton/meal-divider-skeleton";
 
-/**
- * Props for the {@link DishesInfo} component.
- */
+/** Props for the {@link DishesInfo} component. */
 interface DishesInfoProps {
-  /**
-   * An array of `DishInfo` objects to be displayed.
-   */
-  dishes: DishInfo[],
+  /** An array of `DishInfo` objects to be displayed. */
+  dishes: DishInfo[];
   /**
    * A boolean indicating whether the data is currently being loaded.
    * If true, skeleton loaders will be displayed.
    */
-  isLoading: boolean,
+  isLoading: boolean;
   /**
    * A boolean indicating whether an error occurred while fetching data.
    * If true, an error message will be displayed.
    */
-  isError: boolean,
-  /**
-   * An optional error message string to display if `isError` is true.
-   */
-  errorMessage?: string
+  isError: boolean;
+  /** An optional error message string to display if `isError` is true. */
+  errorMessage?: string;
 }
 
 /**
@@ -40,58 +34,57 @@ interface DishesInfoProps {
  * @returns {JSX.Element} The rendered list of dishes, or corresponding state UI (loading, error, empty).
  */
 export default function DishesInfo({
-  dishes, 
-  isLoading, 
-  isError, 
-  errorMessage
-} : DishesInfoProps): JSX.Element { 
+  dishes,
+  isLoading,
+  isError,
+  errorMessage,
+}: DishesInfoProps): JSX.Element {
   // Sort the dishes by category string
-  let categoryMap: {[dishCategory : string]: DishInfo[]} = {};
+  const categoryMap: { [dishCategory: string]: DishInfo[] } = {};
   dishes.forEach((dish) => {
-    if (dish.category in categoryMap)
-      categoryMap[dish.category].push(dish)
-    else
-      categoryMap[dish.category] = [dish]
-  })
+    if (dish.category in categoryMap) categoryMap[dish.category].push(dish);
+    else categoryMap[dish.category] = [dish];
+  });
 
   return (
-    <div className="flex flex-col gap-6 mt-6 px-2 overflow-y-auto 
-      flex-grow h-1" 
-      id="food-scroll">
+    <div
+      className="flex flex-col gap-6 mt-6 px-4 overflow-y-auto 
+      flex-grow h-1"
+      id="food-scroll"
+    >
       {isLoading && (
         <>
-          <MealDividerSkeleton/>
-          <FoodCardSkeleton/>
-          <FoodCardSkeleton/>
-          <FoodCardSkeleton/>
-          <MealDividerSkeleton/>
-          <FoodCardSkeleton/>
+          <MealDividerSkeleton />
+          <FoodCardSkeleton />
+          <FoodCardSkeleton />
+          <FoodCardSkeleton />
+          <MealDividerSkeleton />
+          <FoodCardSkeleton />
         </>
       )}
 
       {isError && (
-        <p className="text-red-500 w-full text-center">Error loading data: {errorMessage}</p>
+        <p className="text-red-500 w-full text-center">
+          Error loading data: {errorMessage}
+        </p>
       )}
 
-      {!isLoading && !isError && (
-        <> 
-          {dishes.length === 0 ? (
-            <p className="text-center text-gray-500 py-4">
-              No dishes available for this selection.
-            </p>
-          ) : (
-                sortCategoryKeys(Object.keys(categoryMap)).map(categoryString => 
-                  <React.Fragment key={`${categoryString}`}>
-                    <MealDivider title={categoryString} />
-                    {categoryMap[categoryString].map(dish => 
-                      <FoodCard key={dish.id} {... dish}/>
-                    )}
-                  </React.Fragment>
-                )
-            )}
-        </>
-      )}
-
+      {!isLoading &&
+        !isError &&
+        (dishes.length === 0 ? (
+          <p className="text-center text-gray-500 py-4">
+            No dishes available for this selection.
+          </p>
+        ) : (
+          sortCategoryKeys(Object.keys(categoryMap)).map((categoryString) => (
+            <React.Fragment key={`${categoryString}`}>
+              <MealDivider title={categoryString} />
+              {categoryMap[categoryString].map((dish) => (
+                <FoodCard key={dish.id} {...dish} />
+              ))}
+            </React.Fragment>
+          ))
+        ))}
     </div>
   );
 }

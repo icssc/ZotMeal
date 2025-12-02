@@ -1,8 +1,7 @@
 import { createTRPCRouter, publicProcedure } from "@api/trpc";
+import { UserSchema } from "@peterplate/db";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-
-import { UserSchema } from "@zotmeal/db";
 
 import { getUser, upsertUser } from "./services";
 
