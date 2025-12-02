@@ -9,9 +9,8 @@ import { Button } from "../ui/shadcn/button";
 export function GoogleSignInButton() {
   const handleSignIn = async () => {
         try {
-    console.log("Starting sign in...");
-    console.log("Base URL:", process.env.NEXT_PUBLIC_BASE_URL);
-    
+    // console.log("Starting sign in...");
+    // console.log("Base URL:", process.env.NEXT_PUBLIC_BASE_URL);
     const result = await authClient.signIn.social({
       provider: "google",
     });
