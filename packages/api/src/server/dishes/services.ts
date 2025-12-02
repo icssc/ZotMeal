@@ -1,10 +1,10 @@
 import { upsertDish, upsertDishToMenu } from "@api/dishes/services";
-import type { Drizzle, InsertDishWithRelations } from "@zotmeal/db";
+import type { Drizzle, InsertDishWithRelations } from "@peterplate/db";
 import {
   AllergenKeys,
   type DiningHallInformation,
   PreferenceKeys,
-} from "@zotmeal/validators";
+} from "@peterplate/validators";
 import type { InsertDishWithModifiedRelations } from "../daily/parse";
 
 type BaseDietRestriction = Omit<
@@ -56,6 +56,7 @@ export async function parseAndUpsertDish(
   };
 
   // Remove sets from dish before upserting
+  // biome-ignore lint/correctness/noUnusedVariables: This is an efficient way to remove the sets with an immutable object.
   const { recipeAllergenCodes, recipePreferenceCodes, ...currentDish } = dish;
 
   await upsertDish(db, {

@@ -2,7 +2,7 @@
 //
 // Queries the separate GraphQL endpoint for event image headers.
 
-import { type EventImageData, EventImageSchema } from "@zotmeal/validators";
+import { type EventImageData, EventImageSchema } from "@peterplate/validators";
 import axios from "axios";
 
 const imageGraphQLEndpoint: string =

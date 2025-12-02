@@ -1,5 +1,5 @@
-import type { Drizzle } from "@zotmeal/db";
-import { pushTokens } from "@zotmeal/db";
+import type { Drizzle } from "@peterplate/db";
+import { pushTokens } from "@peterplate/db";
 import type {
   ExpoPushErrorReceipt,
   ExpoPushMessage,
@@ -116,7 +116,9 @@ export async function handleNotificationReceipts(
         // The receipts specify whether Apple or Google successfully received the
         // notification and information about an error, if one occurred.
         for (const receiptId in receipts) {
-          const { status, details } = receipts[receiptId]!;
+          if (!receipts[receiptId]) continue;
+
+          const { status, details } = receipts[receiptId];
           if (status === "ok") continue;
           else if (status === "error") {
             const { message } = receipts[receiptId] as ExpoPushErrorReceipt;

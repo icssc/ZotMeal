@@ -1,6 +1,6 @@
 "use client"; // Need state for toggling nutrient visibility
 
-import type { DishInfo } from "@zotmeal/api";
+import type { DishInfo } from "@peterplate/api";
 import { Pin, Star } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -52,7 +52,7 @@ export default function FoodDrawerContent(dish: DishInfo) {
         <div className="flex flex-col gap-3">
           <Image
             src={"/zm-card-header.webp"}
-            alt={"An image of zotmeal logo."}
+            alt={"An image of the PeterPlate logo."}
             width={1200}
             height={700}
             className="w-full h-20 object-cover"

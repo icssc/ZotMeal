@@ -1,8 +1,8 @@
 import { logger } from "@api/logger";
 import { upsert } from "@api/utils";
-import type { Drizzle, InsertStation } from "@zotmeal/db";
-import { stations } from "@zotmeal/db";
-import type { DiningHallInformation } from "@zotmeal/validators";
+import type { Drizzle, InsertStation } from "@peterplate/db";
+import { stations } from "@peterplate/db";
+import type { DiningHallInformation } from "@peterplate/validators";
 
 export const upsertStation = async (db: Drizzle, station: InsertStation) =>
   await upsert(db, stations, station, {
@@ -19,13 +19,13 @@ export async function upsertAllStations(
   restaurantInfo: DiningHallInformation,
 ): Promise<void> {
   const stationsResult = await Promise.allSettled(
-    Object.keys(restaurantInfo.stationsInfo).map((id) => {
+    Object.keys(restaurantInfo.stationsInfo).map((id) =>
       upsertStation(db, {
         id,
         restaurantId,
         name: restaurantInfo.stationsInfo[id] ?? "UNKNOWN STATION",
-      });
-    }),
+      }),
+    ),
   );
 
   for (const station of stationsResult)

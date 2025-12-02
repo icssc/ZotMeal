@@ -1,5 +1,5 @@
 {
-  "name": "@zotmeal/prettier-config",
+  "name": "@peterplate/prettier-config",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -17,8 +17,8 @@
     "prettier-plugin-tailwindcss": "catalog:"
   },
   "devDependencies": {
-    "@zotmeal/tsconfig": "workspace:*",
+    "@peterplate/tsconfig": "workspace:*",
     "typescript": "catalog:"
   },
-  "prettier": "@zotmeal/prettier-config"
+  "prettier": "@peterplate/prettier-config"
 }

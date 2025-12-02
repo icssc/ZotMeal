@@ -3,7 +3,8 @@ import {
   GetLocationRecipesDailySchema,
   GetLocationRecipesWeeklySchema,
   GetLocationSchema,
-} from "@zotmeal/validators";
+} from "@peterplate/validators";
+import type { AxiosResponse } from "axios";
 import { describe, expect, it } from "vitest";
 import { queryAdobeECommerce } from "./parse";
 import {
@@ -96,7 +97,7 @@ describe("AdobeECommerce API Integration Tests", () => {
     name,
   }) => {
     it(`should successfully fetch data, not throw errors, and validate against Zod schema (${name})`, async () => {
-      let response;
+      let response: AxiosResponse | null = null;
       let caughtError = null;
 
       try {

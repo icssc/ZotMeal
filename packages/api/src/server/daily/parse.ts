@@ -11,7 +11,7 @@ import {
   type InsertDishWithRelations,
   type InsertEvent,
   type RestaurantName,
-} from "@zotmeal/db";
+} from "@peterplate/db";
 import {
   AEMEventListSchema,
   type DiningHallInformation,
@@ -25,7 +25,7 @@ import {
   type MealPeriodWithHours,
   type Schedule,
   type WeekTimes,
-} from "@zotmeal/validators";
+} from "@peterplate/validators";
 import axios, { type AxiosError, type AxiosResponse } from "axios";
 import {
   AEMEventListQuery,
@@ -90,7 +90,6 @@ export async function queryAdobeECommerce(
     if (axios.isAxiosError(err)) {
       const aErr = err as AxiosError;
       console.error("Axios message:", aErr.message);
-      if ((aErr as any).code) console.error("Error code:", (aErr as any).code);
       console.error("HTTP status:", aErr.response?.status);
       console.error("Response body:", aErr.response?.data);
       // If no response, show the request info
@@ -165,16 +164,16 @@ export async function getLocationInformation(
   const allergenIntoleranceCodes: DiningHallInformation["allergenIntoleranceCodes"] =
     {};
   commerceAttributesList.items
-    .find((item) => item.code == "allergens_intolerances")!
-    .options.forEach((item) => {
-      allergenIntoleranceCodes[item.label] = Number.parseInt(item.value);
+    .find((item) => item.code === "allergens_intolerances")
+    ?.options.forEach((item) => {
+      allergenIntoleranceCodes[item.label] = Number.parseInt(item.value, 10);
     });
 
   const menuPreferenceCodes: DiningHallInformation["menuPreferenceCodes"] = {};
   commerceAttributesList.items
-    .find((item) => item.code == "menu_preferences")!
-    .options.forEach((item) => {
-      menuPreferenceCodes[item.label] = Number.parseInt(item.value);
+    .find((item) => item.code === "menu_preferences")
+    ?.options.forEach((item) => {
+      menuPreferenceCodes[item.label] = Number.parseInt(item.value, 10);
     });
 
   const stationsInfo: { [id: string]: string } = {};
@@ -357,12 +356,12 @@ function parseProducts(products: WeeklyProducts): ProductDictionary {
 
     // Allergen intolerances can either be one singular value or an array.
     if (Array.isArray(unparsedIntolerances)) {
-      unparsedIntolerances.forEach((code) =>
-        allergenIntolerances.add(Number.parseInt(code)),
-      );
+      unparsedIntolerances.forEach((code) => {
+        allergenIntolerances.add(Number.parseInt(code, 10));
+      });
     } else {
       allergenIntolerances.add(
-        Number.parseInt((unparsedIntolerances as string) ?? "0"),
+        Number.parseInt((unparsedIntolerances as string) ?? "0", 10),
       );
     }
 
@@ -370,12 +369,12 @@ function parseProducts(products: WeeklyProducts): ProductDictionary {
     const recipePreferences: Set<number> = new Set<number>();
 
     if (Array.isArray(unparsedPreferences)) {
-      unparsedPreferences.forEach((code) =>
-        recipePreferences.add(Number.parseInt(code)),
-      );
+      unparsedPreferences.forEach((code) => {
+        recipePreferences.add(Number.parseInt(code, 10));
+      });
     } else {
       recipePreferences.add(
-        Number.parseInt((unparsedPreferences as string) ?? "0"),
+        Number.parseInt((unparsedPreferences as string) ?? "0", 10),
       );
     }
 
@@ -454,11 +453,12 @@ function parseOpeningHours(hoursString: string): [WeekTimes, WeekTimes] {
       continue;
     }
 
-    const dayRangeStr = parts[0]!; // "Mo-Fr"
-    const timeRangeStr = parts[1]!; // "07:15-11:00 OR off"
+    const dayRangeStr = parts[0]; // "Mo-Fr"
+    const timeRangeStr = parts[1]; // "07:15-11:00 OR off"
 
-    // If the timeRange is off, then we need not do anything (it is not open)
-    if (timeRangeStr == "off") continue;
+    // If the timeRange is off or it could not be parsed,
+    // then we need not do anything (it is not open)
+    if (!(dayRangeStr && timeRangeStr) || timeRangeStr === "off") continue;
 
     const [openTime, closeTime] = timeRangeStr.split("-"); // "07:15", "11:00"
 
@@ -482,8 +482,10 @@ function parseOpeningHours(hoursString: string): [WeekTimes, WeekTimes] {
         continue;
       }
 
-      const startDay = dayParts[0]!;
-      const endDay = dayParts[1]!;
+      const startDay = dayParts[0];
+      const endDay = dayParts[1];
+
+      if (!(startDay && endDay)) continue;
 
       const startIndex = DAY_MAP[startDay];
       const endIndex = DAY_MAP[endDay];

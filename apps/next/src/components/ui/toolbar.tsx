@@ -70,8 +70,8 @@ export default function Toolbar(): JSX.Element {
       <Link href="/">
         <Image
           className="rounded-full cursor-pointer"
-          src="/Zotmeal-Logo.webp"
-          alt="Zotmeal's Logo: a beige anteater with a bushy tail sitting next to an anthill."
+          src="/peterplate-logo.webp"
+          alt="PeterPlate's Logo: a beige anteater with a bushy tail sitting next to an anthill."
           width={40}
           height={40}
         />

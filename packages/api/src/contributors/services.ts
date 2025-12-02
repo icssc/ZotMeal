@@ -2,7 +2,7 @@ import {
   contributors,
   type Drizzle,
   type SelectContributor,
-} from "@zotmeal/db";
+} from "@peterplate/db";
 
 /**
  * Gets all rows from the contributors table. Fetches all of the contributors

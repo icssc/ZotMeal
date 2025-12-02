@@ -75,7 +75,7 @@ export default function Events() {
             <>
               <MealDivider title="This Week's Events" />
               {eventsThisWeek.length > 0 &&
-                eventsThisWeek.map((event: any) => (
+                eventsThisWeek.map((event) => (
                   <EventCard
                     key={`${event.title}|${event.start.toISOString()}|${event.restaurantId}`}
                     name={event.title}
@@ -100,7 +100,7 @@ export default function Events() {
               )}
               <MealDivider title="Upcoming Events" />
               {futureEvents.length > 0 &&
-                futureEvents.map((event: any) => (
+                futureEvents.map((event) => (
                   <EventCard
                     key={`${event.title}|${event.start.toISOString()}|${event.restaurantId}`}
                     name={event.title}

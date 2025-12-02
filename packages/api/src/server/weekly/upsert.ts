@@ -2,13 +2,13 @@ import { logger } from "@api/logger";
 import { upsertMenuBatch } from "@api/menus/services";
 import { upsertRestaurant } from "@api/restaurants/services";
 import { upsertAllStations } from "@api/stations/services";
-import type { InsertMenu } from "@zotmeal/db";
+import type { InsertMenu } from "@peterplate/db";
 import {
   type Drizzle,
   getRestaurantId,
   type RestaurantName,
-} from "@zotmeal/db";
-import type { DiningHallInformation } from "@zotmeal/validators";
+} from "@peterplate/db";
+import type { DiningHallInformation } from "@peterplate/validators";
 import { format } from "date-fns";
 import type { InsertDishWithModifiedRelations } from "../daily/parse";
 import {

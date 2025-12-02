@@ -1,7 +1,7 @@
 "use client";
 
-import type { DishInfo } from "@zotmeal/api";
-import { Star, Utensils } from "lucide-react";
+import type { DishInfo } from "@peterplate/api";
+import { Utensils } from "lucide-react";
 import React from "react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { formatFoodName, getFoodIcon } from "@/utils/funcs";

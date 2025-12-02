@@ -1,5 +1,5 @@
 {
-  "name": "@zotmeal/tailwind-config",
+  "name": "@peterplate/tailwind-config",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -21,9 +21,9 @@
     "tailwindcss-animate": "catalog:"
   },
   "devDependencies": {
-    "@zotmeal/eslint-config": "workspace:*",
-    "@zotmeal/prettier-config": "workspace:*",
-    "@zotmeal/tsconfig": "workspace:*",
+    "@peterplate/eslint-config": "workspace:*",
+    "@peterplate/prettier-config": "workspace:*",
+    "@peterplate/tsconfig": "workspace:*",
     "eslint": "catalog:",
     "prettier": "catalog:",
     "typescript": "catalog:"
@@ -31,8 +31,8 @@
   "eslintConfig": {
     "root": true,
     "extends": [
-      "@zotmeal/eslint-config/base"
+      "@peterplate/eslint-config/base"
     ]
   },
-  "prettier": "@zotmeal/prettier-config"
+  "prettier": "@peterplate/prettier-config"
 }

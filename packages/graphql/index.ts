@@ -8,7 +8,7 @@ const PORT = 4000;
 app.use(cors());
 app.use(express.json());
 
-app.get("/", async (req: Request, res: Response) => {
+app.get("/", async (_: Request, res: Response) => {
   console.log("Hello!");
   res.send("Hello!");
 });

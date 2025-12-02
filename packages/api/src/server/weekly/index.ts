@@ -2,11 +2,14 @@ import { queryEventImageEndpoint } from "@api/events/images";
 import { upsertEvents } from "@api/events/services";
 import { logger } from "@api/logger";
 import { upsert } from "@api/utils";
+import type { components } from "@octokit/openapi-types";
 import { Octokit } from "@octokit/rest";
-import type { Drizzle } from "@zotmeal/db";
-import { contributors, type InsertContributor } from "@zotmeal/db";
+import type { Drizzle } from "@peterplate/db";
+import { contributors, type InsertContributor } from "@peterplate/db";
 import { getAEMEvents } from "../daily/parse";
 import { upsertMenusForWeek } from "./upsert";
+
+export type ContributorData = components["schemas"]["contributor"];
 
 /**
  * Query the GraphQL Events Endpoint for both restaurants and upsert them into
@@ -56,19 +59,19 @@ export async function weeklyJob(db: Drizzle): Promise<void> {
 }
 
 /**
- * Query the GitHub API to obtain the contributors to ZotMeal's GH Repo.
+ * Query the GitHub API to obtain the contributors to Peterplate's GH Repo.
  * @param db The Drizzle database instance to insert into.
  */
 export async function contributorsJob(db: Drizzle) {
   const octokit = new Octokit();
   let page = 1;
   let hasNextPage = true;
-  let baseContributors: any[] = [];
+  let baseContributors: ContributorData[] = [];
 
   while (hasNextPage) {
     const { data } = await octokit.rest.repos.listContributors({
       owner: "icssc",
-      repo: "ZotMeal",
+      repo: "Peterplate",
       per_page: 100,
       page,
     });
@@ -87,10 +90,13 @@ export async function contributorsJob(db: Drizzle) {
   const detailedContributors: InsertContributor[] = await Promise.all(
     filteredContributors.map(async (contributor) => {
       const { data: userDetails } = await octokit.rest.users.getByUsername({
-        username: contributor.login,
+        username: contributor.login ?? "EightBitByte",
       });
+
       return {
-        ...contributor,
+        login: contributor.login ?? "UNKNOWN",
+        avatar_url: contributor.avatar_url ?? "UNKNOWN",
+        contributions: contributor.contributions,
         name: userDetails.name,
         bio: userDetails.bio,
       };

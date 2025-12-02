@@ -197,7 +197,7 @@ importers:
       '@turbo/gen':
         specifier: 'catalog:'
         version: 1.13.4(@swc/core@1.8.0)(@types/node@24.10.1)(typescript@5.9.3)
-      '@zotmeal/prettier-config':
+      '@peterplate/prettier-config':
         specifier: workspace:*
         version: link:tooling/prettier
       devmoji:
@@ -260,7 +260,7 @@ importers:
       '@trpc/server':
         specifier: 'catalog:'
         version: 11.6.0(typescript@5.8.2)
-      '@zotmeal/api':
+      '@peterplate/api':
         specifier: workspace:*
         version: link:../../packages/api
       class-variance-authority:
@@ -336,13 +336,13 @@ importers:
       '@serverless/typescript':
         specifier: 'catalog:'
         version: 3.38.0
-      '@zotmeal/api':
+      '@peterplate/api':
         specifier: workspace:*
         version: link:../../packages/api
-      '@zotmeal/db':
+      '@peterplate/db':
         specifier: workspace:*
         version: link:../../packages/db
-      '@zotmeal/validators':
+      '@peterplate/validators':
         specifier: workspace:*
         version: link:../../packages/validators
       axios:
@@ -373,7 +373,7 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 20.14.9
-      '@zotmeal/eslint-config':
+      '@peterplate/eslint-config':
         specifier: workspace:*
         version: link:../../tooling/eslint
       dotenv-cli:
@@ -388,10 +388,10 @@ importers:
       '@trpc/server':
         specifier: 'catalog:'
         version: 11.6.0(typescript@5.9.3)
-      '@zotmeal/db':
+      '@peterplate/db':
         specifier: workspace:*
         version: link:../db
-      '@zotmeal/validators':
+      '@peterplate/validators':
         specifier: workspace:*
         version: link:../validators
       cheerio:
@@ -425,13 +425,13 @@ importers:
       '@testcontainers/postgresql':
         specifier: 'catalog:'
         version: 10.9.0
-      '@zotmeal/eslint-config':
+      '@peterplate/eslint-config':
         specifier: workspace:*
         version: link:../../tooling/eslint
-      '@zotmeal/prettier-config':
+      '@peterplate/prettier-config':
         specifier: workspace:*
         version: link:../../tooling/prettier
-      '@zotmeal/tsconfig':
+      '@peterplate/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/typescript
       dotenv-cli:
@@ -483,13 +483,13 @@ importers:
       '@types/pg':
         specifier: 'catalog:'
         version: 8.11.6
-      '@zotmeal/eslint-config':
+      '@peterplate/eslint-config':
         specifier: workspace:*
         version: link:../../tooling/eslint
-      '@zotmeal/prettier-config':
+      '@peterplate/prettier-config':
         specifier: workspace:*
         version: link:../../tooling/prettier
-      '@zotmeal/tsconfig':
+      '@peterplate/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/typescript
       drizzle-kit:
@@ -526,20 +526,20 @@ importers:
 
   packages/validators:
     dependencies:
-      '@zotmeal/db':
+      '@peterplate/db':
         specifier: workspace:*
         version: link:../db
       zod:
         specifier: 'catalog:'
         version: 3.23.8
     devDependencies:
-      '@zotmeal/eslint-config':
+      '@peterplate/eslint-config':
         specifier: workspace:*
         version: link:../../tooling/eslint
-      '@zotmeal/prettier-config':
+      '@peterplate/prettier-config':
         specifier: workspace:*
         version: link:../../tooling/prettier
-      '@zotmeal/tsconfig':
+      '@peterplate/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/typescript
       eslint:
@@ -585,10 +585,10 @@ importers:
       '@types/eslint':
         specifier: 'catalog:'
         version: 8.56.10
-      '@zotmeal/prettier-config':
+      '@peterplate/prettier-config':
         specifier: workspace:*
         version: link:../prettier
-      '@zotmeal/tsconfig':
+      '@peterplate/tsconfig':
         specifier: workspace:*
         version: link:../typescript
       eslint:
@@ -615,7 +615,7 @@ importers:
         specifier: 'catalog:'
         version: 0.5.14(@ianvs/prettier-plugin-sort-imports@4.2.1(prettier@3.3.1))(prettier@3.3.1)
     devDependencies:
-      '@zotmeal/tsconfig':
+      '@peterplate/tsconfig':
         specifier: workspace:*
         version: link:../typescript
       typescript:
@@ -637,13 +637,13 @@ importers:
         specifier: 'catalog:'
         version: 1.0.7(tailwindcss@3.4.4(ts-node@10.9.2(@swc/core@1.8.0)(@types/node@24.10.1)(typescript@5.6.2)))
     devDependencies:
-      '@zotmeal/eslint-config':
+      '@peterplate/eslint-config':
         specifier: workspace:*
         version: link:../eslint
-      '@zotmeal/prettier-config':
+      '@peterplate/prettier-config':
         specifier: workspace:*
         version: link:../prettier
-      '@zotmeal/tsconfig':
+      '@peterplate/tsconfig':
         specifier: workspace:*
         version: link:../typescript
       eslint:

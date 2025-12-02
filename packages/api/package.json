@@ -1,5 +1,5 @@
 {
-  "name": "@zotmeal/api",
+  "name": "@peterplate/api",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -18,9 +18,9 @@
   },
   "dependencies": {
     "@octokit/rest": "^22.0.0",
+    "@peterplate/db": "workspace:*",
+    "@peterplate/validators": "workspace:*",
     "@trpc/server": "catalog:",
-    "@zotmeal/db": "workspace:*",
-    "@zotmeal/validators": "workspace:*",
     "cheerio": "catalog:",
     "date-fns": "catalog:",
     "date-fns-tz": "catalog:",
@@ -32,10 +32,10 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@peterplate/eslint-config": "workspace:*",
+    "@peterplate/prettier-config": "workspace:*",
+    "@peterplate/tsconfig": "workspace:*",
     "@testcontainers/postgresql": "catalog:",
-    "@zotmeal/eslint-config": "workspace:*",
-    "@zotmeal/prettier-config": "workspace:*",
-    "@zotmeal/tsconfig": "workspace:*",
     "dotenv-cli": "catalog:",
     "testcontainers": "catalog:",
     "vite-tsconfig-paths": "catalog:",
@@ -44,8 +44,8 @@
   "eslintConfig": {
     "root": true,
     "extends": [
-      "@zotmeal/eslint-config/base"
+      "@peterplate/eslint-config/base"
     ]
   },
-  "prettier": "@zotmeal/prettier-config"
+  "prettier": "@peterplate/prettier-config"
 }

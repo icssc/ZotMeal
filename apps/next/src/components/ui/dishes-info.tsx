@@ -1,6 +1,6 @@
 "use client";
 
-import type { DishInfo } from "@zotmeal/api";
+import type { DishInfo } from "@peterplate/api";
 import React from "react";
 import { sortCategoryKeys } from "@/utils/funcs";
 import FoodCard from "./card/food-card";

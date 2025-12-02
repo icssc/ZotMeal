@@ -3,7 +3,7 @@ import type { AWS } from "@serverless/typescript";
 import { functions } from "./src/functions";
 
 const serverlessConfiguration: AWS = {
-  service: "zotmeal",
+  service: "peterplate",
   frameworkVersion: "3",
   plugins: ["serverless-esbuild", "serverless-offline"],
   provider: {

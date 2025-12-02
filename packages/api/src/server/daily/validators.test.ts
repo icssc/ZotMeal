@@ -8,7 +8,7 @@ import {
   GetLocationRecipesDailySchema,
   GetLocationRecipesWeeklySchema,
   GetLocationSchema,
-} from "@zotmeal/validators";
+} from "@peterplate/validators";
 import { describe, it } from "vitest";
 import AEMEventList from "./testData/AEM_eventList.json";
 import getLocation from "./testData/getLocation.json";

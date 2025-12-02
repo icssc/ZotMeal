@@ -1,6 +1,6 @@
 "use client"; // Need state for toggling nutrient visibility
 
-import type { DishInfo } from "@zotmeal/api";
+import type { DishInfo } from "@peterplate/api";
 import Image from "next/image";
 import { useState } from "react";
 import {
@@ -32,7 +32,7 @@ import {
  *
  * This component is typically used as the content for a `Dialog` triggered by a {@link FoodCard}.
  *
- * @param {DishInfo} dish - The dish data to display. See {@link DishInfo} (from `@zotmeal/api`) for detailed property descriptions.
+ * @param {DishInfo} dish - The dish data to display. See {@link DishInfo} (from `@peterplate/api`) for detailed property descriptions.
  * @returns {JSX.Element} The rendered content for the food item dialog.
  */
 export default function FoodDialogContent(dish: DishInfo): JSX.Element {
@@ -65,7 +65,7 @@ export default function FoodDialogContent(dish: DishInfo): JSX.Element {
         <div className="flex flex-col gap-6">
           <Image
             src={"/zm-card-header.webp"}
-            alt={"An image of zotmeal logo."}
+            alt={"An image of the PeterPlate logo."}
             width={1200}
             height={700}
             className="w-full h-48 object-cover"

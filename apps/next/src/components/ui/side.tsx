@@ -1,6 +1,6 @@
 "use client";
 
-import type { RestaurantInfo } from "@zotmeal/api";
+import type { RestaurantInfo } from "@peterplate/api";
 import { ArrowRightLeft } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -46,7 +46,7 @@ export default function Side({ hall, toggleHall }: SideProps): JSX.Element {
     isLoading,
     isError,
     error,
-  } = trpc.zotmeal.useQuery(
+  } = trpc.peterplate.useQuery(
     { date: selectedDate ?? today },
     { staleTime: 2 * 60 * 60 * 1000 }, // 2 hour stale time
   );

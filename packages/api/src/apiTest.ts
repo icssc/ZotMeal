@@ -1,5 +1,5 @@
-import type { Drizzle } from "@zotmeal/db";
-import { createDrizzle } from "@zotmeal/db";
+import type { Drizzle } from "@peterplate/db";
+import { createDrizzle } from "@peterplate/db";
 import { test } from "vitest";
 
 import { createCaller, createTRPCContext } from ".";

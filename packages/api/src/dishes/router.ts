@@ -1,8 +1,8 @@
 import { upsertRating } from "@api/ratings/services";
 import { createTRPCRouter, publicProcedure } from "@api/trpc";
 import { getUser } from "@api/users/services";
+import { dishes, RatingSchema } from "@peterplate/db";
 import { TRPCError } from "@trpc/server";
-import { dishes, RatingSchema } from "@zotmeal/db";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 

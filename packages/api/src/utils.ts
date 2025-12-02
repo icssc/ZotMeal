@@ -1,4 +1,4 @@
-import type { Drizzle } from "@zotmeal/db";
+import type { Drizzle } from "@peterplate/db";
 import type {
   PgInsert,
   PgInsertOnConflictDoUpdateConfig,

@@ -6,12 +6,12 @@ import {
   type Drizzle,
   getRestaurantId,
   type RestaurantName,
-} from "@zotmeal/db";
+} from "@peterplate/db";
 import type {
   DiningHallInformation,
   MealPeriodWithHours,
   Schedule,
-} from "@zotmeal/validators";
+} from "@peterplate/validators";
 import { format } from "date-fns";
 import { parseAndUpsertDish } from "../dishes/services";
 import { getCurrentSchedule, upsertPeriods } from "../periods/services";
@@ -86,7 +86,7 @@ export async function upsertMenusForDate(
       logger.info(`[daily] Upserting ${currentPeriodMenu.length} dishes...`);
       await Promise.all(
         currentPeriodMenu.map(async (dish) => {
-          if (dish.name == "UNIDENTIFIED") return;
+          if (dish.name === "UNIDENTIFIED") return;
 
           parseAndUpsertDish(
             db,

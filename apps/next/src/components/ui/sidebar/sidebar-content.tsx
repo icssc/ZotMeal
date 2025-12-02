@@ -29,16 +29,16 @@ export default function SidebarContent(): JSX.Element {
     <SheetContent>
       <div className="flex flex-col h-full justify-between">
         <div className="flex flex-col gap-1" id="sheet-top">
-          <div className="flex gap-2 items-center" id="zotmeal-sheet-header">
+          <div className="flex gap-2 items-center" id="peterplate-sheet-header">
             <Image
-              src="/ZotMeal-Logo.webp"
+              src="/peterplate-logo.webp"
               width={32}
               height={32}
-              alt="ZotMeal Logo"
+              alt="PeterPlate Logo"
               className="rounded-sm"
             />
             <SheetTitle>
-              <span>ZotMeal </span>
+              <span>PeterPlate</span>
               <span className="text-sm font-normal">v0.1 (preview)</span>
             </SheetTitle>
           </div>
