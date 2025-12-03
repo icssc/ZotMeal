@@ -6,7 +6,11 @@ import Image from "next/image";
 import RatingsCard from "@/components/ui/card/ratings-card";
 
 export default function RatedFoods() {
-  const { data: ratedFoods, isLoading, error } = trpc.dish.rated.useQuery({
+  const {
+    data: ratedFoods,
+    isLoading,
+    error,
+  } = trpc.dish.rated.useQuery({
     userId: "default-user",
   });
 
@@ -38,7 +42,7 @@ export default function RatedFoods() {
           {!isLoading && !error && (
             <>
               {ratedFoods && ratedFoods.length > 0 ? (
-                ratedFoods.map((food) => (
+                ratedFoods.map((food: (typeof ratedFoods)[number]) => (
                   <RatingsCard key={`${food.id}|${food.ratedAt}`} food={food} />
                 ))
               ) : (

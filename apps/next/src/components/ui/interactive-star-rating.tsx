@@ -31,8 +31,10 @@ export default function InteractiveStarRating({
   }, [existingRating]);
 
   const handleStarClick = (stars: number) => {
-    setUserRating(stars);
-    rateDish(dishId, stars);
+    // clicking the same rating gives a 0
+    const newRating = stars === userRating ? 0 : stars;
+    setUserRating(newRating);
+    rateDish(dishId, newRating);
   };
 
   const displayRating = hoverRating ?? userRating;
