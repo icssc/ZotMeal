@@ -4,8 +4,4 @@
 
 - [ ]
 
-## Verification
-
-- [ ]
-
 Closes #
