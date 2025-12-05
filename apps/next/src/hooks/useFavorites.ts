@@ -42,31 +42,26 @@ export function useFavorites(userId: string = DEFAULT_USER_ID) {
     },
   );
 
-  // Mutation for adding a favorite. On success, the cached favorites list is
-  // invalidated so that dependent components receive updated data.
+  // Invalidates the favorites query so the UI stays in sync after a mutation.
+  const invalidateFavorites = useCallback(
+    () =>
+      utils.favorite.getFavorites.invalidate({
+        userId,
+      }),
+      [userId, utils.favorite.getFavorites],
+  );
   const addFavoriteMutation = trpc.favorite.addFavorite.useMutation({
-    onSuccess: () =>
-      utils.favorite.getFavorites.invalidate({
-        userId,
-      }),
+    onSuccess: invalidateFavorites,
   });
-
-
-  // Mutation for removing a favorite. Also invalidates the cached favorites
-  // query upon successful completion.
   const deleteFavoriteMutation = trpc.favorite.deleteFavorite.useMutation({
-    onSuccess: () =>
-      utils.favorite.getFavorites.invalidate({
-        userId,
-      }),
+    onSuccess: invalidateFavorites,
   });
 
   // Get the raw data
   type FavoriteEntry = NonNullable<typeof favoritesQuery.data>[number];
   const favorites: FavoriteEntry[] = favoritesQuery.data ?? [];
 
-  // Memoized list of favorited dish IDs.
-  // Dish IDs are unique, so no Set is required.
+  // Memoized list of favorited unique dish IDs.
   const favoriteIds = useMemo(
     () => favorites.map((f) => f.dishId),
     [favorites]
