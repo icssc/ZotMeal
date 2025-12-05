@@ -3,10 +3,10 @@
   "type": "module",
   "private": true,
   "engines": {
-    "node": "20.x"
+    "node": "20.x",
+    "pnpm": "^10.0.0"
   },
   "engineStrict": true,
-  "packageManager": "pnpm@10.0.0",
   "scripts": {
     "build": "turbo build",
     "clean": "git clean -xdf node_modules",
