@@ -1,6 +1,6 @@
 import { trpc } from "@/utils/trpc";
 import { SelectLoggedMeal } from "../../../../../packages/db/src/schema";
-import { ProgressDonut } from "../calorie-progress-chart";
+import { ProgressDonut } from "../progress-donut";
 
 // TODO: remove this variable and get the currently signed in user through session
 const DUMMY_USER_ID = "TEST_USER";
