@@ -39,6 +39,7 @@ const FoodCardContent = React.forwardRef<
   const utils = trpc.useUtils();
   const logMealMutation = trpc.nutrition.logMeal.useMutation({
     onSuccess: () => {
+      //TODO: Replace this with a shad/cn sonner or equivalent.
       alert(`Added ${formatFoodName(dish.name)} to your log`);
       utils.nutrition.invalidate();
     },
