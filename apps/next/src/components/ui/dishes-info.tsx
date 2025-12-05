@@ -7,6 +7,8 @@ import MealDividerSkeleton from "./skeleton/meal-divider-skeleton"
 import { DishInfo } from "@zotmeal/api";
 import MealDivider from "./meal-divider";
 import { sortCategoryKeys } from "@/utils/funcs";
+import { useFavorites } from "@/hooks/useFavorites";
+
 
 /**
  * Props for the {@link DishesInfo} component.
@@ -30,22 +32,6 @@ interface DishesInfoProps {
    * An optional error message string to display if `isError` is true.
    */
   errorMessage?: string;
-  /**
-   * Set of favorited dish IDs for the active user.
-   */
-  favoriteDishIds?: string[];
-  /**
-   * Callback to toggle a dish favorite.
-   */
-  onToggleFavorite?: (dishId: string, currentlyFavorite: boolean) => void;
-  /**
-   * Whether the favorites query is still loading.
-   */
-  isFavoritesLoading?: boolean;
-  /**
-   * Function that determines if a specific dish is mid favorite mutation.
-   */
-  isFavoritePending?: (dishId: string) => boolean;
 }
 
 /**
@@ -60,12 +46,19 @@ export default function DishesInfo({
   isLoading,
   isError,
   errorMessage,
-  favoriteDishIds,
-  onToggleFavorite,
-  isFavoritesLoading,
-  isFavoritePending,
 }: DishesInfoProps): JSX.Element {
   // Sort the dishes by category string
+  const {
+    favoriteIds,
+    isLoadingFavorites,
+    toggleFavorite,
+    isFavoritePending,
+  } = useFavorites();
+
+  const favoriteDishIds = favoriteIds ?? [];
+  const onToggleFavorite = toggleFavorite;
+  const isFavoritesLoading = isLoadingFavorites;
+  
   let categoryMap: {[dishCategory : string]: DishInfo[]} = {};
   dishes.forEach((dish) => {
     if (dish.category in categoryMap)

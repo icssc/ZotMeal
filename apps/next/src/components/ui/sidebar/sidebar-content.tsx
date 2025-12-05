@@ -4,7 +4,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "../shadcn/avatar";
 import { Button } from "../shadcn/button";
 import SidebarButton from "./sidebar-button";
 import SidebarDivider from "./sidebar-divider";
-import { Settings2, CalendarFold, LogOut, House, Info, Pin, Trophy } from "lucide-react";
+import { Settings2, CalendarFold, LogOut, House, Info, Heart, Trophy } from "lucide-react";
 
 /**
  * `SidebarContent` is a presentational component that renders the main content
@@ -37,7 +37,7 @@ export default function SidebarContent(): JSX.Element {
             <SidebarDivider title="Dining Hall Info"/>
             <SidebarButton Icon={House} title="Home" href="/"/>
             <SidebarButton Icon={CalendarFold} title="Events" href="/events"/>
-            <SidebarButton Icon={Pin} title="My Favorites" href="/my-favs"/>
+            <SidebarButton Icon={Heart} title="My Favorites" href="/my-favs"/>
             <SidebarButton Icon={Trophy} title="Most Liked" href="/leaderboard" deactivated/>
             <SidebarDivider title="Miscellaneous"/>
             <SidebarButton Icon={Settings2} title="Settings" href="/settings" deactivated/>

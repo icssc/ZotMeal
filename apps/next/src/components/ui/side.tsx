@@ -26,14 +26,6 @@ interface SideProps {
   hall: HallEnum;
   /** A function for toggling between sides on mobile. */
   toggleHall?: () => void;
-  /** Set of favorited dish IDs for the active user. */
-  favoriteDishIds?: string[];
-  /** Handler to toggle a favorite for a given dish. */
-  onToggleFavorite?: (dishId: string, currentlyFavorite: boolean) => void;
-  /** Loading state while favorites are fetched. */
-  isFavoritesLoading?: boolean;
-  /** Returns whether a specific dish is mid favorite mutation. */
-  isFavoritePending?: (dishId: string) => boolean;
 }
 
 /**
@@ -47,10 +39,6 @@ interface SideProps {
 export default function Side({
   hall,
   toggleHall,
-  favoriteDishIds,
-  onToggleFavorite,
-  isFavoritesLoading,
-  isFavoritePending,
 }: SideProps): JSX.Element {
     const { selectedDate } = useDate();
     const today = new Date();
@@ -289,10 +277,6 @@ export default function Side({
             isLoading={isLoading}
             isError={isError || (!isLoading && !hallData)} 
             errorMessage={error?.message ?? (!isLoading && !hallData ? `Data not available for ${HallEnum[hall]}.` : undefined)}
-            favoriteDishIds={favoriteDishIds ?? []}
-            onToggleFavorite={onToggleFavorite}
-            isFavoritesLoading={isFavoritesLoading}
-            isFavoritePending={isFavoritePending}
           />
         </div>
       </div>

@@ -54,10 +54,6 @@ const FoodCardContent = React.forwardRef<
     event.preventDefault();
     event.stopPropagation();
     
-    // //log
-    // console.log("1. Heart Clicked:", dish.name, "ID:", dish.id);
-    // console.log("   Props check:", { favoriteDisabled, onToggleFavorite });
-    
     if (favoriteDisabled || !onToggleFavorite) return;
     onToggleFavorite(dish.id, Boolean(isFavorited));
   };
