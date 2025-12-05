@@ -2,6 +2,7 @@
   "name": "zotmeal",
   "type": "module",
   "private": true,
+  "packageManager": "pnpm@10.0.0",
   "engines": {
     "node": "20.x",
     "pnpm": "^10.0.0"
