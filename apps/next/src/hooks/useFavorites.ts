@@ -61,20 +61,15 @@ export function useFavorites(userId: string = DEFAULT_USER_ID) {
       }),
   });
 
-  // 1. Get the raw data
+  // Get the raw data
   type FavoriteEntry = NonNullable<typeof favoritesQuery.data>[number];
   const favorites: FavoriteEntry[] = favoritesQuery.data ?? [];
 
-  // 2. Create a Set internally for fast logic
-  const favoriteIdSet = useMemo(
-    () => new Set(favorites.map((favorite) => favorite.dishId)),
-    [favorites],
-  );
-
-  // 3. Convert Set to Array for the Return value
-  const favoriteIdsArray = useMemo(
-    () => Array.from(favoriteIdSet),
-    [favoriteIdSet]
+  // Memoized list of favorited dish IDs.
+  // Dish IDs are unique, so no Set is required.
+  const favoriteIds = useMemo(
+    () => favorites.map((f) => f.dishId),
+    [favorites]
   );
 
   // Determines whether a dish should be added or removed, then triggers the
@@ -116,7 +111,7 @@ export function useFavorites(userId: string = DEFAULT_USER_ID) {
 
   return {
     favorites,
-    favoriteIds: favoriteIdsArray,
+    favoriteIds,
     isLoadingFavorites: favoritesQuery.isLoading,
     toggleFavorite,
     isFavoritePending,
