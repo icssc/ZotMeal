@@ -54,6 +54,7 @@ const NutritionBreakdown = ({ dateString, mealsEaten }: Props) => {
   const utils = trpc.useUtils();
   const deleteLoggedMealMutation = trpc.nutrition.deleteLoggedMeal.useMutation({
       onSuccess: () => {
+        //TODO: Replace this with a shad/cn sonner or equivalent.
         alert(`Removed dish from your log`);
         utils.nutrition.invalidate();
       },
@@ -67,6 +68,7 @@ const NutritionBreakdown = ({ dateString, mealsEaten }: Props) => {
     if (!userId || !dishId) return;
 
     if (!DUMMY_USER_ID) {
+      //TODO: Replace this with a shad/cn sonner or equivalent.
       alert("You must be logged in to track meals");
       return;
     }
