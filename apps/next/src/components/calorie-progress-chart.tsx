@@ -20,7 +20,11 @@ interface Props {
   display_unit: string;
 }
 
-export function ProgressDonut({ progress_value, max_value, display_unit }: Props) {
+export function ProgressDonut({ 
+  progress_value, 
+  max_value,
+  display_unit 
+}: Props) {
   const value = Math.max(0, Math.min(progress_value, max_value))
   const percent = value / max_value;
   const strokeDashoffset = CIRCLE_CIRCUMFERENCE * (1 - percent)
