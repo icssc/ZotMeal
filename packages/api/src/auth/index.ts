@@ -1,11 +1,10 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "../../../db/src/index"
-import * as schema from "../../../db/src/schema/index";
+import * as schema from "../../../db/src/index";
 
 import { config } from "dotenv";
 import { join } from "path";
-
 
 config({ path: join(process.cwd(), ".env") });
 

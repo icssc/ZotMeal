@@ -8,7 +8,7 @@ import { GoogleSignInButton } from "@/components/auth/google-sign-in";
 import SidebarButton from "./sidebar-button";
 import SidebarDivider from "./sidebar-divider";
 import { Settings2, CalendarFold, LogOut, House, Info, Pin, Trophy } from "lucide-react";
-import { useSession, signOut } from "../../../utils/auth-client"; // BetterAuth React hook
+import { useSession, signOut } from "@/utils/auth-client"; // BetterAuth React hook
 
 /**
  * `SidebarContent` is a presentational component that renders the main content

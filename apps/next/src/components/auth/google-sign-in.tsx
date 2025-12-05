@@ -1,7 +1,5 @@
 "use client";
-/*
-Sign In Button
- */
+/* Sign In Button */
 
 import { authClient } from "@/utils/auth-client"; 
 import { Button } from "../ui/shadcn/button"; 

@@ -3,8 +3,6 @@ import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
 
 import { appRouter, createTRPCContext } from "@zotmeal/api";
 
-
-
 const createContext = (
 ) =>
   createTRPCContext({
@@ -47,5 +45,4 @@ export const handler = async (
 
 };
 
-
-
+export const main = handler
