@@ -43,8 +43,7 @@ export default function Nutrition() {
 
   return (
     <div className="cols-container h-screen flex">
-      <div className="left-col w-[300px] border-r p-4 flex flex-col gap-2">
-        <div style={{ "height": "30rem!important", minHeight: "30rem!important" }}><br/><br/></div>
+      <div className="mt-12 w-[300px] border-r p-4 flex flex-col gap-2">
         {mealsGroupedByDay.map((day, index) => (
           <button 
              key={day.dateLabel} 
