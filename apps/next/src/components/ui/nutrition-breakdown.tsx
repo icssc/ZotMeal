@@ -108,7 +108,10 @@ const NutritionBreakdown = ({ dateString, mealsEaten }: Props) => {
               </p>
             </div>
 
-            <button className="h-8 rounded-md border px-3 text-sm transition-colors hover:bg-accent hover:text-accent-foreground" onClick={(e) => removeBtnOnClick(e, meal.userId, meal.dishId)}>
+            <button 
+              className="h-8 rounded-md border px-3 text-sm transition-colors hover:bg-accent hover:text-accent-foreground" 
+              onClick={(e) => removeBtnOnClick(e, meal.userId, meal.dishId)}
+            >
               Remove
             </button>
           </div>
