@@ -56,8 +56,7 @@ export default function Nutrition() {
         {mealsGroupedByDay.length === 0 && <div>No meals logged recently.</div>}
       </div>
       
-      <div className="right-col p-4">
-        <div style={{ "height": "30rem!important", minHeight: "30rem!important" }}><br/><br/></div>
+      <div className="mt-12 p-4">
         {selectedDay && (
           <NutritionBreakdown 
             dateString={selectedDay.dateLabel} 
