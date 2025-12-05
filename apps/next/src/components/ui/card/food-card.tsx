@@ -52,6 +52,7 @@ const FoodCardContent = React.forwardRef<
     e.stopPropagation(); 
     
     if (!DUMMY_USER_ID) {
+      //TODO: Replace this with a shad/cn sonner or equivalent.
       alert("You must be logged in to track meals");
       return;
     }
