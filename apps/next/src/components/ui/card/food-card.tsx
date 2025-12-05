@@ -44,7 +44,7 @@ const FoodCardContent = React.forwardRef<
       utils.nutrition.invalidate();
     },
     onError: (error: Error) => {
-      alert(error.message);
+      console.error(error.message);
     }
   });
 
