@@ -1,7 +1,4 @@
-import {
-  awsLambdaRequestHandler,
-  CreateAWSLambdaContextOptions,
-} from "@trpc/server/adapters/aws-lambda";
+import { awsLambdaRequestHandler } from "@trpc/server/adapters/aws-lambda";
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
 
 import { appRouter, createTRPCContext } from "@zotmeal/api";
@@ -47,8 +44,6 @@ export const handler = async (
   }
 
   return trpcHandler(event, {} as any);
-
-  // Pass through to tRPC handler
 
 };
 
