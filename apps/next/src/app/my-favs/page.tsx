@@ -53,6 +53,7 @@ export default function MyFavoritesPage() {
                   isFavorited
                   favoriteIsLoading={isFavoritePending?.(favorite.dishId)}
                   onToggleFavorite={toggleFavorite}
+                  showRestaurant={true}
                 />
               ))}
             </div>

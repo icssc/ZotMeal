@@ -6,7 +6,7 @@ import { DishInfo } from "@zotmeal/api";
 import { Heart, Utensils } from "lucide-react";
 
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { formatFoodName, getFoodIcon } from "@/utils/funcs";
+import { formatFoodName, getFoodIcon, toTitleCase } from "@/utils/funcs";
 import { cn } from "@/utils/tw";
 
 import FoodDialogContent from "../food-dialog-content";
@@ -35,6 +35,10 @@ interface FoodCardContentProps extends React.HTMLAttributes<HTMLDivElement> {
    * Handler invoked when a user toggles the favorite button.
    */
   onToggleFavorite?: (dishId: string, currentlyFavorite: boolean) => void;
+  /** 
+   * Whether to display the restaurant or dining hall name for this dish.
+   */
+  showRestaurant?: boolean;
 }
 
 /**
@@ -45,7 +49,7 @@ interface FoodCardContentProps extends React.HTMLAttributes<HTMLDivElement> {
 const FoodCardContent = React.forwardRef<
   HTMLDivElement,
   FoodCardContentProps
->(({ dish, isFavorited, favoriteDisabled, onToggleFavorite, className, ...divProps }, ref) => {
+>(({ dish, isFavorited, favoriteDisabled, onToggleFavorite, showRestaurant = false, className, ...divProps }, ref) => {
   const IconComponent = getFoodIcon(dish.name) ?? Utensils;
 
   const handleFavoriteClick = (
@@ -69,6 +73,12 @@ const FoodCardContent = React.forwardRef<
                 <strong>{formatFoodName(dish.name)}</strong>
                 <div className="flex gap-2 items-center">
                   <span>{dish.nutritionInfo.calories == null ? "-" : `${Math.round(parseFloat(dish.nutritionInfo.calories))} cal`}</span>
+                  {showRestaurant && dish.restaurant && (
+                    <>
+                      <span className="text-zinc-400">•</span>
+                      <span className="text-zinc-500">{toTitleCase(dish.restaurant)}</span>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -126,12 +136,15 @@ interface FoodCardProps extends DishInfo {
   favoriteIsLoading?: boolean;
   /** Handler to toggle the favorite state. */
   onToggleFavorite?: (dishId: string, currentlyFavorite: boolean) => void;
+  /** Whether to display the restaurant/dining hall name. */
+  showRestaurant?: boolean;
 }
 
 export default function FoodCard({
   isFavorited = false,
   favoriteIsLoading = false,
   onToggleFavorite,
+  showRestaurant = false,
   ...dish
 }: FoodCardProps): JSX.Element {
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -145,6 +158,7 @@ export default function FoodCard({
             isFavorited={isFavorited}
             favoriteDisabled={favoriteIsLoading}
             onToggleFavorite={onToggleFavorite}
+            showRestaurant={showRestaurant}
           />
         </DialogTrigger>
         <FoodDialogContent {... dish}/>
@@ -159,6 +173,7 @@ export default function FoodCard({
             isFavorited={isFavorited}
             favoriteDisabled={favoriteIsLoading}
             onToggleFavorite={onToggleFavorite}
+            showRestaurant={showRestaurant}
           />
         </DrawerTrigger>
         <FoodDrawerContent {... dish}/>

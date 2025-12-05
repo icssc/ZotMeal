@@ -20,13 +20,35 @@ export async function getFavorites(
         with: {
           dietRestriction: true,
           nutritionInfo: true,
+          station: {
+            with: {
+              restaurant: true,
+            },
+          },
         },
       },
     },
   });
 
-  // findMany always returns an array, so we can return it directly
-  return userFavorites;
+  // Transform the data to include restaurant name on each dish, matching the format
+  // used in the normal menu view (RestaurantInfo)
+  return userFavorites.map((favorite) => {
+    const { station, ...dishWithoutStation } = favorite.dish;
+    const restaurantName = station?.restaurant?.name;
+    if (!restaurantName) {
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: `Restaurant not found for dish ${favorite.dish.id}`,
+      });
+    }
+    return {
+      ...favorite,
+      dish: {
+        ...dishWithoutStation,
+        restaurant: restaurantName,
+      },
+    };
+  });
 }
 
 /**
