@@ -76,22 +76,22 @@ const NutritionBreakdown = ({ dateString, mealsEaten }: Props) => {
 
   return (
     <div>
-      <center style={{ fontSize: '2rem', fontWeight: 'bold' }}>{dateString}</center>
+      <center className="text-[2rem] font-bold">{dateString}</center>
       <div className="flex align-items mt-4">
         <div className="flex flex-col">
-          <center style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>Calories</center>
+          <center className="text-[2rem] font-bold">Calories</center>
           <ProgressDonut progress_value={nutrition.calories} max_value={2000} display_unit="" />
         </div>
         <div className="flex flex-col">
-          <center style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>Protein</center>
+          <center className="text-[2rem] font-bold">Protein</center>
           <ProgressDonut progress_value={nutrition.protein_g} max_value={75} display_unit="g" />
         </div>
         <div className="flex flex-col">
-          <center style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>Carbs</center>
+          <center className="text-[2rem] font-bold">Carbs</center>
           <ProgressDonut progress_value={nutrition.carbs_g} max_value={250} display_unit="g" />
         </div>
         <div className="flex flex-col">
-          <center style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>Fat</center>
+          <center className="text-[2rem] font-bold">Fat</center>
           <ProgressDonut progress_value={nutrition.fat_g} max_value={50} display_unit="g" />
         </div>
       </div>
