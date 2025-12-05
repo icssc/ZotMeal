@@ -19,7 +19,7 @@ type LoggedMealJoinedWithNutrition = SelectLoggedMeal & {
   fat: number
 };
 
-function compileMealData(meals: (LoggedMealJoinedWithNutrition)[]): NutritionData {
+function compileMealData(meals: LoggedMealJoinedWithNutrition[]): NutritionData {
   const data = {
     calories: 0,
     protein_g: 0,
