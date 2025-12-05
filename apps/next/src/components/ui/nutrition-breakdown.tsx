@@ -59,7 +59,7 @@ const NutritionBreakdown = ({ dateString, mealsEaten }: Props) => {
         utils.nutrition.invalidate();
       },
       onError: (error: Error) => {
-        alert(error.message);
+        console.error(error.message);
       }
     });
 
