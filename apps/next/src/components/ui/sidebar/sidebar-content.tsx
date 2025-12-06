@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { SheetContent, SheetTitle } from "../shadcn/sheet";
+import Link from "next/link";
+import { SheetContent, SheetTitle, SheetClose } from "../shadcn/sheet";
 import { Avatar, AvatarImage, AvatarFallback } from "../shadcn/avatar";
 import { Button } from "../shadcn/button";
 import { GoogleSignInButton } from "@/components/auth/google-sign-in";
 import SidebarButton from "./sidebar-button";
 import SidebarDivider from "./sidebar-divider";
-import { Settings2, CalendarFold, LogOut, House, Info, Pin, Trophy } from "lucide-react";
+import { Settings2, CalendarFold, LogOut, House, Info, Pin, Trophy, StarIcon, Heart, Star, User, NotebookPen } from "lucide-react";
 import { useSession, signOut } from "@/utils/auth-client"; // BetterAuth React hook
 
 /**
@@ -55,15 +56,21 @@ export default function SidebarContent(): JSX.Element {
           <SidebarDivider title="Dining Hall Info"/>
           <SidebarButton Icon={House} title="Home" href="/"/>
           <SidebarButton Icon={CalendarFold} title="Events" href="/events"/>
-          <SidebarButton Icon={Pin} title="My Favorites" href="/my-favs" deactivated/>
           <SidebarButton Icon={Trophy} title="Most Liked" href="/leaderboard" deactivated/>
+
+          <SidebarDivider title="Account"/>
+          <SidebarButton Icon={User} title="My Account" href="/account"/>
+          <SidebarButton Icon={Star} title="My Ratings" href="/ratings" deactivated/>
+          <SidebarButton Icon={Heart} title="My Favorites" href="/favorites" deactivated/>
+          <SidebarButton Icon={NotebookPen} title="My Meal Tracker" href="/meal-tracker" deactivated/>
+
           <SidebarDivider title="Miscellaneous"/>
           <SidebarButton Icon={Settings2} title="Settings" href="/settings" deactivated/>
           <SidebarButton Icon={Info} title="About" href="/about"/>
-          
-          {/* Sign in Button if user not logged in  */}
-          {!isPending && !user && <GoogleSignInButton />}
         </div>
+
+        {/* Sign in Button if user not logged in  */}
+        {!isPending && !user && <GoogleSignInButton />}
         
         {/* User profile is user logged in*/}
         {!isPending && user && (

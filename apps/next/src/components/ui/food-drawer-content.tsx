@@ -15,6 +15,11 @@ import { DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTit
 
 
 export default function FoodDrawerContent(dish: DishInfo) {
+  const ingredientsAvailable: boolean = dish.ingredients != null 
+    && dish.ingredients.length > 0;
+  const caloricInformationAvailable: boolean = dish.nutritionInfo.calories != null
+    && dish.nutritionInfo.calories.length > 0;
+
   // State to control nutrient visibility
   const [showAllNutrients, setShowAllNutrients] = useState(false);
   const initialNutrients = ['calories', 'totalFatG', 'totalCarbsG', 'proteinG', 'sugarsMg']; // Define which nutrients to show initially
@@ -39,7 +44,9 @@ export default function FoodDrawerContent(dish: DishInfo) {
               </div>
             </div>
             <div className="flex items-center gap-2 text-zinc-500 px-1">
-              <span>{dish.nutritionInfo.calories == null ? "-" : `${Math.round(parseFloat(dish.nutritionInfo.calories))} cal`} • {toTitleCase(dish.restaurant)}</span>
+              <span>{caloricInformationAvailable &&
+                `${Math.round(parseFloat(dish.nutritionInfo.calories ?? "0"))} cal • `} {toTitleCase(dish.restaurant)}
+              </span>
               {dish.dietRestriction.isVegetarian && <AllergenBadge variant={"vegetarian"}/>}
               {dish.dietRestriction.isVegan && <AllergenBadge variant={"vegan"}/>}
               {dish.dietRestriction.isGlutenFree && <AllergenBadge variant={"gluten_free"}/>}
@@ -62,7 +69,7 @@ export default function FoodDrawerContent(dish: DishInfo) {
       <div className="px-4 flex-1 min-h-0 flex flex-col">
         <h1 className="px-4 text-2xl text-center font-bold">Nutrients</h1>
         <div className="flex-1 grid grid-cols-2 gap-x-4 w-full px-4 text-black mb-4 overflow-y-auto auto-rows-max" id="nutrient-content">
-          {Object.keys(dish.nutritionInfo)
+          {caloricInformationAvailable && Object.keys(dish.nutritionInfo)
             .filter(key => recognizedNutrients.includes(key))
             .map(nutrient => {
               // Assert that 'nutrient' is a valid key of nutritionInfo
@@ -87,18 +94,25 @@ export default function FoodDrawerContent(dish: DishInfo) {
             })}
         </div>
       </div>
+      {!caloricInformationAvailable &&
+        <h2 className="text-center w-full text-sm text-zinc-600">
+          Nutritional information not available.
+        </h2> 
+      }
 
       <DrawerFooter>
-        <div className="px-4">
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-full"
-            onClick={() => setShowAllNutrients(!showAllNutrients)}
-          >
-            {showAllNutrients ? "Show Less" : "Show More Nutrients"}
-          </Button>
-        </div>
+        {caloricInformationAvailable && 
+          <div className="px-4">
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full"
+              onClick={() => setShowAllNutrients(!showAllNutrients)}
+            >
+              {showAllNutrients ? "Show Less" : "Show More Nutrients"}
+            </Button>
+          </div>
+        }
       </DrawerFooter>
     </DrawerContent>
   )

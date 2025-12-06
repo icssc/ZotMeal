@@ -32,6 +32,10 @@ const FoodCardContent = React.forwardRef<
 >(({ dish, ...divProps }, ref) => {
   const IconComponent = getFoodIcon(dish.name) ?? Utensils;
 
+  const caloricInformationAvailable: boolean = dish.nutritionInfo.calories != null
+    && dish.nutritionInfo.calories.length > 0;
+
+
   return (
     <div ref={ref} {...divProps} className="w-full"> 
       <Card className="cursor-pointer hover:shadow-lg transition w-full">
@@ -39,12 +43,11 @@ const FoodCardContent = React.forwardRef<
           <div className="flex justify-between h-full pt-6">
             <div className="flex items-center gap-6">
               {IconComponent && <IconComponent className="w-10 h-10 text-slate-700" />}
-              <div className="flex flex-col h-full">
+              <div className="flex flex-col">
                 <strong>{formatFoodName(dish.name)}</strong>
-                <div className="flex gap-2 items-center">
-                  <span>{dish.nutritionInfo.calories == null
-                    ? "-"
-                    :`${Math.round(parseFloat(dish.nutritionInfo.calories))} cal`}
+                {caloricInformationAvailable && <div className="flex gap-2 items-center">
+                  <span>
+                    {Math.round(parseFloat(dish.nutritionInfo.calories ?? "0"))} cal
                   </span>
                   {/* <div className="flex gap-1 items-center">
                     <Star className="w-4 stroke-zinc-400 stroke-2"></Star>
@@ -52,7 +55,7 @@ const FoodCardContent = React.forwardRef<
                       {4.5} ({100})
                     </span>
                   </div> */}
-                </div>
+                </div>}
               </div>
             </div>
             {/* <div className="flex flex-col justify-center">
