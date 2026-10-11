@@ -288,23 +288,22 @@ export function DesktopToolbar(): React.JSX.Element {
               );
             })}
           </nav>
-
-          {pathname === "/nutrition" && (
-            <Tooltip title="Tracker tutorial">
-              <span>
-                <IconButton
-                  onClick={start}
-                  disabled={!user || isPending}
-                  aria-label="Start tracker tutorial"
-                  sx={{ color: "text.primary" }}
-                >
-                  <HelpOutline />
-                </IconButton>
-              </span>
-            </Tooltip>
-          )}
           <div className="flex-none flex items-center gap-4">
             <div className="flex-none flex items-center gap-4">
+              {pathname === "/nutrition" && (
+                <Tooltip title="Tracker tutorial">
+                  <span>
+                    <IconButton
+                      onClick={start}
+                      disabled={!user || isPending}
+                      aria-label="Start tracker tutorial"
+                      sx={{ color: "text.primary" }}
+                    >
+                      <HelpOutline />
+                    </IconButton>
+                  </span>
+                </Tooltip>
+              )}
               {isPending ? (
                 <>
                   <div className="w-24 h-5" />
