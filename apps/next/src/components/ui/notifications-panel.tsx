@@ -44,12 +44,21 @@ function isPushSupported(): boolean {
   );
 }
 
-async function ensurePushSubscription(): Promise<{
-  endpoint: string;
-  p256dh: string;
-  auth: string;
-}> {
-  const registration = await navigator.serviceWorker.ready;
+const SERVICE_WORKER_TIMEOUT_MS = 15_000;
+
+async function ensurePushSubscription() {
+  await navigator.serviceWorker.register("/push-sw.js");
+
+  // Give up eventually so the toggles can't stay grayed out forever.
+  const registration = await Promise.race([
+    navigator.serviceWorker.ready,
+    new Promise<never>((_, reject) =>
+      setTimeout(
+        () => reject(new Error("Service worker is not available.")),
+        SERVICE_WORKER_TIMEOUT_MS,
+      ),
+    ),
+  ]);
   let sub = await registration.pushManager.getSubscription();
   if (!sub) {
     sub = await registration.pushManager.subscribe({
@@ -176,9 +185,7 @@ export default function NotificationsPanel({ onBack }: { onBack: () => void }) {
         const subData = await ensurePushSubscription();
         await subscribeMutation.mutateAsync({
           userId,
-          endpoint: subData.endpoint,
-          p256dh: subData.p256dh,
-          auth: subData.auth,
+          ...subData,
           ...(kind === "food"
             ? { isSubscribedFoodFavorites: nextValue }
             : { isSubscribedEvents: nextValue }),
