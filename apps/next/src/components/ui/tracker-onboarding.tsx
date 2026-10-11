@@ -9,48 +9,7 @@ import {
   type TooltipRenderProps,
 } from "react-joyride";
 import { useTourStore } from "@/context/useTourStore";
-
-const steps: Step[] = [
-  {
-    target: "#tour-edit-goals",
-    content:
-      "Click the edit icon to set your daily nutrition goals for calories, protein, carbs, and fat.",
-    title: "Set Your Goals",
-    skipBeacon: true,
-    placement: "left",
-  },
-  {
-    target: ".tour-progress-widgets",
-    content:
-      "These widgets show your progress towards your daily nutrition goals.",
-    title: "Track Your Progress",
-    skipBeacon: true,
-    placement: "bottom",
-  },
-  {
-    target: ".tour-suggested-card:first-of-type",
-    content:
-      "Click the plus button to add the suggested food to your meal tracker.",
-    title: "Add Suggested Foods",
-    skipBeacon: true,
-    placement: "right",
-  },
-  {
-    target: "#tour-fab-search-btn",
-    content: "Search and also view more foods to add to your tracker!",
-    title: "View More Suggested Foods",
-    skipBeacon: true,
-    placement: "top",
-  },
-  {
-    target: "#tour-history-btn",
-    content:
-      "Click History to view past meal tracker days and track your progress over time.",
-    title: "View Your History",
-    skipBeacon: true,
-    placement: "left",
-  },
-];
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 const CustomTooltip = ({
   index,
@@ -108,6 +67,51 @@ export default function TrackerOnboarding() {
   const running = useTourStore((state) => state.running);
   const launchId = useTourStore((state) => state.launchId);
   const stop = useTourStore((state) => state.stop);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+
+  const steps: Step[] = [
+    {
+      target: isDesktop
+        ? "#tour-edit-goals-desktop"
+        : "#tour-edit-goals-mobile",
+      content:
+        "Click the edit icon to set your daily nutrition goals for calories, protein, carbs, and fat.",
+      title: "Set Your Goals",
+      skipBeacon: true,
+      placement: "left",
+    },
+    {
+      target: isDesktop ? "#tour-progress-desktop" : "#tour-progress-mobile",
+      content:
+        "These widgets show your progress towards your daily nutrition goals.",
+      title: "Track Your Progress",
+      skipBeacon: true,
+      placement: "bottom",
+    },
+    {
+      target: ".tour-suggested-card:first-of-type",
+      content:
+        "Click the plus button to add the suggested food to your meal tracker.",
+      title: "Add Suggested Foods",
+      skipBeacon: true,
+      placement: isDesktop ? "right" : "top",
+    },
+    {
+      target: "#tour-fab-search-btn",
+      content: "Search and also view more foods to add to your tracker!",
+      title: "View More Suggested Foods",
+      skipBeacon: true,
+      placement: "left",
+    },
+    {
+      target: isDesktop ? "#tour-history-desktop" : "#tour-history-mobile",
+      content:
+        "Click History to view past meal tracker days and track your progress over time.",
+      title: "View Your History",
+      skipBeacon: true,
+      placement: "left",
+    },
+  ];
 
   const handleEvent = ({ status, action }: EventData) => {
     if (

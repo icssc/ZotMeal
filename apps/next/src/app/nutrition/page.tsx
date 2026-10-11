@@ -240,12 +240,7 @@ export default function MealTracker() {
         };
       });
 
-    // Instead of using getPopularDishes which requires rating data,
-    // we safely grab 3 dishes from the already-calculated availableDishes
-    // const fallbackDishes = availableDishes.slice(0, 3);
-    // console.log(fallbackDishes.length, "fallback dishes found");
-
-    // TODO: Return suggestedMeals when history exists / onboarding complete
+    // Use mock meals when tour is running and user has no meal history
     if (running && calculated.length === 0) {
       return dummyMeals.map((d) => ({
         id: `fallback-${d.id}`,
@@ -264,6 +259,7 @@ export default function MealTracker() {
 
     return calculated;
   }, [meals, userId, running]);
+
   const visibleMeals = selectedDay?.items ?? [];
   const countedMeals = visibleMeals.filter(
     (m) => (m.servings ?? 0) > 0 && !isUnavailable(m.dishId),
@@ -365,6 +361,7 @@ export default function MealTracker() {
           <div className="flex md:hidden">
             {userId && (
               <TrackerHistory
+                tourId="tour-history-mobile"
                 onDateSelect={() => {}}
                 onDayClick={(date) => {
                   setHistoryDate(date);
@@ -384,7 +381,7 @@ export default function MealTracker() {
           </Typography>
           {userId && (
             <TrackerHistory
-              tourId="tour-history-btn"
+              tourId="tour-history-desktop"
               onDateSelect={() => {}}
               onDayClick={(date) => {
                 setHistoryDate(date);
@@ -396,7 +393,10 @@ export default function MealTracker() {
         </div>
 
         {/* Desktop: NutritionBreakdown */}
-        <div className="hidden md:flex items-start gap-4">
+        <div
+          id="tour-progress-desktop"
+          className="hidden md:flex items-start gap-4"
+        >
           <NutritionBreakdown
             mealsEaten={countedMeals.map((m) => ({
               ...m,
@@ -415,13 +415,17 @@ export default function MealTracker() {
               <NutritionGoals
                 userId={userId}
                 date={new Date().toISOString().split("T")[0]}
+                tourId="tour-edit-goals-desktop"
               />
             )}
           </div>
         </div>
 
         {/* Mobile: MobileCalorieCard + MobileNutritionBars */}
-        <div className="flex md:hidden flex-col gap-4 mt-4 w-full">
+        <div
+          id="tour-progress-mobile"
+          className="flex md:hidden flex-col gap-4 mt-4 w-full"
+        >
           <MobileCalorieCard
             mealsEaten={countedMeals.map((m) => ({
               ...m,
@@ -520,7 +524,7 @@ export default function MealTracker() {
           )}
         </div>
 
-        {/* Suggested Foods (UPDATED JSX FOR TOUR) */}
+        {/* Suggested Foods */}
         <div className="mt-6">
           <Typography variant="h6" fontWeight={600} color="text.primary">
             Suggested Foods
@@ -532,8 +536,8 @@ export default function MealTracker() {
                 color="text.secondary"
                 className="mt-2 tour-suggested-card:first-of-type"
               >
-                Dishes from the past week logged 5+ times will appear here.
-                Start logging to see them!
+                Dishes you logged in the past week will appear here. Start
+                logging to see them!
               </Typography>
             ) : (
               suggestedMeals.map((meal) => (

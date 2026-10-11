@@ -88,7 +88,7 @@ const NutritionBreakdown = ({
     "text-3xl text-sky-700 dark:text-blue-300 font-medium pl-3 truncate min-w-0";
 
   return (
-    <div style={gridStyle} className="mt-6 tour-progress-widgets">
+    <div style={gridStyle} className="mt-6">
       <div className={cardBase}>
         <span className={labelBase}>Calories</span>
         <div className="shrink-0">

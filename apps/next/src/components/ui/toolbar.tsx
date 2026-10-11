@@ -427,6 +427,7 @@ function MobileToolbar(): React.JSX.Element {
     useState(false);
   const [_editPreferencesExpanded, setEditPreferencesExpanded] =
     useState(false);
+  const start = useTourStore((state) => state.start);
 
   useEffect(() => {
     setIsMounted(true);
@@ -496,6 +497,20 @@ function MobileToolbar(): React.JSX.Element {
           {greeting}
         </span>
         <div className="flex-shrink-0 min-h-[44px] flex items-center justify-center gap-2">
+          {pathname === "/nutrition" && (
+            <Tooltip title="Tracker tutorial">
+              <span>
+                <IconButton
+                  onClick={start}
+                  disabled={!user || isPending}
+                  aria-label="Start tracker tutorial"
+                  sx={{ color: "text.primary" }}
+                >
+                  <HelpOutline />
+                </IconButton>
+              </span>
+            </Tooltip>
+          )}
           {!isMounted || isPending ? (
             <IconButton
               type="button"
