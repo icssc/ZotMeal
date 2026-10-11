@@ -232,19 +232,6 @@ export default function SidebarContent({
           >
             About PeterPlate
           </MenuLink>
-
-          <MenuLink
-            href="/about"
-            onClick={onClose}
-            icon={
-              <HelpIcon
-                fontSize="small"
-                sx={{ color: "hsl(var(--accent-primary))" }}
-              />
-            }
-          >
-            Onboarding Tutorial
-          </MenuLink>
         </div>
       </div>
 
