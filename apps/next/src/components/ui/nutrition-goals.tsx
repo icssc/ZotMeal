@@ -217,7 +217,7 @@ export default function NutritionGoals({ userId, date, tourId }: Props) {
           sx={{
             ".dark & .MuiDrawer-paper": {
               backgroundImage: "none",
-              backgroundColor: "#323235",
+              backgroundColor: "var(--surface-elevated)",
             },
           }}
         >
@@ -225,7 +225,7 @@ export default function NutritionGoals({ userId, date, tourId }: Props) {
         </Drawer>
       ) : (
         open && (
-          <div className="absolute top-0 right-full mr-2 z-50 bg-white dark:bg-[#323235] rounded-xl border border-sky-700/30 dark:border-blue-300/50 p-6 flex flex-col gap-4 shadow-md w-72">
+          <div className="absolute top-0 right-full mr-2 z-50 bg-white dark:bg-[var(--surface-elevated)] rounded-xl border border-sky-700/30 dark:border-blue-300/50 p-6 flex flex-col gap-4 shadow-md w-72">
             {inputs}
           </div>
         )

@@ -14,6 +14,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useTheme } from "next-themes";
 import type { CalendarRange } from "@/components/ui/toolbar";
+import { useRestaurantUIStore } from "@/context/useRestaurantUIStore";
 import { useUserStore } from "@/context/useUserStore";
 import { formatOpenCloseTime, toTitleCase } from "@/utils/funcs";
 import { cn } from "@/utils/tw";
@@ -22,33 +23,36 @@ interface RestaurantFiltersProps {
   isDesktop: boolean;
   periods: string[];
   availablePeriodTimes: Record<string, [Date, Date] | null> | undefined;
-  selectedPeriod: string;
-  setSelectedPeriod: (period: string) => void;
+  // Date selection is owned by date-context, not the UI store
   selectedDate: Date | undefined;
   handleDateSelect: (date: Date | undefined) => void;
   calendarRange: CalendarRange | null;
-  isDatePickerOpen: boolean;
-  setIsDatePickerOpen: (isOpen: boolean) => void;
-  showPreferencesOnly: boolean;
-  setShowPreferencesOnly: (isSet: boolean) => void;
 }
 
 export function RestaurantFilters({
   isDesktop,
   periods,
   availablePeriodTimes,
-  selectedPeriod,
-  setSelectedPeriod,
   selectedDate,
   handleDateSelect,
   calendarRange,
-  isDatePickerOpen,
-  setIsDatePickerOpen,
-  showPreferencesOnly,
-  setShowPreferencesOnly,
 }: RestaurantFiltersProps) {
   const { resolvedTheme } = useTheme();
   const { userId } = useUserStore();
+
+  const selectedPeriod = useRestaurantUIStore((s) => s.selectedPeriod);
+  const setSelectedPeriod = useRestaurantUIStore((s) => s.setSelectedPeriod);
+  const isDatePickerOpen = useRestaurantUIStore((s) => s.isDatePickerOpen);
+  const setIsDatePickerOpen = useRestaurantUIStore(
+    (s) => s.setIsDatePickerOpen,
+  );
+  const showPreferencesOnly = useRestaurantUIStore(
+    (s) => s.showPreferencesOnly,
+  );
+  const setShowPreferencesOnly = useRestaurantUIStore(
+    (s) => s.setShowPreferencesOnly,
+  );
+
   const ShowPrefsButton = (
     <button
       type="button"
@@ -56,13 +60,14 @@ export function RestaurantFilters({
       disabled={userId === null}
       className={cn(
         "h-[40px] rounded-md border text-sm font-medium transition-all duration-200 w-full",
-        userId === null && "text-black/50 border-sky-700/50",
+        userId === null &&
+          "text-black/50 border-sky-700/50 dark:text-white/40 dark:border-blue-300/40",
         isDesktop && "w-[240px]",
         showPreferencesOnly &&
           "bg-sky-700 text-white border-sky-700 shadow-md dark:bg-blue-300 dark:text-gray-900 dark:border-blue-300",
         !showPreferencesOnly &&
           userId &&
-          "bg-white text-sky-700 border-sky-700 hover:bg-sky-50 dark:bg-[#27272A] dark:text-blue-300 dark:border-blue-300 dark:hover:bg-zinc-700",
+          "bg-white text-sky-700 border-sky-700 hover:bg-sky-50 dark:bg-surface-scroll dark:text-blue-300 dark:border-blue-300 dark:hover:bg-zinc-700",
       )}
     >
       Show Preferences Only
@@ -85,7 +90,7 @@ export function RestaurantFilters({
             label="Meal"
             onChange={(e) => setSelectedPeriod(e.target.value)}
             IconComponent={ArrowDropDownRounded}
-            className="bg-white dark:bg-[#27272A] [&_fieldset]:!border-sky-700 dark:[&_fieldset]:!border-blue-300 [&:hover_fieldset]:!border-sky-700 dark:[&:hover_fieldset]:!border-blue-300 [&_.Mui-focused_fieldset]:!border-sky-700 dark:[&_.Mui-focused_fieldset]:!border-blue-300 [&_.MuiSvgIcon-root]:!text-sky-700 dark:[&_.MuiSvgIcon-root]:!text-blue-300"
+            className="bg-white  dark:bg-surface-scroll [&_fieldset]:!border-sky-700 dark:[&_fieldset]:!border-blue-300  [&_.Mui-focused_fieldset]:!border-sky-700 dark:[&_.Mui-focused_fieldset]:!border-blue-300 [&_.MuiSvgIcon-root]:!text-sky-700 dark:[&_.MuiSvgIcon-root]:!text-blue-300"
             MenuProps={{
               anchorOrigin: {
                 vertical: "bottom",
@@ -101,9 +106,14 @@ export function RestaurantFilters({
                   minWidth: "280px",
                   backgroundImage: "none",
                   backgroundColor:
-                    resolvedTheme === "dark" ? "#323235" : undefined,
+                    resolvedTheme === "dark"
+                      ? "var(--surface-elevated)"
+                      : undefined,
                   border: "1px solid",
-                  borderColor: resolvedTheme === "dark" ? "#93C5FD" : "#0369a1",
+                  borderColor:
+                    resolvedTheme === "dark"
+                      ? "var(--primary-accent-light)"
+                      : "#0369a1",
                 },
               },
             }}
@@ -131,7 +141,7 @@ export function RestaurantFilters({
                   <MenuItem
                     key={time}
                     value={mealTimeKey}
-                    className="!flex !justify-between !items-center !gap-4 [&.Mui-selected]:!bg-sky-700 [&.Mui-selected]:!text-white [&:hover]:!bg-sky-50 dark:[&.Mui-selected]:!bg-blue-300 dark:[&.Mui-selected]:!text-gray-900 dark:[&:hover]:!bg-[#434e5d]"
+                    className="!flex !justify-between !items-center !gap-4 [&.Mui-selected]:!bg-sky-700 [&.Mui-selected]:!text-white [&:hover]:!bg-sky-50 [&.Mui-selected:hover]:!bg-sky-800 dark:[&.Mui-selected]:!bg-blue-300 dark:[&.Mui-selected]:!text-gray-900 dark:[&:hover]:!bg-[var(--surface-tinted)] dark:[&.Mui-selected:hover]:!bg-blue-400"
                   >
                     <span>{toTitleCase(time)}</span>
                     <Typography
@@ -173,7 +183,7 @@ export function RestaurantFilters({
                     className: "!cursor-pointer",
                   },
                   className:
-                    "bg-white dark:bg-[#27272A] [&_fieldset]:!border-sky-700 dark:[&_fieldset]:!border-blue-300 [&:hover_fieldset]:!border-sky-700 dark:[&:hover_fieldset]:!border-blue-300 [&_.Mui-focused_fieldset]:!border-sky-700 dark:[&_.Mui-focused_fieldset]:!border-blue-300 [&_.MuiSvgIcon-root]:!text-sky-700 dark:[&_.MuiSvgIcon-root]:!text-blue-300 !cursor-pointer",
+                    "bg-white dark:bg-surface-scroll [&_fieldset]:!border-sky-700 dark:[&_fieldset]:!border-blue-300 [&:hover_fieldset]:!border-sky-700 dark:[&:hover_fieldset]:!border-blue-300 [&_.Mui-focused_fieldset]:!border-sky-700 dark:[&_.Mui-focused_fieldset]:!border-blue-300 [&_.MuiSvgIcon-root]:!text-sky-700 dark:[&_.MuiSvgIcon-root]:!text-blue-300 !cursor-pointer",
                 },
                 openPickerIcon: {
                   className: "!text-sky-700 dark:!text-blue-300",
@@ -184,7 +194,7 @@ export function RestaurantFilters({
                 popper: {
                   placement: "bottom-end",
                   className:
-                    "[&_.MuiPaper-root]:mt-1 [&_.MuiPaper-root]:!border [&_.MuiPaper-root]:!border-sky-700 dark:[&_.MuiPaper-root]:!bg-[#323235] dark:[&_.MuiPaper-root]:!border-blue-300 dark:[&_.MuiPaper-root]:![background-image:none]",
+                    "[&_.MuiPaper-root]:mt-1 [&_.MuiPaper-root]:!border [&_.MuiPaper-root]:!border-sky-700 dark:[&_.MuiPaper-root]:!bg-[var(--surface-elevated)] dark:[&_.MuiPaper-root]:!border-blue-300 dark:[&_.MuiPaper-root]:![background-image:none]",
                   modifiers: [
                     {
                       name: "flip",

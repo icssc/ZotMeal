@@ -68,7 +68,7 @@ export default function TrackerHistory({
             sx: {
               backgroundColor: "var(--mui-palette-background-paper)",
               backgroundImage: "none",
-              ".dark &": { backgroundColor: "#323235" },
+              ".dark &": { backgroundColor: "var(--surface-elevated)" },
             },
           },
         }}
@@ -97,7 +97,7 @@ export default function TrackerHistory({
           sx={{
             ".dark & .MuiDrawer-paper": {
               backgroundImage: "none",
-              backgroundColor: "#323235",
+              backgroundColor: "var(--surface-elevated)",
             },
           }}
         >
@@ -105,7 +105,7 @@ export default function TrackerHistory({
         </Drawer>
       ) : (
         open && (
-          <div className="absolute top-full mt-2 right-0 z-50 bg-white dark:bg-[#323235] rounded-xl border border-sky-700 dark:border-blue-300 p-4 shadow-md">
+          <div className="absolute top-full mt-2 right-0 z-50 bg-white dark:bg-[var(--surface-elevated)] rounded-xl border border-sky-700 dark:border-blue-300 p-4 shadow-md">
             {calendar}
           </div>
         )
