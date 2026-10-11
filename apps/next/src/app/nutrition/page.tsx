@@ -68,9 +68,16 @@ export default function MealTracker() {
   const utils = trpc.useUtils();
   const router = useRouter();
   const { userId, isInitialized } = useUserStore();
-  const running = useTourStore((state) => state.running);
+  const running = useTourStore((state) => state.activeTour === "nutrition");
 
   const { showSnackbar } = useSnackbarStore();
+
+  useEffect(() => {
+    return () => {
+      const { activeTour, stop } = useTourStore.getState();
+      if (activeTour === "nutrition") stop();
+    };
+  }, []);
 
   useEffect(() => {
     if (!isInitialized) return;

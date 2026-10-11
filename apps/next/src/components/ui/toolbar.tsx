@@ -297,7 +297,7 @@ export function DesktopToolbar(): React.JSX.Element {
                 <Tooltip title="Tracker tutorial">
                   <span>
                     <IconButton
-                      onClick={start}
+                      onClick={() => start("nutrition")}
                       disabled={!user || isPending}
                       aria-label="Start tracker tutorial"
                       sx={{ color: "text.primary" }}
@@ -553,7 +553,7 @@ function MobileToolbar(): React.JSX.Element {
             <Tooltip title="Tracker tutorial">
               <span>
                 <IconButton
-                  onClick={start}
+                  onClick={() => start("nutrition")}
                   disabled={!user || isPending}
                   aria-label="Start tracker tutorial"
                   sx={{ color: "text.primary" }}

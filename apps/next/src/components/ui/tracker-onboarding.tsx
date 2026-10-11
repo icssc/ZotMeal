@@ -64,7 +64,7 @@ const CustomTooltip = ({
 };
 
 export default function TrackerOnboarding() {
-  const running = useTourStore((state) => state.running);
+  const running = useTourStore((state) => state.activeTour === "nutrition");
   const launchId = useTourStore((state) => state.launchId);
   const stop = useTourStore((state) => state.stop);
   const isDesktop = useMediaQuery("(min-width: 768px)");

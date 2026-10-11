@@ -1,19 +1,21 @@
 import { create } from "zustand";
 
+type TourId = "nutrition";
+
 type TourState = {
-  running: boolean;
+  activeTour: TourId | null;
   launchId: number;
-  start: () => void;
+  start: (tourId: TourId) => void;
   stop: () => void;
 };
 
 export const useTourStore = create<TourState>((set) => ({
-  running: false,
+  activeTour: null,
   launchId: 0,
-  start: () =>
+  start: (tourId) =>
     set((state) => ({
-      running: true,
+      activeTour: tourId,
       launchId: state.launchId + 1,
     })),
-  stop: () => set({ running: false }),
+  stop: () => set({ activeTour: null }),
 }));
