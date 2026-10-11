@@ -395,7 +395,7 @@ export default function MealTracker() {
         {/* Desktop: NutritionBreakdown */}
         <div
           id="tour-progress-desktop"
-          className="hidden md:flex items-start gap-4"
+          className="hidden md:flex items-start gap-4 mt-6"
         >
           <NutritionBreakdown
             mealsEaten={countedMeals.map((m) => ({
