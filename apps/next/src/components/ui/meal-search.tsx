@@ -360,7 +360,7 @@ export default function MealSearchDialog(props: MealSearchDialogProps) {
         onClick={handleOpen}
         sx={{
           position: "fixed",
-          bottom: 80,
+          bottom: isDesktop ? 80 : 100,
           right: 32,
           backgroundColor: colors.sky700,
           "&:hover": { backgroundColor: colors.sky800 },
