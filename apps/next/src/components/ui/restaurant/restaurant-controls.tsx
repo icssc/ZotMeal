@@ -69,7 +69,7 @@ export function RestaurantControls({
             calendarRange={calendarRange}
           />
 
-          {/* Menu / schedule popovers & view-toggle (mobile only) */}
+          {/* Menu / schedule drawers & view-toggle (mobile only) */}
           <MobileActions
             isDesktop={isDesktop}
             isLoading={isLoading}
