@@ -2,7 +2,7 @@ import type { Station } from "@api/index";
 import { GridView, Menu as MenuIcon } from "@mui/icons-material";
 import { Button, Tab, Tabs } from "@mui/material";
 import { useRestaurantUIStore } from "@/context/useRestaurantUIStore";
-import { toTitleCase } from "@/utils/funcs";
+import { scrollToStation, toTitleCase } from "@/utils/funcs";
 
 interface DesktopTabsProps {
   isDesktop: boolean;
@@ -31,13 +31,7 @@ export function DesktopTabs({
           value={selectedStation || false}
           onChange={(_event, value: string) => {
             const val = value || "";
-            const element = document.getElementById(val);
-            if (element) {
-              element.scrollIntoView({
-                behavior: "smooth",
-                block: "start",
-              });
-            }
+            scrollToStation(val);
             setSelectedStation(val);
           }}
           className="flex w-full overflow-x-auto no-scrollbar !bg-primary-accent/20 dark:!bg-[var(--desktop-tabs-bg)] !rounded-lg !p-2 [&_.MuiTabs-flexContainer]:justify-between [&_.MuiTabs-flexContainer]:gap-2 [&_.MuiTabs-indicator]:hidden"

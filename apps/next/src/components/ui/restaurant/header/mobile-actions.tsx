@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import type { DishWithRating, Event } from "@peterplate/validators";
 import { useRestaurantUIStore } from "@/context/useRestaurantUIStore";
-import { toTitleCase } from "@/utils/funcs";
+import { scrollToStation, toTitleCase } from "@/utils/funcs";
 
 interface MobileActionsProps {
   isDesktop: boolean;
@@ -50,7 +50,7 @@ export function MobileActions({
   return (
     <>
       {!isLoading && !isError && dishes.length > 0 && (
-        <div className="w-full flex gap-2 mt-2">
+        <div className="w-full flex gap-2">
           {/* Station menu dropdown */}
           <>
             <Button
@@ -90,15 +90,7 @@ export function MobileActions({
                     className="text-left px-2 py-1.5 text-sm font-medium rounded-sm hover:bg-slate-100 dark:text-white dark:hover:bg-[var(--surface-tinted)] transition-colors"
                     onClick={() => {
                       const val = station.name.toLowerCase();
-                      if (isCompactView) {
-                        const element = document.getElementById(val);
-                        if (element) {
-                          element.scrollIntoView({
-                            behavior: "smooth",
-                            block: "start",
-                          });
-                        }
-                      }
+                      scrollToStation(val);
                       setSelectedStation(val);
                       setMenuAnchor(null);
                     }}

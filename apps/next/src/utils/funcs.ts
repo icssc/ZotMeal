@@ -535,3 +535,21 @@ export function getEventType(title: string): string {
   if (specialMeals.some((s) => lower.includes(s))) return "special";
   return "all";
 }
+
+/**
+ * Scrolls to a station section while leaving room for the sticky restaurant controls.
+ */
+export function scrollToStation(stationId: string) {
+  const section = document.getElementById(stationId);
+  if (!section) return;
+  const controlsHeight =
+    document.getElementById("restaurant-controls")?.offsetHeight ?? 0;
+  window.scrollTo({
+    top:
+      section.getBoundingClientRect().top +
+      window.scrollY -
+      controlsHeight -
+      16,
+    behavior: "smooth",
+  });
+}

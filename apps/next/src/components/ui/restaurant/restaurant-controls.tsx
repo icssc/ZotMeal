@@ -42,8 +42,12 @@ export function RestaurantControls({
   hallEvents,
 }: RestaurantControlsProps) {
   return (
-    <>
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-2 mb-2 flex-wrap md:flex-nowrap">
+    // Sticky while scrolling
+    <div
+      id="restaurant-controls"
+      className="sticky top-0 z-10 -mt-2 py-2 bg-background"
+    >
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-2 mb-2 flex-wrap">
         {/* Desktop title */}
         <RestaurantHeader isDesktop={isDesktop} hall={hall} />
 
@@ -84,6 +88,6 @@ export function RestaurantControls({
         isError={isError}
         stations={stations}
       />
-    </>
+    </div>
   );
 }

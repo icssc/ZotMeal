@@ -75,7 +75,11 @@ export function RestaurantFilters({
   );
 
   return (
-    <div className={isDesktop ? "flex gap-2" : "grid grid-cols-2 gap-2 w-full"}>
+    <div
+      className={
+        isDesktop ? "flex flex-wrap gap-2" : "grid grid-cols-2 gap-3 w-full"
+      }
+    >
       <div className={isDesktop ? "w-52" : "w-full"}>
         <FormControl fullWidth size="small" variant="outlined">
           <InputLabel
@@ -224,7 +228,7 @@ export function RestaurantFilters({
         </div>
       )}
 
-      <div>
+      <div className={isDesktop ? undefined : "col-span-2"}>
         {!userId && (
           <Tooltip title="Log in to filter by preferences!" placement="top">
             {ShowPrefsButton}
