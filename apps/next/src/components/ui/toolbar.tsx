@@ -3,6 +3,7 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
+import HelpOutline from "@mui/icons-material/HelpOutline";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import InsertInvitation from "@mui/icons-material/InsertInvitation";
 import ListAltRoundedIcon from "@mui/icons-material/ListAltRounded";
@@ -19,6 +20,7 @@ import {
   MenuItem,
   Toolbar as MuiToolbar,
   Snackbar,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import Image from "next/image";
@@ -27,6 +29,7 @@ import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import type { MouseEvent } from "react";
 import { useEffect, useState } from "react";
+import { useTourStore } from "@/context/useTourStore";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useSession } from "@/utils/auth-client";
 import EditPreferencesContent from "./edit-preferences-content";
@@ -217,6 +220,7 @@ export function DesktopToolbar(): React.JSX.Element {
   };
   const { data: session, isPending } = useSession();
   const user = session?.user;
+  const start = useTourStore((state) => state.start);
 
   return (
     <>
@@ -287,9 +291,22 @@ export function DesktopToolbar(): React.JSX.Element {
               );
             })}
           </nav>
-
           <div className="flex-none flex items-center gap-4">
             <div className="flex-none flex items-center gap-4">
+              {pathname === "/nutrition" && (
+                <Tooltip title="Tracker tutorial">
+                  <span>
+                    <IconButton
+                      onClick={() => start("nutrition")}
+                      disabled={!user || isPending}
+                      aria-label="Start tracker tutorial"
+                      sx={{ color: "text.primary" }}
+                    >
+                      <HelpOutline />
+                    </IconButton>
+                  </span>
+                </Tooltip>
+              )}
               {isPending ? (
                 <>
                   <div className="w-24 h-5" />
@@ -462,6 +479,7 @@ function MobileToolbar(): React.JSX.Element {
     useState(false);
   const [_editPreferencesExpanded, setEditPreferencesExpanded] =
     useState(false);
+  const start = useTourStore((state) => state.start);
 
   useEffect(() => {
     setIsMounted(true);
@@ -531,6 +549,20 @@ function MobileToolbar(): React.JSX.Element {
           {greeting}
         </span>
         <div className="flex-shrink-0 min-h-[44px] flex items-center justify-center gap-2">
+          {pathname === "/nutrition" && (
+            <Tooltip title="Tracker tutorial">
+              <span>
+                <IconButton
+                  onClick={() => start("nutrition")}
+                  disabled={!user || isPending}
+                  aria-label="Start tracker tutorial"
+                  sx={{ color: "text.primary" }}
+                >
+                  <HelpOutline />
+                </IconButton>
+              </span>
+            </Tooltip>
+          )}
           {!isMounted || isPending ? (
             <IconButton
               type="button"
