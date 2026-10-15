@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 import type { DishWithRating, Event } from "@peterplate/validators";
 import { useRestaurantUIStore } from "@/context/useRestaurantUIStore";
-import { toTitleCase } from "@/utils/funcs";
+import { scrollToStation, toTitleCase } from "@/utils/funcs";
 import { cn } from "@/utils/tw";
 
 interface MobileActionsProps {
@@ -60,7 +60,7 @@ export function MobileActions({
   return (
     <>
       {!isLoading && !isError && dishes.length > 0 && (
-        <div className="w-full flex gap-2 mt-2">
+        <div className="w-full flex gap-2">
           {/* Station menu drawer */}
           <Button
             variant="outlined"
@@ -111,15 +111,7 @@ export function MobileActions({
                     )}
                     onClick={() => {
                       const val = station.name.toLowerCase();
-                      if (isCompactView) {
-                        const element = document.getElementById(val);
-                        if (element) {
-                          element.scrollIntoView({
-                            behavior: "smooth",
-                            block: "start",
-                          });
-                        }
-                      }
+                      scrollToStation(val);
                       setSelectedStation(val);
                       setIsMenuDrawerOpen(false);
                     }}
