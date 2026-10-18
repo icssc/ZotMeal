@@ -91,6 +91,7 @@ export default function FoodCardShell({
             restaurant={restaurant}
             onAddToMealTracker={handleAddToMealTracker}
             isAddingToMealTracker={logMealMutation.isPending}
+            onClose={handleClose}
           />
         </Dialog>
       ) : (

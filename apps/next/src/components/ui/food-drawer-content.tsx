@@ -56,7 +56,6 @@ export default function FoodDrawerContent({
   const averageRating = ratingData?.averageRating ?? 0;
 
   // State to control nutrient visibility
-  const [showAllNutrients, setShowAllNutrients] = useState(false);
   const initialNutrients = [
     "calories",
     "totalFatG",
@@ -179,13 +178,13 @@ export default function FoodDrawerContent({
         </Box>
       </Box>
 
-      <Box className="flex-1 min-h-0 overflow-y-auto flex flex-col px-4">
+      <Box className="flex-1 min-h-0 overflow-y-auto flex flex-col px-4 pb-4">
         <Typography
           fontWeight={700}
           color="text.primary"
           className="text-2xl mb-2"
         >
-          Nutrients
+          Nutrient Facts
         </Typography>
         <Box
           className="grid grid-cols-2 gap-x-4 w-full px-2 mb-4 auto-rows-max"
@@ -203,16 +202,10 @@ export default function FoodDrawerContent({
                   nutrientKey,
                   value?.toString() ?? "",
                 );
-                const isInitial = initialNutrients.includes(nutrientKey); // Use nutrientKey here too for consistency
                 return (
                   <div
                     key={nutrientKey}
-                    className={cn(
-                      "grid grid-cols-subgrid col-span-2 transition-all duration-500 ease-in-out overflow-hidden", // Base styles for transition
-                      !isInitial && !showAllNutrients
-                        ? "max-h-0 opacity-0 py-0"
-                        : "max-h-8 opacity-100 py-0.5", // Conditional styles for collapse/expand
-                    )}
+                    className="grid grid-cols-subgrid col-span-2 py-0.5"
                   >
                     <strong
                       className={cn(
@@ -246,25 +239,7 @@ export default function FoodDrawerContent({
           </h2>
         )}
 
-        <Box className="mb-4 flex flex-col gap-2">
-          {caloricInformationAvailable && (
-            <Button
-              variant="outlined"
-              size="small"
-              className="w-full whitespace-nowrap border-input hover:bg-accent hover:text-accent-foreground text-sm font-medium h-8 rounded-md normal-case"
-              sx={{
-                borderColor: "hsl(var(--input))",
-                color: "inherit",
-                "&:hover": {
-                  borderColor: "hsl(var(--input))",
-                  backgroundColor: "hsl(var(--accent))",
-                },
-              }}
-              onClick={() => setShowAllNutrients(!showAllNutrients)}
-            >
-              {showAllNutrients ? "Show Less" : "Show More Nutrients"}
-            </Button>
-          )}
+        <Box className="flex flex-col gap-2">
           {ingredientsAvailable && (
             <IngredientsDialog
               name={dish.name}
@@ -284,16 +259,16 @@ export default function FoodDrawerContent({
       </Box>
 
       {onAddToMealTracker && (
-        <Box className="px-4 pt-2 pb-8 shrink-0">
+        <Box className="px-4 py-4 shrink-0 border-t border-gray-300 bg-white dark:border-zinc-700 dark:bg-[var(--surface-modal)]">
           <Box
             component="button"
             type="button"
             onClick={onAddToMealTracker}
             disabled={isAddingToMealTracker}
-            className="w-full inline-flex h-[30px] justify-center items-center gap-0.5 rounded-md text-[12px] font-normal leading-[18px] disabled:opacity-60"
+            className="w-full inline-flex h-10 justify-center items-center gap-0.5 rounded-md text-[12px] font-medium leading-[18px] disabled:opacity-60"
             sx={{
               bgcolor: "primary.main",
-              color: "white",
+              color: "primary.contrastText",
               border: "none",
               cursor: "pointer",
               fontFamily: "Poppins, sans-serif",
