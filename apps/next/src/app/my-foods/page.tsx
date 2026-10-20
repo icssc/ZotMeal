@@ -181,14 +181,11 @@ export default function MyFoodsPage() {
         /* ── Desktop: single row ── */
         <div className="flex flex-row flex-wrap items-center gap-4 rounded-2xl bg-sky-100 dark:bg-[var(--surface-tinted)] p-4">
           {/* Location */}
-          <div
-            id="tour-filter-foods-desktop"
-            className="flex flex-col gap-1.5 flex-shrink-0"
-          >
+          <div className="flex flex-col gap-1.5 flex-shrink-0">
             <Typography variant="body2" fontWeight={500} color="text.primary">
               Location
             </Typography>
-            <div className="flex flex-row gap-2">
+            <div id="tour-filter-foods-desktop" className="flex flex-row gap-2">
               {(Object.keys(LOCATION_LABELS) as LocationFilter[]).map((loc) => (
                 <button
                   key={loc}

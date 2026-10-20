@@ -77,7 +77,7 @@ export default function MyFoodsOnboarding() {
       content: "Filter your rated and favorited foods by dining hall location.",
       title: "Filter by Location",
       skipBeacon: true,
-      placement: isDesktop ? "right" : "top",
+      placement: isDesktop ? "right-start" : "top",
     },
     {
       target: isDesktop
@@ -97,7 +97,7 @@ export default function MyFoodsOnboarding() {
         "Sort your foods by date modified, rating, or alphabetically to organize your list.",
       title: "Sort Your Foods",
       skipBeacon: true,
-      placement: isDesktop ? "left" : "top",
+      placement: isDesktop ? "left-start" : "top",
     },
   ];
 
@@ -126,7 +126,7 @@ export default function MyFoodsOnboarding() {
         overlayClickAction: false,
         blockTargetInteraction: false,
         zIndex: 1500,
-        offset: -20,
+        offset: -18,
       }}
     />
   );
