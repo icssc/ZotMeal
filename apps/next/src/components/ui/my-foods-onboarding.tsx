@@ -77,7 +77,7 @@ export default function MyFoodsOnboarding() {
       content: "Filter your rated and favorited foods by dining hall location.",
       title: "Filter by Location",
       skipBeacon: true,
-      placement: isDesktop ? "left" : "top",
+      placement: isDesktop ? "right" : "top",
     },
     {
       target: isDesktop
@@ -87,7 +87,7 @@ export default function MyFoodsOnboarding() {
         "Use the search bar to quickly find specific dishes you've rated/favorited.",
       title: "Search Your Foods",
       skipBeacon: true,
-      placement: "top",
+      placement: isDesktop ? "bottom" : "top",
     },
     {
       target: isDesktop
@@ -97,7 +97,7 @@ export default function MyFoodsOnboarding() {
         "Sort your foods by date modified, rating, or alphabetically to organize your list.",
       title: "Sort Your Foods",
       skipBeacon: true,
-      placement: isDesktop ? "right" : "top",
+      placement: isDesktop ? "left" : "top",
     },
   ];
 
