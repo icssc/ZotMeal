@@ -120,6 +120,7 @@ export default function MyFoodsOnboarding() {
       scrollToFirstStep
       onEvent={handleEvent}
       tooltipComponent={CustomTooltip}
+      arrowComponent={() => null}
       options={{
         skipBeacon: true,
         overlayClickAction: false,

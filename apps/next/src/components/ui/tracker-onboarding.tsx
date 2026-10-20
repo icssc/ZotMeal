@@ -132,6 +132,7 @@ export default function TrackerOnboarding() {
       scrollToFirstStep
       onEvent={handleEvent}
       tooltipComponent={CustomTooltip}
+      arrowComponent={() => null}
       options={{
         skipBeacon: true,
         overlayClickAction: false,
