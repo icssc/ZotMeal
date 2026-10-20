@@ -213,7 +213,7 @@ export default function FoodDialogContent({
                   className="px-4"
                   sx={{ fontSize: "1.5rem" }}
                 >
-                  Nutrient Facts
+                  Nutrition Facts
                 </Typography>
                 <Box
                   className="grid grid-cols-2 gap-x-4 w-full px-4 mb-4"
@@ -310,10 +310,10 @@ export default function FoodDialogContent({
                   component="button"
                   type="button"
                   disabled
-                  className="w-full inline-flex h-[30px] justify-center items-center gap-0.5 rounded-md text-[12px] font-medium leading-[18px] disabled:opacity-60"
+                  className="w-full inline-flex h-10 justify-center items-center gap-0.5 rounded-md text-[12px] font-medium leading-[18px] disabled:opacity-60"
                   sx={{
                     bgcolor: "primary.main",
-                    color: "white",
+                    color: "primary.contrastText",
                     border: "none",
                     fontFamily: "Poppins, sans-serif",
                   }}
@@ -331,7 +331,7 @@ export default function FoodDialogContent({
                 type="button"
                 onClick={onAddToMealTracker}
                 disabled={isAddingToMealTracker}
-                className="w-full inline-flex h-[30px] justify-center items-center gap-0.5 rounded-md text-[12px] font-medium leading-[18px] disabled:opacity-60"
+                className="w-full inline-flex h-10 justify-center items-center gap-0.5 rounded-md text-[12px] font-medium leading-[18px] disabled:opacity-60"
                 sx={{
                   bgcolor: "primary.main",
                   color: "primary.contrastText",

@@ -184,7 +184,7 @@ export default function FoodDrawerContent({
           color="text.primary"
           className="text-2xl mb-2"
         >
-          Nutrient Facts
+          Nutrition Facts
         </Typography>
         <Box
           className="grid grid-cols-2 gap-x-4 w-full px-2 mb-4 auto-rows-max"
