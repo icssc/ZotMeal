@@ -1,6 +1,15 @@
 import { create } from "zustand";
 
-type TourId = "nutrition" | "my-foods";
+export const TOUR_PAGES = {
+  "/nutrition": "nutrition",
+  "/my-foods": "my-foods",
+} as const;
+
+export type TourId = (typeof TOUR_PAGES)[keyof typeof TOUR_PAGES];
+
+export function getTourForPath(pathname: string): TourId {
+  return TOUR_PAGES[pathname as keyof typeof TOUR_PAGES] ?? null;
+}
 
 type TourState = {
   activeTour: TourId | null;
