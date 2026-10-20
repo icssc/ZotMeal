@@ -80,7 +80,7 @@ export function RestaurantFilters({
       className={
         isDesktop
           ? "flex flex-wrap grow gap-2"
-          : "grid grid-cols-2 gap-2 w-full"
+          : "grid grid-cols-2 gap-3 w-full"
       }
     >
       <div className={isDesktop ? "w-52 grow" : "w-full"}>
@@ -231,7 +231,7 @@ export function RestaurantFilters({
         </div>
       )}
 
-      <div className={isDesktop ? "w-[240px] grow" : undefined}>
+      <div className={isDesktop ? "w-[240px] grow" : "col-span-2"}>
         {!userId && (
           <Tooltip title="Log in to filter by preferences!" placement="top">
             {ShowPrefsButton}

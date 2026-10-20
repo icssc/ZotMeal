@@ -42,7 +42,11 @@ export function RestaurantControls({
   hallEvents,
 }: RestaurantControlsProps) {
   return (
-    <>
+    // Sticky while scrolling
+    <div
+      id="restaurant-controls"
+      className="sticky top-0 z-10 -mt-2 py-2 bg-background"
+    >
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-2 md:gap-x-3 mb-2 flex-wrap">
         {/* Desktop title & status. Its large grow factor soaks up spare space
             so the filters keep their natural width on one line, but fill the
@@ -65,7 +69,7 @@ export function RestaurantControls({
             calendarRange={calendarRange}
           />
 
-          {/* Menu / schedule popovers & view-toggle (mobile only) */}
+          {/* Menu / schedule drawers & view-toggle (mobile only) */}
           <MobileActions
             isDesktop={isDesktop}
             isLoading={isLoading}
@@ -84,6 +88,6 @@ export function RestaurantControls({
         isError={isError}
         stations={stations}
       />
-    </>
+    </div>
   );
 }

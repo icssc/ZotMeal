@@ -38,8 +38,8 @@ export default function RatedFoods() {
   );
 
   return (
-    <div className="max-w-full h-screen">
-      <div className="z-0 flex flex-col h-full overflow-x-hidden">
+    <div className="max-w-full min-h-screen">
+      <div className="z-0 flex flex-col overflow-x-hidden">
         <div className="relative w-full min-h-80 max-h-80">
           <div className="absolute inset-0 bg-gradient-to-b from-black/65 to-transparent" />
           <Image
@@ -87,28 +87,6 @@ export default function RatedFoods() {
               >
                 You haven't rated any foods yet
               </Typography>
-            ))}
-          {!isLoading &&
-            !error &&
-            (ratedFoods && ratedFoods.length > 0 ? (
-              ratedFoods.map((food: (typeof ratedFoods)[number]) => (
-                <RatingsCard key={`${food.id}|${food.ratedAt}`} food={food} />
-              ))
-            ) : (
-              <p className="text-center text-zinc-700 py-5">
-                You haven't rated any foods yet
-              </p>
-            ))}
-          {!isLoading &&
-            !error &&
-            (ratedFoods && ratedFoods.length > 0 ? (
-              ratedFoods.map((food: (typeof ratedFoods)[number]) => (
-                <RatingsCard key={`${food.id}|${food.ratedAt}`} food={food} />
-              ))
-            ) : (
-              <p className="text-center text-zinc-700 py-5">
-                You haven't rated any foods yet
-              </p>
             ))}
         </div>
       </div>
