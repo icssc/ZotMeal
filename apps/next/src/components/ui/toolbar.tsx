@@ -29,7 +29,7 @@ import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import type { MouseEvent } from "react";
 import { useEffect, useState } from "react";
-import { useTourStore } from "@/context/useTourStore";
+import { getTourForPath, useTourStore } from "@/context/useTourStore";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useSession } from "@/utils/auth-client";
 import EditPreferencesContent from "./edit-preferences-content";
@@ -221,6 +221,10 @@ export function DesktopToolbar(): React.JSX.Element {
   const { data: session, isPending } = useSession();
   const user = session?.user;
   const start = useTourStore((state) => state.start);
+  const tourId = getTourForPath(pathname);
+  const tutorialTitle = DESKTOP_TOOLBAR_ELEMENTS.find(
+    (element) => element.href === pathname,
+  )?.title;
 
   return (
     <>
@@ -293,13 +297,13 @@ export function DesktopToolbar(): React.JSX.Element {
           </nav>
           <div className="flex-none flex items-center gap-4">
             <div className="flex-none flex items-center gap-4">
-              {pathname === "/nutrition" && (
-                <Tooltip title="Tracker tutorial">
+              {pathname && tourId && (
+                <Tooltip title={`${tutorialTitle} Tutorial`}>
                   <span>
                     <IconButton
-                      onClick={() => start("nutrition")}
+                      onClick={() => start(tourId)}
                       disabled={!user || isPending}
-                      aria-label="Start tracker tutorial"
+                      aria-label={`Start ${tutorialTitle} tutorial`}
                       sx={{ color: "text.primary" }}
                     >
                       <HelpOutline />
@@ -480,6 +484,10 @@ function MobileToolbar(): React.JSX.Element {
   const [_editPreferencesExpanded, setEditPreferencesExpanded] =
     useState(false);
   const start = useTourStore((state) => state.start);
+  const tourId = getTourForPath(pathname);
+  const tutorialTitle = MOBILE_TOOLBAR_ELEMENTS.find(
+    (element) => element.href === pathname,
+  )?.title;
 
   useEffect(() => {
     setIsMounted(true);
@@ -549,13 +557,13 @@ function MobileToolbar(): React.JSX.Element {
           {greeting}
         </span>
         <div className="flex-shrink-0 min-h-[44px] flex items-center justify-center gap-2">
-          {pathname === "/nutrition" && (
-            <Tooltip title="Tracker tutorial">
+          {pathname && tourId && (
+            <Tooltip title={`${tutorialTitle} Tutorial`}>
               <span>
                 <IconButton
-                  onClick={() => start("nutrition")}
+                  onClick={() => start(tourId)}
                   disabled={!user || isPending}
-                  aria-label="Start tracker tutorial"
+                  aria-label={`Start ${tutorialTitle} tutorial`}
                   sx={{ color: "text.primary" }}
                 >
                   <HelpOutline />
