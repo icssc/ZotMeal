@@ -138,6 +138,7 @@ export default function TrackerOnboarding() {
         overlayClickAction: false,
         blockTargetInteraction: false,
         zIndex: 1500,
+        offset: -20,
       }}
     />
   );

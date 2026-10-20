@@ -126,6 +126,7 @@ export default function MyFoodsOnboarding() {
         overlayClickAction: false,
         blockTargetInteraction: false,
         zIndex: 1500,
+        offset: -20,
       }}
     />
   );
