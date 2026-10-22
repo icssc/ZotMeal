@@ -44,8 +44,12 @@ const EventCardContent = React.forwardRef<
   return (
     <div ref={ref} {...divProps}>
       <Card
-        className="cursor-pointer hover:shadow-lg transition h-full min-w-[280px] sm:min-w-0 dark:bg-[var(--surface-modal)]"
-        sx={{ borderRadius: "16px", backgroundImage: "none" }}
+        className="cursor-pointer hover:shadow-lg transition h-full min-w-[280px] sm:min-w-0 dark:bg-[var(--surface-modal)] dark:shadow-none"
+        sx={{
+          borderRadius: "16px",
+          backgroundImage: "none",
+          boxShadow: "0px 0px 2px 1px #E5E7EB",
+        }}
       >
         <div className="p-7 pb-2">
           <div className="relative">
