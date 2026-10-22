@@ -47,15 +47,17 @@ const EventCardContent = React.forwardRef<
         className="cursor-pointer hover:shadow-lg transition h-full min-w-[280px] sm:min-w-0 dark:bg-[var(--surface-modal)]"
         sx={{ borderRadius: "16px", backgroundImage: "none" }}
       >
-        <div className="p-7 pb-2 relative">
-          <Image
-            src={props.image}
-            alt={`An image for an event "${props.title}" at ${props.restaurantId}.`}
-            width={400}
-            height={300}
-            className="w-full object-contain"
-          />
-          <EventTypeBadge type={props.type} />
+        <div className="p-7 pb-2">
+          <div className="relative">
+            <Image
+              src={props.image}
+              alt={`An image for an event "${props.title}" at ${props.restaurantId}.`}
+              width={400}
+              height={300}
+              className="w-full object-contain"
+            />
+            <EventTypeBadge type={props.type} />
+          </div>
         </div>
         <CardContent className="flex flex-col gap-2 p-4">
           <div className="flex flex-row gap-2 items-center">
