@@ -80,7 +80,7 @@ export function RestaurantFilters({
         isDesktop ? "flex flex-wrap gap-2" : "grid grid-cols-2 gap-3 w-full"
       }
     >
-      <div className={isDesktop ? "w-52" : "w-full"}>
+      <div id="tour-meal-select" className={isDesktop ? "w-52" : "w-full"}>
         <FormControl fullWidth size="small" variant="outlined">
           <InputLabel
             id="meal-select-label"
@@ -163,7 +163,10 @@ export function RestaurantFilters({
       </div>
 
       {calendarRange && (
-        <div className={isDesktop ? "w-[240px]" : "w-full"}>
+        <div
+          id="tour-date-picker"
+          className={isDesktop ? "w-[240px]" : "w-full"}
+        >
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
               label="Select date"
