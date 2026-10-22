@@ -7,12 +7,7 @@ import Image from "next/image";
 import type React from "react";
 import EventTypeBadge from "@/components/ui/event-type-badge";
 import type { EventCategory } from "@/utils/classifyEvent";
-import {
-  dateToString,
-  generateGCalLink,
-  timeToString,
-  toTitleCase,
-} from "@/utils/funcs";
+import { dateToString, generateGCalLink, toTitleCase } from "@/utils/funcs";
 import { HallEnum } from "@/utils/types";
 
 /**
@@ -59,12 +54,6 @@ export default function EventDialogContent(
           <div className="flex gap-1 items-center whitespace-nowrap">
             <AccessTimeOutlinedIcon fontSize="small" />
             <p>{dateToString(props.start, props.end)}</p>
-          </div>
-          <div className="flex gap-2 items-center">
-            <AccessTimeOutlinedIcon sx={{ fontSize: 16 }} />
-            <span>
-              {timeToString(props.start)} - {timeToString(props.end)}
-            </span>
           </div>
           <div className="flex gap-2 items-center">
             <PinDropOutlinedIcon sx={{ fontSize: 16 }} />
