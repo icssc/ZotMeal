@@ -4,8 +4,8 @@ import { AccessTime, PinDrop } from "@mui/icons-material";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import { Card, CardContent, Dialog, Drawer, Typography } from "@mui/material";
 import type { Event } from "@peterplate/validators";
-import Image from "next/image";
 import React from "react";
+import EventImage from "@/components/ui/event-image";
 import EventTypeBadge from "@/components/ui/event-type-badge";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { EventCategory } from "@/utils/classifyEvent";
@@ -53,7 +53,7 @@ const EventCardContent = React.forwardRef<
       >
         <div className="p-7 pb-2">
           <div className="relative">
-            <Image
+            <EventImage
               src={props.image}
               alt={`An image for an event "${props.title}" at ${props.restaurantId}.`}
               width={400}
