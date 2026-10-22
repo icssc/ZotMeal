@@ -3,16 +3,11 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import PinDropOutlinedIcon from "@mui/icons-material/PinDropOutlined";
 import { Box, Button, DialogContent, Typography } from "@mui/material";
 import type { Event } from "@peterplate/validators";
-import Image from "next/image";
 import type React from "react";
+import EventImage from "@/components/ui/event-image";
 import EventTypeBadge from "@/components/ui/event-type-badge";
 import type { EventCategory } from "@/utils/classifyEvent";
-import {
-  dateToString,
-  generateGCalLink,
-  timeToString,
-  toTitleCase,
-} from "@/utils/funcs";
+import { dateToString, generateGCalLink, toTitleCase } from "@/utils/funcs";
 import { HallEnum } from "@/utils/types";
 
 /**
@@ -31,7 +26,7 @@ export default function EventDialogContent(
   return (
     <Box className="dark:bg-[var(--surface-modal)]">
       <div className="relative">
-        <Image
+        <EventImage
           src={props.image}
           alt={`An image for an event "${props.title}" at ${props.restaurantId}.`}
           width={600}
@@ -59,12 +54,6 @@ export default function EventDialogContent(
           <div className="flex gap-1 items-center whitespace-nowrap">
             <AccessTimeOutlinedIcon fontSize="small" />
             <p>{dateToString(props.start, props.end)}</p>
-          </div>
-          <div className="flex gap-2 items-center">
-            <AccessTimeOutlinedIcon sx={{ fontSize: 16 }} />
-            <span>
-              {timeToString(props.start)} - {timeToString(props.end)}
-            </span>
           </div>
           <div className="flex gap-2 items-center">
             <PinDropOutlinedIcon sx={{ fontSize: 16 }} />

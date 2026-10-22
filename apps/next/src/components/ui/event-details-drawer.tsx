@@ -38,13 +38,11 @@ const EventDetailsDrawer = ({
         {open && (
           <button
             type="button"
-            className="absolute top-3 right-4 z-50 bg-white/80 dark:bg-zinc-900/80 backdrop-blur rounded-full p-1 shadow hover:bg-white dark:hover:bg-zinc-800 transition-colors"
+            aria-label="Close"
+            className="absolute top-4 right-2 z-50 text-zinc-600 dark:text-zinc-300"
             onClick={onClose}
           >
-            <CloseIcon
-              className="text-zinc-600 dark:text-zinc-300"
-              fontSize="small"
-            />
+            <CloseIcon sx={{ fontSize: 24 }} />
           </button>
         )}
 

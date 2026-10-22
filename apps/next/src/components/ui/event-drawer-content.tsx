@@ -3,7 +3,7 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import PinDropOutlinedIcon from "@mui/icons-material/PinDropOutlined";
 import { Box, Typography } from "@mui/material";
 import type { Event } from "@peterplate/validators";
-import Image from "next/image";
+import EventImage from "@/components/ui/event-image";
 import EventTypeBadge from "@/components/ui/event-type-badge";
 import { classifyEvent } from "@/utils/classifyEvent";
 import { timeToString, toTitleCase } from "@/utils/funcs";
@@ -21,7 +21,7 @@ export default function EventDrawerContent(props: Event): React.JSX.Element {
   return (
     <Box className="dark:bg-[var(--surface-modal)]">
       <div className="relative">
-        <Image
+        <EventImage
           src={props.image}
           alt={`An image for an event "${props.title}" at ${props.restaurantId}.`}
           width={600}
