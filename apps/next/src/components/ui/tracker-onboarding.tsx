@@ -11,7 +11,7 @@ import {
 import { useTourStore } from "@/context/useTourStore";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
-const CustomTooltip = ({
+export const CustomTooltip = ({
   index,
   step,
   size,
