@@ -36,6 +36,23 @@ const calendarSteps: Step[] = [
   },
 ];
 
+// Override the Joyride scroll, which puts the target at the top of the page
+// It was causing a visual bug, so instead I'm scrolling the element into view
+// manually before showing the tooltip
+const withDesktopScroll = (steps: Step[]): Step[] =>
+  steps.map((step) => ({
+    ...step,
+    skipScroll: true,
+    before: async () => {
+      document
+        .querySelector(step.target as string)
+        ?.scrollIntoView({ block: "center" });
+    },
+  }));
+
+const desktopGridSteps = withDesktopScroll(gridSteps);
+const desktopCalendarSteps = withDesktopScroll(calendarSteps);
+
 // Keeps targets below the fixed mobile toolbar when Joyride scrolls to them
 const MOBILE_SCROLL_OFFSET = 80;
 
@@ -89,10 +106,10 @@ export default function EventsOnboarding({ viewMode }: EventsOnboardingProps) {
       steps={
         viewMode === "calendar"
           ? isDesktop
-            ? calendarSteps
+            ? desktopCalendarSteps
             : mobileCalendarSteps
           : isDesktop
-            ? gridSteps
+            ? desktopGridSteps
             : mobileListSteps
       }
       run
