@@ -61,6 +61,13 @@ const CalendarView = ({
 }: CalendarViewProps) => {
   if (isLoading || error || viewMode !== "calendar") return null;
 
+  // Tracks the days that have events so that the events tour can point to one
+  const eventDays = new Set(
+    calendarEvents.map((event) => event.start.toDateString()),
+  );
+  const dayPropGetter = (date: Date) =>
+    eventDays.has(date.toDateString()) ? { className: "tour-event-day" } : {};
+
   // Logic to disable the "next" button if viewing current or future months
   const isFutureOrCurrent =
     isAfter(startOfMonth(currentDate), startOfMonth(new Date())) ||
@@ -104,6 +111,7 @@ const CalendarView = ({
           toolbar={false}
           selectable
           onSelectEvent={onSelectEvent}
+          dayPropGetter={dayPropGetter}
         />
       </div>
 
