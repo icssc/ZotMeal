@@ -6,7 +6,7 @@ import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import type { SelectChangeEvent } from "@mui/material/Select";
 import type { Event } from "@peterplate/validators";
-import { addMonths, subMonths } from "date-fns";
+import { addMonths, isFuture, subMonths } from "date-fns";
 import { useCallback, useMemo, useState } from "react";
 import CalendarView from "@/components/ui/calendar-view";
 import EventCard from "@/components/ui/card/event-card";
@@ -40,7 +40,8 @@ const Events = () => {
 
   const eventsWithType = useMemo<EventWithType[]>(
     () =>
-      [...(events ?? [])]
+      (events ?? [])
+        .filter((event) => isFuture(event.end) || isFuture(event.start))
         .sort((a, b) => a.start.getTime() - b.start.getTime())
         .map((event) => ({
           ...event,
